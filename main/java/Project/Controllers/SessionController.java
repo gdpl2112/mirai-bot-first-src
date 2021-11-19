@@ -1,5 +1,8 @@
 package Project.Controllers;
 
+import Project.Plugins.pluginsDetail.entitys.CodeContent;
+import Project.Plugins.pluginsDetail.entitys.CodeEntity;
+import Project.Plugins.pluginsDetail.entitys.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -13,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static Project.Plugins.pluginsDetail.RunAll.*;
 
 @Controller
 public class SessionController {
@@ -89,7 +94,7 @@ public class SessionController {
 
 
     public static String run(long q, Group group) {
-        /*CodeEntity entity = new CodeEntity();
+        CodeEntity entity = new CodeEntity();
         CodeContent content = new CodeContent();
         if (!q2Filename.containsKey(q)) return "未设置文件名";
         String fileName = q2Filename.get(q);
@@ -121,8 +126,7 @@ public class SessionController {
                     group.sendMessage("运行失败,可能因为输出过多");
                 }
             });
-        }*/
-        return "error";
+        }
     }
 
     public static final Map<String, String> supportLanguage = new ConcurrentHashMap<>();

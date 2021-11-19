@@ -38,15 +38,11 @@ public class SearchPic {
         return wm;
     }
 
-    public static void main(String[] args) throws Exception {
-        parseKsImgs("https://v.kuaishouapp.com/s/p6IEdvla ");
-    }
-
     public static String[] parseKsImgs(String urlStr) throws IOException {
         urlStr = String.format(rootPath + parsePic, urlStr, "ks");
         Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
         String m1 = doc.body().text();
-        String[] wm  = JSON.parseArray(m1).toJavaObject(String[].class);
+        String[] wm = JSON.parseArray(m1).toJavaObject(String[].class);
         return wm;
     }
 
@@ -54,7 +50,7 @@ public class SearchPic {
         urlStr = String.format(rootPath + parsePic, urlStr, "dy");
         Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
         String m1 = doc.body().text();
-        String[] wm  = JSON.parseArray(m1).toJavaObject(String[].class);
+        String[] wm = JSON.parseArray(m1).toJavaObject(String[].class);
         return wm;
     }
 }

@@ -1,7 +1,18 @@
 package Project.Plugins.pluginsDetail;
 
+import Project.Plugins.pluginsDetail.entitys.CodeContent;
+import Project.Plugins.pluginsDetail.entitys.CodeEntity;
+import Project.Plugins.pluginsDetail.entitys.CodeResponse;
+import com.alibaba.fastjson.JSON;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.util.Scanner;
+
 public class RunAll {
-  /*  public static final String baseUrl = "https://glot.io/run/%s?version=latest";
+    public static final String baseUrl = "https://glot.io/run/%s?version=latest";
     public static final String runJava = String.format(baseUrl, "java");
     public static final String runC = String.format(baseUrl, "c");
     public static final String runPython = String.format(baseUrl, "python");
@@ -79,5 +90,5 @@ public class RunAll {
         System.out.println("运行输出:" + response.getStdout());
         System.out.println("运行警告输出:" + response.getStderr());
         System.out.println("运行错误输出:" + response.getError());
-    }*/
+    }
 }
