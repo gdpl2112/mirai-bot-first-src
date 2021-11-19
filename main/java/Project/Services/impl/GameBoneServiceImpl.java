@@ -19,9 +19,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
-    @Override
-    public void before(Mess mess) {
-    }
+
 
 
     @Override

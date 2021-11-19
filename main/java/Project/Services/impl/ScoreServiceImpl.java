@@ -19,10 +19,6 @@ import static Project.Tools.Tool.*;
 @Entity
 public class ScoreServiceImpl implements IScoreService {
 
-    @Override
-    public void before(Mess mess) {
-
-    }
 
     @Override
     public String selectInfo(Long who) {

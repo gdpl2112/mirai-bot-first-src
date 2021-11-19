@@ -2,9 +2,8 @@ package Project.Services.IServer;
 
 
 import Entitys.Group;
-import Project.Bases.BaseIService;
 
-public interface IGameService extends BaseIService {
+public interface IGameService  {
     String xl(Long who);
 
     String info(Long who);

@@ -1,23 +1,8 @@
 package Project.Controllers.Plugins;
 
 
-import Entitys.MediaSource;
-import Entitys.User;
-import Project.Plugins.MediaGetter;
-import Project.Tools.Drawer;
-import Project.Tools.Tool;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.Param;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static Project.Controllers.ControllerTool.CanGroup;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 @Controller
@@ -26,7 +11,7 @@ public class MediaRecommender {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-
+/*
     @Before
     public void before(Entitys.Group group) throws NoRunException {
         if (!AllK)
@@ -98,7 +83,7 @@ public class MediaRecommender {
             e.printStackTrace();
             return "未知异常";
         }
-    }
+    }*/
 }
 
 

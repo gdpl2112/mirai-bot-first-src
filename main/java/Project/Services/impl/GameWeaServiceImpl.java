@@ -17,9 +17,7 @@ import static Project.Tools.Drawer.getImageFromStrings;
 
 @Entity
 public class GameWeaServiceImpl implements IGameWeaService {
-    @Override
-    public void before(Mess mess) {
-    }
+
 
     @AutoStand
     static GameWeaDetailService gameWeaDetailService;

@@ -1,11 +1,10 @@
 package Project.Services.IServer;
 
 
-import Project.Bases.BaseIService;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 
-public interface IManagerService extends BaseIService {
+public interface IManagerService   {
     /**
      * 添加管理
      *

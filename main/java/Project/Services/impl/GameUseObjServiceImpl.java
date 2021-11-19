@@ -22,9 +22,6 @@ import static Project.Tools.GameTool.getRandXl;
 @Entity
 public class GameUseObjServiceImpl implements IGameUseObjService {
 
-    @Override
-    public void before(Mess mess) {
-    }
 
     private String getPic(Integer id) {
         return GameDataBase.getImgById(id) + "\r\n";

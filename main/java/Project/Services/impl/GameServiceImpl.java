@@ -37,9 +37,6 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 @Entity
 public class GameServiceImpl implements IGameService {
 
-    @Override
-    public void before(Mess mess) {
-    }
 
     @Override
     public String xl(Long who) {

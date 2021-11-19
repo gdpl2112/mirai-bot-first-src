@@ -2,9 +2,8 @@ package Project.Services.IServer;
 
 
 import Entitys.Group;
-import Project.Bases.BaseIService;
 
-public interface IScoreService extends BaseIService {
+public interface IScoreService   {
 
     String selectInfo(Long who);
 

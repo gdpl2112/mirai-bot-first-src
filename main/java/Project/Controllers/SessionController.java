@@ -1,8 +1,5 @@
 package Project.Controllers;
 
-import Project.Plugins.pluginsDetail.entitys.CodeContent;
-import Project.Plugins.pluginsDetail.entitys.CodeEntity;
-import Project.Plugins.pluginsDetail.entitys.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -17,27 +14,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.Plugins.pluginsDetail.RunAll.*;
-
 @Controller
 public class SessionController {
 
     public static boolean contains(long id) {
         return InTheSession.contains(id);
     }
-
-    @Action("开始会话")
-    public String m1(long q) {
-        return InTheSession.add(q) ? "开始会话" : "您已经在会话";
-    }
-
-//    @Action("结束会话")
-//    public String m2(long q) {
-//        q2Filename.remove(q);
-//        q2CodeContent.remove(q);
-//        q2CodeRunInput.remove(q);
-//        return InTheSession.remove(q) ? "结束会话" : "您没有在会话";
-//    }
 
     public static void gotoSession(Group group, String text, long q) {
         String result = i(text, q, group);
@@ -56,6 +38,7 @@ public class SessionController {
     public static final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
 
     public static final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
+
     private static final String helpStr = "已知命令:\n" +
             "创建文件(文件名)\n" +
             "\t#仅可创建c,py,java 文件\n" +
@@ -90,8 +73,23 @@ public class SessionController {
         //return "未知命令:" + m1 + "\nUnknown Command:" + m1;
     }
 
+
+    @Action("开始会话")
+    public String m1(long q) {
+        return InTheSession.add(q) ? "开始会话" : "您已经在会话";
+    }
+//    @Action("结束会话")
+//    public String m2(long q) {
+//        q2Filename.remove(q);
+//        q2CodeContent.remove(q);
+//        q2CodeRunInput.remove(q);
+//        return InTheSession.remove(q) ? "结束会话" : "您没有在会话";
+
+//    }
+
+
     public static String run(long q, Group group) {
-        CodeEntity entity = new CodeEntity();
+        /*CodeEntity entity = new CodeEntity();
         CodeContent content = new CodeContent();
         if (!q2Filename.containsKey(q)) return "未设置文件名";
         String fileName = q2Filename.get(q);
@@ -123,7 +121,8 @@ public class SessionController {
                     group.sendMessage("运行失败,可能因为输出过多");
                 }
             });
-        }
+        }*/
+        return "error";
     }
 
     public static final Map<String, String> supportLanguage = new ConcurrentHashMap<>();

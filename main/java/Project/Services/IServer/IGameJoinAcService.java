@@ -2,9 +2,8 @@ package Project.Services.IServer;
 
 
 import Entitys.Group;
-import Project.Bases.BaseIService;
 
-public interface IGameJoinAcService extends BaseIService {
+public interface IGameJoinAcService  {
 
     String[] list();
 

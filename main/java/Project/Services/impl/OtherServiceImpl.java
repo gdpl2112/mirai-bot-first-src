@@ -22,10 +22,6 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 @Entity
 public class OtherServiceImpl implements IOtherService {
 
-    @Override
-    public void before(Mess mess) {
-
-    }
 
     @Override
     public String mora(Long who, String what) {

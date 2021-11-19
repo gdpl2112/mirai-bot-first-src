@@ -22,10 +22,6 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class ManagerServiceImpl implements IManagerService {
-    @Override
-    public void before(Mess mess) {
-
-    }
 
     @Override
     public String addFather(long father, long who) {

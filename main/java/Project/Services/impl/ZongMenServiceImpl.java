@@ -9,8 +9,8 @@ import Project.DataBases.GameDataBase;
 import Project.DataBases.ZongMenDataBase;
 import Project.Services.DetailServices.ZongDetailService;
 import Project.Services.IServer.IZongMenService;
-import Project.Tools.Downloader;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -19,11 +19,9 @@ import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
 import static Project.Tools.Drawer.FilterImg;
-import static Project.Tools.Drawer.*;
-import static Project.Tools.GameTool.*;
+import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
-
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
@@ -124,8 +122,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zong.getMk() > System.currentTimeMillis())
             return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
         String path = ZongMenDataBase.path + "/" + getZongInfo(who).getId() + "/icon.png";
-        if (!Downloader.DownloadPicture(imageUrl, path))
-            return ("图片上传失败..请更换图片重试");
+        io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
         FilterImg(new File(path));
         zong.setIcon(path).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);

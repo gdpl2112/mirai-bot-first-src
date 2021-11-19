@@ -2,9 +2,8 @@ package Project.Services.IServer;
 
 
 import Entitys.Group;
-import Project.Bases.BaseIService;
 
-public interface IOtherService extends BaseIService {
+public interface IOtherService {
 
     /**
      * 猜拳

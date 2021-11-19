@@ -1,12 +1,11 @@
 package Project.Services.IServer;
 
 
-import Project.Bases.BaseIService;
 import Entitys.AttributeBone;
 
 import java.util.Map;
 
-public interface IGameBoneService extends BaseIService {
+public interface IGameBoneService  {
     String getInfoAttributes(Long who);
 
     AttributeBone getAttribute(Long who);

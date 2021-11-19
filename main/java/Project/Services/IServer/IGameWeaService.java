@@ -1,9 +1,7 @@
 package Project.Services.IServer;
 
 
-import Project.Bases.BaseIService;
-
-public interface IGameWeaService extends BaseIService {
+public interface IGameWeaService  {
     String UseAq(String what, Long who);
 
     String AqBgs(Long who);

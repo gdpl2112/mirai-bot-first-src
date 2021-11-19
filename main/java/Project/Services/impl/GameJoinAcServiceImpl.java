@@ -40,9 +40,6 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     @AutoStand
     GameJoinDetailService service;
 
-    @Override
-    public void before(Mess mess) {
-    }
 
     @Override
     public String[] list() {
