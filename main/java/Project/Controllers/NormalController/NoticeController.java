@@ -43,6 +43,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("11.20:修复点歌 ").append("\n");
         sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
         sb.append("11.13.19: 修复反甲不能打魂兽的Bug ").append("\n");
         sb.append("11.13: 修复已知Bug, 菜单变动 魂兽生成削弱 魂兽锁定条件削弱").append("\n");
@@ -50,9 +51,9 @@ public class NoticeController {
         sb.append("11.4: 修复注册失败的 Bug").append("\n");
         sb.append("11.3: 我的魂技 修复已知Bug").append("\n");
         sb.append("11.1: 修复-已知Bug.V2 添加血量为空降级的冷却\n\t降低魂兽匹配实力\n\t选择攻击伤害0.33~0.44提升至0.35~0.48").append("\n");
-        sb.append("10.31: 修复 闪照破解\n\t 优化性能 且测试").append("\n");
-        sb.append("10.27: 修复魂技 异常 和 语音 不全的Bug").append("\n");
-        sb.append("10.26:开始会话 结束会话").append("\n");
+//        sb.append("10.31: 修复 闪照破解\n\t 优化性能 且测试").append("\n");
+//        sb.append("10.27: 修复魂技 异常 和 语音 不全的Bug").append("\n");
+//        sb.append("10.26:开始会话 结束会话").append("\n");
 //        sb.append("10.23: 尝试修复 选择攻击发不出的情况").append("\n");
 //        sb.append("10.21: 解析抖音图片 地址\n\t撤回功能实现\n");
 //        sb.append("10.17: 解析快手图片 地址\n");

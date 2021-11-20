@@ -1,12 +1,13 @@
 package Project.Controllers;
 
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
+import Project.interfaces.GetSongs;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 
 @Controller
 public class FirstController {
-
+    @AutoStand
+    public static GetSongs getSong;
 //    @Action("测试")
 //    public void a(Group g) {
 //        SimpleServiceMessage message = new SimpleServiceMessage(1, Tool.getStringFromFile("./test/b.xml"));
