@@ -47,4 +47,5 @@ public class BotStarter2 {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
     }
+
 }

@@ -43,6 +43,9 @@ public class Ghost_Behavior implements Runnable {
         threads.execute(ghost_behavior);
     }
 
+    public Ghost_Behavior() {
+    }
+
     public Ghost_Behavior(Long qq, Group group) {
         this.qq = qq;
         this.group = group;

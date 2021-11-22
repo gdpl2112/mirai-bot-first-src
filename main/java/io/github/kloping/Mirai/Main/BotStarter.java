@@ -86,13 +86,5 @@ public class BotStarter {
         });*/
     }
 
-    @Bean
-    Long b1() {
-        return 3474006766L;
-    }
 
-    @Bean
-    Group group() {
-        return new Group(-1L, "不存在的群聊");
-    }
 }
