@@ -87,11 +87,12 @@ public class GameSkillServiceImpl implements ISkillService {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (!infos.containsKey(st)) return "你没有这个魂技";
         SkillInfo info = infos.get(st);
+        /*
         if (info.getName() != null) {
             if (!(name.contains(info.getName()) || name.equals(info.getName()))) {
                 return "您的第" + Tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();
             }
-        }
+        }*/
         if (info.getState() < 0) return "该魂技处于不可用状态";
         if (System.currentTimeMillis() < info.getTime()) return "魂技冷却中...\r\n" + Tool.getTimeHHMM(info.getTime());
         PersonInfo personInfo = getInfo(qq);

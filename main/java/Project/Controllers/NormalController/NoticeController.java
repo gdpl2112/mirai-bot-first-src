@@ -43,7 +43,8 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
-        sb.append("11.20:修复点歌 ").append("\n");
+        sb.append("11.22: 测试性 功能 创建分身 ").append("\n");
+        sb.append("11.20:修复点歌, \"排行\" 改为 \"等级排行\" ").append("\n");
         sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
         sb.append("11.13.19: 修复反甲不能打魂兽的Bug ").append("\n");
         sb.append("11.13: 修复已知Bug, 菜单变动 魂兽生成削弱 魂兽锁定条件削弱").append("\n");

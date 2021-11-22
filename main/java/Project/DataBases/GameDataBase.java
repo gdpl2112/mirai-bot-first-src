@@ -574,6 +574,20 @@ public class GameDataBase {
         return maps;
     }
 
+    public static PersonInfo createTempInfo(PersonInfo personInfo) {
+        personInfo.setDouing(true);
+        histInfos.put(Long.parseLong(personInfo.getName()), personInfo);
+        Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
+                "utf-8");
+        return personInfo;
+    }
+
+    public static PersonInfo deleteTempInfo(PersonInfo personInfo) {
+        histInfos.remove(Long.parseLong(personInfo.getName()));
+        new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").delete();
+        return getInfo(personInfo.getName());
+    }
+
     /**
      * 获取玩家信息
      *
@@ -581,11 +595,17 @@ public class GameDataBase {
      * @return
      */
     public static PersonInfo getInfo(Long who) {
-        if (who.longValue() < 0) return null;
+        if (who == null || who.longValue() <= 0) return null;
+        File file;
+        String lines;
+        if (new File(path + "/dates/users/" + who + "/infos_temp").exists()) {
+            file = new File(path + "/dates/users/" + who + "/infos_temp");
+        } else {
+            file = new File(path + "/dates/users/" + who + "/infos");
+        }
         testMan(who);
         try {
-            File file = new File(path + "/dates/users/" + who + "/infos");
-            String lines = getStringFromFile(file.getPath());
+            lines = getStringFromFile(file.getPath());
             if (lines == null || lines.isEmpty()) {
                 return null;
             }
@@ -669,7 +689,14 @@ public class GameDataBase {
     public static void putPerson(PersonInfo personInfo) {
         testMan(Long.valueOf(personInfo.getName()));
         histInfos.put(Long.parseLong(personInfo.getName()), personInfo);
-        Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos", "utf-8");
+        if (new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").exists()) {
+            personInfo.setDouing(true);
+            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
+                    "utf-8");
+        } else {
+            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos",
+                    "utf-8");
+        }
     }
 
     /**

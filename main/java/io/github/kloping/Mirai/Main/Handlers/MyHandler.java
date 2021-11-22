@@ -8,6 +8,7 @@ import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.Starter;
+import io.github.kloping.MySpringTool.StarterApplication;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Contact;
@@ -66,7 +67,7 @@ public class MyHandler extends SimpleListenerHost {
             text = EventTools.getStringFromGroupMessageEvent(event, !inS);
             if (!inS)
 //                Starter.ExecuteMethod(id, text, id, eUser, eGroup, 0, event.getMessage());
-                Starter.ExecuteMethod(id, text, id, eUser, eGroup, 0);
+                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
             else {
                 gotoSession(group, text, id);
             }

@@ -1,6 +1,9 @@
 package io.github.kloping.Mirai.Main;
 
+import Entitys.Group;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
+import io.github.kloping.MySpringTool.annotations.Bean;
+import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -44,7 +47,7 @@ public class BotStarter {
         Resource.bot = bot;
         datePath = "./Libs";
         Init();
-        SetterStarter(BotStarter.class);
+        SetterStarterApplication(BotStarter.class);
         bot.login();
         BotStarter.afterLogin();
     }
@@ -83,4 +86,9 @@ public class BotStarter {
             }
         });*/
     }
+
+    @Bean
+    Long b1(){return 3474006766L;}
+    @Bean
+    Group group(){return new Group(-1L,"不存在的群聊");}
 }

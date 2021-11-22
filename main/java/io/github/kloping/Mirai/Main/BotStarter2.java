@@ -31,7 +31,7 @@ public class BotStarter2 {
         Resource.bot = bot;
         Resource.datePath = "./Libs2";
         Resource.Init();
-        Resource.SetterStarter(BotStarter2.class);
+        Resource.SetterStarterApplication(BotStarter2.class);
         bot.login();
         BotStarter2.afterLogin();
     }

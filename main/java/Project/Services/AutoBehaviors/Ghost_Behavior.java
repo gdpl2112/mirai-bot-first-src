@@ -48,9 +48,6 @@ public class Ghost_Behavior implements Runnable {
         this.group = group;
     }
 
-    public Ghost_Behavior() {
-    }
-
     private GhostObj ghostObj;
     private Integer level;
 

@@ -8,7 +8,8 @@ import Project.Plugins.NetMain;
 import com.alibaba.druid.util.DaemonThreadFactory;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.Starter;
+import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
+
+import static Project.Controllers.GameControllers.GameH2LController.check;
 
 public class Resource {
     public static final ExecutorService threads = Executors.newFixedThreadPool(20);
@@ -68,6 +71,7 @@ public class Resource {
         skillDataBase = new SkillDataBase(datePath);
     }
 
+
     protected static void startTimer() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -91,26 +95,26 @@ public class Resource {
 
     private static int timeIndex = 60;
 
-    protected static void SetterStarter(Class<?> cla) {
-        Starter.run(cla);
-        Starter.setLog_Level(1);
-        Starter.set_key(Long.class);
-        Starter.setWaitTime(25L);
-        Starter.setAccPars(Long.class, Entitys.User.class, Group.class, Integer.class);
-        //Starter.setAccPars(Long.class, Entitys.User.class, Group.class, Integer.class,MessageChain.class);
-        Starter.setOnlyOne(true);
-        Starter.setAllAfter(new Starter.AllAfterOrBefore(Starter.AllAfterOrBefore.State.After) {
+    protected static void SetterStarterApplication(Class<?> cla) {
+        StarterApplication.setMainKey(Long.class);
+        StarterApplication.setWaitTime(25 * 1000L);
+        StarterApplication.setAccessTypes(Long.class, Entitys.User.class, Group.class, Integer.class);
+        // StarterApplication.setAccPars(Long.class, Entitys.User.class, Group.class, Integer.class,MessageChain.class);
+        StarterApplication.setAllAfter(new Runner() {
             @Override
-            public void run(Object o, Object[] objects) throws NoRunException {
-                DaeThreads.submit(() -> onReturnResult(o, objects));
+            public void run(Object t, Object[] objects) throws NoRunException {
+                if (t != null)
+                    DaeThreads.submit(() -> onReturnResult(t, objects));
             }
         });
-        Starter.setAllBefore(new Starter.AllAfterOrBefore(Starter.AllAfterOrBefore.State.Before) {
+        StarterApplication.setAllBefore(new Runner() {
             @Override
-            public void run(Object o, Object[] objects) throws NoRunException {
+            public void run(Object t, Object[] objects) throws NoRunException {
                 onServerAddTimes();
+                check(objects);
             }
         });
+        StarterApplication.run(cla);
     }
 
     public static void onReturnResult(Object o, Object[] objects) {

@@ -159,6 +159,34 @@ public class PersonInfo {
      */
     private Long dt1 = 0L;
 
+    /**
+     * 斗魂中...
+     */
+    private Boolean douing = false;
+
+    /**
+     * 勋章数
+     */
+    private Integer winC = 0;
+
+    public Boolean getDouing() {
+        return douing;
+    }
+
+    public Integer getWinC() {
+        return winC;
+    }
+
+    public PersonInfo addWinc(Integer num) {
+        winC++;
+        return this;
+    }
+
+    public void setDouing(Boolean douing) {
+        this.douing = douing;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -675,4 +703,5 @@ public class PersonInfo {
         this.bindQ = bindQ;
         return this;
     }
+
 }

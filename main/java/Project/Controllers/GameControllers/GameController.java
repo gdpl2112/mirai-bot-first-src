@@ -197,7 +197,7 @@ public class GameController {
         return sss;
     }
 
-    @Action("排行<\\d{1,}=>num>")
+    @Action("等级排行<\\d{1,}=>num>")
     public String pH(@Param("num") String num) {
         int n;
         String ll = findNumberFromString(num);
@@ -219,7 +219,7 @@ public class GameController {
         return sb.toString();
     }
 
-    @Action("排行")
+    @Action("等级排行")
     public String pH10() {
         int n = 10;
         StringBuilder sb = new StringBuilder();
