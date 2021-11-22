@@ -1,5 +1,7 @@
 package Project.Plugins.pluginsDetail.entitys;
 
+import java.util.Arrays;
+
 public class CodeEntity {
 	private String stdin;
 	private CodeContent[] files;
@@ -30,5 +32,14 @@ public class CodeEntity {
 	public CodeEntity setCommand(String command) {
 		this.command = command;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+				"stdin='" + stdin + '\'' +
+				", files=" + Arrays.toString(files) +
+				", command='" + command + '\'' +
+				'}';
 	}
 }

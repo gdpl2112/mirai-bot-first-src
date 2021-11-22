@@ -1,6 +1,7 @@
 package Project.Controllers;
 
 import Project.interfaces.GetSongs;
+import Project.interfaces.RunCode;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 
@@ -8,6 +9,11 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 public class FirstController {
     @AutoStand
     public static GetSongs getSong;
+
+    @AutoStand
+    public static RunCode runCode;
+
+
 //    @Action("测试")
 //    public void a(Group g) {
 //        SimpleServiceMessage message = new SimpleServiceMessage(1, Tool.getStringFromFile("./test/b.xml"));

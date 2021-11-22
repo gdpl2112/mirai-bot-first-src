@@ -11,6 +11,8 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static Project.Controllers.FirstController.runCode;
+
 public class RunAll {
     public static final String baseUrl = "https://glot.io/run/%s?version=latest";
     public static final String runJava = String.format(baseUrl, "java");
@@ -18,7 +20,7 @@ public class RunAll {
     public static final String runPython = String.format(baseUrl, "python");
 
     public static CodeResponse runJava(CodeEntity entity) throws IOException {
-        Connection connection = Jsoup.connect(runJava)
+    /*    Connection connection = Jsoup.connect(runJava)
                 .ignoreContentType(true)
                 .userAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36");
         connection.requestBody(JSON.toJSONString(entity));
@@ -26,10 +28,12 @@ public class RunAll {
         String jsonStr = document.body().text();
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
         return response;
+    */
+        return runCode.runJava(entity);
     }
 
     public static CodeResponse runC(CodeEntity entity) throws IOException {
-        Connection connection = Jsoup.connect(runC)
+        /*Connection connection = Jsoup.connect(runC)
                 .ignoreContentType(true)
                 .userAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36");
         connection.requestBody(JSON.toJSONString(entity));
@@ -37,10 +41,13 @@ public class RunAll {
         String jsonStr = document.body().text();
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
         return response;
+        */
+
+        return runCode.runC(entity);
     }
 
     public static CodeResponse runPython(CodeEntity entity) throws IOException {
-        Connection connection = Jsoup.connect(runPython)
+    /*    Connection connection = Jsoup.connect(runPython)
                 .ignoreContentType(true)
                 .userAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36");
         connection.requestBody(JSON.toJSONString(entity));
@@ -48,6 +55,8 @@ public class RunAll {
         String jsonStr = document.body().text();
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
         return response;
+    */
+        return runCode.runPython(entity);
     }
 
     public static CodeResponse runAny(CodeEntity entity, String language) throws IOException {

@@ -21,4 +21,12 @@ public class CodeContent {
         this.content = content;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
