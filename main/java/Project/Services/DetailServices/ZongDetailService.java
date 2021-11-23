@@ -1,8 +1,8 @@
 package Project.Services.DetailServices;
 
-import Entitys.PersonInfo;
-import Entitys.Zon;
-import Entitys.Zong;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Zon;
+import Entitys.gameEntitys.Zong;
 import Project.DataBases.ZongMenDataBase;
 import com.alibaba.druid.util.DaemonThreadFactory;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;

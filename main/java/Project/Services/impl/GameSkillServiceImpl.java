@@ -1,6 +1,10 @@
 package Project.Services.impl;
 
 import Entitys.*;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Skill;
+import Entitys.gameEntitys.SkillInfo;
+import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;

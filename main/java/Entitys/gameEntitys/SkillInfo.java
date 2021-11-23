@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 import Project.Tools.JSONUtils;
 import lombok.Data;

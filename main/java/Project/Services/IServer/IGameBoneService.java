@@ -1,7 +1,7 @@
 package Project.Services.IServer;
 
 
-import Entitys.AttributeBone;
+import Entitys.gameEntitys.AttributeBone;
 
 import java.util.Map;
 

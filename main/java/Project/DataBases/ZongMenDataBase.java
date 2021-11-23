@@ -1,8 +1,8 @@
 package Project.DataBases;
 
 import Project.Tools.JSONUtils;
-import Entitys.Zon;
-import Entitys.Zong;
+import Entitys.gameEntitys.Zon;
+import Entitys.gameEntitys.Zong;
 
 import java.io.File;
 import java.io.IOException;

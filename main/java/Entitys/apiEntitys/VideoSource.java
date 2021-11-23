@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.apiEntitys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

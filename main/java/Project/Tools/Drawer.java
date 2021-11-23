@@ -1,7 +1,10 @@
 package Project.Tools;
 
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Warp;
+import Entitys.gameEntitys.Zong;
 import com.google.gson.internal.LinkedHashTreeMap;
+import io.github.kloping.Mirai.Main.ITools.MemberTools;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.DataBases.SkillDataBase.toPercent;
+import static Project.DataBases.ZongMenDataBase.getZongInfo;
+import static Project.DataBases.ZongMenDataBase.qq2id;
 import static Project.Tools.Tool.filterBigNum;
 
 public class Drawer {
@@ -25,13 +30,14 @@ public class Drawer {
     private static Color hpColor = fromStrToARGB("FF5Dff5D");
     private static Color hlColor = fromStrToARGB("FFFFB946");
     private static Color hjColor = fromStrToARGB("FF8b8bFF");
+
     private static Map<String, Image> map = new LinkedHashTreeMap<>();
 
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
 
-    public static final String drawPng(PersonInfo p) {
+    public static final String drawInfoPng(PersonInfo p) {
         int width = 600;
-        int height = 600;
+        int height = 600 - 50;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
@@ -48,7 +54,7 @@ public class Drawer {
         g.setFont(smallFont);
         //==================================
         int x = 10;
-        y = 2 * 40;
+        y = 2 * 40 - 10;
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(xpColor);
@@ -98,14 +104,83 @@ public class Drawer {
         g.setColor(Color.RED);
         g.setFont(bigFont);
         g.drawString("等级:" + p.getLevel() + "=>" + GameTool.getFH(p.getLevel().intValue()), x, y);
-        y = y + 50;
+        /*y = y + 50;
         g.setColor(Color.BLUE);
         g.setFont(bigFont);
         g.drawString("融合状态:" + (p.getBindQ().longValue() == -1 ? "未融合" : "已融合"), x, y);
+        */
         //==================================
         g.setColor(Color.BLACK);
         g.setFont(bigFont);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, 600 - 30);
+        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
+        g.dispose();
+        String name = UUID.randomUUID() + ".jpg";
+        new File("./temp").mkdirs();
+        File file = new File("./temp/" + name);
+        try {
+            ImageIO.write(image, "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file.getPath();
+    }
+
+    public static final String drawWarpPng(Warp p) {
+        int width = 400;
+        int height = 400;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics g = image.getGraphics();
+        g.setClip(0, 0, width, height);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0, 0, width, height);
+        g.setFont(bigFont);
+        Rectangle clip = g.getClipBounds();
+        FontMetrics fm = g.getFontMetrics(bigFont);
+        int ascent = fm.getAscent();
+        int descent = fm.getDescent();
+        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+        g.setColor(Color.BLUE);
+        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
+        g.setFont(smallFont);
+        //==================================
+        int x = 10;
+        int eve = 40;
+        y = 2 * 40 - eve;
+        boolean k = false;
+        k = p.getBindQ().longValue() == -1;
+        String m = null;
+        m = k ? "无" : (" & " + MemberTools.getName(p.getBindQ().longValue()));
+        g.setColor(k ? Color.RED : Color.GREEN);
+        g.drawString("融合:" + m, x, y + smallFont.getSize());
+
+        y = y + eve;
+        k = p.getMaster().longValue() == -1;
+        m = k ? "无" : (" & " + MemberTools.getName(p.getMaster().longValue()));
+        g.setColor(k ? Color.RED : Color.GREEN);
+        g.drawString("师傅:" + m, x, y + smallFont.getSize());
+
+        y = y + eve;
+        k = p.getPrentice().longValue() == -1;
+        m = k ? "无" : (" & " + MemberTools.getName(p.getPrentice().longValue()));
+        g.setColor(k ? Color.RED : Color.GREEN);
+        g.drawString("徒弟:" + m, x, y + smallFont.getSize());
+
+        y = y + eve;
+        Integer id = qq2id.get(p.getId().longValue());
+        if (id == null) {
+            k = true;
+            m = " 无 ";
+        } else {
+            k = false;
+            Zong zong = getZongInfo(id);
+            m = " in " + zong.getName();
+        }
+        g.setColor(k ? Color.RED : Color.GREEN);
+        g.drawString("所处宗门:" + m, x, y + smallFont.getSize());
+        //==================================
+        g.setColor(Color.BLACK);
+        g.setFont(bigFont);
+        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
         String name = UUID.randomUUID() + ".jpg";
         new File("./temp").mkdirs();
@@ -324,7 +399,6 @@ public class Drawer {
         le += le % 2 == 0 ? 0 : 1;
         int height = le * 20 + 40;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
         g.setColor(Color.LIGHT_GRAY);

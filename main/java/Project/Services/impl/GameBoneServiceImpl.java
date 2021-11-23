@@ -1,8 +1,7 @@
 package Project.Services.impl;
 
 
-import Entitys.AttributeBone;
-import Entitys.Mess;
+import Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
 import Project.Services.IServer.IGameBoneService;
 

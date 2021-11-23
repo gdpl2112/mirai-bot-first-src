@@ -1,7 +1,7 @@
 package Project.Controllers.GameControllers;
 
 import Entitys.Group;
-import Entitys.SkillInfo;
+import Entitys.gameEntitys.SkillInfo;
 import Entitys.User;
 import Project.Services.IServer.ISkillService;
 import Project.Tools.Tool;

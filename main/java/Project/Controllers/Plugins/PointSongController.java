@@ -1,7 +1,7 @@
 package Project.Controllers.Plugins;
 
-import Entitys.Song;
-import Entitys.Songs;
+import Entitys.apiEntitys.Song;
+import Entitys.apiEntitys.Songs;
 import Entitys.User;
 import Project.Plugins.SearchSong;
 import io.github.kloping.MySpringTool.annotations.Action;

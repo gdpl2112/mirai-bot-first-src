@@ -16,7 +16,23 @@ public class MemberTools {
                 name = member.getNick();
             return name;
         } catch (Exception e) {
-            return id+"";
+            return id + "";
         }
+    }
+
+    public static synchronized String getName(long id) {
+        String name = "";
+        try {
+            for (Group group : bot.getGroups()) {
+                if (group.contains(id)) {
+                    Member member = group.get(id);
+                    name = member.getNick();
+                    return name;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id + "";
     }
 }

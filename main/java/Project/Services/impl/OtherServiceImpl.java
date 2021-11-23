@@ -2,22 +2,21 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
-import Entitys.Mess;
+import Entitys.Mora;
 import Project.DataBases.DataBase;
 import Project.Services.IServer.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import static Project.Controllers.ControllerTool.*;
-import static Project.DataBases.DataBase.*;
+import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.DataBases.DataBase.isFather;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.*;
-
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class OtherServiceImpl implements IOtherService {
@@ -28,7 +27,7 @@ public class OtherServiceImpl implements IOtherService {
         long li = DataBase.getAllInfo(who).getScore();
         String num = Tool.findNumberFromString(what);
         long l1 = num.isEmpty() ? 0 : Long.parseLong(num);
-        Tool.mora mora1 = Tool.mora.findMora(what, 0);
+        Mora mora1 = Mora.findMora(what, 0);
         if (mora1 == null || mora1.getValue().isEmpty())
             return "猜拳格式错误=> 猜拳 (石头/剪刀/布) (积分)";
         if (li < l1)
@@ -37,8 +36,8 @@ public class OtherServiceImpl implements IOtherService {
             return "积分最小值:5";
         if (l1 > 1500)
             return "积分最大值:1500";
-        Tool.mora i = Tool.mora.getRc();
-        int p = i.Reff(mora1);
+        Mora i = Mora.getRc(38, 10, mora1);
+        int p = mora1.Reff(i);
         if (p == 0) {
             return "平局 我出的是" + i.getValue();
         } else if (p == 1) {

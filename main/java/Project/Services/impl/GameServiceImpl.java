@@ -2,9 +2,9 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
-import Entitys.Mess;
-import Entitys.PersonInfo;
-import Entitys.Zon;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Warp;
+import Entitys.gameEntitys.Zon;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
@@ -15,6 +15,7 @@ import Project.Services.IServer.IGameService;
 import Project.Tools.Drawer;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -31,8 +32,6 @@ import static Project.Tools.Drawer.*;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getNameFromGroup;
-
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class GameServiceImpl implements IGameService {
@@ -146,7 +145,7 @@ public class GameServiceImpl implements IGameService {
 //        str.append("金魂币:" + is.getGold()).append("\r\n");
 //        str.append("融合状态:" + (is.getBindQ().longValue() == -1 ? "未融合" : "已融合")).append("\r\n");
 //        return str1 + pathToImg(createImage(str.toString().split("\r\n")));
-        return str1 + pathToImg(Drawer.drawPng(is));
+        return str1 + pathToImg(Drawer.drawInfoPng(is));
 
     }
 
@@ -676,16 +675,16 @@ public class GameServiceImpl implements IGameService {
     }
 
     public Object FusionNow(Long q1, Long q2) {
-        PersonInfo p1 = getInfo(q1);
-        PersonInfo p2 = getInfo(q2);
-        if (p1.getBindQ().longValue() != -1 || p2.getBindQ().longValue() != -1) {
+        Warp warp1 = getWarp(q1);
+        Warp warp2 = getWarp(q2);
+        if (warp1.getBindQ().longValue() != -1 || warp2.getBindQ().longValue() != -1) {
             return "请先解除武魂融合";
         }
         removeFromBgs(q1, 111);
-        p1.setBindQ(q2);
-        p2.setBindQ(q1);
-        putPerson(p1);
-        putPerson(p2);
+        warp1.setBindQ(q2);
+        warp2.setBindQ(q1);
+        setWarp(warp1);
+        setWarp(warp2);
         return "融合完成";
     }
 }

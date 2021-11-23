@@ -1,8 +1,8 @@
 package Project.Services.DetailServices;
 
-import Entitys.GhostObj;
-import Entitys.PersonInfo;
-import Entitys.SkillIntro;
+import Entitys.gameEntitys.GhostObj;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 import Project.Tools.GameTool;

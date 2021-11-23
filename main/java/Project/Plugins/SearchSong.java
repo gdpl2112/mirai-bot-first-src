@@ -1,6 +1,6 @@
 package Project.Plugins;
 
-import Entitys.Songs;
+import Entitys.apiEntitys.Songs;
 
 import static Project.Controllers.FirstController.getSong;
 

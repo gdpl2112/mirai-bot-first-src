@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

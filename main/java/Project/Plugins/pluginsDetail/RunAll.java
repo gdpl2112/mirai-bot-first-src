@@ -3,10 +3,6 @@ package Project.Plugins.pluginsDetail;
 import Project.Plugins.pluginsDetail.entitys.CodeContent;
 import Project.Plugins.pluginsDetail.entitys.CodeEntity;
 import Project.Plugins.pluginsDetail.entitys.CodeResponse;
-import com.alibaba.fastjson.JSON;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,11 +10,6 @@ import java.util.Scanner;
 import static Project.Controllers.FirstController.runCode;
 
 public class RunAll {
-    public static final String baseUrl = "https://glot.io/run/%s?version=latest";
-    public static final String runJava = String.format(baseUrl, "java");
-    public static final String runC = String.format(baseUrl, "c");
-    public static final String runPython = String.format(baseUrl, "python");
-
     public static CodeResponse runJava(CodeEntity entity) throws IOException {
     /*    Connection connection = Jsoup.connect(runJava)
                 .ignoreContentType(true)
@@ -29,7 +20,7 @@ public class RunAll {
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
         return response;
     */
-        return runCode.runJava(entity);
+        return runCode.runAny("java", entity, "latest");
     }
 
     public static CodeResponse runC(CodeEntity entity) throws IOException {
@@ -43,7 +34,7 @@ public class RunAll {
         return response;
         */
 
-        return runCode.runC(entity);
+        return runCode.runAny("c", entity, "latest");
     }
 
     public static CodeResponse runPython(CodeEntity entity) throws IOException {
@@ -56,21 +47,22 @@ public class RunAll {
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
         return response;
     */
-        return runCode.runPython(entity);
+        return runCode.runAny("python", entity, "latest");
     }
 
     public static CodeResponse runAny(CodeEntity entity, String language) throws IOException {
-        Connection connection = Jsoup.connect(String.format(baseUrl, language))
+        /*Connection connection = Jsoup.connect(String.format(baseUrl, language))
                 .ignoreContentType(true)
                 .userAgent("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36");
         connection.requestBody(JSON.toJSONString(entity));
         Document document = connection.post();
         String jsonStr = document.body().text();
         CodeResponse response = JSON.parseObject(jsonStr, CodeResponse.class);
-        return response;
+        return response;*/
+        return runCode.runAny(language, entity, "latest");
     }
 
-
+/*
     public static void main(String[] args) throws Exception {
         CodeEntity entity = new CodeEntity();
         CodeContent content = new CodeContent();
@@ -99,5 +91,5 @@ public class RunAll {
         System.out.println("运行输出:" + response.getStdout());
         System.out.println("运行警告输出:" + response.getStderr());
         System.out.println("运行错误输出:" + response.getError());
-    }
+    }*/
 }

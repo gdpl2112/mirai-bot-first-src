@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 
 import Project.DataBases.GameDataBase;
@@ -138,14 +138,6 @@ public class PersonInfo {
      */
     public String myTag = "";
     /**
-     * 融合QQ
-     */
-    public Number bindQ = -1;
-    /**
-     * 融合魂技释放冷却
-     */
-    public Long Bqk1 = 0L;
-    /**
      * 死过
      */
     private boolean died = false;
@@ -162,15 +154,15 @@ public class PersonInfo {
     /**
      * 斗魂中...
      */
-    private Boolean douing = false;
+    private Boolean temp = false;
 
     /**
      * 勋章数
      */
     private Integer winC = 0;
 
-    public Boolean getDouing() {
-        return douing;
+    public Boolean getTemp() {
+        return temp;
     }
 
     public Integer getWinC() {
@@ -182,8 +174,8 @@ public class PersonInfo {
         return this;
     }
 
-    public void setDouing(Boolean douing) {
-        this.douing = douing;
+    public void setTemp(Boolean temp) {
+        this.temp = temp;
     }
 
 
@@ -694,14 +686,4 @@ public class PersonInfo {
         this.whType = whType;
         return this;
     }
-
-    public Number getBindQ() {
-        return bindQ;
-    }
-
-    public PersonInfo setBindQ(Number bindQ) {
-        this.bindQ = bindQ;
-        return this;
-    }
-
 }

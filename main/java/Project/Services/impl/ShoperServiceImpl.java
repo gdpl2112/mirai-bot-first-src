@@ -4,14 +4,11 @@ import Entitys.Group;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ShopDataBase;
 import Project.Services.IServer.IShoperService;
-import Project.Tools.Tool;
-import Entitys.PersonInfo;
-import Entitys.ShopItem;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.ShopItem;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.GameDataBase.*;
 import static Project.Tools.Drawer.*;
-import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
 
 import io.github.kloping.MySpringTool.annotations.Entity;

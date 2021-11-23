@@ -1,7 +1,7 @@
 package Project.Services.DetailServices;
 
 
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Method;

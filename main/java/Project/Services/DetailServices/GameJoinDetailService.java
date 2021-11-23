@@ -1,11 +1,10 @@
 package Project.Services.DetailServices;
 
 
-import Entitys.GhostObj;
+import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
 import Entitys.Mess;
-import Entitys.PersonInfo;
-import Project.Controllers.NormalController.ManagerController;
+import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.Ghost_Behavior;
 import Project.Services.IServer.IGameService;
 import Project.Tools.GameTool;

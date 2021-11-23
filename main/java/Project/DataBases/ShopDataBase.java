@@ -1,6 +1,6 @@
 package Project.DataBases;
 
-import Entitys.ShopItem;
+import Entitys.gameEntitys.ShopItem;
 import Project.Tools.JSONUtils;
 import Project.Tools.Tool;
 

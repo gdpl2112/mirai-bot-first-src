@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 
 import Project.Services.DetailServices.GameJoinDetailService;

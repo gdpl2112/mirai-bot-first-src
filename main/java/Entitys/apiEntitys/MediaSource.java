@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.apiEntitys;
 
 public class MediaSource {
     private String authorName;

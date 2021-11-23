@@ -4,6 +4,7 @@ import Entitys.Group;
 import Project.StringSet;
 import Project.Tools.Tool;
 import Project.Utils.DBUtils;
+import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -136,7 +137,7 @@ public class CustomController {
         }
     }
 
-    @Action("[Pic:<.+=>id>")
+    @Action("\\[Pic:<.+=>id>")
     public String onPic(@AllMess String mess, @Param("id") String id, long qq) {
         if (qlist.containsKey(qq)) {
             String str = qlist.get(qq);
@@ -264,7 +265,7 @@ public class CustomController {
         try {
             Connection connection = DBUtils.getConnection();
             PreparedStatement statement = connection.prepareStatement("select * from auto_reply where delete_stat=0;");
-            Map<String, Reply> map = new ConcurrentHashMap<>();
+            Map<String, Reply> map = new LinkedHashTreeMap<>();
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 int id = set.getInt(1);

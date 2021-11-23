@@ -1,6 +1,6 @@
 package Project.DataBases;
 
-import Entitys.*;
+import Entitys.gameEntitys.*;
 import Project.Tools.JSONUtils;
 import Project.Tools.Tool;
 

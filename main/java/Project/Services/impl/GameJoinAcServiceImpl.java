@@ -1,9 +1,8 @@
 package Project.Services.impl;
 
 
-import Entitys.GhostObj;
+import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
-import Entitys.Mess;
 import Project.Services.DetailServices.GameJoinDetailService;
 import Project.Services.IServer.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;

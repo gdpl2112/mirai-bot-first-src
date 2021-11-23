@@ -1,8 +1,7 @@
 package Project.Services.impl;
 
 
-import Entitys.Mess;
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
 import Project.Services.IServer.IGameService;
 import Project.Services.IServer.IGameUseObjService;

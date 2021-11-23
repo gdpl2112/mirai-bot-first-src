@@ -2,8 +2,9 @@ package Project.Controllers.GameControllers;
 
 
 import Entitys.Group;
-import Entitys.PersonInfo;
 import Entitys.User;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Warp;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.Services.IServer.IGameService;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.*;
+import static Project.Tools.Drawer.drawWarpPng;
 import static Project.Tools.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
@@ -355,10 +357,9 @@ public class GameController {
 
     @Action("双修")
     public String Xl2(User qq, Group group) {
-        if (getInfo(qq.getId()).getBindQ().longValue() == -1)
+        if (getWarp(qq.getId()).getBindQ().longValue() == -1)
             return "未融合";
         String str = gameService.xl2(qq.getId());
-
         return str;
     }
 
@@ -370,6 +371,22 @@ public class GameController {
         String s1 = gameService.Fusion(qq.getId(), q2, group);
         return s1;
     }
+
+
+    public String RemoveFusionNow(Long qq) {
+        Warp warp = getWarp(qq);
+        if (warp.getBindQ().longValue() != -1) {
+            long q1 = qq;
+            long q2 = warp.getBindQ().longValue();
+            Warp warp2 = getWarp(q2);
+            warp.setBindQ(-1);
+            warp2.setBindQ(-1);
+            setWarp(warp);
+            setWarp(warp2);
+            return "解除成功";
+        } else return "你没有与任何人融合";
+    }
+
 
     @Action("解除武魂融合")
     public String RemoveFusion(User qq) {
@@ -394,19 +411,10 @@ public class GameController {
         else return "您还没有武魂";
     }
 
-    public String RemoveFusionNow(Long qq) {
-        PersonInfo personInfo = getInfo(qq);
-        if (personInfo.getBindQ().longValue() != -1) {
-            long q1 = qq;
-            long q2 = personInfo.getBindQ().longValue();
-            PersonInfo p1 = getInfo(q1);
-            PersonInfo p2 = getInfo(q2);
-            p1.setBindQ(-1);
-            p2.setBindQ(-1);
-            putPerson(p1);
-            putPerson(p2);
-            return "解除成功";
-        } else return "你没有与任何人融合";
+    @Action("关系列表")
+    public String warps(long q) {
+        Warp warp = getWarp(q);
+        return pathToImg(drawWarpPng(warp));
     }
 
     @Action("升级第<.+=>str>")

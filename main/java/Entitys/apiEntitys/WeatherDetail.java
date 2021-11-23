@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.apiEntitys;
 
 
 public class WeatherDetail {

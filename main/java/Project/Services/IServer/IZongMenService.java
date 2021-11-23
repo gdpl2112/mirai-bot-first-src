@@ -1,7 +1,7 @@
 package Project.Services.IServer;
 
 import Entitys.Group;
-import Entitys.Zong;
+import Entitys.gameEntitys.Zong;
 
 public interface IZongMenService {
     String create(String name, Long who, Group group);

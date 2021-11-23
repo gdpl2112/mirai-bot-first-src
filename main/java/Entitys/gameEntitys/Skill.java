@@ -1,6 +1,7 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 
+import Entitys.Group;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 
 import java.util.ArrayList;

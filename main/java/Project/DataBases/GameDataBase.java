@@ -1,8 +1,10 @@
 package Project.DataBases;
 
 
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Warp;
 import Project.Tools.Tool;
+import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -575,7 +577,7 @@ public class GameDataBase {
     }
 
     public static PersonInfo createTempInfo(PersonInfo personInfo) {
-        personInfo.setDouing(true);
+        personInfo.setTemp(true);
         histInfos.put(Long.parseLong(personInfo.getName()), personInfo);
         Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
                 "utf-8");
@@ -690,7 +692,7 @@ public class GameDataBase {
         testMan(Long.valueOf(personInfo.getName()));
         histInfos.put(Long.parseLong(personInfo.getName()), personInfo);
         if (new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").exists()) {
-            personInfo.setDouing(true);
+            personInfo.setTemp(true);
             Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
                     "utf-8");
         } else {
@@ -716,9 +718,23 @@ public class GameDataBase {
             new File(pathN + "/hhpz").createNewFile();
             new File(pathN + "/decide").createNewFile();
             new File(pathN + "/AttributeBone").createNewFile();
+            FileInitializeValue.putValues(pathN + "/warp", new Warp().setId(personInfo.getName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static synchronized Warp getWarp(Number id) {
+        testMan(id.longValue());
+        String pathN = path + "/dates/users/" + id;
+        Warp warp = new Warp().setId(id.toString());
+        return FileInitializeValue.getValue(pathN+"/warp", warp, true);
+    }
+
+    public static synchronized Warp setWarp(Warp warp) {
+        String pathN = path + "/dates/users/" + warp.getId();
+        return FileInitializeValue.putValues(pathN+"/warp", warp, true);
     }
 
     /**

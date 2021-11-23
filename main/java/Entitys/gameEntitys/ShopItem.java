@@ -1,4 +1,4 @@
-package Entitys;
+package Entitys.gameEntitys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Zon {
+public class ShopItem {
     private Integer id;
-    private Number qq;
-    private Integer level = 0;
-    private Integer times = 0;
-    private Integer xper = 0;
+    private Number who;
+    private Integer itemId;
+    private Integer num;
+    private Long time;
+    private Number price=1;
 }

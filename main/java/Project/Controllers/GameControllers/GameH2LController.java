@@ -1,7 +1,7 @@
 package Project.Controllers.GameControllers;
 
 import Entitys.Group;
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
 import Entitys.User;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -27,7 +27,7 @@ public class GameH2LController {
         long q = Long.parseLong(objects[0].toString());
         Group group = (Group) objects[4];
         PersonInfo info = getInfo(q);
-        if (info.getDouing()) {
+        if (info.getTemp()) {
             if (!inCanDonging(objects[1].toString())) {
                 MessageTools.sendMessageInGroupWithAt("您正在斗魂,请不要做其他不相干的事情", group.getId(), q);
                 throw new NoRunException("out Around");
@@ -65,11 +65,10 @@ public class GameH2LController {
         if (qq != Resource.superQL) return "?";
         long q = Long.parseLong(NumberUtils.findNumberFromString(at));
         PersonInfo personInfo = getInfo(q);
-        personInfo.setDouing(true);
+        personInfo.setTemp(true);
         personInfo.setGold(-1L);
         personInfo.setHelpC(999);
         personInfo.setBuyHelpC(999);
-        personInfo.setBindQ(99999);
         personInfo.setHp(personInfo.getHp() / 2);
         personInfo.setHpl(personInfo.getHpl() / 2);
         personInfo.setHl(personInfo.getHl() / 2);

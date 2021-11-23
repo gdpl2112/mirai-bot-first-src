@@ -1,7 +1,7 @@
 package Project.Plugins;
 
-import Entitys.WeatherDetail;
-import Entitys.WeatherM;
+import Entitys.apiEntitys.WeatherDetail;
+import Entitys.apiEntitys.WeatherM;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;

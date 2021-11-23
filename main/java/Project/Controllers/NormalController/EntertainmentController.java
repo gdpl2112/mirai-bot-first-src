@@ -113,7 +113,7 @@ public class EntertainmentController {
     }
 
 
-    @Action("[闪照<.+=>s1>")
+    @Action("\\[闪照<.+=>s1>")
     public String flash(@AllMess String str, Group group) throws NoRunException {
         String url = MessageTools.getFlashUrlFromMessageString(str);
         if (canBackShow(group.getId())) {
@@ -128,7 +128,7 @@ public class EntertainmentController {
         throw new NoRunException();
     }
 
-    @Action("[@me]<.{1,}=>str>")
+    @Action("\\[@me]<.{1,}=>str>")
     public Object AtMe(long qq, Group group, @Param("str") String str) {
         if (str.startsWith("读")) {
             if (voiceK) {

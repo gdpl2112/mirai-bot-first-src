@@ -1,9 +1,9 @@
 package Project.Services.impl;
 
 import Entitys.Group;
-import Entitys.PersonInfo;
-import Entitys.Zon;
-import Entitys.Zong;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.Zon;
+import Entitys.gameEntitys.Zong;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ZongMenDataBase;

@@ -1,4 +1,5 @@
-package Entitys;
+package Entitys.apiEntitys;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +10,11 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class Song {
-    private String media_name;
-    private String author_name;
-    private String imgUrl;
-    private String songUrl;
+public class Songs {
+    private int state;
+    private int num;
+    private long time;
+    private String keyword;
+    private Song[] data;
+    private String type;
 }

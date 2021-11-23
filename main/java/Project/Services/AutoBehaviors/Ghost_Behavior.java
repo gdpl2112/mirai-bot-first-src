@@ -1,9 +1,9 @@
 package Project.Services.AutoBehaviors;
 
-import Entitys.AttributeBone;
-import Entitys.GhostObj;
+import Entitys.gameEntitys.AttributeBone;
+import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.DetailServices.GameJoinDetailService;

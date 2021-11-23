@@ -1,8 +1,8 @@
 package Project.Tools;
 
 
-import Entitys.GhostObj;
-import Entitys.PersonInfo;
+import Entitys.gameEntitys.GhostObj;
+import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
 import Project.Services.DetailServices.GameJoinDetailService;
 import io.github.kloping.Mirai.Main.Resource;

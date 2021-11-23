@@ -84,11 +84,12 @@ public class OtherController {
         BaseMenuStr.append("====");
         BaseMenuStr.append("|选择(攻击/逃跑) \r\n\t#当遇到魂兽时使用\n");
         BaseMenuStr.append("|换积分(用金魂币换积分)\r\n\t#1金魂币1.5积分(多出500的金魂币才能换)\n");
-        BaseMenuStr.append("|排行\n");
+        BaseMenuStr.append("|等级排行\n");
         BaseMenuStr.append("|称号 #(查看所有称号)\n");
         BaseMenuStr.append("|武魂类型 #查看自己的武魂类型是什么)\n");
         BaseMenuStr.append("|融合武魂 @xx  # 需要融合戒指\n");
         BaseMenuStr.append("|魂兽击杀排行\n");
+        BaseMenuStr.append("|关系列表\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("=积分相关\n");
         BaseMenuStr.append("|签到\n");
