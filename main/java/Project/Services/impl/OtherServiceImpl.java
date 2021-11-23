@@ -40,10 +40,10 @@ public class OtherServiceImpl implements IOtherService {
         int p = mora1.Reff(i);
         if (p == 0) {
             return "平局 我出的是" + i.getValue();
-        } else if (p == 1) {
+        } else if (p == -1) {
             DataBase.addScore(-l1, Long.valueOf(who));
             return "你输了 我出的是" + i.getValue() + "\n你输掉了:" + l1 + "积分";
-        } else if (p == -1) {
+        } else if (p == 1) {
             DataBase.addScore(l1, Long.valueOf(who));
             return "你赢了 我出的是" + i.getValue() + "\n你获得了:" + l1 + "积分";
         }
