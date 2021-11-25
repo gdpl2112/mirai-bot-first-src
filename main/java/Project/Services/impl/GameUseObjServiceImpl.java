@@ -3,8 +3,8 @@ package Project.Services.impl;
 
 import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IGameService;
-import Project.Services.IServer.IGameUseObjService;
+import Project.Services.Iservice.IGameService;
+import Project.Services.Iservice.IGameUseObjService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -293,10 +293,10 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use107(long who) {
-            String str = personInfo.getUsing();
+            String str = personInfo.getUsinged();
             if (str == null || str.equals("null") || str.isEmpty()) {
                 remove(107, who);
-                putPerson(personInfo.setUsing("!@#$%^&*("));
+                putPerson(personInfo.setUsinged("!@#$%^&*("));
                 return "使用成功!!";
             } else {
                 return "使用失败,另一个正在使用..";

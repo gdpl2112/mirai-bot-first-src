@@ -2,10 +2,9 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
-import Entitys.Mess;
 import Entitys.UScore;
 import Project.DataBases.DataBase;
-import Project.Services.IServer.IScoreService;
+import Project.Services.Iservice.IScoreService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -25,13 +24,13 @@ public class ScoreServiceImpl implements IScoreService {
         StringBuilder str = new StringBuilder();
         UScore lll = DataBase.getAllInfo(who);
         str.append("剩的积分:").append(lll.getScore()).append("\r\n");
-        str.append("存的积分:").append(lll.getScore_());
+        str.append("存的积分:").append(lll.getSScore());
         return str.toString();
     }
 
     @Override
     public String getScore(Long who, long num) {
-        long l1 = DataBase.getAllInfo(who).getScore_().longValue();
+        long l1 = DataBase.getAllInfo(who).getSScore().longValue();
         if (l1 >= num) {
             DataBase.addScore_(-num, who);
             addScore(num, who);
@@ -98,9 +97,9 @@ public class ScoreServiceImpl implements IScoreService {
         } else {
 //            DataBase.setDate(getToday(), who, "day");
 //            DataBase.update(1, who, "days");
-            ls.setFz(0);
-            ls.setDay(Integer.valueOf(getToday()));
-            ls.setDays(ls.getDays().intValue() + 1);
+            ls.setFz(0L);
+            ls.setDay(Long.valueOf(getToday()));
+            ls.setDays((long) (ls.getDays().intValue() + 1));
             ls.setScore(ls.getScore() + 100);
             putInfo(ls);
             Object[] lines = regDay(who);

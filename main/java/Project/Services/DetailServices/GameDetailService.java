@@ -6,7 +6,7 @@ import Entitys.gameEntitys.PersonInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
-import Project.Services.IServer.IGameBoneService;
+import Project.Services.Iservice.IGameBoneService;
 import Project.Services.impl.GameBoneServiceImpl;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;

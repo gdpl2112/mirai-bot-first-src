@@ -3,7 +3,7 @@ package Project.Services.impl;
 import Entitys.Group;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ShopDataBase;
-import Project.Services.IServer.IShoperService;
+import Project.Services.Iservice.IShoperService;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.ShopItem;
 

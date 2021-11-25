@@ -1,7 +1,6 @@
 package Entitys.gameEntitys;
 
 
-import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 
 import java.lang.reflect.Field;
@@ -44,7 +43,7 @@ public class PersonInfo {
     /**
      * 等级
      */
-    public Integer level = 1;
+    public Integer Level = 1;
     /**
      * 支援次数
      */
@@ -116,7 +115,7 @@ public class PersonInfo {
     /**
      * 使用 物品 标志
      */
-    public String using = null;
+    public String usinged = null;
     /**
      * 名字QQ
      */
@@ -319,11 +318,11 @@ public class PersonInfo {
     }
 
     public Integer getLevel() {
-        return level;
+        return Level;
     }
 
     public PersonInfo setLevel(Integer level) {
-        this.level = level;
+        this.Level = level;
         return this;
     }
 
@@ -342,7 +341,7 @@ public class PersonInfo {
 
     public PersonInfo setXp(Long xp) {
         this.xp = xp;
-        if (level >= 150) this.xp = 0L;
+        if (Level >= 150) this.xp = 0L;
         if (xp > xpL * 1.5) this.xp = (long) (xpL * 1.5);
         return this;
     }
@@ -356,12 +355,12 @@ public class PersonInfo {
         return this;
     }
 
-    public String getUsing() {
-        return using;
+    public String getUsinged() {
+        return usinged;
     }
 
-    public PersonInfo setUsing(String using) {
-        this.using = using;
+    public PersonInfo setUsinged(String usinged) {
+        this.usinged = usinged;
         return this;
     }
 
@@ -408,10 +407,10 @@ public class PersonInfo {
     public void test() {
         if (hp <= 0 && dt1 <= System.currentTimeMillis()) {
             if (died) {
-                if (level % 10 == 0 || downed) {
+                if (Level % 10 == 0 || downed) {
                     xp = 0L;
                 } else {
-                    level--;
+                    Level--;
                     downed = true;
                 }
             } else {
@@ -447,13 +446,13 @@ public class PersonInfo {
     }
 
     public PersonInfo addLevel(Integer o) {
-        level += o;
+        Level += o;
         return this;
     }
 
     public PersonInfo addXp(Long o) {
         xp += o;
-        if (level >= 150) this.xp = 0L;
+        if (Level >= 150) this.xp = 0L;
         if (xp > xpL * 1.5) this.xp = (long) (xpL * 1.5);
         return this;
     }
@@ -678,7 +677,7 @@ public class PersonInfo {
 
     public Integer getWhType() {
         if (whType == -1)
-            whType = GameDataBase.wh2Type.get(wh);
+            return -1;
         return whType;
     }
 

@@ -192,10 +192,10 @@ public class DataBase {
                 long[] ll = getAllInfoOld(who);
                 uScore = new UScore();
                 uScore.setScore(ll[0]);
-                uScore.setScore_(ll[1]);
+                uScore.setSScore(ll[1]);
                 uScore.setTimesDay(ll[2]);
                 uScore.setTimes(ll[3]);
-                uScore.setTimes_(ll[4]);
+                uScore.setSTimes(ll[4]);
                 uScore.setDay(ll[5]);
                 uScore.setDays(ll[6]);
                 uScore.setFz(ll[7]);
@@ -233,7 +233,7 @@ public class DataBase {
 
     public static long addScore_(long l, Long who) {
         UScore score = getAllInfo(who);
-        score.setScore_(score.getScore_() + l);
+        score.setSScore(score.getSScore() + l);
         putInfo(score);
         return score.getScore();
     }
@@ -244,10 +244,10 @@ public class DataBase {
         try {
             int today = Integer.parseInt(getToday());
             if (score.getTimesDay().intValue() != today) {
-                score.setTimes(1);
-                score.setTimesDay(today);
+                score.setTimes(1L);
+                score.setTimesDay((long) today);
             } else {
-                score.setTimes(score.getTimes().intValue() + 1);
+                score.setTimes((long) (score.getTimes().intValue() + 1));
             }
             putInfo(score);
             addTimes_(1, who);
@@ -263,7 +263,7 @@ public class DataBase {
 
     private static long addTimes_(long l, Long who) {
         UScore score = getAllInfo(who);
-        score.setTimes_(score.getTimes_() + l);
+        score.setSTimes(score.getSTimes() + l);
         putInfo(score);
         return score.getScore();
     }
@@ -274,7 +274,9 @@ public class DataBase {
     }
 
     public static void setK(Long who, long l) {
-        putInfo(getAllInfo(who).setK(l));
+        UScore score = getAllInfo(who);
+        score.setK(l);
+        putInfo(score);
     }
 
     public static void AddAllScore(long num) {

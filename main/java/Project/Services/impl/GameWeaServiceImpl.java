@@ -1,8 +1,7 @@
 package Project.Services.impl;
 
-import Entitys.Mess;
 import Project.Services.DetailServices.GameWeaDetailService;
-import Project.Services.IServer.IGameWeaService;
+import Project.Services.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

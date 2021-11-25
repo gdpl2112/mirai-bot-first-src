@@ -6,7 +6,7 @@ import Entitys.Group;
 import Entitys.Mess;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.Ghost_Behavior;
-import Project.Services.IServer.IGameService;
+import Project.Services.Iservice.IGameService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -50,11 +50,11 @@ public class GameJoinDetailService {
 
     private GhostObj isUse107(String who) {
         PersonInfo personInfo = getInfo(who);
-        String da = personInfo.getUsing();
+        String da = personInfo.getUsinged();
         if (da == null || da.equals("null") || da.isEmpty())
             return null;
         else {
-            putPerson(personInfo.setUsing("null"));
+            putPerson(personInfo.setUsinged("null"));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
             if (n < 36) {

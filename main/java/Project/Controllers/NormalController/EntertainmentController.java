@@ -3,7 +3,7 @@ package Project.Controllers.NormalController;
 import Entitys.Group;
 import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
-import Project.Services.IServer.IOtherService;
+import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;

@@ -3,7 +3,6 @@ package io.github.kloping.Mirai.Main.Handlers;
 import Project.Controllers.NormalController.CustomController;
 import Project.Controllers.SessionController;
 import Project.DataBases.DataBase;
-import com.alibaba.druid.util.DaemonThreadFactory;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
@@ -103,7 +102,7 @@ public class MyHandler extends SimpleListenerHost {
         });
     }
 
-    private static final ExecutorService daeThreads = Executors.newFixedThreadPool(10, new DaemonThreadFactory("daemonThreads"));
+    private static final ExecutorService daeThreads = Executors.newFixedThreadPool(10);
 
     public static String upMessage = null;
 

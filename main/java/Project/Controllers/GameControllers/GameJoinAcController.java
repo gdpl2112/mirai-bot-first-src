@@ -4,7 +4,7 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IGameJoinAcService;
+import Project.Services.Iservice.IGameJoinAcService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;

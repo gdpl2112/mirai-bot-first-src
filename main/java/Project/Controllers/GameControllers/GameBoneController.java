@@ -3,7 +3,7 @@ package Project.Controllers.GameControllers;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.Services.IServer.IGameBoneService;
+import Project.Services.Iservice.IGameBoneService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

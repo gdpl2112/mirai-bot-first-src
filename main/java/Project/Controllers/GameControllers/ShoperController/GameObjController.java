@@ -4,7 +4,7 @@ package Project.Controllers.GameControllers.ShoperController;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IGameUseObjService;
+import Project.Services.Iservice.IGameUseObjService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;

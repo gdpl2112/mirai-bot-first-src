@@ -7,7 +7,7 @@ import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IGameService;
+import Project.Services.Iservice.IGameService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;

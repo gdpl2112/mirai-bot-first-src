@@ -5,8 +5,8 @@ import Entitys.Group;
 import Entitys.UScore;
 import Entitys.User;
 import Project.DataBases.DataBase;
-import Project.Services.IServer.IOtherService;
-import Project.Services.IServer.IScoreService;
+import Project.Services.Iservice.IOtherService;
+import Project.Services.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -125,7 +125,7 @@ public class ScoreController {
     @Action("我的发言")
     public String getSpeaks(User qq) {
         UScore ls = DataBase.getAllInfo(qq.getId());
-        return "你今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getTimes_() + "次";
+        return "你今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次";
     }
 
     @Action(value = "积分侦查.{1,}", otherName = "侦查积分.{1,}")
@@ -154,7 +154,7 @@ public class ScoreController {
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return ("该玩家尚未注册");
             UScore ls = DataBase.getAllInfo(who);
-            return builder.append("ta的:").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getTimes_() + "次").toString();
+            return builder.append("ta的:").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();
         }

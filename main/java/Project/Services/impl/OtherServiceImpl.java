@@ -4,7 +4,7 @@ package Project.Services.impl;
 import Entitys.Group;
 import Entitys.Mora;
 import Project.DataBases.DataBase;
-import Project.Services.IServer.IOtherService;
+import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;

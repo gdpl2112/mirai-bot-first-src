@@ -11,7 +11,7 @@ import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 import Project.DataBases.ZongMenDataBase;
 import Project.Services.DetailServices.GameDetailService;
-import Project.Services.IServer.IGameService;
+import Project.Services.Iservice.IGameService;
 import Project.Tools.Drawer;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;

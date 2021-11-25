@@ -6,7 +6,7 @@ import Entitys.User;
 import Project.Controllers.ConfirmController;
 import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
-import Project.Services.IServer.IManagerService;
+import Project.Services.Iservice.IManagerService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;

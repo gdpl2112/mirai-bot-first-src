@@ -4,7 +4,6 @@ import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Zon;
 import Entitys.gameEntitys.Zong;
 import Project.DataBases.ZongMenDataBase;
-import com.alibaba.druid.util.DaemonThreadFactory;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -19,7 +18,7 @@ import static Project.DataBases.ZongMenDataBase.*;
 
 @Entity
 public class ZongDetailService {
-    private static ExecutorService threads = Executors.newFixedThreadPool(10, new DaemonThreadFactory("zonDae"));
+    private static ExecutorService threads = Executors.newFixedThreadPool(10);
 
     public static void OnKilled(Long who, Long xp) {
         threads.execute(() -> {

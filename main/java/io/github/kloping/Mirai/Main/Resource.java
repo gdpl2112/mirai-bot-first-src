@@ -2,10 +2,10 @@ package io.github.kloping.Mirai.Main;
 
 import Entitys.Group;
 import Entitys.User;
+import Project.ASpring.SpringStarter;
 import Project.DataBases.*;
 import Project.Network.NetWorkMain;
 import Project.Plugins.NetMain;
-import com.alibaba.druid.util.DaemonThreadFactory;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -31,7 +31,7 @@ import static Project.Controllers.GameControllers.GameH2LController.check;
 
 public class Resource {
     public static final ExecutorService threads = Executors.newFixedThreadPool(20);
-    public static final ExecutorService DaeThreads = new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10), new DaemonThreadFactory("a"));
+    public static final ExecutorService DaeThreads = new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 
     public static final String myMame = "0号";
 
@@ -70,7 +70,6 @@ public class Resource {
         shopDataBase = new ShopDataBase(datePath);
         skillDataBase = new SkillDataBase(datePath);
     }
-
 
     protected static void startTimer() {
         Timer timer = new Timer();
@@ -115,7 +114,28 @@ public class Resource {
             }
         });
         StarterApplication.run(cla);
+        SpringStarter.main(new String[]{});
     }
+
+    /*   static String url;
+       static String driver;
+       static String user;
+       static String pwd;
+
+       @Bean
+       public SqlSessionFactory b1() {
+           PooledDataSource dataSource = new PooledDataSource();
+           dataSource.setDriver(driver);
+           dataSource.setUsername(user);
+           dataSource.setPassword(pwd);
+           dataSource.setUrl(url);
+           TransactionFactory transactionFactory = new JdbcTransactionFactory();
+           Environment environment = new Environment("development", transactionFactory, dataSource);
+           Configuration configuration = new Configuration(environment);
+           SqlSessionFactory SqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+           return SqlSessionFactory;
+       }
+    */
 
     public static void onReturnResult(Object o, Object[] objects) {
         long v1 = System.currentTimeMillis();

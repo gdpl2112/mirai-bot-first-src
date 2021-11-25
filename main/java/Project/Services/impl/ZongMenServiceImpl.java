@@ -8,7 +8,7 @@ import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ZongMenDataBase;
 import Project.Services.DetailServices.ZongDetailService;
-import Project.Services.IServer.IZongMenService;
+import Project.Services.Iservice.IZongMenService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -221,7 +221,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (info.getCbk1() > System.currentTimeMillis())
             return "贡献时间未到 => " + getTimeDDHHMM(info.getCbk1());
         zon.setXper(zon.getXper() + info.getLevel());
-        zong.setXp(zong.getXp() + info.level);
+        zong.setXp(zong.getXp() + info.Level);
         info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * 4);
         info.addGold((long) -info.getLevel());
         putZonInfo(zon);

@@ -8,7 +8,7 @@ import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
-import Project.Services.IServer.ISkillService;
+import Project.Services.Iservice.ISkillService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
 

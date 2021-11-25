@@ -4,7 +4,7 @@ package Project.Controllers.GameControllers.ShoperController;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IShoperService;
+import Project.Services.Iservice.IShoperService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

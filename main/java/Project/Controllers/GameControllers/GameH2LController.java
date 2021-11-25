@@ -1,19 +1,19 @@
 package Project.Controllers.GameControllers;
 
 import Entitys.Group;
-import Entitys.gameEntitys.PersonInfo;
 import Entitys.User;
+import Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
-import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.annotations.AllMess;
+import io.github.kloping.MySpringTool.annotations.Before;
+import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.number.NumberUtils;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.CanGroup;
-import static Project.DataBases.GameDataBase.*;
+import static Project.DataBases.GameDataBase.getInfo;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -59,7 +59,7 @@ public class GameH2LController {
      */
         }
     }
-
+/*
     @Action("创建分身<.*=>at>")
     public String m1(@Param("at") String at, long qq) {
         if (qq != Resource.superQL) return "?";
@@ -91,5 +91,6 @@ public class GameH2LController {
         PersonInfo personInfo = getInfo(q);
         deleteTempInfo(personInfo);
         return "OKKKKKKKK";
-    }
+    }*/
+
 }

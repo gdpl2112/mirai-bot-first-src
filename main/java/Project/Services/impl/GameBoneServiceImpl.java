@@ -3,7 +3,7 @@ package Project.Services.impl;
 
 import Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
-import Project.Services.IServer.IGameBoneService;
+import Project.Services.Iservice.IGameBoneService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

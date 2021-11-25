@@ -1,4 +1,4 @@
-package Project.Services.IServer;
+package Project.Services.Iservice;
 
 
 import Entitys.Group;

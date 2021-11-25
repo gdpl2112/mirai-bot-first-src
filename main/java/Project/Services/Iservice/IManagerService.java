@@ -1,4 +1,4 @@
-package Project.Services.IServer;
+package Project.Services.Iservice;
 
 
 import net.mamoe.mirai.contact.Group;

@@ -412,6 +412,7 @@ public class GameDataBase {
      * 23:黑暗圣龙 24:修罗神剑  25:青龙  26:海神  27:锄头  28:斧头  29:杀神昊天锤 30:魔神剑 31:暗金恐爪熊
      */
     private static void InitWhType() {
+        wh2Type.put(-1, -1);
         wh2Type.put(1, 0);
         wh2Type.put(2, 1);//1
         wh2Type.put(3, 0);
@@ -729,12 +730,12 @@ public class GameDataBase {
         testMan(id.longValue());
         String pathN = path + "/dates/users/" + id;
         Warp warp = new Warp().setId(id.toString());
-        return FileInitializeValue.getValue(pathN+"/warp", warp, true);
+        return FileInitializeValue.getValue(pathN + "/warp", warp, true);
     }
 
     public static synchronized Warp setWarp(Warp warp) {
         String pathN = path + "/dates/users/" + warp.getId();
-        return FileInitializeValue.putValues(pathN+"/warp", warp, true);
+        return FileInitializeValue.putValues(pathN + "/warp", warp, true);
     }
 
     /**

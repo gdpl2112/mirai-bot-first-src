@@ -2,7 +2,7 @@ package Project.Controllers.NormalController;
 
 
 import Entitys.Group;
-import Project.Services.IServer.IOtherService;
+import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;

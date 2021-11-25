@@ -118,7 +118,7 @@ public class NetWorkMain {
 
     private static void getSc(OutputStream os, long v) {
         UScore lll = getAllInfo(v);
-        long v2 = lll.getScore_();
+        long v2 = lll.getSScore();
         OutputOffer(os, "score", v2 + "");
     }
 
