@@ -18,8 +18,8 @@ import java.io.File;
 import static Project.DataBases.DataBase.getAllInfo;
 import static Project.DataBases.GameDataBase.getInfo;
 
-@SpringBootApplication
-@MapperScan("Project.ASpring")
+@SpringBootApplication(scanBasePackages = {"Project.ASpring.mapper"})
+@MapperScan("Project.ASpring.mapper")
 @PropertySource(value = {"file:./application.yml"})
 public class SpringStarter {
 
@@ -49,7 +49,7 @@ public class SpringStarter {
                     System.out.println("moved sc: " + q);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.err.println(file);
+                    System.err.println(f);
                 }
             }
 
@@ -70,7 +70,7 @@ public class SpringStarter {
                     System.out.println("moved pi: " + q);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.err.println(file);
+                    System.err.println(f);
                 }
             }
             System.out.println("moved pi : all");

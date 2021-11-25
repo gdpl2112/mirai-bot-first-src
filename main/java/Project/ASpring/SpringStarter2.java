@@ -18,8 +18,8 @@ import java.io.File;
 import static Project.DataBases.DataBase.getAllInfo;
 import static Project.DataBases.GameDataBase.getInfo;
 
-@SpringBootApplication
-@MapperScan("Project.ASpring")
+@SpringBootApplication(scanBasePackages = {"Project.ASpring.mapper"})
+@MapperScan("Project.ASpring.mapper")
 @PropertySource(value = {"file:./application2.yml"})
 public class SpringStarter2 {
 

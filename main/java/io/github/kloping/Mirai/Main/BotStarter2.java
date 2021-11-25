@@ -9,6 +9,8 @@ import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
 
+import static Project.Controllers.NormalController.SuperController.reg1;
+import static Project.Controllers.NormalController.SuperController.reg2;
 import static Project.Tools.Tool.deleteDir;
 import static Project.Tools.Tool.getLogTimeFormat;
 import static io.github.kloping.Mirai.Main.Resource.*;
@@ -34,6 +36,7 @@ public class BotStarter2 {
         Resource.Init();
         Resource.SetterStarterApplication(BotStarter2.class);
         SpringStarter2.main(args);
+        reg2();
         bot.login();
         BotStarter2.afterLogin();
     }
