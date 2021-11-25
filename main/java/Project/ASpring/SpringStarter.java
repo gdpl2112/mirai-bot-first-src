@@ -10,6 +10,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -20,14 +22,17 @@ import static Project.DataBases.GameDataBase.getInfo;
 
 @SpringBootApplication(scanBasePackages = {"Project.ASpring.mapper"})
 @MapperScan("Project.ASpring.mapper")
-@PropertySource(value = {"file:./application.yml"})
+@Configuration
 public class SpringStarter {
 
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
 
     public static void main(String[] args) {
-        configuration = SpringApplication.run(SpringStarter.class);
+        args = new String[]{
+                "--spring.config.location=./spring/conf/application.yml"
+        };
+        configuration = SpringApplication.run(SpringStarter.class,args);
         environment = configuration.getEnvironment();
         System.out.println("==============spring papered=================");
         scoreMapper = configuration.getBean(UScoreMapper.class);

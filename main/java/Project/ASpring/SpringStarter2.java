@@ -27,7 +27,10 @@ public class SpringStarter2 {
     public static ConfigurableEnvironment environment;
 
     public static void main(String[] args) {
-        configuration = SpringApplication.run(SpringStarter2.class);
+        args = new String[]{
+                "--spring.config.location=./spring/conf/application2.yml"
+        };
+        configuration = SpringApplication.run(SpringStarter2.class,args);
         environment = configuration.getEnvironment();
         System.out.println("==============spring papered=================");
         scoreMapper = configuration.getBean(UScoreMapper.class);
@@ -52,7 +55,6 @@ public class SpringStarter2 {
                     System.err.println(f);
                 }
             }
-
             System.out.println("moved sc : all");
         } catch (Exception e) {
             e.printStackTrace();
