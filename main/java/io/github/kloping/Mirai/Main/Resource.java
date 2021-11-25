@@ -114,7 +114,6 @@ public class Resource {
             }
         });
         StarterApplication.run(cla);
-        SpringStarter.main(new String[]{});
     }
 
     /*   static String url;

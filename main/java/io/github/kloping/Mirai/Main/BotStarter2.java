@@ -1,5 +1,6 @@
 package io.github.kloping.Mirai.Main;
 
+import Project.ASpring.SpringStarter2;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import net.mamoe.mirai.Bot;
@@ -32,6 +33,7 @@ public class BotStarter2 {
         Resource.datePath = "./Libs2";
         Resource.Init();
         Resource.SetterStarterApplication(BotStarter2.class);
+        SpringStarter2.main(args);
         bot.login();
         BotStarter2.afterLogin();
     }
