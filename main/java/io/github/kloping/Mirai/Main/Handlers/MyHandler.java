@@ -1,5 +1,6 @@
 package io.github.kloping.Mirai.Main.Handlers;
 
+import Project.Controllers.ControllerTool;
 import Project.Controllers.NormalController.CustomController;
 import Project.Controllers.SessionController;
 import Project.DataBases.DataBase;
@@ -113,6 +114,7 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMemberRequest(@NotNull MemberJoinRequestEvent event) {
         try {
+            if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
             MessageChainBuilder builder = new MessageChainBuilder();
             joinRequestEvent = event;
             builder.append("收到加群申请:").append("\r\n");
@@ -137,6 +139,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberJoined(MemberJoinEvent event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("欢迎新人,芜湖~~").append(new Face(Face.DA_CALL)).append("\n");
         builder.append("QQ号:").append(event.getMember().getId() + "").append("\r\n");
@@ -148,9 +151,10 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberLeft(MemberLeaveEvent.Quit event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("有个人,从小道溜了,好难过").append(new Face(Face.NAN_GUO)).append("\n");
-        builder.append("群里只剩").append(String.valueOf(event.getGroup().getMembers().size() + 1))
+        builder.append("群里只剩").append(String.valueOf(event.getGroup().getMembers().size()))
                 .append("位成员了\n");
         builder.append("(" + event.getUser().getId() + ")");
         event.getGroup().sendMessage(builder.build());
@@ -158,6 +162,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberLeave(MemberLeaveEvent.Kick event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("有个人,被凶狠踢出群聊,好吓机器人").append(new Face(Face.HAI_PA)).append("\n");
         Member member = event.getOperator();
@@ -171,6 +176,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberNameCardModify(MemberCardChangeEvent event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("有个靓仔偷偷改了群昵称,还以为我不知道").append(new Face(Face.XIE_YAN_XIAO)).append("\n");
         builder.append("谁: ").append(event.getMember().getId() + "").append("\n");
@@ -194,6 +200,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberHonorChangeEvent_Achieve(MemberHonorChangeEvent.Achieve event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("恭喜恭喜\n");
         String nameCard = event.getMember().getId() == event.getBot().getId() ? "我"
@@ -206,6 +213,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberHonorChangeEvent_Lose(MemberHonorChangeEvent.Lose event) {
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("哦吼..\n");
         String nameCard = event.getMember().getId() == event.getBot().getId() ? "我"
