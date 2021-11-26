@@ -660,6 +660,7 @@ public class GameDataBase {
                 Field field = null;
                 Class cls = null;
                 try {
+                    if (k.equals("level")) k = "Level";
                     field = obj.getClass().getDeclaredField(k);
                     cls = field.getType();
                 } catch (Exception e) {
