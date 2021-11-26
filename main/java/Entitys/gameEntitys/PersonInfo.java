@@ -1,6 +1,7 @@
 package Entitys.gameEntitys;
 
 
+import Project.DataBases.GameDataBase;
 import Project.DataBases.SkillDataBase;
 
 import java.lang.reflect.Field;
@@ -677,7 +678,7 @@ public class PersonInfo {
 
     public Integer getWhType() {
         if (whType == -1)
-            return -1;
+            return (whType = GameDataBase.wh2Type.get(wh.intValue()));
         return whType;
     }
 

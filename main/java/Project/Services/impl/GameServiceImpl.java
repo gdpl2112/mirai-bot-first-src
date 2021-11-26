@@ -670,7 +670,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo p1 = getInfo(q1);
         PersonInfo p2 = getInfo(q2);
         if (p1.getWh() == 0 || p2.getWh() == 0) return false;
-        if (p1.getWhType().longValue() == 2) return true;
+        if (p1.getWhType().intValue() == 2 || p2.getWhType().intValue() == 2) return true;
         return getInfo(q1).getWhType().longValue() == getInfo(q2).getWhType().longValue();
     }
 
