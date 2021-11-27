@@ -332,4 +332,14 @@ public class ManagerController {
             throw new NoRunException();
         }
     }
+
+    @Action("设置成语接龙最大失败次数<\\d=>s>")
+    public String m1(@Param("s") Integer s) {
+        if (s != null && s > 0) {
+            s = s > 10 ? 10 : s;
+            EntertainmentController.maxFail = s;
+            return "设置最大次数为: " + s;
+        }
+        return "&error";
+    }
 }

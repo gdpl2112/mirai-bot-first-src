@@ -1,8 +1,11 @@
 package Project.Controllers.NormalController;
 
 import Entitys.Group;
+import Entitys.UScore;
+import Entitys.User;
 import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
+import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -13,6 +16,8 @@ import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.net.URLEncoder;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.TimerController.baseUrlCloud;
@@ -27,6 +32,7 @@ public class EntertainmentController {
         println(this.getClass().getSimpleName() + "构建");
 
     }
+
     @Before
     public void before(Group group) throws NoRunException {
         if (!AllK)
@@ -35,6 +41,7 @@ public class EntertainmentController {
             throw new NoRunException();
         }
     }
+
     @AutoStand
     IOtherService otherService;
 
@@ -167,4 +174,71 @@ public class EntertainmentController {
         return Tool.pathToImg(str);
     }
 
+    public static int maxFail = 5;
+    public Map<Long, Idiom> longIdiomMap = new ConcurrentHashMap<>();
+
+    @Action("开始成语接龙")
+    public String s1(Group group) {
+        if (longIdiomMap.containsKey(group.getId())) {
+            return "游戏已经开始了哦~";
+        }
+        Idiom idiom = new Idiom(DataBase.path + "/idiom.txt") {
+            @Override
+            public void fail(String s) {
+                longIdiomMap.remove(group.getId());
+            }
+        };
+        longIdiomMap.put(group.getId(), idiom);
+        return "游戏开始:\n当前成语: " + idiom.getRandom() + "\n命令:我接xxxx";
+    }
+
+    @Action("我接<.+=>str>")
+    public String s2(@Param("str") String str, Group group, User user) {
+        Idiom idiom = longIdiomMap.get(group.getId());
+        if (idiom == null) return "游戏未开始:请说 开始成语接龙";
+        UScore score = DataBase.getAllInfo(user.getId());
+        if (score.getScore() < 1)
+            return "您的积分不足...";
+        String s = idiom.meet(str);
+        StringBuilder sb = new StringBuilder();
+        switch (s) {
+            case "-1":
+                sb.append("必须是4个字的成语哦\n");
+                sb.append("扣除1积分");
+                score.setScore(score.getScore() - 1);
+                DataBase.putInfo(score);
+                break;
+            case "-2":
+                sb.append("这好像不是一个成语呢\n");
+                sb.append("扣除1积分");
+                score.setScore(score.getScore() - 1);
+                DataBase.putInfo(score);
+                break;
+            case "-3":
+                sb.append("音节好像不对哦\n");
+                sb.append("(").append(idiom.getUpPinYin()).append(")");
+                sb.append("扣除1积分");
+                score.setScore(score.getScore() - 1);
+                DataBase.putInfo(score);
+                break;
+            case "-4":
+                sb.append("这个词已经用过了哦\n");
+                sb.append("(").append(idiom.getUpPinYin()).append(")");
+                sb.append("扣除1积分");
+                score.setScore(score.getScore() - 1);
+                DataBase.putInfo(score);
+            default:
+                sb.append(s);
+                sb.append("接上了\n");
+                sb.append("获得1积分");
+                score.setScore(score.getScore() + 1);
+                DataBase.putInfo(score);
+                break;
+        }
+        sb.append("\n当前成语: ").append(idiom.getUpWord()).append("\n")
+                .append("末尾音节: ").append(idiom.getUpPinYin()).append("\n");
+        if (!longIdiomMap.containsKey(group.getId()))
+            sb.append("\n游戏结束!!");
+        return sb.toString();
+    }
 }
