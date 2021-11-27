@@ -239,7 +239,7 @@ public class EntertainmentController {
         sb.append("\n当前成语: ").append(idiom.getUpWord()).append("\n")
                 .append("末尾音节: ").append(idiom.getUpPinYin()).append("\n");
         if (!longIdiomMap.containsKey(group.getId()))
-            sb.append("\n游戏结束!!");
+            sb.append("游戏结束!!");
         return sb.toString();
     }
 }

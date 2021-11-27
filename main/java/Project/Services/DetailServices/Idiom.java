@@ -91,7 +91,11 @@ public abstract class Idiom {
     public String meet(String s) {
         if (s == null) return null;
         if (s.length() != 4) return "-1";
-        if (hist.contains(s)) return "-4";
+        if (hist.contains(s)) {
+            if (++f1 >= maxFail)
+                fail(upWord);
+            return "-4";
+        }
         char c1 = s.charAt(0);
         if (idiom.containsKey(c1)) {
             if (idiom.get(c1).contains(s)) {
@@ -102,6 +106,8 @@ public abstract class Idiom {
                     f1 = 0;
                     return s;
                 }
+                if (++f1 >= maxFail)
+                    fail(upWord);
                 return "-3";
             }
         }
