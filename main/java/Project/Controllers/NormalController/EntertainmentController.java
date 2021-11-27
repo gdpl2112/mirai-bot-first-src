@@ -227,6 +227,7 @@ public class EntertainmentController {
                 sb.append("扣除1积分");
                 score.setScore(score.getScore() - 1);
                 DataBase.putInfo(score);
+                break;
             default:
                 sb.append(s);
                 sb.append("接上了\n");
