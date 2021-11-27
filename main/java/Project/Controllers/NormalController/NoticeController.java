@@ -43,7 +43,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
-        sb.append("11.27: 开始成语接龙 (正在完善 ").append("\n");
+        sb.append("11.27: 开始成语接龙 (完善 ").append("\n");
         sb.append("11.26: 一些 欢迎啥的 ").append("\n");
         sb.append("11.25:  看似更新了 其实没更新 ").append("\n");
         sb.append("11.23: 修复已知 Bug , 融合关系 转移至 \"关系列表\" ").append("\n");

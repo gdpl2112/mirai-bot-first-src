@@ -57,7 +57,7 @@ public abstract class Idiom {
         try {
             if (!Judge.isNotNull(path)) return null;
             List<String> ls = new LinkedList<>();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "GB2312"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "UTF-8"));
             String line = null;
             while ((line = br.readLine()) != null) {
                 ls.add(line);
