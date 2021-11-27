@@ -192,12 +192,14 @@ public class EntertainmentController {
         return "游戏开始:\n当前成语: " + idiom.getRandom() + "\n命令:我接xxxx";
     }
 
+    private static int eveS1 = 2;
+
     @Action("我接<.+=>str>")
     public String s2(@Param("str") String str, Group group, User user) {
         Idiom idiom = longIdiomMap.get(group.getId());
         if (idiom == null) return "游戏未开始:请说 开始成语接龙";
         UScore score = DataBase.getAllInfo(user.getId());
-        if (score.getScore() < 1)
+        if (score.getScore() < eveS1)
             return "您的积分不足...";
         String s = idiom.meet(str);
         StringBuilder sb = new StringBuilder();
@@ -209,37 +211,44 @@ public class EntertainmentController {
                 DataBase.putInfo(score);
                 break;
             case "-2":
-                sb.append("这好像不是一个成语呢\n");
-                sb.append("扣除1积分");
-                score.setScore(score.getScore() - 1);
+                sb.append("\"").append(str);
+                sb.append("\"好像不是一个成语呢\n");
+                sb.append("扣除").append(eveS1).append("积分");
+                score.setScore(score.getScore() - eveS1);
                 DataBase.putInfo(score);
                 break;
             case "-3":
                 sb.append("音节好像不对哦\n");
-                sb.append("(").append(idiom.getUpPinYin()).append(")");
-                sb.append("扣除1积分");
-                score.setScore(score.getScore() - 1);
+                sb.append("扣除").append(eveS1).append("积分");
+                score.setScore(score.getScore() - eveS1);
                 DataBase.putInfo(score);
                 break;
             case "-4":
                 sb.append("这个词已经用过了哦\n");
-                sb.append("(").append(idiom.getUpPinYin()).append(")");
-                sb.append("扣除1积分");
-                score.setScore(score.getScore() - 1);
+                sb.append("扣除").append(eveS1).append("积分");
+                score.setScore(score.getScore() - eveS1);
                 DataBase.putInfo(score);
                 break;
             default:
                 sb.append(s);
                 sb.append("接上了\n");
-                sb.append("获得1积分");
-                score.setScore(score.getScore() + 1);
+                sb.append("获得").append(eveS1 * 2).append("积分");
+                score.setScore(score.getScore() + eveS1 * 2);
                 DataBase.putInfo(score);
                 break;
         }
+        sb.append("\n第").append(idiom.getHist().size()).append("次的接龙");
         sb.append("\n当前成语: ").append(idiom.getUpWord()).append("\n")
-                .append("末尾音节: ").append(idiom.getUpPinYin()).append("\n");
-        if (!longIdiomMap.containsKey(group.getId()))
-            sb.append("游戏结束!!");
+                .append("末尾音节: ").append(idiom.getUpPinYin());
+        if (!longIdiomMap.containsKey(group.getId())) {
+            sb.append("\n游戏结束!!");
+            sb.append("\n=========\n");
+            for (String s1 : idiom.getHist()) {
+                sb.append(s1).append("=>");
+            }
+            if (sb.toString().endsWith("=>"))
+                sb = sb.replace(sb.length() - 2, sb.length(), "");
+        }
         return sb.toString();
     }
 }

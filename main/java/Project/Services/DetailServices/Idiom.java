@@ -158,4 +158,8 @@ public abstract class Idiom {
     public String getUpPinYin() {
         return upPinYin;
     }
+
+    public Set<String> getHist() {
+        return hist;
+    }
 }
