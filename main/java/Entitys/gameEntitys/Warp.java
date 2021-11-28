@@ -18,9 +18,8 @@ public class Warp {
     public Warp setId(String id) {
         try {
             this.id = Long.parseLong(id.trim());
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
         return this;
     }
+
 }

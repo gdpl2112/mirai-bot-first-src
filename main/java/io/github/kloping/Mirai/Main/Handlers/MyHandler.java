@@ -90,9 +90,9 @@ public class MyHandler extends SimpleListenerHost {
                 Nudge nudge = member.nudge();
                 nudge.sendTo(group);
                 group.sendMessage(message);
-                upMessage = null;
             } else {
-                upMessage = text;
+                if (text.length() < 10)
+                    upMessage = text;
             }
             try {
                 String json = MessageChain.serializeToJsonString(message);
