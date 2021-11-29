@@ -117,8 +117,8 @@ public class Tool {
      * @param qq
      * @return
      */
-    public static String getTouUrl(Long qq) {
-        return "http://q2.qlogo.cn/headimg_dl?dst_uin=" + qq + "&spec=100";
+    public static String getTouUrl(long qq) {
+        return "https://q1.qlogo.cn/g?b=qq&nk=" + qq + "&s=640";
     }
 
     /**

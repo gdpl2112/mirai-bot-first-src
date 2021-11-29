@@ -82,8 +82,8 @@ public class EventTools {
     }
 
     private static boolean isIllegal(String str) {
-        if (str.matches(".{0,}\\[@\\d{1,}\\].{0,}")) {
+        if (str.matches(".*\\[@\\d+\\].*")) {
             return true;
-        } else return str.matches(".{0,}\\[(图片|语音)\\].{0,}");
+        } else return str.matches(".*\\[(图片|语音)\\].*");
     }
 }

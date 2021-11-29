@@ -7,6 +7,7 @@ import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
+import Project.Tools.ImageDrawer;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -15,8 +16,11 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
+import java.io.File;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
@@ -250,5 +254,22 @@ public class EntertainmentController {
                 sb = sb.replace(sb.length() - 2, sb.length(), "");
         }
         return sb.toString();
+    }
+
+    public static final File[] files = new File("./images/tui").listFiles();
+
+    @Action("/推.*")
+    public String m1(@AllMess String m) {
+        long q = MessageTools.getAtFromString(m);
+        if (q == -1) return "目前只支@的形式";
+        try {
+            URL u = new URL(Tool.getTouUrl(q));
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
+            outFile = ImageDrawer.getTuiGift(files, u, outFile);
+            return Tool.pathToImg(outFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error:for\n" + e.getMessage();
+        }
     }
 }
