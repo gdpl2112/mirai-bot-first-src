@@ -638,6 +638,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     private String ReturnNow(Long id) {
+        histInfos.remove(id);
         boolean k1 = deleteDir(new File(GameDataBase.path + "/dates/users/" + id));
         boolean k2 = SkillDataBase.remove(id);
         return k1 && k2 ? "转生成功" : "转生失败";

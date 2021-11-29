@@ -4,6 +4,7 @@ import Entitys.Group;
 import Project.StringSet;
 import Project.Tools.Tool;
 import Project.Utils.DBUtils;
+import Project.broadcast.PicBroadcast;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -137,8 +138,9 @@ public class CustomController {
         }
     }
 
-    @Action("\\[Pic:<.+=>id>")
-    public String onPic(@AllMess String mess, @Param("id") String id, long qq) {
+    @Action("\\[Pic:.+")
+    public String onPic(@AllMess String mess, Group group, Object[] objects, long qq) {
+        PicBroadcast.INSTANCE.broadcast(qq, group.getId(), mess, objects);
         if (qlist.containsKey(qq)) {
             String str = qlist.get(qq);
             str = str.replaceFirst("\\*", mess);
