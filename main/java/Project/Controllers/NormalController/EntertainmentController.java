@@ -261,9 +261,16 @@ public class EntertainmentController {
     @Action("/推.*")
     public String m1(@AllMess String m) {
         long q = MessageTools.getAtFromString(m);
-        if (q == -1) return "目前只支@的形式";
+        String urlStr = null;
+        if (q == -1) {
+            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            if (urlStr == null)
+                return "目前只支@的形式、或携带图片";
+        } else {
+            urlStr = Tool.getTouUrl(q);
+        }
         try {
-            URL u = new URL(Tool.getTouUrl(q));
+            URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
             outFile = ImageDrawer.getTuiGift(files, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
