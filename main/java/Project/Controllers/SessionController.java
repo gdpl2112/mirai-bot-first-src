@@ -33,7 +33,6 @@ public class SessionController {
                 group.sendMessage(new MessageChainBuilder().append(new At(q)).append(result.substring(1)).build());
             else
                 group.sendMessage(result);
-
     }
 
     public static final List<Long> InTheSession = new CopyOnWriteArrayList<>();

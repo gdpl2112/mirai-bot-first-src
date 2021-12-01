@@ -17,9 +17,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.DataBases.SkillDataBase.toPercent;
 import static Project.DataBases.ZongMenDataBase.getZongInfo;
 import static Project.DataBases.ZongMenDataBase.qq2id;
+import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Tools.Tool.filterBigNum;
 
 public class Drawer {

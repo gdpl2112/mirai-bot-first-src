@@ -7,8 +7,8 @@ import Project.Tools.JSONUtils;
 import java.io.Serializable;
 
 import static Project.DataBases.GameDataBase.getNameById;
-import static Project.DataBases.SkillDataBase.percentTo;
-import static Project.DataBases.SkillDataBase.toPercent;
+import static Project.DataBases.skill.SkillDataBase.percentTo;
+import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.randA;
@@ -25,6 +25,7 @@ public class GhostObj implements Serializable {
     @JSONUtils.Transient
     public static final int NotNeed = 0, NeedAndNo = 1, NeedAndY = 2, HELPING = 3;
     private String name;
+    private Long with = -1L;
 
     public GhostObj() {
     }
@@ -164,5 +165,14 @@ public class GhostObj implements Serializable {
                 return ghostObj;
         }
         return null;
+    }
+
+    public Long getWith() {
+        return with;
+    }
+
+    public GhostObj setWith(Long with) {
+        this.with = with;
+        return this;
     }
 }

@@ -4,7 +4,7 @@ import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.Tools.GameTool;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -12,8 +12,8 @@ import java.lang.reflect.Field;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
-import static Project.DataBases.SkillDataBase.t719;
-import static Project.DataBases.SkillDataBase.t75;
+import static Project.DataBases.skill.SkillDataBase.t719;
+import static Project.DataBases.skill.SkillDataBase.t75;
 import static Project.Services.DetailServices.GameDetailService.Beaten;
 import static Project.Services.DetailServices.GameDetailService.onAtt;
 import static Project.Services.DetailServices.GameJoinDetailService.AttGho;

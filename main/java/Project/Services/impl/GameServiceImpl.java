@@ -8,7 +8,7 @@ import Entitys.gameEntitys.Zon;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.DataBases.ZongMenDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.IGameService;

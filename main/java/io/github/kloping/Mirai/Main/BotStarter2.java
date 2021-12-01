@@ -25,7 +25,7 @@ public class BotStarter2 {
         abot = get(6);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
-        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
+        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.REGISTER);
         botConfiguration.setCacheDir(new File("./cache2"));
         botConfiguration.fileBasedDeviceInfo("./devices/device3.json");
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
@@ -49,5 +49,4 @@ public class BotStarter2 {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
     }
-
 }

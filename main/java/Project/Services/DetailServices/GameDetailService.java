@@ -5,10 +5,11 @@ import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.Services.Iservice.IGameBoneService;
 import Project.Services.impl.GameBoneServiceImpl;
 import Project.Tools.Tool;
+import Project.broadcast.HpChangeBroadcast;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -17,7 +18,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import java.io.File;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.SkillDataBase.*;
+import static Project.DataBases.skill.SkillDataBase.*;
 
 @Entity
 public class GameDetailService {
@@ -168,7 +169,11 @@ public class GameDetailService {
             personInfo.addHj(-sv);
             sb.append(String.format("\n消耗了%s精神力\n============", sv));
         }
-        //=====
+        //=====广播
+        HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), personInfo.getHp(), personInfo.getHp() - oNow,
+                oNow, qq2.longValue()
+                , qq2.longValue() > 0 ? HpChangeBroadcast.HpChangeReceiver.type.fromQ : HpChangeBroadcast.HpChangeReceiver.type.fromG
+        );
         personInfo.addHp(-oNow);
         personInfo.test();
         putPerson(personInfo);

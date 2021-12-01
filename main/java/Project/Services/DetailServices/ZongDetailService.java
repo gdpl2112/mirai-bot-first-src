@@ -18,12 +18,12 @@ import static Project.DataBases.ZongMenDataBase.*;
 
 @Entity
 public class ZongDetailService {
+
     private static ExecutorService threads = Executors.newFixedThreadPool(10);
 
     public static void OnKilled(Long who, Long xp) {
         threads.execute(() -> {
             try {
-                Thread.sleep(20 * 1000);
                 startShare(who, xp);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -87,15 +87,18 @@ public class ZongDetailService {
                             xpr = info.getXpL() / 2;
                         }
                     }
-
                     if (xpr < 20)
                         xpr = 20;
-
                     if (t == 2)
                         xpr *= 0.15f;
                     System.out.println(who + "得到" + xp + "====共享到" + z1 + "===>" + xpr + "点");
                     info.addXp(xpr);
                     putPerson(info);
+                    try {
+                        Thread.sleep(5 * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -146,7 +149,7 @@ public class ZongDetailService {
                 zon_.setTimes(1);
                 putZonInfo(zon_);
                 for (Number who1 : zong.getElder()) {
-                    Long who = Long.valueOf(who1 + "");
+                    Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
                     zon1.setTimes(1);
                     putZonInfo(zon1);
@@ -160,7 +163,7 @@ public class ZongDetailService {
                 putPerson(getInfo(zon_.getQq()).setHelpC(-1).setHelpToc(-1));
                 putZonInfo(zon_);
                 for (Number who1 : zong.getElder()) {
-                    Long who = Long.valueOf(who1 + "");
+                    Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
                     putPerson(getInfo(who).setHelpC(-1).setHelpToc(-1));
                     zon1.setTimes(1);

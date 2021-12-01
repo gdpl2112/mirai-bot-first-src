@@ -14,7 +14,7 @@ import java.util.*;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.getInfo;
-import static Project.DataBases.SkillDataBase.getSkillInfo;
+import static Project.DataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 

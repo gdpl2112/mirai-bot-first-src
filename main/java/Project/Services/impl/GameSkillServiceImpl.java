@@ -6,7 +6,7 @@ import Entitys.gameEntitys.Skill;
 import Entitys.gameEntitys.SkillInfo;
 import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.ISkillService;
 import Project.Tools.GameTool;
@@ -15,7 +15,7 @@ import Project.Tools.Tool;
 import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.SkillDataBase.*;
+import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameSkillDetailService.*;
 
 import io.github.kloping.MySpringTool.annotations.Entity;

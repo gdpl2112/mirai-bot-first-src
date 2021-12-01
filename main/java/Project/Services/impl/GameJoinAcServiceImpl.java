@@ -1,8 +1,8 @@
 package Project.Services.impl;
 
 
-import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
+import Entitys.gameEntitys.GhostObj;
 import Project.Services.DetailServices.GameJoinDetailService;
 import Project.Services.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.SkillDataBase.percentTo;
-import static Project.DataBases.SkillDataBase.toPercent;
+import static Project.DataBases.skill.SkillDataBase.percentTo;
+import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.Services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.isATrue;
 import static Project.Tools.Tool.getTimeHHMM;
@@ -57,7 +58,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             }
         }
         if (ghostObj != null) {
-            GameJoinDetailService.saveGhostObjIn(who, ghostObj);
+            saveGhostObjIn(who, ghostObj);
         }
         String what = name.trim();
         int id = maps.indexOf(what.trim());
@@ -83,7 +84,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             if (ghostObj.getTime() > System.currentTimeMillis()) {
                 return service.Select(i, ghostObj, who);
             } else {
-                GameJoinDetailService.saveGhostObjIn(who, null);
+                saveGhostObjIn(who, null);
                 return "已超过七分钟,超时无效!";
             }
         }
@@ -97,7 +98,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         if (ghostObj != null) {
             if (ghostObj.getState() != GhostObj.HELPING) {
                 if (!isATrue(who)) {
-                    GameJoinDetailService.saveGhostObjIn(who, null);
+                    saveGhostObjIn(who, null);
                     return "对战已超时或无效";
                 }
             }
@@ -112,7 +113,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                     switch (ghostObj.getState()) {
                         case GhostObj.NotNeed:
                             ghostObj.setState(GhostObj.NeedAndNo);
-                            GameJoinDetailService.saveGhostObjIn(who, ghostObj);
+                            saveGhostObjIn(who, ghostObj);
 //                            GameDataBase.putData(who, "decide", ghostObj);
                             putPerson(getInfo(who).addHelpC());
                             return "请求支援成功(其他玩家使用=>支援@ta>来支援ta)";
@@ -145,14 +146,13 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                         case GhostObj.NotNeed:
                             return "ta不需要支援";
                         case GhostObj.NeedAndNo:
-//                            GameDataBase.putData(who, "decide", null);
-                            GameJoinDetailService.saveGhostObjIn(who, null);
-                            ghostObj = new GhostObj(whos + "");
-                            GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-//                            GameDataBase.putData(who, "decide", ghostObj);
+                            saveGhostObjIn(who, null);
+                            ghostObj = new GhostObj(String.valueOf(whos));
+                            ghostObj.setState(GhostObj.HELPING);
+                            saveGhostObjIn(who, ghostObj);
                             ghostObj1.setState(GhostObj.NeedAndY);
-                            GameJoinDetailService.saveGhostObjIn(whos, ghostObj1);
-//                            GameDataBase.putData(whos, "decide", ghostObj1);
+                            ghostObj1.setWith(who);
+                            saveGhostObjIn(whos, ghostObj1);
                             putPerson(getInfo(who).addHelpToC());
                             return "支援成功";
                         case GhostObj.NeedAndY:

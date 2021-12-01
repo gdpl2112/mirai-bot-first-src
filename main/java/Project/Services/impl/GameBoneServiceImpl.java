@@ -4,6 +4,7 @@ package Project.Services.impl;
 import Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameBoneService;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,11 +15,9 @@ import static Project.DataBases.GameDataBase.*;
 import static Project.Tools.Drawer.getImageFromStrings;
 import static Project.Tools.Tool.getEntry;
 import static Project.Tools.Tool.rand;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
-
 
 
     @Override
@@ -118,7 +117,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         if (!GameDataBase.containsInBg(id, who))
             return "你的背包里没有 " + getNameById(id);
         // Id Int To String
-        String sb = id + "";
+        String sb = String.valueOf(id);
         // 解析 id 位数
         sb = sb.substring(sb.length() - 1);
         // 转 Int

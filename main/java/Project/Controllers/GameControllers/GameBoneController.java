@@ -46,13 +46,13 @@ public class GameBoneController {
         upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
-//                group.sendString(new StringChainBuilder().append(new At(qq.getId())).append("\n 无状态!").build());
+//               group.sendString(new StringChainBuilder().append(new At(qq.getId())).append("\n 无状态!").build());
                 throw new NoRunException();
             }
         }
     }
 
-    @Action("我的属性")
+    @Action(value = "我的属性", otherName = "属性信息")
     public String MyAttribute(long qq, Group g) {
         return gameBoneService.getInfoAttributes(qq);
     }

@@ -1,14 +1,15 @@
 package Project.Services.DetailServices;
 
 
-import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
 import Entitys.Mess;
+import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.Ghost_Behavior;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
+import Project.broadcast.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.SkillDataBase.toPercent;
+import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Tools.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.JsonStringToObject;
@@ -279,11 +280,13 @@ public class GameJoinDetailService {
                 } else {
                     GameJoinDetailService.saveGhostObjIn(who, null);
                 }
+                //广播
+                GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
             }
             if (showY && show) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();
         } finally {
-            idxs.remove((Object) ghostObj.getIDX());
+            idxs.remove(ghostObj.getIDX());
         }
     }
 
@@ -359,7 +362,7 @@ public class GameJoinDetailService {
             if (showY) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();
         } finally {
-            idxs.remove((Object) ghostObj.getIDX());
+            idxs.remove(ghostObj.getIDX());
         }
     }
 

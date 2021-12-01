@@ -97,7 +97,7 @@ public class GameController {
         return str;
     }
 
-    @Action("觉醒")
+    @Action(value = "觉醒", otherName = {"武魂觉醒", "觉醒武魂"})
     public String openEye(User qq, Group group) {
         String str = gameService.openEyeWh(qq.getId());
         return str;

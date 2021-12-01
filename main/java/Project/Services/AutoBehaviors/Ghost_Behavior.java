@@ -4,7 +4,7 @@ import Entitys.gameEntitys.AttributeBone;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.Group;
 import Entitys.gameEntitys.PersonInfo;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.DetailServices.GameJoinDetailService;
 import Project.Services.Iservice.IGameBoneService;
@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
-import static Project.DataBases.SkillDataBase.toPercent;
+import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.getAllHHBL;
 

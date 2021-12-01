@@ -14,12 +14,11 @@ public class Warp {
     private Number bindQ = -1;
     private Number master = -1;
     private Number prentice = -1;
-
     public Warp setId(String id) {
         try {
             this.id = Long.parseLong(id.trim());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return this;
     }
-
 }

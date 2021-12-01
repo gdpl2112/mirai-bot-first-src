@@ -2,7 +2,7 @@ package Entitys.gameEntitys;
 
 
 import Project.DataBases.GameDataBase;
-import Project.DataBases.SkillDataBase;
+import Project.DataBases.skill.SkillDataBase;
 
 import java.lang.reflect.Field;
 
