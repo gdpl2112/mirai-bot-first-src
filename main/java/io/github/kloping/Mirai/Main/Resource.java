@@ -45,6 +45,7 @@ public class Resource {
     private static ABot bot3 = new ABot(930204019, "Han_443212");
     private static ABot bot4 = new ABot(3474006766L, "Heroes_20040");
     private static ABot bot5 = new ABot(2630059874L, "Z_123456");
+    private static ABot bot6 = new ABot(3597552450L, "Han_Boot02");
     public static ABot qq = null;
 
     public static ABot get(int i) {
@@ -59,6 +60,9 @@ public class Resource {
                 return (qq = bot4);
             case 5:
                 return (qq = bot5);
+            case 6:
+                return (qq = bot6);
+
         }
         return null;
     }

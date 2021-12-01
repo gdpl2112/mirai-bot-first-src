@@ -22,7 +22,7 @@ public class BotStarter2 {
         SetOnErrInFIle(getLogTimeFormat() + "b2_err.log");
         SetOnOutInFIle(getLogTimeFormat() + "b2_console.log");
         deleteDir(new File("./cache2"));
-        abot = get(5);
+        abot = get(6);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
