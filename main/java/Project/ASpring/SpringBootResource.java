@@ -2,6 +2,7 @@ package Project.ASpring;
 
 import Entitys.UScore;
 import Entitys.gameEntitys.PersonInfo;
+import Project.ASpring.mapper.GInfoMapper;
 import Project.ASpring.mapper.PersonInfoMapper;
 import Project.ASpring.mapper.UScoreMapper;
 import Project.DataBases.DataBase;
@@ -19,6 +20,14 @@ public class SpringBootResource {
     public static ConfigurableEnvironment environment;
     public static UScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
+    public static GInfoMapper gInfoMapper;
+
+    public static void init() {
+        scoreMapper = configuration.getBean(UScoreMapper.class);
+        personInfoMapper = configuration.getBean(PersonInfoMapper.class);
+        gInfoMapper = configuration.getBean(GInfoMapper.class);
+        System.out.println("==============spring papered=================");
+    }
 
     public static void move0() {
         File file = new File(DataBase.path + "/users/");

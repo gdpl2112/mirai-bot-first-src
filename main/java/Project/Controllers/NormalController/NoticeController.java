@@ -43,6 +43,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("12.2 : 详细信息 拜师@xx 出师").append("\n");
         sb.append("11.29: /推@ ").append("\n");
         sb.append("11.27: 开始成语接龙 (完善 ").append("\n");
         sb.append("11.26: 一些 欢迎啥的 ").append("\n");
@@ -50,13 +51,13 @@ public class NoticeController {
         sb.append("11.23: 修复已知 Bug , 融合关系 转移至 \"关系列表\" ").append("\n");
         sb.append("11.22: 测试性 功能 创建分身 ").append("\n");
         sb.append("11.20:修复点歌, \"排行\" 改为 \"等级排行\" ").append("\n");
-        sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
-        sb.append("11.13.19: 修复反甲不能打魂兽的Bug ").append("\n");
-        sb.append("11.13: 修复已知Bug, 菜单变动 魂兽生成削弱 魂兽锁定条件削弱").append("\n");
-        sb.append("11.5: 尝试修复魂兽击杀排行的 Bug").append("\n");
-        sb.append("11.4: 修复注册失败的 Bug").append("\n");
-        sb.append("11.3: 我的魂技 修复已知Bug").append("\n");
-        sb.append("11.1: 修复-已知Bug.V2 添加血量为空降级的冷却\n\t降低魂兽匹配实力\n\t选择攻击伤害0.33~0.44提升至0.35~0.48").append("\n");
+//        sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
+//        sb.append("11.13.19: 修复反甲不能打魂兽的Bug ").append("\n");
+//        sb.append("11.13: 修复已知Bug, 菜单变动 魂兽生成削弱 魂兽锁定条件削弱").append("\n");
+//        sb.append("11.5: 尝试修复魂兽击杀排行的 Bug").append("\n");
+//        sb.append("11.4: 修复注册失败的 Bug").append("\n");
+//        sb.append("11.3: 我的魂技 修复已知Bug").append("\n");
+//        sb.append("11.1: 修复-已知Bug.V2 添加血量为空降级的冷却\n\t降低魂兽匹配实力\n\t选择攻击伤害0.33~0.44提升至0.35~0.48").append("\n");
 //        sb.append("10.31: 修复 闪照破解\n\t 优化性能 且测试").append("\n");
 //        sb.append("10.27: 修复魂技 异常 和 语音 不全的Bug").append("\n");
 //        sb.append("10.26:开始会话 结束会话").append("\n");
@@ -88,5 +89,10 @@ public class NoticeController {
     @Action("新机制")
     public String m1() {
         return Str3;
+    }
+
+    @Action(value = "怎么获得名师点", otherName = {"名师点.+"})
+    public String m2() {
+        return "每单独击杀 一只 3w 或 以上级别的魂兽 增加一点名师点";
     }
 }

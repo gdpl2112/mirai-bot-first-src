@@ -10,6 +10,8 @@ import Project.Services.Iservice.IGameService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
 import Project.broadcast.GhostLostBroadcast;
+import Project.broadcast.JoinBroadcast;
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -36,6 +38,8 @@ public class GameJoinDetailService {
 
     public String run(int id, long who, Group group) {
         int r = Tool.rand.nextInt(8) + 10;
+        //广播
+        JoinBroadcast.INSTANCE.broadcast(who, id);
         if (id == 0) {
             String str = join0(who, group);
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
@@ -103,20 +107,20 @@ public class GameJoinDetailService {
                 ghostObj = GhostObj.create(10);
             } else if (r < 71) {
                 //时光胶囊5%
-                addToBgs(who, 101);
+                addToBgs(who, 101, ObjType.got.v);
                 return "你去星斗森林,只捡到了一个时光胶囊已存入背包";
             } else if (r < 81) {
                 //恢复药水5%
-                addToBgs(who, 102);
+                addToBgs(who, 102, ObjType.got.v);
                 return "你去星斗森林,只捡到了一个恢复药水已存入背包";
             } else if (r < 91) {
                 //大瓶经验5%
-                addToBgs(who, 103);
+                addToBgs(who, 103, ObjType.got.v);
                 return "你去星斗森林,只捡到了一个大瓶经验已存入背包";
             } else if (r < 116) {
                 int r1 = Tool.rand.nextInt(3) + 1;
                 for (int i = 0; i < r1; i++) {
-                    addToBgs(who, 1000);
+                    addToBgs(who, 1000, ObjType.got.v);
                 }
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
@@ -125,7 +129,7 @@ public class GameJoinDetailService {
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
             } else if (Tool.rand.nextInt(1000) == 0) {
                 int id = 111;
-                addToBgs(who, id);
+                addToBgs(who, id, ObjType.got.v);
                 return "震惊!!!\n你去星斗森林捡到一个" + getNameById(id);
             } else {
                 return "你去星斗森林,只捡到了个寂寞!" + Tool.toFaceMes(String.valueOf(239));
@@ -172,7 +176,7 @@ public class GameJoinDetailService {
                 //百年8%
                 ghostObj = GhostObj.create(100);
             } else {
-                addToBgs(who, 112);
+                addToBgs(who, 112, ObjType.got.v);
                 return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
             }
             int r1 = Tool.rand.nextInt(3);
@@ -286,7 +290,7 @@ public class GameJoinDetailService {
             if (showY && show) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();
         } finally {
-            idxs.remove(ghostObj.getIDX());
+            idxs.remove((Object) ghostObj.getIDX());
         }
     }
 
@@ -344,6 +348,8 @@ public class GameJoinDetailService {
                         GameJoinDetailService.saveGhostObjIn(who, null);
                     }
                 }
+                //广播
+                GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
             } else {
                 sb.append("你被打败了!!!");
                 if (ghostObj.getHp() < 0) {
@@ -362,19 +368,8 @@ public class GameJoinDetailService {
             if (showY) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();
         } finally {
-            idxs.remove(ghostObj.getIDX());
+            idxs.remove((Object) ghostObj.getIDX());
         }
-    }
-
-    /**
-     * 几率获取魂环
-     *
-     * @param level
-     * @return
-     */
-    public static boolean randHh(int level) {
-        if (level > 1000000) return Tool.rand.nextInt(100) < 54;
-        return Tool.rand.nextInt(100) < 75;
     }
 
     public static synchronized String WillTips(Number qq, GhostObj ghostObj, boolean k) {
@@ -439,6 +434,18 @@ public class GameJoinDetailService {
         }
     }
 
+    /**
+     * 几率获取魂环
+     *
+     * @param level
+     * @return
+     */
+    public static boolean randHh(int level) {
+        if (level > 100 * 10000) return Tool.rand.nextInt(100) < 38;
+        else if (level > 10 * 10000) return Tool.rand.nextInt(100) < 54;
+        return Tool.rand.nextInt(100) < 75;
+    }
+
     public static String WillGetXp(GhostObj ghostObj, long who, boolean isHelp) {
         if (getInfo(who).getLevel() >= 150) {
             return "\n等级最大限制,无法获得经验";
@@ -456,17 +463,8 @@ public class GameJoinDetailService {
         }
     }
 
-    public static String WillGet(GhostObj ghostObj, long who) {
-        if (ghostObj.getId() > 600) {
-            return WillGetBone(ghostObj.getL(), who);
-        } else {
-            return WillGetHh(ghostObj.getL(), who);
-        }
-    }
-
-    private static String WillGetBone(long level, long who) {
-        int r = Tool.rand.nextInt(5);
-        if (r < 2) {
+    private static String WillGetBone(int level, long who) {
+        if (randHh(level)) {
             Integer id = 0;
             int r1 = Tool.rand.nextInt(5) + 1;
             if (level > 5000) {
@@ -477,17 +475,17 @@ public class GameJoinDetailService {
                 } else {
                     id = Integer.valueOf("15" + r1 + "3");
                 }
-                addToBgs(who, id);
+                addToBgs(who, id, ObjType.got.v);
                 return "你获得了 " + getNameById(id) + getImgById(id);
             }
-            return "";
-        } else return "";
+        }
+        return "";
     }
 
     private static String WillGetHh(int level, long who) {
         int sid = getHhByGh(level);
         if (randHh(level)) {
-            addToBgs(who, sid);
+            addToBgs(who, sid, ObjType.got.v);
             return "你获得了" + getNameById(sid);
         }
         return "";

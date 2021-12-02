@@ -3,6 +3,7 @@ package Entitys.gameEntitys;
 
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.broadcast.PlayerLostBroadcast;
 
 import java.lang.reflect.Field;
 
@@ -140,16 +141,16 @@ public class PersonInfo {
     /**
      * 死过
      */
-    private boolean died = false;
+    public boolean died = false;
     /**
      * 降级
      */
-    private boolean downed = false;
+    public boolean downed = false;
 
     /**
      * 下次血量为空生效时
      */
-    private Long dt1 = 0L;
+    public Long dt1 = 0L;
 
     /**
      * 斗魂中...
@@ -403,23 +404,6 @@ public class PersonInfo {
         if (hp > hpl) hp = hpl;
         if (hp <= 0) hp = 0L;
         return this;
-    }
-
-    public void test() {
-        if (hp <= 0 && dt1 <= System.currentTimeMillis()) {
-            if (died) {
-                if (Level % 10 == 0 || downed) {
-                    xp = 0L;
-                } else {
-                    Level--;
-                    downed = true;
-                }
-            } else {
-                xp = 0L;
-                died = true;
-            }
-            dt1 = System.currentTimeMillis() + 1000 * 60 * 5;
-        }
     }
 
     public boolean isDied() {

@@ -240,14 +240,14 @@ public class Tool {
                 BigDecimal b1 = new BigDecimal(number + "");
                 b1.setScale(2, BigDecimal.ROUND_HALF_UP);
                 b1 = b1.divide(b2);
-                String s = b1.toString() + "";
-                s = s.substring(0, s.indexOf(".") + 3);
+                String s = b1.toString();
+                s = s.substring(0, s.indexOf(".") + 2);
                 return s + "e";
             } else if (number.toString().length() < 17) {
                 BigDecimal b1 = new BigDecimal(number + "");
                 b1.setScale(2, BigDecimal.ROUND_HALF_UP);
                 b1 = b1.divide(be);
-                String s = b1.toString() + "";
+                String s = b1.toString();
                 s = s.substring(0, s.indexOf(".") + 3);
                 return s + "we";
             } else {

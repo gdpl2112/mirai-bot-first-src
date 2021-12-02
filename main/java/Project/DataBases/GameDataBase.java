@@ -4,6 +4,8 @@ package Project.DataBases;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Project.Tools.Tool;
+import Project.broadcast.GotOrLostObjBroadcast;
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.*;
@@ -961,9 +963,11 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String addToBgs(Long who, int id) {
+    public static String addToBgs(Long who, int id,int type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         addStingInFile(id + "", pathN, "utf-8");
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
+                ObjType.valueOf(type));
         return "OK";
     }
 
@@ -974,10 +978,62 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String addToBgs(Long who, int id, Integer num) {
+    public static String addToBgs(Long who, int id, Integer num,int type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         for (int i = 0; i < num; i++)
             addStingInFile(id + "", pathN, "utf-8");
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
+                 ObjType.valueOf(type));
+        return "OK";
+    }
+
+    /**
+     * 从背部 移除物品 通过 Id
+     *
+     * @param who
+     * @param id
+     * @return
+     */
+    public static String removeFromBgs(Long who, int id,int type) {
+        String pathN = path + "/dates/users/" + who + "/bgs";
+        String ids = id + "";
+        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
+        if (ss.remove(ids)) {
+            Tool.putStringInFile("", pathN, "utf-8");
+            for (String s : ss) {
+                addStingInFile(s, pathN, "utf-8");
+            }
+        }
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
+               ObjType.valueOf(type));
+        return "OK";
+    }
+
+    /**
+     * 从背包 移除物品 通过 Id
+     *
+     * @param who
+     * @param id
+     * @return
+     */
+    public static String removeFromBgs(Long who, int id, int num,int type) {
+        String pathN = path + "/dates/users/" + who + "/bgs";
+        String ids = id + "";
+        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
+        boolean k = false;
+        for (int i = num; i > 0; i--) {
+            if (ss.remove(ids)) {
+                k = true;
+            }
+        }
+        if (k) {
+            Tool.putStringInFile("", pathN, "utf-8");
+            for (String s : ss) {
+                addStingInFile(s, pathN, "utf-8");
+            }
+        }
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
+               ObjType.valueOf(type));
         return "OK";
     }
 
@@ -1019,52 +1075,6 @@ public class GameDataBase {
         String ids = o + "";
         List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
         if (ss.remove(ids)) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
-        }
-        return "OK";
-    }
-
-    /**
-     * 从背部 移除物品 通过 Id
-     *
-     * @param who
-     * @param id
-     * @return
-     */
-    public static String removeFromBgs(Long who, int id) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        String ids = id + "";
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        if (ss.remove(ids)) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
-        }
-        return "OK";
-    }
-
-    /**
-     * 从背包 移除物品 通过 Id
-     *
-     * @param who
-     * @param id
-     * @return
-     */
-    public static String removeFromBgs(Long who, int id, int num) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        String ids = id + "";
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        boolean k = false;
-        for (int i = num; i > 0; i--) {
-            if (ss.remove(ids)) {
-                k = true;
-            }
-        }
-        if (k) {
             Tool.putStringInFile("", pathN, "utf-8");
             for (String s : ss) {
                 addStingInFile(s, pathN, "utf-8");

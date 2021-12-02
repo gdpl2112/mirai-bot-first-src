@@ -61,7 +61,7 @@ public class GameH2LController {
     }
 /*
     @Action("创建分身<.*=>at>")
-    public String m1(@Param("at") String at, long qq) {
+    public String idiom.m1(@Param("at") String at, long qq) {
         if (qq != Resource.superQL) return "?";
         long q = Long.parseLong(NumberUtils.findNumberFromString(at));
         PersonInfo personInfo = getInfo(q);
@@ -92,5 +92,4 @@ public class GameH2LController {
         deleteTempInfo(personInfo);
         return "OKKKKKKKK";
     }*/
-
 }

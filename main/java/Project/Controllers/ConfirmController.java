@@ -92,7 +92,7 @@ public class ConfirmController {
             Method method = (Method) objects[0];
             method.setAccessible(true);
             Object[] pars = (Object[]) objects[2];
-            String result = null;
+            Object result = null;
             try {
                 result = method.invoke(objects[1], pars).toString();
                 Long id = qq.getId();
@@ -126,7 +126,7 @@ public class ConfirmController {
             Object[] objects = AgreeMap.get(qq.getId());
             Method method = (Method) objects[0];
             Object[] pars = (Object[]) objects[2];
-            String result = null;
+            Object result = null;
             try {
                 result = method.invoke(objects[1], pars).toString();
                 Long id = qq.getId();

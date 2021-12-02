@@ -60,7 +60,8 @@ public class OtherController {
 
     static {
         BaseMenuStr.append("|修炼\n");
-        BaseMenuStr.append("|信息 #用来信息\n");
+        BaseMenuStr.append("|信息\n");
+        BaseMenuStr.append("|详细信息 #查看信息\n");
         BaseMenuStr.append("|升级 #经验足够时\n");
         BaseMenuStr.append("|觉醒 #2级时用来觉醒武魂\n");
         BaseMenuStr.append("|转生 #重置信息\n");
@@ -90,6 +91,8 @@ public class OtherController {
         BaseMenuStr.append("|融合武魂 @xx  # 需要融合戒指\n");
         BaseMenuStr.append("|魂兽击杀排行\n");
         BaseMenuStr.append("|关系列表\n");
+        BaseMenuStr.append("|收徒 @xx\n");
+        BaseMenuStr.append("|出师\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("=积分相关\n");
         BaseMenuStr.append("|签到\n");
@@ -104,7 +107,6 @@ public class OtherController {
         BaseMenuStr.append("|猜拳(石头/剪刀/布)(值)\n");
         BaseMenuStr.append("|抢劫@at\n");
         BaseMenuStr.append("|我的发言\n");
-        BaseMenuStr.append("|掷骰子\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("=管理相关 #需要权限\n");
         BaseMenuStr.append("|禁言(@xx)(值)(单位,秒,分..)\n");
@@ -114,7 +116,7 @@ public class OtherController {
         BaseMenuStr.append("|(开启/关闭)闪照破解\n");
         BaseMenuStr.append("|获取 @xx \n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("= 其他\n");
+        BaseMenuStr.append("==其他\n");
         BaseMenuStr.append("|精神力作用 \n");
         BaseMenuStr.append("|魂环吸收限制 \n");
         BaseMenuStr.append("|魂环吸收限制 \n");
@@ -123,10 +125,13 @@ public class OtherController {
         BaseMenuStr.append("|百度搜图 xx \n");
         BaseMenuStr.append("|堆糖搜图 xx \n");
         BaseMenuStr.append("|发张 xx \n");
-        BaseMenuStr.append("|哔哩搜索 xx \n");
-        BaseMenuStr.append("|哔哩哔哩搜索 xx \n");
-        BaseMenuStr.append("|快手短视频 #不稳定\n");
-        BaseMenuStr.append("|快手搜索 #不稳定\n");
+        BaseMenuStr.append("|掷骰子\n");
+//        BaseMenuStr.append("|哔哩搜索 xx \n");
+//        BaseMenuStr.append("|哔哩哔哩搜索 xx \n");
+//        BaseMenuStr.append("|快手短视频 #不稳定\n");
+//        BaseMenuStr.append("|快手搜索 #不稳定\n");
+        BaseMenuStr.append("|/推 @\n");
+        BaseMenuStr.append("|/推[图片]\n");
         BaseMenuString = BaseMenuStr.toString();
         BaseMenuStrings = BaseMenuString.split("====");
     }
@@ -141,7 +146,8 @@ public class OtherController {
         int n = 1;
         try {
             n = Integer.parseInt(num);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         n = n > BaseMenuStrings.length ? 1 : n;
         return BaseMenuStrings[n - 1].trim() + "\r\n 当前第" + n + "页,共" + BaseMenuStrings.length + "页";
     }

@@ -2,6 +2,7 @@ package Project.Services.impl;
 
 import Project.Services.DetailServices.GameWeaDetailService;
 import Project.Services.Iservice.IGameWeaService;
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -64,7 +65,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         if (num >= ns) {
             addToAqBgs(who, id + ":" + (id2WeaONumMaps.get(id)));
             for (int i = 0; i < ns; i++) {
-                removeFromBgs(who, 1000);
+                removeFromBgs(who, 1000, ObjType.use.v);
             }
             return "制作成功" + getImgById(id) + "\r\n" + id2IntroMaps.get(id);
         } else {

@@ -35,4 +35,10 @@ public interface IGameService  {
     String xl2(long qq);
 
     String Fusion(Long q1,Long q2,Group group);
+
+    String detailInfo(long q);
+
+    String shouTu(long q, long q2);
+
+    String chuShi(long q);
 }

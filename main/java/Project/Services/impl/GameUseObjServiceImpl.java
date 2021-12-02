@@ -7,6 +7,8 @@ import Project.Services.Iservice.IGameService;
 import Project.Services.Iservice.IGameUseObjService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
+import Project.broadcast.GotOrLostObjBroadcast;
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -113,7 +115,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l * num + (num * 15L)) {
             for (int i = num; i > 0; i--) {
-                GameDataBase.addToBgs(who, id);
+                GameDataBase.addToBgs(who, id,ObjType.buy.v);
             }
             putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (12 * 1000 * num * 1.25f)).addGold(-(l * num + (num * 15L))));
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
@@ -137,7 +139,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long l = GameDataBase.id2ShopMaps.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l) {
-            GameDataBase.addToBgs(who, id);
+            GameDataBase.addToBgs(who, id,ObjType.buy.v);
             putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 15 * 1000).addGold(-l));
             return getPic(id) + "购买成功";
         } else {
@@ -148,7 +150,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public class UseTool {
 
         public void remove(int id, long who) {
-            GameDataBase.removeFromBgs(who, id);
+            GameDataBase.removeFromBgs(who, id,ObjType.use.v);
         }
 
         public PersonInfo personInfo;
@@ -168,6 +170,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                         long m = personInfo.getHpl();
                         long t = personInfo.getHp();
                         l = 0;
+
                         int i1 = personInfo.getLevel() / 10;
                         i1 = i1 < 4 ? 4 : i1;
                         l = m / i1;
@@ -358,7 +361,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 } catch (Exception e) {
                     return "商城中为发现此物品";
                 }
-                GameDataBase.removeFromBgs(who, id);
+                GameDataBase.removeFromBgs(who, id,ObjType.sell.v);
                 l = l > maxSle ? maxSle : l;
                 putPerson(getInfo(who).addGold(l));
                 return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
@@ -400,8 +403,8 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String ObjTo(Long who, int id, Long whos) {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (bgids.contains(id)) {
-            GameDataBase.removeFromBgs(who, id);
-            GameDataBase.addToBgs(Long.valueOf(whos), id);
+            GameDataBase.removeFromBgs(who, id, ObjType.transLost.v);
+            GameDataBase.addToBgs(Long.valueOf(whos), id,ObjType.transGot.v);
             return "转让完成";
         } else {
             return "你的背包里没有" + getNameById(id);

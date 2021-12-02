@@ -9,6 +9,7 @@ import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.Tool;
+import Project.recivers.GameReceiver0;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -43,6 +44,7 @@ public class GameController {
             }
         }.start();
         StartOkRuns.add(() -> histInfos.clear());
+        GameReceiver0.class.getSimpleName();
     }
 
     @AutoStand

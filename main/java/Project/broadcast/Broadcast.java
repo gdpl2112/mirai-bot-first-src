@@ -1,5 +1,7 @@
 package Project.broadcast;
 
+import io.github.kloping.object.ObjectUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
@@ -32,6 +34,8 @@ public abstract class Broadcast {
         if (!method.isAccessible()) method.setAccessible(true);
         if (objects.length == method.getParameterCount()) {
             Class<?>[] cls = method.getParameterTypes();
+            cls = ObjectUtils.baseToPack(cls);
+            objects = ObjectUtils.baseToPack(objects);
             for (int i = 0; i < cls.length; i++) {
                 if (cls[i] != objects[i].getClass())
                     return;

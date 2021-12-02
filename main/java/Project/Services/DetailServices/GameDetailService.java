@@ -10,6 +10,7 @@ import Project.Services.Iservice.IGameBoneService;
 import Project.Services.impl.GameBoneServiceImpl;
 import Project.Tools.Tool;
 import Project.broadcast.HpChangeBroadcast;
+import Project.broadcast.PlayerLostBroadcast;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -172,10 +173,15 @@ public class GameDetailService {
         //=====广播
         HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), personInfo.getHp(), personInfo.getHp() - oNow,
                 oNow, qq2.longValue()
-                , qq2.longValue() > 0 ? HpChangeBroadcast.HpChangeReceiver.type.fromQ : HpChangeBroadcast.HpChangeReceiver.type.fromG
+                , qq2.longValue() > 0 ?
+                        HpChangeBroadcast.HpChangeReceiver.type.fromQ :
+                        HpChangeBroadcast.HpChangeReceiver.type.fromG
         );
         personInfo.addHp(-oNow);
-        personInfo.test();
+
+        if (personInfo.hp <= 0)
+            PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
+                    qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
         putPerson(personInfo);
         return sb.toString();
     }

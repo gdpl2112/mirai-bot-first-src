@@ -1,5 +1,6 @@
 package Project.Tools;
 
+import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Entitys.gameEntitys.Zong;
@@ -181,6 +182,56 @@ public class Drawer {
         g.setColor(Color.BLACK);
         g.setFont(bigFont);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
+        g.dispose();
+        String name = UUID.randomUUID() + ".jpg";
+        new File("./temp").mkdirs();
+        File file = new File("./temp/" + name);
+        try {
+            ImageIO.write(image, "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file.getPath();
+    }
+
+    public static final String drawGInfopPng(GInfo p) {
+        int width = 400;
+        int height = 400;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics g = image.getGraphics();
+        g.setClip(0, 0, width, height);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0, 0, width, height);
+        g.setFont(bigFont);
+        Rectangle clip = g.getClipBounds();
+        FontMetrics fm = g.getFontMetrics(bigFont);
+        int ascent = fm.getAscent();
+        int descent = fm.getDescent();
+        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+        g.setColor(Color.BLUE);
+        g.drawString("※=★===?====$=====☆=?==*=※", 10, 40);
+        g.setFont(smallFont);
+        //==================================
+        int x = 10;
+        int eve = 40;
+        y = 2 * 40 - eve;
+        String m = p.getMasterPoint() + "点";
+        g.setColor(Color.BLUE);
+        g.drawString("名师点: " + m, x, y + smallFont.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计获得物品: " + p.getGotc() + " 个", x, y + smallFont.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计使用/失去 物品: " + p.getLostc() + " 个", x, y + smallFont.getSize());
+        //========
+        y = y + eve;
+        g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + smallFont.getSize());
+
+        //==================================
+        g.setColor(Color.BLACK);
+        g.setFont(bigFont);
+        g.drawString("※=?======★=====$==☆=?=*=※", 10, height - 30);
         g.dispose();
         String name = UUID.randomUUID() + ".jpg";
         new File("./temp").mkdirs();

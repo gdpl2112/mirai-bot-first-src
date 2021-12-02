@@ -3,11 +3,10 @@ package Project.Controllers.GameControllers;
 
 import Entitys.Group;
 import Entitys.User;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
+import Project.Services.Iservice.IGameService;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.number.NumberUtils;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -29,8 +28,23 @@ public class GameController2 {
         }
     }
 
-    @Action("")
-    public String m1() {
-        return "";
+    @AutoStand
+    IGameService service;
+
+    @Action(value = "详细信息", otherName = {"详情信息"})
+    public String m1(long q) {
+        return service.detailInfo(q);
+    }
+
+    @Action("收徒<.+=>str>")
+    public String m2(long q, @Param("str") String str) {
+        long q2 = Long.parseLong(NumberUtils.findNumberFromString(str).trim());
+        if (q == q2) return "scram";
+        return service.shouTu(q, q2);
+    }
+
+    @Action(value = "出师")
+    public String m3(long q) {
+        return service.chuShi(q);
     }
 }

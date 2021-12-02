@@ -74,7 +74,7 @@ public class SessionController {
         } else if (m1.startsWith("开始执行")) {
             return run(q, group);
         } else return null;
-        //return "未知命令:" + m1 + "\nUnknown Command:" + m1;
+        //return "未知命令:" + idiom.m1 + "\nUnknown Command:" + idiom.m1;
     }
 
 

@@ -2,17 +2,19 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
+import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Entitys.gameEntitys.Zon;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import Project.DataBases.skill.SkillDataBase;
 import Project.DataBases.ZongMenDataBase;
+import Project.DataBases.skill.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.Drawer;
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -406,7 +408,7 @@ public class GameServiceImpl implements IGameService {
             PersonInfo personInfo = getInfo(who);
             if (isJTop(who)) {
                 if (randHh(id, who, personInfo.getLevel())) {
-                    GameDataBase.removeFromBgs(who, id);
+                    GameDataBase.removeFromBgs(who, id, ObjType.use.v);
                     GameDataBase.addHh(who, id);
                     String str = upTrue(who) + "\r\n" + upTrue(who);
                     putPerson(getInfo(who).addLevel(2).setXp(0L));
@@ -681,11 +683,75 @@ public class GameServiceImpl implements IGameService {
         if (warp1.getBindQ().longValue() != -1 || warp2.getBindQ().longValue() != -1) {
             return "请先解除武魂融合";
         }
-        removeFromBgs(q1, 111);
+        removeFromBgs(q1, 111, ObjType.use.v);
         warp1.setBindQ(q2);
         warp2.setBindQ(q1);
         setWarp(warp1);
         setWarp(warp2);
         return "融合完成";
+    }
+
+    @Override
+    public String detailInfo(long q) {
+        GInfo gInfo = GInfo.getInstance(q);
+        return pathToImg(drawGInfopPng(gInfo));
+    }
+
+    @Override
+    public String shouTu(long q, long q2) {
+        if (getWarp(q).getPrentice().longValue() != -1)
+            return "你已经有徒弟了";
+        if (getWarp(q2).getMaster().longValue() != -1)
+            return "他已经有师傅了";
+        GInfo gInfo = GInfo.getInstance(q);
+        if (gInfo.getMasterPoint() < 25)
+            return "名师点不足";
+        try {
+            ConfirmController.RegAgree(q2, new Object[]{
+                    this.getClass().getDeclaredMethod("shouTuNow", long.class, long.class),
+                    this, new Object[]{q, q2}
+            });
+            return "收徒ing...\n\'" + MemberTools.getName(q2) + "\'请在30秒内回复同意/不同意";
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return "未知异常";
+    }
+
+    public String shouTuNow(long q, long q2) {
+        Warp warp1 = getWarp(q);
+        Warp warp2 = getWarp(q2);
+        warp1.setPrentice(q2);
+        warp2.setMaster(q);
+        setWarp(warp1);
+        setWarp(warp2);
+        GInfo.getInstance(q).addMasterPoint(-25).apply();
+        return pathToImg(drawWarpPng(warp1));
+    }
+
+    @Override
+    public String chuShi(long q) {
+        if (getWarp(q).getMaster().longValue() == -1)
+            return "您没有师傅";
+        try {
+            ConfirmController.RegConfirm(q, new Object[]{
+                    this.getClass().getDeclaredMethod("chuShiNow", long.class),
+                    this, new Object[]{q}
+            });
+            return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return "未知异常";
+    }
+
+    public String chuShiNow(long q) {
+        Warp warp1 = getWarp(q);
+        Warp warp2 = getWarp(warp1.getMaster());
+        warp1.setMaster(-1);
+        warp2.setPrentice(-1);
+        setWarp(warp1);
+        setWarp(warp2);
+        return pathToImg(drawWarpPng(warp1));
     }
 }

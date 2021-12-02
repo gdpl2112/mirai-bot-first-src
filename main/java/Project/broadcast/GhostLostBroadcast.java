@@ -5,11 +5,11 @@ import Entitys.gameEntitys.GhostObj;
 import java.lang.reflect.Method;
 
 public class GhostLostBroadcast extends Broadcast {
+    public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
+
     public GhostLostBroadcast() {
         super("GhostLostBroadcast");
     }
-
-    public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
 
     @Override
     protected void broadcast(Object... objects) {
@@ -39,7 +39,7 @@ public class GhostLostBroadcast extends Broadcast {
         return false;
     }
 
-    public static interface GhostLostReceiver {
+    public static interface GhostLostReceiver extends Receiver {
         void onReceive(long who, Long with, GhostObj ghostObj);
     }
 }

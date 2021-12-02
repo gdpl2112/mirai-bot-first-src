@@ -18,6 +18,7 @@ import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameSkillDetailService.*;
 
+import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
@@ -162,7 +163,7 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String forget(long qq, Integer st) {
         if (!GameDataBase.containsInBg(113, qq)) return "您没有遗忘药水";
-        removeFromBgs(qq, 113);
+        removeFromBgs(qq, 113, ObjType.use.v);
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         remove(infos.get(st));
         return "你忘掉了您的第" + Tool.cnArr[st - 1] + "魂技";

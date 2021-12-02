@@ -14,8 +14,6 @@ public class PicBroadcast extends Broadcast {
 
         default void onReturn(Object o) {
         }
-
-        ;
     }
 
     public static final PicBroadcast INSTANCE = new PicBroadcast();

@@ -174,7 +174,7 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onMemberNameCardModify(MemberCardChangeEvent event) {
         if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -183,7 +183,7 @@ public class MyHandler extends SimpleListenerHost {
         builder.append("旧: ").append(event.getOrigin()).append("\n");
         builder.append("新: ").append(event.getNew()).append("");
         event.getGroup().sendMessage(builder.build());
-    }
+    }*/
 
     private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
 
