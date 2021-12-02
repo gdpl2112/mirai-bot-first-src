@@ -1,17 +1,17 @@
 package Project.Services.impl;
 
 import Entitys.Group;
+import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.ShopItem;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ShopDataBase;
 import Project.Services.Iservice.IShoperService;
-import Entitys.gameEntitys.PersonInfo;
-import Entitys.gameEntitys.ShopItem;
+import Project.broadcast.enums.ObjType;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.*;
-import static Project.Tools.Tool.*;
-
-import io.github.kloping.MySpringTool.annotations.Entity;
+import static Project.Tools.Drawer.getImageFromStringsOnTwoColumns;
+import static Project.Tools.Tool.getTimeDDHHMM;
 
 @Entity
 public class ShoperServiceImpl implements IShoperService {
@@ -39,8 +39,10 @@ public class ShoperServiceImpl implements IShoperService {
     @Override
     public String UpItem(long id, Integer id1, long aLong, Long aLong1) {
         if (GameDataBase.contiansBgsNum(id, id1, (int) aLong)) {
-            GameDataBase.removeFromBgs(id, id1, (int) aLong);
-            ShopItem item = new ShopItem().setItemId(id1).setWho(id).setPrice(aLong1).setNum(Integer.valueOf(aLong + "")).setTime(System.currentTimeMillis());
+            GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell.v);
+            ShopItem item = new ShopItem()
+                    .setItemId(id1).setWho(id).setPrice(aLong1)
+                    .setNum(Integer.valueOf(aLong + "")).setTime(System.currentTimeMillis());
             ShopDataBase.saveItem(item);
             return UpShopItemOk;
         } else
@@ -51,10 +53,10 @@ public class ShoperServiceImpl implements IShoperService {
     public synchronized String DownItem(long id, int ids) {
         if (ShopDataBase.map.containsKey(ids)) {
             ShopItem item = ShopDataBase.map.get(ids);
-            Long who =item.getWho().longValue();
+            Long who = item.getWho().longValue();
             if (who == id) {
                 ShopDataBase.deleteItem(item.getId());
-                addToBgs(id, item.getItemId(), item.getNum());
+                addToBgs(id, item.getItemId(), item.getNum(), ObjType.un.v);
                 return DownShopItemOk;
             } else
                 return ShopItemNotIsYou;
@@ -72,7 +74,7 @@ public class ShoperServiceImpl implements IShoperService {
                 Long who = item.getWho().longValue();
                 putPerson(getInfo(who).addGold(price));
                 putPerson(getInfo(id).addGold(-price));
-                addToBgs(id, item.getItemId(), item.getNum());
+                addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy.v);
                 ShopDataBase.deleteItem(item.getId());
                 return BuySuccess;
             } else return NotEnoughGold;

@@ -7,7 +7,6 @@ import Project.Services.Iservice.IGameService;
 import Project.Services.Iservice.IGameUseObjService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
-import Project.broadcast.GotOrLostObjBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -114,9 +113,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long l = GameDataBase.id2ShopMaps.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l * num + (num * 15L)) {
-            for (int i = num; i > 0; i--) {
-                GameDataBase.addToBgs(who, id,ObjType.buy.v);
-            }
+            GameDataBase.addToBgs(who, id, num, ObjType.buy.v);
             putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (12 * 1000 * num * 1.25f)).addGold(-(l * num + (num * 15L))));
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
         } else {
@@ -139,7 +136,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long l = GameDataBase.id2ShopMaps.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l) {
-            GameDataBase.addToBgs(who, id,ObjType.buy.v);
+            GameDataBase.addToBgs(who, id, ObjType.buy.v);
             putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 15 * 1000).addGold(-l));
             return getPic(id) + "购买成功";
         } else {
@@ -150,7 +147,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public class UseTool {
 
         public void remove(int id, long who) {
-            GameDataBase.removeFromBgs(who, id,ObjType.use.v);
+            GameDataBase.removeFromBgs(who, id, ObjType.use.v);
         }
 
         public PersonInfo personInfo;
@@ -184,7 +181,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                             return "处于选择状态增加减半 加血=>" + (l / 2);
                         } else personInfo.addHp(l);
                         putPerson(personInfo);
-                        removeFromBgs(Long.valueOf(who), id, num);
+                        removeFromBgs(Long.valueOf(who), id, num, ObjType.use.v);
                         return "加血=>" + l;
                     }
                 case 103:
@@ -194,26 +191,26 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     long mx = (long) (xr * 0.92f);
                     mx *= num;
                     putPerson(personInfo.addXp(mx));
-                    removeFromBgs(Long.valueOf(who), id, num);
+                    removeFromBgs(Long.valueOf(who), id, num, ObjType.use.v);
                     return " 增加了:" + mx + "点经验";
                 case 104:
                     long att = personInfo.getLevel() * 25;
                     att *= num;
                     putPerson(personInfo.addAtt(att));
-                    removeFromBgs(Long.valueOf(who), id, num);
+                    removeFromBgs(Long.valueOf(who), id, num, ObjType.use.v);
                     return "增加了" + att + "点攻击";
                 case 105:
                     l = personInfo.getLevel() * 35;
                     l *= num;
                     putPerson(personInfo.addHp(l).addHpl(l));
-                    removeFromBgs(Long.valueOf(who), id, num);
+                    removeFromBgs(Long.valueOf(who), id, num, ObjType.use.v);
                     return "增加了" + l + "点最大生命";
                 case 112:
                     l = getInfo(who).getLevel();
                     l = l * (l > 100 ? l / 3 : 35);
                     l *= num;
                     putPerson(getInfo(who).addHj(l).addHjL(l));
-                    removeFromBgs(Long.valueOf(who), id, num);
+                    removeFromBgs(Long.valueOf(who), id, num, ObjType.use.v);
                     return "增加了" + l + "点最大精神力";
                 default:
                     return "该物品不支持 批量使用";
@@ -361,7 +358,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 } catch (Exception e) {
                     return "商城中为发现此物品";
                 }
-                GameDataBase.removeFromBgs(who, id,ObjType.sell.v);
+                GameDataBase.removeFromBgs(who, id, ObjType.sell.v);
                 l = l > maxSle ? maxSle : l;
                 putPerson(getInfo(who).addGold(l));
                 return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
@@ -379,7 +376,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (contiansBgsNum(who, id, num)) {
             if (id == 206 || id == 207)
                 return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
-            removeFromBgs(who, id, num);
+            removeFromBgs(who, id, num, ObjType.sell.v);
             long l = GameDataBase.id2ShopMaps.get(id) / 3;
             l = l > maxSle ? maxSle : l;
             l *= num;
@@ -392,8 +389,8 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     @Override
     public String ObjTo(Long who, int id, Long whos, Integer num) {
         if (contiansBgsNum(who, id, num)) {
-            GameDataBase.removeFromBgs(who, id, num);
-            GameDataBase.addToBgs(Long.valueOf(whos), id, num);
+            GameDataBase.removeFromBgs(who, id, num, ObjType.transLost.v);
+            GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot.v);
             return "批量 转让 完成";
         } else
             return "你的背包里 没有足够的 " + getNameById(id);
@@ -404,7 +401,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (bgids.contains(id)) {
             GameDataBase.removeFromBgs(who, id, ObjType.transLost.v);
-            GameDataBase.addToBgs(Long.valueOf(whos), id,ObjType.transGot.v);
+            GameDataBase.addToBgs(Long.valueOf(whos), id, ObjType.transGot.v);
             return "转让完成";
         } else {
             return "你的背包里没有" + getNameById(id);
