@@ -14,6 +14,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Method;
 
+import static Project.Controllers.NormalController.NoticeController.lowst;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
 @Entity
@@ -39,7 +40,7 @@ public class GameReceiver0 {
                 StarterApplication.logger.Log(String.format("ghost losted by %s level=%s with %s",
                         who, ghostObj.getL(), with), 0);
                 if (with.longValue() == -1) {
-                    if (ghostObj.getL() >= 3 * 10000L) {
+                    if (ghostObj.getL() >= lowst * 10000L) {
                         GInfo.getInstance(who).addMasterPoint().apply();
                     }
                 }

@@ -91,8 +91,10 @@ public class NoticeController {
         return Str3;
     }
 
+    public static int lowst = 5;
+
     @Action(value = "怎么获得名师点", otherName = {"名师点.+"})
     public String m2() {
-        return "每单独击杀 一只 3w 或 以上级别的魂兽 增加一点名师点";
+        return "每单独击杀 一只" + lowst + "w 或 以上级别的魂兽 增加一点名师点";
     }
 }
