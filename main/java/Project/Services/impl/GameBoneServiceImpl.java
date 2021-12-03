@@ -135,7 +135,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         if (hasSamePart(map, id)) {
             return "已经吸收过 相同部位的魂骨了";
         }
-        GameDataBase.removeFromBgs(who, id,ObjType.use.v);
+        GameDataBase.removeFromBgs(who, id,ObjType.use);
         switch (r1) {
             case 0:
                 nu = i * 3;
@@ -186,7 +186,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         }
         if (map.containsKey(id)) {
             map.remove(id);
-            addToBgs(who, id, ObjType.un.v);
+            addToBgs(who, id, ObjType.un);
             PutAttributeMap(who, map);
             GameDataBase.putPerson(getInfo(who).setHp(0L).setHl(0L).setXp(0L));
             return "卸掉成功 状态全无";

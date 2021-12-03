@@ -39,7 +39,7 @@ public class ShoperServiceImpl implements IShoperService {
     @Override
     public String UpItem(long id, Integer id1, long aLong, Long aLong1) {
         if (GameDataBase.contiansBgsNum(id, id1, (int) aLong)) {
-            GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell.v);
+            GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell);
             ShopItem item = new ShopItem()
                     .setItemId(id1).setWho(id).setPrice(aLong1)
                     .setNum(Integer.valueOf(aLong + "")).setTime(System.currentTimeMillis());
@@ -56,7 +56,7 @@ public class ShoperServiceImpl implements IShoperService {
             Long who = item.getWho().longValue();
             if (who == id) {
                 ShopDataBase.deleteItem(item.getId());
-                addToBgs(id, item.getItemId(), item.getNum(), ObjType.un.v);
+                addToBgs(id, item.getItemId(), item.getNum(), ObjType.un);
                 return DownShopItemOk;
             } else
                 return ShopItemNotIsYou;
@@ -74,7 +74,7 @@ public class ShoperServiceImpl implements IShoperService {
                 Long who = item.getWho().longValue();
                 putPerson(getInfo(who).addGold(price));
                 putPerson(getInfo(id).addGold(-price));
-                addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy.v);
+                addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
                 return BuySuccess;
             } else return NotEnoughGold;

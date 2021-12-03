@@ -408,7 +408,7 @@ public class GameServiceImpl implements IGameService {
             PersonInfo personInfo = getInfo(who);
             if (isJTop(who)) {
                 if (randHh(id, who, personInfo.getLevel())) {
-                    GameDataBase.removeFromBgs(who, id, ObjType.use.v);
+                    GameDataBase.removeFromBgs(who, id, ObjType.use);
                     GameDataBase.addHh(who, id);
                     String str = upTrue(who) + "\r\n" + upTrue(who);
                     putPerson(getInfo(who).addLevel(2).setXp(0L));
@@ -683,7 +683,7 @@ public class GameServiceImpl implements IGameService {
         if (warp1.getBindQ().longValue() != -1 || warp2.getBindQ().longValue() != -1) {
             return "请先解除武魂融合";
         }
-        removeFromBgs(q1, 111, ObjType.use.v);
+        removeFromBgs(q1, 111, ObjType.use);
         warp1.setBindQ(q2);
         warp2.setBindQ(q1);
         setWarp(warp1);

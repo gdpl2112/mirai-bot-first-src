@@ -163,7 +163,7 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String forget(long qq, Integer st) {
         if (!GameDataBase.containsInBg(113, qq)) return "您没有遗忘药水";
-        removeFromBgs(qq, 113, ObjType.use.v);
+        removeFromBgs(qq, 113, ObjType.use);
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         remove(infos.get(st));
         return "你忘掉了您的第" + Tool.cnArr[st - 1] + "魂技";

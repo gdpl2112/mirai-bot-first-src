@@ -963,11 +963,11 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String addToBgs(Long who, int id,int type) {
+    public static String addToBgs(Long who, int id, ObjType type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         addStingInFile(id + "", pathN, "utf-8");
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
-                ObjType.valueOf(type));
+                type);
         return "OK";
     }
 
@@ -978,12 +978,12 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String addToBgs(Long who, int id, Integer num,int type) {
+    public static String addToBgs(Long who, int id, Integer num, ObjType type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         for (int i = 0; i < num; i++)
             addStingInFile(id + "", pathN, "utf-8");
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
-                 ObjType.valueOf(type));
+               type);
         return "OK";
     }
 
@@ -994,7 +994,7 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String removeFromBgs(Long who, int id,int type) {
+    public static String removeFromBgs(Long who, int id, ObjType type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         String ids = id + "";
         List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
@@ -1005,7 +1005,7 @@ public class GameDataBase {
             }
         }
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
-               ObjType.valueOf(type));
+                type);
         return "OK";
     }
 
@@ -1016,7 +1016,7 @@ public class GameDataBase {
      * @param id
      * @return
      */
-    public static String removeFromBgs(Long who, int id, int num,int type) {
+    public static String removeFromBgs(Long who, int id, int num, ObjType type) {
         String pathN = path + "/dates/users/" + who + "/bgs";
         String ids = id + "";
         List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
@@ -1033,7 +1033,7 @@ public class GameDataBase {
             }
         }
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
-               ObjType.valueOf(type));
+                type);
         return "OK";
     }
 

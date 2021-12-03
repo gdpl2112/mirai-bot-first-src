@@ -65,7 +65,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         if (num >= ns) {
             addToAqBgs(who, id + ":" + (id2WeaONumMaps.get(id)));
             for (int i = 0; i < ns; i++) {
-                removeFromBgs(who, 1000, ObjType.use.v);
+                removeFromBgs(who, 1000, ObjType.use);
             }
             return "制作成功" + getImgById(id) + "\r\n" + id2IntroMaps.get(id);
         } else {

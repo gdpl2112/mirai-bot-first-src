@@ -107,20 +107,20 @@ public class GameJoinDetailService {
                 ghostObj = GhostObj.create(10);
             } else if (r < 71) {
                 //时光胶囊5%
-                addToBgs(who, 101, ObjType.got.v);
+                addToBgs(who, 101, ObjType.got);
                 return "你去星斗森林,只捡到了一个时光胶囊已存入背包";
             } else if (r < 81) {
                 //恢复药水5%
-                addToBgs(who, 102, ObjType.got.v);
+                addToBgs(who, 102, ObjType.got);
                 return "你去星斗森林,只捡到了一个恢复药水已存入背包";
             } else if (r < 91) {
                 //大瓶经验5%
-                addToBgs(who, 103, ObjType.got.v);
+                addToBgs(who, 103, ObjType.got);
                 return "你去星斗森林,只捡到了一个大瓶经验已存入背包";
             } else if (r < 116) {
                 int r1 = Tool.rand.nextInt(3) + 1;
                 for (int i = 0; i < r1; i++) {
-                    addToBgs(who, 1000, ObjType.got.v);
+                    addToBgs(who, 1000, ObjType.got);
                 }
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
@@ -129,7 +129,7 @@ public class GameJoinDetailService {
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
             } else if (Tool.rand.nextInt(1000) == 0) {
                 int id = 111;
-                addToBgs(who, id, ObjType.got.v);
+                addToBgs(who, id, ObjType.got);
                 return "震惊!!!\n你去星斗森林捡到一个" + getNameById(id);
             } else {
                 return "你去星斗森林,只捡到了个寂寞!" + Tool.toFaceMes(String.valueOf(239));
@@ -176,7 +176,7 @@ public class GameJoinDetailService {
                 //百年8%
                 ghostObj = GhostObj.create(100);
             } else {
-                addToBgs(who, 112, ObjType.got.v);
+                addToBgs(who, 112, ObjType.got);
                 return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
             }
             int r1 = Tool.rand.nextInt(3);
@@ -475,7 +475,7 @@ public class GameJoinDetailService {
                 } else {
                     id = Integer.valueOf("15" + r1 + "3");
                 }
-                addToBgs(who, id, ObjType.got.v);
+                addToBgs(who, id, ObjType.got);
                 return "你获得了 " + getNameById(id) + getImgById(id);
             }
         }
@@ -485,7 +485,7 @@ public class GameJoinDetailService {
     private static String WillGetHh(int level, long who) {
         int sid = getHhByGh(level);
         if (randHh(level)) {
-            addToBgs(who, sid, ObjType.got.v);
+            addToBgs(who, sid, ObjType.got);
             return "你获得了" + getNameById(sid);
         }
         return "";
