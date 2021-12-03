@@ -4,6 +4,7 @@ import Project.Controllers.FirstController;
 import Project.DataBases.DataBase;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.Image;
@@ -67,6 +68,7 @@ public class CapHandler {
         builder.append("\n请重新申请加入群聊");
         builder.append(new Face(Face.SAO_RAO));
         group.sendMessage(builder.build());
+        group.get(qid).kick("验证失败");
     }
 
     public static void cap(long qid, String text) {
