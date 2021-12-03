@@ -76,21 +76,24 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long who, long from, type type) {
                 PersonInfo pi = GameDataBase.getInfo(who);
-                if (pi.hp <= 0 && pi.hp <= System.currentTimeMillis()) {
-                    if (pi.died) {
-                        if (pi.Level % 10 == 0 || pi.downed) {
-                            pi.xp = 0L;
+                if (pi.hp <= 0) {
+                    if (pi.dt1 <= System.currentTimeMillis()) {
+                        if (pi.died) {
+                            if (pi.Level % 10 == 0 || pi.downed) {
+                                pi.xp = 0L;
+                            } else {
+                                pi.Level--;
+                                pi.downed = true;
+                            }
                         } else {
-                            pi.Level--;
-                            pi.downed = true;
+                            pi.xp = 0L;
+                            pi.died = true;
                         }
-                    } else {
-                        pi.xp = 0L;
-                        pi.died = true;
+                        pi.dt1 = System.currentTimeMillis() + 1000 * 60 * 5;
                     }
-                    pi.dt1 = System.currentTimeMillis() + 1000 * 60 * 5;
                     GameDataBase.putPerson(pi);
                 }
+                GInfo.getInstance(who).addDiedc().apply();
             }
         });
     }

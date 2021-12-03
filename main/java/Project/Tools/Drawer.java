@@ -227,6 +227,9 @@ public class Drawer {
         //========
         y = y + eve;
         g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + smallFont.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + smallFont.getSize());
 
         //==================================
         g.setColor(Color.BLACK);

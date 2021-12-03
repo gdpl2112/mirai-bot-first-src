@@ -2,10 +2,13 @@ package Entitys.gameEntitys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import io.github.kloping.object.ObjectUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.lang.reflect.Field;
 
 import static Project.ASpring.SpringBootResource.gInfoMapper;
 
@@ -32,6 +35,10 @@ public class GInfo {
      * 失去物品次数
      */
     private int lostc = 0;
+    /**
+     * 累计死亡次数
+     */
+    private int diedc = 0;
 
     public GInfo addQid() {
         this.qid++;
@@ -93,6 +100,16 @@ public class GInfo {
         return this;
     }
 
+    public GInfo addDiedc() {
+        this.diedc++;
+        return this;
+    }
+
+    public GInfo addDiedc(int i) {
+        this.diedc += i;
+        return this;
+    }
+
     public void apply() {
         UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();
         wrapper.eq("qid", this.getQid());
@@ -107,43 +124,43 @@ public class GInfo {
         return new GInfo().setQid(qid);
     }
 
-//
-//    public static void main(String[] args) {
-//        summon(GInfo.class);
-//    }
-//
-//    public static void summon(Class<?> cla) {
-//        Field[] fields = cla.getDeclaredFields();
-//        for (Field field : fields) {
-//            Class c1 = ObjectUtils.baseToPack(field.getType());
-//            if (c1 == Long.class || c1 == Integer.class) {
-//                System.out.print("\tpublic ");
-//                System.out.print(cla.getSimpleName());
-//                System.out.print(" add");
-//                System.out.print(field.getName().substring(0, 1).toUpperCase());
-//                System.out.print(field.getName().substring(1));
-//                System.out.println("() {");
-//                System.out.print("\t\tthis.");
-//                System.out.print(field.getName());
-//                System.out.println("++;");
-//                System.out.println("\t\treturn this;");
-//                System.out.print("\t}");
-//                System.out.println();
-//                System.out.println();
-//                System.out.print("\tpublic ");
-//                System.out.print(cla.getSimpleName());
-//                System.out.print(" add");
-//                System.out.print(field.getName().substring(0, 1).toUpperCase());
-//                System.out.print(field.getName().substring(1));
-//                System.out.println("(int i) {");
-//                System.out.print("\t\tthis.");
-//                System.out.print(field.getName());
-//                System.out.println(" += i;");
-//                System.out.println("\t\treturn this;");
-//                System.out.print("\t}");
-//                System.out.println();
-//                System.out.println();
-//            }
-//        }
-//    }
+
+    public static void main(String[] args) {
+        summon(GInfo.class);
+    }
+
+    public static void summon(Class<?> cla) {
+        Field[] fields = cla.getDeclaredFields();
+        for (Field field : fields) {
+            Class c1 = ObjectUtils.baseToPack(field.getType());
+            if (c1 == Long.class || c1 == Integer.class) {
+                System.out.print("\tpublic ");
+                System.out.print(cla.getSimpleName());
+                System.out.print(" add");
+                System.out.print(field.getName().substring(0, 1).toUpperCase());
+                System.out.print(field.getName().substring(1));
+                System.out.println("() {");
+                System.out.print("\t\tthis.");
+                System.out.print(field.getName());
+                System.out.println("++;");
+                System.out.println("\t\treturn this;");
+                System.out.print("\t}");
+                System.out.println();
+                System.out.println();
+                System.out.print("\tpublic ");
+                System.out.print(cla.getSimpleName());
+                System.out.print(" add");
+                System.out.print(field.getName().substring(0, 1).toUpperCase());
+                System.out.print(field.getName().substring(1));
+                System.out.println("(int i) {");
+                System.out.print("\t\tthis.");
+                System.out.print(field.getName());
+                System.out.println(" += i;");
+                System.out.println("\t\treturn this;");
+                System.out.print("\t}");
+                System.out.println();
+                System.out.println();
+            }
+        }
+    }
 }
