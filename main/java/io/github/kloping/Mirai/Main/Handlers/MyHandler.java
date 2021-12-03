@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.Controllers.SessionController.gotoSession;
+import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
 
 public class MyHandler extends SimpleListenerHost {
     public MyHandler() {
@@ -51,6 +52,10 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (!Resource.Switch.AllK) return;
+        if (CapHandler.caping.containsKey(event.getSender().getId())) {
+            CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
+            return;
+        }
         String text = null;
         Entitys.Group eGroup = null;
         Group group = null;
@@ -147,6 +152,8 @@ public class MyHandler extends SimpleListenerHost {
         builder.append("备注: ").append("您是本群的第").append(String.valueOf(event.getGroup().getMembers().size() + 1))
                 .append("位成员哦").append(new Face(13));
         event.getGroup().sendMessage(builder.build());
+        if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1)
+            join(event.getMember().getId(), event.getGroup());
     }
 
     @EventHandler

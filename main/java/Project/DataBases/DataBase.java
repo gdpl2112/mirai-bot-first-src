@@ -1,8 +1,10 @@
 package Project.DataBases;
 
 
+import Entitys.GroupConf;
 import Entitys.UScore;
 import com.alibaba.fastjson.JSON;
+import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,70 +41,51 @@ public class DataBase {
     }
 
     public static boolean canBackShow(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return getPtoK(file, 1);
+        return getConf(where).isShow();
     }
 
     public static boolean canBack(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return getPtoK(file, 0);
+        return getConf(where).isOpen();
     }
 
     public static boolean canSpeak(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return getPtoK(file, 2);
+        return getConf(where).isSpeak();
+    }
+
+    public static boolean needCap(long where) {
+        return getConf(where).isCap();
     }
 
     public static boolean setSpeak(Long where, boolean k) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return setPtoK(file, 2, k);
+        return setConf(getConf(where).setSpeak(k)).isSpeak();
     }
 
+    public static boolean setCap(long where, boolean k) {
+        return setConf(getConf(where).setCap(k)).isCap();
+    }
 
     public static boolean openShow(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return setPtoK(file, 1, true);
+        return setConf(getConf(where).setShow(true)).isShow();
     }
 
     public static boolean closeShow(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return setPtoK(file, 1, false);
+        return setConf(getConf(where).setShow(false)).isShow();
     }
 
-    public static boolean addGroup(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return setPtoK(file, 0, true);
+    public static boolean openGroup(Long where) {
+        return setConf(getConf(where).setOpen(true)).isOpen();
     }
 
-    public static boolean removeGroup(Long where) {
-        File file = new File(path + "/mainfist/groups/" + where);
-        return setPtoK(file, 0, false);
+    public static boolean closeGroup(Long where) {
+        return setConf(getConf(where).setOpen(false)).isOpen();
     }
 
-    private static synchronized boolean setPtoK(File file, int i, boolean k) {
-        testGroup(file);
-        String[] sss = getStringsFromFile(file.getPath());
-        Boolean k1 = Boolean.valueOf(sss[i]);
-        sss[i] = k ? "true" : "false";
-        putStringInFile(sss[0] + "\n" + sss[1] + "\n" + sss[2], file.getPath());
-        return k1;
+    public static synchronized GroupConf getConf(long id) {
+        return FileInitializeValue.getValue(path + "/mainfist/groups/" + id+".json", new GroupConf(), true);
     }
 
-    private static void testGroup(File file) {
-        try {
-            if (file.exists()) return;
-            file.createNewFile();
-            putStringInFile("false\r\ntrue\r\ntrue", file.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static synchronized boolean getPtoK(File file, int i) {
-        testGroup(file);
-        String[] sss = getStringsFromFile(file.getPath());
-        Boolean k1 = Boolean.valueOf(sss[i]);
-        return k1;
+    public static synchronized GroupConf setConf(GroupConf conf) {
+        return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId()+".json", conf, true);
     }
 
     public static boolean addFather(Long who) {

@@ -84,13 +84,25 @@ public class ManagerController {
     @Action(value = "开启", otherName = "说话")
     public String open(Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
-        return DataBase.addGroup(group.getId()) ? "已经开启" : "开启成功";
+        return DataBase.openGroup(group.getId()) ? "已经开启" : "开启成功";
     }
 
     @Action(value = "关闭", otherName = "闭嘴")
     public String close(Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
-        return DataBase.removeGroup(group.getId()) ? "关闭成功" : "已经关闭";
+        return DataBase.closeGroup(group.getId()) ? "关闭成功" : "已经关闭";
+    }
+
+    @Action("开启验证")
+    private String m1(Group group) {
+        DataBase.setCap(group.getId(), true);
+        return "开启完成";
+    }
+
+    @Action("关闭验证")
+    private String m2(Group group) {
+        DataBase.setCap(group.getId(), false);
+        return "关闭完成";
     }
 
     @Action("添加管理.{1,}")
