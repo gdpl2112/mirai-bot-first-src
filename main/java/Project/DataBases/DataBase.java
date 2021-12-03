@@ -81,11 +81,11 @@ public class DataBase {
     }
 
     public static synchronized GroupConf getConf(long id) {
-        return FileInitializeValue.getValue(path + "/mainfist/groups/" + id+".json", new GroupConf(), true);
+        return FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
     }
 
     public static synchronized GroupConf setConf(GroupConf conf) {
-        return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId()+".json", conf, true);
+        return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);
     }
 
     public static boolean addFather(Long who) {
