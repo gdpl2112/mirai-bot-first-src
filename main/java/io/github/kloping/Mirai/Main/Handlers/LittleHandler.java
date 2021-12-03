@@ -180,6 +180,14 @@ public class LittleHandler extends SimpleListenerHost {
             event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
     }
 
+    @Action("++2")
+    public void mm2(GroupMessageSyncEvent event) {
+        if (upMessages.containsKey(event.getGroup().getId())) {
+            event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
+            event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
+        }
+    }
+
     @Action("setAdmin.+")
     public void m1(GroupMessageSyncEvent event) {
         if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
@@ -210,26 +218,10 @@ public class LittleHandler extends SimpleListenerHost {
         if (at == null) return;
         String t = EventTools.getStringFromMessageChain(event.getMessage());
         NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
-            m1.mute(getT(t.replace(String.valueOf(at.getTarget()), "")));
-    }
-
-    private static int getT(String what) {
-        String s1 = Tool.findNumberFromString(what);
-        int t = 1;
-        int t1 = Integer.valueOf(s1);
-        if (what.contains("秒")) {
-            t = t1;
-        } else if (what.contains("分")) {
-            t = t1 * 60;
-        } else if (what.contains("时")) {
-            t = t1 * 60 * 60;
-        } else if (what.contains("天")) {
-            t = t1 * 60 * 60 * 24;
-        } else if (what.contains("月")) {
-            t = t1 * 60 * 60 * 24 * 30;
+        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel()) {
+            String s1 = Tool.findNumberFromString(t.replace(String.valueOf(at.getTarget()), ""));
+            m1.mute(Integer.parseInt(s1));
         }
-        return t;
     }
 
     @Action("unmute.+")
