@@ -271,8 +271,10 @@ public class EntertainmentController {
                 return i1 - i2;
             }
         };
-        Arrays.sort(files_wq,comparator);
-        Arrays.sort(files_tui,comparator);
+//        Arrays.sort(files_wq,comparator);
+//        Arrays.sort(files_tui,comparator);
+        Arrays.sort(files_wq);
+        Arrays.sort(files_tui);
     }
 
     @Action("/推.*")
@@ -289,7 +291,7 @@ public class EntertainmentController {
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
-            outFile = ImageDrawer.getTuiGift(files_wq, u, outFile);
+            outFile = ImageDrawer.getTuiGift(files_tui, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();

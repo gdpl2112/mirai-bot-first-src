@@ -70,6 +70,7 @@ public class ImageDrawer {
             int[] vs = getWt(i);
             image = putImage(main, image, vs[0], vs[1]);
             encoder.addFrame(image);
+            ImageIO.write(image,"png",new File("./data/temp/"+i+".png"));
         }
         encoder.finish();
         return outFile;
