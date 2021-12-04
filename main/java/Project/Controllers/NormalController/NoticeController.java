@@ -93,7 +93,7 @@ public class NoticeController {
         return Str3;
     }
 
-    public static int lowst = 5;
+    public static int lowst = 4;
 
     @Action(value = "怎么获得名师点", otherName = {"名师点.+"})
     public String m2() {
