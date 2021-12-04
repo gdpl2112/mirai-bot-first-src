@@ -12,7 +12,7 @@ public abstract class Skill implements Runnable {
     private Number qq = 0;
     public List<Number> numbers = new ArrayList<>();
     private String name = null;
-    private String tips = null;
+    private String tips = "";
     private Group group = null;
 
     public Skill() {
