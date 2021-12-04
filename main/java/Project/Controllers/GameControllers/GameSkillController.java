@@ -1,8 +1,8 @@
 package Project.Controllers.GameControllers;
 
 import Entitys.Group;
-import Entitys.gameEntitys.SkillInfo;
 import Entitys.User;
+import Entitys.gameEntitys.SkillInfo;
 import Project.Services.Iservice.ISkillService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -128,7 +128,7 @@ public class GameSkillController {
     private static String menu;
 
     static {
-        menu = "魂技释放时,若需要选择 且 没选择 则魂技释放且无效果,请知悉\n选择器为 @xx 或 # 代表当前魂兽\n=======\n存在bug请及时反馈\n========\n" +
+        menu = "魂技释放时,若需要选择 且 没选择 则魂技释放且无效果,请知悉\n选择器为 @xx 或 # 代表当前魂兽" +
                 "1.激活魂技\r\n\t" +
                 "  示例:激活魂技1\n" +
                 "2.第(几)魂技(名字) ##释放魂技#没名字则忽略\r\n\t" +

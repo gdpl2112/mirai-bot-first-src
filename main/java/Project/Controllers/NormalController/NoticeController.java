@@ -43,6 +43,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("12.4 : 验证码忽略大小写 ").append("\n");
         sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
         sb.append("12.2 : 详细信息 拜师@xx 出师").append("\n");
         sb.append("11.29: /推@ ").append("\n");
@@ -50,8 +51,8 @@ public class NoticeController {
         sb.append("11.26: 一些 欢迎啥的 ").append("\n");
         sb.append("11.25:  看似更新了 其实没更新 ").append("\n");
         sb.append("11.23: 修复已知 Bug , 融合关系 转移至 \"关系列表\" ").append("\n");
-        sb.append("11.22: 测试性 功能 创建分身 ").append("\n");
-        sb.append("11.20:修复点歌, \"排行\" 改为 \"等级排行\" ").append("\n");
+//        sb.append("11.22: 测试性 功能 创建分身 ").append("\n");
+//        sb.append("11.20:修复点歌, \"排行\" 改为 \"等级排行\" ").append("\n");
 //        sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
 //        sb.append("11.13.19: 修复反甲不能打魂兽的Bug ").append("\n");
 //        sb.append("11.13: 修复已知Bug, 菜单变动 魂兽生成削弱 魂兽锁定条件削弱").append("\n");

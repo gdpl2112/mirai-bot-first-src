@@ -118,7 +118,9 @@ public class GameSkillServiceImpl implements ISkillService {
         info.setTime(System.currentTimeMillis() + info.getTimeL());
         saveSkillInfo(info);
         String tips = skill.getTips() + GameDetailService.ConsumedHl(qq, uv);
-        return getImgById(info.getId() + 100) + getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) + "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);
+        return getImgById(info.getId() + 100) +
+                getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) +
+                "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);
     }
 
     private static void execute(Skill skill) throws Exception {

@@ -133,6 +133,7 @@ public class SkillExecute {
                     info_.addHl(v);
                     if (info_.getHl() > lon) info_.setHl(lon);
                     putPerson(info_);
+                    setTips("作用于 " + Tool.At(q));
                     if (t++ >= max) {
                         setTips("最大人数3人");
                         return;
@@ -164,6 +165,7 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 v = v > info_.getAtt() ? info_.getAtt() : v;
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+                setTips("作用于 " + Tool.At(q));
             }
 
             @Override
@@ -309,9 +311,12 @@ public class SkillExecute {
             public void before() {
                 v = 1;
                 eve();
+                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                setTips("作用于 " + Tool.At(q));
             }
 
             private Integer v;
+            private long q;
 
             @Override
             public void run() {
@@ -373,14 +378,14 @@ public class SkillExecute {
      */
     private static Skill create11(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "狂热") {
+            private Long q;
+
             @Override
             public void before() {
-                if (nums == null || nums.length == 0)
-                    putPerson(getInfo(w = who.longValue()).addTag(tag_True_, 1));
-                else
-                    putPerson(getInfo(nums[0] = who.longValue()).addTag(tag_True_, 1));
+                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                putPerson(getInfo(q).addTag(tag_True_, 1));
+                setTips("作用于 " + Tool.At(q));
             }
-
 
             private Long w;
 
@@ -407,31 +412,32 @@ public class SkillExecute {
      */
     private static Skill create12(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "增速闪避") {
+
             @Override
             public void before() {
-                q1 = Long.valueOf(who + "");
+                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
                 v = Long.valueOf(info.getAddPercent());
                 AttributeBone attributeBone = new AttributeBone();
                 try {
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q1, "AttributeBone"));
+                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q, "AttributeBone"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 attributeBone.addHide_Pro(Integer.valueOf(v + ""));
-                GameDataBase.putStringFromData(q1, "AttributeBone", attributeBone.toString());
+                GameDataBase.putStringFromData(q, "AttributeBone", attributeBone.toString());
             }
 
 
-            private Long q1, v;
+            private Long q, v;
 
             @Override
             public void run() {
                 try {
                     Thread.sleep(t12);
                     AttributeBone attributeBone = new AttributeBone();
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q1, "AttributeBone"));
+                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q, "AttributeBone"));
                     attributeBone.addHide_Pro(-(Integer.valueOf(v + "")));
-                    GameDataBase.putStringFromData(q1, "AttributeBone", attributeBone.toString());
+                    GameDataBase.putStringFromData(q, "AttributeBone", attributeBone.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -483,9 +489,13 @@ public class SkillExecute {
      */
     private static Skill create14(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "无法躲避") {
+            private Long q;
+
             @Override
             public void before() {
-                putPerson(getInfo(who).addTag(tag_CantHide, 0));
+                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                putPerson(getInfo(q).addTag(tag_CantHide, 0));
+                setTips("作用于 " + Tool.At(q));
             }
 
             @Override

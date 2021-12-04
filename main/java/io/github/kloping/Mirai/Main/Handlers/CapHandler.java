@@ -4,7 +4,6 @@ import Project.Controllers.FirstController;
 import Project.DataBases.DataBase;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.Image;
@@ -26,7 +25,7 @@ public class CapHandler {
             String capCode = o[1].toString();
             Image image = MessageTools.createImageInGroup(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(new At(qid)).append("\n请在180秒内完成验证(注意大小写\n否则将被视为人机踢出群聊\n");
+            builder.append(new At(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n");
             builder.append(image);
             group.sendMessage(builder.build());
             caping.put(qid, capCode);
@@ -73,7 +72,7 @@ public class CapHandler {
 
     public static void cap(long qid, String text) {
         String t1 = caping.get(qid);
-        if (text.trim().equals(t1.trim())) {
+        if (text.trim().toLowerCase().equals(t1.trim().toLowerCase())) {
             ok(qid);
         } else {
             cap2.get(qid).sendMessage("好像不对哦~");

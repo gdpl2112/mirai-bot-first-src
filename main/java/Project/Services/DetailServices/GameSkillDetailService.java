@@ -160,7 +160,7 @@ public class GameSkillDetailService {
             case 8:
                 return String.format("对指定敌人造成 攻击%s%%的伤害", getAddP(jid, id));
             case 9:
-                return String.format("在接下来的来两分钟内,每24秒恢复%s%%的生命值", getAddP(jid, id));
+                return String.format("给予指定一个人,在接下来的来两分钟内,每24秒恢复%s%%的生命值", getAddP(jid, id));
             case 10:
                 return String.format("在接下来的来%s秒内,免疫一次死亡", getAddP(jid, id));
             case 11:
@@ -296,7 +296,6 @@ public class GameSkillDetailService {
             case 19:
                 return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.NLonTime};
             //=======================================================================
-
             case 71:
                 return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
             case 72:

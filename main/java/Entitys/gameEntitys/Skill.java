@@ -45,7 +45,7 @@ public abstract class Skill implements Runnable {
     }
 
     public void setTips(String tips) {
-        this.tips = tips;
+        this.tips += "\n" + tips;
         if (group != null) {
             MessageTools.sendMessageInGroupWithAt(tips, group.getId(), qq.longValue());
         }
