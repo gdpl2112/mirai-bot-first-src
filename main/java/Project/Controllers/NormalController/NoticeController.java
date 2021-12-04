@@ -45,7 +45,7 @@ public class NoticeController {
     static {
         sb.append("12.4 : 验证码忽略大小写 ").append("\n");
         sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
-        sb.append("12.2 : 详细信息 拜师@xx 出师").append("\n");
+        sb.append("12.2 : 详细信息 收徒@xx 出师").append("\n");
         sb.append("11.29: /推@ ").append("\n");
         sb.append("11.27: 开始成语接龙 (完善 ").append("\n");
         sb.append("11.26: 一些 欢迎啥的 ").append("\n");
