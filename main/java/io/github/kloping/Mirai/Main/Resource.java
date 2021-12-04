@@ -158,7 +158,7 @@ public class Resource {
             if (o.toString().startsWith("&"))
                 o = o.toString().replaceFirst("&", "");
             else
-                builder.append(new At(Long.valueOf(((User) objects[3]).getId() + ""))).append("\r\n");
+                builder.append(new At(((User) objects[3]).getId())).append("\r\n");
             if (o instanceof String) {
                 MessageChain message = MessageTools.getMessageFromString(o.toString(), group);
                 builder.append(message);

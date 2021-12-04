@@ -77,7 +77,7 @@ public class MessageTools {
                         builder.append(new At(Long.parseLong(s2)));
                 }
             } else
-                builder.append(str);
+                builder.append(str.trim());
         }
         return lls;
     }
