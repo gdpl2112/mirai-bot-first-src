@@ -4,7 +4,6 @@ import kotlin.Throws
 import com.madgag.gif.fmsware.AnimatedGifEncoder
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
-import Project.Tools.ImageDrawer
 import java.awt.geom.RoundRectangle2D
 import java.io.IOException
 import net.coobird.thumbnailator.Thumbnails
@@ -14,7 +13,7 @@ import java.io.File
 import java.lang.Exception
 import java.net.URL
 
-object ImageDrawer {
+object ImageDrawerUtils {
     /**
      * 推 的动画
      *

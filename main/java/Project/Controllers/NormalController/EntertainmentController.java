@@ -256,7 +256,8 @@ public class EntertainmentController {
         return sb.toString();
     }
 
-    public static final File[] files = new File("./images/tui").listFiles();
+    public static final File[] files_tui = new File("./images/tui").listFiles();
+    public static final File[] files_wq = new File("./images/wq").listFiles();
 
     @Action("/推.*")
     public String m1(@AllMess String m) {
@@ -272,7 +273,29 @@ public class EntertainmentController {
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
-            outFile = ImageDrawer.getTuiGift(files, u, outFile);
+            outFile = ImageDrawer.getTuiGift(files_wq, u, outFile);
+            return Tool.pathToImg(outFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error:for\n" + e.getMessage();
+        }
+    }
+
+    @Action("/玩球.*")
+    public String m_2(@AllMess String m) {
+        long q = MessageTools.getAtFromString(m);
+        String urlStr = null;
+        if (q == -1) {
+            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            if (urlStr == null)
+                return "目前只支@的形式、或携带图片";
+        } else {
+            urlStr = Tool.getTouUrl(q);
+        }
+        try {
+            URL u = new URL(urlStr);
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
+            outFile = ImageDrawer.getWq(files_wq, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();

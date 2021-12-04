@@ -1,6 +1,5 @@
 package Project.Tools;
 
-import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -10,41 +9,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-public class JImageDrawer {
-
-    /**
-     * 推 的动画
-     *
-     * @param files   gif集
-     * @param oFile   要被推的 url
-     * @param outFile 输出
-     * @return
-     * @throws Exception
-     */
-    public static File getTuiGift(File[] files, URL oFile, File outFile) throws Exception {
-        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-        encoder.start(outFile.getAbsolutePath());
-        encoder.setRepeat(0);
-        encoder.setQuality(5);
-        encoder.setFrameRate(200);
-        int rotateEve = 360 / files.length;
-        for (int i = 0; i < files.length; i++) {
-            encoder.setDelay(100);
-            BufferedImage main = ImageIO.read(files[i]);
-            BufferedImage image = ImageIO.read(oFile);
-            float rotate = rotateEve * i;
-            image = (BufferedImage) Image2Size(image, 200, 200);
-            image = (BufferedImage) rotateImage(image, rotate);
-            image = roundImage(image, 9999);
-
-            image = putImage(main, image, 93, 83);
-            encoder.addFrame(image);
-        }
-        encoder.finish();
-        return outFile;
-    }
+public class JImageDrawerUtils {
 
     /**
      * 图片圆角
@@ -106,11 +72,9 @@ public class JImageDrawer {
             tempFile = File.createTempFile("temp2", ".png");
             Thumbnails.of(image).scale(1F).rotate(rotate).toFile(tempFile);
             BufferedImage i1 = ImageIO.read(tempFile);
-            int w = i1.getWidth();
-            int h = i1.getHeight();
             Thumbnails.of(i1)
-                    .sourceRegion(Positions.CENTER, 200, 200)
-                    .size(200, 200)
+                    .sourceRegion(Positions.CENTER, _w, _h)
+                    .size(_w, _h)
                     .keepAspectRatio(false)
                     .toFile(tempFile);
         } catch (IOException e) {
