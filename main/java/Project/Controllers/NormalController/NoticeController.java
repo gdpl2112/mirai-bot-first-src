@@ -43,7 +43,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
-        sb.append("12.4 : 验证码忽略大小写 ").append("\n");
+        sb.append("12.4 : 验证码忽略大小写/可 看不清 ").append("\n");
         sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
         sb.append("12.2 : 详细信息 收徒@xx 出师").append("\n");
         sb.append("11.29: /推@ ").append("\n");

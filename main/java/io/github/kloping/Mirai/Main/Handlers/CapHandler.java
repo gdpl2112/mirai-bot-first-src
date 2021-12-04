@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 public class CapHandler {
     public static final Map<Long, String> caping = new ConcurrentHashMap<>();
     public static final Map<Long, Group> cap2 = new ConcurrentHashMap<>();
+    public static final Map<Long, Integer> capT = new ConcurrentHashMap<>();
 
     public static void join(long qid, Group group) {
         if (DataBase.needCap(group.getId())) {
@@ -25,12 +26,14 @@ public class CapHandler {
             String capCode = o[1].toString();
             Image image = MessageTools.createImageInGroup(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(new At(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n");
+            builder.append(new At(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
             caping.put(qid, capCode);
             cap2.put(qid, group);
-            startTimer(qid);
+            if (!capT.containsKey(qid))
+                startTimer(qid);
+            capT.put(qid, 180);
         }
     }
 
@@ -38,13 +41,14 @@ public class CapHandler {
 
     private static void startTimer(long qid) {
         threads.execute(new Runnable() {
-            private int t = 180;
 
             @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
+                    int t = capT.get(qid);
                     t--;
+                    capT.put(qid, t);
                     if (!caping.containsKey(qid)) return;
                     if (t <= 0) {
                         err(qid);
@@ -62,6 +66,7 @@ public class CapHandler {
         caping.remove(qid);
         Group group = cap2.get(qid);
         cap2.remove(qid);
+        capT.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append(new At(qid)).append("\n您没有通过验证");
         builder.append("\n请重新申请加入群聊");
@@ -72,10 +77,17 @@ public class CapHandler {
 
     public static void cap(long qid, String text) {
         String t1 = caping.get(qid);
-        if (text.trim().toLowerCase().equals(t1.trim().toLowerCase())) {
-            ok(qid);
-        } else {
-            cap2.get(qid).sendMessage("好像不对哦~");
+        switch (text.trim()) {
+            case "看不清":
+            case "换一个":
+                join(qid, cap2.get(qid));
+                break;
+            default:
+                if (text.trim().toLowerCase().equals(t1.trim().toLowerCase())) {
+                    ok(qid);
+                } else {
+                    cap2.get(qid).sendMessage("好像不对哦~");
+                }
         }
     }
 
@@ -83,6 +95,7 @@ public class CapHandler {
         caping.remove(qid);
         Group group = cap2.get(qid);
         cap2.remove(qid);
+        capT.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append(new At(qid)).append("\n恭喜你通过了验证");
         builder.append("\n群内成员要好好的与新人相处哦");
