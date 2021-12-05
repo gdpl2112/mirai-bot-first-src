@@ -3,11 +3,14 @@ package io.github.kloping.Mirai.Main;
 import io.github.kloping.Mirai.Main.Handlers.LittleHandler;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
+import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Scanner;
 
 public class OwnerSetStarter {
 
@@ -26,5 +29,25 @@ public class OwnerSetStarter {
         LittleHandler.init();
         LittleHandler handler = LittleHandler.contextManager.getContextEntity(LittleHandler.class);
         bot.getEventChannel().registerListenerHost(handler);
+
+//        Scanner sc = new Scanner(System.in);
+//        String line = null;
+//        while ((line = sc.nextLine()) != null) {
+//            try {
+//                // sendAllGroup ?
+//                MatherResult result = LittleHandler.actionManager.mather(line);
+//                if (result != null) {
+//                    for (Method method : result.getMethods()) {
+//                        try {
+//                            method.invoke(handler, line);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }

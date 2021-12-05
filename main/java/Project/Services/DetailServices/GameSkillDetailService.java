@@ -558,17 +558,6 @@ public class GameSkillDetailService {
         putPerson(p2);
     }
 
-    public static void addAtt(Number who, long who2, float bf) {
-        PersonInfo p1 = getInfo(who);
-        long v1 = percentTo((int) bf, p1.getAtt());
-        PersonInfo p2 = getInfo(who2);
-        v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
-        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
-                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
-        p2.addHl(v1);
-        putPerson(p2);
-    }
-
     public static long oneNearest(Number who, Number[] nums) {
         return nums.length >= 1 ? nums[0].longValue() : who.longValue();
     }

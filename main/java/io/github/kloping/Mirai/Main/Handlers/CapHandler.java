@@ -45,11 +45,11 @@ public class CapHandler {
             @Override
             public void run() {
                 try {
+                    if (!caping.containsKey(qid)) return;
                     Thread.sleep(1000);
                     int t = capT.get(qid);
                     t--;
                     capT.put(qid, t);
-                    if (!caping.containsKey(qid)) return;
                     if (t <= 0) {
                         err(qid);
                     } else {

@@ -48,7 +48,7 @@ public class LittleHandler extends SimpleListenerHost {
     }
 
     public static ContextManager contextManager = new ContextManagerImpl();
-    private static ActionManager actionManager = null;
+    public static ActionManager actionManager = null;
     private static ClassManager classManager;
     private static Bot bot;
 
@@ -263,4 +263,12 @@ public class LittleHandler extends SimpleListenerHost {
         if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
             MessageSource.recall(qr.getSource());
     }
+
+//    @Action("sendAllGroup.+")
+//    private void m7(String m) {
+//        String ms = m.substring("sendAllGroup".length());
+//        for (Group group : bot.getGroups()) {
+//            group.sendMessage(ms);
+//        }
+//    }
 }
