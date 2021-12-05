@@ -40,7 +40,7 @@ public class PlayerLostBroadcast extends Broadcast {
 
     public static interface PlayerLostReceiver extends Receiver {
         public static enum type {
-            att,
+            att,un
         }
 
         void onReceive(long who, long from, type type);

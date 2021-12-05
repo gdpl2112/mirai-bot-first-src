@@ -75,6 +75,15 @@ public class GameReceiver0 {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
             @Override
             public void onReceive(long who, long from, type type) {
+                switch (type) {
+                    case att:
+                        lost(who);
+                        break;
+                }
+                GInfo.getInstance(who).addDiedc().apply();
+            }
+
+            public void lost(long who) {
                 PersonInfo pi = GameDataBase.getInfo(who);
                 if (pi.hp <= 0) {
                     if (pi.dt1 <= System.currentTimeMillis()) {
@@ -93,7 +102,6 @@ public class GameReceiver0 {
                     }
                     GameDataBase.putPerson(pi);
                 }
-                GInfo.getInstance(who).addDiedc().apply();
             }
         });
     }

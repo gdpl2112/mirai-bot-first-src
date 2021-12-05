@@ -6,14 +6,16 @@ import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Tools.GameTool;
+import Project.broadcast.HpChangeBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Field;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
-import static Project.DataBases.skill.SkillDataBase.t719;
-import static Project.DataBases.skill.SkillDataBase.t75;
+import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameDetailService.Beaten;
 import static Project.Services.DetailServices.GameDetailService.onAtt;
 import static Project.Services.DetailServices.GameJoinDetailService.AttGho;
@@ -518,5 +520,77 @@ public class GameSkillDetailService {
             GameJoinDetailService.saveGhostObjIn(who.longValue(), ghostObj);
         }
         return true;
+    }
+
+    /**
+     * 一个 player 对 另一个 player 的加血
+     *
+     * @param who  p1 加血者
+     * @param who2 p2 被加血者
+     * @param bf   比例
+     */
+    public static void addHp(Number who, long who2, float bf) {
+        PersonInfo p1 = getInfo(who);
+        long v1 = percentTo((int) bf, p1.getHpl());
+        PersonInfo p2 = getInfo(who2);
+        v1 = v1 > p2.getHpl() / 2 ? p2.getHpl() / 2 : v1;
+        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
+                p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
+        p2.addHp(v1);
+        putPerson(p2);
+    }
+
+    /**
+     * 一个 player 对 另一个 player 的加魂力
+     *
+     * @param who  p1 加者
+     * @param who2 p2 被加者
+     * @param bf   比例
+     */
+    public static void addHl(Number who, long who2, float bf) {
+        PersonInfo p1 = getInfo(who);
+        long v1 = percentTo((int) bf, p1.getHll());
+        PersonInfo p2 = getInfo(who2);
+        v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
+        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
+                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
+        p2.addHl(v1);
+        putPerson(p2);
+    }
+
+    public static void addAtt(Number who, long who2, float bf) {
+        PersonInfo p1 = getInfo(who);
+        long v1 = percentTo((int) bf, p1.getAtt());
+        PersonInfo p2 = getInfo(who2);
+        v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
+        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
+                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
+        p2.addHl(v1);
+        putPerson(p2);
+    }
+
+    public static long oneNearest(Number who, Number[] nums) {
+        return nums.length >= 1 ? nums[0].longValue() : who.longValue();
+    }
+
+    public static Long[] nearest(int n, long who, Number[] nums) {
+        Set<Long> ls = new LinkedHashSet<>();
+        for (Number num : nums) {
+            if (ls.size() != n)
+                ls.add(num.longValue());
+            else break;
+        }
+        if (ls.size() < n) ls.add(who);
+        return ls.toArray(new Long[0]);
+    }
+
+    public static Long[] nearest(int n, Number[] nums) {
+        Set<Long> ls = new LinkedHashSet<>();
+        for (Number num : nums) {
+            if (ls.size() != n)
+                ls.add(num.longValue());
+            else break;
+        }
+        return ls.toArray(new Long[0]);
     }
 }

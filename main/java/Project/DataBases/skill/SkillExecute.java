@@ -26,16 +26,16 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体加血技能") {
             @Override
             public void before() {
-                Long q = nums[0].longValue();
+                Long q = oneNearest(who.longValue(), nums);
                 if (!exist(q)) return;
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getHpl();
-                long v = percentTo(info.getAddPercent(), lon);
-                v = v > info_.getHpl() ? info_.getHpl() : v;
-                info_.addHp(v);
-                if (info_.getHp() > lon) info_.addHp(lon);
+//                PersonInfo info_ = getInfo(q);
+//                Long lon = info_.getHpl();
+//                long v = percentTo(info.getAddPercent(), lon);
+//                v = v > info_.getHpl() ? info_.getHpl() : v;
+//                info_.addHp(v);
+//                if (info_.getHp() > lon) info_.addHp(lon);
+                addHp(who.longValue(), q, info.getAddPercent());
                 setTips("作用于 " + Tool.At(q));
-                putPerson(info_);
             }
         };
         return skill;
@@ -51,28 +51,12 @@ public class SkillExecute {
      */
     private static Skill create1(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "群体加血") {
-            private Integer max = 3;
-            private Integer t = 0;
 
             @Override
             public void before() {
-                t = 0;
-                max = 3;
-                for (Number n1 : nums) {
-                    Long q = n1.longValue();
-                    if (!exist(q)) continue;
-                    PersonInfo info_ = getInfo(q);
-                    Long lon = info_.getHpl();
-                    long v = percentTo(info.getAddPercent(), lon);
-                    v = v > info_.getHpl() ? info_.getHpl() : v;
-                    info_.addHp(v);
-                    if (info_.getHp() > lon) info_.addHp(lon);
+                for (Long q : nearest(3, who.longValue(), nums)) {
+                    addHp(who.longValue(), q, info.getAddPercent());
                     setTips("作用于 " + Tool.At(q));
-                    putPerson(info_);
-                    if (t++ >= max) {
-                        setTips("最大人数3人");
-                        return;
-                    }
                 }
             }
         };
@@ -91,16 +75,17 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体加魂力技能") {
             @Override
             public void before() {
-                Long q = nums[0].longValue();
+                Long q = oneNearest(who.longValue(), nums);
                 if (!exist(q)) return;
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getHll();
-                long v = percentTo(info.getAddPercent(), lon);
-                v = v > info_.getHll() ? info_.getHll() : v;
-                info_.addHl(v);
-                if (info_.getHl() > lon) info_.setHl(lon);
+                addHl(who, q, info.getAddPercent());
+//                PersonInfo info_ = getInfo(q);
+//                Long lon = info_.getHll();
+//                long v = percentTo(info.getAddPercent(), lon);
+//                v = v > info_.getHll() ? info_.getHll() : v;
+//                info_.addHl(v);
+//                if (info_.getHl() > lon) info_.setHl(lon);
+//                putPerson(info_);
                 setTips("作用于 " + Tool.At(q));
-                putPerson(info_);
             }
         };
         return skill;
@@ -116,28 +101,12 @@ public class SkillExecute {
      */
     private static Skill create3(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "群体加魂力") {
-            private Integer max = 3;
-            private Integer t = 0;
 
             @Override
             public void before() {
-                t = 0;
-                max = 3;
-                for (Number n1 : nums) {
-                    Long q = n1.longValue();
-                    if (!exist(q)) continue;
-                    PersonInfo info_ = getInfo(q);
-                    Long lon = info_.getHll();
-                    long v = percentTo(info.getAddPercent(), lon);
-                    v = v > info_.getHll() ? info_.getHll() : v;
-                    info_.addHl(v);
-                    if (info_.getHl() > lon) info_.setHl(lon);
-                    putPerson(info_);
+                for (Long q : nearest(3, who.longValue(), nums)) {
+                    addHl(who.longValue(), q, info.getAddPercent());
                     setTips("作用于 " + Tool.At(q));
-                    if (t++ >= max) {
-                        setTips("最大人数3人");
-                        return;
-                    }
                 }
             }
         };
@@ -154,11 +123,9 @@ public class SkillExecute {
      */
     private static Skill create4(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体加攻击技能") {
-
-
             @Override
             public void before() {
-                Long q = nums[0].longValue();
+                Long q = oneNearest(who, nums);
                 if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
@@ -166,11 +133,6 @@ public class SkillExecute {
                 v = v > info_.getAtt() ? info_.getAtt() : v;
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 setTips("作用于 " + Tool.At(q));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -186,31 +148,17 @@ public class SkillExecute {
      */
     private static Skill create5(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "群体加攻击") {
-            private Integer max;
-            private Integer t;
 
             @Override
             public void before() {
-                max = 3;
-                t = 0;
-                for (Number n1 : nums) {
-                    Long q = n1.longValue();
+                for (Long q : nearest(3, who.longValue(), nums)) {
                     if (!exist(q)) continue;
                     PersonInfo info_ = getInfo(q);
                     Long lon = info_.getAtt();
                     long v = percentTo(info.getAddPercent(), lon);
                     v = v > info_.getAtt() ? info_.getAtt() : v;
                     hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t5, q.longValue(), v));
-                    if (t++ >= max) {
-                        setTips("最大人数3人");
-                        return;
-                    }
                 }
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -233,6 +181,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t6);
                     putPerson(getInfo(who).eddTag(tag_Xx, info.getAddPercent()));
@@ -261,6 +210,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t6);
                     putPerson(getInfo(who).eddTag(tag_Fj, info.getAddPercent()));
@@ -284,14 +234,11 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体攻击") {
             @Override
             public void before() {
+                if (nums.length == 0) return;
                 StringBuilder sb = new StringBuilder();
                 long v = percentTo(info.getAddPercent(), getInfo(who).getAtt());
                 attGhostOrMan(sb, who, nums[0], v);
                 setTips(sb.toString());
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -320,6 +267,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.currentThread().sleep(24 * 1000);
                     if (eve()) run();
@@ -357,6 +305,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(info.getAddPercent() * 1000);
                     putPerson(getInfo(who).eddTag(tag_Ms, 0));
@@ -378,22 +327,21 @@ public class SkillExecute {
      */
     private static Skill create11(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "狂热") {
-            private Long q;
-
             @Override
             public void before() {
-                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                q = oneNearest(who, nums);
                 putPerson(getInfo(q).addTag(tag_True_, 1));
                 setTips("作用于 " + Tool.At(q));
             }
 
-            private Long w;
+            private Long q;
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t11);
-                    putPerson(getInfo(w).eddTag(tag_True_));
+                    putPerson(getInfo(q).eddTag(tag_True_));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -415,7 +363,7 @@ public class SkillExecute {
 
             @Override
             public void before() {
-                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                q = oneNearest(who, nums);
                 v = Long.valueOf(info.getAddPercent());
                 AttributeBone attributeBone = new AttributeBone();
                 try {
@@ -425,6 +373,7 @@ public class SkillExecute {
                 }
                 attributeBone.addHide_Pro(Integer.valueOf(v + ""));
                 GameDataBase.putStringFromData(q, "AttributeBone", attributeBone.toString());
+                setTips("作用于 " + Tool.At(q));
             }
 
 
@@ -432,6 +381,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t12);
                     AttributeBone attributeBone = new AttributeBone();
@@ -470,11 +420,6 @@ public class SkillExecute {
                 putPerson(info_);
                 setTips("令" + Tool.At(nums[0].longValue()) + "魂力减少");
             }
-
-            @Override
-            public void run() {
-
-            }
         };
         return skill;
     }
@@ -493,14 +438,10 @@ public class SkillExecute {
 
             @Override
             public void before() {
-                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
+                if (nums.length < 1) return;
+                q = nums[0].longValue();
                 putPerson(getInfo(q).addTag(tag_CantHide, 0));
                 setTips("作用于 " + Tool.At(q));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -522,11 +463,6 @@ public class SkillExecute {
                 int b = info.getAddPercent();
                 long v2 = percentTo(b, v);
                 putPerson(getInfo(who).addTag(tag_Shield, v2));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -555,6 +491,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(v * 1000);
                 } catch (InterruptedException e) {
@@ -584,6 +521,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(info.getAddPercent() * 1000);
                 } catch (InterruptedException e) {
@@ -612,10 +550,12 @@ public class SkillExecute {
                     return;
                 }
                 long max = 0, th = 0;
-                if (nums[0].longValue() < 0) {
+                if (nums[0].longValue() < 0 || nums[0].longValue() == -2) {
                     GhostObj ghostObj = getGhostObjFrom(who.longValue());
-                    if (ghostObj == null)
+                    if (ghostObj == null) {
                         setTips("未遇见魂兽");
+                        return;
+                    }
                     max = ghostObj.getMaxHp();
                     th = ghostObj.getHp();
                 } else {
@@ -657,19 +597,21 @@ public class SkillExecute {
                 int r = rand.nextInt(20) - 10;
                 if (nums[0].longValue() < 0) {
                     GhostObj ghostObj = getGhostObjFrom(who.longValue());
-                    if (ghostObj == null)
+                    if (ghostObj == null) {
                         setTips("未遇见魂兽");
+                    }
                 } else {
                     PersonInfo in = getInfo(nums[0]);
                 }
                 b = info.getAddPercent() + r;
-                setTips("将造成 " + b + "%伤害");
+                setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).getAtt())));
             }
 
             private int b;
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
@@ -700,27 +642,28 @@ public class SkillExecute {
             @Override
             public void before() {
                 StringBuilder sb = new StringBuilder();
-                for (Number number : nums) {
+                for (Long q : nearest(2, nums)) {
                     long v = percentTo(60, getInfo(who).getAtt());
-                    attGhostOrMan(sb, who, number, v);
+                    attGhostOrMan(sb, who, q, v);
                 }
                 setTips(sb.toString());
             }
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(10 * 1000);
                     StringBuilder sb = new StringBuilder();
-                    for (Number number : nums) {
+                    for (Long q : nearest(2, nums)) {
                         long v = percentTo(30, getInfo(who).getAtt());
-                        attGhostOrMan(sb, who, number, v);
+                        attGhostOrMan(sb, who, q, v);
                     }
                     setTips(sb.toString());
                     Thread.sleep(10 * 1000);
-                    for (Number number : nums) {
+                    for (Long q : nearest(2, nums)) {
                         long v = percentTo(10, getInfo(who).getAtt());
-                        attGhostOrMan(sb, who, number, v);
+                        attGhostOrMan(sb, who, q, v);
                     }
                     setTips(sb.toString());
                 } catch (InterruptedException e) {
@@ -743,10 +686,9 @@ public class SkillExecute {
     private static Skill create72(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "昊天真身") {
 
-
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -755,6 +697,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t72);
                 } catch (InterruptedException e) {
@@ -777,7 +720,6 @@ public class SkillExecute {
     private static Skill create73(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "天使真身") {
 
-
             @Override
             public void before() {
                 PersonInfo info1 = getInfo(who);
@@ -790,6 +732,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(100000);
                     if (c++ > t73 / 100000) {
@@ -804,13 +747,13 @@ public class SkillExecute {
             }
 
             private void over() {
+                setTips("武魂真身失效");
             }
 
             private void eve() {
                 PersonInfo info1 = getInfo(who);
                 Long v1 = percentTo(5, info1.getHll());
                 putPerson(getInfo(who).addHl(v1));
-                setTips("武魂真身失效");
             }
         };
         return skill;
@@ -828,6 +771,7 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "噬魂蛛皇真身") {
             @Override
             public void before() {
+                if (nums.length == 0) return;
                 long v1 = getAttFromAny(who, nums[0]);
                 if (v1 == 0) {
                     setTips("该玩家未注册");
@@ -842,6 +786,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t74);
                     eddAttAny(who, nums[0], -v);
@@ -865,7 +810,6 @@ public class SkillExecute {
     private static Skill create75(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝银皇真身") {
 
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -882,6 +826,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     if (c++ > t75C) {
                         setTips("武魂真身失效");
@@ -921,6 +866,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(info.getAddPercent() * 1000);
                     putPerson(getInfo(who).eddTag(tag_Wd, 0));
@@ -943,8 +889,6 @@ public class SkillExecute {
      */
     private static Skill create77(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "白虎真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -954,11 +898,6 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addAtt(v);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t77, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -974,8 +913,6 @@ public class SkillExecute {
      */
     private static Skill create78(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "邪火凤凰真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -987,10 +924,6 @@ public class SkillExecute {
                 long v = percentTo(a, info1.getHll());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t78, who.longValue(), v));
                 setTips("剩余" + n + "% 的魂力,增加" + a + "%的攻击力");
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1006,8 +939,6 @@ public class SkillExecute {
      */
     private static Skill create79(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "七杀真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -1017,10 +948,6 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addAtt(v);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1039,7 +966,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 StringBuilder sb = new StringBuilder();
-                for (Number number : nums) {
+                for (Long number : nearest(2, nums)) {
                     long v = percentTo(30, getInfo(who).getAtt());
                     attGhostOrMan(sb, who, number, v);
                 }
@@ -1048,16 +975,17 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(10 * 1000);
                     StringBuilder sb = new StringBuilder();
-                    for (Number number : nums) {
+                    for (Long number : nearest(2, nums)) {
                         long v = percentTo(30, getInfo(who).getAtt());
                         attGhostOrMan(sb, who, number, v);
                     }
                     setTips(sb.toString());
                     Thread.sleep(10 * 1000);
-                    for (Number number : nums) {
+                    for (Long number : nearest(2, nums)) {
                         long v = percentTo(30, getInfo(who).getAtt());
                         attGhostOrMan(sb, who, number, v);
                     }
@@ -1082,7 +1010,6 @@ public class SkillExecute {
     private static Skill create711(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "破魂枪真身") {
 
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -1092,11 +1019,6 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addAtt(v);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -1112,8 +1034,6 @@ public class SkillExecute {
      */
     private static Skill create712(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "大力金刚熊真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -1123,11 +1043,6 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addAtt(v);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
-
             }
         };
         return skill;
@@ -1143,33 +1058,20 @@ public class SkillExecute {
      */
     private static Skill create713(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "奇茸通天菊真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 try {
-                    if (nums[0] != null) {
+                    if (nums.length != 0) {
                         putPerson(getInfo(nums[0]).addTag(SkillDataBase.tag_CantHide, 0));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(t713);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setTips("武魂真身失效");
             }
         };
         return skill;
@@ -1186,7 +1088,6 @@ public class SkillExecute {
     private static Skill create714(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "鬼魅真身") {
 
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -1196,16 +1097,12 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 try {
-                    if (nums[0] != null) {
+                    if (nums.length != 0) {
                         putPerson(getInfo(nums[0]).addTag(SkillDataBase.tag_CantHide, 0));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1235,9 +1132,9 @@ public class SkillExecute {
                 eveV = info_.getHpl() / 50;
             }
 
-
             @Override
             public void run() {
+                super.run();
                 try {
                     if (v < 10) {
                         setTips("武魂真身失效.");
@@ -1264,8 +1161,6 @@ public class SkillExecute {
      */
     private static Skill create716(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蛇矛真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
@@ -1278,10 +1173,6 @@ public class SkillExecute {
                 info_.addTag(tag_Shield, o);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t716, who.longValue(), v));
                 putPerson(info_.addTag(tag_Xx, info.getAddPercent() / 8));
-            }
-
-            @Override
-            public void run() {
             }
         };
     }
@@ -1299,18 +1190,12 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addTag(tag_Shield, percentTo(info.getAddPercent(), info_.getHpl()));
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t717, who.longValue(), v));
-            }
-
-
-            @Override
-            public void run() {
             }
         };
     }
@@ -1325,12 +1210,9 @@ public class SkillExecute {
      */
     private static Skill create718(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蛇杖真身") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int p = info.getAddPercent();
@@ -1339,10 +1221,6 @@ public class SkillExecute {
                 info_.addTag(tag_Shield, o);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t718, who.longValue(), v));
                 putPerson(info_.addTag(tag_Xx, info.getAddPercent() / 8));
-            }
-
-            @Override
-            public void run() {
             }
         };
     }
@@ -1358,7 +1236,6 @@ public class SkillExecute {
     private static Skill create719(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝银草真身") {
 
-
             @Override
             public void before() {
                 eve();
@@ -1368,6 +1245,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     if (c++ > t79C) {
                         setTips("武魂真身失效");
@@ -1375,16 +1253,13 @@ public class SkillExecute {
                     }
                     Thread.sleep(t79);
                     eve();
-                    run();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             public void eve() {
-                PersonInfo info_ = getInfo(who);
-                long v = percentTo(info.getAddPercent(), info_.getHp());
-                putPerson(getInfo(who).addHp(v));
+                addHp(who, who.longValue(), info.getAddPercent());
             }
         };
         return skill;
@@ -1401,7 +1276,6 @@ public class SkillExecute {
      */
     private static Skill create720(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "玄龟真身") {
-
             @Override
             public void before() {
                 PersonInfo info_ = getInfo(who);
@@ -1430,7 +1304,6 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 v2 = percentTo(info.getAddPercent(), lon);
@@ -1447,12 +1320,12 @@ public class SkillExecute {
                 GameDataBase.putStringFromData(q1, "AttributeBone", attributeBone.toString());
             }
 
-
             private Long v2;
             private Long q1;
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t721);
                     AttributeBone attributeBone = new AttributeBone();
@@ -1480,7 +1353,7 @@ public class SkillExecute {
 
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
@@ -1493,10 +1366,6 @@ public class SkillExecute {
                 info_.addHj(v4);
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t722, who.longValue(), v1));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1516,7 +1385,7 @@ public class SkillExecute {
 
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
@@ -1526,10 +1395,6 @@ public class SkillExecute {
                 info_.addTag(tag_Xx, b / 5);
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t723, who.longValue(), v1));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1545,22 +1410,15 @@ public class SkillExecute {
      */
     private static Skill create724(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "修罗神剑") {
-
-
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addHl(percentTo(info.getAddPercent() / 3, info_.getHll()));
                 putPerson(info_.addTag(tag_True_, 1));
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t724, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1578,7 +1436,7 @@ public class SkillExecute {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "青龙真身") {
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
@@ -1592,6 +1450,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t725);
                     putPerson(getInfo(who).eddTag(tag_Fj));
@@ -1615,7 +1474,7 @@ public class SkillExecute {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "海神") {
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
@@ -1628,6 +1487,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t726);
                     putPerson(getInfo(who).eddTag(tag_She));
@@ -1649,20 +1509,14 @@ public class SkillExecute {
      */
     private static Skill create727(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "锄头真身") {
-
-
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t727, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1678,20 +1532,14 @@ public class SkillExecute {
      */
     private static Skill create728(SkillInfo info, Number who, Number... nums) {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "斧头真身") {
-
-
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t728, who.longValue(), v));
-            }
-
-            @Override
-            public void run() {
             }
         };
         return skill;
@@ -1709,7 +1557,7 @@ public class SkillExecute {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "杀神昊天锤") {
             @Override
             public void before() {
-                Long q = Long.valueOf(who + "");
+                Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
@@ -1721,11 +1569,7 @@ public class SkillExecute {
                 b += id;
                 long v = percentTo(b, lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t729, who.longValue(), v));
-                setTips("增加" + b + "%攻击");
-            }
-
-            @Override
-            public void run() {
+                setTips(String.format("增加%s%%(%s)攻击", b, percentTo(b, getInfo(who).getAtt())));
             }
         };
     }
@@ -1742,7 +1586,7 @@ public class SkillExecute {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "魔神剑") {
             @Override
             public void before() {
-                if (nums == null || nums[0] == null || nums[0].intValue() <= 0) {
+                if (nums.length == 0) {
                     setTips("未选择任何..");
                 }
                 long v = getHjFromAny(who, nums[0].longValue());
@@ -1758,11 +1602,6 @@ public class SkillExecute {
                 in.addHl(v2);
                 in.addHj(v3);
                 putPerson(in);
-            }
-
-            @Override
-            public void run() {
-
             }
         };
     }
@@ -1791,6 +1630,7 @@ public class SkillExecute {
 
             @Override
             public void run() {
+                super.run();
                 try {
                     Thread.sleep(t731);
                 } catch (InterruptedException e) {
@@ -1806,7 +1646,6 @@ public class SkillExecute {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override
             public void before() {
-
             }
         };
     }

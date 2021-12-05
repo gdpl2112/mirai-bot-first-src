@@ -4,6 +4,7 @@ package Project.Services.impl;
 import Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameBoneService;
+import Project.broadcast.PlayerLostBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -135,7 +136,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         if (hasSamePart(map, id)) {
             return "已经吸收过 相同部位的魂骨了";
         }
-        GameDataBase.removeFromBgs(who, id,ObjType.use);
+        GameDataBase.removeFromBgs(who, id, ObjType.use);
         switch (r1) {
             case 0:
                 nu = i * 3;
@@ -189,6 +190,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
             addToBgs(who, id, ObjType.un);
             PutAttributeMap(who, map);
             GameDataBase.putPerson(getInfo(who).setHp(0L).setHl(0L).setXp(0L));
+            PlayerLostBroadcast.INSTANCE.broadcast(who, who, PlayerLostBroadcast.PlayerLostReceiver.type.un);
             return "卸掉成功 状态全无";
         } else {
             return "你没有 对应的魂骨";

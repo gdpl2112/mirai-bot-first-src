@@ -23,7 +23,6 @@ public abstract class Skill implements Runnable {
         this.qq = qq;
         this.numbers = numbers;
         this.name = name;
-        before();
     }
 
     public abstract void before();
@@ -38,6 +37,7 @@ public abstract class Skill implements Runnable {
 
     @Override
     public void run() {
+        before();
     }
 
     public String getTips() {

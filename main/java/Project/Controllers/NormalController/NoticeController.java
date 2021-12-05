@@ -35,22 +35,18 @@ public class NoticeController {
         return moraStr1;
     }
 
-    private static final String moraStr2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
-            "   9级不能吸收万年及以上\n\t" +
-            "   49级不能吸收十万年及以上\n\t" +
-            "   69级不能吸收百万年及以上\n\t";
-
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("12.5 : 魂技加血/魂力 技能 以自身值为基础 且 不会为 被增益者 回复超过最大值一半的量").append("\n");
         sb.append("12.4 : 验证码忽略大小写/可 看不清 ").append("\n");
         sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
         sb.append("12.2 : 详细信息 收徒@xx 出师").append("\n");
         sb.append("11.29: /推@ ").append("\n");
         sb.append("11.27: 开始成语接龙 (完善 ").append("\n");
-        sb.append("11.26: 一些 欢迎啥的 ").append("\n");
-        sb.append("11.25:  看似更新了 其实没更新 ").append("\n");
-        sb.append("11.23: 修复已知 Bug , 融合关系 转移至 \"关系列表\" ").append("\n");
+//        sb.append("11.26: 一些 欢迎啥的 ").append("\n");
+//        sb.append("11.25: 看似更新了 其实没更新 ").append("\n");
+//        sb.append("11.23: 修复已知 Bug , 融合关系 转移至 \"关系列表\" ").append("\n");
 //        sb.append("11.22: 测试性 功能 创建分身 ").append("\n");
 //        sb.append("11.20:修复点歌, \"排行\" 改为 \"等级排行\" ").append("\n");
 //        sb.append("11.19: 大无语事件的发生 与 解决 ").append("\n");
@@ -69,6 +65,11 @@ public class NoticeController {
 //        sb.append("10.13: 魂兽击杀排行 修复 显示魂力消耗问题\n");
 //        sb.append("10.10:魂力消耗调整,暗器增加伤害上限,暗器制作成本调整,魂技增幅属性调整\n见暗器制作表\n魂技增益性不会超过本身最大值").append("\r\n");
     }
+
+    private static final String moraStr2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
+            "   9级不能吸收万年及以上\n\t" +
+            "   49级不能吸收十万年及以上\n\t" +
+            "   69级不能吸收百万年及以上\n\t";
 
     @Action("更新日志")
     public String UpdateLog() {

@@ -108,8 +108,8 @@ public class GameSkillServiceImpl implements ISkillService {
         Skill skill = null;
         try {
             skill = get(qq, info, allAt);
-            skill.setGroup(group);
             execute(skill);
+            skill.setGroup(group);
         } catch (Exception e) {
             e.printStackTrace();
             return "魂技 选择器 异常";
