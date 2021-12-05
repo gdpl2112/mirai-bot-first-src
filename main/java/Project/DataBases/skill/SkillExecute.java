@@ -270,7 +270,8 @@ public class SkillExecute {
                 super.run();
                 try {
                     Thread.currentThread().sleep(24 * 1000);
-                    if (eve()) run();
+                    while (eve())
+                        continue;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
