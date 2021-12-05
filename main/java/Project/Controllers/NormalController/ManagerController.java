@@ -261,9 +261,9 @@ public class ManagerController {
         }
     }
 
-    @Action(value = "yousend<.{0,}=>str>", otherName = {"[@me]跟我说<.+=>str>"})
-    public String Isay(@Param("str") String str, Group group) {
-        return str;
+    @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
+    public String Isay(@AllMess String str, Group group) {
+        return str.substring(7);
     }
 
     @Action("addScore.{1,}")
