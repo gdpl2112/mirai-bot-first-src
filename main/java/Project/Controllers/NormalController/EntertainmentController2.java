@@ -12,6 +12,9 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Message;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import static Project.Controllers.ControllerTool.CanGroup;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.bot;
@@ -27,8 +30,11 @@ public class EntertainmentController2 {
     public static long upNewsId = 0;
 
     private void startTips() {
-        long gid = bot.getGroups().contains(278681553L) ? 278681553L : bot.getGroups().contains(759590727L) ? 759590727L : -1L;
-        if (gid != -1) {
+        Set<Long> sets = new LinkedHashSet<>();
+        if (bot.getGroups().contains(278681553L)) sets.add(278681553L);
+        else if (bot.getGroups().contains(759590727L)) sets.add(759590727L);
+        else if (bot.getGroups().contains(794238572L)) sets.add(794238572L);
+        if (sets.size() > 0) {
             String s1 = DataBase.getString("upNewsId");
             if (s1 != null && !s1.trim().isEmpty()) {
                 upNewsId = Long.parseLong(s1.trim());
@@ -40,10 +46,10 @@ public class EntertainmentController2 {
                         Response0 r0 = GetPvpNews.m1(FirstController.getPvpQQ);
                         long newsId = r0.getData().getItems()[0].getINewsId().longValue();
                         if (upNewsId != newsId) {
-                            Message message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, gid);
+                            Message message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, sets.iterator().next());
                             upNewsId = newsId;
                             DataBase.setString(upNewsId, "upNewsId");
-                            bot.getGroup(gid).sendMessage(message);
+                            bot.getGroup(sets.iterator().next()).sendMessage(message);
                         }
                         int r = Tool.rand.nextInt(30) + 30;
                         Thread.sleep(1000 * 60 * r);
