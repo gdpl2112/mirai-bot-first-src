@@ -39,6 +39,10 @@ public class GInfo {
      * 累计死亡次数
      */
     private int diedc = 0;
+    /**
+     * 魂技使用次数
+     */
+    private int useskillc = 0;
 
     public GInfo addQid() {
         this.qid++;
@@ -109,6 +113,17 @@ public class GInfo {
         this.diedc += i;
         return this;
     }
+
+    public GInfo addUseskillc() {
+        this.useskillc++;
+        return this;
+    }
+
+    public GInfo addUseskillc(int i) {
+        this.useskillc += i;
+        return this;
+    }
+
 
     public void apply() {
         UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();

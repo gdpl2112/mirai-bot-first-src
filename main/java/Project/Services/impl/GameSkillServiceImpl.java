@@ -1,6 +1,6 @@
 package Project.Services.impl;
 
-import Entitys.*;
+import Entitys.Group;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Skill;
 import Entitys.gameEntitys.SkillInfo;
@@ -11,15 +11,15 @@ import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.ISkillService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
+import Project.broadcast.SkillUseBroadcast;
+import Project.broadcast.enums.ObjType;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameSkillDetailService.*;
-
-import Project.broadcast.enums.ObjType;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 @Entity
 public class GameSkillServiceImpl implements ISkillService {
@@ -64,7 +64,7 @@ public class GameSkillServiceImpl implements ISkillService {
                 .setTimeL(getCoolTime(id, id2, getInfo(qq).getWh(), st).longValue() * 60 * 1000L)
                 .setSt(st)
                 .setAddPercent((int) (getBasePercent(id2) * GameTool.getAHBl_(id)))
-                .setUsePercent(getUserPercent(st,id2).intValue());
+                .setUsePercent(getUserPercent(st, id2).intValue());
 
         SkillDataBase.saveSkillInfo(info);
         int id_ = is[st - 1] + 100;
@@ -109,6 +109,7 @@ public class GameSkillServiceImpl implements ISkillService {
         try {
             skill = get(qq, info, allAt);
             execute(skill);
+            SkillUseBroadcast.INSTANCE.broadcast(qq, info.getJid(), st, info);
             skill.setGroup(group);
         } catch (Exception e) {
             e.printStackTrace();

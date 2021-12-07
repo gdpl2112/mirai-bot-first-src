@@ -230,6 +230,9 @@ public class Drawer {
         //========
         y = y + eve;
         g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + smallFont.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + smallFont.getSize());
 
         //==================================
         g.setColor(Color.BLACK);

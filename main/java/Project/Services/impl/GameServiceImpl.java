@@ -697,6 +697,8 @@ public class GameServiceImpl implements IGameService {
         return pathToImg(drawGInfopPng(gInfo));
     }
 
+    private int st = 20;
+
     @Override
     public String shouTu(long q, long q2) {
         if (getWarp(q).getPrentice().longValue() != -1)
@@ -704,8 +706,8 @@ public class GameServiceImpl implements IGameService {
         if (getWarp(q2).getMaster().longValue() != -1)
             return "他已经有师傅了";
         GInfo gInfo = GInfo.getInstance(q);
-        if (gInfo.getMasterPoint() < 25)
-            return "名师点不足";
+        if (gInfo.getMasterPoint() < st)
+            return "名师点不足:需要=" + st + "\n现在:" + gInfo.getMasterPoint();
         try {
             ConfirmController.RegAgree(q2, new Object[]{
                     this.getClass().getDeclaredMethod("shouTuNow", long.class, long.class),

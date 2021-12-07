@@ -3,11 +3,9 @@ package Project.recivers;
 import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.SkillInfo;
 import Project.DataBases.GameDataBase;
-import Project.broadcast.GhostLostBroadcast;
-import Project.broadcast.GotOrLostObjBroadcast;
-import Project.broadcast.JoinBroadcast;
-import Project.broadcast.PlayerLostBroadcast;
+import Project.broadcast.*;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -111,6 +109,15 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long who, int type) {
                 GInfo.getInstance(who).addJoinc().apply();
+            }
+        });
+    }
+
+    private static void init4() {
+        SkillUseBroadcast.INSTANCE.add(new SkillUseBroadcast.SkillUseReceiver() {
+            @Override
+            public void onReceive(long who, int jid, int st, SkillInfo info) {
+                GInfo.getInstance(who).addUseskillc().apply();
             }
         });
     }
