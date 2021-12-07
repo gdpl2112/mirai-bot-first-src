@@ -4,6 +4,7 @@ package Project.DataBases;
 import Entitys.GroupConf;
 import Entitys.UScore;
 import com.alibaba.fastjson.JSON;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.File;
@@ -282,5 +283,21 @@ public class DataBase {
                 }
             }
         }.start();
+    }
+
+    public static String getString(String fileName) {
+        File f1 = new File(path, fileName);
+        return FileUtils.getStringFromFile(f1.getAbsolutePath());
+    }
+
+    public static boolean setString(Object str, String fileName) {
+        File f1 = new File(path, fileName);
+        try {
+            FileUtils.putStringInFile(str.toString(), f1);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

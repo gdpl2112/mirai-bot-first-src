@@ -1,10 +1,10 @@
 package Project.Controllers;
 
 import Project.Tools.Tool;
+import Project.interfaces.GetPvpQQ;
 import Project.interfaces.GetSongs;
 import Project.interfaces.RunCode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 
@@ -25,11 +25,12 @@ public class FirstController {
     @AutoStand
     public static DefaultKaptcha defaultKaptcha;
 
+    @AutoStand
+    public static GetPvpQQ getPvpQQ;
 
 //    @Action("测试")
-//    public String a() {
-//        Object[] os = createCapImage();
-//        return Tool.pathToImg(os[0].toString());
+//    public Message a(Group group) throws Exception {
+//        return getNews(541818, group.getId());
 //    }
 
     public static char[] cs = new char[]{

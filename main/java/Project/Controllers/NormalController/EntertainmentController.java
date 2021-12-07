@@ -271,8 +271,6 @@ public class EntertainmentController {
                 return i1 - i2;
             }
         };
-//        Arrays.sort(files_wq,comparator);
-//        Arrays.sort(files_tui,comparator);
         Arrays.sort(files_wq);
         Arrays.sort(files_tui);
     }

@@ -37,19 +37,15 @@ public class MessageTools {
     public static final Map<String, MessageChain> historyShortMess = new ConcurrentHashMap<>();
 
     public static MessageChain getMessageFromString(String str, Contact group) {
-        try {
-            if (str == null || str.isEmpty() || group == null) return null;
-            if (str.length() < 8 && historyShortMess.containsKey(str))
-                return historyShortMess.get(str);
-            MessageChainBuilder builder = new MessageChainBuilder();
-            append(str, builder, group);
-            MessageChain message = builder.build();
-            if (str.length() < 8 && !historyShortMess.containsKey(str))
-                historyShortMess.put(str, message);
-            return message;
-        } finally {
-            System.gc();
-        }
+        if (str == null || str.isEmpty() || group == null) return null;
+        if (str.length() < 8 && historyShortMess.containsKey(str))
+            return historyShortMess.get(str);
+        MessageChainBuilder builder = new MessageChainBuilder();
+        append(str, builder, group);
+        MessageChain message = builder.build();
+        if (str.length() < 8 && !historyShortMess.containsKey(str))
+            historyShortMess.put(str, message);
+        return message;
     }
 
     private static final Pattern patterFace = Pattern.compile("(<Face\\:\\d+>|\\[Face\\:\\d+\\])");

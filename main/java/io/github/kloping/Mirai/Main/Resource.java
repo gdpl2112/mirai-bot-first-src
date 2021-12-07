@@ -105,7 +105,6 @@ public class Resource {
         StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(25 * 1000L);
         StarterApplication.setAccessTypes(Long.class, Entitys.User.class, Group.class, Integer.class);
-        // StarterApplication.setAccPars(Long.class, Entitys.User.class, Group.class, Integer.class,MessageChain.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
@@ -123,26 +122,6 @@ public class Resource {
         StarterApplication.run(cla);
     }
 
-    /*   static String url;
-       static String driver;
-       static String user;
-       static String pwd;
-
-       @Bean
-       public SqlSessionFactory b1() {
-           PooledDataSource dataSource = new PooledDataSource();
-           dataSource.setDriver(driver);
-           dataSource.setUsername(user);
-           dataSource.setPassword(pwd);
-           dataSource.setUrl(url);
-           TransactionFactory transactionFactory = new JdbcTransactionFactory();
-           Environment environment = new Environment("development", transactionFactory, dataSource);
-           Configuration configuration = new Configuration(environment);
-           SqlSessionFactory SqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-           return SqlSessionFactory;
-       }
-    */
-
     public static void onReturnResult(Object o, Object[] objects) {
         long v1 = System.currentTimeMillis();
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -153,6 +132,9 @@ public class Resource {
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;
                 MessageTools.sendMessageByForward(group.getId(), objs);
+                return;
+            } else if (o instanceof Message) {
+                group.sendMessage((Message) o);
                 return;
             }
             if (o.toString().startsWith("&"))
