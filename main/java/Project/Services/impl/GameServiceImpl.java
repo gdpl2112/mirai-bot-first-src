@@ -13,8 +13,8 @@ import Project.DataBases.ZongMenDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.IGameService;
-import Project.Tools.Drawer;
 import Project.broadcast.enums.ObjType;
+import Project.drawers.Drawer;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -30,9 +30,9 @@ import java.util.concurrent.Executors;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.ZongMenDataBase.getZonInfo;
 import static Project.DataBases.ZongMenDataBase.putZonInfo;
-import static Project.Tools.Drawer.*;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
+import static Project.drawers.Drawer.*;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getNameFromGroup;
 
 @Entity
@@ -697,7 +697,7 @@ public class GameServiceImpl implements IGameService {
         return pathToImg(drawGInfopPng(gInfo));
     }
 
-    private int st = 20;
+    private int st = 18;
 
     @Override
     public String shouTu(long q, long q2) {

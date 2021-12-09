@@ -15,6 +15,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.Tools.GameTool.getRandXl;
@@ -343,7 +345,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
     }
 
-    private static int maxSle = 3000;
+    public static int maxSle = 2000;
 
     @Override
     public String SleObj(Long who, int id) {
@@ -353,11 +355,10 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             if (bgids.contains(id)) {
                 long l = 0;
-                try {
-                    l = GameDataBase.id2ShopMaps.get(id) / 3;
-                } catch (Exception e) {
-                    return "商城中为发现此物品";
-                }
+                if (id2ShopMaps.containsKey(id)) l = GameDataBase.id2ShopMaps.get(id) / 3;
+                else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
+                else return "商城中为发现此物品";
+
                 GameDataBase.removeFromBgs(who, id, ObjType.sell);
                 l = l > maxSle ? maxSle : l;
                 putPerson(getInfo(who).addGold(l));
@@ -377,7 +378,12 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             if (id == 206 || id == 207)
                 return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             removeFromBgs(who, id, num, ObjType.sell);
-            long l = GameDataBase.id2ShopMaps.get(id) / 3;
+            long l;
+
+            if (id2ShopMaps.containsKey(id)) l = GameDataBase.id2ShopMaps.get(id) / 3;
+            else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
+            else return "商城中为发现此物品";
+
             l = l > maxSle ? maxSle : l;
             l *= num;
             putPerson(getInfo(who).addGold(l));
@@ -407,4 +413,22 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             return "你的背包里没有" + getNameById(id);
         }
     }
+
+    public static final Map<Integer, Number> onlySle = new ConcurrentHashMap<>();
+
+    static {
+        onlySle.put(1512, 1002);
+        onlySle.put(1522, 1002);
+        onlySle.put(1532, 1002);
+        onlySle.put(1542, 1002);
+        onlySle.put(1552, 1002);
+        //=====================
+
+    }
 }
+
+
+
+
+
+

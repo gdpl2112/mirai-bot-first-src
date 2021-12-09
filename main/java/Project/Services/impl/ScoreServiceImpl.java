@@ -11,8 +11,8 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import static Project.DataBases.DataBase.*;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
-import static Project.Tools.Drawer.getImageFromFontString;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromFontString;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.Tool.*;
 
 @Entity

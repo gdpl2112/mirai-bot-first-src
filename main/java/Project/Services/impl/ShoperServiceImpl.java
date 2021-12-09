@@ -10,7 +10,7 @@ import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.getImageFromStringsOnTwoColumns;
+import static Project.drawers.Drawer.getImageFromStringsOnTwoColumns;
 import static Project.Tools.Tool.getTimeDDHHMM;
 
 @Entity

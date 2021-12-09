@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.JsonStringToObject;
 import static Project.Tools.JSONUtils.ObjectToJsonString;

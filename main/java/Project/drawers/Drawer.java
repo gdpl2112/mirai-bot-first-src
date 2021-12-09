@@ -1,9 +1,11 @@
-package Project.Tools;
+package Project.drawers;
 
 import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Entitys.gameEntitys.Zong;
+import Project.Tools.GameTool;
+import Project.Tools.Tool;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 
@@ -262,7 +264,7 @@ public class Drawer {
         }
     }
 
-    private static Color fromStrToARGB(String str) {
+    public static Color fromStrToARGB(String str) {
         String str1 = str.substring(0, 2);
         String str2 = str.substring(2, 4);
         String str3 = str.substring(4, 6);

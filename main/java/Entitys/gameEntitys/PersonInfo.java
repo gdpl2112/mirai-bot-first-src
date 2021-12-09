@@ -3,10 +3,10 @@ package Entitys.gameEntitys;
 
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
-import Project.broadcast.PlayerLostBroadcast;
 
 import java.lang.reflect.Field;
 
+import static Project.Controllers.GameControllers.GameController.maxXp;
 import static Project.DataBases.GameDataBase.getInfo;
 
 public class PersonInfo {
@@ -344,7 +344,7 @@ public class PersonInfo {
     public PersonInfo setXp(Long xp) {
         this.xp = xp;
         if (Level >= 150) this.xp = 0L;
-        if (xp > xpL * 1.5) this.xp = (long) (xpL * 1.5);
+        if (xp > xpL * maxXp) this.xp = (long) (xpL * maxXp);
         return this;
     }
 

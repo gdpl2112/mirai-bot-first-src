@@ -7,7 +7,7 @@ import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
-import Project.Tools.ImageDrawer;
+import Project.drawers.ImageDrawer;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;

@@ -266,27 +266,6 @@ public class ManagerController {
         return str.substring(7);
     }
 
-    @Action("addScore.{1,}")
-    public String addScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
-        if (qq.getId() == superQL) {
-            long who = MessageTools.getAtFromString(messages);
-            messages = messages.replace(Long.toString(who), "");
-            if (who == -1) return ("Are You True??");
-            long num = Long.parseLong(Tool.findNumberFromString(messages));
-            DataBase.addScore(num, who);
-            return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
-        } else throw new NoRunException();
-    }
-
-    @Action("全体加积分.{1,}")
-    public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
-        if (qq.getId() == superQL) {
-            long num = Long.parseLong(Tool.findNumberFromString(messages));
-            DataBase.AddAllScore(num);
-            return new StringBuilder().append("加积分=>异步执行中... On 积分").toString();
-        } else throw new NoRunException();
-    }
-
     @Action("eddScore<.+=>n>")
     public String eddScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
         if (qq.getId() == superQL) {

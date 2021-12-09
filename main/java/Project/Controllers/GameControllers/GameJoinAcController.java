@@ -19,7 +19,7 @@ import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.killedC;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.upDateMan;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -45,7 +45,6 @@ public class GameJoinAcController {
     public void before(User qq, Group group, @AllMess String message) throws NoRunException {
         if (!AllK)
             throw new NoRunException();
-
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }

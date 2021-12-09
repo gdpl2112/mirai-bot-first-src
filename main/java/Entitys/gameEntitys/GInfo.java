@@ -138,44 +138,4 @@ public class GInfo {
         if (gInfo != null) return gInfo;
         return new GInfo().setQid(qid);
     }
-
-
-    public static void main(String[] args) {
-        summon(GInfo.class);
-    }
-
-    public static void summon(Class<?> cla) {
-        Field[] fields = cla.getDeclaredFields();
-        for (Field field : fields) {
-            Class c1 = ObjectUtils.baseToPack(field.getType());
-            if (c1 == Long.class || c1 == Integer.class) {
-                System.out.print("\tpublic ");
-                System.out.print(cla.getSimpleName());
-                System.out.print(" add");
-                System.out.print(field.getName().substring(0, 1).toUpperCase());
-                System.out.print(field.getName().substring(1));
-                System.out.println("() {");
-                System.out.print("\t\tthis.");
-                System.out.print(field.getName());
-                System.out.println("++;");
-                System.out.println("\t\treturn this;");
-                System.out.print("\t}");
-                System.out.println();
-                System.out.println();
-                System.out.print("\tpublic ");
-                System.out.print(cla.getSimpleName());
-                System.out.print(" add");
-                System.out.print(field.getName().substring(0, 1).toUpperCase());
-                System.out.print(field.getName().substring(1));
-                System.out.println("(int i) {");
-                System.out.print("\t\tthis.");
-                System.out.print(field.getName());
-                System.out.println(" += i;");
-                System.out.println("\t\treturn this;");
-                System.out.print("\t}");
-                System.out.println();
-                System.out.println();
-            }
-        }
-    }
 }

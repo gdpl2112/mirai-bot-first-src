@@ -18,8 +18,8 @@ import java.lang.reflect.Method;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
-import static Project.Tools.Drawer.FilterImg;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.FilterImg;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
 

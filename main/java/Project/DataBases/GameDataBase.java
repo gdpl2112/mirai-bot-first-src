@@ -118,7 +118,7 @@ public class GameDataBase {
         ids.add("111:融合戒指");
         ids.add("112:精神神石");
         ids.add("113:遗忘药水");
-
+        //====
         ids.add("501:未知生物1");
         ids.add("502:唤象魔者");
         ids.add("503:森林巨猩");
@@ -171,6 +171,8 @@ public class GameDataBase {
         ids.add("1551:低级右腿魂骨");
         ids.add("1552:中级右腿魂骨");
         ids.add("1553:高级右腿魂骨");
+
+
         //==========================
         StringBuilder sb = new StringBuilder();
         for (String s : ids) {
@@ -266,6 +268,7 @@ public class GameDataBase {
         ids.add("113:889");
 
         ids.add("1000:215");
+
         ids.add("1511:630");
         ids.add("1521:630");
         ids.add("1531:630");
@@ -491,7 +494,8 @@ public class GameDataBase {
         File file = new File(pathN + "/bgs");
         List<Integer> list = new ArrayList<>();
         for (String s : getStringsFromFile(file.getPath())) {
-            if (s.contains(":") || s.equals("0"))
+            s = s.trim();
+            if (s.startsWith("//") || s.startsWith("#") || s.contains(":") || s.equals("0"))
                 continue;
             list.add(Integer.valueOf(s));
         }
@@ -983,7 +987,7 @@ public class GameDataBase {
         for (int i = 0; i < num; i++)
             addStingInFile(id + "", pathN, "utf-8");
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
-               type);
+                type);
         return "OK";
     }
 

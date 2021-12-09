@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 
 @Entity
 public class GameWeaServiceImpl implements IGameWeaService {

@@ -9,11 +9,11 @@ import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import net.mamoe.mirai.message.data.PlainText;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.NormalController.ScoreController.longs;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.Services.impl.GameUseObjServiceImpl.maxSle;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -81,10 +81,8 @@ public class GameObjController {
 
     @Action(value = "商城", otherName = {"商店", "商场"})
     public Object Shop(Group group) {
-        if (upShopPath.isEmpty()) {
-            upShopPath = getImageFromStrings(1, GameDataBase.getShop());
-        }
-        return (upShopPath + "\r\n用=>出售=>来出售物品\r\n回收价为原价值的1/3但最高不会超过3000");
+        if (upShopPath.isEmpty()) upShopPath = getImageFromStrings(1, GameDataBase.getShop());
+        return (upShopPath + "\r\n用=>出售=>来出售物品\r\n回收价为原价值的1/3但最高不会超过" + maxSle);
     }
 
     @Action("购买<.{1,}=>name>")
@@ -111,7 +109,7 @@ public class GameObjController {
         }
     }
 
-    @Action(value = "物品转让<.{1,}=>name>", otherName = "转让物品<.{1,}=>name>")
+    @Action(value = "物品转让<.{1,}=>name>", otherName = {"转让物品<.{1,}=>name>", "转让<.{1,}=>name>"})
     public String Transfer(User qq, @Param("name") String name, @AllMess String message) {
         try {
             if (longs.contains(qq.getId())) return "Can't";
@@ -124,7 +122,6 @@ public class GameObjController {
             try {
                 num = Integer.valueOf(Tool.findNumberFromString(name));
                 name = name.replaceFirst(num + "", "").replaceAll(",", "").replaceAll("个", "");
-                ;
             } catch (Exception e) {
                 num = null;
             }
@@ -153,14 +150,10 @@ public class GameObjController {
                 num = null;
             }
             Integer id = GameDataBase.Name2idMaps.get(what);
-            if (id == null) {
-                return new PlainText("商城中未发现此物品");
-            }
+            if (id == null) return "未知物品";
             String mess = "";
-            if (num == null)
-                mess = gameUseObiService.SleObj(qq.getId(), id);
-            else
-                mess = gameUseObiService.SleObj(qq.getId(), id, num);
+            if (num == null) mess = gameUseObiService.SleObj(qq.getId(), id);
+            else mess = gameUseObiService.SleObj(qq.getId(), id, num);
             return mess;
         } catch (Exception e) {
             e.printStackTrace();

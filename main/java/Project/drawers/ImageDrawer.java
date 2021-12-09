@@ -1,4 +1,4 @@
-package Project.Tools;
+package Project.drawers;
 
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 
@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
-import static Project.Tools.JImageDrawerUtils.*;
+import static Project.drawers.JImageDrawerUtils.*;
 
 public class ImageDrawer {
 
@@ -43,15 +43,7 @@ public class ImageDrawer {
         return outFile;
     }
 
-    public static void main(String[] args) throws Exception {
-//        System.out.println(getTuiGift(new File("./images/tui").listFiles()
-//                , new URL("https://q1.qlogo.cn/g?b=qq&nk=3474006766&s=640"), new File("./data/end1.gif")));
-    }
-
     public static File getWq(File[] files, URL oFile, File outFile) throws Exception {
-//        File[] files = new File("./data/wq").listFiles();
-//        File outFile = new File("./data/end.gif");
-//        URL oFile = new URL("https://q1.qlogo.cn/g?b=qq&nk=3474006766&s=640");
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
         encoder.start(outFile.getAbsolutePath());
         encoder.setRepeat(0);
@@ -70,7 +62,7 @@ public class ImageDrawer {
             int[] vs = getWt(i);
             image = putImage(main, image, vs[0], vs[1]);
             encoder.addFrame(image);
-            ImageIO.write(image,"png",new File("./data/temp/"+i+".png"));
+            ImageIO.write(image, "png", new File("./data/temp/" + i + ".png"));
         }
         encoder.finish();
         return outFile;

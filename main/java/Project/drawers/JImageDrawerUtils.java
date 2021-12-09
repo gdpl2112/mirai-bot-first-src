@@ -1,4 +1,4 @@
-package Project.Tools;
+package Project.drawers;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -9,6 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class JImageDrawerUtils {
 
@@ -98,5 +99,30 @@ public class JImageDrawerUtils {
         Graphics graphics = image.getGraphics();
         graphics.drawImage(im, x, y, null);
         return image;
+    }
+
+    public static Image getImageByUrl2Size(URL url, int width, int height) {
+        try {
+            BufferedImage image = ImageIO.read(url);
+            return Image2Size(image, width, height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Image getImageByColor2Size(Color color, int width, int height) {
+        try {
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+            Graphics2D g2d = image.createGraphics();
+            g2d.setClip(0, 0, width, height);
+            g2d.setColor(color);
+            g2d.fillRect(0, 0, width, height);
+            g2d.dispose();
+            return image;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -2,11 +2,18 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
+import Project.DataBases.DataBase;
+import Project.Tools.Tool;
+import Project.drawers.GameDrawer;
+import Project.drawers.entity.GameMap;
+import io.github.kloping.Mirai.Main.ITools.MemberTools;
+import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Project.ASpring.SpringBootResource.move0;
 import static Project.ASpring.SpringBootResource.move1;
@@ -41,5 +48,45 @@ public class SuperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Action("addScore.{1,}")
+    public String addScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
+        if (qq.getId() == superQL) {
+            long who = MessageTools.getAtFromString(messages);
+            messages = messages.replace(Long.toString(who), "");
+            if (who == -1) return ("Are You True??");
+            long num = Long.parseLong(Tool.findNumberFromString(messages));
+            DataBase.addScore(num, who);
+            return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
+        } else throw new NoRunException();
+    }
+
+    @Action("全体加积分.{1,}")
+    public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
+        if (qq.getId() == superQL) {
+            long num = Long.parseLong(Tool.findNumberFromString(messages));
+            DataBase.AddAllScore(num);
+            return new StringBuilder().append("加积分=>异步执行中... On 积分").toString();
+        } else throw new NoRunException();
+    }
+
+    @Action("/testMap<.+=>str>")
+    public String t1(@Param("str") String str, User user) throws IOException {
+        String[] ss = str.split("-");
+        Map<String, Integer> maps = new HashMap<>();
+        for (String s : ss) {
+            String[] s2 = s.split("=");
+            maps.put(s2[0], Integer.valueOf(ss[1]));
+        }
+        int w = maps.containsKey("w") ? maps.get("w") : 10;
+        int h = maps.containsKey("h") ? maps.get("h") : 6;
+        int x = maps.containsKey("x") ? maps.get("x") : 1;
+        int y = maps.containsKey("y") ? maps.get("y") : 1;
+        GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder()
+                .setWidth(w)
+                .setHeight(h)
+                .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
+        return Tool.pathToImg(GameDrawer.drawerMap(builder.build()));
     }
 }

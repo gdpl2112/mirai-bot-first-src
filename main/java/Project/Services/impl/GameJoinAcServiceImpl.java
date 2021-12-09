@@ -16,7 +16,7 @@ import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.Services.DetailServices.GameJoinDetailService.saveGhostObjIn;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.isATrue;
 import static Project.Tools.Tool.getTimeHHMM;
 import static Project.Tools.Tool.rand;

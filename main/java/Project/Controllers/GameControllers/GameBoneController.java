@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.upDateMan;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;

@@ -24,8 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.drawWarpPng;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.drawWarpPng;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.Resource.StartOkRuns;
@@ -34,6 +34,8 @@ import static io.github.kloping.Mirai.Main.Resource.println;
 
 @Controller
 public class GameController {
+
+    public static final float maxXp = 1.25f;
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");

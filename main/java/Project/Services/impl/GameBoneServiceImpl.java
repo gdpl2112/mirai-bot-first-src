@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Drawer.getImageFromStrings;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.Tool.getEntry;
 import static Project.Tools.Tool.rand;
 
