@@ -70,23 +70,4 @@ public class SuperController {
             return new StringBuilder().append("加积分=>异步执行中... On 积分").toString();
         } else throw new NoRunException();
     }
-
-    @Action("/testMap<.+=>str>")
-    public String t1(@Param("str") String str, User user) throws IOException {
-        String[] ss = str.split("-");
-        Map<String, Integer> maps = new HashMap<>();
-        for (String s : ss) {
-            String[] s2 = s.split("=");
-            maps.put(s2[0], Integer.valueOf(ss[1]));
-        }
-        int w = maps.containsKey("w") ? maps.get("w") : 10;
-        int h = maps.containsKey("h") ? maps.get("h") : 6;
-        int x = maps.containsKey("x") ? maps.get("x") : 1;
-        int y = maps.containsKey("y") ? maps.get("y") : 1;
-        GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder()
-                .setWidth(w)
-                .setHeight(h)
-                .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
-        return Tool.pathToImg(GameDrawer.drawerMap(builder.build()));
-    }
 }

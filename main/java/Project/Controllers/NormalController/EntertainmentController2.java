@@ -1,18 +1,26 @@
 package Project.Controllers.NormalController;
 
 import Entitys.Group;
+import Entitys.User;
 import Entitys.apiEntitys.pvpQqCom.Response0;
 import Project.Controllers.FirstController;
 import Project.DataBases.DataBase;
 import Project.Plugins.GetPvpNews;
 import Project.Tools.Tool;
+import Project.drawers.GameDrawer;
+import Project.drawers.entity.GameMap;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.annotations.Param;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Message;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static Project.Controllers.ControllerTool.CanGroup;
@@ -69,5 +77,30 @@ public class EntertainmentController2 {
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
+    }
+
+
+    @Action("/testMap<.+=>str>")
+    public String t1(@Param("str") String str, User user) throws IOException {
+        String[] ss = str.split("-");
+        Map<String, Integer> maps = new HashMap<>();
+        for (String s : ss) {
+            if (s.trim().isEmpty() || !s.contains("=")) continue;
+            try {
+                String[] s2 = s.split("=");
+                maps.put(s2[0], Integer.valueOf(s2[1]));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        int w = maps.containsKey("w") ? maps.get("w") : 10;
+        int h = maps.containsKey("h") ? maps.get("h") : 6;
+        int x = maps.containsKey("x") ? maps.get("x") : 1;
+        int y = maps.containsKey("y") ? maps.get("y") : 1;
+        GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder()
+                .setWidth(w)
+                .setHeight(h)
+                .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
+        return Tool.pathToImg(GameDrawer.drawerMap(builder.build()));
     }
 }
