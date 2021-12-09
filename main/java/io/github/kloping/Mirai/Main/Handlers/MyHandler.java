@@ -51,6 +51,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
+//        M2.m1(event.getGroup());
         if (!Resource.Switch.AllK) return;
         if (CapHandler.caping.containsKey(event.getSender().getId())) {
             CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));

@@ -12,7 +12,7 @@ public class Saver {
     public static String path = "./messages/";
     public static String pathRecall = "./messages/recalled/";
 
-    public static String rootPath = "http://123.57.42.227:8082";
+    public static final String rootPath = "http://123.57.42.227:8082";
 //    public static String rootPath = "http://localhost:8082";
 
     static {
