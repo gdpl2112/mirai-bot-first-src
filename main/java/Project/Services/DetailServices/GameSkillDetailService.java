@@ -182,7 +182,7 @@ public class GameSkillDetailService {
             case 18:
                 return String.format("攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%%时加成为攻击x%s%%", getAddP(jid, id));
             case 19:
-                return String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s+- 10% 的 伤害");
+                return String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s+- 10% 的 伤害", getAddP(jid, id));
             //==========================================================
             case 71:
                 return String.format("释放雷霆之力,对指定2个敌人造成%s%%攻击的伤害,10秒后在造成30%的伤害,10秒后造成10%的伤害", getAddP(jid, id));
