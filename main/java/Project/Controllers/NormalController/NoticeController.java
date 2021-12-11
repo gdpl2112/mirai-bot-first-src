@@ -38,6 +38,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("12.11: 丢@xx ").append("\n");
         sb.append("12.11: 新物品,(白/黄/紫/黑/红)升级券 获取方式后续更新,降低名师点要求 ").append("\n");
         sb.append("12.9 : 中级魂骨可出售,降低名师点要求 ").append("\n");
         sb.append("12.6 : 魂技使用次数,降低名师点要求").append("\n");

@@ -275,6 +275,8 @@ public class EntertainmentController {
         Arrays.sort(files_tui);
     }
 
+    //===============
+
     @Action("/推.*")
     public String m1(@AllMess String m) {
         long q = MessageTools.getAtFromString(m);
@@ -312,6 +314,30 @@ public class EntertainmentController {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
             outFile = ImageDrawer.getWq(files_wq, u, outFile);
+            return Tool.pathToImg(outFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error:for\n" + e.getMessage();
+        }
+    }
+
+    public static final File file_diu = new File("./images/diu/diu.png");
+
+    @Action("/丢.*")
+    public String m_3(@AllMess String m) {
+        long q = MessageTools.getAtFromString(m);
+        String urlStr = null;
+        if (q == -1) {
+            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            if (urlStr == null)
+                return "目前只支@的形式、或携带图片";
+        } else {
+            urlStr = Tool.getTouUrl(q);
+        }
+        try {
+            URL u = new URL(urlStr);
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
+            outFile = ImageDrawer.getDui(file_diu, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
