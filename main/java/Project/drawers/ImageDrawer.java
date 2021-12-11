@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
-import java.util.Random;
 
 import static Project.Tools.Tool.rand;
 import static Project.drawers.JImageDrawerUtils.*;
@@ -156,6 +155,7 @@ public class ImageDrawer {
 
     public static File getDui(File file, URL oFile, File outFile) throws Exception {
         BufferedImage oImage = ImageIO.read(oFile);
+        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException("不支持长方形图片");
         oImage = roundImage(oImage, 9999);
         oImage = (BufferedImage) Image2Size(oImage, 150, 150);
         oImage = (BufferedImage) rotateImage(oImage, rand.nextInt(160) + 60);
