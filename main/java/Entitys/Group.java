@@ -1,12 +1,23 @@
 package Entitys;
 
+import java.util.Map;
+
 public class Group {
     private Long id;
     private String nickName;
 
-    public Group(Long id, String nickName) {
+    private Group(Long id, String nickName) {
         this.id = id;
         this.nickName = nickName;
+    }
+
+    public static Group create(long id, String name, Map<Long, Group> histGroupMap) {
+        if (histGroupMap.containsKey(id)) return histGroupMap.get(id);
+        Group group = new Group(id, name);
+        histGroupMap.put(
+                id, group
+        );
+        return group;
     }
 
     public long getId() {

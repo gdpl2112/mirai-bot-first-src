@@ -2,10 +2,7 @@ package io.github.kloping.Mirai.Main;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.DataBases.DataBase;
-import Project.DataBases.GameDataBase;
-import Project.DataBases.ShopDataBase;
-import Project.DataBases.ZongMenDataBase;
+import Project.DataBases.*;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Network.NetWorkMain;
 import Project.Plugins.NetMain;
@@ -34,11 +31,13 @@ import static Project.Controllers.GameControllers.GameH2LController.check;
 
 public class Resource {
     public static final ExecutorService threads = Executors.newFixedThreadPool(20);
-    public static final ExecutorService DaeThreads = new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
+    public static final ExecutorService DaeThreads =
+            new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 
     public static final String myMame = "0号";
 
     public static Bot bot;
+
     public static String superQ = "3474006766";
     public static Long superQL = Long.parseLong(superQ);
     public static String datePath = "";
@@ -65,17 +64,23 @@ public class Resource {
                 return (qq = bot5);
             case 6:
                 return (qq = bot6);
-
         }
         return null;
     }
 
+    public static DataBase dataBase = null;
+    public static GameDataBase gameDataBase = null;
+    public static ZongMenDataBase zmDataBase = null;
+    public static ShopDataBase shopDataBase = null;
+    public static SkillDataBase skillDataBase = null;
+    public static GameTaskDatabase gameTaskDatabase = null;
     public static void Init() {
         dataBase = new DataBase(datePath);
         gameDataBase = new GameDataBase(datePath);
         zmDataBase = new ZongMenDataBase(datePath);
         shopDataBase = new ShopDataBase(datePath);
         skillDataBase = new SkillDataBase(datePath);
+        gameTaskDatabase = new GameTaskDatabase(datePath);
     }
 
     protected static void startTimer() {
@@ -96,7 +101,7 @@ public class Resource {
                     }
                 }
             }
-        }, 10 * 1000, 10 * 1000);
+        }, 10 * 1000, 15 * 1000);
     }
 
     private static int timeIndex = 60;
@@ -220,34 +225,16 @@ public class Resource {
         }
     }
 
-    private static final Runnable runnableBefore = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                URL url = new URL(NetMain.rootPath + "/abo?id=" + bot.getId() + "&key=hrskloping");
-                url.openStream();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    private static final Runnable runnableBefore = () -> {
+        try {
+            URL url = new URL(NetMain.rootPath + "/abo?id=" + bot.getId() + "&key=hrskloping");
+            url.openStream();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     };
-    public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
-    protected static void StarterOk() {
-        threads.execute(new Runnable() {
-            @Override
-            public void run() {
-                for (Runnable runnable : StartOkRuns) {
-                    try {
-                        runnable.run();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Resource.bot.getFriend(superQL).sendMessage(e.getMessage());
-                    }
-                }
-            }
-        });
-    }
+    public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
     protected static void StarterOk(boolean k) {
         threads.execute(new Runnable() {
@@ -269,11 +256,6 @@ public class Resource {
 
 
     //=======================
-    public static DataBase dataBase = null;
-    public static GameDataBase gameDataBase = null;
-    public static ZongMenDataBase zmDataBase = null;
-    public static ShopDataBase shopDataBase = null;
-    public static SkillDataBase skillDataBase = null;
     //=================================
 //    public static final IScoreService scoreService = new ScoreServiceImpl();
 //    public static final IOtherService otherService = new OtherServiceImpl();
@@ -304,8 +286,6 @@ public class Resource {
     //================
     public static class Switch {
         public static boolean AllK = true;
-        public static boolean isTalk = true;
-        public static boolean isWelcome = true;
         public static boolean sendFlashToSuper = true;
     }
 

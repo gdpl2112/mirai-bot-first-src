@@ -43,7 +43,7 @@ public class BotStarter2 {
         startTimer();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         println("运行的线程=》" + Thread.activeCount());
-        StarterOk();
+        StarterOk(false);
     }
 
     private static void startRegisterListenerHost() {

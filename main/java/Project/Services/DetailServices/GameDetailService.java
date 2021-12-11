@@ -200,7 +200,7 @@ public class GameDetailService {
                 fn = attributeBone.getHl_Rec_Eff();
             }
             oNow -= fn;
-            sb.append("\n得益于 " + sb + "你恢复了" + fn + "魂力\n============");
+            sb.append("\n得益于 魂骨 你恢复了" + fn + "魂力\n============");
         }
         personInfo.addHl(-oNow);
         putPerson(personInfo);

@@ -1,5 +1,7 @@
 package Entitys;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class User {
@@ -8,14 +10,19 @@ public class User {
     private String nickName = "=";
     private String name = "=";
 
-    public User() {
-    }
-
     public User(Long id, Long group, String nickName, String name) {
         this.id = id;
         this.group = group;
         this.nickName = nickName;
         this.name = name;
+    }
+
+
+    public static final Map<Long, User> hist = new HashMap<>();
+
+    public static User create(Long id, Long group, String nickName, String name) {
+        if (!hist.containsKey(id)) hist.put(id, new User(id, group, nickName, name));
+        return hist.get(id);
     }
 
 

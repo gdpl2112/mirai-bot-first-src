@@ -103,7 +103,7 @@ public class TimerController {
         });
     }
 
-    @Schedule("18:10:00")
+    @Schedule("17:50:00")
     public static void onNightSix() {
         update_Today();
         threads.execute(() -> {
@@ -111,7 +111,7 @@ public class TimerController {
                 if (!ControllerTool.CanGroup(g)) continue;
                 Group group = Resource.bot.getGroup(g);
                 MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append("晚上好啊");
+                builder.append("晚好");
                 group.sendMessage(builder.build());
             }
         });

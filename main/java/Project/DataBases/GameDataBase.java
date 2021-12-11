@@ -171,7 +171,12 @@ public class GameDataBase {
         ids.add("1551:低级右腿魂骨");
         ids.add("1552:中级右腿魂骨");
         ids.add("1553:高级右腿魂骨");
-
+        //===
+        ids.add("1601:白升级券");
+        ids.add("1602:黄升级券");
+        ids.add("1603:紫升级券");
+        ids.add("1604:黑升级券");
+        ids.add("1605:红升级券");
 
         //==========================
         StringBuilder sb = new StringBuilder();
@@ -234,6 +239,12 @@ public class GameDataBase {
         tros.add("1551:低级右腿魂骨,增强属性,质量随魂骨品质越好而越好");
         tros.add("1552:中级右腿魂骨,增强属性,质量随魂骨品质越好而越好");
         tros.add("1553:高级右腿魂骨,增强属性,质量随魂骨品质越好而越好");
+        //===
+        tros.add("1601:白升级券,用于合成更高记得升级券,升级魂环");
+        tros.add("1602:黄升级券,用于合成更高记得升级券,升级魂环");
+        tros.add("1603:紫升级券,用于合成更高记得升级券,升级魂环");
+        tros.add("1604:黑升级券,用于合成更高记得升级券,升级魂环");
+        tros.add("1605:红升级券,升级魂环");
 
         StringBuilder sb = new StringBuilder();
         for (String s : tros) {
@@ -863,6 +874,10 @@ public class GameDataBase {
             File file = new File(path + "/mainfist/images");
             File f = new File(file, getBoneImg(id));
             return pathToImg(f.getPath());
+        } else if (id < 1650) {
+            File file = new File(path + "/mainfist/images");
+            File f = new File(file, "upQ" + (id - 1600) + ".png");
+            return pathToImg(f.getPath());
         }
         throw new RuntimeException();
     }
@@ -895,6 +910,10 @@ public class GameDataBase {
         } else if (id < 1600) {
             File file = new File(path + "/mainfist/images");
             File f = new File(file, getBoneImg(id));
+            return k ? pathToImg(f.getPath()) : f.getPath();
+        } else if (id < 1650) {
+            File file = new File(path + "/mainfist/images");
+            File f = new File(file, "upQ" + (id - 1600) + ".png");
             return k ? pathToImg(f.getPath()) : f.getPath();
         }
         throw new RuntimeException();

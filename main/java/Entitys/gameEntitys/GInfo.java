@@ -2,13 +2,10 @@ package Entitys.gameEntitys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import io.github.kloping.object.ObjectUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.lang.reflect.Field;
 
 import static Project.ASpring.SpringBootResource.gInfoMapper;
 
@@ -18,6 +15,9 @@ import static Project.ASpring.SpringBootResource.gInfoMapper;
 @NoArgsConstructor
 public class GInfo {
     private long qid = -1;
+    /**
+     * 名师点
+     */
     private int masterPoint = 0;
     /**
      * 修炼次数
@@ -43,6 +43,10 @@ public class GInfo {
      * 魂技使用次数
      */
     private int useskillc = 0;
+    /**
+     * 星级
+     */
+    private int star = 0;
 
     public GInfo addQid() {
         this.qid++;
@@ -124,6 +128,15 @@ public class GInfo {
         return this;
     }
 
+    public GInfo addStar() {
+        this.star++;
+        return this;
+    }
+
+    public GInfo addStar(int i) {
+        this.star += i;
+        return this;
+    }
 
     public void apply() {
         UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();

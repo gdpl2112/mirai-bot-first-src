@@ -44,39 +44,34 @@ public class MyHandler extends SimpleListenerHost {
 
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        super.handleException(context, exception);
+        exception.printStackTrace();
     }
 
-    private static final Map<Long, Entitys.Group> map = new ConcurrentHashMap<>();
+    private static final Map<Long, Entitys.Group> histGroupMap = new ConcurrentHashMap<>();
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-//        M2.m1(event.getGroup());
-        if (!Resource.Switch.AllK) return;
         if (CapHandler.caping.containsKey(event.getSender().getId())) {
             CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
             return;
         }
+        if (!Resource.Switch.AllK) return;
+        if (event.getSender() instanceof AnonymousMember) return;
         String text = null;
         Entitys.Group eGroup = null;
         Group group = null;
         MessageChain chain = null;
         long id = -1;
         try {
-            if (event.getSender() instanceof AnonymousMember) return;
             chain = event.getMessage();
             id = event.getSender().getId();
             boolean inS = SessionController.contains(id);
             group = event.getGroup();
-            eGroup = map.containsKey(group.getId()) ? map.get(group.getId()) : new Entitys.Group(group.getId(), group.getName());
-            Entitys.User eUser = new Entitys.User(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
+            eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
+            Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS);
-            if (!inS)
-//                Starter.ExecuteMethod(id, text, id, eUser, eGroup, 0, event.getMessage());
-                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
-            else {
-                gotoSession(group, text, id);
-            }
+            if (!inS) StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
+            else gotoSession(group, text, id);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -138,7 +133,7 @@ public class MyHandler extends SimpleListenerHost {
     public static boolean autoAcceptFriend = false;
 
     @EventHandler
-    public void onAcceFirend(NewFriendRequestEvent event) {
+    public void onAceFriend(NewFriendRequestEvent event) {
         if (autoAcceptFriend)
             event.accept();
     }
@@ -219,7 +214,7 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onMemberHonorChangeEvent_Lose(MemberHonorChangeEvent.Lose event) {
         if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -229,5 +224,5 @@ public class MyHandler extends SimpleListenerHost {
         builder.append("ta 失去了").append(gs.get(event.getHonorType())).append("\n");
         builder.append(new Face(Face.SAO_RAO));
         event.getGroup().sendMessage(builder.build());
-    }
+    }*/
 }

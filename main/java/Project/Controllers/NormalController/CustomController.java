@@ -49,6 +49,8 @@ public class CustomController {
 
     private static final int finalIndex = 10;
     private static int index = 1;
+    private static final long _cd = 15 * 1000;
+    private static long cd = -1;
 
     public static final synchronized String action(long qq, String s, Group group) {
         try {
@@ -56,6 +58,8 @@ public class CustomController {
             if (!AllK || !CanGroup(group.getId())) {
                 return null;
             }
+            if (cd > System.currentTimeMillis()) return null;
+
             if (map.containsKey(s)) {
                 Reply reply = map.get(s);
                 MessageChainBuilder builder = new MessageChainBuilder();
@@ -65,6 +69,7 @@ public class CustomController {
                 } else {
                     MessageTools.sendMessageInGroup(reply.content, group.getId());
                 }
+                cd = System.currentTimeMillis() + _cd;
                 return reply.content;
             }
         } catch (Exception e) {

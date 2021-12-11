@@ -7,8 +7,8 @@ import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
-import Project.drawers.ImageDrawer;
 import Project.Tools.Tool;
+import Project.drawers.ImageDrawer;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -29,9 +29,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.TimerController.baseUrlCloud;
 import static Project.DataBases.DataBase.canBackShow;
-import static io.github.kloping.Mirai.Main.Resource.*;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.Switch.sendFlashToSuper;
+import static io.github.kloping.Mirai.Main.Resource.*;
 
 @Controller
 public class EntertainmentController {
@@ -112,19 +112,19 @@ public class EntertainmentController {
         return otherService.trans(str, group, qq);
     }
 
-    @Action(value = "晚安", otherName = {"晚", "晚好"})
-    public String Eveing(@AllMess String Strings) throws NoRunException {
-        if (Switch.isWelcome)
-            return otherService.Talk(Strings);
-        else throw new NoRunException();
-    }
+//    @Action(value = "晚安", otherName = {"晚", "晚好"})
+//    public String Eveing(@AllMess String Strings) throws NoRunException {
+//        if (Switch.isWelcome)
+//            return otherService.Talk(Strings);
+//        else throw new NoRunException();
+//    }
 
-    @Action(value = "早", otherName = {"早啊", "早安"})
-    public String Morning(@AllMess String Strings) throws NoRunException {
-        if (Switch.isWelcome)
-            return otherService.Talk(Strings);
-        else throw new NoRunException();
-    }
+//    @Action(value = "早", otherName = {"早啊", "早安"})
+//    public String Morning(@AllMess String Strings) throws NoRunException {
+//        if (Switch.isWelcome)
+//            return otherService.Talk(Strings);
+//        else throw new NoRunException();
+//    }
 
 
     @Action("\\[闪照<.+=>s1>")

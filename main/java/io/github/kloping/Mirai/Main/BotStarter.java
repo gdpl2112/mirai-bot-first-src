@@ -16,7 +16,7 @@ import static io.github.kloping.Mirai.Main.Resource.*;
 @CommentScan(path = "Project")
 public class BotStarter {
 
-    private static boolean test = false;
+    public static boolean test = false;
 
     static {
         try {

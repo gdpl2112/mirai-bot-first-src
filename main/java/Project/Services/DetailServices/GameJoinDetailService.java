@@ -20,12 +20,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.JsonStringToObject;
 import static Project.Tools.JSONUtils.ObjectToJsonString;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
+import static Project.drawers.Drawer.getImageFromStrings;
 
 @Entity
 public class GameJoinDetailService {
@@ -285,7 +285,10 @@ public class GameJoinDetailService {
                     GameJoinDetailService.saveGhostObjIn(who, null);
                 }
                 //广播
-                GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
+                if (!isHelp)
+                    GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
+                else
+                    GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj);
             }
             if (showY && show) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();
@@ -349,7 +352,10 @@ public class GameJoinDetailService {
                     }
                 }
                 //广播
-                GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
+                if (!isHelp)
+                    GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
+                else
+                    GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj);
             } else {
                 sb.append("你被打败了!!!");
                 if (ghostObj.getHp() < 0) {
