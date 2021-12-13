@@ -411,8 +411,13 @@ public class GameServiceImpl implements IGameService {
                     GameDataBase.removeFromBgs(who, id, ObjType.use);
                     GameDataBase.addHh(who, id);
                     String str = upTrue(who) + "\r\n" + upTrue(who);
-                    putPerson(getInfo(who).addLevel(2).setXp(0L));
-                    return "吸收成功!!提升两级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
+                    if (id <= 202) {
+                        putPerson(getInfo(who).addLevel(1).setXp(0L));
+                        return "吸收成功!!提升一级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
+                    } else {
+                        putPerson(getInfo(who).addLevel(2).setXp(0L));
+                        return "吸收成功!!提升两级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
+                    }
                 } else {
                     putPerson(personInfo.addLevel(-1).addHp(-personInfo.getHp() / 2));
                     return "吸收魂环失败,魂力等级下降1级,血量下降一半";
@@ -755,5 +760,39 @@ public class GameServiceImpl implements IGameService {
         setWarp(warp1);
         setWarp(warp2);
         return pathToImg(drawWarpPng(warp1));
+    }
+
+    @Override
+    public String upHh(long q, int st) {
+        Integer[] ints = getHhs(q);
+        int id;
+        try {
+            id = ints[st - 1];
+        } catch (Exception e) {
+            return "您没有对应的魂环";
+        }
+        int needId = -1;
+        switch (id) {
+            case 201:
+                needId = 1602;
+                break;
+            case 202:
+                needId = 1603;
+                break;
+            case 203:
+                needId = 1604;
+                break;
+            case 204:
+                needId = 1605;
+                break;
+            default:
+                return "魂环等级过高无法升级";
+        }
+        if (containsInBg(needId, q)) {
+            removeFromBgs(q, needId, ObjType.use);
+            ints[st - 1] = ++id;
+            setHhs(q, ints);
+            return showHh(q);
+        } else return "需要:" + getNameById(needId) + getImgById(needId);
     }
 }

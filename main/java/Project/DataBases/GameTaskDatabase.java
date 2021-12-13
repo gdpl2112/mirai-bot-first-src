@@ -1,21 +1,18 @@
 package Project.DataBases;
 
-import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.task.Task;
-import Project.Services.DetailServices.TaskDetailService;
-import Project.broadcast.GhostLostBroadcast;
+import Entitys.gameEntitys.task.TaskPoint;
+import Project.DataBases.task.TaskCreator;
+import io.github.kloping.Mirai.Main.Handlers.OwnerHandler;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.map.MapUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static io.github.kloping.Mirai.Main.Resource.threads;
 
 public class GameTaskDatabase {
     private static String path;
@@ -25,7 +22,7 @@ public class GameTaskDatabase {
         init();
     }
 
-    private static final Map<Long, List<Task>> tasks = new ConcurrentHashMap<>();
+    public static final Map<Long, List<Task>> tasks = new ConcurrentHashMap<>();
 
     private static void init() {
         try {
@@ -38,42 +35,33 @@ public class GameTaskDatabase {
                     e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         after();
     }
 
-    private static void after() {
+    public static final long cd_ = 24 * 60 * 60 * 1000;
+    public static final int maxPrenticeIndex = 1;
 
+    private static void after() {
+        OwnerHandler.tenEveRunnable.add(() -> {
+            tasks.values().forEach((v) -> {
+                v.forEach(e -> {
+                    if (System.currentTimeMillis() > e.getDeadline()) {
+                        for (Long aLong : e.getTasker())
+                            TaskPoint.getInstance(aLong.longValue()).setNextCan(System.currentTimeMillis() + (cd_ * 2)).apply();
+                        TaskPoint.getInstance(e.getHost().longValue()).setNextCan(System.currentTimeMillis() + (cd_ * 2)).apply();
+                    }
+                    deleteTask(e);
+                    MessageTools.sendMessageInGroupWithAt("任务过期,未完成", e.getFromG().longValue(), e.getHost());
+                });
+            });
+        });
     }
 
     public static void createTask(Task task) {
-        int id = task.getTaskId();
-        switch (id) {
-            case 0:
-                GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
-                    @Override
-                    public void onReceive(long who, Long with, GhostObj ghostObj) {
-                        if (who == task.getHost().longValue()) {
-                            if (task.getTasker().contains(with.longValue())) {
-                                deleteTask(task);
-                                MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
-                                        , task.getFromG().longValue(), task.getHost());
-                                threads.submit(() -> {
-                                    try {
-                                        Thread.sleep(1 * 1000);
-                                        GhostLostBroadcast.INSTANCE.remove(this);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-                break;
-        }
+        TaskCreator.create(task);
     }
 
     public static void deleteTask(Task task) {
@@ -81,7 +69,6 @@ public class GameTaskDatabase {
             tasks.get(aLong.longValue()).remove(task);
         }
         tasks.get(task.getHost()).remove(task);
-
         File file = new File(path, task.getUuid());
         file.delete();
     }

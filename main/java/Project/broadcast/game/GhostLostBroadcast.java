@@ -1,8 +1,8 @@
-package Project.broadcast;
+package Project.broadcast.game;
 
 import Entitys.gameEntitys.GhostObj;
-
-import java.lang.reflect.Method;
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
@@ -10,20 +10,6 @@ public class GhostLostBroadcast extends Broadcast {
     public GhostLostBroadcast() {
         super("GhostLostBroadcast");
     }
-
-    @Override
-    protected void broadcast(Object... objects) {
-        if (method == null) {
-            try {
-                method = this.getClass().getDeclaredMethod("broadcast", long.class, GhostObj.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        ifIsRunElseJump(INSTANCE, method, objects);
-    }
-
-    private static Method method;
 
     public void broadcast(long who, GhostObj ghostObj) {
         for (Receiver receiver : receivers) {

@@ -579,12 +579,12 @@ public class Tool {
         }
     }
 
-    public static synchronized boolean addStingInFile(String str, String filename, String character) {
+    public static synchronized boolean addStingInFile(Object str, String filename, String character) {
         testFile(filename);
         try {
             File f = new File(filename);
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(f, true), character), true);
-            pw.println(str);
+            pw.println(str.toString());
             pw.close();
             return true;
         } catch (IOException e) {

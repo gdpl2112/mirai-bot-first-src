@@ -13,11 +13,21 @@ public abstract class Broadcast {
     public static final Map<Class<? extends Broadcast>, Broadcast> cls2Broadcast = new ConcurrentHashMap<>();
     public static final Map<String, Broadcast> id2Broadcasts = new ConcurrentHashMap<>();
     protected LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();
+    private Method method;
 
     public Broadcast(String id) {
         this.id = id;
         cls2Broadcast.put(this.getClass(), this);
         id2Broadcasts.put(id, this);
+        for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
+            if (declaredMethod.getName().equals("broadcast"))
+                if (declaredMethod.getParameterCount() >= 1)
+                    if (declaredMethod.getParameterTypes()[0] != Object[].class) {
+                        method = declaredMethod;
+                        break;
+                    }
+
+        }
     }
 
     public boolean add(Receiver receiver) {
@@ -28,7 +38,9 @@ public abstract class Broadcast {
         return receivers.remove(receiver);
     }
 
-    protected abstract void broadcast(Object... objects);
+    protected final void broadcast(Object... objects) {
+        ifIsRunElseJump(this, method, objects);
+    }
 
     public static void ifIsRunElseJump(Object INSTANCE, Method method, Object[] objects) {
         if (!method.isAccessible()) method.setAccessible(true);

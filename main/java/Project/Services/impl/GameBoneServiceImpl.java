@@ -4,7 +4,7 @@ package Project.Services.impl;
 import Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameBoneService;
-import Project.broadcast.PlayerLostBroadcast;
+import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

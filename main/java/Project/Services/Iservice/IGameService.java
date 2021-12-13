@@ -41,4 +41,6 @@ public interface IGameService  {
     String shouTu(long q, long q2);
 
     String chuShi(long q);
+
+    String upHh(long q,int st);
 }

@@ -420,15 +420,4 @@ public class GameController {
         Warp warp = getWarp(q);
         return pathToImg(drawWarpPng(warp));
     }
-
-    @Action("升级第<.+=>str>")
-    public String upda(@Param("str") String str) {
-        if (str.contains("魂环")) {
-            str = str.replace("魂环", "").replace("第", "");
-            String s1 = Tool.findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            return "等待实现中...";
-        }
-        throw new NoRunException();
-    }
 }

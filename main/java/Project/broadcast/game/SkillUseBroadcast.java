@@ -1,26 +1,13 @@
-package Project.broadcast;
+package Project.broadcast.game;
 
 import Entitys.gameEntitys.SkillInfo;
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 
 import java.lang.reflect.Method;
 
 public class SkillUseBroadcast extends Broadcast {
     public static final SkillUseBroadcast INSTANCE = new SkillUseBroadcast();
-
-    @Override
-    protected void broadcast(Object... objects) {
-        if (method == null) {
-            try {
-                method = this.getClass().getDeclaredMethod("broadcast",
-                        long.class, int.class, int.class, SkillInfo.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        ifIsRunElseJump(INSTANCE, method, objects);
-    }
-
-    private static Method method;
 
     public void broadcast(long who, int jid, int st, SkillInfo info) {
         for (Receiver receiver : receivers) {

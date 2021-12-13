@@ -1,4 +1,7 @@
-package Project.broadcast;
+package Project.broadcast.game;
+
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 
 import java.lang.reflect.Method;
 
@@ -8,21 +11,6 @@ public class PlayerLostBroadcast extends Broadcast {
     public PlayerLostBroadcast() {
         super("PlayerLostBroadcast");
     }
-
-    @Override
-    protected void broadcast(Object... objects) {
-        if (method == null) {
-            try {
-                method = this.getClass().getDeclaredMethod("broadcast",
-                        long.class, long.class, PlayerLostReceiver.type.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        ifIsRunElseJump(INSTANCE, method, objects);
-    }
-
-    private static Method method;
 
     public void broadcast(long who, long from, PlayerLostReceiver.type type) {
         for (Receiver receiver : receivers) {

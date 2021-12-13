@@ -2,6 +2,7 @@ package io.github.kloping.Mirai.Main.ITools;
 
 import io.github.kloping.Mirai.Main.Resource;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
 public class EventTools {
@@ -46,6 +47,10 @@ public class EventTools {
             } else if (o instanceof Image) {
                 Image image = (Image) o;
                 sb.append("[Pic:" + image.getImageId() + "]");
+            } else if (o instanceof MemberNudge) {
+                MemberNudge mn = (MemberNudge) o;
+                long qid = mn.getTarget().getId();
+                sb.append("[戳一戳:").append(qid == Resource.qq.getQq() ? "me" : qid).append("]");
             } else continue;
         }
         return sb.toString();

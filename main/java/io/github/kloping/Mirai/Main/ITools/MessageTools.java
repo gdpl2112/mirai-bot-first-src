@@ -255,11 +255,11 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendMessageInGroupWithAt(String str, long id, long qq) {
+    public static synchronized void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
-            Group group = bot.getGroup(id);
+            Group group = bot.getGroup(gid);
             Message message = MessageTools.getMessageFromString(str, group);
-            group.sendMessage(new At(qq).plus("\r\n").plus(message));
+            group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
         } catch (Exception e) {
             e.printStackTrace();
         }

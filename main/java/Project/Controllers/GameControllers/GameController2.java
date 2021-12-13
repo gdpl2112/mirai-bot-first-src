@@ -4,6 +4,7 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Project.Services.Iservice.IGameService;
+import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.number.NumberUtils;
@@ -46,5 +47,16 @@ public class GameController2 {
     @Action(value = "出师")
     public String m3(long q) {
         return service.chuShi(q);
+    }
+
+    @Action("升级第<.+=>str>")
+    public String upda(@Param("str") String str, long q) {
+        if (str.contains("魂环")) {
+            str = str.replace("魂环", "").replace("第", "");
+            String s1 = Tool.findNumberZh(str);
+            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
+            return service.upHh(q, st);
+        }
+        throw new NoRunException();
     }
 }

@@ -11,7 +11,7 @@ import Project.Services.DetailServices.GameDetailService;
 import Project.Services.Iservice.ISkillService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
-import Project.broadcast.SkillUseBroadcast;
+import Project.broadcast.game.SkillUseBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

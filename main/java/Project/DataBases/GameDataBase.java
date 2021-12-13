@@ -4,7 +4,7 @@ package Project.DataBases;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Project.Tools.Tool;
-import Project.broadcast.GotOrLostObjBroadcast;
+import Project.broadcast.game.GotOrLostObjBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.initialize.FileInitializeValue;
 
@@ -773,6 +773,21 @@ public class GameDataBase {
         if (ls.isEmpty())
             return new Integer[]{0};
         return ls.toArray(new Integer[ls.size()]);
+    }
+
+    /**
+     * 设置魂环
+     * @param who
+     * @param ints
+     */
+    public static void setHhs(Long who, Integer... ints) {
+        testMan(who);
+        List<Integer> ls = new ArrayList<>();
+        String pathN = path + "/dates/users/" + who + "/hhpz";
+        new File(pathN).delete();
+        for (int anInt : ints) {
+            Tool.addStingInFile(anInt, pathN, "utf-8");
+        }
     }
 
     /**

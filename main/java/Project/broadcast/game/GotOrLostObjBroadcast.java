@@ -1,5 +1,7 @@
-package Project.broadcast;
+package Project.broadcast.game;
 
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 import Project.broadcast.enums.ObjType;
 
 import java.lang.reflect.Method;
@@ -9,20 +11,6 @@ public class GotOrLostObjBroadcast extends Broadcast {
 
     public GotOrLostObjBroadcast() {
         super("GotOrLostObjBroadcast");
-    }
-
-
-    @Override
-    protected void broadcast(Object... objects) {
-        if (method == null) {
-            try {
-                method = this.getClass().getDeclaredMethod("broadcast"
-                        , long.class, int.class, int.class, ObjType.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        ifIsRunElseJump(INSTANCE, method, objects);
     }
 
     public void broadcast(long who, int id, int num, ObjType type) {

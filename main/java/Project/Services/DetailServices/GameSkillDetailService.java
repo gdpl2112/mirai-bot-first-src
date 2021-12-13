@@ -6,7 +6,7 @@ import Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Tools.GameTool;
-import Project.broadcast.HpChangeBroadcast;
+import Project.broadcast.game.HpChangeBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Field;

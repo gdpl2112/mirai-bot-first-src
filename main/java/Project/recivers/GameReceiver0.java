@@ -4,9 +4,10 @@ import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.SkillInfo;
+import Entitys.gameEntitys.task.Task;
 import Project.DataBases.GameDataBase;
-import Project.broadcast.*;
 import Project.broadcast.enums.ObjType;
+import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -118,6 +119,15 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long who, int jid, int st, SkillInfo info) {
                 GInfo.getInstance(who).addUseskillc().apply();
+            }
+        });
+    }
+
+    private static void init5() {
+        GameTaskBroadcast.INSTANCE.add(new GameTaskBroadcast.GameTaskReceiver() {
+            @Override
+            public void onReceive(long who, int taskId, Type type, Task task) {
+
             }
         });
     }

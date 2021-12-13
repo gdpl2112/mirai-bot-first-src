@@ -1,4 +1,7 @@
-package Project.broadcast;
+package Project.broadcast.game;
+
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 
 import java.lang.reflect.Method;
 
@@ -23,21 +26,7 @@ public class HpChangeBroadcast extends Broadcast {
         }
     }
 
-    private static Method method;
-
-    @Override
-    protected void broadcast(Object... objects) {
-        if (method == null) {
-            try {
-                method = HpChangeBroadcast.class.getDeclaredMethod("broadcast", long.class, long.class, long.class, long.class, long.class, HpChangeReceiver.type.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-        ifIsRunElseJump(INSTANCE, method, objects);
-    }
-
-    public interface HpChangeReceiver {
+    public interface HpChangeReceiver extends Receiver{
         public static enum type {
             //人
             fromQ,

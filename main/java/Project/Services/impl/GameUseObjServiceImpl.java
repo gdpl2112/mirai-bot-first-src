@@ -343,6 +343,14 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         public String use1000(long who) {
             return "参见=>暗器菜单";
         }
+        private String use160x(long who){
+            return "升级券,自动使用,升级第()魂环";
+        }
+        public String use1601(long who){return use160x(who);}
+        public String use1602(long who){return use160x(who);}
+        public String use1603(long who){return use160x(who);}
+        public String use1604(long who){return use160x(who);}
+        public String use1605(long who){return use160x(who);}
     }
 
     public static int maxSle = 2000;

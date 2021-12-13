@@ -550,20 +550,22 @@ public class SkillExecute {
                     setTips("未选择");
                     return;
                 }
-                long max = 0, th = 0;
+                long maxTemp = 0, thTemp = 0;
                 if (nums[0].longValue() < 0 || nums[0].longValue() == -2) {
                     GhostObj ghostObj = getGhostObjFrom(who.longValue());
                     if (ghostObj == null) {
                         setTips("未遇见魂兽");
                         return;
                     }
-                    max = ghostObj.getMaxHp();
-                    th = ghostObj.getHp();
+                    maxTemp = ghostObj.getMaxHp();
+                    thTemp = ghostObj.getHp();
                 } else {
                     PersonInfo in = getInfo(nums[0]);
-                    max = in.getHpl();
-                    th = in.getHp();
+                    maxTemp = in.getHpl();
+                    thTemp = in.getHp();
                 }
+                final long max = maxTemp > 0 ? maxTemp : 0;
+                final long th = thTemp > 0 ? thTemp : 0;
                 int b = info.getAddPercent();
                 long att = getInfo(who).getAtt();
                 int x = toPercent(th, max);
@@ -572,6 +574,7 @@ public class SkillExecute {
                 long v = percentTo(b, att);
                 v = percentTo(y, v);
                 StringBuilder sb = new StringBuilder();
+                v = v < 0 ? 0 : v;
                 attGhostOrMan(sb, who, nums[0], v);
                 setTips(sb.toString());
             }

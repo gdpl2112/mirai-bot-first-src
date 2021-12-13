@@ -142,6 +142,9 @@ public class EntertainmentController {
         throw new NoRunException();
     }
 
+    private final long cd_ = 10 * 1000;
+    private long cd = 10 * 1000;
+
     @Action("\\[@me]<.{1,}=>str>")
     public Object AtMe(long qq, Group group, @Param("str") String str) {
         if (str.startsWith("读")) {
@@ -150,11 +153,11 @@ public class EntertainmentController {
             }
             return null;
         }
+        if (cd > System.currentTimeMillis()) return null;
         if (DataBase.canSpeak(group.getId())) {
             String talk = otherService.Talk(str);
-            if (voiceK) {
-                speak(talk, group);
-            }
+            if (voiceK) speak(talk, group);
+            cd = System.currentTimeMillis() + cd_;
             return talk;
         } else {
             throw new NoRunException("未开启聊天");

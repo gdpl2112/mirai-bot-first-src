@@ -4,6 +4,7 @@ import Project.Controllers.ControllerTool;
 import Project.Controllers.NormalController.CustomController;
 import Project.Controllers.SessionController;
 import Project.DataBases.DataBase;
+import Project.broadcast.game.GroupMessageBroadcast;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
@@ -49,6 +50,7 @@ public class MyHandler extends SimpleListenerHost {
 
     private static final Map<Long, Entitys.Group> histGroupMap = new ConcurrentHashMap<>();
 
+
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (CapHandler.caping.containsKey(event.getSender().getId())) {
@@ -79,6 +81,9 @@ public class MyHandler extends SimpleListenerHost {
         }
     }
 
+    private static final long cd_ = 10 * 1000;
+    private static long cd = 10 * 1000;
+
     private static void eveEnd(String text, long id, Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         daeThreads.execute(() -> {
             if (!text.trim().isEmpty())
@@ -88,9 +93,12 @@ public class MyHandler extends SimpleListenerHost {
                 }
             DataBase.addTimes(1, id);
             if (upMessage != null && upMessage.equals(text)) {
-                Nudge nudge = member.nudge();
-                nudge.sendTo(group);
-                group.sendMessage(message);
+                if (cd < System.currentTimeMillis()) {
+                    Nudge nudge = member.nudge();
+                    nudge.sendTo(group);
+                    group.sendMessage(message);
+                    cd = System.currentTimeMillis() + cd_;
+                }
             } else {
                 if (text.length() < 10)
                     upMessage = text;
@@ -101,6 +109,7 @@ public class MyHandler extends SimpleListenerHost {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
         });
     }
 
