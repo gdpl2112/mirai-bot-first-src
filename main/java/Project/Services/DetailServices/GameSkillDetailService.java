@@ -559,7 +559,7 @@ public class GameSkillDetailService {
     }
 
     public static long oneNearest(Number who, Number[] nums) {
-        return nums.length >= 1 ? nums[0].longValue() : who.longValue();
+        return nums.length > 0 ? nums[0].longValue() : who.longValue();
     }
 
     public static Long[] nearest(int n, long who, Number[] nums) {

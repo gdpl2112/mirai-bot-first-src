@@ -1,10 +1,17 @@
 package Entitys.gameEntitys.task;
 
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
+import com.alibaba.fastjson.annotation.JSONField;
+import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
+
+import static Project.DataBases.GameTaskDatabase.cd_;
+import static Project.DataBases.GameTaskDatabase.deleteTask;
+import static io.github.kloping.Mirai.Main.Resource.threads;
 
 @Data
 @Accessors(chain = true)
@@ -22,4 +29,45 @@ public class Task {
     private Integer state = -1;
     private String uuid = "";
 
+    @JSONField(serialize = false, deserialize = false)
+    private Receiver receiver;
+    @JSONField(serialize = false, deserialize = false)
+    private Runnable runnable;
+
+    public Task() {
+        taskRunnable.add(runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (System.currentTimeMillis() > getDeadline()) {
+                    for (Long aLong : getTasker())
+                        TaskPoint.getInstance(aLong.longValue())
+                                .setNextCan(System.currentTimeMillis() + (cd_ * 2))
+                                .addPrenticeIndex(-1).apply();
+                    TaskPoint.getInstance(getHost().longValue())
+                            .setNextCan(System.currentTimeMillis() + (cd_ * 2))
+                            .addPrenticeIndex(-1).apply();
+
+                    MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+                    destroy();
+                }
+            }
+        });
+    }
+
+    public void destroy(){
+        Broadcast.receivers.remove(getReceiver());
+        deleteTask(Task.this);
+        taskRunnable.remove(runnable);
+    }
+
+    public static final List<Runnable> taskRunnable = new LinkedList<>();
+
+    static {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                taskRunnable.forEach(r -> threads.submit(r));
+            }
+        }, 15 * 1000, 10 * 60 * 1000);
+    }
 }

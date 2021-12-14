@@ -12,7 +12,7 @@ public abstract class Broadcast {
     protected String id;
     public static final Map<Class<? extends Broadcast>, Broadcast> cls2Broadcast = new ConcurrentHashMap<>();
     public static final Map<String, Broadcast> id2Broadcasts = new ConcurrentHashMap<>();
-    protected LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();
+    public static final LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();
     private Method method;
 
     public Broadcast(String id) {

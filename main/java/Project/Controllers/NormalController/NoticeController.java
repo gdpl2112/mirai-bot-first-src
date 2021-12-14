@@ -38,14 +38,15 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
+        sb.append("12.14: 升级第<几>魂环,合成<物品名>,接徒弟任务,我的任务  ").append("\n");
         sb.append("12.13: 修复已知bug,别戳我 ").append("\n");
         sb.append("12.11: 丢@xx ").append("\n");
         sb.append("12.11: 新物品,(白/黄/紫/黑/红)升级券 获取方式后续更新,降低名师点要求 ").append("\n");
         sb.append("12.9 : 中级魂骨可出售,降低名师点要求 ").append("\n");
         sb.append("12.6 : 魂技使用次数,降低名师点要求").append("\n");
         sb.append("12.5 : 魂技加血/魂力 技能 以自身值为基础 且 不会为 被增益者 回复超过最大值一半的量").append("\n");
-        sb.append("12.4 : 验证码忽略大小写/可 看不清 ").append("\n");
-        sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
+//        sb.append("12.4 : 验证码忽略大小写/可 看不清 ").append("\n");
+//        sb.append("12.3 : 进群验证(开关 (开启/关闭)验证 ").append("\n");
 //        sb.append("12.2 : 详细信息 收徒@xx 出师").append("\n");
 //        sb.append("11.29: /推@ ").append("\n");
 //        sb.append("11.27: 开始成语接龙 (完善 ").append("\n");

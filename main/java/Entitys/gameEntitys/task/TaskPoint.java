@@ -5,6 +5,8 @@ import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
+
 @Data
 @Accessors(chain = true)
 public class TaskPoint {
@@ -16,12 +18,12 @@ public class TaskPoint {
     private Long nextCan = 0L;
 
     public static TaskPoint getInstance(long q) {
-        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint";
+        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
         return FileInitializeValue.getValue(d, new TaskPoint().setQ(q), true);
     }
 
     public void apply() {
-        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint";
+        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
         FileInitializeValue.putValues(d, this, true);
     }
 

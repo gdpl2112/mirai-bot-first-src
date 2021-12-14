@@ -257,8 +257,8 @@ public class SkillExecute {
             @Override
             public void before() {
                 v = 1;
+                q = oneNearest(who, nums);
                 eve();
-                q = nums.length >= 1 ? nums[0].longValue() : who.longValue();
                 setTips("作用于 " + Tool.At(q));
             }
 
@@ -281,8 +281,8 @@ public class SkillExecute {
                 if (v++ >= 5) {
                     return false;
                 }
-                long l = getInfo(who).getHpl();
-                putPerson(getInfo(who).addHp(percentTo(info.getAddPercent(), l)));
+                long l = getInfo(q).getHpl();
+                putPerson(getInfo(q).addHp(percentTo(info.getAddPercent(), l)));
                 return true;
             }
         };

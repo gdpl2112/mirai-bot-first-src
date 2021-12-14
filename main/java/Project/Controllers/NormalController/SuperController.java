@@ -1,19 +1,17 @@
 package Project.Controllers.NormalController;
 
+import Entitys.Data;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.DataBase;
 import Project.Tools.Tool;
-import Project.drawers.GameDrawer;
-import Project.drawers.entity.GameMap;
+import io.github.kloping.Mirai.Main.BotStarter;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,6 +49,13 @@ public class SuperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Action("open")
+    public String m1(Group group) {
+        if (!BotStarter.test)return null;
+        DataBase.openGroup(group.getId());
+        return "opened";
     }
 
     @Action("addScore.{1,}")

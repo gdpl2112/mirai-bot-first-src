@@ -3,6 +3,8 @@ package Project.Controllers.GameControllers;
 
 import Entitys.Group;
 import Entitys.User;
+import Project.DataBases.GameDataBase;
+import Project.Services.Iservice.IGameObjService;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -58,5 +60,18 @@ public class GameController2 {
             return service.upHh(q, st);
         }
         throw new NoRunException();
+    }
+
+    @AutoStand
+    IGameObjService gameObjService;
+
+    @Action("合成<.+=>name>")
+    public String m1(@Param("name") String name, long q) {
+        try {
+            int id = GameDataBase.Name2idMaps.get(name);
+            return gameObjService.compound(q, id);
+        } catch (Exception e) {
+            return "未找到相关物品";
+        }
     }
 }
