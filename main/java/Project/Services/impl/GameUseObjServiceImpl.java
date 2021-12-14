@@ -126,6 +126,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     @Override
     public String getIntro(int id) {
         String intro = GameDataBase.getIntroById(id);
+        intro = intro == null ? "暂无介绍" : intro;
         return getPic(id) + intro;
     }
 
@@ -343,14 +344,30 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         public String use1000(long who) {
             return "参见=>暗器菜单";
         }
-        private String use160x(long who){
-            return "升级券,自动使用,升级第()魂环";
+
+        private String use160x(long who) {
+            return "升级券,自动使用,升级第<几>魂环";
         }
-        public String use1601(long who){return use160x(who);}
-        public String use1602(long who){return use160x(who);}
-        public String use1603(long who){return use160x(who);}
-        public String use1604(long who){return use160x(who);}
-        public String use1605(long who){return use160x(who);}
+
+        public String use1601(long who) {
+            return use160x(who);
+        }
+
+        public String use1602(long who) {
+            return use160x(who);
+        }
+
+        public String use1603(long who) {
+            return use160x(who);
+        }
+
+        public String use1604(long who) {
+            return use160x(who);
+        }
+
+        public String use1605(long who) {
+            return use160x(who);
+        }
     }
 
     public static int maxSle = 2000;
@@ -422,16 +439,23 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
     }
 
+    /**
+     * 仅可出售
+     */
     public static final Map<Integer, Number> onlySle = new ConcurrentHashMap<>();
 
     static {
+        //魂骨系列
         onlySle.put(1512, 1002);
         onlySle.put(1522, 1002);
         onlySle.put(1532, 1002);
         onlySle.put(1542, 1002);
         onlySle.put(1552, 1002);
-        //=====================
-
+        //升级券
+        onlySle.put(1601, 420);
+        onlySle.put(1602, 520);
+        onlySle.put(1603, 620);
+        onlySle.put(1604, 720);
     }
 }
 

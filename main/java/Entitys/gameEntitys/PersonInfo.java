@@ -670,4 +670,9 @@ public class PersonInfo {
         this.whType = whType;
         return this;
     }
+
+    public PersonInfo apply() {
+        GameDataBase.putPerson(this);
+        return this;
+    }
 }

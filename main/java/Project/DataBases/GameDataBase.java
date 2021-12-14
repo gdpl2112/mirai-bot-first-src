@@ -4,8 +4,8 @@ package Project.DataBases;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Project.Tools.Tool;
-import Project.broadcast.game.GotOrLostObjBroadcast;
 import Project.broadcast.enums.ObjType;
+import Project.broadcast.game.GotOrLostObjBroadcast;
 import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.*;
@@ -471,7 +471,7 @@ public class GameDataBase {
             case 2:
                 return "兽器武魂";
         }
-        return "";
+        return "未知类型";
     }
 
     /**
@@ -777,6 +777,7 @@ public class GameDataBase {
 
     /**
      * 设置魂环
+     *
      * @param who
      * @param ints
      */
@@ -1097,7 +1098,7 @@ public class GameDataBase {
      */
     public static String removeFromAqBgs(Long who, String o) {
         String pathN = path + "/dates/users/" + who + "/Aqbgs";
-        String ids = o + "";
+        String ids = o.toString();
         List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
         if (ss.remove(ids)) {
             Tool.putStringInFile("", pathN, "utf-8");
