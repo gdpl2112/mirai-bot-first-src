@@ -38,7 +38,7 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
-        sb.append("开发计划请见:https://github.com/gdpl2112/mirai-bot-first/milestones");
+        sb.append("开发计划请见:https://github.com/gdpl2112/mirai-bot-first/milestones").append("\n");
         sb.append("12.14: 修复已知bug,升级第<几>魂环,合成<物品名>\n\t接徒弟任务,我的任务 #测试阶段  ").append("\n");
         sb.append("12.13: 修复已知bug,别戳我 ").append("\n");
         sb.append("12.11: 丢@xx ").append("\n");
