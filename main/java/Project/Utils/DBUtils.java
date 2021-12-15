@@ -4,17 +4,19 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 import java.sql.Connection;
 
+import static io.github.kloping.Mirai.Main.Resource.contextManager;
+
 public class DBUtils {
     private static DruidDataSource ds;
     private static String url, user, password;
     private static Connection connection = null;
 
-    static {
+    private static synchronized void init() {
         try {
             ds = new DruidDataSource();
-            url = "jdbc:mysql://139.198.186.159:3306/mydb1?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true";
-            user = "root";
-            password = "Han123456";
+            url = contextManager.getContextEntity(String.class, "mysql.url");
+            user = contextManager.getContextEntity(String.class, "mysql.user");
+            password = contextManager.getContextEntity(String.class, "mysql.password");
             ds.setUrl(url);
             ds.setUsername(user);
             ds.setPassword(password);
@@ -27,8 +29,14 @@ public class DBUtils {
 
     public static final Connection getConnection() {
         try {
+            if (ds == null) {
+                init();
+            }
+
+
             return connection == null || connection.isClosed() ? connection = ds.getConnection() : connection;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

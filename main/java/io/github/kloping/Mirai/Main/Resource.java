@@ -11,6 +11,8 @@ import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
+import io.github.kloping.initialize.FileInitializeValue;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.message.data.At;
@@ -22,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,28 +45,24 @@ public class Resource {
     public static Long superQL = Long.parseLong(superQ);
     public static String datePath = "";
 
-    private static ABot bot1 = new ABot(291841860, "Han_Boot1");
-    private static ABot bot2 = new ABot(392801250, "Han_Boot02");
-    private static ABot bot3 = new ABot(930204019, "Han_443212");
-    private static ABot bot4 = new ABot(3474006766L, "Heroes_20040");
-    private static ABot bot5 = new ABot(2630059874L, "Z_123456");
-    private static ABot bot6 = new ABot(3597552450L, "Han_Boot02");
+    public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
+
     public static ABot qq = null;
 
     public static ABot get(int i) {
         switch (i) {
             case 1:
-                return (qq = bot1);
+                return (qq = bots.getBots().get(0));
             case 2:
-                return (qq = bot2);
+                return (qq = bots.getBots().get(1));
             case 3:
-                return (qq = bot3);
+                return (qq = bots.getBots().get(2));
             case 4:
-                return (qq = bot4);
+                return (qq = bots.getBots().get(3));
             case 5:
-                return (qq = bot5);
+                return (qq = bots.getBots().get(4));
             case 6:
-                return (qq = bot6);
+                return (qq = bots.getBots().get(5));
         }
         return null;
     }
@@ -74,6 +73,7 @@ public class Resource {
     public static ShopDataBase shopDataBase = null;
     public static SkillDataBase skillDataBase = null;
     public static GameTaskDatabase gameTaskDatabase = null;
+
     public static void Init() {
         dataBase = new DataBase(datePath);
         gameDataBase = new GameDataBase(datePath);
@@ -106,6 +106,8 @@ public class Resource {
 
     private static int timeIndex = 60;
 
+    public static ContextManager contextManager;
+
     protected static void SetterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(25 * 1000L);
@@ -124,6 +126,9 @@ public class Resource {
                 check(objects);
             }
         });
+        StarterApplication.addConfFile("./conf/conf.txt");
+        contextManager = StarterApplication.Setting.INSTANCE.getContextManager();
+        StarterApplication.logger.setLogLevel(1);
         StarterApplication.run(cla);
     }
 
@@ -254,7 +259,6 @@ public class Resource {
         });
     }
 
-
     //=======================
     //=================================
 //    public static final IScoreService scoreService = new ScoreServiceImpl();
@@ -304,6 +308,26 @@ public class Resource {
 
         public String getPassWord() {
             return passWord;
+        }
+
+        public void setQq(long qq) {
+            this.qq = qq;
+        }
+
+        public void setPassWord(String passWord) {
+            this.passWord = passWord;
+        }
+    }
+
+    private static final class Bots {
+        List<ABot> bots = new LinkedList<>();
+
+        public List<ABot> getBots() {
+            return bots;
+        }
+
+        public void setBots(List<ABot> bots) {
+            this.bots = bots;
         }
     }
 }

@@ -7,17 +7,15 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import static io.github.kloping.Mirai.Main.Resource.contextManager;
+
 public class Saver {
 
     public static String path = "./messages/";
     public static String pathRecall = "./messages/recalled/";
 
-    public static final String rootPath = "http://123.57.42.227:8082";
+    public static final String rootPath = contextManager.getContextEntity(String.class,"SaverRootUrl");
 //    public static String rootPath = "http://localhost:8082";
-
-    static {
-
-    }
 
     public static String savePath = "/save";
 
