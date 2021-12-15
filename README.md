@@ -7,12 +7,11 @@
 ```
 project (mirai-bot-first rep)
 │   README.md
+│   pom.xml
 └───conf    
 └───spring    
 └───src (this rep)
-│   └───main
-│   │   M1.jar
-│   │   README.md (当前位置)
-│  pom.xml    
-│
+    └───main
+    │   M1.jar
+    │   README.md (当前位置)    
 ```
