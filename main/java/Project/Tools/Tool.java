@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static io.github.kloping.Mirai.Main.Resource.contextManager;
+
 public class Tool {
     private static final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
 
@@ -351,6 +353,7 @@ public class Tool {
      * @return
      */
     public static String getTimeDDHHMM(long l) {
+        if (l == Long.MAX_VALUE) return "最大";
         return DDHHmmss.format(new Date(l));
     }
 
@@ -800,24 +803,15 @@ public class Tool {
         return -1;
     }
 
-    private static String[] il1 = new String[]{
-            "爸", "妈", "爹", "die",
-            "弟", "哥", "逼", "ji",
-            "碧", "傻", "操", "草", "曹", "槽",
-            "sb", "[", "}", "nm", "ba", "基", "鸡",
-            "B", "屎", "shi", "si", "叠", "跌", "die",
-            "奶", "二货", "脑残", "傻逼", "av", "?", "自慰",
-            "肉棒", "大胸", "胸大", "cao", "艹", "ji", "ba"
-    };
-    private static String[] il2 = new String[]{
-            "爸", "妈", "爹", "die",
-            "弟", "哥", "逼", "ji",
-            "碧", "傻", "操", "草", "曹", "槽",
-            "sb", "}", "nm", "ba", "基", "鸡",
-            "B", "屎", "shi", "si", "叠", "跌",
-            "奶", "二货", "脑残", "傻逼", "av", "?", "自慰",
-            "肉棒", "大胸", "胸大", "cao", "艹", "ji", "ba"
-    };
+    private static int IllegalIndex = 0;
+    private static String upIllegalStr = null;
+    private static String[] upIllegalss = null;
+
+    public static synchronized String[] getIllegal() {
+        if (upIllegalStr == null || upIllegalss == null)
+            upIllegalStr = contextManager.getContextEntity(String.class, "Illegal.txt").trim();
+        return upIllegalss == null ? upIllegalss = upIllegalStr.split("\\s+") : upIllegalss;
+    }
 
     /**
      * 违规字符
@@ -826,7 +820,7 @@ public class Tool {
      * @return true 违规 false 没
      */
     public static boolean isIlleg(String s) {
-        for (String s1 : il1) {
+        for (String s1 : getIllegal()) {
             if (s.toUpperCase().contains(s1.toUpperCase()))
                 return true;
         }
@@ -834,7 +828,7 @@ public class Tool {
     }
 
     public static boolean isIlleg_(String s) {
-        for (String s1 : il2) {
+        for (String s1 : getIllegal()) {
             if (s.toUpperCase().contains(s1.toUpperCase()))
                 return true;
         }

@@ -23,12 +23,8 @@ public class GameTaskController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException("总开关——关闭");
-        }
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException("未开启");
-        }
+        if (!AllK) throw new NoRunException("总开关——关闭");
+        if (!CanGroup(group.getId())) throw new NoRunException("未开启");
         if (getInfo(qq.getId()).getHp() <= 0) {
             MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");

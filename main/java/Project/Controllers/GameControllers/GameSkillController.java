@@ -24,7 +24,6 @@ public class GameSkillController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    private static final boolean open = true;
     private static List<String> listFx = new ArrayList<>();
 
     @AutoStand
@@ -42,12 +41,7 @@ public class GameSkillController {
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
         if (!AllK)
             throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
-        }
-        if (!open) {
-            throw new NoRunException("未开启此类");
-        }
+        if (!CanGroup(group.getId())) throw new NoRunException();
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());

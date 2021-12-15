@@ -50,12 +50,8 @@ public class GameH2LController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException("总开关——关闭");
-        }
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException("未开启");
-        }
+        if (!AllK) throw new NoRunException("总开关——关闭");
+        if (!CanGroup(group.getId())) throw new NoRunException("未开启");
         if (getInfo(qq.getId()).getHp() <= 0) {
         }
     }
@@ -69,5 +65,4 @@ public class GameH2LController {
     public String m2() {
         return "等待实现";
     }
-
 }
