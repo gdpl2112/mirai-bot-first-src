@@ -27,6 +27,14 @@ public class TaskDetailService {
         return sb.toString();
     }
 
+    private static String s1000() {
+        return "进入列表中所有活动,并击败每个活动中的一只魂兽";
+    }
+
+    private static String f1000() {
+        return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽\n完成\n奖励随机物品";
+    }
+
     public static String getFinish(Task task) {
         try {
             Method m = TaskDetailService.class.getDeclaredMethod("f" + task.getTaskId(), Task.class);

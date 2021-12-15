@@ -13,6 +13,8 @@ import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.text.SimpleDateFormat;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import static Project.Tools.Tool.update_Today;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
@@ -68,6 +70,8 @@ public class TimerController {
         }).start();
     }
 
+    public static final Set<Runnable> morningRunnable = new CopyOnWriteArraySet<>();
+
     @Schedule("07:20:00")
     public static void onSix() {
         update_Today();
@@ -83,6 +87,7 @@ public class TimerController {
         });
         threads.execute(() -> {
             m1();
+            morningRunnable.forEach(e -> e.run());
         });
     }
 

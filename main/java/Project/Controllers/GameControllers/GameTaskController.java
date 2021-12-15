@@ -3,6 +3,7 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Entitys.gameEntitys.task.Task;
+import Entitys.gameEntitys.task.TaskPoint;
 import Project.DataBases.GameTaskDatabase;
 import Project.Services.DetailServices.TaskDetailService;
 import Project.Services.Iservice.IGameTaskService;
@@ -11,6 +12,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.TimerController.morningRunnable;
 import static Project.DataBases.GameDataBase.getInfo;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -29,6 +31,12 @@ public class GameTaskController {
             MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");
         }
+    }
+
+    static {
+        morningRunnable.add(() -> {
+//            TaskPoint.getInstance();
+        });
     }
 
     @AutoStand

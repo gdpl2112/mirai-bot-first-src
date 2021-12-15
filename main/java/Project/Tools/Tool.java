@@ -16,6 +16,24 @@ import java.util.concurrent.ConcurrentHashMap;
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
+    public static final String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+
+    /**
+     * 获取当前日期是星期几
+     *
+     * @param dt
+     * @return 当前日期是星期几
+     */
+    public static String getWeekOfDate(Date dt) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0) {
+            w = 0;
+        }
+        return weekDays[w];
+    }
+
     private static final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
 
     public static String getLogTimeFormat() {
