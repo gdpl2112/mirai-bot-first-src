@@ -19,7 +19,7 @@ import static io.github.kloping.Mirai.Main.Resource.threads;
 @Accessors(chain = true)
 public class Task {
     public static enum Type {
-        old, normal, expert, ultimate
+        week, prentice, normal
     }
 
     private Set<Long> tasker = new LinkedHashSet<>();
@@ -41,20 +41,24 @@ public class Task {
             @Override
             public void run() {
                 if (System.currentTimeMillis() > getDeadline()) {
-                    for (Long aLong : getTasker())
-                        TaskPoint.getInstance(aLong.longValue())
-                                .setNextCan(System.currentTimeMillis() + (cd_ * 2))
-                                .addPrenticeIndex(-1).apply();
-
-                    TaskPoint.getInstance(getHost().longValue())
-                            .setNextCan(System.currentTimeMillis() + (cd_ * 2))
-                            .addPrenticeIndex(-1).apply();
-
-                    MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
-                    destroy();
+                    over();
                 }
             }
         });
+    }
+
+    public void over() {
+        for (Long aLong : getTasker())
+            TaskPoint.getInstance(aLong.longValue())
+                    .setNextCan(System.currentTimeMillis() + (cd_ * 2))
+                    .addPrenticeIndex(-1).apply();
+
+        TaskPoint.getInstance(getHost().longValue())
+                .setNextCan(System.currentTimeMillis() + (cd_ * 2))
+                .addPrenticeIndex(-1).apply();
+
+        MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+        destroy();
     }
 
     public void destroy() {

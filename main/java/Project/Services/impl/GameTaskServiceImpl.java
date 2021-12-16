@@ -29,7 +29,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         Task task = getTask(id);
         task.setTaskId(id);
         task.setDeadline(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
-        task.setType(Task.Type.normal);
+        task.setType(Task.Type.prentice);
         task.setHost(q);
         task.getTasker().add(warp.getMaster().longValue());
         task.setUuid(UUID.randomUUID() + "-task.json");
@@ -55,7 +55,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         Task task = getTask(id);
         task.setTaskId(id);
         task.setDeadline((System.currentTimeMillis() + (1000 * 60 * 60 * 24)));
-        task.setType(Task.Type.normal);
+        task.setType(Task.Type.week);
         task.setHost(q);
         task.setUuid(UUID.randomUUID() + "-task.json");
         task.setFromG(group.getId());

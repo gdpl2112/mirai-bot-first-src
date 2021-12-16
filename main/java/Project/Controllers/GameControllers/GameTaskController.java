@@ -7,16 +7,19 @@ import Entitys.gameEntitys.task.TaskPoint;
 import Project.DataBases.GameTaskDatabase;
 import Project.Services.DetailServices.TaskDetailService;
 import Project.Services.Iservice.IGameTaskService;
+import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.TimerController.morningRunnable;
 import static Project.DataBases.GameDataBase.getInfo;
+import static Project.Tools.Tool.weekDays;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -38,12 +41,14 @@ public class GameTaskController {
 
     static {
         morningRunnable.add(() -> {
-            List<Long> longs = new LinkedList<>();
-            for (long activity : GameTaskDatabase.getActivities()) {
-                if (longs.contains(activity)) continue;
-                else {
-                    TaskPoint.getInstance(activity).setNormalIndex(0).apply();
-                    longs.add(activity);
+            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
+                List<Long> longs = new LinkedList<>();
+                for (long activity : GameTaskDatabase.getActivities()) {
+                    if (longs.contains(activity)) continue;
+                    else {
+                        TaskPoint.getInstance(activity).setNormalIndex(0).apply();
+                        longs.add(activity);
+                    }
                 }
             }
         });
@@ -59,7 +64,8 @@ public class GameTaskController {
 
     @Action("接每周任务")
     public Object m2(long q, Group group) {
-        return gameTaskService.m2(q, group);
+        Object o = gameTaskService.m2(q, group);
+        return o;
     }
 
     @Action("当前任务")
