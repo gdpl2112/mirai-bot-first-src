@@ -20,7 +20,8 @@ public class GameTaskServiceImpl implements IGameTaskService {
     public String m1(long q, Group group) {
         Warp warp = Warp.getInstance(q);
         if (warp.getMaster().longValue() == -1) return "您没有师傅";
-        if (GameTaskDatabase.tasks.containsKey(q)) return "请先完成\"当前任务\"";
+        if (GameTaskDatabase.tasks.containsKey(q)
+                && !GameTaskDatabase.tasks.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
             return "接任务冷却中=>" + Tool.getTimeDDHHMM(taskPoint.getNextCan());
