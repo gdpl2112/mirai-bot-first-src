@@ -102,6 +102,7 @@ public class OtherController {
         BaseMenuStr.append("====");
         BaseMenuStr.append("=任务相关\n");
         BaseMenuStr.append("接徒弟任务\n");
+        BaseMenuStr.append("接每周任务\n");
         BaseMenuStr.append("当前任务\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("=积分相关\n");

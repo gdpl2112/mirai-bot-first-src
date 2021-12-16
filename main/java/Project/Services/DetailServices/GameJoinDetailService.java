@@ -44,7 +44,7 @@ public class GameJoinDetailService {
                 String str = join1(who, group);
                 return str;
             }
-            return "未知错误";
+            return "暂未实现";
         } finally {
             int r = Tool.rand.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
