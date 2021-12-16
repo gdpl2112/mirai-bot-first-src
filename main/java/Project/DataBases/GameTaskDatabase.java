@@ -10,6 +10,8 @@ import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.map.MapUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +31,7 @@ public class GameTaskDatabase {
     private static void init() {
         try {
             new File(path).mkdirs();
-            for (File file : new File(path).listFiles()) {
+            for (File file : new File(path).listFiles(f -> f.getName().endsWith(".json"))) {
                 try {
                     JSONObject jo = JSON.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()));
                     int id = jo.getInteger("taskId");
@@ -47,7 +49,28 @@ public class GameTaskDatabase {
     public static final long cd_ = 24 * 60 * 60 * 1000;
 
     public static Receiver createTask(Task task) {
+        saveActivity(task.getHost());
         return TaskCreator.create(task);
+    }
+
+    private static void saveActivity(Long host) {
+        File file = new File(path, "list");
+        try {
+            PrintWriter pw = new PrintWriter(new FileOutputStream(file, true));
+            pw.println(host.toString());
+            pw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static long[] getActivities() {
+        File file = new File(path, "list");
+        String[] sss = FileUtils.getStringsFromFile(file.getAbsolutePath());
+        long[] longs = new long[sss.length];
+        for (int i = 0; i < sss.length; i++)
+            longs[i] = Long.parseLong(sss[i].trim());
+        return longs;
     }
 
     public static void deleteTask(Task task) {

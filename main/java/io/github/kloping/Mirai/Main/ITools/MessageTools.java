@@ -22,7 +22,6 @@ import static io.github.kloping.Mirai.Main.ITools.EventTools.getStringFromMessag
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
 public class MessageTools {
-
     public static long getAtFromString(String message) {
         int start = message.indexOf("[@");
         int end = message.indexOf("]");

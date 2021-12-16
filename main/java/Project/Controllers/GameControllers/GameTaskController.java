@@ -11,6 +11,9 @@ import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.TimerController.morningRunnable;
 import static Project.DataBases.GameDataBase.getInfo;
@@ -35,7 +38,14 @@ public class GameTaskController {
 
     static {
         morningRunnable.add(() -> {
-//            TaskPoint.getInstance();
+            List<Long> longs = new LinkedList<>();
+            for (long activity : GameTaskDatabase.getActivities()) {
+                if (longs.contains(activity)) continue;
+                else {
+                    TaskPoint.getInstance(activity).setNormalIndex(0).apply();
+                    longs.add(activity);
+                }
+            }
         });
     }
 
@@ -46,7 +56,8 @@ public class GameTaskController {
     public Object m1(long q, Group group) {
         return gameTaskService.m1(q, group);
     }
-   @Action("接每周任务")
+
+    @Action("接每周任务")
     public Object m2(long q, Group group) {
         return gameTaskService.m2(q, group);
     }
