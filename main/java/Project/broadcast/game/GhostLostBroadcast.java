@@ -4,6 +4,7 @@ import Entitys.gameEntitys.GhostObj;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,9 +31,12 @@ public class GhostLostBroadcast extends Broadcast {
         return false;
     }
 
-    public void addAfter() {
-        AfterRunnable.forEach(e -> e.run());
-        AfterRunnable.clear();
+    public synchronized void addAfter() {
+        Iterator<Runnable> runnableIterator = AfterRunnable.iterator();
+        while (runnableIterator.hasNext()) {
+            runnableIterator.next().run();
+            runnableIterator.remove();
+        }
     }
 
     public static interface GhostLostReceiver extends Receiver {

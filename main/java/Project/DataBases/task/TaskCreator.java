@@ -15,7 +15,6 @@ import static Project.DataBases.GameDataBase.addToBgs;
 import static Project.DataBases.GameDataBase.getImgById;
 import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.Tools.Tool.getRandT;
-import static io.github.kloping.Mirai.Main.Resource.threads;
 
 public class TaskCreator {
     public static final int maxPrenticeIndex = 1;
@@ -55,7 +54,7 @@ public class TaskCreator {
                                 , task.getFromG().longValue(), task.getHost());
                         addToBgs(who, 1601, ObjType.got);
                         addToBgs(with.longValue(), 1601, ObjType.got);
-                        GhostLostBroadcast.INSTANCE.AfterRunnable.add(()->task.destroy());
+                        GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
                     }
                 }
             }
@@ -92,8 +91,10 @@ public class TaskCreator {
                     MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + getImgById(id)
                             , task.getFromG().longValue(), task.getHost());
 
-                    addToBgs(who, 1601, ObjType.got);
-                    GhostLostBroadcast.INSTANCE.AfterRunnable.add(()->task.destroy());
+                    addToBgs(who, id, ObjType.got);
+                    GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
+                        task.destroy();
+                    });
                 }
             }
         });
