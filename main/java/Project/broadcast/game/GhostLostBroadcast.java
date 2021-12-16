@@ -4,6 +4,9 @@ import Entitys.gameEntitys.GhostObj;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
 
@@ -18,11 +21,18 @@ public class GhostLostBroadcast extends Broadcast {
         }
     }
 
+    public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
+
     @Override
     public boolean add(Receiver receiver) {
         if (receiver instanceof GhostLostReceiver)
             return super.add(receiver);
         return false;
+    }
+
+    public void addAfter() {
+        AfterRunnable.forEach(e -> e.run());
+        AfterRunnable.clear();
     }
 
     public static interface GhostLostReceiver extends Receiver {

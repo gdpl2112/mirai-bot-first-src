@@ -2,16 +2,15 @@ package Project.Services.DetailServices;
 
 
 import Entitys.Group;
-import Entitys.Mess;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.Ghost_Behavior;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
+import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
-import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -33,24 +32,23 @@ public class GameJoinDetailService {
     @AutoStand
     IGameService gameService;
 
-    public void before(Mess mess) {
-    }
-
     public String run(int id, long who, Group group) {
-        int r = Tool.rand.nextInt(8) + 10;
-        //广播
-        JoinBroadcast.INSTANCE.broadcast(who, id);
-        if (id == 0) {
-            String str = join0(who, group);
+        try {
+            //广播
+            JoinBroadcast.INSTANCE.broadcast(who, id);
+            if (id == 0) {
+                String str = join0(who, group);
+                return str;
+            }
+            if (id == 1) {
+                String str = join1(who, group);
+                return str;
+            }
+            return "未知错误";
+        } finally {
+            int r = Tool.rand.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
-            return str;
         }
-        if (id == 1) {
-            String str = join1(who, group);
-            putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
-            return str;
-        }
-        return "未知错误";
     }
 
     private GhostObj isUse107(String who) {
@@ -63,7 +61,7 @@ public class GameJoinDetailService {
             GhostObj ghostObj = null;
             long n = randA(0, 100);
             if (n < 36) {
-                ghostObj = summonAFor(who);
+                ghostObj = summonAFor(who, 501, 521);
             } else {
                 ghostObj = new GhostObj(-1, 0, 0, 0, 0);
             }
@@ -75,15 +73,13 @@ public class GameJoinDetailService {
         int r = Tool.rand.nextInt(250);
         GhostObj ghostObj = isUse107(String.valueOf(who));
         boolean need = true;
-        try {
+        if (ghostObj != null)
             if (ghostObj.getHp() == -1) {
                 r = Tool.rand.nextInt(51);
             } else {
                 if (ghostObj.getHp() > 1)
                     need = false;
             }
-        } catch (Exception e) {
-        }
         int ro = r;
         r = getInfo(who).getNextR1();
         if (r == -1) {
@@ -92,19 +88,19 @@ public class GameJoinDetailService {
         if (need) {
             if (r < 2) {
                 //十万年0.5%
-                ghostObj = GhostObj.create(100000);
+                ghostObj = GhostObj.create(100000, 500, 521);
             } else if (r < 5) {
                 //万年2%
-                ghostObj = GhostObj.create(10000);
+                ghostObj = GhostObj.create(10000, 500, 521);
             } else if (r < 15) {
                 //千年5%
-                ghostObj = GhostObj.create(1000);
+                ghostObj = GhostObj.create(1000, 500, 521);
             } else if (r < 31) {
                 //百年8%
-                ghostObj = GhostObj.create(100);
+                ghostObj = GhostObj.create(100, 500, 521);
             } else if (r < 61) {
                 //十年15%
-                ghostObj = GhostObj.create(10);
+                ghostObj = GhostObj.create(10, 500, 521);
             } else if (r < 71) {
                 //时光胶囊5%
                 addToBgs(who, 101, ObjType.got);
@@ -162,19 +158,19 @@ public class GameJoinDetailService {
         GhostObj ghostObj = null;
         if (r < mustMeed) {
             if (r == 0) {
-                ghostObj = summonAFor(String.valueOf(who));
+                ghostObj = summonAFor(String.valueOf(who), 601, 604);
             } else if (r < 3) {
                 //十万年0.5%
-                ghostObj = GhostObj.create(100000);
+                ghostObj = GhostObj.create(100000, 601, 604);
             } else if (r < 16) {
                 //万年2%
-                ghostObj = GhostObj.create(10000);
+                ghostObj = GhostObj.create(10000, 601, 604);
             } else if (r < 31) {
                 //千年5%
-                ghostObj = GhostObj.create(1000);
+                ghostObj = GhostObj.create(1000, 601, 604);
             } else if (r < minMeed) {
                 //百年8%
-                ghostObj = GhostObj.create(100);
+                ghostObj = GhostObj.create(100, 601, 604);
             } else {
                 addToBgs(who, 112, ObjType.got);
                 return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
@@ -195,14 +191,19 @@ public class GameJoinDetailService {
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
 
-    public GhostObj summonAFor(String who) {
+    /**
+     * @param who
+     * @param idType 5 星斗 6 极北
+     * @return
+     */
+    public GhostObj summonAFor(String who, int idMin, int idMax) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
         return new GhostObj(
                 (long) (personInfo.getAtt() * bl),
                 personInfo.getHpl(),
                 (long) (personInfo.getXpL() / GameTool.getRandXl(personInfo.getLevel())),
-                -1,
+                idMin, idMax,
                 personInfo.getLevel(),
                 true);
     }

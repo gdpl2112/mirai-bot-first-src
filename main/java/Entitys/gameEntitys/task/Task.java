@@ -1,16 +1,18 @@
 package Entitys.gameEntitys.task;
 
+import Project.DataBases.GameTaskDatabase;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.File;
 import java.util.*;
 
-import static Project.DataBases.GameTaskDatabase.cd_;
-import static Project.DataBases.GameTaskDatabase.deleteTask;
+import static Project.DataBases.GameTaskDatabase.*;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
 @Data
@@ -43,6 +45,7 @@ public class Task {
                         TaskPoint.getInstance(aLong.longValue())
                                 .setNextCan(System.currentTimeMillis() + (cd_ * 2))
                                 .addPrenticeIndex(-1).apply();
+
                     TaskPoint.getInstance(getHost().longValue())
                             .setNextCan(System.currentTimeMillis() + (cd_ * 2))
                             .addPrenticeIndex(-1).apply();
@@ -54,10 +57,19 @@ public class Task {
         });
     }
 
-    public void destroy(){
+    public void destroy() {
         Broadcast.receivers.remove(getReceiver());
         deleteTask(Task.this);
         taskRunnable.remove(runnable);
+    }
+
+    public void save() {
+        saveTask(this, true);
+    }
+
+    public void update() {
+        File file = new File(GameTaskDatabase.path, getUuid());
+        FileInitializeValue.putValues(file.getAbsolutePath(), this, true);
     }
 
     public static final List<Runnable> taskRunnable = new LinkedList<>();

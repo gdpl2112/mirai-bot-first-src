@@ -45,7 +45,10 @@ public class GameTaskController {
     @Action("接徒弟任务")
     public Object m1(long q, Group group) {
         return gameTaskService.m1(q, group);
-//        return "等待完善...";
+    }
+   @Action("接每周任务")
+    public Object m2(long q, Group group) {
+        return gameTaskService.m2(q, group);
     }
 
     @Action("当前任务")

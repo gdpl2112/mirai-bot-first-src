@@ -32,8 +32,6 @@ public class DBUtils {
             if (ds == null) {
                 init();
             }
-
-
             return connection == null || connection.isClosed() ? connection = ds.getConnection() : connection;
         } catch (Exception e) {
             e.printStackTrace();

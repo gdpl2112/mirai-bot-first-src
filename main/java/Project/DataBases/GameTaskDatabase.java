@@ -3,6 +3,9 @@ package Project.DataBases;
 import Entitys.gameEntitys.task.Task;
 import Project.DataBases.task.TaskCreator;
 import Project.broadcast.Receiver;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.map.MapUtils;
 
@@ -11,8 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.DataBases.task.TaskCreator.getTask;
+
 public class GameTaskDatabase {
-    private static String path;
+    public static String path;
 
     public GameTaskDatabase(String mainPath) {
         path = mainPath + "/dates/games/tasks";
@@ -26,8 +31,10 @@ public class GameTaskDatabase {
             new File(path).mkdirs();
             for (File file : new File(path).listFiles()) {
                 try {
-                    Task task = FileInitializeValue.getValue(file.getAbsolutePath(), new Task(), false);
-                     saveTask(task, false);
+                    JSONObject jo = JSON.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()));
+                    int id = jo.getInteger("taskId");
+                    Task task = FileInitializeValue.getValue(file.getAbsolutePath(), getTask(id), false);
+                    saveTask(task, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -58,7 +65,6 @@ public class GameTaskDatabase {
         if (task.getState().intValue() == -1) return null;
         if (task.getFromG().longValue() == -1) return null;
         if (task.getUuid().isEmpty()) return null;
-        if (task.getTasker().isEmpty()) return null;
         if (input) {
             File file = new File(path, task.getUuid());
             FileInitializeValue.putValues(file.getAbsolutePath(), task, true);

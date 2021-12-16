@@ -48,9 +48,9 @@ public class MessageTools {
         return message;
     }
 
-    private static final Pattern patterFace = Pattern.compile("(<Face\\:\\d+>|\\[Face\\:\\d+\\])");
-    private static final Pattern patterPic = Pattern.compile("(<Pic\\:[^>^]+?>|\\[Pic\\:[^>^]+?\\])");
-    private static final Pattern patterUrl = Pattern.compile("<Url\\:[^>^]+>");
+    private static final Pattern patterFace = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
+    private static final Pattern patterPic = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
+    private static final Pattern patterUrl = Pattern.compile("<Url:[^>^]+>");
     private static final Pattern patterAt = Pattern.compile("\\[At:.+?]|<At:.+?>");
 
     private static List<Object> append(String sb, MessageChainBuilder builder, Contact group) {
@@ -257,9 +257,10 @@ public class MessageTools {
 
     public static synchronized void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
+            if (str == null || gid == -1 || qq == -1) return;
             Group group = bot.getGroup(gid);
             Message message = MessageTools.getMessageFromString(str, group);
-            group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
+            group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(str).build());
         } catch (Exception e) {
             e.printStackTrace();
         }

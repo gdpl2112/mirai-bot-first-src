@@ -31,7 +31,7 @@ public class TaskDetailService {
         return "进入列表中所有活动,并击败每个活动中的一只魂兽";
     }
 
-    private static String f1000() {
+    private static String f1000(Task task) {
         return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽\n完成\n奖励随机物品";
     }
 

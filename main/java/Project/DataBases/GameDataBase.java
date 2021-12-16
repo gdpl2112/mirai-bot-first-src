@@ -142,6 +142,11 @@ public class GameDataBase {
         ids.add("601:泰坦雪魔王");
         ids.add("602:冰帝帝皇蝎");
         ids.add("603:极地冰凤凰");
+        ids.add("701:枯木翼龙");
+        ids.add("702:幻夕魔兽");
+        ids.add("703:熔岩烈兽");
+        ids.add("704:狱火岩魔龙");
+        ids.add("705:地魁岩兽");
         //===================
         ids.add("1000:暗器零件");
         ids.add("1001:诸葛神弩");
@@ -855,6 +860,48 @@ public class GameDataBase {
         return id2IntroMaps.get(id);
     }
 
+
+    /**
+     * 获取图片通过 Id
+     *
+     * @param id
+     * @param k  true 时 pathToImg false 真实路径
+     * @return
+     */
+    public static String getImgById(int id, boolean k) {
+        File f = null;
+        if (id < 50) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "WH(" + id + ").jpg");
+        } else if (id < 150) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "Obj_" + (id - 100) + ".png");
+        } else if (id < 250) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "Hh(" + (id - 200) + ").png");
+        } else if (id < 400) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "Hh-" + (id - 300) + ".gif");
+        } else if (id < 800) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "ghost (" + (id - 500) + ").jpg");
+        } else if (id < 1100) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "Weapon_" + (id - 1000) + ".png");
+        } else if (id < 1600) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, getBoneImg(id));
+        } else if (id < 1650) {
+            File file = new File(path + "/mainfist/images");
+            f = new File(file, "upQ" + (id - 1600) + ".png");
+        }
+        if (f != null)
+            if (k)
+                return pathToImg(f.getAbsolutePath());
+            else return f.getAbsolutePath();
+        throw new RuntimeException();
+    }
+
     /**
      * 获取图片通过 Id
      *
@@ -862,77 +909,7 @@ public class GameDataBase {
      * @return
      */
     public static String getImgById(int id) {
-        if (id < 50) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "WH(" + id + ").jpg");
-            return pathToImg(f.getPath());
-        } else if (id < 150) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Obj_" + (id - 100) + ".png");
-            return pathToImg(f.getPath());
-        } else if (id < 250) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Hh(" + (id - 200) + ").png");
-            return pathToImg(f.getPath());
-        } else if (id < 400) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Hh-" + (id - 300) + ".gif");
-            return pathToImg(f.getPath());
-        } else if (id < 700) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "ghost (" + (id - 500) + ").jpg");
-            return pathToImg(f.getPath());
-        } else if (id < 1100) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Weapon_" + (id - 1000) + ".png");
-            return pathToImg(f.getPath());
-        } else if (id < 1600) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, getBoneImg(id));
-            return pathToImg(f.getPath());
-        } else if (id < 1650) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "upQ" + (id - 1600) + ".png");
-            return pathToImg(f.getPath());
-        }
-        throw new RuntimeException();
-    }
-
-    public static String getImgById(int id, boolean k) {
-        if (id < 50) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "WH(" + id + ").jpg");
-            return pathToImg(f.getPath());
-        } else if (id < 150) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Obj_" + (id - 100) + ".png");
-            return pathToImg(f.getPath());
-        } else if (id < 250) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Hh(" + (id - 200) + ").png");
-            return pathToImg(f.getPath());
-        } else if (id < 400) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Hh-" + (id - 300) + ".gif");
-            return pathToImg(f.getPath());
-        } else if (id < 700) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "ghost (" + (id - 500) + ").jpg");
-            return pathToImg(f.getPath());
-        } else if (id < 1100) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "Weapon_" + (id - 1000) + ".png");
-            return pathToImg(f.getPath());
-        } else if (id < 1600) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, getBoneImg(id));
-            return k ? pathToImg(f.getPath()) : f.getPath();
-        } else if (id < 1650) {
-            File file = new File(path + "/mainfist/images");
-            File f = new File(file, "upQ" + (id - 1600) + ".png");
-            return k ? pathToImg(f.getPath()) : f.getPath();
-        }
-        throw new RuntimeException();
+        return getImgById(id, true);
     }
 
     private static String getBoneImg(Integer id) {

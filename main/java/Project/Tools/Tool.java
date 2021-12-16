@@ -860,9 +860,12 @@ public class Tool {
      * @return
      */
     public static final String getRandString(String... sss) {
-        return sss[Tool.rand.nextInt(sss.length)];
+        return getRandT(sss);
     }
 
+    public static final <T> T getRandT(T... ts) {
+        return ts[rand.nextInt(ts.length)];
+    }
 
     /**
      * 计算百分比

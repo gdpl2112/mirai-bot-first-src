@@ -51,11 +51,11 @@ public class GhostObj implements Serializable {
     }
 
 
-    public GhostObj(long hp, long att, long xp, long id, long l, boolean rand) {
+    public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand) {
         this.hp = randFloatByte1(hp);
         this.att = randFloatByte1(att);
         this.xp = randFloatByte1(xp);
-        this.id = Long.valueOf(randA(501, 520));
+        this.id = randA(idMin, idMax);
         L = getLtoGhsL(l);
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NotNeed;
@@ -153,7 +153,7 @@ public class GhostObj implements Serializable {
         return getHp();
     }
 
-    public static GhostObj create(int level) {
+    public static GhostObj create(int level, int idMin, int idMax) {
         GhostObj ghostObj = null;
         switch (level) {
             case 10:
@@ -161,7 +161,8 @@ public class GhostObj implements Serializable {
             case 1000:
             case 10000:
             case 100000:
-                ghostObj = new GhostObj(randA(5 * level, 9 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level), randA(501, 520), randA(level + 1, Lmax(level)));
+                ghostObj = new GhostObj(randA(4 * level, 9 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
+                        , randA(idMin, idMax), randA(level + 1, Lmax(level)));
                 return ghostObj;
         }
         return null;

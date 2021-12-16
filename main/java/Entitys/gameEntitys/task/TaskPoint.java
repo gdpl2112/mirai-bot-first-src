@@ -5,15 +5,13 @@ import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Map;
-
 @Data
 @Accessors(chain = true)
 public class TaskPoint {
     private Long q = -1L;
     private Integer prenticeIndex = 0;
     private Integer masterIndex = 0;
-    private Integer normalIndex = 0;
+    private Integer normalIndex = 1000;
     private Integer expertIndex = 0;
     private Long nextCan = 0L;
 
