@@ -88,19 +88,19 @@ public class GameJoinDetailService {
         if (need) {
             if (r < 2) {
                 //十万年0.5%
-                ghostObj = GhostObj.create(100000, 500, 521);
+                ghostObj = GhostObj.create(100000, 501, 521);
             } else if (r < 5) {
                 //万年2%
-                ghostObj = GhostObj.create(10000, 500, 521);
+                ghostObj = GhostObj.create(10000, 501, 521);
             } else if (r < 15) {
                 //千年5%
-                ghostObj = GhostObj.create(1000, 500, 521);
+                ghostObj = GhostObj.create(1000, 501, 521);
             } else if (r < 31) {
                 //百年8%
-                ghostObj = GhostObj.create(100, 500, 521);
+                ghostObj = GhostObj.create(100, 501, 521);
             } else if (r < 61) {
                 //十年15%
-                ghostObj = GhostObj.create(10, 500, 521);
+                ghostObj = GhostObj.create(10, 501, 521);
             } else if (r < 71) {
                 //时光胶囊5%
                 addToBgs(who, 101, ObjType.got);
