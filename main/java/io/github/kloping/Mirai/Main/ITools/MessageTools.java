@@ -259,7 +259,7 @@ public class MessageTools {
             if (str == null || gid == -1 || qq == -1) return;
             Group group = bot.getGroup(gid);
             Message message = MessageTools.getMessageFromString(str, group);
-            group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(str).build());
+            group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
         } catch (Exception e) {
             e.printStackTrace();
         }
