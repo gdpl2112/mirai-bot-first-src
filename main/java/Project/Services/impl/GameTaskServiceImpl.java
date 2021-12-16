@@ -25,7 +25,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         if (taskPoint.getNextCan() > System.currentTimeMillis())
             return "接任务冷却中=>" + Tool.getTimeDDHHMM(taskPoint.getNextCan());
         if (taskPoint.getPrenticeIndex() >= maxPrenticeIndex) return "暂无更多任务..";
-        int id = taskPoint.getNormalIndex();
+        int id = taskPoint.getPrenticeIndex();
         Task task = getTask(id);
         task.setTaskId(id);
         task.setDeadline(System.currentTimeMillis() + 1000 * 60 * 60 * 24);

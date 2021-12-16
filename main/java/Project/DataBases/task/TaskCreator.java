@@ -17,8 +17,8 @@ import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.Tools.Tool.getRandT;
 
 public class TaskCreator {
-    public static final int maxPrenticeIndex = 1;
-    public static final int maxIndex = 1001;
+    public static final int maxPrenticeIndex = 0;
+    public static final int maxIndex = 1000;
 
     public static <T extends Task> T getTask(int id) {
         if (id == 0) return (T) new Task();
@@ -42,9 +42,11 @@ public class TaskCreator {
         return null;
     }
 
-    public static Receiver task0(Task task) {
+    public static synchronized Receiver task0(final Task taskN) {
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiver() {
+            private final Task task = taskN;
+
             @Override
             public void onReceive(long who, Long with, GhostObj ghostObj) {
                 if (who == task.getHost().longValue()) {
@@ -68,11 +70,13 @@ public class TaskCreator {
         return getRandT(t1000objs);
     }
 
-    public static Receiver task1000(Task task1000) {
+    public static synchronized Receiver task1000(Task task1000) {
         if (!(task1000 instanceof TaskEntityDetail.Task1000)) return null;
-        TaskEntityDetail.Task1000 task = (TaskEntityDetail.Task1000) task1000;
+        final TaskEntityDetail.Task1000 taskN = (TaskEntityDetail.Task1000) task1000;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiver() {
+            private final TaskEntityDetail.Task1000 task = taskN;
+
             @Override
             public void onReceive(long who, Long with, GhostObj ghostObj) {
                 if (ghostObj.getId() < 600)

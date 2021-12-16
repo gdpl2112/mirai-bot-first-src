@@ -1,12 +1,18 @@
 package Project.Controllers;
 
+import Entitys.Group;
 import Project.Tools.Tool;
 import Project.interfaces.GetPvpQQ;
 import Project.interfaces.GetSongs;
 import Project.interfaces.RunCode;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import net.mamoe.mirai.message.data.Audio;
+import net.mamoe.mirai.message.data.AudioCodec;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.Voice;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,10 +34,11 @@ public class FirstController {
     @AutoStand
     public static GetPvpQQ getPvpQQ;
 
-//    @Action("测试")
-//    public Message a(Group group) throws Exception {
-//        return getNews(541818, group.getId());
-//    }
+    @Action("测试")
+    public Message a(Group group) throws Exception {
+        return null;
+    }
+
 
     public static char[] cs = new char[]{
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
