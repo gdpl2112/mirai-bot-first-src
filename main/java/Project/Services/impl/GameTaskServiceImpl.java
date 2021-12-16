@@ -46,7 +46,8 @@ public class GameTaskServiceImpl implements IGameTaskService {
 
     @Override
     public Object m2(long q, Group group) {
-        if (GameTaskDatabase.tasks.containsKey(q)) return "请先完成\"当前任务\"";
+        if (GameTaskDatabase.tasks.containsKey(q)
+                && !GameTaskDatabase.tasks.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
             return "接任务冷却中=>" + Tool.getTimeDDHHMM(taskPoint.getNextCan());

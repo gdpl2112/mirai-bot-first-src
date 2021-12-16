@@ -64,7 +64,7 @@ public class Task {
     public void destroy() {
         Broadcast.receivers.remove(getReceiver());
         deleteTask(Task.this);
-        taskRunnable.remove(runnable);
+        taskRunnable.remove(this.runnable);
     }
 
     public void save() {

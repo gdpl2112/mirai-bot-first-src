@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static io.github.kloping.Mirai.Main.Resource.threads;
+
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
 
@@ -20,6 +22,7 @@ public class GhostLostBroadcast extends Broadcast {
             if (receiver instanceof GhostLostReceiver)
                 ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWith(), ghostObj);
         }
+        threads.submit(this::After);
     }
 
     public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
@@ -31,7 +34,7 @@ public class GhostLostBroadcast extends Broadcast {
         return false;
     }
 
-    public synchronized void addAfter() {
+    public synchronized void After() {
         Iterator<Runnable> runnableIterator = AfterRunnable.iterator();
         while (runnableIterator.hasNext()) {
             runnableIterator.next().run();

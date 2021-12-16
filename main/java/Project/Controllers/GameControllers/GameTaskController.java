@@ -77,7 +77,7 @@ public class GameTaskController {
                 sb.append(i).append(".").append(TaskDetailService.getIntro(task.getTaskId()));
                 sb.append("\r\n\t  主:").append(task.getHost()).append("\r\n");
             }
-            return sb.toString().isEmpty() ? "暂无任务" : sb.toString();
+            return sb.toString().isEmpty() ? "暂无任务!" : sb.toString();
         } catch (Exception e) {
             return "没有任务!";
         }
