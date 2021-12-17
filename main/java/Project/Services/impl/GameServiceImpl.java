@@ -710,6 +710,8 @@ public class GameServiceImpl implements IGameService {
             return "你已经有徒弟了";
         if (getWarp(q2).getMaster().longValue() != -1)
             return "他已经有师傅了";
+        if ((getWarp(q).getMaster().longValue() == q2) || (getWarp(q2).getPrentice().longValue() == q))
+            return "can't do that";
         GInfo gInfo = GInfo.getInstance(q);
         if (gInfo.getMasterPoint() < st)
             return "名师点不足:需要=>" + st + "\n现在:" + gInfo.getMasterPoint();
@@ -732,7 +734,7 @@ public class GameServiceImpl implements IGameService {
         warp2.setMaster(q);
         setWarp(warp1);
         setWarp(warp2);
-        GInfo.getInstance(q).addMasterPoint(-25).apply();
+        GInfo.getInstance(q).addMasterPoint(-st).apply();
         return pathToImg(drawWarpPng(warp1));
     }
 
