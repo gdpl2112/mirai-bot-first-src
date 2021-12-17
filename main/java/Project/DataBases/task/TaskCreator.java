@@ -15,14 +15,15 @@ import static Project.DataBases.GameDataBase.addToBgs;
 import static Project.DataBases.GameDataBase.getImgById;
 import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.Tools.Tool.getRandT;
+import static Project.broadcast.game.GhostLostBroadcast.getSerId;
 
 public class TaskCreator {
     public static final int maxPrenticeIndex = 0;
     public static final int maxIndex = 1000;
 
     public static <T extends Task> T getTask(int id) {
-        if (id == 0) return (T) new Task();
-        else if (id == 1000) return (T) new TaskEntityDetail.Task1000();
+        if (id < 10) return (T) new Task();
+        else if (id < 1100) return (T) new TaskEntityDetail.Task1000();
         return null;
     }
 
@@ -46,6 +47,7 @@ public class TaskCreator {
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiver() {
             private final Task task = taskN;
+            private int id = getSerId();
 
             @Override
             public void onReceive(long who, Long with, GhostObj ghostObj) {
@@ -76,6 +78,7 @@ public class TaskCreator {
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiver() {
             private final TaskEntityDetail.Task1000 task = taskN;
+            private int id = getSerId();
 
             @Override
             public void onReceive(long who, Long with, GhostObj ghostObj) {

@@ -42,6 +42,12 @@ public class GhostLostBroadcast extends Broadcast {
         }
     }
 
+    private static int index = 0;
+
+    public static synchronized int getSerId() {
+        return index++;
+    }
+
     public static interface GhostLostReceiver extends Receiver {
         void onReceive(long who, Long with, GhostObj ghostObj);
     }
