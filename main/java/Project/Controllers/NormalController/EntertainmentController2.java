@@ -104,16 +104,16 @@ public class EntertainmentController2 {
         PickupABottle pab = null;
         try {
             pab = FirstController.apiIyk0.pickupABottle(2);
+            StringBuilder sb = new StringBuilder();
+            sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
+                    .append("\n的").append(pab.getData().getId())
+                    .append("\n在").append(pab.getData().getTime())
+                    .append("\n写的:").append(pab.getData().getMsg());
+            return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return "没捡到瓶子...";
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
-                .append("\n的").append(pab.getData().getId())
-                .append("\n在").append(pab.getData().getTime())
-                .append("\n写的:").append(pab.getData().getMsg());
-        return sb.toString();
     }
 
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
