@@ -121,7 +121,7 @@ public class EntertainmentController2 {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
         try {
             ThrowABottle throwABottle = FirstController.apiIyk0.throwABottle(1,
-                    str, q, group);
+                    str, q, group.getId());
             return throwABottle.getData().getMsg();
         } catch (Exception e) {
             e.printStackTrace();
