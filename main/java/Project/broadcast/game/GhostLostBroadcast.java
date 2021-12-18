@@ -35,6 +35,8 @@ public class GhostLostBroadcast extends Broadcast {
     }
 
     public synchronized void After() {
+        if (AfterRunnable.isEmpty())
+            return;
         Iterator<Runnable> runnableIterator = AfterRunnable.iterator();
         while (runnableIterator.hasNext()) {
             runnableIterator.next().run();
@@ -50,5 +52,17 @@ public class GhostLostBroadcast extends Broadcast {
 
     public static interface GhostLostReceiver extends Receiver {
         void onReceive(long who, Long with, GhostObj ghostObj);
+    }
+
+    public static abstract class GhostLostReceiverWith<T> implements GhostLostReceiver {
+        private T t;
+
+        public GhostLostReceiverWith(T t) {
+            this.t = t;
+        }
+
+        public T getT() {
+            return t;
+        }
     }
 }
