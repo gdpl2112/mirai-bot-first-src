@@ -1,13 +1,22 @@
 package Project.broadcast.game;
 
 import Entitys.gameEntitys.GhostObj;
+import Entitys.gameEntitys.task.Task;
+import Project.DataBases.task.TaskEntityDetail;
+import Project.Services.DetailServices.TaskDetailService;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
+import Project.broadcast.enums.ObjType;
+import io.github.kloping.Mirai.Main.ITools.MessageTools;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static Project.DataBases.GameDataBase.addToBgs;
+import static Project.DataBases.GameDataBase.getImgById;
+import static Project.DataBases.GameTaskDatabase.deleteTask;
+import static Project.DataBases.task.TaskCreator.getRandObj1000;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
 public class GhostLostBroadcast extends Broadcast {
@@ -54,10 +63,10 @@ public class GhostLostBroadcast extends Broadcast {
         void onReceive(long who, Long with, GhostObj ghostObj);
     }
 
-    public static abstract class GhostLostReceiverWith<T> implements GhostLostReceiver {
+    public static abstract class AbstractGhostLostReceiverWith<T> implements GhostLostReceiver {
         private T t;
 
-        public GhostLostReceiverWith(T t) {
+        public AbstractGhostLostReceiverWith(T t) {
             this.t = t;
         }
 
@@ -65,4 +74,5 @@ public class GhostLostBroadcast extends Broadcast {
             return t;
         }
     }
+
 }

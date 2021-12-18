@@ -1,19 +1,12 @@
 package Project.DataBases.task;
 
-import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.task.Task;
-import Project.Services.DetailServices.TaskDetailService;
 import Project.broadcast.Receiver;
-import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static Project.DataBases.GameDataBase.addToBgs;
-import static Project.DataBases.GameDataBase.getImgById;
-import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.Tools.Tool.getRandT;
 
 public class TaskCreator {
@@ -44,22 +37,7 @@ public class TaskCreator {
 
     public static synchronized Receiver task0(final Task taskN) {
         Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiverWith<Task>(taskN) {
-            @Override
-            public void onReceive(long who, Long with, GhostObj ghostObj) {
-                Task task = getT();
-                if (who == task.getHost().longValue()) {
-                    if (task.getTasker().contains(with.longValue())) {
-                        deleteTask(task);
-                        MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
-                                , task.getFromG().longValue(), task.getHost());
-                        addToBgs(who, 1601, ObjType.got);
-                        addToBgs(with.longValue(), 1601, ObjType.got);
-                        GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
-                    }
-                }
-            }
-        });
+        GhostLostBroadcast.INSTANCE.add(receiver = new TaskEntityDetail.GhostLostReceiverWithTask0(taskN));
         return receiver;
     }
 
@@ -72,35 +50,7 @@ public class TaskCreator {
     public static synchronized Receiver task1000(Task task1000) {
         if (!(task1000 instanceof TaskEntityDetail.Task1000)) return null;
         Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostBroadcast.GhostLostReceiverWith
-                <TaskEntityDetail.Task1000>((TaskEntityDetail.Task1000) task1000) {
-
-            @Override
-            public void onReceive(long who, Long with, GhostObj ghostObj) {
-                TaskEntityDetail.Task1000 task = getT();
-                if (ghostObj.getId() < 600)
-                    task.m1.put(1, true);
-                else if (ghostObj.getId() < 700)
-                    task.m1.put(2, true);
-                else if (ghostObj.getId() < 800)
-                    task.m1.put(3, true);
-
-                task.update();
-
-                if (task.isFinish()) {
-                    deleteTask(task);
-                    int id = getRandObj1000();
-
-                    MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + getImgById(id)
-                            , task.getFromG().longValue(), task.getHost());
-
-                    addToBgs(who, id, ObjType.got);
-                    GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
-                        task.destroy();
-                    });
-                }
-            }
-        });
+        GhostLostBroadcast.INSTANCE.add(receiver = new TaskEntityDetail.GhostLostReceiverWithTask1000((TaskEntityDetail.Task1000) task1000));
         return receiver;
     }
 }
