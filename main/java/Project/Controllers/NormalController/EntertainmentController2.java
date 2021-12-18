@@ -106,7 +106,7 @@ public class EntertainmentController2 {
             pab = FirstController.apiIyk0.pickupABottle(2);
             StringBuilder sb = new StringBuilder();
             sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
-                    .append("\n的").append(pab.getData().getId())
+                    .append("\n的").append(pab.getData().getUin())
                     .append("\n在").append(pab.getData().getTime())
                     .append("\n写的:").append(pab.getData().getMsg());
             return sb.toString();
