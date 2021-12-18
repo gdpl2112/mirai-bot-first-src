@@ -134,6 +134,8 @@ public class OtherController {
         BaseMenuStr.append("堆糖搜图 xx \n");
         BaseMenuStr.append("发张 xx \n");
         BaseMenuStr.append("掷骰子\n");
+        BaseMenuStr.append("捡瓶子/捡漂流瓶\n");
+        BaseMenuStr.append("扔瓶子/仍漂流瓶<内容>\n");
 //        BaseMenuStr.append("哔哩搜索 xx \n");
 //        BaseMenuStr.append("哔哩哔哩搜索 xx \n");
 //        BaseMenuStr.append("快手短视频 #不稳定\n");

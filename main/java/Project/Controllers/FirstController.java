@@ -2,6 +2,7 @@ package Project.Controllers;
 
 import Entitys.Group;
 import Project.Tools.Tool;
+import Project.interfaces.ApiIyk0;
 import Project.interfaces.GetPvpQQ;
 import Project.interfaces.GetSongs;
 import Project.interfaces.RunCode;
@@ -34,10 +35,13 @@ public class FirstController {
     @AutoStand
     public static GetPvpQQ getPvpQQ;
 
-    @Action("测试")
-    public Message a(Group group) throws Exception {
-        return null;
-    }
+    @AutoStand
+    public static ApiIyk0 apiIyk0;
+
+//    @Action("测试")
+//    public Message a(Group group) throws Exception {
+//        return null;
+//    }
 
 
     public static char[] cs = new char[]{

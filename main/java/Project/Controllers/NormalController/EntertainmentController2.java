@@ -2,6 +2,9 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
+import Entitys.apiEntitys.colb.PickupABottle;
+import Entitys.apiEntitys.thb.ThrowABottle;
+import Project.Controllers.FirstController;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
@@ -95,4 +98,30 @@ public class EntertainmentController2 {
                 .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
         return Tool.pathToImg(GameDrawer.drawerMap(builder.build()));
     }
+
+    @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
+    public String getBottle() {
+        PickupABottle pab = null;
+        try {
+            pab = FirstController.apiIyk0.pickupABottle(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "没捡到瓶子...";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
+                .append("\n的").append(pab.getData().getId())
+                .append("\n在").append(pab.getData().getTime())
+                .append("\n写的:").append(pab.getData().getMsg());
+        return sb.toString();
+    }
+
+    @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
+    public String setBottle(long q, Group group, @Param("str") String str) {
+        if (str == null || str.trim().isEmpty()) return "请携带内容~";
+        ThrowABottle throwABottle = FirstController.apiIyk0.throwABottle(1,
+                str, q, group);
+        return throwABottle.getData().getMsg();
+    }
+
 }
