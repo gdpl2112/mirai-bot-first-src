@@ -119,9 +119,15 @@ public class EntertainmentController2 {
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
     public String setBottle(long q, Group group, @Param("str") String str) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
-        ThrowABottle throwABottle = FirstController.apiIyk0.throwABottle(1,
-                str, q, group);
-        return throwABottle.getData().getMsg();
+        try {
+            ThrowABottle throwABottle = FirstController.apiIyk0.throwABottle(1,
+                    str, q, group);
+            return throwABottle.getData().getMsg();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
+        }
+
     }
 
 }
