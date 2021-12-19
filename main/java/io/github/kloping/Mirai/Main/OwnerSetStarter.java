@@ -2,7 +2,9 @@ package io.github.kloping.Mirai.Main;
 
 import io.github.kloping.Mirai.Main.Handlers.LittleHandler;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.h1.impl.ConfigFileManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.*;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -24,10 +26,6 @@ import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.ClassManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.ContextManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.MethodManagerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.ActionManager;
-import io.github.kloping.MySpringTool.interfaces.component.ClassManager;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.MySpringTool.interfaces.component.MethodManager;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
 import kotlin.coroutines.CoroutineContext;
@@ -52,8 +50,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static io.github.kloping.Mirai.Main.ITools.Saver.saveMessage;
+import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
-public class OwnerSetStarter {
+public class OwnerSetStarter  {
 
     public static void main(String[] args) {
         BotConfiguration botConfiguration = new BotConfiguration();
@@ -64,10 +63,11 @@ public class OwnerSetStarter {
         Resource.ABot abot = Resource.get(4);
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         bot.login();
-
         LittleHandler.contextManager.append(Bot.class, bot, "0");
         StarterApplication.logger = new LoggerImpl();
         LittleHandler.init();
+        ConfigFileManager configFileManager = new ConfigFileManagerImpl(LittleHandler.contextManager);
+        configFileManager.load("./conf/conf.txt");
         LittleHandler handler = LittleHandler.contextManager.getContextEntity(LittleHandler.class);
         bot.getEventChannel().registerListenerHost(handler);
 

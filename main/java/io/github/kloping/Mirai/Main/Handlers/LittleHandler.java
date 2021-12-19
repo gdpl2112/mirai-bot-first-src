@@ -4,6 +4,7 @@ import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.h1.impl.AutomaticWiringParamsImpl;
@@ -69,6 +70,7 @@ public class LittleHandler extends SimpleListenerHost {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        Resource.contextManager= contextManager;
     }
 
     @Override
