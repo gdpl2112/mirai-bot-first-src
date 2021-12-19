@@ -294,7 +294,7 @@ public class GameTool {
      * @return
      */
     public static Long randFloatByte1(Long v) {
-        return Long.valueOf(randLong(v, 0.90f, 1.18f));
+        return Long.valueOf(randLong(v, 0.87f, 1.18f));
     }
 
     /**

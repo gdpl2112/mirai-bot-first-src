@@ -46,7 +46,7 @@ public class GameTaskController {
                 for (long activity : GameTaskDatabase.getActivities()) {
                     if (longs.contains(activity)) continue;
                     else {
-                        TaskPoint.getInstance(activity).setNormalIndex(0).apply();
+                        TaskPoint.getInstance(activity).setNormalIndex(1000).apply();
                         longs.add(activity);
                     }
                 }
