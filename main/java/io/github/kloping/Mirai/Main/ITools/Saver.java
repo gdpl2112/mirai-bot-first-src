@@ -3,6 +3,7 @@ package io.github.kloping.Mirai.Main.ITools;
 import Entitys.DataC;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import io.github.kloping.Mirai.Main.BotStarter;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,7 +15,7 @@ public class Saver {
     public static String path = "./messages/";
     public static String pathRecall = "./messages/recalled/";
 
-    public static final String rootPath = contextManager.getContextEntity(String.class,"SaverRootUrl");
+    public static final String rootPath = contextManager.getContextEntity(String.class, "SaverRootUrl");
 //    public static String rootPath = "http://localhost:8082";
 
     public static String savePath = "/save";
@@ -65,6 +66,7 @@ public class Saver {
     }
 
     public static void saveMessage(String text, long group, long q) throws Exception {
+        if (BotStarter.test) return;
         DataC dataC = new DataC();
         dataC.setContent(text);
         dataC.setGroupId(group);

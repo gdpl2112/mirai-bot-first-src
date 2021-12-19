@@ -312,7 +312,7 @@ public class ManagerController {
             ints = new int[]{ints[0]};
             List<String> strings = Arrays.asList(Saver.getTexts(gid, q, ints));
             for (String s1 : strings) {
-                MessageTools.sendMessageInGroup(s1, group.getId());
+                MessageTools.sendStringInGroup(s1, group.getId());
             }
 //            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q));
 //            for (int n : ints) {

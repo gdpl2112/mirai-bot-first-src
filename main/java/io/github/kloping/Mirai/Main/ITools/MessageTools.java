@@ -227,6 +227,14 @@ public class MessageTools {
             e.printStackTrace();
         }
     }
+    public static synchronized void sendStringInGroup(String str, long id) {
+        try {
+            Group group = bot.getGroup(id);
+            group.sendMessage(new PlainText(str));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static synchronized void sendMessageInGroup(Object o, long id) {
         try {
