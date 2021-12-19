@@ -130,4 +130,13 @@ public class EntertainmentController2 {
 
     }
 
+    @Action("随机头像")
+    public String sjtx() {
+        try {
+            return Tool.pathToImg(FirstController.muXiaoGuo.getSjtx("pc").getData().getImgurl());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
 }

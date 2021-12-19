@@ -2,10 +2,7 @@ package Project.Controllers;
 
 import Entitys.Group;
 import Project.Tools.Tool;
-import Project.interfaces.ApiIyk0;
-import Project.interfaces.GetPvpQQ;
-import Project.interfaces.GetSongs;
-import Project.interfaces.RunCode;
+import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -37,6 +34,9 @@ public class FirstController {
 
     @AutoStand
     public static ApiIyk0 apiIyk0;
+
+    @AutoStand
+    public static MuXiaoGuo muXiaoGuo;
 
 //    @Action("测试")
 //    public Message a(Group group) throws Exception {
