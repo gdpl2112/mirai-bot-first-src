@@ -39,6 +39,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static io.github.kloping.Mirai.Main.ITools.Saver.saveMessage;
+
 @Controller
 public class LittleHandler extends SimpleListenerHost {
 
@@ -93,7 +95,7 @@ public class LittleHandler extends SimpleListenerHost {
             for (long q : hasRebots) if (group.contains(q)) return;
             try {
                 String json = MessageChain.serializeToJsonString(event.getMessage());
-                Saver.saveMessage(json, gid, event.getSender().getId());
+                saveMessage(json, gid, event.getSender().getId());
             } catch (Exception e) {
                 e.printStackTrace();
             }
