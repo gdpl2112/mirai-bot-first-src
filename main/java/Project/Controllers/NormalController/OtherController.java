@@ -83,6 +83,7 @@ public class OtherController {
         BaseMenuStr.append("攻击(at)\n");
         BaseMenuStr.append("侦查(at)\n");
         BaseMenuStr.append("升级第<几>魂环\n");
+        BaseMenuStr.append("取名封号<名字>\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("选择(攻击/逃跑) \r\n\t#当遇到魂兽时使用\n");
         BaseMenuStr.append("换积分(用金魂币换积分)\r\n\t#1金魂币1.5积分(多出500的金魂币才能换)\n");

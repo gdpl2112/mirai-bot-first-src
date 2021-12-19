@@ -2,6 +2,7 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
+import Entitys.apiEntitys.baiKe.BaiKe;
 import Entitys.apiEntitys.colb.PickupABottle;
 import Entitys.apiEntitys.thb.ThrowABottle;
 import Project.Controllers.FirstController;
@@ -137,6 +138,17 @@ public class EntertainmentController2 {
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
+        }
+    }
+
+    @Action("百科<.+=>str>")
+    public String m1(@Param("str") String name) {
+        try {
+            BaiKe baiKe = FirstController.muXiaoGuo.getBaiKe("Baidu", name);
+            return baiKe.getData().getContent() + "\n相关图片:" + Tool.pathToImg(baiKe.getData().getImgUrl());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "百科中没有找到相关资料";
         }
     }
 }
