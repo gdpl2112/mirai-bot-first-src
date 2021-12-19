@@ -60,6 +60,7 @@ public class TaskEntityDetail {
         @Override
         public void onReceive(long who, Long with, GhostObj ghostObj) {
             Task task = getT();
+            if (task.getHost().longValue() != who) return;
             if (who == task.getHost().longValue()) {
                 if (task.getTasker().contains(with.longValue())) {
                     deleteTask(task);
@@ -81,6 +82,7 @@ public class TaskEntityDetail {
         @Override
         public void onReceive(long who, Long with, GhostObj ghostObj) {
             TaskEntityDetail.Task1000 task = getT();
+            if (task.getHost().longValue() != who) return;
             if (ghostObj.getId() < 600)
                 task.m1.put(1, true);
             else if (ghostObj.getId() < 700)

@@ -19,7 +19,7 @@ public class TaskCreator {
         return null;
     }
 
-    public static Receiver create(Task task) {
+    public static Receiver create(final Task task) {
         try {
             int id = task.getTaskId();
             Method method = TaskCreator.class.getDeclaredMethod("task" + id, Task.class);
