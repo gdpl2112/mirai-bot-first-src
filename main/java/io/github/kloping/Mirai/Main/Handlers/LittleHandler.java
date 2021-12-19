@@ -4,7 +4,6 @@ import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
-import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.h1.impl.AutomaticWiringParamsImpl;
@@ -70,7 +69,7 @@ public class LittleHandler extends SimpleListenerHost {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        Resource.contextManager= contextManager;
+        Resource.contextManager = contextManager;
     }
 
     @Override
@@ -256,11 +255,12 @@ public class LittleHandler extends SimpleListenerHost {
             MessageSource.recall(qr.getSource());
     }
 
-//    @Action("sendAllGroup.+")
-//    private void m7(String m) {
-//        String ms = m.substring("sendAllGroup".length());
-//        for (Group group : bot.getGroups()) {
-//            group.sendMessage(ms);
-//        }
-//    }
+    @Action("parseJson.+")
+    public void m7(GroupMessageSyncEvent event) {
+        Class2OMap co = Class2OMap.create(event.getMessage());
+        PlainText plainText = co.get(PlainText.class);
+        String jsonStr = plainText.toString().replaceFirst("/parseJson", "");
+        MessageChain chain = MessageChain.deserializeFromJsonString(jsonStr);
+        event.getSubject().sendMessage(chain);
+    }
 }

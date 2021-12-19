@@ -297,6 +297,32 @@ public class ManagerController {
 //            }
         } catch (Exception e) {
             e.printStackTrace();
+            MessageTools.sendMessageInGroup("Not Found", group.getId());
+            throw new NoRunException();
+        }
+    }
+
+    @Action("/superGetJson<.+=>str>")
+    public void mn3(@Param("str") String str, Group group) {
+        try {
+            String[] ss = str.split(":");
+            long gid = Long.parseLong(ss[0]);
+            long q = Long.parseLong(ss[1]);
+            int[] ints = Tool.StringToInts(ss[2]);
+            ints = new int[]{ints[0]};
+            List<String> strings = Arrays.asList(Saver.getTexts(gid, q, ints));
+            for (String s1 : strings) {
+                MessageTools.sendMessageInGroup(s1, group.getId());
+            }
+//            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q));
+//            for (int n : ints) {
+//                String s1 = strings.get(n);
+//                Object o = MessageChain.deserializeFromJsonString(s1);
+//                MessageTools.sendMessageInGroup(o, group.getId());
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MessageTools.sendMessageInGroup("Not Found", group.getId());
             throw new NoRunException();
         }
     }
@@ -320,6 +346,7 @@ public class ManagerController {
 //            }
         } catch (Exception e) {
             e.printStackTrace();
+            MessageTools.sendMessageInGroup("Not Found", group.getId());
             throw new NoRunException();
         }
     }
