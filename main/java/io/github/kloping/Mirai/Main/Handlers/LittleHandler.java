@@ -75,12 +75,11 @@ public class LittleHandler extends SimpleListenerHost {
     }
 
     boolean init = false;
-    public static final List<Long> hased = new CopyOnWriteArrayList<>();
-    public static final List<Long> hase = new CopyOnWriteArrayList<>();
+    public static final List<Long> hasRebot = new CopyOnWriteArrayList<>();
 
     static {
-        hase.add(291841860L);
-        hase.add(3597552450L);
+        hasRebot.add(291841860L);
+        hasRebot.add(3597552450L);
     }
 
     private static final Map<Long, Message> upMessages = new ConcurrentHashMap<>();
@@ -88,21 +87,11 @@ public class LittleHandler extends SimpleListenerHost {
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         upMessages.put(event.getGroup().getId(), event.getMessage());
-        if (!init) {
-            init = true;
-            for (Group group : bot.getGroups()) {
-                for (long q : hase) {
-                    if (group.contains(q)) {
-                        hased.add(group.getId());
-                    }
-                }
-            }
-        }
         if (event.getSender() instanceof AnonymousMember) return;
         Group group = event.getGroup();
         long gid = group.getId();
         Resource.threads.execute(() -> {
-            if (hased.contains(gid)) return;
+            for (long q : hasRebot) if (group.contains(q)) return;
             try {
                 String json = MessageChain.serializeToJsonString(event.getMessage());
                 Saver.saveMessage(json, gid, event.getSender().getId());
