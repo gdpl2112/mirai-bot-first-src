@@ -74,12 +74,11 @@ public class LittleHandler extends SimpleListenerHost {
         super.handleException(context, exception);
     }
 
-    boolean init = false;
-    public static final List<Long> hasRebot = new CopyOnWriteArrayList<>();
+    public static final List<Long> hasRebots = new CopyOnWriteArrayList<>();
 
     static {
-        hasRebot.add(291841860L);
-        hasRebot.add(3597552450L);
+        hasRebots.add(291841860L);
+        hasRebots.add(3597552450L);
     }
 
     private static final Map<Long, Message> upMessages = new ConcurrentHashMap<>();
@@ -91,7 +90,7 @@ public class LittleHandler extends SimpleListenerHost {
         Group group = event.getGroup();
         long gid = group.getId();
         Resource.threads.execute(() -> {
-            for (long q : hasRebot) if (group.contains(q)) return;
+            for (long q : hasRebots) if (group.contains(q)) return;
             try {
                 String json = MessageChain.serializeToJsonString(event.getMessage());
                 Saver.saveMessage(json, gid, event.getSender().getId());
