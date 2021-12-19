@@ -25,6 +25,11 @@ public class TaskPoint {
         FileInitializeValue.putValues(d, this, true);
     }
 
+    public TaskPoint setNormalIndex(Integer normalIndex) {
+        this.normalIndex = normalIndex < 1000 ? 1000 : normalIndex;
+        return this;
+    }
+
     public TaskPoint addPrenticeIndex() {
         this.prenticeIndex++;
         return this;
