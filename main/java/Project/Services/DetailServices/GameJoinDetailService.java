@@ -60,7 +60,7 @@ public class GameJoinDetailService {
             putPerson(personInfo.setUsinged("null"));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
-            if (n < 36) {
+            if (n < 35) {
                 ghostObj = summonAFor(who, 501, 521);
             } else {
                 ghostObj = new GhostObj(-1, 0, 0, 0, 0);
@@ -75,7 +75,7 @@ public class GameJoinDetailService {
         boolean need = true;
         if (ghostObj != null)
             if (ghostObj.getHp() == -1) {
-                r = Tool.rand.nextInt(51);
+                r = Tool.rand.nextInt(25);
             } else {
                 if (ghostObj.getHp() > 1)
                     need = false;
@@ -86,20 +86,20 @@ public class GameJoinDetailService {
             r = ro;
         }
         if (need) {
-            if (r < 2) {
-                //十万年0.5%
+            if (r < 3) {
+                //十万年
                 ghostObj = GhostObj.create(100000, 501, 521);
-            } else if (r < 5) {
-                //万年2%
+            } else if (r < 6) {
+                //万年
                 ghostObj = GhostObj.create(10000, 501, 521);
-            } else if (r < 15) {
-                //千年5%
+            } else if (r < 16) {
+                //千年
                 ghostObj = GhostObj.create(1000, 501, 521);
             } else if (r < 31) {
-                //百年8%
+                //百年
                 ghostObj = GhostObj.create(100, 501, 521);
             } else if (r < 61) {
-                //十年15%
+                //十年
                 ghostObj = GhostObj.create(10, 501, 521);
             } else if (r < 71) {
                 //时光胶囊5%
