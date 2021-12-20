@@ -38,14 +38,17 @@ public class NoticeController {
     private static final StringBuilder sb = new StringBuilder();
 
     static {
-        sb.append("开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问").append("\n");
+        sb.append("开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问").append("\n\n");
+        sb.append("催更新,问题反馈,需要新功能,可以开issue\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new").append("\n");
+        sb.append("==========").append("\n");
+        sb.append("12.20: 修复同时完成任务的bug,新的每周任务").append("\n");
         sb.append("12.18: 修复已知bug,百科<名字>").append("\n");
         sb.append("12.18: 新增娱乐功能 捡瓶子/捡漂流瓶  扔瓶子/仍漂流瓶<内容>").append("\n");
-        sb.append("12.16: - 修复已知bug, 模糊进入\n\t#进入星斗大森林,进入星斗,进入极北\n- 接每周任务\r\n\t #每周任务在每周早刷新,现只有一个任务,之后会继续更新任务").append("\n");
-        sb.append("12.14: 修复已知bug,升级第<几>魂环,合成<物品名>\n\t接徒弟任务,当前任务 #测试阶段  ").append("\n");
-        sb.append("12.13: 修复已知bug,别戳我 ").append("\n");
-        sb.append("12.11: /丢@xx ").append("\n");
-        sb.append("12.11: 新物品,(白/黄/紫/黑/红)升级券 获取方式后续更新,降低名师点要求 ").append("\n");
+        sb.append("12.16: 修复已知bug, 模糊进入\n\t#进入星斗大森林,进入星斗,进入极北\n- 接每周任务\r\n\t #每周任务在每周早刷新,现只有一个任务,之后会继续更新任务").append("\n");
+//        sb.append("12.14: 修复已知bug,升级第<几>魂环,合成<物品名>\n\t接徒弟任务,当前任务 #测试阶段  ").append("\n");
+//        sb.append("12.13: 修复已知bug,别戳我 ").append("\n");
+//        sb.append("12.11: /丢@xx ").append("\n");
+//        sb.append("12.11: 新物品,(白/黄/紫/黑/红)升级券 获取方式后续更新,降低名师点要求 ").append("\n");
 //        sb.append("12.9 : 中级魂骨可出售,降低名师点要求 ").append("\n");
 //        sb.append("12.6 : 魂技使用次数,降低名师点要求").append("\n");
 //        sb.append("12.5 : 魂技加血/魂力 技能 以自身值为基础 且 不会为 被增益者 回复超过最大值一半的量").append("\n");

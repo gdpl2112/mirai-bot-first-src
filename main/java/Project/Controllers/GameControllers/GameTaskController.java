@@ -43,7 +43,7 @@ public class GameTaskController {
         morningRunnable.add(() -> {
             if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
                 List<Long> longs = new LinkedList<>();
-                for (long activity : GameTaskDatabase.getActivities()) {
+                for (long activity : GameTaskDatabase.getActivities(true)) {
                     if (longs.contains(activity)) continue;
                     else {
                         TaskPoint.getInstance(activity).setNormalIndex(1000).apply();
@@ -74,7 +74,7 @@ public class GameTaskController {
         int i = 1;
         try {
             for (Task task : GameTaskDatabase.tasks.get(q)) {
-                sb.append(i).append(".").append(TaskDetailService.getIntro(task.getTaskId()));
+                sb.append(i).append(".").append(TaskDetailService.getIntro(task));
                 sb.append("\r\n\t  主:").append(task.getHost()).append("\r\n");
             }
             return sb.toString().isEmpty() ? "暂无任务!" : sb.toString();

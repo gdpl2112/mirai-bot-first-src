@@ -16,6 +16,7 @@ import static Project.DataBases.GameDataBase.getImgById;
 import static Project.DataBases.GameTaskDatabase.cd_0;
 import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.DataBases.task.TaskCreator.getRandObj1000;
+import static Project.Tools.Tool.getRandT;
 
 public class TaskEntityDetail {
     public static class Task1000 extends Task {
@@ -51,8 +52,33 @@ public class TaskEntityDetail {
         }
     }
 
+    public static class Task1001 extends Task {
+        public int needId;
+        public static Integer[] ids = {501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512,
+                513, 514, 515, 516, 517, 518, 519, 520, 601, 602, 603};
 
-    public static class GhostLostReceiverWithTask0 extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task> {
+        public int getNeedId() {
+            return needId;
+        }
+
+        public Task1001() {
+            this.needId = getRandT(ids);
+        }
+
+        @Override
+        public void over() {
+            TaskPoint.getInstance(getHost().longValue())
+                    .setNextCan(System.currentTimeMillis() + (cd_0))
+                    .addNormalIndex(-1).apply();
+
+            MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+            destroy();
+        }
+    }
+
+
+    public static class GhostLostReceiverWithTask0
+            extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task> {
         public GhostLostReceiverWithTask0(Task task) {
             super(task);
         }
@@ -70,6 +96,29 @@ public class TaskEntityDetail {
                     addToBgs(with.longValue(), 1601, ObjType.got);
                     GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
                 }
+            }
+        }
+    }
+
+    public static class GhostLostReceiverWithTask1001
+            extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1001> {
+        public GhostLostReceiverWithTask1001(Task1001 task) {
+            super(task);
+        }
+
+        @Override
+        public void onReceive(long who, Long with, GhostObj ghostObj) {
+            Task1001 task = getT();
+            if (task.getHost().longValue() != who) return;
+            if (ghostObj.getId().intValue() == task.needId) {
+                deleteTask(task);
+                int id = getRandObj1000();
+                MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + getImgById(id)
+                        , task.getFromG().longValue(), task.getHost());
+                addToBgs(who, id, ObjType.got);
+                GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
+                    task.destroy();
+                });
             }
         }
     }

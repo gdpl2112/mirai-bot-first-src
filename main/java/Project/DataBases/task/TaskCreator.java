@@ -10,12 +10,13 @@ import java.lang.reflect.Method;
 import static Project.Tools.Tool.getRandT;
 
 public class TaskCreator {
-    public static final int maxPrenticeIndex = 0;
-    public static final int maxIndex = 1000;
+    public static final int maxPrenticeIndex = 1;
+    public static final int maxIndex = 1002;
 
     public static <T extends Task> T getTask(int id) {
         if (id < 10) return (T) new Task();
-        else if (id < 1100) return (T) new TaskEntityDetail.Task1000();
+        else if (id < 1001) return (T) new TaskEntityDetail.Task1000();
+        else if (id < 1002) return (T) new TaskEntityDetail.Task1001();
         return null;
     }
 
@@ -51,6 +52,14 @@ public class TaskCreator {
         if (!(task1000 instanceof TaskEntityDetail.Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new TaskEntityDetail.GhostLostReceiverWithTask1000((TaskEntityDetail.Task1000) task1000));
+        return receiver;
+    }
+
+    public static synchronized Receiver task1001(Task task) {
+        if (!(task instanceof TaskEntityDetail.Task1001)) return null;
+        Receiver receiver = null;
+        GhostLostBroadcast.INSTANCE.add(receiver =
+                new TaskEntityDetail.GhostLostReceiverWithTask1001((TaskEntityDetail.Task1001) task));
         return receiver;
     }
 }

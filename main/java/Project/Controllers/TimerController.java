@@ -3,12 +3,14 @@ package Project.Controllers;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
 import Project.Tools.Tool;
+import com.baomidou.mybatisplus.extension.api.R;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.file.RemoteFiles;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -157,6 +159,7 @@ public class TimerController {
                 builder.append("\n");
                 builder.append(image);
                 group.sendMessage(builder.build());
+                RemoteFiles files = group.getFiles();
 //                File finalFile = file;
 //                threads.execute(() -> {
 //                    try {

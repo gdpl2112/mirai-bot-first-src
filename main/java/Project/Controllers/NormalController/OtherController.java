@@ -101,12 +101,12 @@ public class OtherController {
         BaseMenuStr.append("新机制\n");
         BaseMenuStr.append("怎么获得名师点\n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("=任务相关\n");
+        BaseMenuStr.append("#任务相关\n");
         BaseMenuStr.append("接徒弟任务\n");
         BaseMenuStr.append("接每周任务\n");
         BaseMenuStr.append("当前任务\n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("=积分相关\n");
+        BaseMenuStr.append("#积分相关\n");
         BaseMenuStr.append("签到\n");
         BaseMenuStr.append("今日签榜\n");
         BaseMenuStr.append("签榜\n");
@@ -120,7 +120,7 @@ public class OtherController {
         BaseMenuStr.append("抢劫@at\n");
         BaseMenuStr.append("我的发言\n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("=管理相关 #需要权限\n");
+        BaseMenuStr.append("#管理相关 #需要权限\n");
         BaseMenuStr.append("禁言(@xx)(值)(单位,秒,分..)\n");
         BaseMenuStr.append("解除禁言(@xx)\n");
         BaseMenuStr.append("开启/说话\n");
@@ -129,7 +129,7 @@ public class OtherController {
         BaseMenuStr.append("获取 @xx \n");
         BaseMenuStr.append("撤回 <@> <index...> \n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("==其他\n");
+        BaseMenuStr.append("#其他\n");
         BaseMenuStr.append("搜图 xx \n");
         BaseMenuStr.append("百度搜图 xx \n");
         BaseMenuStr.append("堆糖搜图 xx \n");
@@ -191,7 +191,6 @@ public class OtherController {
         if (le == 2) return "群主";
         return "未知";
     }
-
 
 //    @Action("生成国旗渐变头像<.+=>par>")
 //    public String par(@AllMess String all) {

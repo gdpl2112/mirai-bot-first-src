@@ -76,15 +76,5 @@ public class BotStarter {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
         bot.getEventChannel().registerListenerHost(new OwnerHandler());
-        /*PluginLoader.load(new String[]{});
-        threads.execute(() -> {
-            try {
-                Thread.sleep(5000);
-                Resource.SetOnErrInFIle("./b1_err.log");
-                Resource.SetOnOutInFIle("./b1_console.log");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });*/
     }
 }
