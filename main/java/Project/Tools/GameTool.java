@@ -222,7 +222,7 @@ public class GameTool {
             return randA(3900, 4000);
         else if (level < 95)
             return randA(39000, 40000);
-        else if (level < 100) return randA(95000, 10000);
+        else if (level < 100) return randA(95000, 100000);
         else if (level < 110) return randA(179500, 190000);
         else if (level < 120) return randA(290000, 310000);
         else if (level < 150) return randA(160000, 166667);
