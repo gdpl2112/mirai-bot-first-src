@@ -45,7 +45,7 @@ public class TaskEntityDetail {
         public void over() {
             TaskPoint.getInstance(getHost().longValue())
                     .setNextCan(System.currentTimeMillis() + (cd_0))
-                    .addNormalIndex(-1).apply();
+                    .addPrenticeIndex(-1).apply();
 
             MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
             destroy();

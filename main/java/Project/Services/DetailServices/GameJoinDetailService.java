@@ -68,7 +68,6 @@ public class GameJoinDetailService {
             return ghostObj;
         }
     }
-
     public String join0(long who, Group group) {
         int r = Tool.rand.nextInt(250);
         GhostObj ghostObj = isUse107(String.valueOf(who));

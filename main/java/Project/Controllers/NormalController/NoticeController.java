@@ -41,6 +41,7 @@ public class NoticeController {
         sb.append("开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问").append("\n\n");
         sb.append("催更新,问题反馈,需要新功能,可以开issue\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new").append("\n");
         sb.append("==========").append("\n");
+        sb.append("12.21: 修复已知bug 微调 魂兽概率").append("\n");
         sb.append("12.20: 修复同时完成任务的bug,新的每周任务").append("\n");
         sb.append("12.18: 修复已知bug,百科<名字>").append("\n");
         sb.append("12.18: 新增娱乐功能 捡瓶子/捡漂流瓶  扔瓶子/仍漂流瓶<内容>").append("\n");
