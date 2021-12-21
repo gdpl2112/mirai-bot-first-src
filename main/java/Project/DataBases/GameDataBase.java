@@ -968,7 +968,7 @@ public class GameDataBase {
      */
     public static String addHh(Long who, int id) {
         String pathN = path + "/dates/users/" + who + "/hhpz";
-        addStingInFile(id + "", pathN, "utf-8");
+        addStingInFile(String.valueOf(id), pathN, "utf-8");
         return "OK";
     }
 

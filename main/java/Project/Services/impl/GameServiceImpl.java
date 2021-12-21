@@ -294,6 +294,7 @@ public class GameServiceImpl implements IGameService {
                 return "你的背包里没有" + getNameById(id);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return "未找到相关";
         }
     }
