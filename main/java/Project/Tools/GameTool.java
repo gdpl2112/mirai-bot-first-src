@@ -92,19 +92,19 @@ public class GameTool {
     public static double getAHBl(int id) {
         switch (id) {
             case 201:
-                return 0.5;
+                return 0.2;
             case 202:
-                return 0.68;
+                return 0.45;
             case 203:
-                return 0.88;
+                return 0.7;
             case 204:
-                return 1.24;
+                return 1.0;
             case 205:
-                return 1.31;
+                return 1.21;
             case 206:
-                return 1.82;
+                return 1.32;
             case 207:
-                return 2.2;
+                return 1.5;
         }
         return 0;
     }
