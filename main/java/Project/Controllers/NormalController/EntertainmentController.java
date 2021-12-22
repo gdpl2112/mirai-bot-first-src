@@ -13,7 +13,6 @@ import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -21,7 +20,6 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -263,17 +261,10 @@ public class EntertainmentController {
     }
 
     public static final File[] files_tui = new File("./images/tui").listFiles();
-    public static final File[] files_wq = new File("./images/wq").listFiles();
+    public static final File[] files_wq = new File("wq").listFiles();
+    public static final File file_diu = new File("diu/diu.png");
 
     static {
-        Comparator<File> comparator = new Comparator<File>() {
-            @Override
-            public int compare(File o1, File o2) {
-                int i1 = Integer.parseInt(NumberUtils.findNumberFromString(o1.getName()));
-                int i2 = Integer.parseInt(NumberUtils.findNumberFromString(o2.getName()));
-                return i1 - i2;
-            }
-        };
         Arrays.sort(files_wq);
         Arrays.sort(files_tui);
     }
@@ -323,8 +314,6 @@ public class EntertainmentController {
             return "error:for\n" + e.getMessage();
         }
     }
-
-    public static final File file_diu = new File("./images/diu/diu.png");
 
     @Action("/丢.*")
     public String m_3(@AllMess String m) {
