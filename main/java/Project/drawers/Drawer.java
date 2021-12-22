@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.DataBases.GameDataBase.getImgById;
 import static Project.DataBases.ZongMenDataBase.getZongInfo;
 import static Project.DataBases.ZongMenDataBase.qq2id;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
@@ -92,14 +93,14 @@ public class Drawer {
         //==================================
         g.setFont(small1Font);
         y = y + 60;
-        g.drawImage(loadImage("Libs/dates/games/mainfist/images/gold.png"), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgById(-1, false)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + small1Font.getSize());
         g.setFont(smallFont);
         g.drawString(filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + smallFont.getSize());
         g.setFont(small1Font);
         //==================================
         y = y + 60;
-        g.drawImage(loadImage("Libs/dates/games/mainfist/images/sword.png"), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgById(-2, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + small1Font.getSize());
         g.setFont(smallFont);
         g.drawString(filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + smallFont.getSize());

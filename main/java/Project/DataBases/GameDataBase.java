@@ -870,29 +870,32 @@ public class GameDataBase {
      */
     public static String getImgById(int id, boolean k) {
         File f = null;
-        if (id < 50) {
-            File file = new File(path + "/mainfist/images");
+        File file = new File(path + "/mainfist/images");
+        if (!file.exists()) file = new File("./images/game");
+        file.mkdirs();
+        if (id < 0) {
+            switch (id) {
+                case -1:
+                    f = new File(file, "gold.png");
+                    break;
+                case -2:
+                    f = new File(file, "sword.png");
+                    break;
+            }
+        } else if (id < 50) {
             f = new File(file, "WH(" + id + ").jpg");
         } else if (id < 150) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, "Obj_" + (id - 100) + ".png");
         } else if (id < 250) {
-            File file = new File(path + "/mainfist/images");
-            f = new File(file, "Hh(" + (id - 200) + ").png");
         } else if (id < 400) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, "Hh-" + (id - 300) + ".gif");
         } else if (id < 800) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, "ghost (" + (id - 500) + ").jpg");
         } else if (id < 1100) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, "Weapon_" + (id - 1000) + ".png");
         } else if (id < 1600) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, getBoneImg(id));
         } else if (id < 1650) {
-            File file = new File(path + "/mainfist/images");
             f = new File(file, "upQ" + (id - 1600) + ".png");
         }
         if (f != null)

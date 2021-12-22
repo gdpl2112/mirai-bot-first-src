@@ -8,7 +8,6 @@ import Entitys.gameEntitys.Warp;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameService;
-import Project.Tools.Tool;
 import Project.recivers.GameReceiver0;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -24,10 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.*;
-import static Project.drawers.Drawer.drawWarpPng;
-import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
+import static Project.drawers.Drawer.drawWarpPng;
+import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.Resource.StartOkRuns;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -39,14 +38,7 @@ public class GameController {
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");
-        new Thread() {
-            @Override
-            public void run() {
-                loadPh();
-            }
-        }.start();
         StartOkRuns.add(() -> histInfos.clear());
-        GameReceiver0.class.getSimpleName();
     }
 
     @AutoStand

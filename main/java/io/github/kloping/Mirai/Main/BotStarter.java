@@ -63,7 +63,6 @@ public class BotStarter {
         }
     }
 
-
     public static void afterLogin() {
         startRegisterListenerHost();
         startTimer();

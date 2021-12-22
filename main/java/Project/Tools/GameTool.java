@@ -11,7 +11,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
 
-import static Project.DataBases.GameDataBase.*;
+import static Project.DataBases.GameDataBase.getHhs;
+import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
@@ -368,11 +369,14 @@ public class GameTool {
         }
     }
 
-    public static synchronized void removeAllTag(Number number) {
-        putPerson(getInfo(number).setTag(""));
+    public static void removeAllTag(Number number) {
+        getInfo(number).setTag("").apply();
     }
 
-    public static List<Map.Entry<String, Integer>> phGet(int num) {
+    public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
+        if (ph.size() == 0) {
+            loadPh();
+        }
         if (num >= ph.size())
             return ph;
         List<Map.Entry<String, Integer>> ph1 = new ArrayList<>();
