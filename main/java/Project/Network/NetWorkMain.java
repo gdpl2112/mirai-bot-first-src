@@ -1,27 +1,6 @@
 package Project.Network;
 
-import Entitys.Data;
-import Entitys.UScore;
-import Project.Controllers.NormalController.ScoreController;
-import Project.DataBases.DataBase;
-import Project.Tools.Tool;
-import com.alibaba.fastjson.JSON;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
-import net.mamoe.mirai.contact.Group;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
-import static Project.DataBases.DataBase.getAllInfo;
-
-public class NetWorkMain {
+public class NetWorkMain {/*
     private static int port = 20042;
 
     public NetWorkMain(String ip) {
@@ -182,5 +161,5 @@ public class NetWorkMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

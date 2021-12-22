@@ -4,7 +4,6 @@ import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.*;
 import Project.DataBases.skill.SkillDataBase;
-import Project.Network.NetWorkMain;
 import Project.Plugins.NetMain;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -139,6 +138,7 @@ public class Resource {
         Integer type = Integer.valueOf(objects[5].toString());
         if (type == 0) {
             if (o == null) return;
+            //====
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;
                 MessageTools.sendMessageByForward(group.getId(), objs);
@@ -147,10 +147,12 @@ public class Resource {
                 group.sendMessage((Message) o);
                 return;
             }
+            //====
             if (o.toString().startsWith("&"))
                 o = o.toString().replaceFirst("&", "");
             else
                 builder.append(new At(((User) objects[3]).getId())).append("\r\n");
+            //====
             if (o instanceof String) {
                 MessageChain message = MessageTools.getMessageFromString(o.toString(), group);
                 builder.append(message);
@@ -161,6 +163,7 @@ public class Resource {
             } else {
                 System.err.println("未知的返回类型");
             }
+            //====
         } else {
             builder.append("=======").append("\r\n");
             Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((Entitys.User) objects[3]).getId());
@@ -178,56 +181,6 @@ public class Resource {
 
     public static final synchronized void onServerAddTimes() {
         DaeThreads.execute(runnableBefore);
-    }
-
-    public static final void SetOnErrInFIle(String path) {
-        try {
-            PrintStream oldPrintStream = System.err;
-            new File(path).getParentFile().mkdirs();
-            new File(path).createNewFile();
-            FileOutputStream bos = new FileOutputStream(path, true);
-            PrintStream printStream = new PrintStream(bos) {
-                @Override
-                public void write(int b) {
-                    super.write(b);
-                    oldPrintStream.write((int) b);
-                }
-
-                @Override
-                public void write(byte[] buf, int off, int len) {
-                    super.write(buf, off, len);
-                    oldPrintStream.write(buf, off, len);
-                }
-            };
-            System.setErr(printStream);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static final void SetOnOutInFIle(String path) {
-        try {
-            PrintStream oldPrintStream = System.out;
-            new File(path).getParentFile().mkdirs();
-            new File(path).createNewFile();
-            FileOutputStream bos = new FileOutputStream(path, true);
-            PrintStream printStream = new PrintStream(bos) {
-                @Override
-                public void write(int b) {
-                    super.write(b);
-                    oldPrintStream.write((int) b);
-                }
-
-                @Override
-                public void write(byte[] buf, int off, int len) {
-                    super.write(buf, off, len);
-                    oldPrintStream.write(buf, off, len);
-                }
-            };
-            System.setOut(printStream);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static final Runnable runnableBefore = () -> {
@@ -253,30 +206,9 @@ public class Resource {
                         Resource.bot.getFriend(superQL).sendMessage(e.getMessage());
                     }
                 }
-                if (!k) return;
-                NetWorkMain.start();
             }
         });
     }
-
-    //=======================
-    //=================================
-//    public static final IScoreService scoreService = new ScoreServiceImpl();
-//    public static final IOtherService otherService = new OtherServiceImpl();
-//    public static final IManagerService managerService = new ManagerServiceImpl();
-//    ===========================================
-//    public static final IGameService gameService = new GameServiceImpl();
-//    public static final IGameWeaService gameWeaService = new GameWeaServiceImpl();
-//    public static final IGameBoneService gameBoneService = new GameBoneServiceImpl();
-//    public static final IGameJoinAcService gameJoinAcService = new GameJoinAcServiceImpl();
-//    public static final IGameUseObjService gameUseObiService = new GameUseObjServiceImpl();
-//    public static final IZongMenService zongMenService = new ZongMenServiceImpl();
-//    public static final IShoperService shoperService = new ShoperServiceImpl();
-//    public static final ISkillServer skillService = new GameSkillServiceImpl();
-//    public static final GameDetailService gameDetailService = new GameDetailService();
-//    public static final GameJoinDetailService gameJoinDetailService = new GameJoinDetailService();
-//    public static final GameWeaDetailService gameWeaDetailService = new GameWeaDetailService();
-//    public static final ZongDetailService zongDetailService = new ZongDetailService();
 
     //=======================
     public static void println(String line) {
@@ -330,6 +262,7 @@ public class Resource {
             this.bots = bots;
         }
     }
+
 }
 
 

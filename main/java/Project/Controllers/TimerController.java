@@ -2,16 +2,11 @@ package Project.Controllers;
 
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import Project.Tools.Tool;
-import com.baomidou.mybatisplus.extension.api.R;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.contact.file.RemoteFiles;
-import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.text.SimpleDateFormat;
@@ -74,7 +69,7 @@ public class TimerController {
 
     public static final Set<Runnable> morningRunnable = new CopyOnWriteArraySet<>();
 
-    @Schedule("07:20:00")
+    @Schedule("07:10:00")
     public static void onSix() {
         update_Today();
         threads.execute(() -> {
@@ -129,6 +124,8 @@ public class TimerController {
 
     public static final String baseUrlCloud = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static String baseC3 = null;
+    public static final SimpleDateFormat format = new SimpleDateFormat("MM_dd_HH");
+
 
     //    @TimeEve(1000 * 60 * 60 * 10)
     public static void m1() {
@@ -150,16 +147,16 @@ public class TimerController {
 //                e.printStackTrace();
 //            }
 
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
-                Image image = MessageTools.createImageInGroup(group, baseUrlCloud);
-                MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
-                builder.append("\n");
-                builder.append(image);
-                group.sendMessage(builder.build());
-                RemoteFiles files = group.getFiles();
+//            for (long g : gs) {
+//                if (!ControllerTool.CanGroup(g)) continue;
+//                Group group = Resource.bot.getGroup(g);
+//                Image image = MessageTools.createImageInGroup(group, baseUrlCloud);
+//                MessageChainBuilder builder = new MessageChainBuilder();
+//                builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
+//                builder.append("\n");
+//                builder.append(image);
+//                group.sendMessage(builder.build());
+//                RemoteFiles files = group.getFiles();
 //                File finalFile = file;
 //                threads.execute(() -> {
 //                    try {
@@ -173,9 +170,7 @@ public class TimerController {
 //                        e.printStackTrace();
 //                    }
 //                });
-            }
+//            }
         });
     }
-
-    public static final SimpleDateFormat format = new SimpleDateFormat("MM_dd_HH");
 }

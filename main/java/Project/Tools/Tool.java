@@ -16,6 +16,57 @@ import java.util.concurrent.ConcurrentHashMap;
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
+
+    public static final void SetOnErrInFIle(String path) {
+        try {
+            PrintStream oldPrintStream = System.err;
+            new File(path).getParentFile().mkdirs();
+            new File(path).createNewFile();
+            FileOutputStream bos = new FileOutputStream(path, true);
+            PrintStream printStream = new PrintStream(bos) {
+                @Override
+                public void write(int b) {
+                    super.write(b);
+                    oldPrintStream.write((int) b);
+                }
+
+                @Override
+                public void write(byte[] buf, int off, int len) {
+                    super.write(buf, off, len);
+                    oldPrintStream.write(buf, off, len);
+                }
+            };
+            System.setErr(printStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static final void SetOnOutInFIle(String path) {
+        try {
+            PrintStream oldPrintStream = System.out;
+            new File(path).getParentFile().mkdirs();
+            new File(path).createNewFile();
+            FileOutputStream bos = new FileOutputStream(path, true);
+            PrintStream printStream = new PrintStream(bos) {
+                @Override
+                public void write(int b) {
+                    super.write(b);
+                    oldPrintStream.write((int) b);
+                }
+
+                @Override
+                public void write(byte[] buf, int off, int len) {
+                    super.write(buf, off, len);
+                    oldPrintStream.write(buf, off, len);
+                }
+            };
+            System.setOut(printStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static final String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**

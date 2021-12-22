@@ -10,8 +10,7 @@ import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
 
-import static Project.Tools.Tool.deleteDir;
-import static Project.Tools.Tool.getLogTimeFormat;
+import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
 @CommentScan(path = "Project")

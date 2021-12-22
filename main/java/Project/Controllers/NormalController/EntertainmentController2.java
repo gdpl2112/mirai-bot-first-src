@@ -4,8 +4,10 @@ import Entitys.Group;
 import Entitys.User;
 import Entitys.apiEntitys.baiKe.BaiKe;
 import Entitys.apiEntitys.colb.PickupABottle;
+import Entitys.apiEntitys.pvpQqCom.Response0;
 import Entitys.apiEntitys.thb.ThrowABottle;
 import Project.Controllers.FirstController;
+import Project.Plugins.GetPvpNews;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
@@ -15,6 +17,7 @@ import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Param;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import net.mamoe.mirai.message.data.Message;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +26,7 @@ import java.util.Map;
 import static Project.Controllers.ControllerTool.CanGroup;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.Mirai.Main.Resource.superQL;
 
 @Controller
 public class EntertainmentController2 {
@@ -150,5 +154,23 @@ public class EntertainmentController2 {
             e.printStackTrace();
             return "百科中没有找到相关资料";
         }
+    }
+
+    @Action(value = "王者荣耀最新公告", otherName = {"王者公告"})
+    public Object m3(Group group) throws Exception {
+        Response0 r0 = GetPvpNews.m1(FirstController.getPvpQQ);
+        long newsId = r0.getData().getItems()[0].getINewsId().longValue();
+        Message message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, group.getId());
+        return message;
+    }
+
+    @Action("催更")
+    public String cg() {
+        return "<At:" + superQL + ">\n\n催更新,问题反馈,需要新功能,可以开issue\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new";
+    }
+
+    @Action("开发计划")
+    public String kfjh() {
+        return "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问";
     }
 }

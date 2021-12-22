@@ -23,6 +23,7 @@ import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImageInGrou
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
 public class GetPvpNews {
+
     public static Response0 m1(GetPvpQQ getPvpQQ) {
         String urlStr = UrlUtils.getStringFromHttpUrl("https://game.gtimg.cn/images/yxzj/web201706/js/newsindex.js");
         String[] sss = urlStr.split("\r|\n");
@@ -105,6 +106,15 @@ public class GetPvpNews {
         return sb.build();
     }
 
+    /**
+     * 获取王者荣耀官网公告
+     *
+     * @param m1  前缀
+     * @param id  新闻id
+     * @param gid 群id
+     * @return
+     * @throws Exception
+     */
     public static Message getNews(String m1, long id, long gid) throws Exception {
         MessageChainBuilder sb = new MessageChainBuilder();
         sb.append(m1);
