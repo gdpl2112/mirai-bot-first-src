@@ -66,6 +66,7 @@ public class Saver {
     }
 
     public static void saveMessage(String text, long group, long q) throws Exception {
+        if (rootPath == null) return;
         if (BotStarter.test) return;
         DataC dataC = new DataC();
         dataC.setContent(text);
@@ -77,6 +78,7 @@ public class Saver {
     }
 
     public static void saveMessage2(String text, long iq, long q) throws Exception {
+        if (rootPath == null) return;
         DataC dataC = new DataC();
         dataC.setContent(text);
         dataC.setGroupId(iq);
@@ -87,6 +89,7 @@ public class Saver {
     }
 
     public static void saveRecalled(String text, long group, long q) throws Exception {
+        if (rootPath == null) return;
         DataC dataC = new DataC();
         dataC.setContent(text);
         dataC.setGroupId(group);
@@ -97,6 +100,7 @@ public class Saver {
     }
 
     public static String[] getTexts(long group, long q, int[] ints) throws Exception {
+        if (rootPath == null) return null;
         DataC dataC = new DataC();
         StringBuilder sb = new StringBuilder();
         for (int n : ints) sb.append(n).append(",");
@@ -112,6 +116,7 @@ public class Saver {
     }
 
     public static String[] getTexts2(long group, long q, int[] ints) throws Exception {
+        if (rootPath == null) return null;
         DataC dataC = new DataC();
         StringBuilder sb = new StringBuilder();
         for (int n : ints) sb.append(n).append(",");

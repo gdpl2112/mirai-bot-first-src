@@ -20,8 +20,6 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +80,7 @@ public class Resource {
         gameTaskDatabase = new GameTaskDatabase(datePath);
     }
 
-    protected static void startTimer() {
+    public static void startTimer() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -194,7 +192,7 @@ public class Resource {
 
     public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
-    protected static void StarterOk(boolean k) {
+    public static void StarterOk(boolean k) {
         threads.execute(new Runnable() {
             @Override
             public void run() {

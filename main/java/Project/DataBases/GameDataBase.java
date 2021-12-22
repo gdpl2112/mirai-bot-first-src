@@ -36,7 +36,7 @@ public class GameDataBase {
                 new File(path + "/dates/users").mkdirs();
                 new File(path + "/dates/system").mkdirs();
                 new File(path + "/mainfist").mkdirs();
-                new File(path + "/mainfist/images").mkdirs();
+//                new File(path + "/mainfist/images").mkdirs();
                 new File(path + "/mainfist/ids").createNewFile();
                 new File(path + "/mainfist/intros").createNewFile();
                 new File(path + "/mainfist/shop").createNewFile();

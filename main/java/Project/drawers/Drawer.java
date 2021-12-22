@@ -261,7 +261,7 @@ public class Drawer {
             return img;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(fileName+"can't read");
         }
     }
 

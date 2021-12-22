@@ -83,7 +83,6 @@ public class MyHandler extends SimpleListenerHost {
 
     private static final long cd_ = 10 * 1000;
     private static long cd = 10 * 1000;
-
     private static void eveEnd(String text, long id, Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         daeThreads.execute(() -> {
             if (!text.trim().isEmpty())
