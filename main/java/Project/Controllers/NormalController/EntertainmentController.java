@@ -261,8 +261,8 @@ public class EntertainmentController {
     }
 
     public static final File[] files_tui = new File("./images/tui").listFiles();
-    public static final File[] files_wq = new File("wq").listFiles();
-    public static final File file_diu = new File("diu/diu.png");
+    public static final File[] files_wq = new File("./images/wq").listFiles();
+    public static final File file_diu = new File("./images/diu/diu.png");
 
     static {
         Arrays.sort(files_wq);
