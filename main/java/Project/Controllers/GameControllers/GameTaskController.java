@@ -62,13 +62,13 @@ public class GameTaskController {
         return gameTaskService.m1(q, group);
     }
 
-    @Action("接每周任务")
+    @Action(value = "接每周任务", otherName = {"接周任务"})
     public Object m2(long q, Group group) {
         Object o = gameTaskService.m2(q, group);
         return o;
     }
 
-    @Action("当前任务")
+    @Action(value = "当前任务", otherName = {"我的任务"})
     public Object m2(long q) {
         StringBuilder sb = new StringBuilder();
         int i = 1;

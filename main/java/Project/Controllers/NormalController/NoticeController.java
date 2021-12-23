@@ -39,6 +39,7 @@ public class NoticeController {
 
     static {
         sb.append("==========").append("\n");
+        sb.append("12.23: 批量抢劫").append("\n");
         sb.append("12.22: 催更,开发计划,王者荣耀最新公告/王者公告 ").append("\n");
         sb.append("12.21: 修复已知bug 微调 魂兽概率").append("\n");
         sb.append("12.20: 修复同时完成任务的bug,新的每周任务").append("\n");

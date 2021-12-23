@@ -103,8 +103,18 @@ public class ScoreController {
             long who = getAtFromString(str);
             if (who == -1)
                 return "抢谁？";
+            String numStr = findNumberFromString(str.replace(String.valueOf(who), ""));
+            if (numStr != null && !numStr.trim().isEmpty()) {
+                int n = Integer.parseInt(numStr);
+                if (n > 10) return "不可大于10次";
+                else {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < n; i++)
+                        sb.append(scoreService.Robbery(qq.getId(), who)).append("\n");
+                    return sb.toString().trim();
+                }
+            }
             if (!DataBase.exists(who)) return "该玩家尚未注册";
-
             return scoreService.Robbery(qq.getId(), who);
         } catch (NumberFormatException e) {
             return "格式错误(例: 打劫 @我 )";
