@@ -101,7 +101,6 @@ public class Mihoyo {
                 e.printStackTrace();
             }
         }
-        return jsonStr;
+        return unicodeToCn(jsonStr);
     }
-
 }
