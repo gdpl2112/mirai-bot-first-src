@@ -25,7 +25,13 @@ public class Mihoyo {
     public static String[] getNews(String cid) {
         Document doc = mihoyo.news_point(cid);
         String jsonStr = getJsonFromYs(doc);
-        JSONObject jo = JSON.parseObject(jsonStr);
+        JSONObject jo = null;
+        try {
+            jo = JSON.parseObject(jsonStr);
+        } catch (Exception e) {
+            System.err.println(jsonStr);
+            e.printStackTrace();
+        }
         MihoyoYuanshenDetail detail = jo.toJavaObject(MihoyoYuanshenDetail.class);
         String html = detail.getData()[0].getArticle().getContent();
         String title = detail.getData()[0].getArticle().getTitle();
