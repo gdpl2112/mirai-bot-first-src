@@ -182,7 +182,7 @@ public class EntertainmentController2 {
                 st = n;
         }
         String cid = data.getMainList()[st].getContentId();
-        String[] sss = Mihoyo.getNews(cid);
+        String[] sss = Mihoyo.getNews(cid.substring(1,cid.length()-1));
         return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 

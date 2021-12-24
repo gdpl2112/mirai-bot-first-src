@@ -8,10 +8,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 import static Project.Controllers.FirstController.mihoyo;
 import static Project.Tools.Tool.unicodeToCn;
@@ -19,7 +19,8 @@ import static Project.Tools.Tool.unicodeToCn;
 public class Mihoyo {
 
     public static MihoyoYuanshen getNews() {
-        return JSON.parseObject(getJsonFromYs(mihoyo.news_index())).toJavaObject(MihoyoYuanshen.class);
+        String jsonStr = getJsonFromYs(mihoyo.news_index());
+        return JSON.parseObject(jsonStr).toJavaObject(MihoyoYuanshen.class);
     }
 
     public static String[] getNews(String cid) {
@@ -37,7 +38,8 @@ public class Mihoyo {
         String title = detail.getData()[0].getArticle().getTitle();
         String pic = detail.getData()[0].getArticle().getCover();
         String s = getMessageStringYs(Jsoup.parse(html).body());
-        return new String[]{pic, title, s};
+        pic = pic.substring(1,pic.length()-1);
+        return new String[]{unicodeToCn(pic), title, s};
     }
 
     public static String getMessageStringYs(Element element) {
@@ -45,7 +47,7 @@ public class Mihoyo {
         if (hasVideoTag(element)) {
             String s1 = element.getElementsByTag("video").get(0).attr("src");
             sb.append("相关视频:");
-            sb.append(s1);
+            sb.append(unicodeToCn(s1));
         }
         for (Element child : element.children()) {
             if (child.tagName().equals("p"))
@@ -69,38 +71,26 @@ public class Mihoyo {
         int i1 = oStr.lastIndexOf("(");
         int i2 = oStr.lastIndexOf(")") - 1;
         String eStr = oStr.substring(i1 + 1, i2);
-        i1 = oStr.indexOf("return {") + "return ".length();
-        i2 = oStr.lastIndexOf("}(");
-        String jsonStr = oStr.substring(i1, i2);
-
         String[] args = eStr.split(",");
-        Set<Character> set = new LinkedHashSet<>();
-        for (int i = 97; i <= 122; i++) {
-            set.add((char) i);
-        }
-        for (int i = 65; i <= 'Z'; i++) {
-            set.add((char) i);
-        }
-        Character[] chars = set.toArray(new Character[0]);
-        int c1 = 0;
-        Map<String, String> maps = new ConcurrentHashMap<>();
-        for (String arg : args) {
-            try {
-                if (!arg.startsWith("\""))
-                    arg = "\"" + arg + "\"";
-                arg = unicodeToCn(arg);
-                arg = unicodeToCn(arg);
-                String c = String.valueOf(chars[c1++]);
-                String m1 = ":" + c;
-                jsonStr = jsonStr.replaceAll(m1, ":" + arg);
-                m1 = "\\[" + c;
-                jsonStr = jsonStr.replaceAll(m1, "[" + arg);
-                m1 = "," + c + "]";
-                jsonStr = jsonStr.replaceAll(m1, "," + arg + "]");
-            } catch (Exception e) {
-                e.printStackTrace();
+        String m = "function";
+        i1 = oStr.indexOf(m) + m.length();
+        i2 = oStr.lastIndexOf("}(");
+        String jsMethod = oStr.substring(i1, i2);
+        jsMethod = "function m0" + jsMethod + "}";
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("javascript");
+        try {
+            engine.eval("function m1(o){return JSON.stringify(o);}");
+            engine.eval(jsMethod);
+            if (engine instanceof Invocable) {
+                Invocable in = (Invocable) engine;
+                Object o = in.invokeFunction("m0", args);
+                return in.invokeFunction("m1", o).toString();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return unicodeToCn(jsonStr);
+
+        return "{}";
     }
 }
