@@ -12,11 +12,79 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
+    /**
+     * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
+     *
+     */
+    private static final String singlePattern = "[0-9|a-f|A-F]";
+    private static final String pattern = singlePattern + singlePattern +
+            singlePattern + singlePattern;
 
+
+    /**
+     * 把 \\u 开头的单字转成汉字，如 \\u6B65 ->　步
+     *
+     * @param str
+     * @return
+     */
+    private static String ustartToCn(final String str) {
+        StringBuilder sb = new StringBuilder().append("0x")
+                .append(str.substring(2, 6));
+        Integer codeInteger = Integer.decode(sb.toString());
+        int code = codeInteger.intValue();
+        char c = (char) code;
+        return String.valueOf(c);
+    }
+
+    /**
+     * 字符串是否以Unicode字符开头。约定Unicode字符以 \\u开头。
+     *
+     * @param str 字符串
+     * @return true表示以Unicode字符开头.
+     */
+    private static boolean isStartWithUnicode(final String str) {
+        if (null == str || str.length() == 0) {
+            return false;
+        }
+        if (!str.startsWith("\\u")) {
+            return false;
+        }
+        // \u6B65
+        if (str.length() < 6) {
+            return false;
+        }
+        String content = str.substring(2, 6);
+
+        boolean isMatch = Pattern.matches(pattern, content);
+        return isMatch;
+    }
+
+    /**
+     * 字符串中，所有以 \\u 开头的UNICODE字符串，全部替换成汉字
+     *
+     * @param strParam
+     * @return
+     */
+    public static String unicodeToCn(final String str) {
+        StringBuilder sb = new StringBuilder();
+        int length = str.length();
+        for (int i = 0; i < length; ) {
+            String tmpStr = str.substring(i);
+            if (isStartWithUnicode(tmpStr)) { // 分支1
+                sb.append(ustartToCn(tmpStr));
+                i += 6;
+            } else { // 分支2
+                sb.append(str.substring(i, i + 1));
+                i++;
+            }
+        }
+        return sb.toString();
+    }
     public static final void SetOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;

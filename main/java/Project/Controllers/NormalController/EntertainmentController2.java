@@ -8,14 +8,12 @@ import Entitys.apiEntitys.pvpQqCom.Response0;
 import Entitys.apiEntitys.thb.ThrowABottle;
 import Project.Controllers.FirstController;
 import Project.Plugins.GetPvpNews;
+import Project.Plugins.Mihoyo;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
 import io.github.kloping.Mirai.Main.Resource;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.Param;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Message;
 
@@ -24,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Tools.Tool.findNumberFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
@@ -156,12 +155,35 @@ public class EntertainmentController2 {
         }
     }
 
-    @Action(value = "王者荣耀最新公告", otherName = {"王者公告"})
-    public Object m3(Group group) throws Exception {
+    @Action(value = "王者荣耀最新公告.*", otherName = {"王者公告.*"})
+    public Object m3(Group group, @AllMess String str) throws Exception {
         Response0 r0 = GetPvpNews.m1(FirstController.getPvpQQ);
-        long newsId = r0.getData().getItems()[0].getINewsId().longValue();
-        Message message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, group.getId());
+        Message message;
+        String numStr = findNumberFromString(str);
+        int st = 0;
+        if (numStr != null && !numStr.trim().isEmpty()) {
+            int n = Integer.parseInt(numStr);
+            if (r0.getData().getItems().length > n)
+                st = n;
+        }
+        long newsId = r0.getData().getItems()[st].getINewsId().longValue();
+        message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, group.getId());
         return message;
+    }
+
+    @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
+    public Object m4(Group group, @AllMess String str) throws Exception {
+        Entitys.apiEntitys.mihoyoYuanshen.Data data = Mihoyo.getNews().getData()[0];
+        String numStr = findNumberFromString(str);
+        int st = 0;
+        if (numStr != null && !numStr.trim().isEmpty()) {
+            int n = Integer.parseInt(numStr);
+            if (data.getMainList().length > n)
+                st = n;
+        }
+        String cid = data.getMainList()[st].getContentId();
+        String[] sss = Mihoyo.getNews(cid);
+        return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
     @Action("催更")

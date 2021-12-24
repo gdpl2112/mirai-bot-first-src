@@ -38,6 +38,9 @@ public class FirstController {
     @AutoStand
     public static MuXiaoGuo muXiaoGuo;
 
+    @AutoStand
+    public static Mihoyo mihoyo;
+
 //    @Action("测试")
 //    public Message a(Group group) throws Exception {
 //        return null;
