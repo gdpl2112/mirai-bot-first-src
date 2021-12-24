@@ -11,9 +11,9 @@ import org.jsoup.nodes.Element;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import static Project.Controllers.FirstController.mihoyo;
+import static Project.Tools.Tool.pathToImg;
 import static Project.Tools.Tool.unicodeToCn;
 
 public class Mihoyo {
@@ -38,7 +38,7 @@ public class Mihoyo {
         String title = detail.getData()[0].getArticle().getTitle();
         String pic = detail.getData()[0].getArticle().getCover();
         String s = getMessageStringYs(Jsoup.parse(html).body());
-        pic = pic.substring(1,pic.length()-1);
+        pic = pic.substring(1, pic.length() - 1);
         return new String[]{unicodeToCn(pic), title, s};
     }
 
@@ -50,10 +50,24 @@ public class Mihoyo {
             sb.append(unicodeToCn(s1));
         }
         for (Element child : element.children()) {
-            if (child.tagName().equals("p"))
+            String s = child.text();
+            if (!s.startsWith("关于《原神》")&& !s.isEmpty()) {
                 sb.append("\n").append(child.text());
+            }
+            if (hasImgTag(child)) {
+                sb.append("\n").append(pathToImg(child.getElementsByTag("img").get(0).attr("src")));
+            }
         }
         return sb.toString();
+    }
+
+    private static boolean hasImgTag(Element element) {
+        if (element.children() != null && element.children().size() > 0)
+            for (Element child : element.children()) {
+                if (child.tagName().equals("img")) return true;
+                else return hasImgTag(child);
+            }
+        return false;
     }
 
     private static boolean hasVideoTag(Element element) {
