@@ -73,7 +73,7 @@ public class SuperController {
     public String o1(@AllMess String str, Group group) {
         long q = MessageTools.getAtFromString(str);
         if (q == -1) throw new NoRunException("");
-        str = str.replace("/execute[@" + q + "]", "");
+        str = str.replaceFirst("/execute\\[@" + q + "]", "");
         StarterApplication.ExecuteMethod(q, str, q, User.get(q), Group.get(group.getId()), 0);
         return "executing";
     }

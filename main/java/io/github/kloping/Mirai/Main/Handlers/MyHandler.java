@@ -78,7 +78,7 @@ public class MyHandler extends SimpleListenerHost {
             group = event.getGroup();
             eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
-            text = EventTools.getStringFromGroupMessageEvent(event, !inS,id);
+            text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
             if (!inS) StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
             else gotoSession(group, text, id);
         } catch (Exception e) {
@@ -88,7 +88,7 @@ public class MyHandler extends SimpleListenerHost {
         }
     }
 
-    private static final long cd_ = 10 * 1000;
+    private static final long cd_ = 20 * 1000;
     private static long cd = 10 * 1000;
 
     private static void eveEnd(String text, long id, Entitys.Group eGroup, Group group, Member member, MessageChain message) {
