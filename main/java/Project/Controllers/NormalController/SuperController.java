@@ -28,10 +28,18 @@ public class SuperController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
+    public long tempSuperL = -1;
+
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
+        if (tempSuperL != -1L)
+            if (qq.getId() == tempSuperL) {
+                tempSuperL = -1L;
+                return;
+            }
         if (qq.getId() != superQL)
             throw new NoRunException("can`t do this");
+
     }
 
     @Action("/move0")
@@ -65,15 +73,17 @@ public class SuperController {
     public String o1(@AllMess String str, Group group) {
         long q = MessageTools.getAtFromString(str);
         if (q == -1) throw new NoRunException("");
-        str = str.replace("/execute", "")
-                .replace(String.valueOf(q), "")
-                .replace("[", "")
-                .replace("]", "")
-                .replace("@", "")
-                .replace("me", "")
-        ;
+        str = str.replace("/execute[@" + q + "]", "");
         StarterApplication.ExecuteMethod(q, str, q, User.get(q), Group.get(group.getId()), 0);
         return "executing";
+    }
+
+    @Action("赋予一次超级权限.+")
+    public String f0(@AllMess String s) {
+        long q = MessageTools.getAtFromString(s);
+        if (q == -1) throw new NoRunException("");
+        tempSuperL = q;
+        return "ok";
     }
 
     @Action("open")
