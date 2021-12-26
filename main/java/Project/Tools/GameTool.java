@@ -339,6 +339,7 @@ public class GameTool {
                         threads.execute(() -> {
                             removeAllTag(Long.valueOf(finalEndN));
                         });
+                        System.out.println("loaded---" + f1);
                     } catch (Exception e) {
                         System.err.println(f1.getPath());
                         e.printStackTrace();
@@ -348,6 +349,7 @@ public class GameTool {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("load---end");
         flushIndex = flushIndexMax;
         ph.clear();
         ph.addAll(phMaps.entrySet());

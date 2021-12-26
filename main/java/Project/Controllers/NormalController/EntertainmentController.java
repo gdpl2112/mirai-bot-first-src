@@ -162,7 +162,7 @@ public class EntertainmentController {
         }
     }
 
-    public static boolean voiceK = true;
+    public static boolean voiceK = false;
 
     public static final String baseUrlV = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
 
