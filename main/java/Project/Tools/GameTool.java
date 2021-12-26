@@ -318,7 +318,7 @@ public class GameTool {
         return false;
     }
 
-    private static final File indexsFile = new File(GameDataBase.path + "/dates/indexsUserLevel");
+    public static final File indexsFile = new File(GameDataBase.path + "/dates/indexsUserLevel");
 
     public static void loadPh() {
         try {
@@ -330,6 +330,10 @@ public class GameTool {
                 for (File f1 : file.listFiles()) {
                     try {
                         endN = f1.getName();
+                        if (endN.contains(String.valueOf(-1))) {
+                            f1.delete();
+                            continue;
+                        }
                         phMaps.put(endN, getInfo(endN).getLevel());
                         String finalEndN = endN;
                         threads.execute(() -> {
@@ -350,7 +354,7 @@ public class GameTool {
         upDateMan(Resource.bot.getId(), 1);
     }
 
-    private static void loadPhIndexs() {
+    public static void loadPhIndexs() {
         String[] strings = getStringsFromFile(indexsFile.getPath());
         for (String s2 : strings) {
             try {
@@ -374,9 +378,7 @@ public class GameTool {
     }
 
     public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
-        if (ph.size() == 0) {
-            loadPh();
-        }
+        if (ph.size() == 0) loadPh();
         if (num >= ph.size())
             return ph;
         List<Map.Entry<String, Integer>> ph1 = new ArrayList<>();
@@ -395,6 +397,7 @@ public class GameTool {
     public static int num = 199;
 
     public static void upDateMan(Long who, Integer level) {
+        if (ph.size() == 0) loadPh();
         Resource.DaeThreads.submit(() -> {
             if (who == null || level == null) return;
             if (phMaps.isEmpty() || phMaps.size() < num) {
@@ -406,8 +409,6 @@ public class GameTool {
                     if (level > ph.get(ph.size() - 1).getValue()) {
                         phMaps.remove(ph.get(ph.size() - 1).getKey());
                         phMaps.put(String.valueOf(who), level);
-                    } else {
-
                     }
                 }
             }

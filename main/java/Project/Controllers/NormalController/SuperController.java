@@ -1,6 +1,5 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Data;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.DataBase;
@@ -9,6 +8,7 @@ import io.github.kloping.Mirai.Main.BotStarter;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.ASpring.SpringBootResource.move0;
 import static Project.ASpring.SpringBootResource.move1;
+import static Project.Tools.GameTool.indexsFile;
+import static Project.Tools.GameTool.loadPh;
 import static Project.Tools.Tool.getRandString;
 import static io.github.kloping.Mirai.Main.Resource.println;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
@@ -51,9 +53,31 @@ public class SuperController {
         }
     }
 
+    @Action("/fixPh")
+    public String o() {
+        indexsFile.delete();
+        loadPh();
+        return "fixing";
+    }
+
+    @Action("/execute.+")
+    public String o1(@AllMess String str, Group group) {
+        long q = MessageTools.getAtFromString(str);
+        if (q == -1) throw new NoRunException("");
+        str = str.replace("/execute", "")
+                .replace(String.valueOf(q), "")
+                .replace("[", "")
+                .replace("]", "")
+                .replace("@", "")
+                .replace("me", "")
+        ;
+        StarterApplication.ExecuteMethod(q, str, q, User.get(q), Group.get(group.getId()), 0);
+        return "executing";
+    }
+
     @Action("open")
     public String m1(Group group) {
-        if (!BotStarter.test)return null;
+        if (!BotStarter.test) return null;
         DataBase.openGroup(group.getId());
         return "opened";
     }

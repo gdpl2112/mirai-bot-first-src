@@ -20,9 +20,13 @@ public class User {
 
     public static final Map<Long, User> hist = new HashMap<>();
 
-    public static User create(Long id, Long group, String nickName, String name) {
+    public static User create(long id, Long group, String nickName, String name) {
         if (!hist.containsKey(id)) hist.put(id, new User(id, group, nickName, name));
         return hist.get(id);
+    }
+
+    public static User get(Long id) {
+        return hist.get(id.longValue());
     }
 
 

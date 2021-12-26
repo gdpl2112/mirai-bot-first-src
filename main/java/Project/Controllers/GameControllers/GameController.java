@@ -8,7 +8,6 @@ import Entitys.gameEntitys.Warp;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameService;
-import Project.recivers.GameReceiver0;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -51,7 +50,7 @@ public class GameController {
         listFx.add("信息");
         listFx.add("觉醒");
         listFx.add("背包");
-        listFx.add("排行");
+        listFx.add("等级排行");
         listFx.add("排行");
         listFx.add("称号");
         listFx.add("转生");
@@ -219,10 +218,8 @@ public class GameController {
 
     @Action("等级排行")
     public String pH10() {
-        int n = 10;
         StringBuilder sb = new StringBuilder();
         int r = 1;
-        n = n > 25 ? 25 : n;
         for (Map.Entry<String, Integer> entry : phGet(10)) {
             String sn = getFhName(Long.valueOf(entry.getKey()));
             sb.append("第" + (r++)).append(":QQ:")

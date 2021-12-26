@@ -11,13 +11,21 @@ public class Group {
         this.nickName = nickName;
     }
 
+    public static Map<Long, Group> upHistGroupMap;
+
     public static Group create(long id, String name, Map<Long, Group> histGroupMap) {
         if (histGroupMap.containsKey(id)) return histGroupMap.get(id);
         Group group = new Group(id, name);
         histGroupMap.put(
                 id, group
         );
+        upHistGroupMap = histGroupMap;
         return group;
+    }
+
+    public static Group get(long id) {
+        if (upHistGroupMap.containsKey(id)) return upHistGroupMap.get(id);
+        return null;
     }
 
     public long getId() {

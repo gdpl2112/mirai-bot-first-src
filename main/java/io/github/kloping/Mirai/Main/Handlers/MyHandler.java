@@ -50,6 +50,13 @@ public class MyHandler extends SimpleListenerHost {
 
     private static final Map<Long, Entitys.Group> histGroupMap = new ConcurrentHashMap<>();
 
+    static {
+        Resource.StartOkRuns.add(() -> {
+            Entitys.User.create(Resource.bot.getId()
+                    , Resource.bot.getGroups().stream().iterator().next().getId()
+                    , Resource.bot.getNick(), Resource.bot.getNick());
+        });
+    }
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
@@ -71,7 +78,7 @@ public class MyHandler extends SimpleListenerHost {
             group = event.getGroup();
             eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
-            text = EventTools.getStringFromGroupMessageEvent(event, !inS);
+            text = EventTools.getStringFromGroupMessageEvent(event, !inS,id);
             if (!inS) StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
             else gotoSession(group, text, id);
         } catch (Exception e) {
@@ -83,6 +90,7 @@ public class MyHandler extends SimpleListenerHost {
 
     private static final long cd_ = 10 * 1000;
     private static long cd = 10 * 1000;
+
     private static void eveEnd(String text, long id, Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         daeThreads.execute(() -> {
             if (!text.trim().isEmpty())

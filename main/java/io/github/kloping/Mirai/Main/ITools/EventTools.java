@@ -5,6 +5,8 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
+import static io.github.kloping.Mirai.Main.Resource.superQL;
+
 public class EventTools {
     public static String getStringFromGroupMessageEvent(GroupMessageEvent event) {
         StringBuilder sb = new StringBuilder();
@@ -16,6 +18,15 @@ public class EventTools {
     public static String getStringFromGroupMessageEvent(GroupMessageEvent event, boolean k) {
         StringBuilder sb = new StringBuilder();
         sb.append(getStringFromMessageChain(event.getMessage()));
+        String text = sb.toString();
+        if (k)
+            text = text.trim().replaceAll("\n| |\r", "");
+        return text;
+    }
+
+    public static String getStringFromGroupMessageEvent(GroupMessageEvent event, boolean k, long who) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getStringFromMessageChain(event.getMessage(), who));
         String text = sb.toString();
         if (k)
             text = text.trim().replaceAll("\n| |\r", "");
@@ -56,13 +67,13 @@ public class EventTools {
         return sb.toString();
     }
 
-    public static String getStringFromMessageChain(MessageChain event, boolean k) {
+    public static String getStringFromMessageChain(MessageChain event, long who) {
         StringBuilder sb = new StringBuilder();
         for (Object o : event) {
             if (o instanceof OnlineMessageSource)
                 continue;
             if (o instanceof PlainText) {
-                if (!isIllegal(o.toString()))
+                if (!isIllegal(o.toString(), who))
                     sb.append(((PlainText) o).getContent());
             } else if (o instanceof At) {
                 At at = (At) o;
@@ -81,14 +92,25 @@ public class EventTools {
             } else if (o instanceof Image) {
                 Image image = (Image) o;
                 sb.append("[Pic:" + image.getImageId() + "]");
+            } else if (o instanceof MemberNudge) {
+                MemberNudge mn = (MemberNudge) o;
+                long qid = mn.getTarget().getId();
+                sb.append("[戳一戳:").append(qid == Resource.qq.getQq() ? "me" : qid).append("]");
             } else continue;
         }
         return sb.toString();
     }
 
     private static boolean isIllegal(String str) {
-        if (str.matches(".*\\[@\\d+\\].*")) {
+        if (str.matches(".*\\[@\\d+].*")) {
             return true;
         } else return str.matches(".*\\[(图片|语音)\\].*");
+    }
+
+    private static boolean isIllegal(String str, long who) {
+        if (who == superQL) return false;
+        if (str.matches(".*\\[@\\d+].*")) {
+            return true;
+        } else return str.matches(".*\\[(图片|语音)].*");
     }
 }
