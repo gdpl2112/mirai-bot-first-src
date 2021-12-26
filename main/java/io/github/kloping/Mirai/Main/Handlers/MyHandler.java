@@ -58,6 +58,8 @@ public class MyHandler extends SimpleListenerHost {
         });
     }
 
+    public static Group upGroup = null;
+
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (CapHandler.caping.containsKey(event.getSender().getId())) {
@@ -76,6 +78,7 @@ public class MyHandler extends SimpleListenerHost {
             id = event.getSender().getId();
             boolean inS = SessionController.contains(id);
             group = event.getGroup();
+            upGroup = group;
             eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
@@ -85,6 +88,28 @@ public class MyHandler extends SimpleListenerHost {
             e.printStackTrace();
         } finally {
             eveEnd(text, id, eGroup, group, event.getSender(), chain);
+        }
+    }
+
+    @EventHandler
+    public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
+        if (!Resource.Switch.AllK) return;
+        if (event.getSender() instanceof AnonymousMember) return;
+        String text = null;
+        Entitys.Group eGroup = null;
+        Group group = null;
+        MessageChain chain = null;
+        long id = -1;
+        try {
+            chain = event.getMessage();
+            id = event.getSender().getId();
+            group = upGroup;
+            eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
+            Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
+            text = EventTools.getStringFromMessageChain(event.getMessage(), id);
+            StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

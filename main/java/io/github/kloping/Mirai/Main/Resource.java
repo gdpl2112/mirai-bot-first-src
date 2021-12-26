@@ -132,9 +132,9 @@ public class Resource {
     public static void onReturnResult(Object o, Object[] objects) {
         long v1 = System.currentTimeMillis();
         MessageChainBuilder builder = new MessageChainBuilder();
-        net.mamoe.mirai.contact.Group group = bot.getGroup(((Group) objects[4]).getId());
         Integer type = Integer.valueOf(objects[5].toString());
         if (type == 0) {
+            net.mamoe.mirai.contact.Group group = bot.getGroup(((Group) objects[4]).getId());
             if (o == null) return;
             //====
             if (o.getClass() == Object[].class) {
@@ -166,8 +166,19 @@ public class Resource {
             builder.append("=======").append("\r\n");
             Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((Entitys.User) objects[3]).getId());
             if (o == null) return;
+            if (o.getClass() == Object[].class) {
+                Object[] objs = (Object[]) o;
+                MessageTools.sendMessageByForward(contact.getId(), objs);
+                return;
+            } else if (o instanceof Message) {
+                contact.sendMessage((Message) o);
+                return;
+            }
             if (o instanceof String) {
-                contact.sendMessage(builder.append(o.toString().trim()).build());
+                MessageChain message = MessageTools.getMessageFromString(o.toString(), contact);
+                builder.append(message);
+                MessageChain mc = builder.build();
+                contact.sendMessage(mc);
             } else if (o instanceof Message) {
                 contact.sendMessage(builder.append((Message) o).build());
             } else {
