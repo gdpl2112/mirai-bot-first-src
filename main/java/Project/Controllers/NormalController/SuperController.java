@@ -20,8 +20,7 @@ import static Project.ASpring.SpringBootResource.move1;
 import static Project.Tools.GameTool.indexsFile;
 import static Project.Tools.GameTool.loadPh;
 import static Project.Tools.Tool.getRandString;
-import static io.github.kloping.Mirai.Main.Resource.println;
-import static io.github.kloping.Mirai.Main.Resource.superQL;
+import static io.github.kloping.Mirai.Main.Resource.*;
 
 @Controller
 public class SuperController {
@@ -55,8 +54,10 @@ public class SuperController {
 
     @Action("/fixPh")
     public String o() {
-        indexsFile.delete();
-        loadPh();
+        threads.execute(() -> {
+            indexsFile.delete();
+            loadPh();
+        });
         return "fixing";
     }
 
