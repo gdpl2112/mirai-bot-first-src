@@ -7,9 +7,12 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class Broadcast {
     protected String id;
+    public static final ExecutorService threads = Executors.newFixedThreadPool(10);
     public static final Map<Class<? extends Broadcast>, Broadcast> cls2Broadcast = new ConcurrentHashMap<>();
     public static final Map<String, Broadcast> id2Broadcasts = new ConcurrentHashMap<>();
     public static final LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();

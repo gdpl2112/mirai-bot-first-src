@@ -70,6 +70,7 @@ public class Resource {
     public static ShopDataBase shopDataBase = null;
     public static SkillDataBase skillDataBase = null;
     public static GameTaskDatabase gameTaskDatabase = null;
+    public static OtherDatabase otherDatabase = null;
 
     public static void Init() {
         dataBase = new DataBase(datePath);
@@ -78,6 +79,8 @@ public class Resource {
         shopDataBase = new ShopDataBase(datePath);
         skillDataBase = new SkillDataBase(datePath);
         gameTaskDatabase = new GameTaskDatabase(datePath);
+        gameTaskDatabase = new GameTaskDatabase(datePath);
+        otherDatabase = new OtherDatabase(datePath);
     }
 
     public static void startTimer() {

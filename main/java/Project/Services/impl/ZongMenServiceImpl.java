@@ -1,6 +1,7 @@
 package Project.Services.impl;
 
 import Entitys.Group;
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Zon;
 import Entitys.gameEntitys.Zong;
@@ -18,10 +19,10 @@ import java.lang.reflect.Method;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
-import static Project.drawers.Drawer.FilterImg;
-import static Project.drawers.Drawer.getImageFromStrings;
 import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
+import static Project.drawers.Drawer.FilterImg;
+import static Project.drawers.Drawer.getImageFromStrings;
 
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
@@ -66,7 +67,15 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (name == null || name.isEmpty() || name.equals("null"))
             return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
-        GameDataBase.putPerson(getInfo(who).addGold(-450L));
+        GameDataBase.putPerson(getInfo(who).addGold(-450L, new TradingRecord()
+                .setType1(TradingRecord.Type1.lost)
+                .setType0(TradingRecord.Type0.gold)
+                .setTo(-1)
+                .setMain(who)
+                .setFrom(who)
+                .setDesc("创建宗门")
+                .setMany(-450)
+        ));
         putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
         return ZongInfo(who, group);
     }
@@ -223,7 +232,15 @@ public class ZongMenServiceImpl implements IZongMenService {
         zon.setXper(zon.getXper() + info.getLevel());
         zong.setXp(zong.getXp() + info.Level);
         info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * 4);
-        info.addGold((long) -info.getLevel());
+        info.addGold((long) -info.getLevel(), new TradingRecord()
+                .setType1(TradingRecord.Type1.lost)
+                .setType0(TradingRecord.Type0.gold)
+                .setTo(-1)
+                .setMain(who)
+                .setFrom(who)
+                .setDesc("宗门贡献")
+                .setMany(info.getLevel())
+        );
         putZonInfo(zon);
         putZongInfo(zong);
         putPerson(info);

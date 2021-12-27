@@ -1,6 +1,7 @@
 package Project.Services.DetailServices;
 
 
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -263,7 +264,16 @@ public class GameWeaDetailService {
 
         if (!isAlive(Long.valueOf(whos))) {
             int L = (int) randLong(250, 0.7f, 1.0f);
-            putPerson(getInfo(who).addGold((long) L));
+            putPerson(getInfo(who).addGold((long) L
+                    , new TradingRecord()
+                            .setType1(TradingRecord.Type1.add)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("击败" + whos)
+                            .setMany(L)
+            ));
             return "你对ta 造成了:" + ar + "点伤害" + sb + "\r\nta已经无状态,你从他身上摸到" + L + "个金魂币";
         } else {
             return "你对ta 造成了:" + ar + "点伤害" + sb;

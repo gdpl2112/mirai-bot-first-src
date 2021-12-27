@@ -1,6 +1,7 @@
 package Project.Services.impl;
 
 import Entitys.Group;
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.ShopItem;
 import Project.DataBases.GameDataBase;
@@ -10,8 +11,8 @@ import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.drawers.Drawer.getImageFromStringsOnTwoColumns;
 import static Project.Tools.Tool.getTimeDDHHMM;
+import static Project.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
 @Entity
 public class ShoperServiceImpl implements IShoperService {
@@ -72,8 +73,26 @@ public class ShoperServiceImpl implements IShoperService {
             Long price = item.getPrice().longValue();
             if (info.getGold() >= price) {
                 Long who = item.getWho().longValue();
-                putPerson(getInfo(who).addGold(price));
-                putPerson(getInfo(id).addGold(-price));
+                putPerson(getInfo(who).addGold(price
+                        , new TradingRecord()
+                                .setType1(TradingRecord.Type1.add)
+                                .setType0(TradingRecord.Type0.gold)
+                                .setTo(who)
+                                .setMain(who)
+                                .setFrom(id)
+                                .setDesc("市场被购买" + item.getNum() + "个\"" + getNameById(item.getId()) + "\"")
+                                .setMany(price)
+                ));
+                putPerson(getInfo(id).addGold(-price
+                        , new TradingRecord()
+                                .setType1(TradingRecord.Type1.lost)
+                                .setType0(TradingRecord.Type0.gold)
+                                .setTo(who)
+                                .setMain(id)
+                                .setFrom(id)
+                                .setDesc("市场购买" + item.getNum() + "个\"" + getNameById(item.getId()) + "\"")
+                                .setMany(price)
+                ));
                 addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
                 return BuySuccess;

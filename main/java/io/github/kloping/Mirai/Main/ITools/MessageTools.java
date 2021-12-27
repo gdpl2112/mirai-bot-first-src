@@ -227,6 +227,7 @@ public class MessageTools {
             e.printStackTrace();
         }
     }
+
     public static synchronized void sendStringInGroup(String str, long id) {
         try {
             Group group = bot.getGroup(id);
@@ -280,6 +281,21 @@ public class MessageTools {
             Contact contact = bot.getGroup(gid).get(id);
             Message message = MessageTools.getMessageFromString(str, contact);
             contact.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized void sendMessageInOneFromGroup(String str, long id) {
+        try {
+            for (Group group : bot.getGroups()) {
+                if (group.contains(id)) {
+                    Contact contact = group.get(id);
+                    Message message = MessageTools.getMessageFromString(str, contact);
+                    contact.sendMessage(message);
+                    return;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

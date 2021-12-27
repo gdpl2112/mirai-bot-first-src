@@ -1,17 +1,21 @@
 package Project.recivers;
 
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.SkillInfo;
 import Entitys.gameEntitys.task.Task;
 import Project.DataBases.GameDataBase;
+import Project.DataBases.OtherDatabase;
+import Project.broadcast.RecordBroadcast;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import static Project.Controllers.NormalController.NoticeController.lowst;
 import static io.github.kloping.Mirai.Main.Resource.threads;
@@ -127,7 +131,17 @@ public class GameReceiver0 {
         GameTaskBroadcast.INSTANCE.add(new GameTaskBroadcast.GameTaskReceiver() {
             @Override
             public void onReceive(long who, int taskId, Type type, Task task) {
+            }
+        });
+    }
 
+    public static void init6() {
+        RecordBroadcast.INSTANCE.add(new RecordBroadcast.RecordReceiver() {
+            @Override
+            public void onReceiver(long who, TradingRecord record) {
+                List<TradingRecord> tradingRecordList = OtherDatabase.getList(who);
+                tradingRecordList.add(record);
+                OtherDatabase.apply(who, tradingRecordList);
             }
         });
     }

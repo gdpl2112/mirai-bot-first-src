@@ -1,6 +1,7 @@
 package Project.Services.impl;
 
 
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
 import Project.Services.Iservice.IGameService;
@@ -114,9 +115,20 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
         long l = GameDataBase.id2ShopMaps.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
-        if (Ig >= l * num + (num * 15L)) {
+        long wl = l * num + (num * 15L);
+        if (Ig >= wl) {
             GameDataBase.addToBgs(who, id, num, ObjType.buy);
-            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (12 * 1000 * num * 1.25f)).addGold(-(l * num + (num * 15L))));
+            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (12 * 1000 * num * 1.25f))
+                    .addGold(-wl, new TradingRecord()
+                            .setType1(TradingRecord.Type1.lost)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("购买" + num + "个\"" + getNameById(id) + "\"")
+                            .setMany(wl)
+                    ));
+
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
         } else {
             return "金魂币不足! 需要额外支付 数量x15的 金魂币";
@@ -140,7 +152,16 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l) {
             GameDataBase.addToBgs(who, id, ObjType.buy);
-            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 15 * 1000).addGold(-l));
+            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 15 * 1000).addGold(-l
+                    , new TradingRecord()
+                            .setType1(TradingRecord.Type1.lost)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("购买" + getNameById(id) + "\"")
+                            .setMany(l)
+            ));
             return getPic(id) + "购买成功";
         } else {
             return "金魂币不足!";
@@ -386,7 +407,15 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
                 GameDataBase.removeFromBgs(who, id, ObjType.sell);
                 l = l > maxSle ? maxSle : l;
-                putPerson(getInfo(who).addGold(l));
+                putPerson(getInfo(who).addGold(l, new TradingRecord()
+                        .setType1(TradingRecord.Type1.add)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setTo(-1)
+                        .setMain(who)
+                        .setFrom(who)
+                        .setDesc("出售\"" + getNameById(id) + "\"")
+                        .setMany(l)
+                ));
                 return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
             } else {
                 return "你的背包里没有" + getNameById(id);
@@ -411,7 +440,17 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
             l = l > maxSle ? maxSle : l;
             l *= num;
-            putPerson(getInfo(who).addGold(l));
+            putPerson(getInfo(who).addGold(l
+                    , new TradingRecord()
+                            .setType1(TradingRecord.Type1.add)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("出售" + num + "个\"" + getNameById(id) + "\"")
+                            .setMany(l)
+
+            ));
             return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
         } else
             return "你的背包里 没有足够的 " + getNameById(id);

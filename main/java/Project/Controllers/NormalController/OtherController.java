@@ -2,6 +2,7 @@ package Project.Controllers.NormalController;
 
 
 import Entitys.Group;
+import Project.ASpring.SpringBootResource;
 import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
@@ -207,4 +208,8 @@ public class OtherController {
 //        }
 //    }
 
+    @Action("金魂币消费记录")
+    public String m0(long q) {
+        return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
+    }
 }

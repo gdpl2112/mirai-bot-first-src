@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import static Project.ASpring.SpringBootResource.*;
 
-@SpringBootApplication(scanBasePackages = {"Project.ASpring.mapper"})
-@MapperScan("Project.ASpring.mapper")
+@SpringBootApplication(scanBasePackages = {"Project.ASpring.mcs"})
+@MapperScan("Project.ASpring.mcs")
 public class SpringStarter2 {
     public static void main(String[] args) {
         args = Arrays.copyOf(args, args.length + 1);

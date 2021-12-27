@@ -51,17 +51,22 @@ public class FirstController {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     };
 
+    public static String getCode() {
+        char[] chars = new char[4];
+        for (int i = 0; i < chars.length; i++) {
+            chars[i] = cs[Tool.rand.nextInt(cs.length)];
+        }
+        String caps = new String(chars);
+        return caps;
+    }
+
     public static Object[] createCapImage() {
         try {
-            char[] chars = new char[4];
-            for (int i = 0; i < chars.length; i++) {
-                chars[i] = cs[Tool.rand.nextInt(cs.length)];
-            }
-            String caps = new String(chars);
+            String caps = getCode();
             BufferedImage bi = defaultKaptcha.createImage(caps);
             File file = new File("./temp/" + UUID.randomUUID() + ".png");
             ImageIO.write(bi, "png", file);
-            return new Object[]{file.getAbsolutePath(), caps};
+            return new Object[]{file.getAbsolutePath(), caps, file.getName()};
         } catch (IOException e) {
             e.printStackTrace();
             return new Object[]{e.getMessage()};

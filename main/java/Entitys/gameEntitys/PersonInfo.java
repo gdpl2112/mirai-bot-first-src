@@ -1,8 +1,10 @@
 package Entitys.gameEntitys;
 
 
+import Entitys.TradingRecord;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.broadcast.RecordBroadcast;
 
 import java.lang.reflect.Field;
 
@@ -371,8 +373,9 @@ public class PersonInfo {
         return this;
     }
 
-    public PersonInfo addGold(Long o) {
+    public PersonInfo addGold(Long o, TradingRecord tradingRecord) {
         gold += o;
+        RecordBroadcast.INSTANCE.broadcast(Long.parseLong(name), tradingRecord.setNow(gold));
         return this;
     }
 

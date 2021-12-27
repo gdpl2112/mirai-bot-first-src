@@ -2,9 +2,9 @@ package Project.ASpring;
 
 import Entitys.UScore;
 import Entitys.gameEntitys.PersonInfo;
-import Project.ASpring.mapper.GInfoMapper;
-import Project.ASpring.mapper.PersonInfoMapper;
-import Project.ASpring.mapper.UScoreMapper;
+import Project.ASpring.mcs.mapper.GInfoMapper;
+import Project.ASpring.mcs.mapper.PersonInfoMapper;
+import Project.ASpring.mcs.mapper.UScoreMapper;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -21,12 +21,15 @@ public class SpringBootResource {
     public static UScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
     public static GInfoMapper gInfoMapper;
+    public static String address;
 
     public static void init() {
         scoreMapper = configuration.getBean(UScoreMapper.class);
         personInfoMapper = configuration.getBean(PersonInfoMapper.class);
         gInfoMapper = configuration.getBean(GInfoMapper.class);
         System.out.println("==============spring papered=================");
+        System.err.println(configuration.getEnvironment().getProperty("spring.resources.static-locations"));
+        address = "http://49.232.209.180:" + configuration.getEnvironment().getProperty("server.port");
     }
 
     public static void move0() {

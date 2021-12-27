@@ -1,4 +1,4 @@
-package Project.ASpring.mapper;
+package Project.ASpring.mcs.mapper;
 
 import Entitys.gameEntitys.PersonInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

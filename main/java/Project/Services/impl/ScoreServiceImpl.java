@@ -2,6 +2,7 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
+import Entitys.TradingRecord;
 import Entitys.UScore;
 import Project.DataBases.DataBase;
 import Project.Services.Iservice.IScoreService;
@@ -11,9 +12,9 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import static Project.DataBases.DataBase.*;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
+import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.getImageFromFontString;
 import static Project.drawers.Drawer.getImageFromStrings;
-import static Project.Tools.Tool.*;
 
 @Entity
 public class ScoreServiceImpl implements IScoreService {
@@ -141,7 +142,16 @@ public class ScoreServiceImpl implements IScoreService {
             int nr = rand.nextInt(45) + 25;
             int s = tr * 5;
             addScore(s, who);
-            putPerson(getInfo(who).addGold((long) nr));
+            putPerson(getInfo(who).addGold((long) nr
+                    , new TradingRecord()
+                            .setType1(TradingRecord.Type1.add)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("打工")
+                            .setMany(nr)
+            ));
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");
         } else {

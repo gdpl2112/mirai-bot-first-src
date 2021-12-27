@@ -2,6 +2,7 @@ package Project.Services.DetailServices;
 
 
 import Entitys.Group;
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.Ghost_Behavior;
@@ -68,6 +69,7 @@ public class GameJoinDetailService {
             return ghostObj;
         }
     }
+
     public String join0(long who, Group group) {
         int r = Tool.rand.nextInt(250);
         GhostObj ghostObj = isUse107(String.valueOf(who));
@@ -120,7 +122,16 @@ public class GameJoinDetailService {
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
                 int rr = Tool.rand.nextInt(90) + 30;
-                putPerson(getInfo(who).addGold((long) rr));
+                putPerson(getInfo(who).addGold((long) rr
+                        , new TradingRecord()
+                                .setFrom(-1)
+                                .setMain(who).setDesc("从星斗森林捡到")
+                                .setTo(who)
+                                .setMany(rr)
+                                .setType0(TradingRecord.Type0.gold)
+                                .setType1(TradingRecord.Type1.add)
+                ));
+
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
             } else if (Tool.rand.nextInt(1000) == 0) {
                 int id = 111;

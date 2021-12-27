@@ -39,6 +39,7 @@ public class NoticeController {
 
     static {
         sb.append("==========").append("\n");
+        sb.append("12.26: 金魂币消费记录").append("\n");
         sb.append("12.26: 修复已知bug").append("\n");
         sb.append("12.24: 原神公告<n> 王者公告<n>").append("\n");
         sb.append("12.23: 批量抢劫").append("\n");

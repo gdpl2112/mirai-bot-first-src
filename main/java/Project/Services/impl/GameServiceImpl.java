@@ -2,6 +2,7 @@ package Project.Services.impl;
 
 
 import Entitys.Group;
+import Entitys.TradingRecord;
 import Entitys.gameEntitys.GInfo;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
@@ -202,7 +203,15 @@ public class GameServiceImpl implements IGameService {
         personInfo.addHjL(ir4).addHj(ir4);
         sb.append("\r\n增加了:").append(ir4).append("最大精神力");
 
-        personInfo.addGold(50L);
+        personInfo.addGold(50L, new TradingRecord()
+                .setType1(TradingRecord.Type1.lost)
+                .setType0(TradingRecord.Type0.gold)
+                .setTo(-1)
+                .setMain(who)
+                .setFrom(who)
+                .setDesc("升级")
+                .setMany(50L)
+        );
         if (L == 1) {
             sb.append("\r\n请觉醒武魂后再进行修炼(觉醒)");
         }
@@ -263,7 +272,16 @@ public class GameServiceImpl implements IGameService {
         long is = DataBase.getAllInfo(who).getScore();
         if (is >= num * 2) {
             DataBase.addScore(-(num * 2), who);
-            putPerson(getInfo(who).addGold(num));
+            putPerson(getInfo(who).addGold(num,
+                    new TradingRecord()
+                            .setType1(TradingRecord.Type1.add)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("购买金魂币" + num)
+                            .setMany(num)
+            ));
             return "购买成功";
         } else {
             return getImageFromStrings("积分不足", "你需要" + num * 2 + "积分", "才能购买" + num + "个金魂币");
@@ -367,7 +385,17 @@ public class GameServiceImpl implements IGameService {
                                 tips = "你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                             } else {
                                 long lg = randLong(240, 0.6f, 0.9f);
-                                putPerson(getInfo(who).addGold(lg));
+                                putPerson(getInfo(who).addGold(lg,
+                                        new TradingRecord()
+                                                .setType1(TradingRecord.Type1.add)
+                                                .setType0(TradingRecord.Type0.gold)
+                                                .setTo(-1)
+                                                .setMain(who)
+                                                .setFrom(who)
+                                                .setDesc("击败" + whos)
+                                                .setMany(lg)
+
+                                ));
                                 tips = "你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
                             }
                         } else {
@@ -397,7 +425,16 @@ public class GameServiceImpl implements IGameService {
             return "高出1000的金魂币才能换成积分";
         if (is.getGold() - 500 >= num) {
             DataBase.addScore((long) (num * 1.5f), who);
-            putPerson(is.addGold(-num));
+            putPerson(is.addGold(-num,
+                    new TradingRecord()
+                            .setType1(TradingRecord.Type1.lost)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("换积分" + num)
+                            .setMany(num)
+            ));
             return "转换成功\r\n获得" + (num * 1.5f) + "积分";
         } else {
             return getImageFromStrings("金魂币不足", "你需要" + (num + 500) + " 个金魂币", "才能换" + num * 1.5f + "积分");
