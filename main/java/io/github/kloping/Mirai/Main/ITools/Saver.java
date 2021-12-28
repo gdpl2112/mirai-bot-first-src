@@ -16,7 +16,6 @@ public class Saver {
     public static String pathRecall = "./messages/recalled/";
 
     public static final String rootPath = contextManager.getContextEntity(String.class, "SaverRootUrl");
-//    public static String rootPath = "http://localhost:8082";
 
     public static String savePath = "/save";
 
@@ -32,17 +31,17 @@ public class Saver {
     private static String token = "kloping_";
 
     static {
-        try {
-            Connection connection = Jsoup.connect(rootPath + loginPath)
-                    .ignoreContentType(true)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.30")
-                    .header("Accept", "*/*");
-            Document document = connection.get();
-            token = document.body().text();
-            System.out.println("============Token=>" + token + "=============");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Connection connection = Jsoup.connect(rootPath + loginPath)
+//                    .ignoreContentType(true)
+//                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.30")
+//                    .header("Accept", "*/*");
+//            Document document = connection.get();
+//            token = document.body().text();
+//            System.out.println("============Token=>" + token + "=============");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private static synchronized Object request(String path, boolean needReturn, Object... objects) {
