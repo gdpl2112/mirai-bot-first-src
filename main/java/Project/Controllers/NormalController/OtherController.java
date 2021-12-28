@@ -7,6 +7,7 @@ import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.contact.NormalMember;
@@ -211,5 +212,10 @@ public class OtherController {
     @Action("金魂币消费记录")
     public String m0(long q) {
         return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
+    }
+
+    @Action("我的发言统计")
+    public String m1(long q, Group group) {
+        return "点击=>" + String.format(Saver.rootPath + "/says.html?qid=" + q + "&gid=" + group.getId());
     }
 }
