@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import javax.print.Doc;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -16,24 +17,18 @@ import static Project.Controllers.FirstController.mihoyo;
 import static Project.Tools.Tool.pathToImg;
 import static Project.Tools.Tool.unicodeToCn;
 
+/**
+ * @author github-kloping
+ */
 public class Mihoyo {
-
-    public static MihoyoYuanshen getNews() {
-        String jsonStr = getJsonFromYs(mihoyo.news_index());
-        return JSON.parseObject(jsonStr).toJavaObject(MihoyoYuanshen.class);
+    public static String c0(Document arg) {
+        return getJsonFromYs(arg);
     }
-
+    public static MihoyoYuanshen getNews() {
+        return mihoyo.newsIndex();
+    }
     public static String[] getNews(String cid) {
-        Document doc = mihoyo.news_point(cid);
-        String jsonStr = getJsonFromYs(doc);
-        JSONObject jo = null;
-        try {
-            jo = JSON.parseObject(jsonStr);
-        } catch (Exception e) {
-            System.err.println(jsonStr);
-            e.printStackTrace();
-        }
-        MihoyoYuanshenDetail detail = jo.toJavaObject(MihoyoYuanshenDetail.class);
+        MihoyoYuanshenDetail detail =  mihoyo.newsPoint(cid);
         String html = detail.getData()[0].getArticle().getContent();
         String title = detail.getData()[0].getArticle().getTitle();
         String pic = detail.getData()[0].getArticle().getCover();
@@ -41,7 +36,6 @@ public class Mihoyo {
         pic = pic.substring(1, pic.length() - 1);
         return new String[]{unicodeToCn(pic), title, s};
     }
-
     public static String getMessageStringYs(Element element) {
         StringBuilder sb = new StringBuilder();
         if (hasVideoTag(element)) {
@@ -51,7 +45,7 @@ public class Mihoyo {
         }
         for (Element child : element.children()) {
             String s = child.text();
-            if (!s.startsWith("关于《原神》")&& !s.isEmpty()) {
+            if (!s.startsWith("关于《原神》") && !s.isEmpty()) {
                 sb.append("\n").append(child.text());
             }
             if (hasImgTag(child)) {
