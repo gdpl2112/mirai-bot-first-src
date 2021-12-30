@@ -256,7 +256,7 @@ public class MessageTools {
             Group group = bot.getGroup(id);
             byte[] bytes = Tool.getBytesFromHttpUrl(url);
             ExternalResource resource = ExternalResource.create(bytes);
-            Voice audio = Voice.fromAudio(group.uploadAudio(resource));
+            Audio audio = group.uploadAudio(resource);
             String s = new MessageChainBuilder().append(audio).build().serializeToMiraiCode();
             System.out.println(s);
             group.sendMessage(audio);

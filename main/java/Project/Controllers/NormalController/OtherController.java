@@ -17,6 +17,9 @@ import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github kloping
+ */
 @Controller
 public class OtherController {
     public OtherController() {
@@ -139,10 +142,6 @@ public class OtherController {
         BaseMenuStr.append("掷骰子\n");
         BaseMenuStr.append("捡瓶子/捡漂流瓶\n");
         BaseMenuStr.append("扔瓶子/仍漂流瓶<内容>\n");
-//        BaseMenuStr.append("哔哩搜索 xx \n");
-//        BaseMenuStr.append("哔哩哔哩搜索 xx \n");
-//        BaseMenuStr.append("快手短视频 #不稳定\n");
-//        BaseMenuStr.append("快手搜索 #不稳定\n");
         BaseMenuStr.append("/推<@>\n");
         BaseMenuStr.append("/推[图片]\n");
         BaseMenuStr.append("/玩球<@>\n");
@@ -151,6 +150,10 @@ public class OtherController {
         BaseMenuStr.append("/丢[图片]\n");
         BaseMenuString = BaseMenuStr.toString();
         BaseMenuStrings = BaseMenuString.split("====");
+//        BaseMenuStr.append("哔哩搜索 xx \n");
+//        BaseMenuStr.append("哔哩哔哩搜索 xx \n");
+//        BaseMenuStr.append("快手短视频 #不稳定\n");
+//        BaseMenuStr.append("快手搜索 #不稳定\n");
     }
 
     @Action("基本菜单")
@@ -176,7 +179,7 @@ public class OtherController {
         NormalMember member = bot.getGroup(group.getId()).get(qq);
         StringBuilder sb = new StringBuilder();
         sb.append("QQ:").append(qq).append("\r\n");
-        sb.append("身份:").append(getPermisi(member.getPermission().getLevel())).append("\r\n");
+        sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
         sb.append("群内名:").append(MemberTools.getNameFromGroup(qq, group)).append("\r\n");
         sb.append("QQ名:").append(member.getNick()).append("\r\n");
         sb.append("加入时间:").append(Tool.getTimeM(member.getJoinTimestamp() * 1000L)).append("\r\n");
@@ -187,14 +190,26 @@ public class OtherController {
         return sb.toString();
     }
 
-    public static String getPermisi(long le) {
+    public static String getPermission(long le) {
         if (le == 0) return "群员";
         if (le == 1) return "管理员";
         if (le == 2) return "群主";
         return "未知";
     }
 
-//    @Action("生成国旗渐变头像<.+=>par>")
+
+    @Action("我的发言统计")
+    public String m1(long q, Group group) {
+        return "点击=>" + String.format(Saver.rootPath + "/says.html?qid=" + q + "&gid=" + group.getId());
+    }
+
+
+    @Action("金魂币消费记录")
+    public String m0(long q) {
+        return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
+    }
+
+    //    @Action("生成国旗渐变头像<.+=>par>")
 //    public String par(@AllMess String all) {
 //        try {
 //            int i1 = all.indexOf("[");
@@ -208,14 +223,4 @@ public class OtherController {
 //            return "生成失败";
 //        }
 //    }
-
-    @Action("金魂币消费记录")
-    public String m0(long q) {
-        return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
-    }
-
-    @Action("我的发言统计")
-    public String m1(long q, Group group) {
-        return "点击=>" + String.format(Saver.rootPath + "/says.html?qid=" + q + "&gid=" + group.getId());
-    }
 }

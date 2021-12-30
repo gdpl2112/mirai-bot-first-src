@@ -4,14 +4,18 @@ import Entitys.Group;
 import Entitys.User;
 import Entitys.apiEntitys.baiKe.BaiKe;
 import Entitys.apiEntitys.colb.PickupABottle;
+import Entitys.apiEntitys.pvpQQH0.Data;
+import Entitys.apiEntitys.pvpQQVoice.Yy_4e;
 import Entitys.apiEntitys.pvpQqCom.Response0;
 import Entitys.apiEntitys.thb.ThrowABottle;
 import Project.Controllers.FirstController;
 import Project.Plugins.GetPvpNews;
 import Project.Plugins.Mihoyo;
+import Project.Plugins.PvpQq;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
+import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -182,7 +186,7 @@ public class EntertainmentController2 {
                 st = n;
         }
         String cid = data.getMainList()[st].getContentId();
-        String[] sss = Mihoyo.getNews(cid.substring(1,cid.length()-1));
+        String[] sss = Mihoyo.getNews(cid.substring(1, cid.length() - 1));
         return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
@@ -194,5 +198,38 @@ public class EntertainmentController2 {
     @Action("开发计划")
     public String kfjh() {
         return "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问";
+    }
+
+    @Action("/init_pvp")
+    public String p() {
+        PvpQq.m1();
+        return "ok";
+    }
+
+    @Action("王者语音.+")
+    public String m0(@AllMess String a, Group group) {
+        String numStr = findNumberFromString(a);
+        int i = 0;
+        try {
+            i = Integer.parseInt(numStr);
+        } catch (Exception e) {
+        }
+        a = a.replace(numStr, "");
+        a = a.replaceFirst("王者语音", "");
+        Yy_4e[] yy4es = PvpQq.getY4e(a);
+        if (yy4es == null) return "未发现相关英雄";
+        Yy_4e yy4e = yy4es[0];
+        if (yy4es.length > i) {
+            yy4e = yy4es[i];
+        }
+        MessageTools.sendVoiceMessageInGroup("http:" + yy4e.getYyyp_9a(), group.getId());
+        return "&" + yy4e.getYywa1_f2();
+    }
+
+    @Action("王者图片.+")
+    public String pvpQQpic(@AllMess String a, Group group) {
+        a = a.replaceFirst("王者图片", "");
+        Data data = PvpQq.getD(a);
+        return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
 }

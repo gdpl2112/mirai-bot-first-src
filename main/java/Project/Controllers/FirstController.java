@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class FirstController {
     @AutoStand
@@ -40,6 +43,9 @@ public class FirstController {
 
     @AutoStand
     public static Mihoyo mihoyo;
+
+    @AutoStand
+    public static PvpQq pvpQq;
 
 //    @Action("测试")
 //    public Message a(Group group) throws Exception {

@@ -22,6 +22,9 @@ import java.security.NoSuchAlgorithmException;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImageInGroup;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
+/**
+ * @author github-kloping
+ */
 public class GetPvpNews {
 
     public static Response0 m1(GetPvpQQ getPvpQQ) {
