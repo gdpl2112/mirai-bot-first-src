@@ -187,6 +187,9 @@ public class EntertainmentController2 {
         }
         String cid = data.getMainList()[st].getContentId();
         String[] sss = Mihoyo.getNews(cid.substring(1, cid.length() - 1));
+        if (!sss[0].startsWith("http")) {
+            sss[0] = "https://ys.mihoyo.com" + sss[0];
+        }
         return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
