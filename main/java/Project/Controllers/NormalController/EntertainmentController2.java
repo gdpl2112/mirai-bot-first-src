@@ -182,8 +182,7 @@ public class EntertainmentController2 {
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
-            if (data.getMainList().length > n)
-                st = n;
+            if (data.getMainList().length > n) {st = n;}
         }
         String cid = data.getMainList()[st].getContentId();
         String[] sss = Mihoyo.getNews(cid.substring(1, cid.length() - 1));
