@@ -2,6 +2,7 @@ package io.github.kloping.Mirai.Main.ITools;
 
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.*;
@@ -254,7 +255,8 @@ public class MessageTools {
     public static synchronized void sendVoiceMessageInGroup(String url, long id) {
         try {
             Group group = bot.getGroup(id);
-            byte[] bytes = Tool.getBytesFromHttpUrl(url);
+            byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
+//            bytes = mp32amr(bytes);
             ExternalResource resource = ExternalResource.create(bytes);
             Audio audio = group.uploadAudio(resource);
             String s = new MessageChainBuilder().append(audio).build().serializeToMiraiCode();
@@ -264,6 +266,42 @@ public class MessageTools {
             e.printStackTrace();
         }
     }
+//
+//    private static final EncodingAttributes attrs = new EncodingAttributes();
+//
+//    static {
+//        //[ac3, adpcm_adx, adpcm_ima_wav, adpcm_ms, adpcm_swf, adpcm_yamaha, flac, g726,
+//        // libamr_nb, libamr_wb, libfaac, libgsm, libgsm_ms, libmp3lame, libvorbis, mp2,
+//        // pcm_alaw, pcm_mulaw, pcm_s16be, pcm_s16le, pcm_s24be, pcm_s24daud, pcm_s24le,
+//        // pcm_s32be, pcm_s32le, pcm_s8, pcm_u16be, pcm_u16le, pcm_u24be, pcm_u24le, pcm_u32be,
+//        // pcm_u32le, pcm_u8, pcm_zork, roq_dpcm, sonic, sonicls, vorbis, wmav1, wmav2]
+//        AudioAttributes audio = new AudioAttributes();
+//        audio.setCodec("libamr_wb");
+//        audio.setBitRate(12200);
+//        audio.setChannels(1);
+//        audio.setSamplingRate(8000);
+//        attrs.setFormat("amr");
+//        attrs.setAudioAttributes(audio);
+//    }
+//
+//    private static byte[] mp32amr(byte[] bytes) throws Exception {
+//        File source = File.createTempFile("temp0", ".mp3");
+//        File target = File.createTempFile("temp1", ".mp3");
+//        try {
+//            FileUtils.writeBytesToFile(bytes, source);
+//            FileUtils.writeBytesToFile(bytes, target);
+//            Encoder encoder = new Encoder();
+//            try {
+//                encoder.encode(source, target, attrs);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return FileUtils.getBytesFromFile(target.getAbsolutePath());
+//        } finally {
+//            source.delete();
+//            target.delete();
+//        }
+//    }
 
     public static synchronized void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
