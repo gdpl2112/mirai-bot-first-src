@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 import static io.github.kloping.Mirai.Main.ITools.EventTools.getStringFromMessageChain;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
+/**
+ * @author github-kloping
+ */
 public class MessageTools {
     public static long getAtFromString(String message) {
         int start = message.indexOf("[@");
