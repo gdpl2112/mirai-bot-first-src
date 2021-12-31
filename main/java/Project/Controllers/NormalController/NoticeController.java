@@ -39,6 +39,7 @@ public class NoticeController {
 
     static {
         sb.append("==========").append("\n");
+        sb.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
         sb.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");
         sb.append("12.26: 金魂币消费记录").append("\n");
         sb.append("12.26: 修复已知bug").append("\n");
@@ -47,7 +48,7 @@ public class NoticeController {
         sb.append("12.22: 催更,开发计划,王者荣耀最新公告/王者公告 ").append("\n");
         sb.append("12.21: 修复已知bug 微调 魂兽概率").append("\n");
         sb.append("12.20: 修复同时完成任务的bug,新的每周任务").append("\n");
-        sb.append("12.18: 修复已知bug,百科<名字>").append("\n");
+//        sb.append("12.18: 修复已知bug,百科<名字>").append("\n");
 //        sb.append("12.18: 新增娱乐功能 捡瓶子/捡漂流瓶  扔瓶子/仍漂流瓶<内容>").append("\n");
 //        sb.append("12.16: 修复已知bug, 模糊进入\n\t#进入星斗大森林,进入星斗,进入极北\n- 接每周任务\r\n\t #每周任务在每周早刷新,现只有一个任务,之后会继续更新任务").append("\n");
 //        sb.append("12.14: 修复已知bug,升级第<几>魂环,合成<物品名>\n\t接徒弟任务,当前任务 #测试阶段  ").append("\n");

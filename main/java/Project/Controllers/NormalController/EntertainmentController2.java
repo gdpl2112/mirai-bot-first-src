@@ -31,6 +31,9 @@ import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class EntertainmentController2 {
     public EntertainmentController2() {
