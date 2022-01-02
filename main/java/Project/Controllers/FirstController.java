@@ -7,10 +7,6 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import net.mamoe.mirai.message.data.Audio;
-import net.mamoe.mirai.message.data.AudioCodec;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.Voice;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -47,10 +43,10 @@ public class FirstController {
     @AutoStand
     public static PvpQq pvpQq;
 
-//    @Action("测试")
-//    public Message a(Group group) throws Exception {
-//        return null;
-//    }
+    @Action("测试")
+    public Object a(Group group) throws Exception {
+        return null;
+    }
 
 
     public static char[] cs = new char[]{

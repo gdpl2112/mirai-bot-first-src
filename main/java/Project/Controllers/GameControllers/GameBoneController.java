@@ -15,10 +15,12 @@ import java.util.Map;
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.GameDataBase.*;
 import static Project.drawers.Drawer.getImageFromStrings;
-import static Project.Tools.GameTool.upDateMan;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameBoneController {
     public GameBoneController() {
@@ -43,7 +45,6 @@ public class GameBoneController {
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
-        upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
 //               group.sendString(new StringChainBuilder().append(new At(qq.getId())).append("\n 无状态!").build());

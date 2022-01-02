@@ -20,7 +20,6 @@ import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.killedC;
 import static Project.drawers.Drawer.getImageFromStrings;
-import static Project.Tools.GameTool.upDateMan;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -48,7 +47,6 @@ public class GameJoinAcController {
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
-        upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, message) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());

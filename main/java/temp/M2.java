@@ -1,14 +1,24 @@
 package temp;
 
-import net.mamoe.mirai.message.data.Audio;
+import Entitys.gameEntitys.task.Task;
+import io.github.kloping.file.FileUtils;
+import io.github.kloping.serialize.HMLObject;
 
-import static Project.Tools.Tool.randA;
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class M2 {
+    private Map<String, String> maps = new ConcurrentHashMap<>();
+
     public static void main(String[] args) {
-        int idMin = 501,idMax=521;
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(randA(idMin, idMax));
-        }
+        M2 m2 = new M2();
+        m2.maps.put("k1", "v1");
+        m2.maps.put("k2", "v2");
+        m2.maps.put("k3", String.valueOf(111));
+        m2.maps.put("k4", String.valueOf(true));
+        m2.maps.put("k5", "???");
+        String str = HMLObject.toHMLString(m2);
+        FileUtils.putStringInFile(str, new File("./conf/conf.hml"));
     }
 }

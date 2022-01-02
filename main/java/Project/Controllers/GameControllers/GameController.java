@@ -64,7 +64,6 @@ public class GameController {
         if (!CanGroup(group.getId())) {
             throw new NoRunException("未开启");
         }
-        upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (EveListStartWith(listFx, mess) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
@@ -83,6 +82,7 @@ public class GameController {
     @Action("信息")
     public String info(User qq, Group group) {
         String str = gameService.info(qq.getId());
+        upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         return str;
     }
 
