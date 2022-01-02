@@ -3,16 +3,13 @@ package Project.Tools;
 
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
-import Project.Controllers.TimerController;
 import Project.DataBases.GameDataBase;
 import Project.Services.DetailServices.GameJoinDetailService;
+import io.github.kloping.file.FileUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
@@ -322,58 +319,53 @@ public class GameTool {
         return false;
     }
 
-    public static final File INDEXS_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
-
-    static {
-        ZeroRuns.add(() -> {
-            INDEXS_FILE.delete();
-            loadPh();
-        });
-    }
+    public static final File INDEX_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
 
     public static void loadPh() {
-        try {
-            if (INDEXS_FILE.exists()) {
-                loadPhIndexs();
-            } else {
-                File file = new File(GameDataBase.path + "/dates/users/");
-                String endN = null;
-                for (File f1 : file.listFiles()) {
-                    try {
-                        endN = f1.getName();
-                        if (endN.contains(String.valueOf(-1))) {
-                            f1.delete();
-                            continue;
-                        }
-                        phMaps.put(endN, getInfo(endN).getLevel());
-                        String finalEndN = endN;
-                        threads.execute(() -> {
-                            removeAllTag(Long.valueOf(finalEndN));
-                        });
-                        System.out.println("loaded---" + f1);
-                    } catch (Exception e) {
-                        System.err.println(f1.getPath());
-                        e.printStackTrace();
+        if (INDEX_FILE.exists() && !FileUtils.getStringFromFile(INDEX_FILE.getAbsolutePath()).isEmpty()) {
+            loadPhIndexs();
+        } else {
+            for (File f1 : new File(GameDataBase.path + "/dates/users/").listFiles()) {
+                try {
+                    final long id = Long.parseLong(f1.getName());
+                    if (id == -1L) {
+                        f1.delete();
+                        continue;
                     }
+                    int l = getInfo(id).getLevel();
+                    if (l < 10) {
+                        continue;
+                    } else {
+                        PH.add(Tool.getEntry(String.valueOf(id), l));
+                        threads.execute(() -> {
+                            removeAllTag(id);
+                        });
+                        System.out.println("loaded-->" + f1);
+                    }
+                } catch (Exception e) {
+                    System.err.println(f1.getPath());
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         System.out.println("load---end");
-        flushIndex = flushIndexMax;
-        ph.clear();
-        ph.addAll(phMaps.entrySet());
+        Collections.sort(PH, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+        flushIndexs();
     }
 
     public static void loadPhIndexs() {
-        String[] strings = getStringsFromFile(INDEXS_FILE.getPath());
+        String[] strings = getStringsFromFile(INDEX_FILE.getAbsolutePath());
         for (String s2 : strings) {
             try {
                 String[] ss = s2.split(":");
-                Long who = Long.valueOf(ss[0]);
-                Integer level = Integer.valueOf(ss[1]);
-                phMaps.put(who.toString(), level);
+                Long who = Long.parseLong(ss[0]);
+                int level = Integer.valueOf(ss[1]);
+                PH.add(getEntry(who.toString(), level));
                 threads.execute(() -> {
                     removeAllTag(who);
                 });
@@ -390,11 +382,11 @@ public class GameTool {
     }
 
     public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
-        if (ph.size() == 0) loadPh();
-        if (num >= ph.size())
-            return ph;
+        if (PH.size() == 0) loadPh();
+        if (num >= PH.size())
+            return PH;
         List<Map.Entry<String, Integer>> ph1 = new ArrayList<>();
-        for (Map.Entry e : ph) {
+        for (Map.Entry e : PH) {
             if (ph1.size() == num)
                 break;
             else {
@@ -404,73 +396,13 @@ public class GameTool {
         return ph1;
     }
 
-    public static final List<Map.Entry<String, Integer>> ph = new ArrayList<>();
-    private static final Map<String, Integer> phMaps = new LinkedHashMap<>();
+    public static final List<Map.Entry<String, Integer>> PH = new LinkedList<>();
     public static int num = 199;
-/*
-    public static void upDateMan(Long who, Integer level) {
-        if (ph.size() == 0) loadPh();
-        Resource.DaeThreads.submit(() -> {
-            if (who == null || level == null) return;
-            if (phMaps.isEmpty() || phMaps.size() < num) {
-                phMaps.put(String.valueOf(who), level);
-            } else {
-                if (phMaps.containsKey(who)) {
-                    phMaps.put(String.valueOf(who), level);
-                } else {
-                    if (level > ph.get(ph.size() - 1).getValue()) {
-                        phMaps.remove(ph.get(ph.size() - 1).getKey());
-                        phMaps.put(String.valueOf(who), level);
-                    }
-                }
-            }
-            ph.clear();
-            ph.addAll(phMaps.entrySet());
-            Collections.sort(ph, new Comparator<Map.Entry<String, Integer>>() {
-                @Override
-                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    return o2.getValue() - o1.getValue();
-                }
-            });
-            flushIndexs();
-        });
-    }*/
-
-    public static boolean containsKey(Long who) {
-        for (Map.Entry<String, Integer> entry : ph) {
-            if (who.equals(entry.getKey().trim()))
-                return true;
-        }
-        return false;
-    }
-
-    public static <T, E> Map.Entry<T, E> toEntry(T t, E e) {
-        return new Map.Entry<T, E>() {
-            @Override
-            public T getKey() {
-                return t;
-            }
-
-            @Override
-            public E getValue() {
-                return e;
-            }
-
-            @Override
-            public E setValue(E value) {
-                return value;
-            }
-        };
-    }
-
-    private static int flushIndexMax = 10;
-    private static int flushIndex = 0;
 
     private static void flushIndexs() {
-        if (flushIndex++ % flushIndexMax != 0) return;
         try {
-            PrintWriter pw = new PrintWriter(INDEXS_FILE);
-            for (Map.Entry<String, Integer> entry : ph) {
+            PrintWriter pw = new PrintWriter(INDEX_FILE);
+            for (Map.Entry<String, Integer> entry : PH) {
                 pw.println(entry.getKey() + ":" + entry.getValue());
             }
             pw.flush();
@@ -478,5 +410,13 @@ public class GameTool {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static {
+        loadPh();
+        ZeroRuns.add(() -> {
+            INDEX_FILE.delete();
+            loadPh();
+        });
     }
 }

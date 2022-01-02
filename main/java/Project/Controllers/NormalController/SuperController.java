@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.ASpring.SpringBootResource.move0;
 import static Project.ASpring.SpringBootResource.move1;
-import static Project.Tools.GameTool.INDEXS_FILE;
+import static Project.Tools.GameTool.INDEX_FILE;
 import static Project.Tools.GameTool.loadPh;
 import static Project.Tools.Tool.getRandString;
 import static io.github.kloping.Mirai.Main.Resource.*;
@@ -63,7 +63,7 @@ public class SuperController {
     @Action("/fixPh")
     public String o() {
         threads.execute(() -> {
-            INDEXS_FILE.delete();
+            INDEX_FILE.delete();
             loadPh();
         });
         return "fixing";

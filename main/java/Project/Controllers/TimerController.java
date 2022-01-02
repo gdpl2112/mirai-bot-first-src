@@ -18,8 +18,12 @@ import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.gs;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class TimerController {
+    private static int ts = 10;
 
     @Schedule("00:00:00")
     public static void onZero() {
@@ -31,11 +35,11 @@ public class TimerController {
             for (long g : gs) {
                 if (!ControllerTool.CanGroup(g)) continue;
                 Group group = Resource.bot.getGroup(g);
-                group.sendMessage("自动关闭5分钟");
+                group.sendMessage("自动关闭" + ts + "分钟");
             }
             startOnZeroTime();
             try {
-                Thread.sleep(1000 * 60 * 5);
+                Thread.sleep(1000 * 60 * ts);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -60,7 +64,6 @@ public class TimerController {
                         runnable.run();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Resource.bot.getFriend(3474006766L).sendMessage(e.getMessage());
                     }
                 }
             }

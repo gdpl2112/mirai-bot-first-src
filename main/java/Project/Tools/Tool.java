@@ -19,7 +19,6 @@ import static io.github.kloping.Mirai.Main.Resource.contextManager;
 public class Tool {
     /**
      * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
-     *
      */
     private static final String singlePattern = "[0-9|a-f|A-F]";
     private static final String pattern = singlePattern + singlePattern +
@@ -85,6 +84,7 @@ public class Tool {
         }
         return sb.toString();
     }
+
     public static final void SetOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;
@@ -211,14 +211,17 @@ public class Tool {
     /**
      * 获取 Entry<K,V>
      *
-     * @param k
-     * @param v
+     * @param _k
+     * @param _v
      * @param <K>
      * @param <V>
      * @return
      */
-    public static <K, V> Map.Entry<K, V> getEntry(K k, V v) {
+    public static <K, V> Map.Entry<K, V> getEntry(K _k, V _v) {
         Map.Entry<K, V> entry = new Map.Entry<K, V>() {
+            private K k = _k;
+            private V v = _v;
+
             @Override
             public K getKey() {
                 return k;
@@ -231,7 +234,9 @@ public class Tool {
 
             @Override
             public V setValue(V value) {
-                return null;
+                V v1 = v;
+                this.v = value;
+                return v1;
             }
         };
 
