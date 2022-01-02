@@ -3,17 +3,21 @@ package Project.Tools;
 
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
+import Project.Controllers.TimerController;
 import Project.DataBases.GameDataBase;
 import Project.Services.DetailServices.GameJoinDetailService;
-import io.github.kloping.Mirai.Main.Resource;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.*;
+import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
 public class GameTool {
@@ -318,11 +322,18 @@ public class GameTool {
         return false;
     }
 
-    public static final File indexsFile = new File(GameDataBase.path + "/dates/indexsUserLevel");
+    public static final File INDEXS_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
+
+    static {
+        ZeroRuns.add(() -> {
+            INDEXS_FILE.delete();
+            loadPh();
+        });
+    }
 
     public static void loadPh() {
         try {
-            if (indexsFile.exists()) {
+            if (INDEXS_FILE.exists()) {
                 loadPhIndexs();
             } else {
                 File file = new File(GameDataBase.path + "/dates/users/");
@@ -353,11 +364,10 @@ public class GameTool {
         flushIndex = flushIndexMax;
         ph.clear();
         ph.addAll(phMaps.entrySet());
-        upDateMan(Resource.bot.getId(), 1);
     }
 
     public static void loadPhIndexs() {
-        String[] strings = getStringsFromFile(indexsFile.getPath());
+        String[] strings = getStringsFromFile(INDEXS_FILE.getPath());
         for (String s2 : strings) {
             try {
                 String[] ss = s2.split(":");
@@ -397,7 +407,7 @@ public class GameTool {
     public static final List<Map.Entry<String, Integer>> ph = new ArrayList<>();
     private static final Map<String, Integer> phMaps = new LinkedHashMap<>();
     public static int num = 199;
-
+/*
     public static void upDateMan(Long who, Integer level) {
         if (ph.size() == 0) loadPh();
         Resource.DaeThreads.submit(() -> {
@@ -424,7 +434,7 @@ public class GameTool {
             });
             flushIndexs();
         });
-    }
+    }*/
 
     public static boolean containsKey(Long who) {
         for (Map.Entry<String, Integer> entry : ph) {
@@ -459,7 +469,7 @@ public class GameTool {
     private static void flushIndexs() {
         if (flushIndex++ % flushIndexMax != 0) return;
         try {
-            PrintWriter pw = new PrintWriter(indexsFile);
+            PrintWriter pw = new PrintWriter(INDEXS_FILE);
             for (Map.Entry<String, Integer> entry : ph) {
                 pw.println(entry.getKey() + ":" + entry.getValue());
             }

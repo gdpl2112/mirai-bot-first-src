@@ -82,7 +82,6 @@ public class GameController {
     @Action("信息")
     public String info(User qq, Group group) {
         String str = gameService.info(qq.getId());
-        upDateMan(qq.getId(), getInfo(qq.getId()).getLevel());
         return str;
     }
 
