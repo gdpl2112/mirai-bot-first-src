@@ -1,6 +1,7 @@
 package io.github.kloping.Mirai.Main;
 
 import Project.ASpring.SpringStarter;
+import io.github.kloping.Mirai.Main.Handlers.LittleHandler;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.Handlers.OwnerHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
@@ -33,13 +34,13 @@ public class BotStarter {
         SetOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         deleteDir(new File("./cache"));
         deleteDir(new File("./cache1"));
-        ParseArgs(args);
-        InitBot();
+        parseArgs(args);
+        initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(
 //                test ? BotConfiguration.MiraiProtocol.ANDROID_PAD :
-                        BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+                BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache1"));
         botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
@@ -53,13 +54,13 @@ public class BotStarter {
         BotStarter.afterLogin();
     }
 
-    private static void InitBot() {
+    private static void initBot() {
         abot = Resource.get(test ? 3 : 1);
     }
 
-    private static void ParseArgs(String[] args) {
+    private static void parseArgs(String[] args) {
         try {
-            if (args[0].trim().toLowerCase().equals("test"))
+            if ("test".equals(args[0].trim().toLowerCase()))
                 test = true;
         } catch (Exception e) {
         }
@@ -76,5 +77,6 @@ public class BotStarter {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
         bot.getEventChannel().registerListenerHost(new OwnerHandler());
+        bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
     }
 }

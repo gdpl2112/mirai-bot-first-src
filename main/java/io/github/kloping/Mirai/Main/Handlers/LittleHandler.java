@@ -2,7 +2,6 @@ package io.github.kloping.Mirai.Main.Handlers;
 
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
-import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
@@ -11,256 +10,177 @@ import io.github.kloping.MySpringTool.h1.impl.InstanceCraterImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.ClassManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.ContextManagerImpl;
-import io.github.kloping.MySpringTool.h1.impl.component.MethodManagerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.ActionManager;
 import io.github.kloping.MySpringTool.interfaces.component.ClassManager;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.MySpringTool.interfaces.component.MethodManager;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
 import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
-import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.event.events.GroupMessageSyncEvent;
 import net.mamoe.mirai.message.data.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-import static io.github.kloping.Mirai.Main.ITools.Saver.saveMessage;
-
+/**
+ * @author github-kloping
+ */
 @Controller
 public class LittleHandler extends SimpleListenerHost {
 
-    public LittleHandler(Bot bot) {
-        super();
-        LittleHandler.bot = bot;
-    }
+    public static final String WANT_TITLE = "我要头衔";
+    public static final String PRE = "/";
+    public static ActionManagerImpl am = null;
+    public static ContextManager contextManager;
 
-    public static ContextManager contextManager = new ContextManagerImpl();
-    public static ActionManager actionManager = null;
-    private static ClassManager classManager;
-    private static Bot bot;
-
-    public static void init() {
-        classManager = new ClassManagerImpl(
-                new InstanceCraterImpl(), contextManager, new AutomaticWiringParamsImpl(), actionManager
+    static {
+        ClassManager classManager = new ClassManagerImpl(
+                new InstanceCraterImpl(),
+                contextManager = new ContextManagerImpl(),
+                new AutomaticWiringParamsImpl(),
+                am
         );
-        MethodManager methodManager = new MethodManagerImpl(new AutomaticWiringParamsImpl(), classManager);
-        actionManager = new ActionManagerImpl(classManager);
+        am = new ActionManagerImpl(classManager);
         try {
             classManager.add(LittleHandler.class);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Resource.contextManager = contextManager;
+    }
+
+    public LittleHandler() {
+        super();
     }
 
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        super.handleException(context, exception);
+        exception.printStackTrace();
     }
-
-    public static final List<Long> hasRebots = new CopyOnWriteArrayList<>();
-
-    static {
-        hasRebots.add(291841860L);
-        hasRebots.add(3597552450L);
-    }
-
-    private static final Map<Long, Message> upMessages = new ConcurrentHashMap<>();
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        upMessages.put(event.getGroup().getId(), event.getMessage());
-        if (event.getSender() instanceof AnonymousMember) return;
+        if (event.getSender() instanceof AnonymousMember) {
+            return;
+        }
         Group group = event.getGroup();
         long gid = group.getId();
-        Resource.threads.execute(() -> {
-            for (long q : hasRebots) if (group.contains(q)) return;
-            try {
-                String json = MessageChain.serializeToJsonString(event.getMessage());
-                saveMessage(json, gid, event.getSender().getId());
-            } catch (Exception e) {
-                e.printStackTrace();
+        long iid = event.getBot().getId();
+        long yid = event.getSender().getId();
+        if (group.get(iid).getPermission().equals(MemberPermission.OWNER)) {
+            String text = EventTools.getStringFromGroupMessageEvent(event);
+            if (text.startsWith(WANT_TITLE)) {
+                text = text.replaceFirst(WANT_TITLE, "");
+                if (!Tool.isIlleg(text) && !text.isEmpty()) {
+                    group.get(yid).setSpecialTitle(text);
+                    group.sendMessage("=>O了");
+                } else {
+                    group.sendMessage("敏感字节!");
+                }
             }
-        });
-        if (gid != 278681553L) return;
-        String text = EventTools.getStringFromGroupMessageEvent(event);
-        Long q2 = event.getSender().getId();
-        if (text.startsWith("我要头衔")) {
-            text = text.replace("我要头衔", "").replaceAll(" ", "");
-            if (!Tool.isIlleg(text) && !text.isEmpty()) {
-                group.get(q2).setSpecialTitle(text);
-                group.sendMessage("=>O了");
-            } else group.sendMessage("敏感字节!");
         }
-    }
-
-    @EventHandler
-    public void onFriendMessage(FriendMessageEvent event) {
-        Resource.threads.execute(() -> {
-            if (event.getSender().getId() == bot.getId()) {
-                String m1 = (event.getMessage().get(1).toString()).trim();
-                if (m1.startsWith("/get")) {
-                    m1 = m1.substring(4);
-                    String[] ss = m1.split(":");
-                    Long qid = Long.parseLong(ss[0].trim());
-                    int[] ints = Tool.StringToInts(ss[1].trim());
-                    try {
-                        String[] sss = Saver.getTexts2(bot.getId(), qid.longValue(), ints);
-                        for (String s1 : sss) {
-                            MessageChain o = MessageChain.deserializeFromJsonString(s1);
-                            event.getSender().sendMessage(o);
+        if (yid == Resource.superQL) {
+            String text = EventTools.getStringFromGroupMessageEvent(event);
+            if (group.get(iid).getPermission().getLevel() > 0) {
+                if (text.startsWith(PRE)) {
+                    text = text.replaceFirst(PRE, "");
+                    MatherResult result = am.mather(text);
+                    if (result != null) {
+                        Class2OMap c2m = Class2OMap.create(event.getMessage());
+                        for (Method method : result.getMethods()) {
+                            method.invoke(this, event, c2m);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                return;
-            }
-            try {
-                String json = MessageChain.serializeToJsonString(event.getMessage());
-                Saver.saveMessage2(json, bot.getId(), event.getSender().getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    @EventHandler
-    public void sync(GroupMessageSyncEvent event) {
-        if (event.getMessage().size() < 1) return;
-        if (!(event.getMessage().get(1) instanceof PlainText
-                || event.getMessage().get(1) instanceof QuoteReply)) return;
-        String text = EventTools.getStringFromMessageChain(event.getMessage()).trim();
-        if (text.startsWith("/")) {
-            MatherResult result = actionManager.mather(text.substring(1));
-            if (result != null) {
-                MessageSource.recall(event.getMessage());
-                for (Method method : result.getMethods()) {
-                    try {
-                        method.invoke(this, event);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }
-        }
-    }
-
-    @Action("++1")
-    public void mm(GroupMessageSyncEvent event) {
-        if (upMessages.containsKey(event.getGroup().getId()))
-            event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
-    }
-
-    @Action("++2")
-    public void mm2(GroupMessageSyncEvent event) {
-        if (upMessages.containsKey(event.getGroup().getId())) {
-            event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
-            event.getGroup().sendMessage(upMessages.get(event.getGroup().getId()));
         }
     }
 
     @Action("setAdmin.+")
-    public void m1(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        At at = co.get(At.class);
-        if (at == null) return;
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
-            m1.modifyAdmin(true);
+    public void m1(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        if (at == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
+            event.getSubject().get(at.getTarget()).modifyAdmin(true);
+            event.getSubject().sendMessage("succeed");
+        }
     }
 
     @Action("unAdmin.+")
-    public void m2(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        At at = co.get(At.class);
-        if (at == null) return;
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
-            m1.modifyAdmin(false);
+    public void m2(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        if (at == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
+            event.getSubject().get(at.getTarget()).modifyAdmin(false);
+            event.getSubject().sendMessage("succeed");
+        }
     }
 
     @Action("mute.+")
-    public void m3(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        At at = co.get(At.class);
-        if (at == null) return;
-        String t = EventTools.getStringFromMessageChain(event.getMessage());
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel()) {
-            String s1 = Tool.findNumberFromString(t.replace(String.valueOf(at.getTarget()), ""));
-            m1.mute(Integer.parseInt(s1));
+    public void m3(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        PlainText plainText = class2OMap.get(PlainText.class,1);
+        if (at == null || plainText == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
+            int st = Integer.parseInt(Tool.findNumberFromString(plainText.getContent()));
+            event.getSubject().get(at.getTarget()).mute(st);
+            event.getSubject().sendMessage("succeed");
         }
     }
 
     @Action("unmute.+")
-    public void m4(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        At at = co.get(At.class);
-        if (at == null) return;
-        String t = EventTools.getStringFromMessageChain(event.getMessage());
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
-            m1.unmute();
+    public void m4(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        PlainText plainText = class2OMap.get(PlainText.class,1);
+        if (at == null || plainText == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
+            event.getSubject().get(at.getTarget()).mute(0);
+            event.getSubject().sendMessage("succeed");
+        }
     }
 
     @Action("setTou.+")
-    public void m5(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() != MemberPermission.OWNER) return;
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        At at = co.get(At.class);
-        if (at == null) return;
-        String t = EventTools.getStringFromMessageChain(event.getMessage());
-        String name = event.getMessage().get(3).toString();
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        m1.setSpecialTitle(name);
+    public void m5(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        PlainText plainText = class2OMap.get(PlainText.class,1);
+        if (at == null || plainText == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
+            event.getSubject().get(at.getTarget())
+                    .setSpecialTitle(plainText.getContent().replaceFirst("/setTou", ""));
+            event.getSubject().sendMessage("succeed");
+        }
     }
 
     @Action("recall.+")
-    public void m6(GroupMessageSyncEvent event) {
-        if (event.getSender().getPermission() == MemberPermission.MEMBER) return;
-        QuoteReply qr = (QuoteReply) event.getMessage().get(1);
-        At at = null;
-        try {
-            at = (At) event.getMessage().get(3);
-        } catch (Exception e) {
-            at = (At) event.getMessage().get(2);
-        }
-        String t = EventTools.getStringFromMessageChain(event.getMessage());
-        NormalMember m1 = event.getGroup().get(at.getTarget());
-        if (m1.getPermission().getLevel() < event.getSender().getPermission().getLevel())
+    public void m6(GroupMessageEvent event, Class2OMap class2OMap) {
+        At at = class2OMap.get(At.class);
+        QuoteReply qr = class2OMap.get(QuoteReply.class);
+        if (at == null || qr == null) {
+            event.getSubject().sendMessage("Not Found");
+        } else {
             MessageSource.recall(qr.getSource());
+            event.getSubject().sendMessage("succeed");
+        }
     }
 
     @Action("parseJson.+")
-    public void m7(GroupMessageSyncEvent event) {
-        Class2OMap co = Class2OMap.create(event.getMessage());
-        PlainText plainText = co.get(PlainText.class);
-        String jsonStr = plainText.toString().replaceFirst("/parseJson", "");
-        MessageChain chain = MessageChain.deserializeFromJsonString(jsonStr);
-        event.getSubject().sendMessage(chain);
+    public void m7(GroupMessageEvent event, Class2OMap class2OMap) {
+        try {
+            PlainText plainText = class2OMap.get(PlainText.class);
+            String jsonStr = plainText.getContent().replaceFirst("/parseJson", "");
+            MessageChain chain = MessageChain.deserializeFromJsonString(jsonStr);
+            event.getSubject().sendMessage(chain);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            event.getSubject().sendMessage(e.getMessage());
+        }
     }
 }
