@@ -39,6 +39,7 @@ public class NoticeController {
 
     static {
         sb.append("==========").append("\n");
+        sb.append("1.3 : 修复已知bug").append("\n");
         sb.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
         sb.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
         sb.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");

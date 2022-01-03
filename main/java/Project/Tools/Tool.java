@@ -11,6 +11,7 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
@@ -238,8 +239,19 @@ public class Tool {
                 this.v = value;
                 return v1;
             }
-        };
 
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                if (o instanceof Map.Entry) {
+                    Entry<K, V> e1 = (Entry<K, V>) o;
+                    return k.equals(e1.getKey()) && v.equals(e1.getValue());
+                } else {
+                    return false;
+                }
+            }
+        };
         return entry;
     }
 

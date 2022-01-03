@@ -10,6 +10,7 @@ import io.github.kloping.file.FileUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.Map.Entry;
 
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
@@ -336,7 +337,10 @@ public class GameTool {
                     if (l < 10) {
                         continue;
                     } else {
-                        PH.add(Tool.getEntry(String.valueOf(id), l));
+                        Entry<String, Integer> e1 = getEntry(String.valueOf(id), l);
+                        if (!PH.contains(e1))
+                            PH.add(e1);
+
                         threads.execute(() -> {
                             removeAllTag(id);
                         });
@@ -365,7 +369,9 @@ public class GameTool {
                 String[] ss = s2.split(":");
                 Long who = Long.parseLong(ss[0]);
                 int level = Integer.valueOf(ss[1]);
-                PH.add(getEntry(who.toString(), level));
+                Entry<String, Integer> e1 = Tool.getEntry(who.toString(), level);
+                if (!PH.contains(e1))
+                    PH.add(e1);
                 threads.execute(() -> {
                     removeAllTag(who);
                 });
@@ -385,7 +391,7 @@ public class GameTool {
         if (PH.size() == 0) loadPh();
         if (num >= PH.size())
             return PH;
-        List<Map.Entry<String, Integer>> ph1 = new ArrayList<>();
+        List<Map.Entry<String, Integer>> ph1 = new LinkedList<>();
         for (Map.Entry e : PH) {
             if (ph1.size() == num)
                 break;
