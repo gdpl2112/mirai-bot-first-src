@@ -18,6 +18,9 @@ import static Project.DataBases.GameTaskDatabase.deleteTask;
 import static Project.DataBases.task.TaskCreator.getRandObj1000;
 import static Project.Tools.Tool.getRandT;
 
+/**
+ * @author github-kloping
+ */
 public class TaskEntityDetail {
     public static class Task1000 extends Task {
         public Map<Integer, Boolean> m1 = new ConcurrentHashMap<>();

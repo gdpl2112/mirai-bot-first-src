@@ -18,6 +18,23 @@ import java.util.regex.Pattern;
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
+
+    /**
+     * let v in from between to
+     * @param v v
+     * @param from max
+     * @param to min
+     * @return
+     */
+    public static int inRandge(int v, int from, int to) {
+        if (v > from) {
+            return from;
+        } else if (v < to) {
+            return to;
+        }
+        return v;
+    }
+
     /**
      * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
      */
