@@ -34,6 +34,7 @@ public class LittleHandler extends SimpleListenerHost {
 
     public static final String WANT_TITLE = "我要头衔";
     public static final String PRE = "/";
+    public static final String PRE0 = "#";
     public static ActionManagerImpl am = null;
     public static ContextManager contextManager;
 
@@ -89,9 +90,22 @@ public class LittleHandler extends SimpleListenerHost {
                     text = text.replaceFirst(PRE, "");
                     MatherResult result = am.mather(text);
                     if (result != null) {
+                        MessageSource.recall(event.getSource());
                         Class2OMap c2m = Class2OMap.create(event.getMessage());
                         for (Method method : result.getMethods()) {
-                            method.invoke(this, event, c2m);
+                            method.invoke(this, event, c2m).toString();
+                        }
+                    }
+                }
+                if (text.startsWith(PRE0)) {
+                    text = text.replaceFirst(PRE0, "");
+                    MatherResult result = am.mather(text);
+                    if (result != null) {
+                        MessageSource.recall(event.getSource());
+                        Class2OMap c2m = Class2OMap.create(event.getMessage());
+                        for (Method method : result.getMethods()) {
+                            String arg = method.invoke(this, event, c2m).toString();
+                            event.getSubject().sendMessage(arg);
                         }
                     }
                 }
@@ -100,74 +114,74 @@ public class LittleHandler extends SimpleListenerHost {
     }
 
     @Action("setAdmin.+")
-    public void m1(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m1(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
         if (at == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             event.getSubject().get(at.getTarget()).modifyAdmin(true);
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
     @Action("unAdmin.+")
-    public void m2(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m2(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
         if (at == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             event.getSubject().get(at.getTarget()).modifyAdmin(false);
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
     @Action("mute.+")
-    public void m3(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m3(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
-        PlainText plainText = class2OMap.get(PlainText.class,1);
+        PlainText plainText = class2OMap.get(PlainText.class, 1);
         if (at == null || plainText == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             int st = Integer.parseInt(Tool.findNumberFromString(plainText.getContent()));
             event.getSubject().get(at.getTarget()).mute(st);
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
     @Action("unmute.+")
-    public void m4(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m4(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
-        PlainText plainText = class2OMap.get(PlainText.class,1);
+        PlainText plainText = class2OMap.get(PlainText.class, 1);
         if (at == null || plainText == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             event.getSubject().get(at.getTarget()).mute(0);
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
     @Action("setTou.+")
-    public void m5(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m5(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
-        PlainText plainText = class2OMap.get(PlainText.class,1);
+        PlainText plainText = class2OMap.get(PlainText.class, 1);
         if (at == null || plainText == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             event.getSubject().get(at.getTarget())
                     .setSpecialTitle(plainText.getContent().replaceFirst("/setTou", ""));
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
     @Action("recall.+")
-    public void m6(GroupMessageEvent event, Class2OMap class2OMap) {
+    public String m6(GroupMessageEvent event, Class2OMap class2OMap) {
         At at = class2OMap.get(At.class);
         QuoteReply qr = class2OMap.get(QuoteReply.class);
         if (at == null || qr == null) {
-            event.getSubject().sendMessage("Not Found");
+            return "Not Found";
         } else {
             MessageSource.recall(qr.getSource());
-            event.getSubject().sendMessage("succeed");
+            return "succeed";
         }
     }
 
