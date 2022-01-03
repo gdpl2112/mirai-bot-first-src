@@ -21,9 +21,10 @@ public class Tool {
 
     /**
      * let v in from between to
-     * @param v v
+     *
+     * @param v    v
      * @param from max
-     * @param to min
+     * @param to   min
      * @return
      */
     public static int inRandge(int v, int from, int to) {
@@ -1051,38 +1052,6 @@ public class Tool {
         dv3 *= 100;
         int v3 = (int) dv3;
         return v3;
-    }
-
-    /**
-     * 从网络上获取bytes
-     *
-     * @param url 网址
-     * @return
-     */
-    public static byte[] getBytesFromHttpUrl(String url) {
-        try {
-//            System.out.println(url);
-//            url = Jsoup.connect(url).ignoreContentType(true).get().baseUri();
-//            System.out.println(url);
-            URL mUrl = new URL(url);
-            URLConnection connection = mUrl.openConnection();
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setUseCaches(true);
-            connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.30");
-            connection.connect();
-            InputStream is = connection.getInputStream();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] bytes = new byte[1024 * 1024];
-            int len = -1;
-            while ((len = is.read(bytes)) != -1) {
-                baos.write(bytes, 0, len);
-            }
-            return baos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public static <K, V extends Number> Map<K, V> sortMapByValue(Map<K, V> oriMap) {
