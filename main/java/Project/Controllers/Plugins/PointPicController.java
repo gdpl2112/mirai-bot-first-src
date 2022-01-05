@@ -53,18 +53,19 @@ public class PointPicController {
         return Tool.pathToImg(getImgFromName(name));
     }
 
-    private static final String souTuApi1 = "https://api.iyk0.com/swt/?msg=";
+    private static final String SOUTUU0 = "https://api.iyk0.com/swt/?msg=";
 
     public static final String getImgFromName(String name) {
         try {
             name = URLEncoder.encode(name);
-            String url = souTuApi1 + name;
+            String url = SOUTUU0 + name;
             URL u = new URL(url);
             BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
             String end = "";
             System.out.println(end = br.readLine());
-            if (end == null || end.isEmpty())
+            if (end == null || end.isEmpty()) {
                 end = getImgFromName(name);
+            }
             br.close();
             return end;
         } catch (IOException e) {
@@ -75,7 +76,9 @@ public class PointPicController {
 
     @Action("百度搜图<.+=>name>")
     public String searchPic(@Param("name") String name, User user) {
-        if (isIlleg(name)) return StringSet.Final.isIllegalTips1;
+        if (isIlleg(name)) {
+            return StringSet.Final.isIllegalTips1;
+        }
         try {
             String[] strings = SearchPic.getPicM(name);
             pic_history.remove(user.getId());
@@ -89,7 +92,9 @@ public class PointPicController {
 
     @Action("搜图<.+=>name>")
     public String searchPicM(@Param("name") String name, User user) {
-        if (isIlleg(name)) return StringSet.Final.isIllegalTips1;
+        if (isIlleg(name)) {
+            return StringSet.Final.isIllegalTips1;
+        }
         try {
             String[] strings = SearchPic.getPic(name);
             pic_history.remove(user.getId());
@@ -103,7 +108,9 @@ public class PointPicController {
 
     @Action("堆糖搜图<.+=>name>")
     public String searchPic2(@Param("name") String name, User user) {
-        if (isIlleg(name)) return StringSet.Final.isIllegalTips1;
+        if (isIlleg(name)) {
+            return StringSet.Final.isIllegalTips1;
+        }
         try {
             String[] strings = SearchPic.getPicDt(name);
             pic_history.remove(user.getId());
@@ -163,11 +170,25 @@ public class PointPicController {
         }
     }
 
+    public static final Pattern PATTERN = Pattern.compile("http[a-zA-Z0-9/:.]*");
+
+    private static String getUrl(String url) {
+        try {
+            Matcher matcher = PATTERN.matcher(url);
+            if (matcher.find()) {
+                url = matcher.group().trim();
+            }
+        } catch (Exception e) {
+
+        }
+        return url.trim();
+    }
+
     @Action("解析快手图片<.+=>str>")
     public String parseKs(@Param("str") String urlStr, User user) {
         try {
-
-            String[] strings = SearchPic.parseKsImgs(urlStr);
+            String u1 = getUrl(urlStr);
+            String[] strings = SearchPic.parseKsImgs(u1);
             pic_history.remove(user.getId());
             pic_history.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -180,7 +201,7 @@ public class PointPicController {
     @Action("解析抖音图片<.+=>str>")
     public String parseDy(@Param("str") String urlStr, User user) {
         try {
-            String[] strings = SearchPic.parseDyImgs(urlStr);
+            String[] strings = SearchPic.parseDyImgs(getUrl(urlStr));
             pic_history.remove(user.getId());
             pic_history.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -188,17 +209,5 @@ public class PointPicController {
             e.printStackTrace();
             return "解析异常";
         }
-    }
-
-    public static final Pattern pattern = Pattern.compile("http[a-zA-z/:.]*");
-
-    public static final String filterUrl(String url) {
-        try {
-            Matcher matcher = pattern.matcher(url);
-            if (matcher.find())
-                url = matcher.group().trim();
-        } catch (Exception e) {
-        }
-        return url;
     }
 }

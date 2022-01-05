@@ -6,8 +6,18 @@ import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
-@HttpClient(NetMain.rootPath)
+/**
+ * @author github-kloping
+ */
+@HttpClient(NetMain.ROOT_PATH)
 public interface GetSongs {
+    /**
+     * 获取歌曲
+     *
+     * @param keyword
+     * @param type
+     * @return
+     */
     @GetPath("/api/search/song")
-    Songs getSongs(@ParamName("keyword") String keyword,@ParamName("type") String type);
+    Songs getSongs(@ParamName("keyword") String keyword, @ParamName("type") String type);
 }

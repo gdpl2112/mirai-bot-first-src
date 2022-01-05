@@ -197,7 +197,7 @@ public class Resource {
 
     private static final Runnable runnableBefore = () -> {
         try {
-            URL url = new URL(NetMain.rootPath + "/abo?id=" + bot.getId() + "&key=hrskloping");
+            URL url = new URL(NetMain.ROOT_PATH + "/abo?id=" + bot.getId() + "&key=hrskloping");
             url.openStream();
         } catch (Exception e) {
             e.printStackTrace();

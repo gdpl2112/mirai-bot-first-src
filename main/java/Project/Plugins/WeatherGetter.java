@@ -11,13 +11,16 @@ import java.io.IOException;
 
 import static Project.Plugins.NetMain.*;
 
+/**
+ * @author github-kloping
+ */
 public class WeatherGetter {
-    private static final String ad1 = rootPath + getWeatherShort;
-    private static final String ad2 = rootPath + getWeatherDetail;
+    private static final String AD1 = ROOT_PATH + getWeatherShort;
+    private static final String AD2 = ROOT_PATH + getWeatherDetail;
 
     public static String get(String address) {
         try {
-            String urlStr = String.format(ad1, address);
+            String urlStr = String.format(AD1, address);
             Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
             String m1 = doc.body().text();
             JSONObject jsonObject = JSON.parseObject(m1);
@@ -38,7 +41,7 @@ public class WeatherGetter {
 
     public static String detail(String address) {
         try {
-            String urlStr = String.format(ad2, address);
+            String urlStr = String.format(AD2, address);
             Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
             String m1 = doc.body().text();
             JSONObject jsonObject = JSON.parseObject(m1);
