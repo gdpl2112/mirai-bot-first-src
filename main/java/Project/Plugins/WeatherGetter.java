@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
+import static Project.Controllers.FirstController.weatherM;
 import static Project.Plugins.NetMain.*;
 
 /**
@@ -20,12 +21,7 @@ public class WeatherGetter {
 
     public static String get(String address) {
         try {
-            String urlStr = String.format(AD1, address);
-            Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
-            String m1 = doc.body().text();
-            JSONObject jsonObject = JSON.parseObject(m1);
-            System.out.println(jsonObject);
-            WeatherM wm = jsonObject.toJavaObject(WeatherM.class);
+            WeatherM wm = weatherM.weatherM(address);
             StringBuilder sb = new StringBuilder();
             sb.append(wm.getName()).append(" 的短时预报:\n======\n");
             sb.append(wm.getIntro()).append("\n=======\n\t");
@@ -33,7 +29,7 @@ public class WeatherGetter {
             sb.append("经度:").append(wm.getLng()).append("\n\t");
             sb.append("纬度:").append(wm.getLat());
             return sb.toString();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "获取异常";
@@ -41,15 +37,10 @@ public class WeatherGetter {
 
     public static String detail(String address) {
         try {
-            String urlStr = String.format(AD2, address);
-            Document doc = Jsoup.connect(urlStr).ignoreContentType(true).timeout(7000).get();
-            String m1 = doc.body().text();
-            JSONObject jsonObject = JSON.parseObject(m1);
-            System.out.println(jsonObject);
-            WeatherDetail wd = jsonObject.toJavaObject(WeatherDetail.class);
+            WeatherDetail wd = weatherM.weatherDetail(address);
             StringBuilder sb = new StringBuilder();
             sb.append(wd.getTime()).append("\n");
-            sb.append(wd.getAddress()).append(": ").append(wd.getDescribed()).append("\n\t");
+            sb.append(wd.getAddress()).append(": ").append(wd.getDescribed()).append("\n");
             sb.append(wd.getWind()).append("\n");
             sb.append(wd.getAir()).append("\n");
             sb.append(wd.getHumidity()).append("\n");

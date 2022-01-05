@@ -8,12 +8,14 @@ import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
 import java.util.List;
 
+import static Project.Plugins.NetMain.ROOT_PATH;
+
 /**
  * @author github kloping
  * @version 1.0
  * @Date 2022/1/5-09
  */
-@HttpClient("http://123.57.42.227:20041")
+@HttpClient(ROOT_PATH)
 public interface SearchPics {
 
     /**

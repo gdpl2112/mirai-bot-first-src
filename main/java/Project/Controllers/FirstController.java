@@ -1,6 +1,7 @@
 package Project.Controllers;
 
 import Entitys.Group;
+import Entitys.apiEntitys.WeatherM;
 import Project.Tools.Tool;
 import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -45,6 +46,9 @@ public class FirstController {
 
     @AutoStand
     public static SearchPics searchPics;
+
+    @AutoStand
+    public static WeatherI weatherM;
 
     @Action("测试")
     public Object a(Group group) throws Exception {
