@@ -7,6 +7,7 @@ import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
+import Project.StringSet;
 import Project.Tools.Tool;
 import Project.broadcast.PicBroadcast;
 import Project.drawers.ImageDrawer;
@@ -28,6 +29,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.NormalController.CustomController.BuilderAndAdd;
+import static Project.Controllers.NormalController.CustomController.qlist;
 import static Project.Controllers.TimerController.baseUrlCloud;
 import static Project.DataBases.DataBase.canBackShow;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -38,7 +41,6 @@ import static io.github.kloping.Mirai.Main.Resource.*;
 public class EntertainmentController {
     public EntertainmentController() {
         println(this.getClass().getSimpleName() + "构建");
-
     }
 
     @Before
@@ -48,6 +50,25 @@ public class EntertainmentController {
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
+    }
+
+    @Action("\\[Pic:.+")
+    public String onPic(@AllMess String mess, Group group, Object[] objects, long qq) {
+        PicBroadcast.INSTANCE.broadcast(qq, group.getId(), mess, objects);
+        if (qlist.containsKey(qq)) {
+            String str = qlist.get(qq);
+            str = str.replaceFirst("\\*", mess);
+            if (str.contains("*")) {
+                qlist.remove(qq);
+                qlist.put(qq, str);
+                return "已填充1个";
+            } else {
+                qlist.remove(qq);
+                if (BuilderAndAdd(str, qq)) {
+                    return "填充完成\r\n添加完成";
+                } else return StringSet.Final.addToAutoReplyError;
+            }
+        } else throw new NoRunException("没有在添加");
     }
 
     @AutoStand

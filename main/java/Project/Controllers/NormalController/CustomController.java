@@ -142,26 +142,6 @@ public class CustomController {
             return "添加问_答_";
         }
     }
-
-    @Action("\\[Pic:.+")
-    public String onPic(@AllMess String mess, Group group, Object[] objects, long qq) {
-        PicBroadcast.INSTANCE.broadcast(qq, group.getId(), mess, objects);
-        if (qlist.containsKey(qq)) {
-            String str = qlist.get(qq);
-            str = str.replaceFirst("\\*", mess);
-            if (str.contains("*")) {
-                qlist.remove(qq);
-                qlist.put(qq, str);
-                return "已填充1个";
-            } else {
-                qlist.remove(qq);
-                if (BuilderAndAdd(str, qq)) {
-                    return "填充完成\r\n添加完成";
-                } else return StringSet.Final.addToAutoReplyError;
-            }
-        } else throw new NoRunException("没有在添加");
-    }
-
     @Action("\\[.+]请使用最新版手机QQ体验新功能")
     public String onEmoji(@AllMess String mess, @Param("id") String id, long qq) {
         if (qlist.containsKey(qq)) {
