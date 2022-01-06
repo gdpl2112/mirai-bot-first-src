@@ -128,12 +128,23 @@ public class GetPvpNews {
         Response1 r1 = JSON.parseObject(ss).toJavaObject(Response1.class);
         Document doc = Jsoup.parse(r1.getMsg().getSContent());
         Elements elements = doc.getElementsByTag("span");
+        String upS0 = "";
         for (Element e : elements) {
             if (hasImgTag(e)) {
                 for (Element img : e.getElementsByTag("img")) {
-                    sb.append(createImageInGroup(bot.getGroup(gid), img.attr("src"))).append("\n");
+                    String m0 = img.attr("src");
+                    if (!m0.equals(upS0)) {
+                        sb.append(createImageInGroup(bot.getGroup(gid), m0)).append("\n");
+                    }
+                    upS0 = m0;
                 }
-            } else sb.append(e.text()).append("\n");
+            } else {
+                String m0 = e.text();
+                if (!m0.equals(upS0)) {
+                    sb.append(m0).append("\n");
+                }
+                upS0 = m0;
+            }
         }
         return sb.build();
     }
