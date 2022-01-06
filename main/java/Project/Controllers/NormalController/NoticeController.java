@@ -10,6 +10,9 @@ import static Project.Controllers.ControllerTool.CanGroup;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class NoticeController {
     public NoticeController() {

@@ -33,6 +33,8 @@ import java.lang.reflect.Method;
 public class LittleHandler extends SimpleListenerHost {
 
     public static final String WANT_TITLE = "我要头衔";
+    public static final String ILLEGAL = "敏感字节!";
+    public static final String TOK = "=>O了";
     public static final String PRE = "/";
     public static final String PRE0 = "#";
     public static ActionManagerImpl am = null;
@@ -77,17 +79,17 @@ public class LittleHandler extends SimpleListenerHost {
                 text = text.replaceFirst(WANT_TITLE, "");
                 if (!Tool.isIlleg(text) && !text.isEmpty()) {
                     group.get(yid).setSpecialTitle(text);
-                    group.sendMessage("=>O了");
+                    group.sendMessage(TOK);
                 } else {
-                    group.sendMessage("敏感字节!");
+                    group.sendMessage(ILLEGAL);
                 }
             }
         }
         if (yid == Resource.superQL) {
             String text = EventTools.getStringFromGroupMessageEvent(event);
             if (group.get(iid).getPermission().getLevel() > 0) {
-                if (text.startsWith(PRE)) {
-                    text = text.replaceFirst(PRE, "");
+                if (text.startsWith(PRE0)) {
+                    text = text.replaceFirst(PRE0, "");
                     MatherResult result = am.mather(text);
                     if (result != null) {
                         MessageSource.recall(event.getSource());
@@ -96,9 +98,8 @@ public class LittleHandler extends SimpleListenerHost {
                             method.invoke(this, event, c2m).toString();
                         }
                     }
-                }
-                if (text.startsWith(PRE0)) {
-                    text = text.replaceFirst(PRE0, "");
+                } else if (text.startsWith(PRE)) {
+                    text = text.replaceFirst(PRE, "");
                     MatherResult result = am.mather(text);
                     if (result != null) {
                         MessageSource.recall(event.getSource());
