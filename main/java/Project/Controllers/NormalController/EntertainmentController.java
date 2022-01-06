@@ -8,6 +8,7 @@ import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
 import Project.Tools.Tool;
+import Project.broadcast.PicBroadcast;
 import Project.drawers.ImageDrawer;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -15,11 +16,13 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import net.mamoe.mirai.message.data.SimpleServiceMessage;
 
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -335,5 +338,56 @@ public class EntertainmentController {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
         }
+    }
+
+    private static final String XML_STR0 = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n" +
+            "<msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"[超级大图片表情]\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\"\n" +
+            "     multiMsgFlag=\"0\">\n" +
+            "    <item layout=\"0\" advertiser_id=\"0\" aid=\"0\">\n" +
+            "        <image uuid=\"%s\" md5=\"%s\"\n" +
+            "               minWidth=\"%s\" minHeight=\"%s\" maxWidth=\"%s\" maxHeight=\"%s\"/>\n" +
+            "    </item>\n" +
+            "    <source name=\"\" icon=\"\" action=\"\" appid=\"-1\"/>\n" +
+            "</msg>";
+
+    private static final String COM_PRE = "-";
+
+    @Action("变大.*+")
+    public void m0(@AllMess String mess, Group group, long qId) {
+        int size0 = 1200;
+        if (mess.contains(COM_PRE)) {
+            String[] ss = mess.split("-");
+            Map<String, Integer> maps = new HashMap<>();
+            for (String s : ss) {
+                if (s.trim().isEmpty() || !s.contains("=")) continue;
+                try {
+                    String[] s2 = s.split("=");
+                    maps.put(s2[0], Integer.valueOf(s2[1]));
+                } catch (NumberFormatException e) {
+                }
+            }
+            size0 = maps.containsKey("size") ? maps.get("size") : size0;
+            size0 = size0 >= 2000 ? 2000 : size0;
+        }
+        MessageTools.sendMessageInGroup("请在发送要变大的图片", group.getId());
+        int size = size0;
+        PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
+            @Override
+            public Object onReceive(long qid, long gid, String pic, Object[] objects) {
+                if (qId == qid) {
+                    int i = pic.indexOf("{");
+                    int i2 = pic.indexOf("}");
+                    String md5 = pic.substring(i + 1, i2);
+                    md5 = md5.replaceAll("-", "");
+                    String suffix = pic.substring(i2 + 1, i2 + 5);
+                    String xmlStr = XML_STR0;
+                    xmlStr = String.format(xmlStr, md5 + suffix, md5, size, size, size, size);
+                    SimpleServiceMessage simpleServiceMessage = new SimpleServiceMessage(5, xmlStr);
+                    MessageTools.sendMessageInGroup(simpleServiceMessage, group.getId());
+                    return "ok";
+                }
+                return null;
+            }
+        });
     }
 }

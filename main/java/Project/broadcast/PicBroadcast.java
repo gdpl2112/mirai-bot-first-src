@@ -1,19 +1,17 @@
 package Project.broadcast;
 
+import java.util.Iterator;
+
 public class PicBroadcast extends Broadcast {
 
     public static interface PicReceiver extends Receiver {
         Object onReceive(long qid, long gid, String pic, Object[] objects);
 
-        default void onReturn(Object o) {
-        }
     }
 
     public static interface PicReceiverOnce extends PicReceiver {
+        @Override
         Object onReceive(long qid, long gid, String pic, Object[] objects);
-
-        default void onReturn(Object o) {
-        }
     }
 
     public static final PicBroadcast INSTANCE = new PicBroadcast();
@@ -30,16 +28,18 @@ public class PicBroadcast extends Broadcast {
     }
 
     public void broadcast(long qid, long gid, String pic, Object[] objects) {
-        for (Receiver receiver : receivers) {
-            if (receiver instanceof PicReceiver) {
-                PicReceiver pr = ((PicReceiver) receiver);
-                Object o = pr.onReceive(qid, gid, pic, objects);
-                pr.onReturn(o);
-            } else if (receiver instanceof PicReceiverOnce) {
+        Iterator iterator = receivers.iterator();
+        while (iterator.hasNext()) {
+            Object receiver = iterator.next();
+            if (receiver instanceof PicReceiverOnce) {
                 PicReceiver pr = ((PicReceiverOnce) receiver);
                 Object o = pr.onReceive(qid, gid, pic, objects);
-                pr.onReturn(o);
-                receivers.remove(receiver);
+                if (o != null) {
+                    iterator.remove();
+                }
+            } else if (receiver instanceof PicReceiver) {
+                PicReceiver pr = ((PicReceiver) receiver);
+                pr.onReceive(qid, gid, pic, objects);
             }
         }
     }

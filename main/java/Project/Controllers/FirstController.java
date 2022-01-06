@@ -1,11 +1,11 @@
 package Project.Controllers;
 
 import Entitys.Group;
-import Entitys.apiEntitys.WeatherM;
 import Project.Tools.Tool;
 import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.Action;
+import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 
@@ -50,8 +50,8 @@ public class FirstController {
     @AutoStand
     public static WeatherI weatherM;
 
-    @Action("测试")
-    public Object a(Group group) throws Exception {
+    @Action("测试.+")
+    public Object a(@AllMess String mess, Group group) throws Exception {
         return null;
     }
 

@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         sb.append("==========").append("\n");
+        sb.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
         sb.append("1.5 : 更新了 更新日志").append("\n");
         sb.append("1.3 : 修复已知bug").append("\n");
         sb.append("1.2 : 每天0点更新排行,(提升性能").append("\n");

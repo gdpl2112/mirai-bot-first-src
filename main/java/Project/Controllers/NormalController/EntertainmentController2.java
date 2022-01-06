@@ -237,4 +237,5 @@ public class EntertainmentController2 {
         Data data = PvpQq.getD(a);
         return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
+
 }
