@@ -11,17 +11,76 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.Services.DetailServices.GameDetailService.Beaten;
+import static Project.Services.DetailServices.GameDetailService.beaten;
 import static Project.Services.DetailServices.GameDetailService.onAtt;
 import static Project.Services.DetailServices.GameJoinDetailService.AttGho;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameSkillDetailService {
+
+    private static final Map<Integer, Integer> basePercentMap = new ConcurrentHashMap<>();
+
+    static {
+        basePercentMap.put(0, 10);
+        basePercentMap.put(1, 4);
+        basePercentMap.put(2, 10);
+        basePercentMap.put(3, 4);
+        basePercentMap.put(4, 10);
+        basePercentMap.put(5, 4);
+        basePercentMap.put(6, 5);
+        basePercentMap.put(7, 5);
+        basePercentMap.put(8, 35);
+        basePercentMap.put(9, 4);
+        basePercentMap.put(10, 5);
+        basePercentMap.put(11, 25);
+        basePercentMap.put(12, 8);
+        basePercentMap.put(13, 25);
+        basePercentMap.put(15, 18);
+        basePercentMap.put(16, 50);
+        basePercentMap.put(17, 5);
+        basePercentMap.put(18, 40);
+        basePercentMap.put(19, 40);
+        basePercentMap.put(71, 42);
+        basePercentMap.put(72, 58);
+        basePercentMap.put(73, 5);
+        basePercentMap.put(74, 7);
+        basePercentMap.put(75, 5);
+        basePercentMap.put(76, 3);
+        basePercentMap.put(77, 52);
+        basePercentMap.put(78, 42);
+        basePercentMap.put(711, 50);
+        basePercentMap.put(712, 51);
+        basePercentMap.put(713, 43);
+        basePercentMap.put(714, 43);
+        basePercentMap.put(715, 34);
+        basePercentMap.put(716, 42);
+        basePercentMap.put(717, 39);
+        basePercentMap.put(718, 38);
+        basePercentMap.put(719, 5);
+        basePercentMap.put(720, 41);
+        basePercentMap.put(721, 12);
+        basePercentMap.put(722, 32);
+        basePercentMap.put(723, 32);
+        basePercentMap.put(724, 50);
+        basePercentMap.put(725, 42);
+        basePercentMap.put(726, 50);
+        basePercentMap.put(727, 40);
+        basePercentMap.put(728, 40);
+        basePercentMap.put(729, 54);
+        basePercentMap.put(730, 40);
+        basePercentMap.put(731, 40);
+    }
+
 
     /**
      * 获取魂技基础加成
@@ -30,108 +89,11 @@ public class GameSkillDetailService {
      * @return
      */
     public static synchronized Integer getBasePercent(Integer id) {
-        switch (id) {
-            case 0:
-                return 10;
-            case 1:
-                return 4;
-            case 2:
-                return 10;
-            case 3:
-                return 4;
-            case 4:
-                return 10;
-            case 5:
-                return 4;
-            case 6:
-                return 5;
-            case 7:
-                return 5;
-            case 8:
-                return 35;
-            case 9:
-                return 4;
-            case 10:
-                return 5;
-            case 11:
-                return 25;
-            case 12:
-                return 8;
-            case 13:
-                return 25;
-            case 14:
-                return -1;
-            case 15:
-                return 18;
-            case 16:
-                return 50;
-            case 17:
-                return 5;
-            case 18:
-                return 40;
-            case 19:
-                return 40;
-            //=================
-            case 71:
-                return 42;
-            case 72:
-                return 58;
-            case 73:
-                return 5;
-            case 74:
-                return 7;
-            case 75:
-                return 5;
-            case 76:
-                return 3;
-            case 77:
-                return 52;
-            case 78:
-                return 42;
-            case 711:
-                return 50;
-            case 712:
-                return 51;
-            case 713:
-                return 43;
-            case 714:
-                return 43;
-            case 715:
-                return 34;
-            case 716:
-                return 42;
-            case 717:
-                return 39;
-            case 718:
-                return 38;
-            case 719:
-                return 5;
-            case 720:
-                return 41;
-            case 721:
-                return 12;
-            case 722:
-                return 32;
-            case 723:
-                return 32;
-            case 724:
-                return 50;
-            case 725:
-                return 42;
-            case 726:
-                return 50;
-            case 727:
-                return 40;
-            case 728:
-                return 40;
-            case 729:
-                return 54;
-            case 730:
-                return 40;
-            case 731:
-                return 40;
+        if (basePercentMap.containsKey(id.intValue())) {
+            return basePercentMap.get(id.intValue());
+        } else {
+            return -1;
         }
-        return -1;
     }
 
     /**
@@ -245,8 +207,9 @@ public class GameSkillDetailService {
                 return String.format("魔神剑,令自身变真实伤害一分钟,增加%s%%的攻击,且神魔一体,窃取某的精神力,为自己恢复状态", getAddP(jid, id));
             case 731:
                 return String.format("暗金恐爪熊,发挥恐怖的威力增加%s%%的攻击和%s%%的临时护盾", getAddP(jid, id), getAddP(jid, id));
+            default:
+                return "无介绍=";
         }
-        return "无介绍=";
     }
 
     /**
@@ -406,10 +369,13 @@ public class GameSkillDetailService {
      */
     public static Number getCoolTime(int id, int jid, int wh, int st) {
         if (st == 7) {
-            if (wh == 6)
+            if (wh == 6) {
                 return 30;
+            }
         }
-        if (jid == 14) return 18;
+        if (jid == 14) {
+            return 18;
+        }
         int n = 205 - id;
         return 12 - n;
     }
@@ -429,7 +395,9 @@ public class GameSkillDetailService {
         PersonInfo info = getInfo(qq);
         String sb = info.getMyTag();
         int i = sb.indexOf(tag);
-        if (i < 0) return -1;
+        if (i < 0) {
+            return -1;
+        }
         sb = sb.substring(i);
         int i2 = sb.indexOf(",");
         String vs = sb.substring(1, i2);
@@ -452,7 +420,9 @@ public class GameSkillDetailService {
             return getInfo(num).getAtt();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
-            if (ghostObj == null) return 0;
+            if (ghostObj == null) {
+                return 0;
+            }
             return ghostObj.getAtt();
         }
     }
@@ -472,7 +442,9 @@ public class GameSkillDetailService {
             return getInfo(num).getHj();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
-            if (ghostObj == null) return 0;
+            if (ghostObj == null) {
+                return 0;
+            }
             return ghostObj.getHj();
         }
     }
@@ -493,10 +465,11 @@ public class GameSkillDetailService {
                 sb.append("该玩家尚未注册");
                 return;
             }
-            sb.append(Beaten(who2, who, v));
+            sb.append(beaten(who2, who, v));
             sb.append("\n你对ta造成 " + v + "点伤害");
-            if (!sb.toString().contains("$"))
+            if (!sb.toString().contains("$")) {
                 sb.append(onAtt(who2, who, v));
+            }
         }
     }
 
@@ -565,20 +538,26 @@ public class GameSkillDetailService {
     public static Long[] nearest(int n, long who, Number[] nums) {
         Set<Long> ls = new LinkedHashSet<>();
         for (Number num : nums) {
-            if (ls.size() != n)
+            if (ls.size() != n) {
                 ls.add(num.longValue());
-            else break;
+            } else {
+                break;
+            }
         }
-        if (ls.size() < n) ls.add(who);
+        if (ls.size() < n) {
+            ls.add(who);
+        }
         return ls.toArray(new Long[0]);
     }
 
     public static Long[] nearest(int n, Number[] nums) {
         Set<Long> ls = new LinkedHashSet<>();
         for (Number num : nums) {
-            if (ls.size() != n)
+            if (ls.size() != n) {
                 ls.add(num.longValue());
-            else break;
+            } else {
+                break;
+            }
         }
         return ls.toArray(new Long[0]);
     }

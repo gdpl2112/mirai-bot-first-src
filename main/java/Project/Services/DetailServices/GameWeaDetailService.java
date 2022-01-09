@@ -258,9 +258,9 @@ public class GameWeaDetailService {
         long hps = getInfo(whos).getHp();
 
         if (hps <= ar)
-            sb.append(GameDetailService.Beaten(whos, who, hps));
+            sb.append(GameDetailService.beaten(whos, who, hps));
         else
-            sb.append(GameDetailService.Beaten(whos, who, ar));
+            sb.append(GameDetailService.beaten(whos, who, ar));
 
         if (!isAlive(Long.valueOf(whos))) {
             int L = (int) randLong(250, 0.7f, 1.0f);

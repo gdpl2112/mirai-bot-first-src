@@ -118,7 +118,7 @@ public class GameSkillServiceImpl implements ISkillService {
         long uv = percentTo(info.getUsePercent(), personInfo.getHll());
         info.setTime(System.currentTimeMillis() + info.getTimeL());
         saveSkillInfo(info);
-        String tips = skill.getTips() + GameDetailService.ConsumedHl(qq, uv);
+        String tips = skill.getTips() + GameDetailService.consumedHl(qq, uv);
         return getImgById(info.getId() + 100) +
                 getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) +
                 "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);

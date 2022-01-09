@@ -271,7 +271,7 @@ public class GameJoinDetailService {
             idxs.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
             if (canAtMe)
-                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n").append(GameDetailService.Beaten(who, -2, at2));
+                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2));
 
             ghostObj.updateHp(-att);
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
@@ -328,7 +328,7 @@ public class GameJoinDetailService {
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
             StringBuilder sb = new StringBuilder();
             if (personInfo.getHl() > hl1) {
-                sb.append("\n消耗了").append(hl1).append("点魂力\n").append(GameDetailService.ConsumedHl(who, hl1));
+                sb.append("\n消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1));
                 sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害").append("\n");
                 ghostObj.updateHp(-at1);
                 sb.append(GameDetailService.onAtt(who, -2, at1));
@@ -336,7 +336,7 @@ public class GameJoinDetailService {
                 sb.append("魂力不足,攻击失败").append("\n");
             }
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
-                    .append(GameDetailService.Beaten(who, -2, at2));
+                    .append(GameDetailService.beaten(who, -2, at2));
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
             boolean showI = true;
             boolean showY = false;

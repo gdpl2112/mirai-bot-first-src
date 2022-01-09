@@ -110,7 +110,7 @@ public class Ghost_Behavior implements Runnable {
         } else {
             builder.append(ghostObj.getName() + "蓄力 对你造成了 => " + v + "点伤害\r\n");
         }
-        builder.append(GameDetailService.Beaten(qq, -2, v));
+        builder.append(GameDetailService.beaten(qq, -2, v));
         String str = gameService.info(qq);
         builder.append("\n").append(str);
         if (getInfo(qq).getHp() <= 0) {

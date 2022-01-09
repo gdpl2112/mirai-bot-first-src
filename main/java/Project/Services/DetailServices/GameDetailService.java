@@ -21,6 +21,9 @@ import java.io.File;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameDetailService {
 
@@ -38,8 +41,9 @@ public class GameDetailService {
                         try {
                             String endN = f1.getName();
                             PersonInfo personInfo = getInfo(endN);
-                            if (isNeedUpdate(personInfo))
+                            if (isNeedUpdate(personInfo)) {
                                 putPerson(personInfo.setHelpC(0).setHelpToc(0).setBuyHelpC(0).setBuyHelpToC(0).setDied(false).setDowned(false));
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -61,9 +65,9 @@ public class GameDetailService {
      * @param o   这么多  血量
      * @return
      */
-    public static synchronized String Beaten(Number qq, Number qq2, final long o) {
+    public static synchronized String beaten(Number qq, Number qq2, final long o) {
         boolean canHide = true;
-        boolean isTrue_Hit = false;
+        boolean isTrueHit = false;
         long oNow = o;
         StringBuilder sb = new StringBuilder();
         PersonInfo personInfo = getInfo(qq);
@@ -92,19 +96,20 @@ public class GameDetailService {
         }
         AttributeBone attributeBone = gameBoneService.getAttribute(qq.longValue());
         //=====闪避了
-        if (ProZ(attributeBone.getHide_pro()) && canHide) {
+        if (proZ(attributeBone.getHide_pro()) && canHide) {
             Integer[] ids = GameBoneServiceImpl.getIdsFromAttributeMap(gameBoneService.getAttributeMap(qq.longValue(), true), "hide");
-            for (Integer i : ids)
+            for (Integer i : ids) {
                 sb.append(GameDataBase.getNameById(i)).append(",");
+            }
             return "\n$得益于 " + sb + "你闪避了此次伤害" + (ids.length > 0 ? getImgById(ids[0]) : "") + "\n============";
         }
         //=====真实伤害
         if (personInfo.containsTag(tag_True_)) {
-            isTrue_Hit = true;
+            isTrueHit = true;
             sb.append("\n此次真实伤害\n=============");
         }
         //=====护盾抵消
-        if (personInfo.containsTag(tag_Shield) && !isTrue_Hit) {
+        if (personInfo.containsTag(tag_Shield) && !isTrueHit) {
             long v = GameSkillDetailService.getTagValue(qq, tag_Shield).longValue();
             oNow = o - v;
             if (v >= o) {
@@ -120,12 +125,13 @@ public class GameDetailService {
             sb.append("\n护盾剩余" + v + "\n============");
         }
         //=====恢复了
-        if (ProZ(attributeBone.getHp_pro())) {
+        if (proZ(attributeBone.getHp_pro())) {
             float fn;
-            if (o > 100)
+            if (o > 100) {
                 fn = percentTo(attributeBone.getHp_Rec_Eff(), o);
-            else
+            } else {
                 fn = attributeBone.getHp_Rec_Eff();
+            }
             personInfo.addHp((long) fn);
             sb.append("\n得益于魂骨你恢复了").append(fn).append("生命\n").append("============");
         }
@@ -133,7 +139,9 @@ public class GameDetailService {
         if (personInfo.containsTag(SkillDataBase.tag_Fj)) {
             Integer p = personInfo.getTagValue(tag_Fj).intValue();
             long v1 = percentTo(p, o);
-            if (v1 < 1) v1 = 1;
+            if (v1 < 1) {
+                v1 = 1;
+            }
             Long q1 = qq2.longValue();
             if (q1 != -2) {
                 putPerson(getInfo(q1).addHp(-v1));
@@ -170,6 +178,7 @@ public class GameDetailService {
             personInfo.addHj(-sv);
             sb.append(String.format("\n消耗了%s精神力\n============", sv));
         }
+
         //=====广播
         HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), personInfo.getHp(), personInfo.getHp() - oNow,
                 oNow, qq2.longValue()
@@ -179,20 +188,21 @@ public class GameDetailService {
         );
         personInfo.addHp(-oNow);
 
-        if (personInfo.hp <= 0)
+        if (personInfo.hp <= 0) {
             PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
                     qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
+        }
         putPerson(personInfo);
         return sb.toString();
     }
 
-    public static synchronized String ConsumedHl(long who, final long o) {
+    public static synchronized String consumedHl(long who, final long o) {
         PersonInfo personInfo = getInfo(who);
         StringBuilder sb = new StringBuilder();
         AttributeBone attributeBone = gameBoneService.getAttribute(who);
         long oNow = o;
         //=====恢复了
-        if (ProZ(attributeBone.getHl_pro())) {
+        if (proZ(attributeBone.getHl_pro())) {
             float fn;
             if (o > 100) {
                 fn = percentTo(attributeBone.getHl_Rec_Eff(), o);
@@ -207,7 +217,7 @@ public class GameDetailService {
         return sb.toString();
     }
 
-    public static boolean ProZ(Integer n) {
+    public static boolean proZ(Integer n) {
         int i = Tool.rand.nextInt(100) + 1;
         return n >= i;
     }
@@ -220,7 +230,9 @@ public class GameDetailService {
             String tag = info.getTag(SkillDataBase.tag_Xx);
             Integer p = Integer.valueOf(tag.replace(SkillDataBase.tag_Xx, ""));
             long v1 = percentTo(p, v);
-            if (v1 < 1) v1 = 1;
+            if (v1 < 1) {
+                v1 = 1;
+            }
             info.addHp(v1);
             sb.append("\n攻击者,由于吸血技能恢复了 " + v1 + "的生命值\n============");
         }
@@ -236,4 +248,8 @@ public class GameDetailService {
         putPerson(info);
         return "";
     }
+
+
 }
+
+

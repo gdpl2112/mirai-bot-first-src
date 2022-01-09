@@ -377,8 +377,8 @@ public class GameServiceImpl implements IGameService {
                             long l1 = randLong(iper.getAtt(), 0.2f, 0.25f);
                             if (i == 1)
                                 l1 *= 0.9f;
-                            tips += GameDetailService.ConsumedHl(who, l);
-                            tips += GameDetailService.Beaten(whos, who, l1);
+                            tips += GameDetailService.consumedHl(who, l);
+                            tips += GameDetailService.beaten(whos, who, l1);
                             if (!tips.contains("$"))
                                 tips += GameDetailService.onAtt(who, whos, l1);
                             if (getInfo(whos).getHp() > 0) {
