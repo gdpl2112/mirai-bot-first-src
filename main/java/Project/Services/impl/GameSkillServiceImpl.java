@@ -21,6 +21,9 @@ import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameSkillDetailService.*;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameSkillServiceImpl implements ISkillService {
     @Override

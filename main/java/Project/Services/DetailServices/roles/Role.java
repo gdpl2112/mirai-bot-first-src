@@ -2,6 +2,9 @@ package Project.Services.DetailServices.roles;
 
 import Entitys.gameEntitys.PersonInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author github-kloping
  * @version 1.0
@@ -26,6 +29,7 @@ public interface Role {
         private Number q2;
         private PersonInfo p1;
         private PersonInfo p2;
+        private Map<String, Object> args = new HashMap<>();
 
         public Response(long oV, long nowV, Number q1, Number q2) {
             this.oV = oV;
@@ -40,6 +44,15 @@ public interface Role {
             this.nowV = nowV;
             this.q1 = q1;
             this.q2 = q2;
+        }
+
+        public Map<String, ? extends Object> addArg(String key, Object o) {
+            args.put(key, o);
+            return args;
+        }
+
+        public Map<String, Object> getArgs() {
+            return args;
         }
 
         public PersonInfo getP1(PersonInfo p1) {
@@ -66,6 +79,10 @@ public interface Role {
             return oV;
         }
 
+        public void setNowV(long nowV) {
+            this.nowV = nowV;
+        }
+
         public long getNowV() {
             return nowV;
         }
@@ -80,13 +97,16 @@ public interface Role {
     }
 
     /**
-     * 作用
+     * 作用 or  debuff
      *
      * @param sb
      * @param q1
      * @param q2
      * @param v
+     * @param ov
+     * @param p1
+     * @param args
      * @return
      */
-    Response call(StringBuilder sb, Number q1, Number q2, final long v,PersonInfo p1);
+    Response call(StringBuilder sb, Number q1, Number q2, final long ov, long nv, PersonInfo p1, Map<String, Object> args);
 }

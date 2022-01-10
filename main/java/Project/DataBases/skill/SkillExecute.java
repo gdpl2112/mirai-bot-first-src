@@ -517,7 +517,7 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "玄玉手") {
             @Override
             public void before() {
-                putPerson(getInfo(who).addTag(tag_XuanYuS, 1));
+                getInfo(who).addTag(tag_XuanYuS, 1).apply();
             }
 
             @Override
@@ -528,7 +528,8 @@ public class SkillExecute {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                putPerson(getInfo(who).eddTag(tag_XuanYuS, 1));
+                getInfo(who).eddTag(tag_XuanYuS, 1).apply();
+
             }
         };
         return skill;

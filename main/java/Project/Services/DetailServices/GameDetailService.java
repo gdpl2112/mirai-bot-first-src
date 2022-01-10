@@ -6,6 +6,8 @@ import Entitys.gameEntitys.PersonInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.Services.DetailServices.roles.Role;
+import Project.Services.DetailServices.roles.Roles;
 import Project.Services.Iservice.IGameBoneService;
 import Project.Services.impl.GameBoneServiceImpl;
 import Project.Tools.Tool;
@@ -17,6 +19,8 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
@@ -28,7 +32,7 @@ import static Project.DataBases.skill.SkillDataBase.*;
 public class GameDetailService {
 
     @AutoStand
-    static IGameBoneService gameBoneService;
+    public static IGameBoneService gameBoneService;
 
     static {
         Resource.StartOkRuns.add(new Runnable() {
@@ -66,97 +70,25 @@ public class GameDetailService {
      * @return
      */
     public static synchronized String beaten(Number qq, Number qq2, final long o) {
-        boolean canHide = true;
-        boolean isTrueHit = false;
         long oNow = o;
         StringBuilder sb = new StringBuilder();
-        PersonInfo personInfo = getInfo(qq);
-        //=====无敌
-        if (personInfo.containsTag(SkillDataBase.tag_Wd)) {
-            sb.append("\n$无敌效果,攻击无效\n============");
-            return sb.toString();
-        }
-        //=====名刀
-        if (personInfo.containsTag(SkillDataBase.tag_Ms)) {
-            if (personInfo.getHp() - oNow <= 0) {
-                putPerson(personInfo.eddTag(tag_Ms, 0));
-                sb.append("\n$被攻击者,由于使用了免死类魂技,免疫此次 死亡\n============");
-                return sb.toString();
+        PersonInfo p1 = getInfo(qq);
+        Map<String, Object> maps = new HashMap<>();
+        for (Role r : Roles.RS) {
+            Role.Response response = r.call(sb, qq, qq2, o, oNow, p1, maps);
+            if (response != null) {
+                oNow = response.getNowV();
+                if (!response.getArgs().isEmpty()) {
+                    maps.putAll(response.getArgs());
+                }
+                if (response.getState() == Role.State.STOP) {
+                    break;
+                }
             }
         }
-        if (personInfo.containsTag(tag_XuanYuS)) {
-            putPerson(personInfo.eddTag(tag_Ms, 1));
-            sb.append("\n$被攻击者,由于使用了免疫此次伤害\n============");
-            return sb.toString();
-        }
-        //=====无法闪避
-        if (personInfo.containsTag(SkillDataBase.tag_CantHide)) {
-            canHide = false;
-            sb.append("\n此次伤害无法躲避\n============");
-        }
-        AttributeBone attributeBone = gameBoneService.getAttribute(qq.longValue());
-        //=====闪避了
-        if (proZ(attributeBone.getHide_pro()) && canHide) {
-            Integer[] ids = GameBoneServiceImpl.getIdsFromAttributeMap(gameBoneService.getAttributeMap(qq.longValue(), true), "hide");
-            for (Integer i : ids) {
-                sb.append(GameDataBase.getNameById(i)).append(",");
-            }
-            return "\n$得益于 " + sb + "你闪避了此次伤害" + (ids.length > 0 ? getImgById(ids[0]) : "") + "\n============";
-        }
-        //=====真实伤害
-        if (personInfo.containsTag(tag_True_)) {
-            isTrueHit = true;
-            sb.append("\n此次真实伤害\n=============");
-        }
-        //=====护盾抵消
-        if (personInfo.containsTag(tag_Shield) && !isTrueHit) {
-            long v = GameSkillDetailService.getTagValue(qq, tag_Shield).longValue();
-            oNow = o - v;
-            if (v >= o) {
-                personInfo.eddTag(tag_Shield, v);
-                v -= o;
-                personInfo.addTag(tag_Shield, v);
-                sb.append("\n此次伤害全部护盾抵挡\n============");
-            } else {
-                personInfo.eddTag(tag_Shield, v);
-                v = 0;
-                sb.append("\n部分伤害护盾抵挡,伤害剩余:").append(oNow).append("\n============");
-            }
-            sb.append("\n护盾剩余" + v + "\n============");
-        }
-        //=====恢复了
-        if (proZ(attributeBone.getHp_pro())) {
-            float fn;
-            if (o > 100) {
-                fn = percentTo(attributeBone.getHp_Rec_Eff(), o);
-            } else {
-                fn = attributeBone.getHp_Rec_Eff();
-            }
-            personInfo.addHp((long) fn);
-            sb.append("\n得益于魂骨你恢复了").append(fn).append("生命\n").append("============");
-        }
-        //=====反甲刺伤
-        if (personInfo.containsTag(SkillDataBase.tag_Fj)) {
-            Integer p = personInfo.getTagValue(tag_Fj).intValue();
-            long v1 = percentTo(p, o);
-            if (v1 < 1) {
-                v1 = 1;
-            }
-            Long q1 = qq2.longValue();
-            if (q1 != -2) {
-                putPerson(getInfo(q1).addHp(-v1));
-                sb.append("\n被攻击者,由于带有反甲,攻击者受到 ").append(v1).append("点伤害\n============");
-            } else {
-                GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(qq.longValue());
-                ghostObj.updateHp(-v1);
-                GameJoinDetailService.saveGhostObjIn(qq.longValue(), ghostObj);
-                sb.append("\n您带有反甲,").append(ghostObj.getName()).append("受到").append(v1).append("点伤害\n============");
-            }
-        }
-        //=====精神力 判断
         if (oNow > 0) {
-            long v1 = personInfo.getHj();
-            long v2 = personInfo.getHjL();
+            long v1 = p1.getHj();
+            long v2 = p1.getHjL();
             int b = toPercent(v1, v2);
             long ev = 0;
             if (b > 80) {
@@ -172,27 +104,26 @@ public class GameDetailService {
                 oNow -= ev;
             }
             //===== 消耗精神力 判断
-            int sf = toPercent(oNow, personInfo.getHpl());
+            int sf = toPercent(oNow, p1.getHpl());
             sf = sf > 80 ? 80 : sf < 1 ? 1 : sf;
-            long sv = percentTo(sf, personInfo.getHjL());
-            personInfo.addHj(-sv);
+            long sv = percentTo(sf, p1.getHjL());
+            p1.addHj(-sv);
             sb.append(String.format("\n消耗了%s精神力\n============", sv));
         }
-
         //=====广播
-        HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), personInfo.getHp(), personInfo.getHp() - oNow,
+        HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow,
                 oNow, qq2.longValue()
                 , qq2.longValue() > 0 ?
                         HpChangeBroadcast.HpChangeReceiver.type.fromQ :
                         HpChangeBroadcast.HpChangeReceiver.type.fromG
         );
-        personInfo.addHp(-oNow);
+        p1.addHp(-oNow);
 
-        if (personInfo.hp <= 0) {
+        if (p1.hp <= 0) {
             PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
                     qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
         }
-        putPerson(personInfo);
+        putPerson(p1);
         return sb.toString();
     }
 
