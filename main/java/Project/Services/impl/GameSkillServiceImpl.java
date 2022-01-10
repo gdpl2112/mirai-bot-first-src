@@ -129,7 +129,7 @@ public class GameSkillServiceImpl implements ISkillService {
 
     private static void execute(Skill skill) throws Exception {
         SkillDataBase.threads.execute(skill);
-        Thread.currentThread().sleep(250);
+        Thread.sleep(250);
     }
 
     @Override
