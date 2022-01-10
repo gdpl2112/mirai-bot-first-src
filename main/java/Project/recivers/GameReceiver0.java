@@ -20,6 +20,9 @@ import java.util.List;
 import static Project.Controllers.NormalController.NoticeController.lowst;
 import static io.github.kloping.Mirai.Main.Resource.threads;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameReceiver0 {
     public GameReceiver0() {

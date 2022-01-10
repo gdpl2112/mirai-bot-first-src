@@ -117,13 +117,17 @@ public class GameDetailService {
                         HpChangeBroadcast.HpChangeReceiver.type.fromQ :
                         HpChangeBroadcast.HpChangeReceiver.type.fromG
         );
-        p1.addHp(-oNow);
+        if (oNow > 0) {
+            p1.addHp(-oNow);
+            p1.apply();
 
-        if (p1.hp <= 0) {
-            PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
-                    qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
+            if (p1.hp <= 0) {
+                PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
+                        qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
+            }
         }
-        putPerson(p1);
+
+
         return sb.toString();
     }
 
@@ -179,8 +183,6 @@ public class GameDetailService {
         putPerson(info);
         return "";
     }
-
-
 }
 
 
