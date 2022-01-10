@@ -185,7 +185,9 @@ public class EntertainmentController2 {
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
-            if (data.getMainList().length > n) {st = n;}
+            if (data.getMainList().length > n) {
+                st = n;
+            }
         }
         String cid = data.getMainList()[st].getContentId();
         String[] sss = Mihoyo.getNews(cid.substring(1, cid.length() - 1));
@@ -197,12 +199,15 @@ public class EntertainmentController2 {
 
     @Action("催更")
     public String cg() {
-        return "<At:" + superQL + ">\n\n催更新,问题反馈,需要新功能,可以开issue\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new";
+        return "<At:" + superQL + ">\n\n催更新,问题反馈,需要新功能,可以开issue(如果会的话\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/issues/new";
     }
+
+    private static final String KFJH =
+            "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/milestones因为DNS污染可能某些时间段无法访问";
 
     @Action("开发计划")
     public String kfjh() {
-        return "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n因为DNS污染可能某些时间段无法访问";
+        return KFJH;
     }
 
     @Action("/init_pvp")
