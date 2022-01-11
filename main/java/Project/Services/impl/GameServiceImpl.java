@@ -326,7 +326,7 @@ public class GameServiceImpl implements IGameService {
             if (ZongMenDataBase.qq2id.containsKey(who)) {
                 Long id1 = Long.valueOf(ZongMenDataBase.qq2id.get(who));
                 Long id2 = Long.valueOf(ZongMenDataBase.qq2id.get(whos));
-                if (id1 == id2) {
+                if (id1.equals(id2)) {
                     if (ConfirmController.Confirming.contains(who)) return "请先完成当前选项";
                     else {
                         try {
