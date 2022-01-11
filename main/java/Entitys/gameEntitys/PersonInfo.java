@@ -2,6 +2,7 @@ package Entitys.gameEntitys;
 
 
 import Entitys.TradingRecord;
+import Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.broadcast.RecordBroadcast;
@@ -11,31 +12,34 @@ import java.lang.reflect.Field;
 import static Project.Controllers.GameControllers.GameController.maxXp;
 import static Project.DataBases.GameDataBase.getInfo;
 
-public class PersonInfo {
+/**
+ * @author github-kloping
+ */
+public class PersonInfo implements BaseInfo {
     /**
      * 攻击
      */
-    public Long att = 10l;
+    public Long att = 10L;
     /**
      * 金魂币
      */
-    public Long gold = 200l;
+    public Long gold = 200L;
     /**
      * 魂力
      */
-    public Long hl = 100l;
+    public Long hl = 100L;
     /**
      * 魂力最大值
      */
-    public Long hll = 100l;
+    public Long hll = 100L;
     /**
      * 血量
      */
-    public Long hp = 100l;
+    public Long hp = 100L;
     /**
      * 最大血量
      */
-    public Long hpl = 100l;
+    public Long hpl = 100L;
     /**
      * 精神力
      */
@@ -75,47 +79,47 @@ public class PersonInfo {
     /**
      * 经验
      */
-    public Long xp = 0l;
+    public Long xp = 0L;
     /**
      * 修炼冷却
      */
-    public Long k1 = 1l;
+    public Long k1 = 1L;
     /**
      * 进入冷却
      */
-    public Long k2 = 1l;
+    public Long k2 = 1L;
     /**
      * 购买 冷却
      */
-    public Long gk1 = 1l;
+    public Long gk1 = 1L;
     /**
      * 使用冷却
      */
-    public Long uk1 = 1l;
+    public Long uk1 = 1L;
     /**
      * 加入宗门冷却
      */
-    public Long jk1 = 1l;
+    public Long jk1 = 1L;
     /**
      * 宗门贡献冷却
      */
-    public Long Cbk1 = 1l;
+    public Long Cbk1 = 1L;
     /**
      * 封号修改冷却
      */
-    public Long mk1 = 1l;
+    public Long mk1 = 1L;
     /**
      * 攻击冷却
      */
-    public Long ak1 = 1l;
+    public Long ak1 = 1L;
     /**
      * 选择攻击冷却
      */
-    public Long jak1 = 1l;
+    public Long jak1 = 1L;
     /**
      * 经验最大值 冷却
      */
-    public Long xpL = 100l;
+    public Long xpL = 100L;
     /**
      * 使用 物品 标志
      */
@@ -181,7 +185,6 @@ public class PersonInfo {
         this.temp = temp;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -242,12 +245,14 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public Long getAtt() {
         long at1 = att;
         if (SkillDataBase.hasAdder.containsKey(Long.valueOf(name))) {
             SkillDataBase.HasTimeAdder adder = SkillDataBase.hasAdder.get(Long.valueOf(name));
-            if (adder.test())
+            if (adder.test()) {
                 at1 += adder.getValue().longValue();
+            }
         }
         return at1;
     }
@@ -285,6 +290,7 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public Long getHp() {
         return hp;
     }
@@ -294,7 +300,8 @@ public class PersonInfo {
         return this;
     }
 
-    public Long getHpl() {
+    @Override
+    public Long getHpL() {
         return hpl;
     }
 
@@ -321,6 +328,7 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public Integer getLevel() {
         return Level;
     }
@@ -345,8 +353,12 @@ public class PersonInfo {
 
     public PersonInfo setXp(Long xp) {
         this.xp = xp;
-        if (Level >= 150) this.xp = 0L;
-        if (xp > xpL * maxXp) this.xp = (long) (xpL * maxXp);
+        if (Level >= 150) {
+            this.xp = 0L;
+        }
+        if (xp > xpL * maxXp) {
+            this.xp = (long) (xpL * maxXp);
+        }
         return this;
     }
 
@@ -381,7 +393,9 @@ public class PersonInfo {
 
     public PersonInfo addHl(Long o) {
         hl += o;
-        if (hl > hll) hl = hll;
+        if (hl > hll) {
+            hl = hll;
+        }
         if (hl <= 0) {
             hl = 0L;
         }
@@ -402,10 +416,15 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public PersonInfo addHp(Long o) {
         hp += o;
-        if (hp > hpl) hp = hpl;
-        if (hp <= 0) hp = 0L;
+        if (hp > hpl) {
+            hp = hpl;
+        }
+        if (hp <= 0) {
+            hp = 0L;
+        }
         return this;
     }
 
@@ -440,8 +459,12 @@ public class PersonInfo {
 
     public PersonInfo addXp(Long o) {
         xp += o;
-        if (Level >= 150) this.xp = 0L;
-        if (xp > xpL * 1.5) this.xp = (long) (xpL * 1.5);
+        if (Level >= 150) {
+            this.xp = 0L;
+        }
+        if (xp > xpL * 1.5) {
+            this.xp = (long) (xpL * 1.5);
+        }
         return this;
     }
 
@@ -511,14 +534,17 @@ public class PersonInfo {
     }
 
     public PersonInfo addTag(String myTag, Number percent) {
-        if (this.myTag.contains(myTag)) return this;
+        if (this.myTag.contains(myTag)) {
+            return this;
+        }
         this.myTag += myTag + percent + ",";
         return this;
     }
 
     public PersonInfo eddTag(String myTag, Number percent) {
-        if (this.myTag.contains(myTag + percent + ","))
+        if (this.myTag.contains(myTag + percent + ",")) {
             this.myTag = this.myTag.replaceAll(myTag + percent + ",", "");
+        }
         return this;
     }
 
@@ -543,14 +569,18 @@ public class PersonInfo {
             int end = myTag.indexOf(",", start);
             String s1 = myTag.substring(start, end);
             return s1;
-        } else return "0";
+        } else {
+            return "0";
+        }
     }
 
     public Number getTagValue(String tag) {
         PersonInfo info = getInfo(this.name);
         String sb = info.getMyTag();
         int i = sb.indexOf(tag);
-        if (i < 0) return -1;
+        if (i < 0) {
+            return -1;
+        }
         sb = sb.substring(i);
         int i2 = sb.indexOf(",");
         String vs = sb.substring(1, i2);
@@ -562,7 +592,9 @@ public class PersonInfo {
     }
 
     public PersonInfo setHelpToc(Integer helpToc) {
-        if (helpToc > this.helpToc) return this;
+        if (helpToc > this.helpToc) {
+            return this;
+        }
         this.helpToc = helpToc;
         return this;
     }
@@ -572,7 +604,9 @@ public class PersonInfo {
     }
 
     public PersonInfo setHelpC(Integer helpC) {
-        if (helpC > this.helpC) return this;
+        if (helpC > this.helpC) {
+            return this;
+        }
         this.helpC = helpC;
         return this;
     }
@@ -633,6 +667,7 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public Long getHj() {
         return hj;
     }
@@ -642,8 +677,14 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public Long getHjL() {
         return hjL;
+    }
+
+    @Override
+    public Number getId() {
+        return Long.parseLong(name);
     }
 
     public PersonInfo setHjL(Long hjL) {
@@ -651,10 +692,15 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public PersonInfo addHj(Long l) {
         this.hj += l;
-        if (hj < 0) hj = 0L;
-        if (hj > hjL) hj = hjL;
+        if (hj < 0) {
+            hj = 0L;
+        }
+        if (hj > hjL) {
+            hj = hjL;
+        }
         return this;
     }
 
@@ -664,8 +710,9 @@ public class PersonInfo {
     }
 
     public Integer getWhType() {
-        if (whType == -1)
+        if (whType == -1) {
             return (whType = GameDataBase.wh2Type.get(wh.intValue()));
+        }
         return whType;
     }
 
@@ -674,6 +721,7 @@ public class PersonInfo {
         return this;
     }
 
+    @Override
     public PersonInfo apply() {
         GameDataBase.putPerson(this);
         return this;

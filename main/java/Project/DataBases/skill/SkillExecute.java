@@ -8,10 +8,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.Services.DetailServices.GameDetailServiceUtils.*;
 import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.Services.DetailServices.GameSkillDetailService.*;
 import static Project.Tools.Tool.rand;
 
+/**
+ * @author github-kloping
+ */
 public class SkillExecute {
 
     /**
@@ -27,7 +31,9 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = oneNearest(who.longValue(), nums);
-                if (!exist(q)) return;
+                if (!exist(q)) {
+                    return;
+                }
 //                PersonInfo info_ = getInfo(q);
 //                Long lon = info_.getHpl();
 //                long v = percentTo(info.getAddPercent(), lon);
@@ -76,15 +82,10 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = oneNearest(who.longValue(), nums);
-                if (!exist(q)) return;
+                if (!exist(q)) {
+                    return;
+                }
                 addHl(who, q, info.getAddPercent());
-//                PersonInfo info_ = getInfo(q);
-//                Long lon = info_.getHll();
-//                long v = percentTo(info.getAddPercent(), lon);
-//                v = v > info_.getHll() ? info_.getHll() : v;
-//                info_.addHl(v);
-//                if (info_.getHl() > lon) info_.setHl(lon);
-//                putPerson(info_);
                 setTips("作用于 " + Tool.At(q));
             }
         };
@@ -126,7 +127,9 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = oneNearest(who, nums);
-                if (!exist(q)) return;
+                if (!exist(q)) {
+                    return;
+                }
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -152,7 +155,9 @@ public class SkillExecute {
             @Override
             public void before() {
                 for (Long q : nearest(3, who.longValue(), nums)) {
-                    if (!exist(q)) continue;
+                    if (!exist(q)) {
+                        continue;
+                    }
                     PersonInfo info_ = getInfo(q);
                     Long lon = info_.getAtt();
                     long v = percentTo(info.getAddPercent(), lon);
@@ -234,7 +239,9 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体攻击") {
             @Override
             public void before() {
-                if (nums.length == 0) return;
+                if (nums.length == 0) {
+                    return;
+                }
                 StringBuilder sb = new StringBuilder();
                 long v = percentTo(info.getAddPercent(), getInfo(who).getAtt());
                 attGhostOrMan(sb, who, nums[0], v);
@@ -269,9 +276,10 @@ public class SkillExecute {
             public void run() {
                 super.run();
                 try {
-                    Thread.currentThread().sleep(24 * 1000);
-                    while (eve())
+                    Thread.sleep(24 * 1000);
+                    while (eve()) {
                         continue;
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -281,7 +289,7 @@ public class SkillExecute {
                 if (v++ >= 5) {
                     return false;
                 }
-                long l = getInfo(q).getHpl();
+                long l = getInfo(q).getHpL();
                 putPerson(getInfo(q).addHp(percentTo(info.getAddPercent(), l)));
                 return true;
             }
@@ -439,7 +447,9 @@ public class SkillExecute {
 
             @Override
             public void before() {
-                if (nums.length < 1) return;
+                if (nums.length < 1) {
+                    return;
+                }
                 q = nums[0].longValue();
                 putPerson(getInfo(q).addTag(tag_CantHide, 0));
                 setTips("作用于 " + Tool.At(q));
@@ -562,7 +572,7 @@ public class SkillExecute {
                     thTemp = ghostObj.getHp();
                 } else {
                     PersonInfo in = getInfo(nums[0]);
-                    maxTemp = in.getHpl();
+                    maxTemp = in.getHpL();
                     thTemp = in.getHp();
                 }
                 final long max = maxTemp > 0 ? maxTemp : 0;
@@ -776,7 +786,9 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "噬魂蛛皇真身") {
             @Override
             public void before() {
-                if (nums.length == 0) return;
+                if (nums.length == 0) {
+                    return;
+                }
                 long v1 = getAttFromAny(who, nums[0]);
                 if (v1 == 0) {
                     setTips("该玩家未注册");
@@ -818,7 +830,9 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {
+                    return;
+                }
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent() * 4, lon);
@@ -897,7 +911,9 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {
+                    return;
+                }
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -921,7 +937,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info1 = getInfo(who);
                 int n = toPercent(info1.getHl(), info1.getHll());
                 int n2 = n / 2;
@@ -947,7 +963,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -1018,7 +1034,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -1042,7 +1058,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -1096,7 +1112,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
@@ -1129,12 +1145,12 @@ public class SkillExecute {
             @Override
             public void before() {
                 PersonInfo info_ = getInfo(who);
-                long v = info_.getHpl();
+                long v = info_.getHpL();
                 int p = info.getAddPercent();
                 long o = percentTo(p, v);
                 info_.addTag(tag_Shield, o);
                 putPerson(info_);
-                eveV = info_.getHpl() / 50;
+                eveV = info_.getHpL() / 50;
             }
 
             @Override
@@ -1169,7 +1185,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) return;
+                if (!exist(q)) {return;}
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 int p = info.getAddPercent();
@@ -1198,7 +1214,7 @@ public class SkillExecute {
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                info_.addTag(tag_Shield, percentTo(info.getAddPercent(), info_.getHpl()));
+                info_.addTag(tag_Shield, percentTo(info.getAddPercent(), info_.getHpL()));
                 putPerson(info_);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t717, who.longValue(), v));
             }
@@ -1284,7 +1300,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 PersonInfo info_ = getInfo(who);
-                long v = info_.getHpl();
+                long v = info_.getHpL();
                 int p = info.getAddPercent();
                 long o = percentTo(p, v);
                 info_.addTag(tag_Shield, o);
@@ -1363,7 +1379,7 @@ public class SkillExecute {
                 Long lon = info_.getAtt();
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
-                long v2 = percentTo(b / 2, info_.getHpl());
+                long v2 = percentTo(b / 2, info_.getHpL());
                 long v3 = percentTo(b / 2, info_.getHll());
                 long v4 = percentTo(b / 2, info_.getHjL());
                 info_.addHp(v2);
@@ -1600,7 +1616,7 @@ public class SkillExecute {
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), v_));
                 int b = toPercent(v, in.getHjL());
                 b = b > 15 ? 15 : b <= 2 ? 3 : b;
-                long v1 = percentTo(b, in.getHpl());
+                long v1 = percentTo(b, in.getHpL());
                 long v2 = percentTo(b, in.getHll());
                 long v3 = percentTo(b, in.getHjL());
                 in.addHp(v1);
@@ -1625,7 +1641,7 @@ public class SkillExecute {
             public void before() {
                 PersonInfo in = getInfo(who);
                 v_ = percentTo(info.getAddPercent(), in.getAtt());
-                long v = percentTo(info.getAddPercent(), in.getHpl());
+                long v = percentTo(info.getAddPercent(), in.getHpL());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t731, who.longValue(), v));
                 in.addTag(tag_Shield, v);
                 putPerson(in);

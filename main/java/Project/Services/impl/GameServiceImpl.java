@@ -31,14 +31,17 @@ import java.util.concurrent.Executors;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.ZongMenDataBase.getZonInfo;
 import static Project.DataBases.ZongMenDataBase.putZonInfo;
+import static Project.Services.DetailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.*;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getNameFromGroup;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameServiceImpl implements IGameService {
-
 
     @Override
     public String xl(Long who) {
@@ -268,7 +271,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public String BuyGold(Long who, long num) {
+    public String buyGold(Long who, long num) {
         long is = DataBase.getAllInfo(who).getScore();
         if (is >= num * 2) {
             DataBase.addScore(-(num * 2), who);
@@ -318,7 +321,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public String AttWhos(Long who, Long whos, Group group) {
+    public String attWhos(Long who, Long whos, Group group) {
         if (ZongMenDataBase.qq2id.containsKey(whos)) {
             if (ZongMenDataBase.qq2id.containsKey(who)) {
                 Long id1 = Long.valueOf(ZongMenDataBase.qq2id.get(who));
@@ -379,10 +382,11 @@ public class GameServiceImpl implements IGameService {
                                 l1 *= 0.9f;
                             tips += GameDetailService.consumedHl(who, l);
                             tips += GameDetailService.beaten(whos, who, l1);
-                            if (!tips.contains("$"))
+                            if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
                                 tips += GameDetailService.onAtt(who, whos, l1);
+                            }
                             if (getInfo(whos).getHp() > 0) {
-                                tips = "你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
+                                tips = "\n你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                             } else {
                                 long lg = randLong(240, 0.6f, 0.9f);
                                 putPerson(getInfo(who).addGold(lg,
@@ -504,18 +508,18 @@ public class GameServiceImpl implements IGameService {
 
     private long HF_Hp(Long who) {
         PersonInfo personInfo = getInfo(who);
-        long hpl = personInfo.getHpl();
+        long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();
         if (hp >= hpl)
             return 0;
         if (hp > hpl) {
-            putPerson(personInfo.setHp(personInfo.getHpl()));
+            putPerson(personInfo.setHp(personInfo.getHpL()));
             return hpl - hp;
         }
         int c1 = getRandXl(personInfo.getLevel());
         if (c1 > 30) c1 = 30;
         if (c1 < 4) c1 = 4;
-        long l5 = personInfo.getHpl() / c1;
+        long l5 = personInfo.getHpL() / c1;
         l5 += randLong(l5, 0.5f, 0.6f);
         if ((hpl - hp) < l5) {
             l5 = (hpl - hp);
@@ -570,18 +574,18 @@ public class GameServiceImpl implements IGameService {
 
     private long HF_Hp(Long who, double d1) {
         PersonInfo personInfo = getInfo(who);
-        long hpl = personInfo.getHpl();
+        long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();
         if (hp >= hpl)
             return 0;
         if (hp > hpl) {
-            putPerson(personInfo.setHp(personInfo.getHpl()));
+            putPerson(personInfo.setHp(personInfo.getHpL()));
             return hpl - hp;
         }
         int c1 = getRandXl(personInfo.getLevel());
         if (c1 > 30) c1 = 30;
         if (c1 < 4) c1 = 4;
-        long l5 = personInfo.getHpl() / c1;
+        long l5 = personInfo.getHpL() / c1;
         l5 += randLong(l5, 0.5f, 0.6f);
         l5 *= 1.1;
         if ((hpl - hp) < l5) {
@@ -690,7 +694,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public String Fusion(Long q1, Long q2, Group group) {
+    public String fusion(Long q1, Long q2, Group group) {
         if (containsInBg(111, q1)) {
             try {
                 if (q1.longValue() == q2.longValue()) return "Cant Do this";
@@ -834,5 +838,27 @@ public class GameServiceImpl implements IGameService {
             setHhs(q, ints);
             return showHh(q);
         } else return "需要:" + getNameById(needId) + getImgById(needId);
+    }
+
+    @Override
+    public String attByHj(long q, long q2, int br) {
+        PersonInfo p1 = getInfo(q);
+        br = br > 20 ? 20 : br;
+        br = br < 1 ? 1 : br;
+        if (p1.getHjL() == 0) {
+            return "精神力不足";
+        } else {
+            int br0 = toPercent(p1.getHj(), p1.getHjL());
+            if (br0 >= 30) {
+                if (br0 >= br) {
+                    String s1 = GameDetailService.onSpiritAttack(q, q2, br);
+                    return "您发射了" + br + "%的精神力\n" + s1 + "\n" + info(q);
+                } else {
+                    return "精神力不足" + br + "%或不足及发射指定比率的精神力";
+                }
+            } else {
+                return "精神力不足30%或不足及发射指定比率的精神力";
+            }
+        }
     }
 }

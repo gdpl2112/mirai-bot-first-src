@@ -14,6 +14,9 @@ import java.util.UUID;
 import static Project.drawers.JImageDrawerUtils.getImageByColor2Size;
 import static Project.drawers.JImageDrawerUtils.getImageByUrl2Size;
 
+/**
+ * @author github-kloping
+ */
 public class GameDrawer {
     public static String drawerMap(GameMap map) throws IOException {
         int wc = map.getWidth();

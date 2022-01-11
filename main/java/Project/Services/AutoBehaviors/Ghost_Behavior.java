@@ -175,7 +175,7 @@ public class Ghost_Behavior implements Runnable {
         PersonInfo info = getInfo(qq);
         AttributeBone attributeBone = gameBoneService.getAttribute(qq);
         boolean k1 = attributeBone.getHide_pro() >= 50;
-        boolean k2 = ((double) info.getHpl() / (double) info.getHp()) > 0.5;
+        boolean k2 = ((double) info.getHpL() / (double) info.getHp()) > 0.5;
         boolean k3 = info.getAtt() * getAllHHBL(qq) >= ghostObj.getHp() / 2;
         return k1 && (k2 || k3);
     }
@@ -187,7 +187,7 @@ public class Ghost_Behavior implements Runnable {
 
     private boolean needAway() {
         PersonInfo info = getInfo(qq);
-        int b1 = toPercent(info.getHp(), info.getHpl());
+        int b1 = toPercent(info.getHp(), info.getHpL());
         int b2 = toPercent(ghostObj.getHp(), ghostObj.getMaxHp());
         if (b1 >= 50 && b2 <= 50) {
             return Tool.rand.nextInt(10) < 2;

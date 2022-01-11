@@ -20,7 +20,6 @@ import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjF
 import static Project.Services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.isATrue;
 import static Project.Tools.Tool.getTimeHHMM;
-import static Project.Tools.Tool.rand;
 import static Project.drawers.Drawer.getImageFromStrings;
 
 @Entity
@@ -131,7 +130,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     }
 
     @Override
-    public String HelpTo(long who, long whos) {
+    public String helpTo(long who, long whos) {
         if (who == whos) return "不能帮助自己";
         GhostObj ghostObj = getGhostObjFrom(who);
         GhostObj ghostObj1 = getGhostObjFrom(whos);
@@ -157,34 +156,28 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             return "支援成功";
                         case GhostObj.NeedAndY:
                             return "ta已经被支援";
+                        default:
+                            return "unknown bug";
                     }
                 }
             }
         } else {
             return "ta没有在选择状态(为遇到魂兽)";
         }
-        return "???";
-    }
-
-    public static Integer createRand() {
-        Integer r = new Integer(rand.nextInt());
-        return r;
     }
 
     @Override
     public String getIntro(long qq) {
         GhostObj ghostObj = getGhostObjFrom(qq);
-
-        if (ghostObj == null || !isATrue(qq))
+        if (ghostObj == null || !isATrue(qq)) {
             return "您没有遇到魂兽,或已过期";
-
+        }
         if (ghostObj.getState() == GhostObj.HELPING) {
             ghostObj = getGhostObjFrom(Long.valueOf(ghostObj.getForWhoStr()));
         }
-
-        if (ghostObj == null || !isATrue(qq))
+        if (ghostObj == null || !isATrue(qq)) {
             return "您没有遇到魂兽,或已过期";
-
+        }
         int id = ghostObj.getId();
         long v1 = getInfo(qq).getHj();
         long v2 = ghostObj.getHj();

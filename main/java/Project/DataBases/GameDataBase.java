@@ -496,6 +496,17 @@ public class GameDataBase {
         System.gc();
         return k;
     }
+
+    public static boolean exist(Number who) {
+        if (who == null) {
+            return false;
+        }
+        String pathN = path + "/dates/users/" + who;
+        File file = new File(pathN);
+        boolean k = file.exists();
+        System.gc();
+        return k;
+    }
     //=========================================
 
     /**

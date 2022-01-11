@@ -84,7 +84,7 @@ public class GameJoinAcController {
         if (whos == -1)
             return "支援谁？";
         if (!GameDataBase.exist(whos)) return "该玩家尚未注册";
-        return gameJoinAcService.HelpTo(qq.getId(), whos);
+        return gameJoinAcService.helpTo(qq.getId(), whos);
     }
 
     @Action("探查")

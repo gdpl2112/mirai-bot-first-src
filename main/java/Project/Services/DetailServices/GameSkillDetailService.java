@@ -18,9 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.Services.DetailServices.GameDetailService.beaten;
-import static Project.Services.DetailServices.GameDetailService.onAtt;
-import static Project.Services.DetailServices.GameJoinDetailService.AttGho;
 
 /**
  * @author github-kloping
@@ -404,75 +401,6 @@ public class GameSkillDetailService {
         return Integer.parseInt(vs);
     }
 
-
-    /**
-     * 从任何东西上获取攻击值
-     *
-     * @param who 谁获取 谁
-     * @param num
-     * @return
-     */
-    public static long getAttFromAny(Number who, Number num) {
-        if (num.longValue() != -2) {
-            if (!GameDataBase.exist(num.longValue())) {
-                return 1;
-            }
-            return getInfo(num).getAtt();
-        } else {
-            GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
-            if (ghostObj == null) {
-                return 0;
-            }
-            return ghostObj.getAtt();
-        }
-    }
-
-    /**
-     * 从任何东西上获取精神值
-     *
-     * @param who
-     * @param num
-     * @return
-     */
-    public static long getHjFromAny(Number who, Number num) {
-        if (num.longValue() != -2) {
-            if (!GameDataBase.exist(num.longValue())) {
-                return 0;
-            }
-            return getInfo(num).getHj();
-        } else {
-            GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
-            if (ghostObj == null) {
-                return 0;
-            }
-            return ghostObj.getHj();
-        }
-    }
-
-    /**
-     * 对某个造成伤害
-     *
-     * @param sb
-     * @param who
-     * @param who2
-     * @param v
-     */
-    public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v) {
-        if (who2.longValue() == -2) {
-            sb.append(AttGho(who.longValue(), v, true, false));
-        } else {
-            if (!GameDataBase.exist(who2.longValue())) {
-                sb.append("该玩家尚未注册");
-                return;
-            }
-            sb.append(beaten(who2, who, v));
-            sb.append("\n你对ta造成 " + v + "点伤害");
-            if (!sb.toString().contains("$")) {
-                sb.append(onAtt(who2, who, v));
-            }
-        }
-    }
-
     /**
      * 减少任何攻击
      *
@@ -504,9 +432,9 @@ public class GameSkillDetailService {
      */
     public static void addHp(Number who, long who2, float bf) {
         PersonInfo p1 = getInfo(who);
-        long v1 = percentTo((int) bf, p1.getHpl());
+        long v1 = percentTo((int) bf, p1.getHpL());
         PersonInfo p2 = getInfo(who2);
-        v1 = v1 > p2.getHpl() / 2 ? p2.getHpl() / 2 : v1;
+        v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
         HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
                 p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
         p2.addHp(v1);

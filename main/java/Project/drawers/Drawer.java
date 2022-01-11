@@ -26,6 +26,9 @@ import static Project.DataBases.ZongMenDataBase.qq2id;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Tools.Tool.filterBigNum;
 
+/**
+ * @author github-kloping
+ */
 public class Drawer {
     private static final Font small1Font = new Font("宋体", Font.BOLD, 15);
     private static final Font smallFont = new Font("宋体", Font.BOLD, 28);
@@ -70,9 +73,9 @@ public class Drawer {
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(hpColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpl()) / 100.0 * width) - x, 50);
+        g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpl())), x, y + smallFont.getSize());
+        g.drawString(filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + smallFont.getSize());
 
         //==================================
         y = y + 60;

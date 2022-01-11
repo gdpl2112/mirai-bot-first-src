@@ -7,6 +7,8 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Services.DetailServices.GameDetailService.MAX_SA_LOSE_HJ_B;
+import static Project.Services.DetailServices.GameDetailService.MAX_SA_LOSE_HP_B;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -28,29 +30,33 @@ public class NoticeController {
         }
     }
 
-    private static final String moraStr1 = "精神力有什么用:\r\n\t" +
+    private static final String HJ_INTRO = "精神力有什么用:\r\n\t" +
             "   1.精神力高于80%时格挡10%的伤害,同时消耗精神力\r\n\t" +
             "   2.精神力低于45%时额外受到10%的伤害\r\n\t" +
-            "   3.魂兽也存在精神力,若魂兽的精神力与你精神力差不多,魂兽可凭借精神力隐藏自己的实力,可使用(探查)消耗精神力探查其状态";
+            "   3.魂兽也存在精神力,若魂兽的精神力与你精神力差不多,魂兽可凭借精神力隐藏自己的实力,可使用(探查)消耗精神力探查其状态" +
+            "   \n==========\n" +
+            "   4.可使用 精神攻击@某 随机发射 12~20% 的最大精神力的值 对目标造成同等值的精神损失 最大造成 " + MAX_SA_LOSE_HJ_B + "%的精神力" +
+            "若目标不足及承受发射的精神力 则将额外造成 剩余可作用的精神力的值的伤害 最大造成目标" + MAX_SA_LOSE_HP_B + "%的最大生命值";
 
     @Action("精神力作用")
     public Object more1() {
-        return moraStr1;
+        return HJ_INTRO;
     }
 
-    private static final StringBuilder sb = new StringBuilder();
+    private static final StringBuilder UPDATE_LOG = new StringBuilder();
 
     static {
-        sb.append("==========").append("\n");
-        sb.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
-        sb.append("1.5 : 更新了 更新日志").append("\n");
-        sb.append("1.3 : 修复已知bug").append("\n");
-        sb.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
-        sb.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
-        sb.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");
-        sb.append("12.26: 金魂币消费记录").append("\n");
-        sb.append("12.26: 修复已知bug").append("\n");
-        sb.append("12.24: 原神公告<n> 王者公告<n>").append("\n");
+        UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.11: 精神攻击<At/#><V> 或 精神攻击<At/#><V> 详情见\"精神力作用\"").append("\n");
+        UPDATE_LOG.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
+        UPDATE_LOG.append("1.5 : 更新了 更新日志").append("\n");
+        UPDATE_LOG.append("1.3 : 修复已知bug").append("\n");
+        UPDATE_LOG.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
+        UPDATE_LOG.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
+        UPDATE_LOG.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");
+        UPDATE_LOG.append("12.26: 金魂币消费记录").append("\n");
+//        sb.append("12.26: 修复已知bug").append("\n");
+//        sb.append("12.24: 原神公告<n> 王者公告<n>").append("\n");
 //        sb.append("12.23: 批量抢劫").append("\n");
 //        sb.append("12.22: 催更,开发计划,王者荣耀最新公告/王者公告 ").append("\n");
 //        sb.append("12.21: 修复已知bug 微调 魂兽概率").append("\n");
@@ -99,7 +105,7 @@ public class NoticeController {
 
     @Action("更新日志")
     public String UpdateLog() {
-        return sb.toString();
+        return UPDATE_LOG.toString();
     }
 
     @Action("魂环吸收限制")

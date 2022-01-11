@@ -1,6 +1,7 @@
 package Entitys.gameEntitys;
 
 
+import Entitys.gameEntitys.base.BaseInfo;
 import Project.Services.DetailServices.GameJoinDetailService;
 import Project.Tools.JSONUtils;
 
@@ -13,21 +14,41 @@ import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjF
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.randA;
 
-
-public class GhostObj implements Serializable {
+/**
+ * @author github-kloping
+ */
+public class GhostObj implements Serializable, BaseInfo {
     public static int idx = 100;
     private Long hp, att, xp, id, L, time;
     private int IDX;
     private int state = -99;
     private String forWhoStr = "";
     private Long maxHp = 0L;
-    private Long Hj = 0L;
+    private Long hj = 0L;
+    private Long hjL = 0L;
     @JSONUtils.Transient
     public static final int NotNeed = 0, NeedAndNo = 1, NeedAndY = 2, HELPING = 3;
     private String name;
     private Long with = -1L;
+    private long whoMeet;
 
     public GhostObj() {
+    }
+
+    @Override
+    public BaseInfo addHj(Long l) {
+        if (l != null) {
+            hj += l;
+        }
+        return this;
+    }
+
+    @Override
+    public BaseInfo addHp(Long v) {
+        if (v != null) {
+            updateHp(v.longValue());
+        }
+        return this;
     }
 
     public GhostObj(String forWhoStr) {
@@ -46,7 +67,7 @@ public class GhostObj implements Serializable {
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NotNeed;
         name = getNameById(this.id);
-        InitHj();
+        initHj();
         IDX = ++idx;
     }
 
@@ -60,15 +81,29 @@ public class GhostObj implements Serializable {
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NotNeed;
         name = getNameById(this.id);
-        InitHj();
+        initHj();
         IDX = ++idx;
     }
 
-    private void InitHj() {
+    public long getWhoMeet() {
+        return whoMeet;
+    }
+
+    public void setWhoMeet(long whoMeet) {
+        this.whoMeet = whoMeet;
+    }
+
+    private void initHj() {
         long v = att + maxHp;
         v = v / 10;
         v = v < 100 ? 100 : v;
-        Hj = v;
+        hj = v;
+        hjL = v;
+    }
+
+    @Override
+    public Long getHjL() {
+        return hjL;
     }
 
     public int getIDX() {
@@ -79,8 +114,9 @@ public class GhostObj implements Serializable {
         return maxHp;
     }
 
+    @Override
     public Long getHj() {
-        return Hj;
+        return hj;
     }
 
     public String getName() {
@@ -107,15 +143,27 @@ public class GhostObj implements Serializable {
         this.forWhoStr = forWhoStr;
     }
 
-    public long getHp() {
+    @Override
+    public Long getHp() {
         return hp;
+    }
+
+    @Override
+    public Long getHpL() {
+        return maxHp.longValue();
+    }
+
+    @Override
+    public Integer getLevel() {
+        return getL();
     }
 
     public void setHp(long hp) {
         this.hp = hp;
     }
 
-    public long getAtt() {
+    @Override
+    public Long getAtt() {
         return att;
     }
 
@@ -123,6 +171,7 @@ public class GhostObj implements Serializable {
         return xp;
     }
 
+    @Override
     public Integer getId() {
         return Integer.valueOf(id + "");
     }
@@ -148,24 +197,24 @@ public class GhostObj implements Serializable {
         setHp(getHp() + l);
         int bv = toPercent(l, maxHp);
         bv = bv > 100 ? 100 : bv < 1 ? 1 : bv;
-        long v = percentTo(bv, Hj);
-        Hj -= v;
+        long v = percentTo(bv, hj);
+        hj -= v;
         return getHp();
     }
 
     public static GhostObj create(int level, int idMin, int idMax) {
-        GhostObj ghostObj = null;
         switch (level) {
             case 10:
             case 100:
             case 1000:
             case 10000:
             case 100000:
-                ghostObj = new GhostObj(randA(4 * level, 9 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
+                GhostObj ghostObj = new GhostObj(randA(4 * level, 9 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
                         , randA(idMin, idMax), randA(level + 1, Lmax(level)));
                 return ghostObj;
+            default:
+                return null;
         }
-        return null;
     }
 
     public Long getWith() {
@@ -175,5 +224,14 @@ public class GhostObj implements Serializable {
     public GhostObj setWith(Long with) {
         this.with = with;
         return this;
+    }
+
+    public void setHj(Long hj) {
+        this.hj = hj;
+    }
+
+    @Override
+    public GhostObj apply() {
+        return GameJoinDetailService.saveGhostObjIn(whoMeet, this);
     }
 }

@@ -13,7 +13,7 @@ public interface IGameJoinAcService  {
 
     String getHelp(long who);
 
-    String HelpTo(long who,long whos);
+    String helpTo(long who, long whos);
 
     String getIntro(long qq);
 }

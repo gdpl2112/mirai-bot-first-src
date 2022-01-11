@@ -1,15 +1,16 @@
 package Project.Services.DetailServices;
 
 import Entitys.gameEntitys.AttributeBone;
-import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
+import Entitys.gameEntitys.base.BaseInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.Services.DetailServices.roles.BeatenRoles;
 import Project.Services.DetailServices.roles.Role;
-import Project.Services.DetailServices.roles.Roles;
+import Project.Services.DetailServices.roles.RoleResponse;
+import Project.Services.DetailServices.roles.RoleState;
 import Project.Services.Iservice.IGameBoneService;
-import Project.Services.impl.GameBoneServiceImpl;
 import Project.Tools.Tool;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
@@ -19,11 +20,13 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.DataBases.GameDataBase.*;
+import static Project.DataBases.GameDataBase.getInfo;
+import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.Services.DetailServices.GameDetailServiceUtils.*;
 
 /**
  * @author github-kloping
@@ -69,69 +72,69 @@ public class GameDetailService {
      * @param o   这么多  血量
      * @return
      */
-    public static synchronized String beaten(Number qq, Number qq2, final long o) {
-        long oNow = o;
-        StringBuilder sb = new StringBuilder();
-        PersonInfo p1 = getInfo(qq);
-        Map<String, Object> maps = new HashMap<>();
-        for (Role r : Roles.RS) {
-            Role.Response response = r.call(sb, qq, qq2, o, oNow, p1, maps);
-            if (response != null) {
-                oNow = response.getNowV();
-                if (!response.getArgs().isEmpty()) {
-                    maps.putAll(response.getArgs());
+    public static String beaten(Number qq, Number qq2, final long o) {
+        synchronized (qq) {
+            long oNow = o;
+            StringBuilder sb = new StringBuilder();
+            PersonInfo p1 = getInfo(qq);
+            Map<String, Object> maps = new ConcurrentHashMap<>();
+            for (Role r : BeatenRoles.RS) {
+                RoleResponse response = r.call(sb, qq, qq2, o, oNow, p1, maps);
+                if (response != null) {
+                    oNow = response.getNowV();
+                    if (!response.getArgs().isEmpty()) {
+                        maps.putAll(response.getArgs());
+                    }
+                    if (response.getState() == RoleState.STOP) {
+                        break;
+                    }
                 }
-                if (response.getState() == Role.State.STOP) {
-                    break;
+            }
+            if (oNow > 0) {
+                long v1 = p1.getHj();
+                long v2 = p1.getHjL();
+                int b = toPercent(v1, v2);
+                long ev = 0;
+                if (b > 80) {
+                    ev = percentTo(10, oNow);
+                    sb.append("\n精神力高于80%,额外抵挡10%的伤害\n============");
+                } else if (b < 40) {
+                    ev = -percentTo(10, oNow);
+                    sb.append("\n精神力低于40%,额外受到10%的伤害\n============");
+                } else if (b <= 1) {
+                    ev = 0;
+                }
+                if (ev != 0) {
+                    oNow -= ev;
+                }
+                //===== 消耗精神力 判断
+                int sf = toPercent(oNow, p1.getHpL());
+                sf = sf > 80 ? 80 : sf < 1 ? 1 : sf;
+                long sv = percentTo(sf, p1.getHjL());
+                p1.addHj(-sv);
+                sb.append(String.format("\n消耗了%s精神力\n============", sv));
+            }
+            //=====广播
+            HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow,
+                    oNow, qq2.longValue()
+                    , qq2.longValue() > 0 ?
+                            HpChangeBroadcast.HpChangeReceiver.type.fromQ :
+                            HpChangeBroadcast.HpChangeReceiver.type.fromG
+            );
+            if (oNow > 0) {
+                p1.addHp(-oNow);
+                p1.apply();
+
+                if (p1.hp <= 0) {
+                    PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
+                            qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
                 }
             }
+            return sb.toString();
         }
-        if (oNow > 0) {
-            long v1 = p1.getHj();
-            long v2 = p1.getHjL();
-            int b = toPercent(v1, v2);
-            long ev = 0;
-            if (b > 80) {
-                ev = percentTo(10, oNow);
-                sb.append("\n精神力高于80%,额外抵挡10%的伤害\n============");
-            } else if (b < 40) {
-                ev = -percentTo(10, oNow);
-                sb.append("\n精神力低于40%,额外受到10%的伤害\n============");
-            } else if (b <= 1) {
-                ev = 0;
-            }
-            if (ev != 0) {
-                oNow -= ev;
-            }
-            //===== 消耗精神力 判断
-            int sf = toPercent(oNow, p1.getHpl());
-            sf = sf > 80 ? 80 : sf < 1 ? 1 : sf;
-            long sv = percentTo(sf, p1.getHjL());
-            p1.addHj(-sv);
-            sb.append(String.format("\n消耗了%s精神力\n============", sv));
-        }
-        //=====广播
-        HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow,
-                oNow, qq2.longValue()
-                , qq2.longValue() > 0 ?
-                        HpChangeBroadcast.HpChangeReceiver.type.fromQ :
-                        HpChangeBroadcast.HpChangeReceiver.type.fromG
-        );
-        if (oNow > 0) {
-            p1.addHp(-oNow);
-            p1.apply();
-
-            if (p1.hp <= 0) {
-                PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
-                        qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
-            }
-        }
-
-
-        return sb.toString();
     }
 
-    public static synchronized String consumedHl(long who, final long o) {
+    public static String consumedHl(long who, final long o) {
         PersonInfo personInfo = getInfo(who);
         StringBuilder sb = new StringBuilder();
         AttributeBone attributeBone = gameBoneService.getAttribute(who);
@@ -157,7 +160,7 @@ public class GameDetailService {
         return n >= i;
     }
 
-    public static synchronized String onAtt(Number qq, Number qq2, Long v) {
+    public static String onAtt(Number qq, Number qq2, Long v) {
         PersonInfo info = getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====
@@ -182,6 +185,56 @@ public class GameDetailService {
         }
         putPerson(info);
         return "";
+    }
+
+    public static final int MAX_SA_LOSE_HJ_B = 75;
+    public static final int MAX_SA_LOSE_HP_B = 45;
+
+    /**
+     * 精神攻击
+     *
+     * @param q  攻击者
+     * @param q2 被攻击者
+     * @param by 攻击比率
+     * @return
+     */
+    public static String onSpiritAttack(Number q, Number q2, Integer by) {
+        synchronized (q) {
+            PersonInfo p1 = getInfo(q);
+            long v1L = p1.getHjL();
+            long v1 = p1.getHj();
+            long v2 = percentTo(by, v1L);
+            if (v2 > v1) {
+                return String.format("精神力不足" + by + "%");
+            } else {
+                p1.addHj(-v2);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            BaseInfo baseInfo = getBaseInfoFromAny(q, q2);
+            int b1 = toPercent(v2, baseInfo.getHjL());
+            b1 = b1 > MAX_SA_LOSE_HJ_B ? MAX_SA_LOSE_HJ_B : b1;
+            long ov2 = percentTo(b1, baseInfo.getHj());
+            ov2 = ov2 == 0 ? v2 : ov2;
+            if (baseInfo.getHj() < ov2) {
+                ov2 = baseInfo.getHj();
+            }
+            baseInfo.addHj(-ov2);
+            sb.append("对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失\n");
+
+            long nv2 = v2 - ov2;
+            if (nv2 > 0) {
+                int v = toPercent(nv2, baseInfo.getHpL());
+                v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
+                long nv0 = percentTo(v, baseInfo.getHpL());
+                baseInfo.addHp(-nv0);
+                sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
+            }
+
+            baseInfo.apply();
+            p1.apply();
+            return sb.toString().trim();
+        }
     }
 }
 

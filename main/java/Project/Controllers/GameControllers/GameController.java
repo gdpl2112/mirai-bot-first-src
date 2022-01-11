@@ -123,7 +123,7 @@ public class GameController {
     public String BuyGold(User qq, @Param("num") String num, Group group) {
         try {
             Long nu = Long.valueOf(num);
-            String str = gameService.BuyGold(qq.getId(), nu);
+            String str = gameService.buyGold(qq.getId(), nu);
             return str;
         } catch (NumberFormatException e) {
             return "买多少呢";
@@ -156,7 +156,7 @@ public class GameController {
         if (at > System.currentTimeMillis())
             return ("攻击冷却中..=>" + getTimeHHMM(at));
         if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
-        String sss = gameService.AttWhos(qq.getId(), who, group);
+        String sss = gameService.attWhos(qq.getId(), who, group);
         putPerson(getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30));
         return sss;
     }
@@ -360,7 +360,7 @@ public class GameController {
         Long q2 = MessageTools.getAtFromString(str);
         if (q2 == -1)
             throw new RuntimeException();
-        String s1 = gameService.Fusion(qq.getId(), q2, group);
+        String s1 = gameService.fusion(qq.getId(), q2, group);
         return s1;
     }
 
@@ -407,5 +407,26 @@ public class GameController {
     public String warps(long q) {
         Warp warp = getWarp(q);
         return pathToImg(drawWarpPng(warp));
+    }
+
+    @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})
+    public String SpAtt(long q, @AllMess String mss) {
+        long at = MessageTools.getAtFromString(mss);
+        if (at == -1) {
+            if (mss.contains("#")) {
+                at = -2;
+                mss = mss.replaceAll("#", "");
+            } else {
+                return "未选择目标";
+            }
+        }
+        mss = mss.replace("[@" + at + "]", "");
+        int br = (int) randA(12, 20);
+        String m = findNumberFromString(mss);
+        try {
+            br = Integer.parseInt(m);
+        } catch (Exception e) {
+        }
+        return gameService.attByHj(q, at, br);
     }
 }

@@ -188,7 +188,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     if (num > 6)
                         return "多余的使用";
                     else {
-                        long m = personInfo.getHpl();
+                        long m = personInfo.getHpL();
                         long t = personInfo.getHp();
                         l = 0;
 
@@ -248,7 +248,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use102(long who) {
-            long m = personInfo.getHpl();
+            long m = personInfo.getHpL();
             long t = personInfo.getHp();
             long l = 0;
             if (t >= m) {

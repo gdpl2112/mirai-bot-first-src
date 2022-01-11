@@ -142,6 +142,7 @@ public class GameJoinDetailService {
             }
         }
         if (ghostObj != null) {
+            ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             System.out.println(ghostObj);
             int id = ghostObj.getId();
@@ -191,6 +192,7 @@ public class GameJoinDetailService {
             return "你去极北之地 ,只捡到了个寂寞。。" + Tool.toFaceMes(String.valueOf(271));
         }
         if (ghostObj != null) {
+            ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             System.out.println(ghostObj);
             int id = ghostObj.getId();
@@ -211,7 +213,7 @@ public class GameJoinDetailService {
         float bl = getAllHHBL(Long.valueOf(who));
         return new GhostObj(
                 (long) (personInfo.getAtt() * bl),
-                personInfo.getHpl(),
+                personInfo.getHpL(),
                 (long) (personInfo.getXpL() / GameTool.getRandXl(personInfo.getLevel())),
                 idMin, idMax,
                 personInfo.getLevel(),
