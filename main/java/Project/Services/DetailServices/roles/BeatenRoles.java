@@ -2,6 +2,7 @@ package Project.Services.DetailServices.roles;
 
 import Entitys.gameEntitys.AttributeBone;
 import Entitys.gameEntitys.GhostObj;
+import Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Services.DetailServices.GameJoinDetailService;
@@ -12,6 +13,7 @@ import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
 import static Project.Services.DetailServices.GameDetailService.gameBoneService;
 import static Project.Services.DetailServices.GameDetailService.proZ;
+import static Project.Services.DetailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.Services.DetailServices.roles.RoleState.STOP;
 
 /**
@@ -56,7 +58,7 @@ public class BeatenRoles {
     };
     public static final Role TAG_SHIELD = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(tag_Shield)) {
-            if (!Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
+            if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString()) == true) {
                 RoleResponse response = new RoleResponse(ov, nv, q1, q2);
                 long v = GameSkillDetailService.getTagValue(q1, tag_Shield).longValue();
                 if (v >= nv) {
@@ -75,13 +77,14 @@ public class BeatenRoles {
         return null;
     };
     public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
+        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (p1.containsTag(tag_True_)) {
             sb.append("\n此次真实伤害\n=============");
-            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
             response.addArg(TRUE_HIT_ARG_KEY, true);
-            return response;
+        } else {
+            response.addArg(TRUE_HIT_ARG_KEY, false);
         }
-        return null;
+        return response;
     };
     public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
@@ -97,12 +100,13 @@ public class BeatenRoles {
         return null;
     };
     public static final Role TAG_CANT_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
+        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (p1.containsTag(SkillDataBase.tag_CantHide)) {
-            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
             response.addArg(CANT_HIDE_ARG_KEY, true);
-            return response;
+        } else {
+            response.addArg(CANT_HIDE_ARG_KEY, false);
         }
-        return null;
+        return response;
     };
     public static final Role TAG_XYS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(tag_XuanYuS)) {
@@ -130,9 +134,17 @@ public class BeatenRoles {
             return null;
         }
     };
+    public static final Role XG_VERTIGO = (sb, q1, q2, ov, nv, p1, args) -> {
+        BaseInfo p2 = getBaseInfoFromAny(q1, q2);
+        if (p2.isVertigo()) {
+            sb.append("\n攻击者处于眩晕状态\n============");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
+        }
+        return null;
+    };
 
     public static final Role[] RS = new Role[]{
-            TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
+            XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
             HG_HIDE, TAG_TURE, TAG_SHIELD, HG_HF, TAG_FJ
     };
 }

@@ -10,6 +10,7 @@ import Project.broadcast.game.HpChangeBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,57 +26,59 @@ import static Project.DataBases.skill.SkillDataBase.*;
 @Entity
 public class GameSkillDetailService {
 
-    private static final Map<Integer, Integer> basePercentMap = new ConcurrentHashMap<>();
+    private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
 
     static {
-        basePercentMap.put(0, 10);
-        basePercentMap.put(1, 4);
-        basePercentMap.put(2, 10);
-        basePercentMap.put(3, 4);
-        basePercentMap.put(4, 10);
-        basePercentMap.put(5, 4);
-        basePercentMap.put(6, 5);
-        basePercentMap.put(7, 5);
-        basePercentMap.put(8, 35);
-        basePercentMap.put(9, 4);
-        basePercentMap.put(10, 5);
-        basePercentMap.put(11, 25);
-        basePercentMap.put(12, 8);
-        basePercentMap.put(13, 25);
-        basePercentMap.put(15, 18);
-        basePercentMap.put(16, 50);
-        basePercentMap.put(17, 5);
-        basePercentMap.put(18, 40);
-        basePercentMap.put(19, 40);
-        basePercentMap.put(71, 42);
-        basePercentMap.put(72, 58);
-        basePercentMap.put(73, 5);
-        basePercentMap.put(74, 7);
-        basePercentMap.put(75, 5);
-        basePercentMap.put(76, 3);
-        basePercentMap.put(77, 52);
-        basePercentMap.put(78, 42);
-        basePercentMap.put(711, 50);
-        basePercentMap.put(712, 51);
-        basePercentMap.put(713, 43);
-        basePercentMap.put(714, 43);
-        basePercentMap.put(715, 34);
-        basePercentMap.put(716, 42);
-        basePercentMap.put(717, 39);
-        basePercentMap.put(718, 38);
-        basePercentMap.put(719, 5);
-        basePercentMap.put(720, 41);
-        basePercentMap.put(721, 12);
-        basePercentMap.put(722, 32);
-        basePercentMap.put(723, 32);
-        basePercentMap.put(724, 50);
-        basePercentMap.put(725, 42);
-        basePercentMap.put(726, 50);
-        basePercentMap.put(727, 40);
-        basePercentMap.put(728, 40);
-        basePercentMap.put(729, 54);
-        basePercentMap.put(730, 40);
-        basePercentMap.put(731, 40);
+        BASE_PERCENT_MAP.put(0, 10);
+        BASE_PERCENT_MAP.put(1, 4);
+        BASE_PERCENT_MAP.put(2, 10);
+        BASE_PERCENT_MAP.put(3, 4);
+        BASE_PERCENT_MAP.put(4, 10);
+        BASE_PERCENT_MAP.put(5, 4);
+        BASE_PERCENT_MAP.put(6, 5);
+        BASE_PERCENT_MAP.put(7, 5);
+        BASE_PERCENT_MAP.put(8, 35);
+        BASE_PERCENT_MAP.put(9, 4);
+        BASE_PERCENT_MAP.put(10, 5);
+        BASE_PERCENT_MAP.put(11, 25);
+        BASE_PERCENT_MAP.put(12, 8);
+        BASE_PERCENT_MAP.put(13, 25);
+        BASE_PERCENT_MAP.put(15, 18);
+        BASE_PERCENT_MAP.put(16, 50);
+        BASE_PERCENT_MAP.put(17, 5);
+        BASE_PERCENT_MAP.put(18, 40);
+        BASE_PERCENT_MAP.put(19, 40);
+        BASE_PERCENT_MAP.put(20, 1);
+        //=
+        BASE_PERCENT_MAP.put(71, 42);
+        BASE_PERCENT_MAP.put(72, 58);
+        BASE_PERCENT_MAP.put(73, 5);
+        BASE_PERCENT_MAP.put(74, 7);
+        BASE_PERCENT_MAP.put(75, 5);
+        BASE_PERCENT_MAP.put(76, 3);
+        BASE_PERCENT_MAP.put(77, 52);
+        BASE_PERCENT_MAP.put(78, 42);
+        BASE_PERCENT_MAP.put(711, 50);
+        BASE_PERCENT_MAP.put(712, 51);
+        BASE_PERCENT_MAP.put(713, 43);
+        BASE_PERCENT_MAP.put(714, 43);
+        BASE_PERCENT_MAP.put(715, 34);
+        BASE_PERCENT_MAP.put(716, 42);
+        BASE_PERCENT_MAP.put(717, 39);
+        BASE_PERCENT_MAP.put(718, 38);
+        BASE_PERCENT_MAP.put(719, 5);
+        BASE_PERCENT_MAP.put(720, 41);
+        BASE_PERCENT_MAP.put(721, 12);
+        BASE_PERCENT_MAP.put(722, 32);
+        BASE_PERCENT_MAP.put(723, 32);
+        BASE_PERCENT_MAP.put(724, 50);
+        BASE_PERCENT_MAP.put(725, 42);
+        BASE_PERCENT_MAP.put(726, 50);
+        BASE_PERCENT_MAP.put(727, 40);
+        BASE_PERCENT_MAP.put(728, 40);
+        BASE_PERCENT_MAP.put(729, 54);
+        BASE_PERCENT_MAP.put(730, 40);
+        BASE_PERCENT_MAP.put(731, 40);
     }
 
 
@@ -85,9 +88,9 @@ public class GameSkillDetailService {
      * @param id
      * @return
      */
-    public static synchronized Integer getBasePercent(Integer id) {
-        if (basePercentMap.containsKey(id.intValue())) {
-            return basePercentMap.get(id.intValue());
+    public static Integer getBasePercent(Integer id) {
+        if (BASE_PERCENT_MAP.containsKey(id.intValue())) {
+            return BASE_PERCENT_MAP.get(id.intValue());
         } else {
             return -1;
         }
@@ -100,7 +103,7 @@ public class GameSkillDetailService {
      * @param jid
      * @return
      */
-    public static synchronized String getIntroContent(int id, int jid) {
+    public static String getIntroContent(int id, int jid) {
         switch (jid) {
             case 0:
                 return String.format("对指定一个人恢复%s%%的血量", getAddP(jid, id));
@@ -135,13 +138,15 @@ public class GameSkillDetailService {
             case 15:
                 return String.format("为自己增加一个最大生命值的%s%%的永久护盾(直到被打掉为止)", getAddP(jid, id));
             case 16:
-                return String.format("为自己增加一个最大生命值的%s%%的临时护盾持续时间%s秒,##永久护盾和临时护盾不能叠加,后者将不生效", getAddP(jid, id), getAddP(jid, id) / 5);
+                return String.format("为自己增加一个最大生命值的%s%%的临时护盾持续时间%s秒,##永久护盾和临时护盾不能叠加", getAddP(jid, id), getAddP(jid, id) / 5);
             case 17:
                 return String.format("%s秒内,躲避下次攻击", getAddP(jid, id));
             case 18:
                 return String.format("攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%%时加成为攻击x%s%%", getAddP(jid, id));
             case 19:
                 return String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(jid, id));
+            case 20:
+                return String.format("控制型技能,指定敌人,2秒后 对其 眩晕 %s 秒 其值受攻击者和被攻击者的精神力影响", getAddP(jid, id));
             //==========================================================
             case 71:
                 return String.format("释放雷霆之力,对指定2个敌人造成%s%%攻击的伤害,10秒后在造成30%的伤害,10秒后造成10%的伤害", getAddP(jid, id));
@@ -215,7 +220,25 @@ public class GameSkillDetailService {
      * @param jid
      * @return
      */
-    public static synchronized SkillIntro.Type[] getTypesFromJid(int jid) {
+    public static SkillIntro.Type[] getTypesFromJid0(int jid) {
+        if (HIST_TYPES.containsKey(jid)) {
+            return HIST_TYPES.get(jid);
+        } else {
+            SkillIntro.Type[] types = getTypesFromJid(jid);
+            HIST_TYPES.put(jid, types);
+            return types;
+        }
+    }
+
+    private static final Map<Integer, SkillIntro.Type[]> HIST_TYPES = new HashMap<>();
+
+    /**
+     * 获取武魂类型
+     *
+     * @param jid
+     * @return
+     */
+    public static SkillIntro.Type[] getTypesFromJid(int jid) {
         switch (jid) {
             case 0:
                 return WhTypes._0;
@@ -257,6 +280,8 @@ public class GameSkillDetailService {
                 return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.Special};
             case 19:
                 return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.NLonTime};
+            case 20:
+                return new SkillIntro.Type[]{SkillIntro.Type.Control};
             //=======================================================================
             case 71:
                 return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
@@ -320,8 +345,9 @@ public class GameSkillDetailService {
                 return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.Mark};
             case 731:
                 return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.Mark, SkillIntro.Type.Shd};
+            default:
+                return new SkillIntro.Type[]{SkillIntro.Type.Err};
         }
-        return new SkillIntro.Type[]{SkillIntro.Type.Err};
     }
 
 
@@ -330,7 +356,7 @@ public class GameSkillDetailService {
      * @param id  魂环ID
      * @return
      */
-    private static synchronized Long getAddP(Integer jid, Integer id) {
+    private static Long getAddP(Integer jid, Integer id) {
         return (long) (getBasePercent(jid) * GameTool.getAHBl_(id));
     }
 
@@ -372,6 +398,9 @@ public class GameSkillDetailService {
         }
         if (jid == 14) {
             return 18;
+        }
+        if (jid == 20) {
+            return 12;
         }
         int n = 205 - id;
         return 12 - n;

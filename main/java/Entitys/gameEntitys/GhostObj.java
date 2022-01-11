@@ -7,6 +7,7 @@ import Project.Tools.JSONUtils;
 
 import java.io.Serializable;
 
+import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
@@ -94,8 +95,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     private void initHj() {
-        long v = att + maxHp;
-        v = v / 10;
+        long v = att / 12 + maxHp / 9;
         v = v < 100 ? 100 : v;
         hj = v;
         hjL = v;
@@ -110,6 +110,10 @@ public class GhostObj implements Serializable, BaseInfo {
         return IDX;
     }
 
+    public long getIDxL() {
+        return (long) IDX;
+    }
+
     public Long getMaxHp() {
         return maxHp;
     }
@@ -119,6 +123,7 @@ public class GhostObj implements Serializable, BaseInfo {
         return hj;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -209,7 +214,7 @@ public class GhostObj implements Serializable, BaseInfo {
             case 1000:
             case 10000:
             case 100000:
-                GhostObj ghostObj = new GhostObj(randA(4 * level, 9 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
+                GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
                         , randA(idMin, idMax), randA(level + 1, Lmax(level)));
                 return ghostObj;
             default:
@@ -233,5 +238,16 @@ public class GhostObj implements Serializable, BaseInfo {
     @Override
     public GhostObj apply() {
         return GameJoinDetailService.saveGhostObjIn(whoMeet, this);
+    }
+
+    @Override
+    public boolean isVertigo() {
+        return VERTIGO_IN.containsKey(getIDxL()) ? VERTIGO_IN.get(getIDxL()) : false;
+    }
+
+    @Override
+    public GhostObj setVertigo(boolean vertigo) {
+        VERTIGO_IN.put(getIDxL(), vertigo);
+        return this;
     }
 }

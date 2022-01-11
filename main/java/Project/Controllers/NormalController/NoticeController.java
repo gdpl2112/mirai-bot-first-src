@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.11-v2:修复已知bug,技能效果可叠加,魂兽的削弱,魂技的更新").append("\n");
         UPDATE_LOG.append("1.11: 精神攻击<At/#><V> 或 精神攻击<At/#><V> 详情见\"精神力作用\"").append("\n");
         UPDATE_LOG.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
         UPDATE_LOG.append("1.5 : 更新了 更新日志").append("\n");

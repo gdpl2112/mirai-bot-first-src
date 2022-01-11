@@ -73,7 +73,7 @@ public class GameDetailService {
      * @return
      */
     public static String beaten(Number qq, Number qq2, final long o) {
-        synchronized (qq) {
+        synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
             PersonInfo p1 = getInfo(qq);
@@ -201,6 +201,9 @@ public class GameDetailService {
     public static String onSpiritAttack(Number q, Number q2, Integer by) {
         synchronized (q) {
             PersonInfo p1 = getInfo(q);
+            if (p1.isVertigo()) {
+                return "攻击者处于眩晕状态";
+            }
             long v1L = p1.getHjL();
             long v1 = p1.getHj();
             long v2 = percentTo(by, v1L);

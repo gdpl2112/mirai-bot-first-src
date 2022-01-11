@@ -6,6 +6,13 @@ package Entitys.gameEntitys.base;
  */
 public interface BaseInfo {
     /**
+     * get name
+     *
+     * @return
+     */
+    String getName();
+
+    /**
      * get attack value
      *
      * @return
@@ -77,4 +84,18 @@ public interface BaseInfo {
      * @return
      */
     BaseInfo addHp(Long v);
+
+    /**
+     * 是否被眩晕
+     *
+     * @return
+     */
+    boolean isVertigo();
+
+    /**
+     * set Vertigo
+     *
+     * @return
+     */
+    <T> T setVertigo(boolean vertigo);
 }

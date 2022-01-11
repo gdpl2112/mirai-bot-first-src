@@ -24,6 +24,9 @@ import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameJoinAcController {
     public GameJoinAcController() {
@@ -42,8 +45,9 @@ public class GameJoinAcController {
 
     @Before
     public void before(User qq, Group group, @AllMess String message) throws NoRunException {
-        if (!AllK)
+        if (!AllK) {
             throw new NoRunException();
+        }
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
@@ -81,10 +85,14 @@ public class GameJoinAcController {
             return "您不能支援";
         }
         long whos = getAtFromString(name);
-        if (whos == -1)
+        if (whos == -1) {
             return "支援谁？";
-        if (!GameDataBase.exist(whos)) return "该玩家尚未注册";
-        return gameJoinAcService.helpTo(qq.getId(), whos);
+        } else {
+            if (!GameDataBase.exist(whos)) {
+                return "该玩家尚未注册";
+            }
+            return gameJoinAcService.helpTo(qq.getId(), whos);
+        }
     }
 
     @Action("探查")
@@ -94,29 +102,23 @@ public class GameJoinAcController {
 
     @Action("魂兽击杀排行")
     public String com6(Group group) {
-        int Mc = 5;
-        Map<Number, Integer> map = Tool.sortMapByValue(killedC);
-        StringBuilder sb = new StringBuilder();
-        int na = 0;
-        for (Map.Entry<Number, Integer> entry : map.entrySet()) {
-            Number number = entry.getKey();
-            if (na++ == Mc) break;
-            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(number.longValue(), group))
-                    .append("=>").append("击杀").append(killedC.get(number.longValue())).append("只\n");
-        }
-        return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+        return com7("5", group);
     }
 
     @Action("魂兽击杀排行<.+=>n>")
     public String com7(@Param("n") String n, Group group) {
-        int Mc = 5;
-        if (n != null) Mc = Integer.valueOf(n);
+        int mc = 5;
+        if (n != null) {
+            mc = Integer.valueOf(n);
+        }
         Map<Number, Integer> map = Tool.sortMapByValue(killedC);
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (Map.Entry<Number, Integer> entry : map.entrySet()) {
             Number number = entry.getKey();
-            if (na++ == Mc) break;
+            if (na++ == mc) {
+                break;
+            }
             sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(number.longValue(), group))
                     .append("=>").append("击杀").append(killedC.get(number.longValue())).append("只\n");
         }

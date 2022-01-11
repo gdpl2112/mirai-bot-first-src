@@ -55,7 +55,7 @@ public class GameJoinDetailService {
     private GhostObj isUse107(String who) {
         PersonInfo personInfo = getInfo(who);
         String da = personInfo.getUsinged();
-        if (da == null || da.equals("null") || da.isEmpty())
+        if (da == null || "null".equals(da) || da.isEmpty())
             return null;
         else {
             putPerson(personInfo.setUsinged("null"));

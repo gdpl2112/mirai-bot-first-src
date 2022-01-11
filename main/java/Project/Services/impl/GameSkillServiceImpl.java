@@ -34,25 +34,31 @@ public class GameSkillServiceImpl implements ISkillService {
         if (skinfo.containsKey(st)) {
             return ("已经激活了这个魂技");
         } else {
-            if (st != 1)
-                if (!skinfo.containsKey(st - 1))
+            if (st != 1) {
+                if (!skinfo.containsKey(st - 1)) {
                     return ("请先激活前一个魂技");
-            if (st > 7)
+                }
+            }
+            if (st > 7) {
                 return ("更多魂技开发中...");
+            }
         }
         Integer id = is[st - 1];
         Integer id2;
         while (true) {
-            id2 = Tool.rand.nextInt(20);
+            id2 = Tool.rand.nextInt(21);
             boolean k = false;
-            for (SkillInfo i : skinfo.values())
+            for (SkillInfo i : skinfo.values()) {
                 if (i.getJid().intValue() == id2.intValue()) {
                     k = true;
                     break;
                 }
-            if (k) continue;
-            else
+            }
+            if (k) {
+                continue;
+            } else {
                 break;
+            }
         }
 
         if (st == 7) {
@@ -81,7 +87,7 @@ public class GameSkillServiceImpl implements ISkillService {
             intro.setJid(jid);
             intro.setSt(st);
             intro.setHasTime(getDuration(jid).longValue());
-            intro.setTypes(getTypesFromJid(jid));
+            intro.setTypes(getTypesFromJid0(jid));
             intro.setWh(wh);
             return intro.getContent();
         } catch (Exception e) {
@@ -91,16 +97,10 @@ public class GameSkillServiceImpl implements ISkillService {
     }
 
     @Override
-    public String UseSkill(long qq, Integer st, Number[] allAt, String name, Group group) {
+    public String useSkill(long qq, Integer st, Number[] allAt, String name, Group group) {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (!infos.containsKey(st)) return "你没有这个魂技";
         SkillInfo info = infos.get(st);
-        /*
-        if (info.getName() != null) {
-            if (!(name.contains(info.getName()) || name.equals(info.getName()))) {
-                return "您的第" + Tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();
-            }
-        }*/
         if (info.getState() < 0) return "该魂技处于不可用状态";
         if (System.currentTimeMillis() < info.getTime()) return "魂技冷却中...\r\n" + Tool.getTimeHHMM(info.getTime());
         PersonInfo personInfo = getInfo(qq);

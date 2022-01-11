@@ -68,16 +68,21 @@ public class Ghost_Behavior implements Runnable {
             boolean l = false;
             boolean led = false;
             while (true) {
-                if (!updateGhost()) break;
+                if (!updateGhost()) {
+                    break;
+                }
                 if ((!led || Tool.rand.nextInt(5) < 3) && needLock()) {
-                    if (!startLock())
+                    if (!startLock()) {
                         break;
+                    }
                     l = true;
                 }
                 if (startAtt(l)) {
                     Thread.sleep(8500);
                     continue;
-                } else break;
+                } else {
+                    break;
+                }
             }
             onDestroy(l);
         } catch (Exception e) {
@@ -97,6 +102,11 @@ public class Ghost_Behavior implements Runnable {
             if (needAway()) {
                 Send(ghostObj.getName() + "取消了蓄力,准备逃跑");
                 startWay();
+            }
+            if (brokenPaper()) {
+                Send(ghostObj.getName() + "因为眩晕被打断了蓄力");
+                ghostObj.setVertigo(false);
+                return true;
             }
             if (!updateGhost()) return false;
             if (needSay(findTime)) Send("蓄力倒计时!\r\n" + findTime);
@@ -119,6 +129,10 @@ public class Ghost_Behavior implements Runnable {
         Send(builder.toString());
         if (!updateGhost()) return false;
         return true;
+    }
+
+    private boolean brokenPaper() {
+        return ghostObj.isVertigo();
     }
 
     private void startWay() {

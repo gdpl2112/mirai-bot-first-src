@@ -72,7 +72,7 @@ public class GameSkillController {
             String s1 = Tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
             str = str.replace(Tool.trans(st) + "", "");
-            return String.valueOf(skillService.UseSkill(qq.getId(), st, getAllAt(str), str, group));
+            return String.valueOf(skillService.useSkill(qq.getId(), st, getAllAt(str), str, group));
         } else {
             throw new NoRunException();
         }
@@ -159,12 +159,7 @@ public class GameSkillController {
     }
 
     private static String m1 = "新.\n" +
-            "\t1._N秒内,躲避下次攻击\n" +
-            "\t2.攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%时加成为 攻击xN%\n" +
-            "\t3.蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的N%+- 10% 的 伤害\n" +
-            "==============\n" +
-            "调整.\n" +
-            "\t1.在接下来的来N秒内,免疫一次死亡";
+            "\t1.控制型技能,眩晕\n";
 
     @Action("魂技更新列表")
     public String m1() {

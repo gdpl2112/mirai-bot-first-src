@@ -9,6 +9,7 @@ import Project.broadcast.RecordBroadcast;
 
 import java.lang.reflect.Field;
 
+import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.Controllers.GameControllers.GameController.maxXp;
 import static Project.DataBases.GameDataBase.getInfo;
 
@@ -227,6 +228,7 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -535,10 +537,15 @@ public class PersonInfo implements BaseInfo {
 
     public PersonInfo addTag(String myTag, Number percent) {
         if (this.myTag.contains(myTag)) {
+            Long v = getTagValue(myTag).longValue();
+            eddTag(myTag);
+            long v1 = percent.longValue() + v.longValue();
+            this.myTag += myTag + v1 + ",";
+            return this;
+        } else {
+            this.myTag += myTag + percent + ",";
             return this;
         }
-        this.myTag += myTag + percent + ",";
-        return this;
     }
 
     public PersonInfo eddTag(String myTag, Number percent) {
@@ -714,6 +721,17 @@ public class PersonInfo implements BaseInfo {
             return (whType = GameDataBase.wh2Type.get(wh.intValue()));
         }
         return whType;
+    }
+
+    @Override
+    public boolean isVertigo() {
+        return VERTIGO_IN.containsKey(getId().longValue()) ? VERTIGO_IN.get(getId().longValue()) : false;
+    }
+
+    @Override
+    public PersonInfo setVertigo(boolean vertigo) {
+        VERTIGO_IN.put(getId().longValue(), vertigo);
+        return this;
     }
 
     public PersonInfo setWhType(Integer whType) {

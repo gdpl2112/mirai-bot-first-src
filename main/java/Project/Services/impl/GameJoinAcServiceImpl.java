@@ -93,8 +93,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
     @Override
     public String getHelp(long who) {
-        GhostObj ghostObj =
-                getGhostObjFrom(who);
+        GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getState() != GhostObj.HELPING) {
                 if (!isATrue(who)) {
