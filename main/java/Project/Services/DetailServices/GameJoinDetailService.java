@@ -254,7 +254,15 @@ public class GameJoinDetailService {
 
     public static final List<Integer> idxs = new CopyOnWriteArrayList<>();
 
-    public static String AttGho(long who, long att, boolean show, boolean canAtMe) {
+    /**
+     * 攻击一个魂兽
+     * @param who 攻击者 与 魂兽
+     * @param att 值
+     * @param show 返回攻击后的魂兽信息
+     * @param canAttMe 魂兽是否可攻击我
+     * @return
+     */
+    public static String attGho(long who, long att, boolean show, boolean canAttMe) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         if (ghostObj == null) {
             return "没有遇到魂兽或 已过期,或已死亡";
@@ -272,7 +280,8 @@ public class GameJoinDetailService {
                 return "该魂兽,正在被攻击中";
             idxs.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
-            if (canAtMe)
+
+            if (canAttMe)
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2));
 
             ghostObj.updateHp(-att);
@@ -298,10 +307,11 @@ public class GameJoinDetailService {
                     GameJoinDetailService.saveGhostObjIn(who, null);
                 }
                 //广播
-                if (!isHelp)
+                if (!isHelp) {
                     GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
-                else
+                } else {
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj);
+                }
             }
             if (showY && show) sb.append("\n").append(WillTips(who, ghostObj, false));
             return sb.toString();

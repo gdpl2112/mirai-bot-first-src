@@ -1,6 +1,7 @@
 package Project.Services.DetailServices;
 
 import Entitys.gameEntitys.AttributeBone;
+import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.base.BaseInfo;
 import Project.Controllers.GameControllers.GameController;
@@ -26,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.Services.DetailServices.GameDetailServiceUtils.*;
+import static Project.Services.DetailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
  * @author github-kloping
@@ -223,6 +224,7 @@ public class GameDetailService {
                 ov2 = baseInfo.getHj();
             }
             baseInfo.addHj(-ov2);
+            baseInfo.apply();
             sb.append("对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失\n");
 
             long nv2 = v2 - ov2;
@@ -230,11 +232,14 @@ public class GameDetailService {
                 int v = toPercent(nv2, baseInfo.getHpL());
                 v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                 long nv0 = percentTo(v, baseInfo.getHpL());
-                baseInfo.addHp(-nv0);
-                sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
+                if (baseInfo instanceof GhostObj) {
+                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv0, true, false));
+                } else {
+                    sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
+                    sb.append(beaten(q2, q, nv0)).append("\n");
+                }
             }
 
-            baseInfo.apply();
             p1.apply();
             return sb.toString().trim();
         }

@@ -852,7 +852,7 @@ public class GameServiceImpl implements IGameService {
             if (br0 >= 30) {
                 if (br0 >= br) {
                     String s1 = GameDetailService.onSpiritAttack(q, q2, br);
-                    return "您发射了" + br + "%的精神力\n" + s1 + "\n" + info(q);
+                    return "您发射了" + br + "%的精神力\n" + s1 + "\n";
                 } else {
                     return "精神力不足" + br + "%或不足及发射指定比率的精神力";
                 }

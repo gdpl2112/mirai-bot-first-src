@@ -370,7 +370,7 @@ public class GameTool {
                 Long who = Long.parseLong(ss[0]);
                 int level = Integer.valueOf(ss[1]);
                 Entry<String, Integer> e1 = Tool.getEntry(who.toString(), level);
-                if (!PH.contains(e1))
+                if (!containsPh(e1))
                     PH.add(e1);
                 threads.execute(() -> {
                     removeAllTag(who);
@@ -381,6 +381,15 @@ public class GameTool {
                 continue;
             }
         }
+    }
+
+    private static boolean containsPh(Entry<String, Integer> e1) {
+        for (Entry<String, Integer> stringIntegerEntry : PH) {
+            if (stringIntegerEntry.getKey().equals(e1.getKey())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void removeAllTag(Number number) {

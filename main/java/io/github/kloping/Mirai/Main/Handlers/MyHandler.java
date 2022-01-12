@@ -34,6 +34,9 @@ import java.util.concurrent.Executors;
 import static Project.Controllers.SessionController.gotoSession;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
 
+/**
+ * @author github-kloping
+ */
 public class MyHandler extends SimpleListenerHost {
     public MyHandler() {
         super();

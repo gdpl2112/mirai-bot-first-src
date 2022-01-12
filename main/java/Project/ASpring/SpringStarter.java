@@ -8,6 +8,9 @@ import java.util.Arrays;
 
 import static Project.ASpring.SpringBootResource.*;
 
+/**
+ * @author github-kloping
+ */
 @SpringBootApplication(scanBasePackages = {"Project.ASpring.mcs"})
 @MapperScan("Project.ASpring.mcs")
 public class SpringStarter {

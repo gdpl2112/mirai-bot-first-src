@@ -7,7 +7,7 @@ import Project.DataBases.GameDataBase;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Services.DetailServices.GameDetailService.beaten;
 import static Project.Services.DetailServices.GameDetailService.onAtt;
-import static Project.Services.DetailServices.GameJoinDetailService.AttGho;
+import static Project.Services.DetailServices.GameJoinDetailService.attGho;
 
 /**
  * @author github-kloping
@@ -60,7 +60,7 @@ public class GameDetailServiceUtils {
     }
 
     /**
-     * 从任何东西上获取最大精神值
+     * 获取基本信息
      *
      * @param who
      * @param num
@@ -117,7 +117,7 @@ public class GameDetailServiceUtils {
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v) {
         if (who2.longValue() == -2) {
-            sb.append(AttGho(who.longValue(), v, true, false));
+            sb.append(attGho(who.longValue(), v, true, false));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
                 sb.append("该玩家尚未注册");

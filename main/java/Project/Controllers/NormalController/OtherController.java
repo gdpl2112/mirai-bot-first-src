@@ -200,7 +200,7 @@ public class OtherController {
 
     @Action("我的发言统计")
     public String m1(long q, Group group) {
-        return "点击=>" + String.format(Saver.rootPath + "/says.html?qid=" + q + "&gid=" + group.getId());
+        return "点击=>" + String.format(Saver.ROOT_PATH + "/says.html?qid=" + q + "&gid=" + group.getId());
     }
 
 

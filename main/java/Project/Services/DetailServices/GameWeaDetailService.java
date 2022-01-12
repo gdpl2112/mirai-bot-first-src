@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Services.DetailServices.GameJoinDetailService.AttGho;
+import static Project.Services.DetailServices.GameJoinDetailService.attGho;
 import static Project.Tools.GameTool.isAlive;
 import static Project.Tools.Tool.randLong;
 
@@ -68,7 +68,7 @@ public class GameWeaDetailService {
             ar = ar > 10000 ? 10000 : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = AttGho(who, l, true, false);
+                String ss = attGho(who, l, true, false);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -169,7 +169,7 @@ public class GameWeaDetailService {
             ar = ar > 2500000 ? 2500000 : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = AttGho(who, l, true, false);
+                String ss = attGho(who, l, true, false);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -234,7 +234,7 @@ public class GameWeaDetailService {
         for (String whos : lps) {
             if (whos.equals("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = AttGho(who, l, n++ == lps.size(), false);
+                String ss = attGho(who, l, n++ == lps.size(), false);
                 if (ss.startsWith("你对"))
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");
