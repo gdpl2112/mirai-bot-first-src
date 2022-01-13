@@ -115,8 +115,9 @@ public class Resource {
         StarterApplication.setAllAfter(new Runner() {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
-                if (t != null)
+                if (t != null) {
                     DaeThreads.submit(() -> onReturnResult(t, objects));
+                }
             }
         });
         StarterApplication.setAllBefore(new Runner() {
@@ -138,7 +139,9 @@ public class Resource {
         Integer type = Integer.valueOf(objects[5].toString());
         if (type == 0) {
             net.mamoe.mirai.contact.Group group = bot.getGroup(((Group) objects[4]).getId());
-            if (o == null) return;
+            if (o == null) {
+                return;
+            }
             //====
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;

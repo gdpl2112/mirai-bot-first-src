@@ -15,10 +15,14 @@ import static Project.ASpring.SpringBootResource.*;
 @MapperScan("Project.ASpring.mcs")
 public class SpringStarter {
     public static void main(String[] args) {
-        args = Arrays.copyOf(args, args.length + 1);
-        args[args.length - 1] = "--spring.config.location=./spring/conf/application.yml";
-        configuration = SpringApplication.run(SpringStarter.class, args);
-        environment = configuration.getEnvironment();
-        init();
+        try {
+            args = Arrays.copyOf(args, args.length + 1);
+            args[args.length - 1] = "--spring.config.location=./spring/conf/application.yml";
+            configuration = SpringApplication.run(SpringStarter.class, args);
+            environment = configuration.getEnvironment();
+            init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
