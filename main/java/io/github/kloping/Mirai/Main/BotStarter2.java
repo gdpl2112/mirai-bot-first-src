@@ -35,6 +35,7 @@ public class BotStarter2 {
         SpringStarter2.main(args);
         bot.login();
         BotStarter2.afterLogin();
+        pluginLoad();
     }
 
     public static void afterLogin() {

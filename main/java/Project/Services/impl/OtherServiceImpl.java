@@ -73,7 +73,7 @@ public class OtherServiceImpl implements IOtherService {
         result = result.replaceAll("\\}", ">");
         result = result.replaceAll("f", "F");
         result = result.substring(start + 2, result.lastIndexOf("\""));
-        result = result.replaceAll("菲菲", Resource.myMame);
+        result = result.replaceAll("菲菲", Resource.MY_MAME);
         result = result.replaceAll("<br>", "\r\n");
         return result.trim();
     }

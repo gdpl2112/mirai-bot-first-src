@@ -13,6 +13,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.initialize.FileInitializeValue;
 import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
+import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
@@ -21,6 +23,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -29,12 +32,23 @@ import java.util.concurrent.*;
 
 import static Project.Controllers.GameControllers.GameH2LController.check;
 
+/**
+ * @author github-kloping
+ */
 public class Resource {
-    public static final ExecutorService threads = Executors.newFixedThreadPool(20);
-    public static final ExecutorService DaeThreads =
+    public static void pluginLoad() {
+        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(
+                new MiraiConsoleImplementationTerminal(
+                        Paths.get("./console")
+                )
+        );
+    }
+
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
+    public static final ExecutorService DEA_THREADS =
             new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 
-    public static final String myMame = "0号";
+    public static final String MY_MAME = "0号";
 
     public static Bot bot;
 
@@ -116,7 +130,7 @@ public class Resource {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
                 if (t != null) {
-                    DaeThreads.submit(() -> onReturnResult(t, objects));
+                    DEA_THREADS.submit(() -> onReturnResult(t, objects));
                 }
             }
         });
@@ -195,7 +209,7 @@ public class Resource {
     }
 
     public static final synchronized void onServerAddTimes() {
-        DaeThreads.execute(runnableBefore);
+        DEA_THREADS.execute(runnableBefore);
     }
 
     private static final Runnable runnableBefore = () -> {
@@ -210,7 +224,7 @@ public class Resource {
     public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
     public static void StarterOk(boolean k) {
-        threads.execute(new Runnable() {
+        THREADS.execute(new Runnable() {
             @Override
             public void run() {
                 for (Runnable runnable : StartOkRuns) {

@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static Project.Controllers.NormalController.NoticeController.lowst;
-import static io.github.kloping.Mirai.Main.Resource.threads;
+import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -26,7 +26,7 @@ import static io.github.kloping.Mirai.Main.Resource.threads;
 @Entity
 public class GameReceiver0 {
     public GameReceiver0() {
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             Method[] methods = this.getClass().getDeclaredMethods();
             for (Method method : methods) {
                 if (method.getName().equals("lambda$new$0")) continue;

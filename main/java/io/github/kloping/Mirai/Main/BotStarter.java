@@ -55,6 +55,7 @@ public class BotStarter {
         SpringStarter.main(args);
         bot.login();
         BotStarter.afterLogin();
+        pluginLoad();
     }
 
     private static void initBot() {

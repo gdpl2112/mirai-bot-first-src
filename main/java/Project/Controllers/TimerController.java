@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import static Project.Tools.Tool.update_Today;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.gs;
-import static io.github.kloping.Mirai.Main.Resource.threads;
+import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -28,7 +28,7 @@ public class TimerController {
     @Schedule("00:00:00")
     public static void onZero() {
         update_Today();
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             GameDataBase.histInfos.clear();
             DataBase.histUScore.clear();
             Resource.Switch.AllK = false;
@@ -50,7 +50,7 @@ public class TimerController {
                 group.sendMessage("自动开启");
             }
         });
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             m1();
         });
     }
@@ -75,7 +75,7 @@ public class TimerController {
     @Schedule("07:10:00")
     public static void onSix() {
         update_Today();
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             for (long g : gs) {
                 if (!ControllerTool.CanGroup(g)) continue;
                 Group group = Resource.bot.getGroup(g);
@@ -85,7 +85,7 @@ public class TimerController {
                 group.sendMessage(builder.build());
             }
         });
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             m1();
             morningRunnable.forEach(e -> e.run());
         });
@@ -94,7 +94,7 @@ public class TimerController {
     @Schedule("12:00:00")
     public static void onMidTwe() {
         update_Today();
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             for (long g : gs) {
                 if (!ControllerTool.CanGroup(g)) continue;
                 Group group = Resource.bot.getGroup(g);
@@ -103,7 +103,7 @@ public class TimerController {
                 group.sendMessage(builder.build());
             }
         });
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             m1();
         });
     }
@@ -111,7 +111,7 @@ public class TimerController {
     @Schedule("17:50:00")
     public static void onNightSix() {
         update_Today();
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             for (long g : gs) {
                 if (!ControllerTool.CanGroup(g)) continue;
                 Group group = Resource.bot.getGroup(g);
@@ -120,7 +120,7 @@ public class TimerController {
                 group.sendMessage(builder.build());
             }
         });
-        threads.execute(() -> {
+        THREADS.execute(() -> {
             m1();
         });
     }
@@ -132,7 +132,7 @@ public class TimerController {
 
     //    @TimeEve(1000 * 60 * 60 * 10)
     public static void m1() {
-        threads.execute(() -> {
+        THREADS.execute(() -> {
 //            File file = null;
 //            try {
 //                if (baseC3 == null) {

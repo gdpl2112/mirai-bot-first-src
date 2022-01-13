@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.*;
 
 import static Project.DataBases.GameTaskDatabase.*;
-import static io.github.kloping.Mirai.Main.Resource.threads;
+import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 @Data
 @Accessors(chain = true)
@@ -82,7 +82,7 @@ public class Task {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                taskRunnable.forEach(r -> threads.submit(r));
+                taskRunnable.forEach(r -> THREADS.submit(r));
             }
         }, 15 * 1000, 10 * 60 * 1000);
     }

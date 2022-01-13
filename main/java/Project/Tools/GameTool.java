@@ -16,7 +16,7 @@ import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
-import static io.github.kloping.Mirai.Main.Resource.threads;
+import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 public class GameTool {
     /**
@@ -341,7 +341,7 @@ public class GameTool {
                         if (!PH.contains(e1))
                             PH.add(e1);
 
-                        threads.execute(() -> {
+                        THREADS.execute(() -> {
                             removeAllTag(id);
                         });
                         System.out.println("loaded-->" + f1);
@@ -372,7 +372,7 @@ public class GameTool {
                 Entry<String, Integer> e1 = Tool.getEntry(who.toString(), level);
                 if (!containsPh(e1))
                     PH.add(e1);
-                threads.execute(() -> {
+                THREADS.execute(() -> {
                     removeAllTag(who);
                 });
             } catch (Exception e) {

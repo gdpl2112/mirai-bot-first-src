@@ -1,21 +1,14 @@
 package io.github.kloping.Mirai.Main.Handlers;
 
 import Project.broadcast.game.GroupMessageBroadcast;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.NudgeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static Project.Tools.Tool.rand;
-import static io.github.kloping.Mirai.Main.Resource.threads;
 
 public class OwnerHandler extends SimpleListenerHost {
     public OwnerHandler() {
