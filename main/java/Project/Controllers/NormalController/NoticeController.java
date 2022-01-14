@@ -47,16 +47,17 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.14:修复已知bug,新娱乐功能: 网易云热评").append("\n");
         UPDATE_LOG.append("1.12:修复已知bug").append("\n");
         UPDATE_LOG.append("1.11-v2:修复已知bug,技能效果可叠加,魂兽的削弱,魂技的更新").append("\n");
         UPDATE_LOG.append("1.11: 精神攻击<At/#><V> 或 精神攻击<At/#><V> 详情见\"精神力作用\"").append("\n");
         UPDATE_LOG.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
         UPDATE_LOG.append("1.5 : 更新了 更新日志").append("\n");
         UPDATE_LOG.append("1.3 : 修复已知bug").append("\n");
-        UPDATE_LOG.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
-        UPDATE_LOG.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
-        UPDATE_LOG.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");
-        UPDATE_LOG.append("12.26: 金魂币消费记录").append("\n");
+//        UPDATE_LOG.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
+//        UPDATE_LOG.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
+//        UPDATE_LOG.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");
+//        UPDATE_LOG.append("12.26: 金魂币消费记录").append("\n");
 //        sb.append("12.26: 修复已知bug").append("\n");
 //        sb.append("12.24: 原神公告<n> 王者公告<n>").append("\n");
 //        sb.append("12.23: 批量抢劫").append("\n");

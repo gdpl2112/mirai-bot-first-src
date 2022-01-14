@@ -5,6 +5,7 @@ import Entitys.User;
 import Project.DataBases.DataBase;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.BotStarter;
+import io.github.kloping.Mirai.Main.Handlers.CapHandler;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -41,33 +42,19 @@ public class SuperController {
             throw new NoRunException("can`t do this");
         }
     }
-//
-//    @Action("/move0")
-//    public void m0() {
-//        try {
-//            move0();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @Action("/move1")
-//    public void m1() {
-//        try {
-//            move1();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @Action("/fixPh")
-//    public String o() {
-//        threads.execute(() -> {
-//            INDEX_FILE.delete();
-//            loadPh();
-//        });
-//        return "fixing";
-//    }
+
+    @Action("跳过验证.+")
+    public String o3(@AllMess String mess) {
+        try {
+            String numStr = Tool.findNumberFromString(mess);
+            long qid = Long.parseLong(numStr);
+            CapHandler.ok(qid);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "not found";
+        }
+    }
 
     @Action("/execute.+")
     public String o1(@AllMess String str, Group group) {
@@ -175,7 +162,8 @@ public class SuperController {
         }
     }
 
-    public static final String[] eddFatherTips = new String[]{"好的", "收到", "OK", "完成", "弄好了"};
+    public static final String[] EDD_FATHER_TIPS =
+            new String[]{"好的", "收到", "OK", "完成", "弄好了"};
 
     @Action("现在不是了")
     public Object istAdministratorNow(User qq) {
@@ -188,9 +176,11 @@ public class SuperController {
         }
         if (qq.getId() == Resource.superQL) {
             DataBase.removeFather(q2);
-            return getRandString(eddFatherTips);
+            return getRandString(EDD_FATHER_TIPS);
         } else {
             return getRandString(NDD_FATHER_TIPS);
         }
     }
+
+
 }

@@ -35,7 +35,6 @@ public class PointPicController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-
     @Before
     public void before(Entitys.Group group) throws NoRunException {
         if (!AllK)

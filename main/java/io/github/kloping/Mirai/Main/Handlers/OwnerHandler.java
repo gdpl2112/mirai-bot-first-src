@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @author github-kloping
+ */
 public class OwnerHandler extends SimpleListenerHost {
     public OwnerHandler() {
         super();

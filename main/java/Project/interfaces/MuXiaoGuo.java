@@ -1,6 +1,7 @@
 package Project.interfaces;
 
 import Entitys.apiEntitys.baiKe.BaiKe;
+import Entitys.apiEntitys.reping163.Reping163;
 import Entitys.apiEntitys.sjtx.Sjtx;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
@@ -10,7 +11,6 @@ import io.github.kloping.MySpringTool.annotations.http.ParamName;
 public interface MuXiaoGuo {
 
     /**
-     *
      * @param method pc or mobile
      * @return
      */
@@ -25,4 +25,12 @@ public interface MuXiaoGuo {
      */
     @GetPath("Baike")
     BaiKe getBaiKe(@ParamName("type") String type, @ParamName("word") String word);
+
+    /**
+     * 获取  163 网易一个 热评
+     *
+     * @return
+     */
+    @GetPath("163reping")
+    Reping163 reping();
 }

@@ -14,6 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author github-kloping
+ */
 public class CapHandler {
     public static final Map<Long, String> caping = new ConcurrentHashMap<>();
     public static final Map<Long, Group> cap2 = new ConcurrentHashMap<>();
@@ -91,7 +94,7 @@ public class CapHandler {
         }
     }
 
-    private static void ok(long qid) {
+    public static void ok(long qid) {
         caping.remove(qid);
         Group group = cap2.get(qid);
         cap2.remove(qid);

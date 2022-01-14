@@ -22,6 +22,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -37,11 +38,17 @@ import static Project.Controllers.GameControllers.GameH2LController.check;
  */
 public class Resource {
     public static void pluginLoad() {
+        PrintStream out = System.out;
+        PrintStream err = System.err;
+
         MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(
                 new MiraiConsoleImplementationTerminal(
                         Paths.get("./console")
                 )
         );
+
+        System.setOut(out);
+        System.setErr(err);
     }
 
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);

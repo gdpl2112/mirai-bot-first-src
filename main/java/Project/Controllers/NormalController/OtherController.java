@@ -50,6 +50,7 @@ public class OtherController {
         menuStr.append("7.交易市场").append("\r\n");
         menuStr.append("8.点歌系统").append("\r\n");
         menuStr.append("9.开始会话 #在线运行代码").append("\r\n");
+        menuStr.append("十.娱乐功能").append("\r\n");
         menuStr.append("不用at我,直接说就行了哦");
         //.append("\r\n");
     }
@@ -80,25 +81,26 @@ public class OtherController {
         BaseMenuStr.append("进入 #见列表\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("请求支援(遇到魂兽时请求)\n");
-        BaseMenuStr.append("支援(At)\n");
+        BaseMenuStr.append("支援<At>\n");
         BaseMenuStr.append("探查 #查看当前魂兽信息\n");
         BaseMenuStr.append("吸收(十/百/千..)年魂环\n");
         BaseMenuStr.append("魂环配置 #展示魂环\n");
         BaseMenuStr.append("购买金魂币(值) #2积分1个\n");
-        BaseMenuStr.append("攻击(at)\n");
-        BaseMenuStr.append("侦查(at)\n");
+        BaseMenuStr.append("攻击<At>\n");
+        BaseMenuStr.append("精神冲击<Any>\n");
+        BaseMenuStr.append("侦查<At>\n");
         BaseMenuStr.append("升级第<几>魂环\n");
         BaseMenuStr.append("取名封号<名字>\n");
         BaseMenuStr.append("====");
-        BaseMenuStr.append("选择(攻击/逃跑) \r\n\t#当遇到魂兽时使用\n");
-        BaseMenuStr.append("换积分(用金魂币换积分)\r\n\t#1金魂币1.5积分(多出500的金魂币才能换)\n");
+        BaseMenuStr.append("选择<攻击/逃跑>\r\n\t#当遇到魂兽时使用\n");
+        BaseMenuStr.append("换积分<value>\r\n\t#(用金魂币换积分)1金魂币1.5积分(多出500的金魂币才能换)\n");
         BaseMenuStr.append("等级排行\n");
         BaseMenuStr.append("称号 #(查看所有称号)\n");
         BaseMenuStr.append("武魂类型 #查看自己的武魂类型是什么)\n");
-        BaseMenuStr.append("融合武魂 @xx  # 需要融合戒指\n");
+        BaseMenuStr.append("融合武魂 <At>  # 需要融合戒指\n");
         BaseMenuStr.append("魂兽击杀排行\n");
         BaseMenuStr.append("关系列表\n");
-        BaseMenuStr.append("收徒 @xx\n");
+        BaseMenuStr.append("收徒 <At>\n");
         BaseMenuStr.append("出师\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("魂环吸收限制");
@@ -115,14 +117,14 @@ public class OtherController {
         BaseMenuStr.append("签到\n");
         BaseMenuStr.append("今日签榜\n");
         BaseMenuStr.append("签榜\n");
-        BaseMenuStr.append("取积分(值)\n");
-        BaseMenuStr.append("存积分(值)\n");
-        BaseMenuStr.append("积分转让/转让积分(@xx)(值)\n");
-        BaseMenuStr.append("积分侦查 @xx\n");
+        BaseMenuStr.append("取积分<value>\n");
+        BaseMenuStr.append("存积分<value>\n");
+        BaseMenuStr.append("积分转让/转让积分<At><value>\n");
+        BaseMenuStr.append("积分侦查<At>\n");
         BaseMenuStr.append("打工 #赚积分\n");
         BaseMenuStr.append("积分查询/查询积分\n");
-        BaseMenuStr.append("猜拳(石头/剪刀/布)(值)\n");
-        BaseMenuStr.append("抢劫@at\n");
+        BaseMenuStr.append("猜拳<石头/剪刀/布><value>\n");
+        BaseMenuStr.append("抢劫<At>\n");
         BaseMenuStr.append("我的发言\n");
         BaseMenuStr.append("====");
         BaseMenuStr.append("#管理相关 #需要权限\n");
@@ -133,27 +135,32 @@ public class OtherController {
         BaseMenuStr.append("(开启/关闭)闪照破解\n");
         BaseMenuStr.append("获取 @xx \n");
         BaseMenuStr.append("撤回 <@> <index...> \n");
-        BaseMenuStr.append("====");
-        BaseMenuStr.append("#其他\n");
-        BaseMenuStr.append("搜图 xx \n");
-        BaseMenuStr.append("百度搜图 xx \n");
-        BaseMenuStr.append("堆糖搜图 xx \n");
-        BaseMenuStr.append("发张 xx \n");
-        BaseMenuStr.append("掷骰子\n");
-        BaseMenuStr.append("捡瓶子/捡漂流瓶\n");
-        BaseMenuStr.append("扔瓶子/仍漂流瓶<内容>\n");
-        BaseMenuStr.append("/推<@>\n");
-        BaseMenuStr.append("/推[图片]\n");
-        BaseMenuStr.append("/玩球<@>\n");
-        BaseMenuStr.append("/玩球[图片]\n");
-        BaseMenuStr.append("/丢<@>\n");
-        BaseMenuStr.append("/丢[图片]\n");
         BaseMenuString = BaseMenuStr.toString();
         BaseMenuStrings = BaseMenuString.split("====");
-//        BaseMenuStr.append("哔哩搜索 xx \n");
-//        BaseMenuStr.append("哔哩哔哩搜索 xx \n");
-//        BaseMenuStr.append("快手短视频 #不稳定\n");
-//        BaseMenuStr.append("快手搜索 #不稳定\n");
+    }
+
+    private static final StringBuilder
+            ENTERTAINMENT_MENU_STR = new StringBuilder();
+
+    static {
+        ENTERTAINMENT_MENU_STR.append("搜图 xx \n");
+        ENTERTAINMENT_MENU_STR.append("百度搜图 xx \n");
+        ENTERTAINMENT_MENU_STR.append("堆糖搜图 xx \n");
+        ENTERTAINMENT_MENU_STR.append("发张 xx \n");
+        ENTERTAINMENT_MENU_STR.append("掷骰子\n");
+        ENTERTAINMENT_MENU_STR.append("捡瓶子/捡漂流瓶\n");
+        ENTERTAINMENT_MENU_STR.append("扔瓶子/仍漂流瓶<内容>\n");
+        ENTERTAINMENT_MENU_STR.append("/推<@>\n");
+        ENTERTAINMENT_MENU_STR.append("/推[图片]\n");
+        ENTERTAINMENT_MENU_STR.append("/玩球<@>\n");
+        ENTERTAINMENT_MENU_STR.append("/玩球[图片]\n");
+        ENTERTAINMENT_MENU_STR.append("/丢<@>\n");
+        ENTERTAINMENT_MENU_STR.append("/丢[图片]\n");
+    }
+
+    @Action("娱乐功能")
+    public String m0() {
+        return ENTERTAINMENT_MENU_STR.toString();
     }
 
     @Action("基本菜单")
