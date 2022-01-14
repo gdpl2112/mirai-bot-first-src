@@ -107,9 +107,11 @@ public class PointSongController {
         try {
             Reping163 reping163 = FirstController.muXiaoGuo.reping();
             StringBuilder sb = new StringBuilder();
-            sb.append("网易云热评:").append(reping163.getData().getContent()).append("\n");
-            sb.append("点赞数: ").append(reping163.getData().getLikedCount()).append("\n");
             sb.append("评论者昵称:").append(reping163.getData().getNickname()).append("\n");
+            sb.append("=============\n");
+            sb.append("网易云热评:").append(reping163.getData().getContent()).append("\n");
+            sb.append("=============\n");
+            sb.append("点赞数: ").append(reping163.getData().getLikedCount()).append("\n");
             sb.append("歌名:").append(reping163.getData().getSongName()).append("\n");
             sb.append("相关歌曲:").append("https://music.163.com/#/song?id=" + reping163.getData().getSongId()).append("\n");
             try {
