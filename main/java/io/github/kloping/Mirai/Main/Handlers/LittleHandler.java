@@ -18,6 +18,7 @@ import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
+import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -106,7 +107,9 @@ public class LittleHandler extends SimpleListenerHost {
                         Class2OMap c2m = Class2OMap.create(event.getMessage());
                         for (Method method : result.getMethods()) {
                             String arg = method.invoke(this, event, c2m).toString();
-                            event.getSubject().sendMessage(arg);
+                            if (arg != null) {
+                                event.getSubject().sendMessage(arg);
+                            }
                         }
                     }
                 }
@@ -190,12 +193,26 @@ public class LittleHandler extends SimpleListenerHost {
     public void m7(GroupMessageEvent event, Class2OMap class2OMap) {
         try {
             PlainText plainText = class2OMap.get(PlainText.class);
-            String jsonStr = plainText.getContent().replaceFirst("/parseJson", "");
+            String jsonStr = plainText.getContent().replaceFirst("[/|#]parseJson", "");
             MessageChain chain = MessageChain.deserializeFromJsonString(jsonStr);
             event.getSubject().sendMessage(chain);
         } catch (Throwable e) {
             e.printStackTrace();
             event.getSubject().sendMessage(e.getMessage());
+        }
+    }
+
+    @Action("makeName.+")
+    public String m8(GroupMessageEvent event, Class2OMap class2OMap) {
+        try {
+            At at = class2OMap.get(At.class);
+            NormalMember member = event.getGroup().get(at.getTarget());
+            PlainText plainText = class2OMap.get(PlainText.class, 1);
+            member.setNameCard(plainText.getContent());
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
         }
     }
 }
