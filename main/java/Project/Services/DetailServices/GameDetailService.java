@@ -141,12 +141,12 @@ public class GameDetailService {
         AttributeBone attributeBone = gameBoneService.getAttribute(who);
         long oNow = o;
         //=====恢复了
-        if (proZ(attributeBone.getHl_pro())) {
+        if (proZ(attributeBone.getHlPro())) {
             float fn;
             if (o > 100) {
-                fn = percentTo(attributeBone.getHl_Rec_Eff(), o);
+                fn = percentTo(attributeBone.getHlRecEff(), o);
             } else {
-                fn = attributeBone.getHl_Rec_Eff();
+                fn = attributeBone.getHlRecEff();
             }
             oNow -= fn;
             sb.append("\n得益于 魂骨 你恢复了" + fn + "魂力\n============");

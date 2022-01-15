@@ -1,6 +1,7 @@
 package Project.Controllers;
 
 import Entitys.Group;
+import Project.Controllers.GameControllers.GameController;
 import Project.Tools.Tool;
 import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -50,9 +51,12 @@ public class FirstController {
     @AutoStand
     public static WeatherI weatherM;
 
+    @AutoStand
+    public static GameController gameController;
+
     @Action("测试.+")
     public Object a(@AllMess String mess, Group group) throws Exception {
-        return null;
+        return System.currentTimeMillis();
     }
 
     public static char[] cs = new char[]{

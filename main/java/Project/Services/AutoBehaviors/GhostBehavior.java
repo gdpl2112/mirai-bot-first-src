@@ -25,10 +25,13 @@ import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.getAllHHBL;
 
+/**
+ * @author github-kloping
+ */
 @Entity
-public class Ghost_Behavior implements Runnable {
+public class GhostBehavior implements Runnable {
     public static final ExecutorService threads = Executors.newFixedThreadPool(20);
-    public static Map<Long, Ghost_Behavior> ls = new HashMap<>();
+    public static Map<Long, GhostBehavior> ls = new HashMap<>();
     private Group group;
     private Long qq;
 
@@ -38,15 +41,15 @@ public class Ghost_Behavior implements Runnable {
     @AutoStand
     static IGameService gameService;
 
-    public static void ExRun(Ghost_Behavior ghost_behavior) {
-        ls.put(ghost_behavior.qq, ghost_behavior);
-        threads.execute(ghost_behavior);
+    public static void exRun(GhostBehavior ghostBehavior) {
+        ls.put(ghostBehavior.qq, ghostBehavior);
+        threads.execute(ghostBehavior);
     }
 
-    public Ghost_Behavior() {
+    public GhostBehavior() {
     }
 
-    public Ghost_Behavior(Long qq, Group group) {
+    public GhostBehavior(Long qq, Group group) {
         this.qq = qq;
         this.group = group;
     }
@@ -188,7 +191,7 @@ public class Ghost_Behavior implements Runnable {
     private boolean needLock() {
         PersonInfo info = getInfo(qq);
         AttributeBone attributeBone = gameBoneService.getAttribute(qq);
-        boolean k1 = attributeBone.getHide_pro() >= 50;
+        boolean k1 = attributeBone.getHidePro() >= 50;
         boolean k2 = ((double) info.getHpL() / (double) info.getHp()) > 0.5;
         boolean k3 = info.getAtt() * getAllHHBL(qq) >= ghostObj.getHp() / 2;
         return k1 && (k2 || k3);
@@ -211,13 +214,13 @@ public class Ghost_Behavior implements Runnable {
     }
 
     private static final synchronized double getAttR(Integer level) {
-        if (level < 200000) return 1.0;
+        if (level < 200000) return 0.7;
         else {
-            if (level < 300000) return 1.6;
-            if (level < 1000000) return 2.0;
-            if (level < 3000000) return 3.0;
-            if (level <= 8000000) return 3.5;
-            return 4;
+            if (level < 300000) return 0.85;
+            if (level < 1000000) return 1.0;
+            if (level < 3000000) return 1.2;
+            if (level <= 8000000) return 1.5;
+            return 2;
         }
     }
 
@@ -226,10 +229,10 @@ public class Ghost_Behavior implements Runnable {
         else if (level <= 30000) return new int[]{12, 14};
         else if (level <= 100000) return new int[]{8, 12};
         else if (level <= 500000) return new int[]{6, 8};
-        else if (level <= 1000000) return new int[]{4, 6};
-        else if (level <= 5000000) return new int[]{2, 3};
-        else if (level <= 10000000) return new int[]{0, 1};
-        return new int[]{9999, 9999};
+        else if (level <= 1000000) return new int[]{6, 8};
+        else if (level <= 5000000) return new int[]{6, 8};
+        else if (level <= 10000000) return new int[]{6, 8};
+        return new int[]{6, 8};
     }
 
     public static final synchronized int[] getReadyTime(Integer level) {
@@ -255,6 +258,5 @@ public class Ghost_Behavior implements Runnable {
 
     private void Send(String str) {
         MessageTools.sendMessageInGroupWithAt(str, group.getId(), qq);
-//        group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(str).build());
     }
 }

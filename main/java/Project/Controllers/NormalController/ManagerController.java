@@ -29,6 +29,9 @@ import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class ManagerController {
     public ManagerController() {

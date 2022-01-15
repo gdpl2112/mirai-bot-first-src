@@ -57,7 +57,6 @@ public class EntertainmentController2 {
         }
     }
 
-
     @Action("/testMap<.+=>str>")
     public String t1(@Param("str") String str, User user) throws IOException {
         String[] ss = str.split("-");
@@ -214,5 +213,4 @@ public class EntertainmentController2 {
         Data data = PvpQq.getD(a);
         return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
-
 }

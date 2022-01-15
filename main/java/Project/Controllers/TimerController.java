@@ -30,7 +30,7 @@ public class TimerController {
         update_Today();
         THREADS.execute(() -> {
             GameDataBase.histInfos.clear();
-            DataBase.histUScore.clear();
+            DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
             for (long g : gs) {
                 if (!ControllerTool.CanGroup(g)) continue;

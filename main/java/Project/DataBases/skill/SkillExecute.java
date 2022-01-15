@@ -2,9 +2,7 @@ package Project.DataBases.skill;
 
 import Entitys.gameEntitys.*;
 import Entitys.gameEntitys.base.BaseInfo;
-import Project.DataBases.GameDataBase;
 import Project.Tools.Tool;
-import lombok.SneakyThrows;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -375,14 +373,7 @@ public class SkillExecute {
             public void before() {
                 q = oneNearest(who, nums);
                 v = Long.valueOf(info.getAddPercent());
-                AttributeBone attributeBone = new AttributeBone();
-                try {
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q, "AttributeBone"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                attributeBone.addHide_Pro(Integer.valueOf(v + ""));
-                GameDataBase.putStringFromData(q, "AttributeBone", attributeBone.toString());
+                AttributeBone.addForAttr(q, v, AttributeBone.Type.HIDE_PRO);
                 setTips("作用于 " + Tool.At(q));
             }
 
@@ -394,10 +385,7 @@ public class SkillExecute {
                 super.run();
                 try {
                     Thread.sleep(t12);
-                    AttributeBone attributeBone = new AttributeBone();
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q, "AttributeBone"));
-                    attributeBone.addHide_Pro(-(Integer.valueOf(v + "")));
-                    GameDataBase.putStringFromData(q, "AttributeBone", attributeBone.toString());
+                    AttributeBone.addForAttr(q, -v, AttributeBone.Type.HIDE_PRO);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -731,6 +719,7 @@ public class SkillExecute {
                         attGhostOrMan(sb, who, q, v);
                     }
                     setTips(sb.toString());
+                    sb = new StringBuilder();
                     Thread.sleep(10 * 1000);
                     for (Long q : nearest(2, nums)) {
                         long v = percentTo(10, getInfo(who).getAtt());
@@ -760,8 +749,8 @@ public class SkillExecute {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo pinfo = getInfo(q);
+                Long lon = pinfo.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t72, who.longValue(), v));
             }
@@ -889,11 +878,11 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo pInfo = getInfo(q);
+                Long lon = pInfo.getAtt();
                 long v = percentTo(info.getAddPercent() * 4, lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t75, who.longValue(), v));
-                putPerson(info_);
+                putPerson(pInfo);
                 eve();
             }
 
@@ -1065,6 +1054,7 @@ public class SkillExecute {
                         attGhostOrMan(sb, who, number, v);
                     }
                     setTips(sb.toString());
+                    sb = new StringBuilder();
                     Thread.sleep(10 * 1000);
                     for (Long number : nearest(2, nums)) {
                         long v = percentTo(30, getInfo(who).getAtt());
@@ -1388,27 +1378,19 @@ public class SkillExecute {
      */
     private static Skill create721(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "幽冥真身") {
-            private long v;
-
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo p_info = getInfo(q);
+                Long lon = p_info.getAtt();
                 v2 = percentTo(info.getAddPercent(), lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t721, who.longValue(), v2));
                 q1 = Long.valueOf(who + "");
                 v = Long.valueOf(info.getAddPercent());
-                AttributeBone attributeBone = new AttributeBone();
-                try {
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q1, "AttributeBone"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                attributeBone.addHide_Pro(Integer.valueOf(v + ""));
-                GameDataBase.putStringFromData(q1, "AttributeBone", attributeBone.toString());
+                AttributeBone.addForAttr(q1, v, AttributeBone.Type.HIDE_PRO);
             }
 
+            private long v;
             private Long v2;
             private Long q1;
 
@@ -1417,10 +1399,7 @@ public class SkillExecute {
                 super.run();
                 try {
                     Thread.sleep(t721);
-                    AttributeBone attributeBone = new AttributeBone();
-                    attributeBone = AttributeBone.ParseObj(attributeBone, GameDataBase.getStringFromData(q1, "AttributeBone"));
-                    attributeBone.addHide_Pro(-(Integer.valueOf(v + "")));
-                    GameDataBase.putStringFromData(q1, "AttributeBone", attributeBone.toString());
+                    AttributeBone.addForAttr(q1, -v, AttributeBone.Type.HIDE_PRO);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -91,9 +91,9 @@ public class DataBase {
 
     public static boolean addFather(Long who) {
         File file = new File(path + "/mainfist/fathers/" + who);
-        if (file.exists())
+        if (file.exists()) {
             return false;
-        else {
+        } else {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -105,8 +105,9 @@ public class DataBase {
 
     public static boolean removeFather(Long who) {
         File file = new File(path + "/mainfist/fathers/" + who);
-        if (file.exists())
+        if (file.exists()) {
             return file.delete();
+        }
         return false;
     }
 
@@ -138,7 +139,9 @@ public class DataBase {
     }
 
     public static long[] getAllInfoOld(Long who) {
-        if (!exists(who)) RegA(who);
+        if (!exists(who)) {
+            RegA(who);
+        }
         try {
             System.out.println("查询 " + who + "的 信息");
             String pathN = path + "/users/" + who;
@@ -160,18 +163,23 @@ public class DataBase {
         }
     }
 
-    public static final Map<Long, UScore> histUScore = new ConcurrentHashMap<>();
+    public static final Map<Long, UScore> HIST_U_SCORE = new ConcurrentHashMap<>();
 
     public static UScore getAllInfo(Long who) {
-        if (!exists(who)) RegA(who);
+        if (!exists(who)) {
+            RegA(who);
+        }
         UScore uScore = null;
         try {
-            if (histUScore.containsKey(who.longValue())) return histUScore.get(who.longValue());
+            if (HIST_U_SCORE.containsKey(who.longValue())) {
+                return HIST_U_SCORE.get(who.longValue());
+            }
             String pathN = path + "/users/" + who;
             File file = new File(pathN + "/infos");
             if (file.exists()) {
                 String jsonStr = getStringFromFile(file.getPath());
                 uScore = JSON.parseObject(jsonStr, UScore.class);
+                tryDeleteOld(who);
             } else {
                 long[] ll = getAllInfoOld(who);
                 uScore = new UScore();
@@ -188,17 +196,58 @@ public class DataBase {
                 String jsonStr = JSON.toJSONString(uScore);
                 putStringInFile(jsonStr, file.getPath());
             }
-            histUScore.put(who.longValue(), uScore);
+            HIST_U_SCORE.put(who.longValue(), uScore);
             return uScore;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static void putInfo(UScore score) {
-        String pathN = path + "/users/" + score.getWho() + "/infos";
-        putStringInFile(JSON.toJSONString(score), pathN);
+    private static void tryDeleteOld(long who) {
+        String pathN = path + "/users/" + who;
+        new File(pathN + "/" + who + ".score").delete();
+        new File(pathN + "/" + who + ".score_").delete();
+        new File(pathN + "/" + who + ".times").delete();
+        new File(pathN + "/" + who + ".times_").delete();
+        new File(pathN + "/" + who + ".day").delete();
+        new File(pathN + "/" + who + ".days").delete();
+        new File(pathN + "/" + who + ".fz").delete();
+        new File(pathN + "/" + who + ".k").delete();
+    }
 
+    public static final int PUT_INFO_INDEX_MAX = 10;
+
+    private static final Map<Long, Integer> PUT_INFO_INDEX = new ConcurrentHashMap<>();
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                PUT_INFO_INDEX.forEach((k, v) -> {
+                    putInfoTrue(HIST_U_SCORE.get(k));
+                });
+            }
+        });
+    }
+
+    public static void putInfoTrue(UScore score) {
+        long who = score.getWho().longValue();
+        String pathN = path + "/users/" + who + "/infos";
+        putStringInFile(JSON.toJSONString(score), pathN);
+    }
+
+    public static void putInfo(UScore score) {
+        long who = score.getWho().longValue();
+        if (PUT_INFO_INDEX.containsKey(who)) {
+            if (PUT_INFO_INDEX.get(who) >= PUT_INFO_INDEX_MAX) {
+                putInfoTrue(score);
+                PUT_INFO_INDEX.remove(who);
+            } else {
+                PUT_INFO_INDEX.put(who, PUT_INFO_INDEX.get(who) + 1);
+            }
+        } else {
+            PUT_INFO_INDEX.put(who, 1);
+        }
     }
 
     public static long addScore(long l, Long who) {
@@ -223,7 +272,9 @@ public class DataBase {
     }
 
     public static long addTimes(long l, Long who) {
-        if (!exists(who)) RegA(who);
+        if (!exists(who)) {
+            RegA(who);
+        }
         UScore score = getAllInfo(who);
         try {
             int today = Integer.parseInt(getToday());
@@ -242,7 +293,7 @@ public class DataBase {
             file.delete();
             RegA(who);
         }
-        return 1l;
+        return 1L;
     }
 
     private static long addTimes_(long l, Long who) {

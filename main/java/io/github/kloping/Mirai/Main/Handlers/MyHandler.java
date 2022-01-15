@@ -15,7 +15,6 @@ import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.data.GroupHonorType;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
@@ -32,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.Controllers.SessionController.gotoSession;
+import static Project.ResourceSet.Final.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
 
 /**
@@ -51,7 +51,7 @@ public class MyHandler extends SimpleListenerHost {
         exception.printStackTrace();
     }
 
-    private static final Map<Long, Entitys.Group> histGroupMap = new ConcurrentHashMap<>();
+    private static final Map<Long, Entitys.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
 
     static {
         Resource.StartOkRuns.add(() -> {
@@ -69,8 +69,12 @@ public class MyHandler extends SimpleListenerHost {
             CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
             return;
         }
-        if (!Resource.Switch.AllK) return;
-        if (event.getSender() instanceof AnonymousMember) return;
+        if (!Resource.Switch.AllK) {
+            return;
+        }
+        if (event.getSender() instanceof AnonymousMember) {
+            return;
+        }
         String text = null;
         Entitys.Group eGroup = null;
         Group group = null;
@@ -82,11 +86,14 @@ public class MyHandler extends SimpleListenerHost {
             boolean inS = SessionController.contains(id);
             group = event.getGroup();
             upGroup = group;
-            eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
+            eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
-            if (!inS) StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
-            else gotoSession(group, text, id);
+            if (!inS) {
+                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
+            } else {
+                gotoSession(group, text, id);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -107,7 +114,7 @@ public class MyHandler extends SimpleListenerHost {
             chain = event.getMessage();
             id = event.getSender().getId();
             group = upGroup;
-            eGroup = Entitys.Group.create(group.getId(), group.getName(), histGroupMap);
+            eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
             StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
@@ -116,27 +123,29 @@ public class MyHandler extends SimpleListenerHost {
         }
     }
 
-    private static final long cd_ = 20 * 1000;
+    private static final long CD = 20 * 1000;
     private static long cd = 10 * 1000;
 
     private static void eveEnd(String text, long id, Entitys.Group eGroup, Group group, Member member, MessageChain message) {
-        daeThreads.execute(() -> {
-            if (!text.trim().isEmpty())
-                if (text.contains("[") || !Starter.matcher(text)) {
+        DAE_THREADS.execute(() -> {
+            DataBase.addTimes(1, id);
+            if (!text.trim().isEmpty()) {
+                if (text.contains(LEFT_BRACKETS_STR) || !Starter.matcher(text)) {
                     String finalText = text;
                     CustomController.action(id, finalText, eGroup);
                 }
-            DataBase.addTimes(1, id);
+            }
             if (upMessage != null && upMessage.equals(text)) {
                 if (cd < System.currentTimeMillis()) {
                     Nudge nudge = member.nudge();
                     nudge.sendTo(group);
                     group.sendMessage(message);
-                    cd = System.currentTimeMillis() + cd_;
+                    cd = System.currentTimeMillis() + CD;
                 }
             } else {
-                if (text.length() < 10)
+                if (text.length() < 10) {
                     upMessage = text;
+                }
             }
             try {
                 String json = MessageChain.serializeToJsonString(message);
@@ -148,18 +157,20 @@ public class MyHandler extends SimpleListenerHost {
         });
     }
 
-    private static final ExecutorService daeThreads = Executors.newFixedThreadPool(10);
+    private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
 
     public static String upMessage = null;
 
-    public static final ExecutorService threads = Executors.newFixedThreadPool(10);
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
     public static MemberJoinRequestEvent joinRequestEvent;
 
     @EventHandler
     public void onMemberRequest(@NotNull MemberJoinRequestEvent event) {
         try {
-            if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
+            if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+                return;
+            }
             MessageChainBuilder builder = new MessageChainBuilder();
             joinRequestEvent = event;
             builder.append("收到加群申请:").append("\r\n");
@@ -178,13 +189,16 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onAceFriend(NewFriendRequestEvent event) {
-        if (autoAcceptFriend)
+        if (autoAcceptFriend) {
             event.accept();
+        }
     }
 
     @EventHandler
     public void onMemberJoined(MemberJoinEvent event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+            return;
+        }
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("欢迎新人,芜湖~~").append(new Face(Face.DA_CALL)).append("\n");
         builder.append("QQ号:").append(event.getMember().getId() + "").append("\r\n");
@@ -192,13 +206,16 @@ public class MyHandler extends SimpleListenerHost {
         builder.append("备注: ").append("您是本群的第").append(String.valueOf(event.getGroup().getMembers().size() + 1))
                 .append("位成员哦").append(new Face(13));
         event.getGroup().sendMessage(builder.build());
-        if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1)
+        if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1) {
             join(event.getMember().getId(), event.getGroup());
+        }
     }
 
     @EventHandler
     public void onMemberLeft(MemberLeaveEvent.Quit event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+            return;
+        }
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("有个人,从小道溜了,好难过").append(new Face(Face.NAN_GUO)).append("\n");
         builder.append("群里只剩").append(String.valueOf(event.getGroup().getMembers().size()))
@@ -209,10 +226,15 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberLeave(MemberLeaveEvent.Kick event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
+        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+            return;
+        }
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("有个人,被凶狠踢出群聊,好吓机器人").append(new Face(Face.HAI_PA)).append("\n");
         Member member = event.getOperator();
+        if (member == null) {
+            return;
+        }
         builder.append("\"凶狠\":").append(member == null ? "原来是我自己" : member.getNameCard())
                 .append("\r\n");
         builder.append("群里只剩").append(String.valueOf(event.getGroup().getMembers().size() + 1))
@@ -232,7 +254,7 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }*/
 
-    private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
+    /*private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
 
     static {
         gs.put(GroupHonorType.TALKATIVE, "龙王");
@@ -256,7 +278,7 @@ public class MyHandler extends SimpleListenerHost {
         builder.append("ta 获得了").append(gs.get(event.getHonorType())).append("\n");
         builder.append(new Face(Face.QING_ZHU));
         event.getGroup().sendMessage(builder.build());
-    }
+    }*/
 
     /*@EventHandler
     public void onMemberHonorChangeEvent_Lose(MemberHonorChangeEvent.Lose event) {

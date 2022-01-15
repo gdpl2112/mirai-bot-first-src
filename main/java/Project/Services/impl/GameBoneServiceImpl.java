@@ -27,11 +27,11 @@ public class GameBoneServiceImpl implements IGameBoneService {
         AttributeBone attributeBone = getAttribute(who);
         String[] sss = new String[6];
         sss[0] = "============我的属性";
-        sss[1] = "伤害闪避率:" + attributeBone.getHide_pro() + "%";
-        sss[2] = "生命恢复率:" + attributeBone.getHp_pro() + "%";
-        sss[3] = "生命恢复效果:" + attributeBone.getHp_Rec_Eff() + "%";
-        sss[4] = "魂力恢复率:" + attributeBone.getHl_pro() + "%";
-        sss[5] = "魂力恢复效果:" + attributeBone.getHl_Rec_Eff() + "%";
+        sss[1] = "伤害闪避率:" + attributeBone.getHidePro() + "%";
+        sss[2] = "生命恢复率:" + attributeBone.getHpPro() + "%";
+        sss[3] = "生命恢复效果:" + attributeBone.getHpRecEff() + "%";
+        sss[4] = "魂力恢复率:" + attributeBone.getHlPro() + "%";
+        sss[5] = "魂力恢复效果:" + attributeBone.getHlRecEff() + "%";
         return getImageFromStrings(sss);
     }
 
@@ -47,19 +47,19 @@ public class GameBoneServiceImpl implements IGameBoneService {
                 String name = entry.getKey();
                 switch (name) {
                     case "hide":
-                        attributeBone.addHide_Pro(entry.getValue());
+                        attributeBone.addHidePro(entry.getValue());
                         break;
                     case "hpp":
-                        attributeBone.addHp_Pro(entry.getValue());
+                        attributeBone.addHpPro(entry.getValue());
                         break;
                     case "hpe":
-                        attributeBone.addHp_Rec_Eff(entry.getValue());
+                        attributeBone.addHpRecEff(entry.getValue());
                         break;
                     case "hlp":
-                        attributeBone.addHl_Pro(entry.getValue());
+                        attributeBone.addHlPro(entry.getValue());
                         break;
                     case "hle":
-                        attributeBone.addHl_Rec_Eff(entry.getValue());
+                        attributeBone.addHlRecEff(entry.getValue());
                         break;
                 }
             }

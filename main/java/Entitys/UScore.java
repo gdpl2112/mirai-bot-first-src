@@ -9,26 +9,19 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class UScore implements Serializable {
-    // private Number score=1000;
-    //    private Number times=0;
-    //    private Number fz=0;
-    //    private Number times_=0;
-    //    private Number days=0;
-    //    private Number score_=200;
-    //    private Number k=-1;
-    //    private Number day=-1;
-    //    private Number timesDay=-1;
-    //    private Number who;
     private Long score = Long.valueOf(1000);
-    private Long times = 0l;
-    private Long fz = 0l;
+    private Long times = 0L;
+    private Long fz = 0L;
     @JSONField(name = "times_")
-    private Long sTimes = 0l;
+    private Long sTimes = 0L;
     private Long days = 0L;
     @JSONField(name = "score_")
     private Long sScore = 200L;

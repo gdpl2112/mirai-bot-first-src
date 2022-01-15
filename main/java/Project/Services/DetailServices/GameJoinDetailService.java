@@ -5,7 +5,7 @@ import Entitys.Group;
 import Entitys.TradingRecord;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
-import Project.Services.AutoBehaviors.Ghost_Behavior;
+import Project.Services.AutoBehaviors.GhostBehavior;
 import Project.Services.Iservice.IGameService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
@@ -61,6 +61,7 @@ public class GameJoinDetailService {
             putPerson(personInfo.setUsinged("null"));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
+            n = 20;
             if (n < 35) {
                 ghostObj = summonAFor(who, 501, 521);
             } else {
@@ -147,7 +148,7 @@ public class GameJoinDetailService {
             System.out.println(ghostObj);
             int id = ghostObj.getId();
             if (ghostObj.getL() > 3000L)
-                Ghost_Behavior.ExRun(new Ghost_Behavior(who, group));
+                GhostBehavior.exRun(new GhostBehavior(who, group));
             return WillTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -197,7 +198,7 @@ public class GameJoinDetailService {
             System.out.println(ghostObj);
             int id = ghostObj.getId();
             if (ghostObj.getL() > 3000L)
-                Ghost_Behavior.ExRun(new Ghost_Behavior(who, group));
+                GhostBehavior.exRun(new GhostBehavior(who, group));
             return WillTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -216,7 +217,7 @@ public class GameJoinDetailService {
                 personInfo.getHpL(),
                 (long) (personInfo.getXpL() / GameTool.getRandXl(personInfo.getLevel())),
                 idMin, idMax,
-                personInfo.getLevel(),
+                -1,
                 true);
     }
 
@@ -256,9 +257,10 @@ public class GameJoinDetailService {
 
     /**
      * 攻击一个魂兽
-     * @param who 攻击者 与 魂兽
-     * @param att 值
-     * @param show 返回攻击后的魂兽信息
+     *
+     * @param who      攻击者 与 魂兽
+     * @param att      值
+     * @param show     返回攻击后的魂兽信息
      * @param canAttMe 魂兽是否可攻击我
      * @return
      */

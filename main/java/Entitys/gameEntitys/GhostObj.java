@@ -12,8 +12,10 @@ import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
-import static Project.Tools.GameTool.*;
+import static Project.Tools.GameTool.Lmax;
+import static Project.Tools.GameTool.randFloatByte1;
 import static Project.Tools.Tool.randA;
+import static Project.Tools.Tool.randLong;
 
 /**
  * @author github-kloping
@@ -78,12 +80,19 @@ public class GhostObj implements Serializable, BaseInfo {
         this.att = randFloatByte1(att);
         this.xp = randFloatByte1(xp);
         this.id = randA(idMin, idMax);
-        L = getLtoGhsL(l);
+        L = summonL();
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NotNeed;
         name = getNameById(this.id);
         initHj();
         IDX = ++idx;
+    }
+
+    private Long summonL() {
+        long vv = (hp + att) / 2;
+        vv = randLong(vv, 0.58f, 0.84f);
+        vv = vv <= 0 ? 1 : vv;
+        return vv;
     }
 
     public long getWhoMeet() {
@@ -95,7 +104,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     private void initHj() {
-        long v = att / 12 + maxHp / 9;
+        long v = att / 9 + maxHp / 8;
         v = v < 100 ? 100 : v;
         hj = v;
         hjL = v;

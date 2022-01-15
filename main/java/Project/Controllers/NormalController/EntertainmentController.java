@@ -7,7 +7,7 @@ import Project.DataBases.DataBase;
 import Project.Plugins.WeatherGetter;
 import Project.Services.DetailServices.Idiom;
 import Project.Services.Iservice.IOtherService;
-import Project.StringSet;
+import Project.ResourceSet;
 import Project.Tools.Tool;
 import Project.broadcast.PicBroadcast;
 import Project.drawers.ImageDrawer;
@@ -33,10 +33,14 @@ import static Project.Controllers.NormalController.CustomController.BuilderAndAd
 import static Project.Controllers.NormalController.CustomController.qlist;
 import static Project.Controllers.TimerController.baseUrlCloud;
 import static Project.DataBases.DataBase.canBackShow;
+import static Project.ResourceSet.Final.*;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class EntertainmentController {
     public EntertainmentController() {
@@ -44,11 +48,16 @@ public class EntertainmentController {
     }
 
     @Before
-    public void before(Group group) throws NoRunException {
-        if (!AllK)
+    public void before(Group group, @AllMess String mess) throws NoRunException {
+        if (!AllK) {
             throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        }
+        if (mess.startsWith("[闪照")) {
+
+        } else {
+            if (!CanGroup(group.getId())) {
+                throw new NoRunException();
+            }
         }
     }
 
@@ -66,9 +75,13 @@ public class EntertainmentController {
                 qlist.remove(qq);
                 if (BuilderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
-                } else return StringSet.Final.addToAutoReplyError;
+                } else {
+                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
+                }
             }
-        } else throw new NoRunException("没有在添加");
+        } else {
+            throw new NoRunException("没有在添加");
+        }
     }
 
     @AutoStand
@@ -118,7 +131,6 @@ public class EntertainmentController {
         group.sendMessage(builder.build());
     }
 
-
     @Action("时间")
     public Object nowTime() {
         return Tool.getTimeYMdhms(System.currentTimeMillis());
@@ -133,21 +145,6 @@ public class EntertainmentController {
     public Object transTo(@Param("str") String str, Group group, Long qq) {
         return otherService.trans(str, group, qq);
     }
-
-//    @Action(value = "晚安", otherName = {"晚", "晚好"})
-//    public String Eveing(@AllMess String Strings) throws NoRunException {
-//        if (Switch.isWelcome)
-//            return otherService.Talk(Strings);
-//        else throw new NoRunException();
-//    }
-
-//    @Action(value = "早", otherName = {"早啊", "早安"})
-//    public String Morning(@AllMess String Strings) throws NoRunException {
-//        if (Switch.isWelcome)
-//            return otherService.Talk(Strings);
-//        else throw new NoRunException();
-//    }
-
 
     @Action("\\[闪照<.+=>s1>")
     public String flash(@AllMess String str, Group group) throws NoRunException {
@@ -168,23 +165,40 @@ public class EntertainmentController {
     private long cd = 10 * 1000;
 
     @Action("\\[@me]<.{1,}=>str>")
-    public Object AtMe(long qq, Group group, @Param("str") String str) {
-        if (str.startsWith("读")) {
+    public Object atMe(long qq, Group group, @Param("str") String str) {
+        if (cd > System.currentTimeMillis()) {
+            return null;
+        }
+        if (str.startsWith(SPEAK_STR)) {
             if (voiceK) {
                 speak(str.substring(1), group);
             }
             return null;
-        }
-        if (cd > System.currentTimeMillis()) return null;
-        if (DataBase.canSpeak(group.getId())) {
-            String talk = otherService.Talk(str);
-            if (voiceK) speak(talk, group);
-            cd = System.currentTimeMillis() + cd_;
-            return talk;
         } else {
-            throw new NoRunException("未开启聊天");
+            if (!DataBase.isFather(qq)) {
+                return null;
+            } else {
+                if (OPEN_STR.equals(str)) {
+                    return controller.open(group);
+                } else if (CLOSE_STR.equals(str)) {
+                    return controller.close(group);
+                } else if (DataBase.canSpeak(group.getId())) {
+                    String talk = otherService.Talk(str);
+                    if (voiceK) {
+                        speak(talk, group);
+                    }
+                    cd = System.currentTimeMillis() + cd_;
+                    return talk;
+                } else {
+                    throw new NoRunException();
+                }
+            }
         }
+
     }
+
+    @AutoStand
+    private ManagerController controller;
 
     public static boolean voiceK = false;
 

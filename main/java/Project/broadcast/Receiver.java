@@ -1,5 +1,14 @@
 package Project.broadcast;
 
+/**
+ * @author github-kloping
+ */
 public interface Receiver {
-    default void onReceive(Object o) {}
+    /**
+     * on received call method
+     *
+     * @param o
+     */
+    default void onReceive(Object o) {
+    }
 }

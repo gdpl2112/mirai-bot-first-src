@@ -44,12 +44,12 @@ public class BeatenRoles {
     };
     public static final Role HG_HF = (sb, q1, q2, ov, nv, p1, args) -> {
         AttributeBone attributeBone = gameBoneService.getAttribute(q1.longValue());
-        if (proZ(attributeBone.getHp_pro())) {
+        if (proZ(attributeBone.getHpPro())) {
             float fn;
             if (ov > 100) {
-                fn = percentTo(attributeBone.getHp_Rec_Eff(), ov);
+                fn = percentTo(attributeBone.getHpRecEff(), ov);
             } else {
-                fn = attributeBone.getHp_Rec_Eff();
+                fn = attributeBone.getHpRecEff();
             }
             p1.addHp((long) fn);
             sb.append("\n得益于魂骨你恢复了").append(fn).append("生命\n").append("============");
@@ -88,7 +88,7 @@ public class BeatenRoles {
     };
     public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
-            if (proZ(gameBoneService.getAttribute(q1.longValue()).getHide_pro())) {
+            if (proZ(gameBoneService.getAttribute(q1.longValue()).getHidePro())) {
                 Integer[] ids = GameBoneServiceImpl.getIdsFromAttributeMap(gameBoneService.getAttributeMap(q1.longValue(), true), "hide");
                 for (Integer i : ids) {
                     sb.append(GameDataBase.getNameById(i)).append(",");

@@ -1,10 +1,9 @@
 package Project.Controllers.NormalController;
 
 import Entitys.Group;
-import Project.StringSet;
+import Project.ResourceSet;
 import Project.Tools.Tool;
 import Project.Utils.DBUtils;
-import Project.broadcast.PicBroadcast;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -107,7 +106,7 @@ public class CustomController {
     public String add(@Param("str") String str, long qq) {
         if (qq != Resource.superQL) {
             if (Tool.isIlleg_(str))
-                return StringSet.Final.isIllegalTips1;
+                return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
         int i2 = str.indexOf("答");
@@ -136,7 +135,7 @@ public class CustomController {
                 if (BuilderAndAdd(str, qq))
                     return "OK";
                 else
-                    return StringSet.Final.addToAutoReplyError;
+                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
             }
         } else {
             return "添加问_答_";
@@ -156,7 +155,7 @@ public class CustomController {
                 if (BuilderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else
-                    return StringSet.Final.addToAutoReplyError;
+                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
             }
         } else throw new NoRunException("没有在添加");
     }
