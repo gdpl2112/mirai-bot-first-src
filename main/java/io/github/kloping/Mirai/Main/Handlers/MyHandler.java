@@ -141,11 +141,10 @@ public class MyHandler extends SimpleListenerHost {
                     nudge.sendTo(group);
                     group.sendMessage(message);
                     cd = System.currentTimeMillis() + CD;
+                    upMessage = null;
                 }
             } else {
-                if (text.length() < 10) {
-                    upMessage = text;
-                }
+                upMessage = text;
             }
             try {
                 String json = MessageChain.serializeToJsonString(message);
@@ -174,10 +173,14 @@ public class MyHandler extends SimpleListenerHost {
             MessageChainBuilder builder = new MessageChainBuilder();
             joinRequestEvent = event;
             builder.append("收到加群申请:").append("\r\n");
-            builder.append(Contact.uploadImage(event.getGroup(), new URL(Project.Tools.Tool.getTouUrl(event.getFromId())).openStream())).append("\r\n");
-            builder.append("QQ号:").append(event.getFromId() + "").append("\r\n");
-            builder.append("QQ昵称:").append(event.getFromNick()).append("\r\n");
-            builder.append("邀请者:").append(event.getInvitor() == null ? "无" : String.format("%s(%s)", event.getInvitor().getNameCard(), event.getInvitorId())).append("\r\n");
+            builder.append(Contact.uploadImage(event.getGroup(), new URL(Project.Tools.Tool.getTouUrl(event.getFromId())).openStream()))
+                    .append("\r\n");
+            builder.append("QQ号:").append(event.getFromId() + "")
+                    .append("\r\n");
+            builder.append("QQ昵称:").append(event.getFromNick())
+                    .append("\r\n");
+            builder.append("邀请者:").append(event.getInvitor() == null ? "无" :
+                    String.format("%s(%s)", event.getInvitor().getNameCard(), event.getInvitorId())).append("\r\n");
             builder.append("请管理员回复(通过/不通过)");
             event.getGroup().sendMessage(builder.build());
         } catch (Exception e) {
@@ -291,4 +294,5 @@ public class MyHandler extends SimpleListenerHost {
         builder.append(new Face(Face.SAO_RAO));
         event.getGroup().sendMessage(builder.build());
     }*/
+
 }

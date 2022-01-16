@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.ResourceSet.Final.NOT_FOUND_AT;
+import static Project.ResourceSet.Final.PLAYER_NOT_REGISTERED;
 import static Project.Tools.Tool.findNumberFromString;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -102,19 +104,21 @@ public class ScoreController {
         try {
             long who = getAtFromString(str);
             if (who == -1)
-                return "抢谁？";
+                return NOT_FOUND_AT;
             String numStr = findNumberFromString(str.replace(String.valueOf(who), ""));
             if (numStr != null && !numStr.trim().isEmpty()) {
                 int n = Integer.parseInt(numStr);
-                if (n > 10) return "不可大于10次";
-                else {
+                if (n > 10) {
+                    return "不可大于10次";
+                } else {
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < n; i++)
+                    for (int i = 0; i < n; i++) {
                         sb.append(scoreService.Robbery(qq.getId(), who)).append("\n");
+                    }
                     return sb.toString().trim();
                 }
             }
-            if (!DataBase.exists(who)) return "该玩家尚未注册";
+            if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             return scoreService.Robbery(qq.getId(), who);
         } catch (NumberFormatException e) {
             return "格式错误(例: 打劫 @我 )";
@@ -151,7 +155,7 @@ public class ScoreController {
     }
 
     @Action("打工")
-    public String AJob(User qq, Group group) {
+    public String aJob(User qq, Group group) {
         return scoreService.WorkLong(qq.getId());
     }
 
@@ -162,9 +166,9 @@ public class ScoreController {
             long who = getAtFromString(str);
             if (who == -1)
                 return builder.append("谁？").toString();
-            if (!DataBase.exists(who)) return ("该玩家尚未注册");
+            if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UScore ls = DataBase.getAllInfo(who);
-            return builder.append("ta的:").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
+            return builder.append("ta").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();
         }

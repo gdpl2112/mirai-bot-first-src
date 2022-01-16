@@ -11,6 +11,8 @@ public class ResourceSet {
         public final static String CLOSE_STR = "关闭";
         public final static String SPEAK_STR = "读";
         public final static String LEFT_BRACKETS_STR = "[";
+        public final static String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
+        public final static String NOT_FOUND_AT = "未发现at";
     }
 
 }
