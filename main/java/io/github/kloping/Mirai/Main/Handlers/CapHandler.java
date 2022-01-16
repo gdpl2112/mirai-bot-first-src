@@ -27,7 +27,7 @@ public class CapHandler {
             Object[] o = FirstController.createCapImage();
             String path = o[0].toString();
             String capCode = o[1].toString();
-            Image image = MessageTools.createImageInGroup(group, path);
+            Image image = MessageTools.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
             builder.append(new At(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);

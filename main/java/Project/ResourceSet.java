@@ -13,6 +13,8 @@ public class ResourceSet {
         public final static String LEFT_BRACKETS_STR = "[";
         public final static String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
         public final static String NOT_FOUND_AT = "未发现at";
+        public final static String CUSTOM_MENU_STR = "回话菜单";
+        public final static String NO_PERMISSION_STR = "无权限";
     }
 
 }

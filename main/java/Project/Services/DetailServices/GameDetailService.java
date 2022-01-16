@@ -165,9 +165,9 @@ public class GameDetailService {
         PersonInfo info = getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====
-        if (info.containsTag(SkillDataBase.tag_Xx)) {
-            String tag = info.getTag(SkillDataBase.tag_Xx);
-            Integer p = Integer.valueOf(tag.replace(SkillDataBase.tag_Xx, ""));
+        if (info.containsTag(SkillDataBase.TAG_XX)) {
+            String tag = info.getTag(SkillDataBase.TAG_XX);
+            Integer p = Integer.valueOf(tag.replace(SkillDataBase.TAG_XX, ""));
             long v1 = percentTo(p, v);
             if (v1 < 1) {
                 v1 = 1;
@@ -177,8 +177,8 @@ public class GameDetailService {
         }
         if (qq2.longValue() > 0) {
             PersonInfo info1 = getInfo(qq2);
-            if (info.containsTag(tag_She) && info.containsTag(tag_Shield)) {
-                int b = info.getTagValue(tag_She).intValue();
+            if (info.containsTag(TAG_SHE) && info.containsTag(TAG_SHIELD)) {
+                int b = info.getTagValue(TAG_SHE).intValue();
                 long v2 = percentTo(b, v);
                 putPerson(getInfo(qq2.longValue()).addHp(v2));
                 sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");

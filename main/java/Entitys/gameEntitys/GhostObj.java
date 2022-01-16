@@ -75,12 +75,12 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
 
-    public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand) {
+    public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
         this.hp = randFloatByte1(hp);
         this.att = randFloatByte1(att);
         this.xp = randFloatByte1(xp);
         this.id = randA(idMin, idMax);
-        L = summonL();
+        L = summonL(bl);
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NotNeed;
         name = getNameById(this.id);
@@ -88,9 +88,9 @@ public class GhostObj implements Serializable, BaseInfo {
         IDX = ++idx;
     }
 
-    private Long summonL() {
-        long vv = (hp + att) / 2;
-        vv = randLong(vv, 0.58f, 0.84f);
+    private Long summonL(float bl) {
+        long vv = (long) ((hp / bl + att) / 2);
+        vv = randLong(vv, 0.56f, 0.82f);
         vv = vv <= 0 ? 1 : vv;
         return vv;
     }

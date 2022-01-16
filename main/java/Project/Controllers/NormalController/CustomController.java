@@ -24,10 +24,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.DataBases.DataBase.isFather;
+import static Project.ResourceSet.Final.CUSTOM_MENU_STR;
+import static Project.ResourceSet.Final.NO_PERMISSION_STR;
 import static Project.Services.impl.GameServiceImpl.threads;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class CustomController {
     public CustomController() {
@@ -36,14 +41,18 @@ public class CustomController {
 
     @Before
     public void before(Group group, long qq, @AllMess String s) throws NoRunException {
-        if (!AllK)
+        if (!AllK) {
             throw new NoRunException();
+        }
         if (!CanGroup(group.getId())) {
             throw new NoRunException();
         }
-        if (s.equals("回话菜单")) return;
-        if (!isFather(qq))
-            throw new NoRunException("无权限");
+        if (s.equals(CUSTOM_MENU_STR)) {
+            return;
+        }
+        if (!isFather(qq)) {
+            throw new NoRunException(NO_PERMISSION_STR);
+        }
     }
 
     private static final int finalIndex = 10;
@@ -59,8 +68,8 @@ public class CustomController {
             }
             if (cd > System.currentTimeMillis()) return null;
 
-            if (map.containsKey(s)) {
-                Reply reply = map.get(s);
+            if (MAP.containsKey(s)) {
+                Reply reply = MAP.get(s);
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.content.startsWith("at")) {
                     reply.content = reply.content.replaceFirst("at", "");
@@ -79,15 +88,15 @@ public class CustomController {
 
     private static synchronized void tryUpdateMap() {
         int size = getAllAutoReplyCount();
-        if (size != map.size()) {
-            map.clear();
-            map.putAll(getAllAutoReply());
+        if (size != MAP.size()) {
+            MAP.clear();
+            MAP.putAll(getAllAutoReply());
             collections.clear();
-            collections.addAll(map.values());
+            collections.addAll(MAP.values());
         }
     }
 
-    public static final String line = "1.添加 问_答_..(用*号代表占位符)\r\n" +
+    public static final String LINE = "1.添加 问_答_..(用*号代表占位符)\r\n" +
             "2.查询词 _...\r\n" +
             "3.查询id _...\r\n" +
             "4.删除词 _...\r\n" +
@@ -95,11 +104,11 @@ public class CustomController {
 
     @Action("回话菜单")
     public String menu() {
-        return line;
+        return LINE;
     }
 
-    public static final Map<String, Reply> map = getAllAutoReply();
-    public static final Map<Long, String> qlist = new ConcurrentHashMap<>();
+    public static final Map<String, Reply> MAP = getAllAutoReply();
+    public static final Map<Long, String> QLIST = new ConcurrentHashMap<>();
     public static List<Reply> collections = new CopyOnWriteArrayList<>();
 
     @Action("添加<.+=>str>")
@@ -114,7 +123,7 @@ public class CustomController {
             String k = str.substring(i1 + 1, i2);
             String v = str.substring(i2 + 1, str.length());
             if (k.contains("*") || v.contains("*")) {
-                qlist.put(qq, str);
+                QLIST.put(qq, str);
                 threads.execute(new Runnable() {
                     private long q1 = qq;
 
@@ -122,8 +131,8 @@ public class CustomController {
                     public void run() {
                         try {
                             Thread.sleep(60 * 1000);
-                            if (map.containsKey(q1)) {
-                                map.remove(q1);
+                            if (MAP.containsKey(q1)) {
+                                MAP.remove(q1);
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -141,17 +150,18 @@ public class CustomController {
             return "添加问_答_";
         }
     }
+
     @Action("\\[.+]请使用最新版手机QQ体验新功能")
     public String onEmoji(@AllMess String mess, @Param("id") String id, long qq) {
-        if (qlist.containsKey(qq)) {
-            String str = qlist.get(qq);
+        if (QLIST.containsKey(qq)) {
+            String str = QLIST.get(qq);
             str = str.replaceFirst("\\*", mess);
             if (str.contains("*")) {
-                qlist.remove(qq);
-                qlist.put(qq, str);
+                QLIST.remove(qq);
+                QLIST.put(qq, str);
                 return "已填充1个";
             } else {
-                qlist.remove(qq);
+                QLIST.remove(qq);
                 if (BuilderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else
@@ -162,8 +172,8 @@ public class CustomController {
 
     @Action("查询词<.+=>name>")
     public String select(@Param("name") String name) {
-        if (map.containsKey(name)) {
-            Reply reply = map.get(name);
+        if (MAP.containsKey(name)) {
+            Reply reply = MAP.get(name);
             return String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.key, reply.content, Tool.getTimeYMdhms(reply.time), reply.who);
         } else {
             return "未查询到该词";
@@ -174,7 +184,7 @@ public class CustomController {
     public String selectById(@Param("id") String ids, Group group) {
         if (collections.isEmpty()) {
             collections.clear();
-            collections.addAll(map.values());
+            collections.addAll(MAP.values());
         }
         int id = 0;
         try {
@@ -192,13 +202,13 @@ public class CustomController {
 
     @Action("删除词<.+=>name>")
     public String delete(@Param("name") String name) {
-        if (map.containsKey(name)) {
-            Reply reply = map.get(name);
+        if (MAP.containsKey(name)) {
+            Reply reply = MAP.get(name);
             if (deleteReply(reply)) {
-                map.clear();
-                map.putAll(getAllAutoReply());
+                MAP.clear();
+                MAP.putAll(getAllAutoReply());
                 collections.clear();
-                collections.addAll(map.values());
+                collections.addAll(MAP.values());
                 return "删除成功";
             } else return "删除失败";
         } else {
@@ -210,7 +220,7 @@ public class CustomController {
     public String deleteById(@Param("id") String ids, Group group) {
         if (collections.isEmpty()) {
             collections.clear();
-            collections.addAll(map.values());
+            collections.addAll(MAP.values());
         }
         int id = 0;
         try {
@@ -221,10 +231,10 @@ public class CustomController {
         if (collections.size() > id) {
             Reply reply = collections.get(id);
             if (deleteReply(reply)) {
-                map.clear();
-                map.putAll(getAllAutoReply());
+                MAP.clear();
+                MAP.putAll(getAllAutoReply());
                 collections.clear();
-                collections.addAll(map.values());
+                collections.addAll(MAP.values());
                 return "删除成功";
             } else return "删除失败";
         } else {
@@ -238,12 +248,12 @@ public class CustomController {
         String k = str.substring(i1 + 1, i2);
         String v = str.substring(i2 + 1, str.length());
         Reply reply = new Reply(q, v, System.currentTimeMillis(), k);
-        if (map.containsKey(k)) return false;
+        if (MAP.containsKey(k)) return false;
         if (!addReply(reply)) return false;
-        map.clear();
-        map.putAll(getAllAutoReply());
+        MAP.clear();
+        MAP.putAll(getAllAutoReply());
         collections.clear();
-        collections.addAll(map.values());
+        collections.addAll(MAP.values());
         return true;
     }
 

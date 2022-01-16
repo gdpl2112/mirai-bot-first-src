@@ -7,7 +7,6 @@ import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Services.AutoBehaviors.GhostBehavior;
 import Project.Services.Iservice.IGameService;
-import Project.Tools.GameTool;
 import Project.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
@@ -61,8 +60,9 @@ public class GameJoinDetailService {
             putPerson(personInfo.setUsinged("null"));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
-            if (n < 35) {
-                ghostObj = summonAFor(who, 501, 521);
+            n = 1;
+            if (n < 33) {
+                ghostObj = summonFor(who, 501, 521);
             } else {
                 ghostObj = new GhostObj(-1, 0, 0, 0, 0);
             }
@@ -74,13 +74,15 @@ public class GameJoinDetailService {
         int r = Tool.rand.nextInt(250);
         GhostObj ghostObj = isUse107(String.valueOf(who));
         boolean need = true;
-        if (ghostObj != null)
+        if (ghostObj != null) {
             if (ghostObj.getHp() == -1) {
                 r = Tool.rand.nextInt(25);
             } else {
-                if (ghostObj.getHp() > 1)
+                if (ghostObj.getHp() > 1) {
                     need = false;
+                }
             }
+        }
         int ro = r;
         r = getInfo(who).getNextR1();
         if (r == -1) {
@@ -169,7 +171,7 @@ public class GameJoinDetailService {
         GhostObj ghostObj = null;
         if (r < mustMeed) {
             if (r == 0) {
-                ghostObj = summonAFor(String.valueOf(who), 601, 604);
+                ghostObj = summonFor(String.valueOf(who), 601, 604);
             } else if (r < 3) {
                 //十万年0.5%
                 ghostObj = GhostObj.create(100000, 601, 604);
@@ -208,16 +210,17 @@ public class GameJoinDetailService {
      * @param idType 5 星斗 6 极北
      * @return
      */
-    public GhostObj summonAFor(String who, int idMin, int idMax) {
+    public GhostObj summonFor(String who, int idMin, int idMax) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
-        return new GhostObj(
+        GhostObj ghostObj = new GhostObj(
                 (long) (personInfo.getAtt() * bl),
                 personInfo.getHpL(),
-                (long) (personInfo.getXpL() / GameTool.getRandXl(personInfo.getLevel())),
+                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel())),
                 idMin, idMax,
                 -1,
-                true);
+                true, bl);
+        return ghostObj;
     }
 
     public Object Select(int id, GhostObj ghostObj, long who) {
@@ -277,13 +280,15 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (idxs.contains(ghostObj.getIDX()))
+            if (idxs.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
+            }
             idxs.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
 
-            if (canAttMe)
+            if (canAttMe) {
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2));
+            }
 
             ghostObj.updateHp(-att);
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
@@ -314,7 +319,9 @@ public class GameJoinDetailService {
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj);
                 }
             }
-            if (showY && show) sb.append("\n").append(WillTips(who, ghostObj, false));
+            if (showY && show) {
+                sb.append("\n").append(WillTips(who, ghostObj, false));
+            }
             return sb.toString();
         } finally {
             idxs.remove((Object) ghostObj.getIDX());
@@ -322,8 +329,9 @@ public class GameJoinDetailService {
     }
 
     private String att(long who, GhostObj ghostObj) {
-        if (getInfo(who).getJak1() > System.currentTimeMillis())
+        if (getInfo(who).getJak1() > System.currentTimeMillis()) {
             return "攻击冷却中...";
+        }
         try {
             putPerson(getInfo(who).setJak1(System.currentTimeMillis() + 2000));
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
@@ -332,8 +340,9 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (idxs.contains(ghostObj.getIDX()))
+            if (idxs.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
+            }
             idxs.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.25f);
@@ -376,10 +385,11 @@ public class GameJoinDetailService {
                     }
                 }
                 //广播
-                if (!isHelp)
+                if (!isHelp) {
                     GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj);
-                else
+                } else {
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj);
+                }
             } else {
                 sb.append("你被打败了!!!");
                 if (ghostObj.getHp() < 0) {
@@ -393,9 +403,12 @@ public class GameJoinDetailService {
                 }
                 GameJoinDetailService.saveGhostObjIn(who, null);
             }
-            if (showI)
+            if (showI) {
                 sb.append("\n").append(gameService.info(who)).append("\n");
-            if (showY) sb.append("\n").append(WillTips(who, ghostObj, false));
+            }
+            if (showY) {
+                sb.append("\n").append(WillTips(who, ghostObj, false));
+            }
             return sb.toString();
         } finally {
             idxs.remove((Object) ghostObj.getIDX());
@@ -407,7 +420,7 @@ public class GameJoinDetailService {
         long v1 = getInfo(qq).getHj();
         long v2 = ghostObj.getHj();
         int bv = toPercent(v1, v2);
-        if (bv >= 125)
+        if (bv >= 125) {
             return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
                     getImageFromStrings(
                             "名字:" + id2NameMaps.get(ghostObj.getId()),
@@ -417,7 +430,7 @@ public class GameJoinDetailService {
                             "经验:" + ghostObj.getXp(),
                             "精神力:" + ghostObj.getHj()
                     );
-        else
+        } else {
             return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
                     getImageFromStrings(
                             "名字:" + id2NameMaps.get(ghostObj.getId()),
@@ -426,6 +439,7 @@ public class GameJoinDetailService {
                             "生命:??",
                             "经验:??",
                             "精神力:??");
+        }
     }
 
     public static String getLevelTips(long v) {

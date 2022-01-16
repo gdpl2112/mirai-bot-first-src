@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.16:调整魂兽生成(等级)").append("\n");
         UPDATE_LOG.append("1.15:修复已知bug 削弱魂兽 蓄力伤害 削弱生成魂兽").append("\n");
         UPDATE_LOG.append("1.14:修复已知bug,新娱乐功能: 网易云热评").append("\n");
         UPDATE_LOG.append("1.12:修复已知bug").append("\n");

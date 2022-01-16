@@ -15,6 +15,9 @@ import static Project.Services.DetailServices.GameSkillDetailService.getUserPerc
 import static Project.Tools.Tool.getStringFromFile;
 import static Project.Tools.Tool.putStringInFile;
 
+/**
+ * @author github-kloping
+ */
 public class SkillDataBase {
 
     public static String path;
@@ -204,39 +207,39 @@ public class SkillDataBase {
     /**
      * 吸血
      */
-    public static final String tag_Xx = "a";
+    public static final String TAG_XX = "a";
     /**
      * 反甲
      */
-    public static final String tag_Fj = "b";
+    public static final String TAG_FJ = "b";
     /**
      * 名刀
      */
-    public static final String tag_Ms = "c";
+    public static final String TAG_MS = "c";
     /**
      * 无敌
      */
-    public static final String tag_Wd = "d";
+    public static final String TAG_WD = "d";
     /**
      * 不能躲避
      */
-    public static final String tag_CantHide = "e";
+    public static final String TAG_CANT_HIDE = "e";
     /**
      * 护盾
      */
-    public static final String tag_Shield = "f";
+    public static final String TAG_SHIELD = "f";
     /**
      * 真伤
      */
-    public static final String tag_True_ = "g";
+    public static final String TAG_TRUE = "g";
     /**
      * 护盾额外
      */
-    public static final String tag_She = "h";
+    public static final String TAG_SHE = "h";
     /**
      * 下次免疫伤害
      */
-    public static final String tag_XuanYuS = "h";
+    public static final String TAG_XUAN_YU_S = "h";
 
     /**
      * 计算百分比

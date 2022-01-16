@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -264,7 +265,7 @@ public class Drawer {
             return img;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(fileName+"can't read");
+            throw new RuntimeException(fileName + "can't read");
         }
     }
 
@@ -394,7 +395,15 @@ public class Drawer {
     private static int width = 500;
     private static int height = 100;
 
+    private static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
+
+
     public static String createFont(String str) {
+        if (HIST_FONT_IMAGES.containsKey(str)) {
+            if (HIST_FONT_IMAGES.get(str).exists()) {
+                return HIST_FONT_IMAGES.get(str).getAbsolutePath();
+            }
+        }
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
@@ -412,6 +421,7 @@ public class Drawer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        HIST_FONT_IMAGES.put(str, file);
         return file.getPath();
     }
 

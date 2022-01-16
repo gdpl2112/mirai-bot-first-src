@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImageInGroup;
+import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImage;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
 /**
@@ -102,7 +102,7 @@ public class GetPvpNews {
         for (Element e : elements) {
             if (hasImgTag(e)) {
                 for (Element img : e.getElementsByTag("img")) {
-                    sb.append(createImageInGroup(bot.getGroup(gid), img.attr("src"))).append("\n");
+                    sb.append(createImage(bot.getGroup(gid), img.attr("src"))).append("\n");
                 }
             } else sb.append(e.text()).append("\n");
         }
@@ -134,7 +134,7 @@ public class GetPvpNews {
                 for (Element img : e.getElementsByTag("img")) {
                     String m0 = img.attr("src");
                     if (!m0.equals(upS0)) {
-                        sb.append(createImageInGroup(bot.getGroup(gid), m0)).append("\n");
+                        sb.append(createImage(bot.getGroup(gid), m0)).append("\n");
                     }
                     upS0 = m0;
                 }

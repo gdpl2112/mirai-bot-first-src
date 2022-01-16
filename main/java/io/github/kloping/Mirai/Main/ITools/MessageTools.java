@@ -67,7 +67,7 @@ public class MessageTools {
                 String s2 = ss.substring(i1 + 1);
                 switch (s1) {
                     case "Pic":
-                        builder.append(createImageInGroup(group, s2));
+                        builder.append(createImage(group, s2));
                         break;
                     case "Face":
                         builder.append(new Face(Integer.parseInt(s2)));
@@ -154,46 +154,31 @@ public class MessageTools {
         }
     }
 
-    public static final Map<Long, Map<String, Image>> ImageResourceMap = new ConcurrentHashMap<>();
+    private static final Map<String, Image> HIST_IMAGES = new ConcurrentHashMap<>();
 
-    public static synchronized Image createImageInGroup(Contact group, String path) {
+    public static synchronized Image createImage(Contact group, String path) {
+        Image image = null;
         try {
-            if (path.startsWith("http")) {
-                return Contact.uploadImage(group, new URL(path).openStream());
+            if (HIST_IMAGES.containsKey(path)) {
+                image = HIST_IMAGES.get(path);
+            } else if (path.startsWith("http")) {
+                image = Contact.uploadImage(group, new URL(path).openStream());
             } else if (path.startsWith("{")) {
-                return Image.fromId(path);
+                image = Image.fromId(path);
             } else {
-                Image image = null;
-                if ((image = getImageResource(group.getId(), path)) != null)
-                    return image;
                 image = Contact.uploadImage(group, new File(path));
-                appendToImageResourceMap(group.getId(), path, image);
-                return image;
             }
         } catch (IOException e) {
-            System.err.println(path + "加载重试");
-            try {
-                return Contact.uploadImage(group, new URL(path).openStream());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-                return null;
+            System.err.println(path + "加载失败");
+            e.printStackTrace();
+        }
+        if (image != null) {
+            HIST_IMAGES.put(path, image);
+            if (HIST_IMAGES.size() >= 100) {
+                HIST_IMAGES.clear();
             }
         }
-    }
-
-    private static void appendToImageResourceMap(Long groupId, String id, Image image) {
-        if (id.contains("temp")) return;
-        Map<String, Image> map = ImageResourceMap.get(groupId);
-        if (map == null) map = new ConcurrentHashMap<>();
-        map.put(id, image);
-        ImageResourceMap.put(groupId, map);
-    }
-
-    private static Image getImageResource(Long groupId, String id) {
-        Map<String, Image> map = ImageResourceMap.get(groupId);
-        if (map == null) map = new ConcurrentHashMap<>();
-        if (map.containsKey(id)) return map.get(id);
-        else return null;
+        return image;
     }
 
     public static String getFlashUrlFromMessageString(String mess) {

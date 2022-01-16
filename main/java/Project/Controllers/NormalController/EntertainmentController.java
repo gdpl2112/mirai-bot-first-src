@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.NormalController.CustomController.BuilderAndAdd;
-import static Project.Controllers.NormalController.CustomController.qlist;
+import static Project.Controllers.NormalController.CustomController.QLIST;
 import static Project.Controllers.TimerController.baseUrlCloud;
 import static Project.DataBases.DataBase.canBackShow;
 import static Project.ResourceSet.Final.*;
@@ -64,15 +64,15 @@ public class EntertainmentController {
     @Action("\\[Pic:.+")
     public String onPic(@AllMess String mess, Group group, Object[] objects, long qq) {
         PicBroadcast.INSTANCE.broadcast(qq, group.getId(), mess, objects);
-        if (qlist.containsKey(qq)) {
-            String str = qlist.get(qq);
+        if (QLIST.containsKey(qq)) {
+            String str = QLIST.get(qq);
             str = str.replaceFirst("\\*", mess);
             if (str.contains("*")) {
-                qlist.remove(qq);
-                qlist.put(qq, str);
+                QLIST.remove(qq);
+                QLIST.put(qq, str);
                 return "已填充1个";
             } else {
-                qlist.remove(qq);
+                QLIST.remove(qq);
                 if (BuilderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else {
@@ -112,7 +112,7 @@ public class EntertainmentController {
     @Action("卫星云图")
     public void mn(Group g) {
         net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImageInGroup(group, baseUrlCloud);
+        Image image = MessageTools.createImage(group, baseUrlCloud);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");
@@ -123,7 +123,7 @@ public class EntertainmentController {
     @Action("全球卫星云图")
     public void m1(Group g) {
         net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImageInGroup(group, "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG");
+        Image image = MessageTools.createImage(group, "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG");
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");

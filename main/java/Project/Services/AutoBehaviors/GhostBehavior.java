@@ -172,7 +172,7 @@ public class GhostBehavior implements Runnable {
 
     public void onDestroy(boolean is) {
         if (is)
-            putPerson(getInfo(qq).eddTag(SkillDataBase.tag_CantHide, 0));
+            putPerson(getInfo(qq).eddTag(SkillDataBase.TAG_CANT_HIDE, 0));
     }
 
     private boolean startLock() throws InterruptedException {
@@ -183,7 +183,7 @@ public class GhostBehavior implements Runnable {
         int findTime = Tool.rand.nextInt(fs[1] - fs[0]) + fs[0];
         Thread.sleep(findTime * 1000);
         if (!updateGhost()) return false;
-        putPerson(getInfo(qq).addTag(SkillDataBase.tag_CantHide, 0));
+        putPerson(getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
         Send(ghostObj.getName() + "已经锁定你了!");
         return true;
     }
