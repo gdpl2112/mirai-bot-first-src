@@ -37,17 +37,11 @@ public class MessageTools {
         return l;
     }
 
-    public static final Map<String, MessageChain> historyShortMess = new ConcurrentHashMap<>();
-
     public static MessageChain getMessageFromString(String str, Contact group) {
         if (str == null || str.isEmpty() || group == null) return null;
-        if (str.length() < 8 && historyShortMess.containsKey(str))
-            return historyShortMess.get(str);
         MessageChainBuilder builder = new MessageChainBuilder();
         append(str, builder, group);
         MessageChain message = builder.build();
-        if (str.length() < 8 && !historyShortMess.containsKey(str))
-            historyShortMess.put(str, message);
         return message;
     }
 
@@ -168,7 +162,7 @@ public class MessageTools {
             } else {
                 image = Contact.uploadImage(group, new File(path));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println(path + "加载失败");
             e.printStackTrace();
         }

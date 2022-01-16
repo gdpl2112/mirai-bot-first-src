@@ -153,7 +153,7 @@ public class GameSkillDetailService {
             case 72:
                 return String.format("释放昊天真身,增加%s%%的攻击力", getAddP(jid, id));
             case 73:
-                return String.format("释放天使真身,每10秒恢复5%的魂力,增加%s%%的攻击力", getAddP(jid, id));
+                return String.format("释放天使真身,每10秒恢复5%%的魂力,增加%s%%的攻击力", getAddP(jid, id));
             case 74:
                 return String.format("释放噬魂真身,吸取敌人%s%%的攻击力,恢复 吸取值得一半 的生命值", getAddP(jid, id));
             case 75:

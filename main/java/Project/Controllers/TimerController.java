@@ -14,9 +14,9 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import static Project.Tools.Tool.update_Today;
-import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
-import static io.github.kloping.Mirai.Main.Handlers.MyTimer.gs;
+import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.Mirai.Main.Resource.THREADS;
+import static io.github.kloping.Mirai.Main.Resource.bot;
 
 /**
  * @author github-kloping
@@ -32,9 +32,10 @@ public class TimerController {
             GameDataBase.histInfos.clear();
             DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
+            for (Group group : bot.getGroups()) {
+                if (!ControllerTool.CanGroup(group.getId())) {
+                    continue;
+                }
                 group.sendMessage("自动关闭" + ts + "分钟");
             }
             startOnZeroTime();
@@ -44,50 +45,42 @@ public class TimerController {
                 e.printStackTrace();
             }
             Resource.Switch.AllK = true;
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
+            for (Group group : bot.getGroups()) {
+                if (!ControllerTool.CanGroup(group.getId())) {
+                    continue;
+                }
                 group.sendMessage("自动开启");
             }
-        });
-        THREADS.execute(() -> {
-            m1();
         });
     }
 
     private static void startOnZeroTime() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (Runnable runnable : ZeroRuns) {
-                    try {
-                        runnable.run();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        THREADS.execute(() -> {
+            for (Runnable runnable : ZERO_RUNS) {
+                try {
+                    runnable.run();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }).start();
+        });
     }
 
-    public static final Set<Runnable> morningRunnable = new CopyOnWriteArraySet<>();
+    public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
 
     @Schedule("07:10:00")
     public static void onSix() {
         update_Today();
         THREADS.execute(() -> {
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
+            for (Group group : bot.getGroups()) {
+                if (!ControllerTool.CanGroup(group.getId())) {
+                    continue;
+                }
                 MessageChainBuilder builder = new MessageChainBuilder();
                 builder.append("早啊,早啊");
                 MyTimer.appendOneDay(builder, group);
                 group.sendMessage(builder.build());
             }
-        });
-        THREADS.execute(() -> {
-            m1();
-            morningRunnable.forEach(e -> e.run());
         });
     }
 
@@ -95,16 +88,14 @@ public class TimerController {
     public static void onMidTwe() {
         update_Today();
         THREADS.execute(() -> {
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
+            for (Group group : bot.getGroups()) {
+                if (!ControllerTool.CanGroup(group.getId())) {
+                    continue;
+                }
                 MessageChainBuilder builder = new MessageChainBuilder();
                 builder.append("午好,午好");
                 group.sendMessage(builder.build());
             }
-        });
-        THREADS.execute(() -> {
-            m1();
         });
     }
 
@@ -112,68 +103,19 @@ public class TimerController {
     public static void onNightSix() {
         update_Today();
         THREADS.execute(() -> {
-            for (long g : gs) {
-                if (!ControllerTool.CanGroup(g)) continue;
-                Group group = Resource.bot.getGroup(g);
+            for (Group group : bot.getGroups()) {
+                if (!ControllerTool.CanGroup(group.getId())) {
+                    continue;
+                }
                 MessageChainBuilder builder = new MessageChainBuilder();
                 builder.append("晚好");
                 group.sendMessage(builder.build());
             }
         });
-        THREADS.execute(() -> {
-            m1();
-        });
     }
 
-    public static final String baseUrlCloud = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
+    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static String baseC3 = null;
-    public static final SimpleDateFormat format = new SimpleDateFormat("MM_dd_HH");
+    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("MM_dd_HH");
 
-
-    //    @TimeEve(1000 * 60 * 60 * 10)
-    public static void m1() {
-        THREADS.execute(() -> {
-//            File file = null;
-//            try {
-//                if (baseC3 == null) {
-//                    byte[] bytes = Tool.getBytesFromHttpUrl(NetMain.rootPath + "/getMCloud3");
-//                    baseC3 = new String(bytes, "utf-8").trim();
-//                }
-//
-//                file = File.createTempFile("temp", ".mp4");
-//
-//                byte[] bytes = Tool.getBytesFromHttpUrl(baseC3);
-//                FileOutputStream fos = new FileOutputStream(file);
-//                fos.write(bytes);
-//                fos.close();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-//            for (long g : gs) {
-//                if (!ControllerTool.CanGroup(g)) continue;
-//                Group group = Resource.bot.getGroup(g);
-//                Image image = MessageTools.createImageInGroup(group, baseUrlCloud);
-//                MessageChainBuilder builder = new MessageChainBuilder();
-//                builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
-//                builder.append("\n");
-//                builder.append(image);
-//                group.sendMessage(builder.build());
-//                RemoteFiles files = group.getFiles();
-//                File finalFile = file;
-//                threads.execute(() -> {
-//                    try {
-//                        String dataStr = format.format(new Date());
-//                        RemoteFile rf = group.getFilesRoot().resolve("/cloudVs");
-//                        if (!rf.exists())
-//                            rf.mkdir();
-//                        Message message = ExternalResource.uploadAsFile(ExternalResource.create(finalFile), group, "/cloudVs/" + dataStr + ".mp4");
-//                        group.sendMessage(message);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-//            }
-        });
-    }
 }

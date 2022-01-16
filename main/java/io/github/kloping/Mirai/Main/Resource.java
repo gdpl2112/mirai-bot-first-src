@@ -27,11 +27,10 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.*;
 
 import static Project.Controllers.GameControllers.GameH2LController.check;
+import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZERO_RUNS;
 
 /**
  * @author github-kloping
@@ -65,9 +64,9 @@ public class Resource {
 
     public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
 
-    public static ABot qq = null;
+    public static BotConf qq = null;
 
-    public static ABot get(int i) {
+    public static BotConf get(int i) {
         switch (i) {
             case 1:
                 return (qq = bots.getBots().get(0));
@@ -105,24 +104,16 @@ public class Resource {
     }
 
     public static void startTimer() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (timeIndex++ % 60 == 0) {
-                    try {
-                        for (File file : new File("./temp").listFiles()) {
-                            if (file.isFile())
-                                file.delete();
-                            else continue;
-                            System.out.println("==================删除=>" + file.getName() + "========>");
-                        }
-                    } catch (Exception e) {
-                        System.err.println("==================删除失败========>" + e.getMessage());
-                    }
+        ZERO_RUNS.add(() -> {
+            for (File file : new File("./temp").listFiles()) {
+                if (file.isFile()) {
+                    file.delete();
+                } else {
+                    continue;
                 }
+                System.out.println("==================删除=>" + file.getName() + "========>");
             }
-        }, 10 * 1000, 15 * 1000);
+        });
     }
 
     private static int timeIndex = 60;
@@ -230,7 +221,7 @@ public class Resource {
 
     public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
-    public static void StarterOk(boolean k) {
+    public static void starterOk(boolean k) {
         THREADS.execute(new Runnable() {
             @Override
             public void run() {
@@ -246,7 +237,6 @@ public class Resource {
         });
     }
 
-    //=======================
     public static void println(String line) {
         System.out.println("==========================" + line + "===================================");
     }
@@ -255,17 +245,16 @@ public class Resource {
         System.err.println("==========================" + line + "===================================");
     }
 
-    //================
     public static class Switch {
         public static boolean AllK = true;
         public static boolean sendFlashToSuper = true;
     }
 
-    public static final class ABot {
+    public static final class BotConf {
         private long qq;
         private String passWord;
 
-        public ABot(long qq, String passWord) {
+        public BotConf(long qq, String passWord) {
             this.qq = qq;
             this.passWord = passWord;
         }
@@ -288,13 +277,13 @@ public class Resource {
     }
 
     private static final class Bots {
-        List<ABot> bots = new LinkedList<>();
+        List<BotConf> bots = new LinkedList<>();
 
-        public List<ABot> getBots() {
+        public List<BotConf> getBots() {
             return bots;
         }
 
-        public void setBots(List<ABot> bots) {
+        public void setBots(List<BotConf> bots) {
             this.bots = bots;
         }
     }

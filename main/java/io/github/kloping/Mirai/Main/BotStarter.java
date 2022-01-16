@@ -30,7 +30,7 @@ public class BotStarter {
         }
     }
 
-    private static Resource.ABot abot = null;
+    private static BotConf abot = null;
 
     public static void main(String[] args) {
         SetOnErrInFIle(getLogTimeFormat() + "b1_err.log");
@@ -75,7 +75,7 @@ public class BotStarter {
         startTimer();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
-        StarterOk(true);
+        starterOk(true);
     }
 
     private static void startRegisterListenerHost() {

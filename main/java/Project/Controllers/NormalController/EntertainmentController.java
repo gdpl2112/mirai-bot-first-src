@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.Controllers.ControllerTool.CanGroup;
 import static Project.Controllers.NormalController.CustomController.BuilderAndAdd;
 import static Project.Controllers.NormalController.CustomController.QLIST;
-import static Project.Controllers.TimerController.baseUrlCloud;
+import static Project.Controllers.TimerController.BASE_URL_CLOUD;
 import static Project.DataBases.DataBase.canBackShow;
 import static Project.ResourceSet.Final.*;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -112,7 +112,7 @@ public class EntertainmentController {
     @Action("卫星云图")
     public void mn(Group g) {
         net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImage(group, baseUrlCloud);
+        Image image = MessageTools.createImage(group, BASE_URL_CLOUD);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");

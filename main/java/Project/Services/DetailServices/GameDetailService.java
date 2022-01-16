@@ -42,7 +42,7 @@ public class GameDetailService {
         Resource.StartOkRuns.add(new Runnable() {
             @Override
             public void run() {
-                MyTimer.ZeroRuns.add(() -> {
+                MyTimer.ZERO_RUNS.add(() -> {
                     GameController.deleteC.clear();
                     File file = new File(GameDataBase.path + "/dates/users/");
                     for (File f1 : file.listFiles()) {

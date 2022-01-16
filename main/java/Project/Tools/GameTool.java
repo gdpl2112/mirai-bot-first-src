@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.*;
-import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZeroRuns;
+import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 public class GameTool {
@@ -429,7 +429,7 @@ public class GameTool {
 
     static {
         loadPh();
-        ZeroRuns.add(() -> {
+        ZERO_RUNS.add(() -> {
             INDEX_FILE.delete();
             loadPh();
         });

@@ -108,7 +108,7 @@ public class ZongDetailService {
         Resource.StartOkRuns.add(new Runnable() {
             @Override
             public void run() {
-                MyTimer.ZeroRuns.add(new Runnable() {
+                MyTimer.ZERO_RUNS.add(new Runnable() {
                     @Override
                     public void run() {
                         File[] files = new File(ZongMenDataBase.path).listFiles();

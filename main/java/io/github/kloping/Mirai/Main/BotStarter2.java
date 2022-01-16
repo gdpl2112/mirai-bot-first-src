@@ -15,7 +15,7 @@ import static io.github.kloping.Mirai.Main.Resource.*;
 @CommentScan(path = "Project")
 public class BotStarter2 {
 
-    private static ABot abot;
+    private static BotConf abot;
 
     public static void main(String[] args) {
         SetOnErrInFIle(getLogTimeFormat() + "b2_err.log");
@@ -43,7 +43,7 @@ public class BotStarter2 {
         startTimer();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         println("运行的线程=》" + Thread.activeCount());
-        StarterOk(false);
+        starterOk(false);
     }
 
     private static void startRegisterListenerHost() {

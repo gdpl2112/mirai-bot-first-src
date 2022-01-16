@@ -40,11 +40,10 @@ public class CapHandler {
         }
     }
 
-    private static final ExecutorService threads = Executors.newFixedThreadPool(10);
+    private static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
     private static void startTimer(long qid) {
-        threads.execute(new Runnable() {
-
+        THREADS.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -58,7 +57,7 @@ public class CapHandler {
                     } else {
                         run();
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

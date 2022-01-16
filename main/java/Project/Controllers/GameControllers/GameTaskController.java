@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static Project.Controllers.ControllerTool.CanGroup;
-import static Project.Controllers.TimerController.morningRunnable;
+import static Project.Controllers.TimerController.MORNING_RUNNABLE;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.weekDays;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
@@ -40,7 +40,7 @@ public class GameTaskController {
     }
 
     static {
-        morningRunnable.add(() -> {
+        MORNING_RUNNABLE.add(() -> {
             if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
                 List<Long> longs = new LinkedList<>();
                 for (long activity : GameTaskDatabase.getActivities(true)) {

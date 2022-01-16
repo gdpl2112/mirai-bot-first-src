@@ -12,13 +12,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * @author github-kloping
+ */
 public class MyTimer {
-
     private static int t1 = 24;
-    public final static Set<Long> gs = new HashSet<>();
-
-
-    public static List<Runnable> ZeroRuns = new ArrayList<>();
+    public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
 
     public static void appendOneDay(MessageChainBuilder builder, Group group) {
         try {
