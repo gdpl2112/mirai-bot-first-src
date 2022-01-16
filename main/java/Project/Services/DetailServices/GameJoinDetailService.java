@@ -60,7 +60,6 @@ public class GameJoinDetailService {
             putPerson(personInfo.setUsinged("null"));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
-            n = 1;
             if (n < 33) {
                 ghostObj = summonFor(who, 501, 521);
             } else {
