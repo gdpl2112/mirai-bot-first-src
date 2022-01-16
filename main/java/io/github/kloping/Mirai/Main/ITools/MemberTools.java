@@ -1,11 +1,32 @@
 package io.github.kloping.Mirai.Main.ITools;
 
+import Entitys.User;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 
 import static io.github.kloping.Mirai.Main.Resource.bot;
 
+/**
+ * @author github-kloping
+ */
 public class MemberTools {
+    public static User getUser(long q) {
+        if (User.get(q) == null) {
+            for (Group group : bot.getGroups()) {
+                if (group.contains(q)) {
+                    Member member = group.get(q);
+                    User user = User.create(q,
+                            group.getId(),
+                            member.getNameCard(),
+                            member.getNick()
+                    );
+                    return user;
+                }
+            }
+        }
+        return User.get(q);
+    }
+
     public static synchronized String getNameFromGroup(long id, Entitys.Group group) {
         String name = "";
         try {

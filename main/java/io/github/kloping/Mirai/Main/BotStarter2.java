@@ -30,7 +30,7 @@ public class BotStarter2 {
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         Resource.bot = bot;
         Resource.datePath = "./Libs2";
-        Resource.Init();
+        Resource.init();
         Resource.SetterStarterApplication(BotStarter2.class);
         SpringStarter2.main(args);
         bot.login();

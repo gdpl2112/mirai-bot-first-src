@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Tools.Tool.getRandString;
+import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
 /**
@@ -64,7 +65,7 @@ public class SuperController {
         }
         String qStr = q == bot.getId() ? "me" : String.valueOf(q);
         str = str.replaceFirst("/execute\\[@" + qStr + "]", "");
-        StarterApplication.ExecuteMethod(q, str, q, User.get(q), Group.get(group.getId()), 0);
+        StarterApplication.ExecuteMethod(q, str, q, getUser(q), Group.get(group.getId()), 0);
         return "executing";
     }
 

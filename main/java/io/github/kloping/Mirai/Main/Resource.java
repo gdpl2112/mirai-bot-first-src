@@ -92,7 +92,7 @@ public class Resource {
     public static GameTaskDatabase gameTaskDatabase = null;
     public static OtherDatabase otherDatabase = null;
 
-    public static void Init() {
+    public static void init() {
         dataBase = new DataBase(datePath);
         gameDataBase = new GameDataBase(datePath);
         zmDataBase = new ZongMenDataBase(datePath);

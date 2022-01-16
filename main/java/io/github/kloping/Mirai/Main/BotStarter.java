@@ -50,7 +50,7 @@ public class BotStarter {
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         Resource.bot = bot;
         datePath = "./Libs";
-        Init();
+        init();
         SetterStarterApplication(BotStarter.class);
         SpringStarter.main(args);
         bot.login();

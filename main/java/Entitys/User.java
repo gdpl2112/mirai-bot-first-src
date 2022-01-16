@@ -29,7 +29,6 @@ public class User {
         return hist.get(id.longValue());
     }
 
-
     public long getId() {
         return id.longValue();
     }
