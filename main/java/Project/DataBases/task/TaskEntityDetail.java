@@ -3,9 +3,9 @@ package Project.DataBases.task;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.task.Task;
 import Entitys.gameEntitys.task.TaskPoint;
-import Project.services.DetailServices.TaskDetailService;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.DetailServices.TaskDetailService;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 
 import java.util.Map;
@@ -91,13 +91,15 @@ public class TaskEntityDetail {
             Task task = getT();
             if (task.getHost().longValue() != who) return;
             if (who == task.getHost().longValue()) {
-                if (task.getTasker().contains(with.longValue())) {
-                    deleteTask(task);
-                    MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
-                            , task.getFromG().longValue(), task.getHost());
-                    addToBgs(who, 1601, ObjType.got);
-                    addToBgs(with.longValue(), 1601, ObjType.got);
-                    GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
+                if (ghostObj.getLevel() >= 10 * 10000) {
+                    if (task.getTasker().contains(with.longValue())) {
+                        deleteTask(task);
+                        MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
+                                , task.getFromG().longValue(), task.getHost());
+                        addToBgs(who, 1601, ObjType.got);
+                        addToBgs(with.longValue(), 1601, ObjType.got);
+                        GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
+                    }
                 }
             }
         }

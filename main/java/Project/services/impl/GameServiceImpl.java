@@ -743,7 +743,7 @@ public class GameServiceImpl implements IGameService {
         return pathToImg(drawGInfopPng(gInfo));
     }
 
-    private int st = 15;
+    public int st = 24;
 
     @Override
     public String shouTu(long q, long q2) {
