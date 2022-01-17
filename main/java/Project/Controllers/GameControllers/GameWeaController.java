@@ -3,14 +3,16 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.Iservice.IGameWeaService;
+import Project.services.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.Controllers.ControllerTool.CanGroup;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static Project.Controllers.ControllerTool.opened;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameWeaController {
     public GameWeaController() {
@@ -22,11 +24,8 @@ public class GameWeaController {
 
     @Before
     public void before(Group group, User qq) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

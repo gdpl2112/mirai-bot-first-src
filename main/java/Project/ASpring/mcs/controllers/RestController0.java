@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.FirstController.getCode;
+import static Project.Controllers.ConUtils.createCapImage;
+import static Project.Controllers.ConUtils.getCode;
 
+/**
+ * @author github-kloping
+ */
 @RestController
 public class RestController0 {
     private static final Map<String, String> ucap = new ConcurrentHashMap<>();
@@ -24,7 +28,7 @@ public class RestController0 {
 
     @GetMapping("getCap")
     public String getCap() {
-        Object[] o = FirstController.createCapImage();
+        Object[] o = createCapImage();
         String path = o[2].toString();
         String capCode = o[1].toString();
         String uuid = UUID.randomUUID().toString();

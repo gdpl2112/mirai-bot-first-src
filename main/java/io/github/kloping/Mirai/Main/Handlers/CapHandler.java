@@ -14,29 +14,32 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.Controllers.ConUtils.createCapImage;
+import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAt;
+
 /**
  * @author github-kloping
  */
 public class CapHandler {
-    public static final Map<Long, String> caping = new ConcurrentHashMap<>();
-    public static final Map<Long, Group> cap2 = new ConcurrentHashMap<>();
-    public static final Map<Long, Integer> capT = new ConcurrentHashMap<>();
+    public static final Map<Long, String> CAPING = new ConcurrentHashMap<>();
+    public static final Map<Long, Group> CAP_2 = new ConcurrentHashMap<>();
+    public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
 
     public static void join(long qid, Group group) {
         if (DataBase.needCap(group.getId())) {
-            Object[] o = FirstController.createCapImage();
+            Object[] o = createCapImage();
             String path = o[0].toString();
             String capCode = o[1].toString();
             Image image = MessageTools.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(new At(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
+            builder.append(getAt(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
-            caping.put(qid, capCode);
-            cap2.put(qid, group);
-            if (!capT.containsKey(qid))
+            CAPING.put(qid, capCode);
+            CAP_2.put(qid, group);
+            if (!CAP_T.containsKey(qid))
                 startTimer(qid);
-            capT.put(qid, 180);
+            CAP_T.put(qid, 180);
         }
     }
 
@@ -47,11 +50,11 @@ public class CapHandler {
             @Override
             public void run() {
                 try {
-                    if (!caping.containsKey(qid)) return;
+                    if (!CAPING.containsKey(qid)) return;
                     Thread.sleep(1000);
-                    int t = capT.get(qid);
+                    int t = CAP_T.get(qid);
                     t--;
-                    capT.put(qid, t);
+                    CAP_T.put(qid, t);
                     if (t <= 0) {
                         err(qid);
                     } else {
@@ -65,12 +68,12 @@ public class CapHandler {
     }
 
     private static void err(long qid) {
-        caping.remove(qid);
-        Group group = cap2.get(qid);
-        cap2.remove(qid);
-        capT.remove(qid);
+        CAPING.remove(qid);
+        Group group = CAP_2.get(qid);
+        CAP_2.remove(qid);
+        CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(new At(qid)).append("\n您没有通过验证");
+        builder.append(getAt(qid)).append("\n您没有通过验证");
         builder.append("\n请重新申请加入群聊");
         builder.append(new Face(Face.SAO_RAO));
         group.sendMessage(builder.build());
@@ -78,28 +81,28 @@ public class CapHandler {
     }
 
     public static void cap(long qid, String text) {
-        String t1 = caping.get(qid);
+        String t1 = CAPING.get(qid);
         switch (text.trim()) {
             case "看不清":
             case "换一个":
-                join(qid, cap2.get(qid));
+                join(qid, CAP_2.get(qid));
                 break;
             default:
                 if (text.trim().toLowerCase().equals(t1.trim().toLowerCase())) {
                     ok(qid);
                 } else {
-                    cap2.get(qid).sendMessage("好像不对哦~");
+                    CAP_2.get(qid).sendMessage("好像不对哦~");
                 }
         }
     }
 
     public static void ok(long qid) {
-        caping.remove(qid);
-        Group group = cap2.get(qid);
-        cap2.remove(qid);
-        capT.remove(qid);
+        CAPING.remove(qid);
+        Group group = CAP_2.get(qid);
+        CAP_2.remove(qid);
+        CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(new At(qid)).append("\n恭喜你通过了验证");
+        builder.append(getAt(qid)).append("\n恭喜你通过了验证");
         builder.append("\n群内成员要好好的与新人相处哦");
         builder.append("\n说\"菜单\"即可查看我的功能了");
         builder.append(new Face(Face.HAN_XIAO));

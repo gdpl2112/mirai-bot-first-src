@@ -3,7 +3,7 @@ package Project.Controllers.GameControllers;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.Services.Iservice.IGameBoneService;
+import Project.services.Iservice.IGameBoneService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.*;
 import static Project.drawers.Drawer.getImageFromStrings;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
@@ -39,27 +38,23 @@ public class GameBoneController {
 
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
-//               group.sendString(new StringChainBuilder().append(new At(qq.getId())).append("\n 无状态!").build());
                 throw new NoRunException();
             }
         }
     }
 
     @Action(value = "我的属性", otherName = "属性信息")
-    public String MyAttribute(long qq, Group g) {
+    public String myAttribute(long qq, Group g) {
         return gameBoneService.getInfoAttributes(qq);
     }
 
     @Action("我的魂骨")
-    public String MyBones(long qq, Group g) {
+    public String myBones(long qq, Group g) {
         Map<Integer, Map.Entry<String, Integer>> map = gameBoneService.getAttributeMap(qq, true);
         StringBuilder sb = new StringBuilder();
         for (Integer id : map.keySet()) {
@@ -81,7 +76,7 @@ public class GameBoneController {
     }
 
     @Action("吸收魂骨<.{1,}=>name>")
-    public String ParseBone(@Param("name") String name, long qq, Group g) {
+    public String parseBone(@Param("name") String name, long qq, Group g) {
         int id = 0;
         try {
             id = Name2idMaps.get(name);
@@ -90,12 +85,12 @@ public class GameBoneController {
         } catch (Exception e) {
             return new StringBuilder().append("错误的==》").append(name).toString();
         }
-        String str = gameBoneService.ParseBone(id, qq);
+        String str = gameBoneService.parseBone(id, qq);
         return str;
     }
 
     @Action("卸掉魂骨<.{1,}=>name>")
-    public String UnParseBone(@Param("name") String name, long qq, Group g) {
+    public String unParseBone(@Param("name") String name, long qq, Group g) {
         int id = 0;
         try {
             id = Name2idMaps.get(name);
@@ -104,7 +99,7 @@ public class GameBoneController {
         } catch (Exception e) {
             return new StringBuilder().append("错误的==》").append(name).toString();
         }
-        String str = gameBoneService.UnInstallBone(id, qq);
+        String str = gameBoneService.unInstallBone(id, qq);
         return str;
     }
 }

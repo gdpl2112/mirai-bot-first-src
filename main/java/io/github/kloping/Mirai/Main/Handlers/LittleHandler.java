@@ -208,7 +208,7 @@ public class LittleHandler extends SimpleListenerHost {
             At at = class2OMap.get(At.class);
             NormalMember member = event.getGroup().get(at.getTarget());
             PlainText plainText = class2OMap.get(PlainText.class, 1);
-            member.setNameCard(plainText.getContent());
+            member.setNameCard(plainText.getContent().trim());
             return "ok";
         } catch (Exception e) {
             e.printStackTrace();

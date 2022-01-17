@@ -7,6 +7,9 @@ import net.mamoe.mirai.message.data.*;
 
 import static io.github.kloping.Mirai.Main.Resource.superQL;
 
+/**
+ * @author github-kloping
+ */
 public class EventTools {
     public static String getStringFromGroupMessageEvent(GroupMessageEvent event) {
         StringBuilder sb = new StringBuilder();

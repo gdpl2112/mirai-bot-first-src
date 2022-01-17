@@ -2,7 +2,7 @@ package Entitys.gameEntitys;
 
 
 import Entitys.gameEntitys.base.BaseInfo;
-import Project.Services.DetailServices.GameJoinDetailService;
+import Project.services.DetailServices.GameJoinDetailService;
 import Project.Tools.JSONUtils;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.Tools.GameTool.Lmax;
 import static Project.Tools.GameTool.randFloatByte1;
 import static Project.Tools.Tool.randA;

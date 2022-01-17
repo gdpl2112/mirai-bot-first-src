@@ -48,7 +48,9 @@ public class SpringBootResource {
 
     public static String getPublicIp() {
         try {
-            String jsonStr = Jsoup.connect("https://ip.cn/api/index?ip=&type=0").ignoreContentType(true).get().body().text();
+            String jsonStr = Jsoup.connect("https://ip.cn/api/index?ip=&type=0")
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62")
+                    .ignoreContentType(true).get().body().text();
             JSONObject jo = JSON.parseObject(jsonStr);
             return jo.getString("ip");
         } catch (IOException e) {

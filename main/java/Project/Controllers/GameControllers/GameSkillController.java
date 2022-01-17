@@ -3,7 +3,7 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Entitys.gameEntitys.SkillInfo;
-import Project.Services.Iservice.ISkillService;
+import Project.services.Iservice.ISkillService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -12,12 +12,14 @@ import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.skill.SkillDataBase.getSkillInfo;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameSkillController {
     public GameSkillController() {
@@ -39,9 +41,9 @@ public class GameSkillController {
 
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
@@ -116,7 +118,9 @@ public class GameSkillController {
             } catch (Exception e) {
                 return "未知异常.";
             }
-        } else throw new NoRunException("=><>^");
+        } else {
+            throw new NoRunException();
+        }
     }
 
     private static String menu;

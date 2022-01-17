@@ -5,8 +5,8 @@ import Entitys.User;
 import Entitys.gameEntitys.task.Task;
 import Entitys.gameEntitys.task.TaskPoint;
 import Project.DataBases.GameTaskDatabase;
-import Project.Services.DetailServices.TaskDetailService;
-import Project.Services.Iservice.IGameTaskService;
+import Project.services.DetailServices.TaskDetailService;
+import Project.services.Iservice.IGameTaskService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -16,13 +16,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.TimerController.MORNING_RUNNABLE;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.weekDays;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameTaskController {
     public GameTaskController() {
@@ -31,8 +33,9 @@ public class GameTaskController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!AllK) throw new NoRunException("总开关——关闭");
-        if (!CanGroup(group.getId())) throw new NoRunException("未开启");
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
         if (getInfo(qq.getId()).getHp() <= 0) {
             MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");

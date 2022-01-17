@@ -7,7 +7,7 @@ import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.Warp;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
-import Project.Services.Iservice.IGameService;
+import Project.services.Iservice.IGameService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -20,14 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.*;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.drawWarpPng;
 import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.Resource.StartOkRuns;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 @Controller
@@ -58,10 +57,7 @@ public class GameController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException("总开关——关闭");
-        }
-        if (!CanGroup(group.getId())) {
+        if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
@@ -313,7 +309,7 @@ public class GameController {
             } else if (id > 1500 && id < 1600) {
                 try {
                     gameBoneController.before(qq, group, message);
-                    return gameBoneController.ParseBone(str, qq.getId(), group);
+                    return gameBoneController.parseBone(str, qq.getId(), group);
                 } catch (NoRunException e) {
                     return null;
                 }
@@ -388,7 +384,7 @@ public class GameController {
             Object[] Strings = new Object[]{
                     method, this, new Object[]{qq.getId()}
             };
-            ConfirmController.RegConfirm(qq.getId(), Strings);
+            ConfirmController.regConfirm(qq.getId(), Strings);
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (Exception e) {
             return "解除异常";

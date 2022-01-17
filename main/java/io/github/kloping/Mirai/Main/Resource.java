@@ -4,7 +4,7 @@ import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.*;
 import Project.DataBases.skill.SkillDataBase;
-import Project.Plugins.NetMain;
+import Project.detailPlugin.NetMain;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -31,6 +31,7 @@ import java.util.concurrent.*;
 
 import static Project.Controllers.GameControllers.GameH2LController.check;
 import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZERO_RUNS;
+import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAt;
 
 /**
  * @author github-kloping
@@ -120,7 +121,7 @@ public class Resource {
 
     public static ContextManager contextManager;
 
-    protected static void SetterStarterApplication(Class<?> cla) {
+    protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(25 * 1000L);
         StarterApplication.setAccessTypes(Long.class, Entitys.User.class, Group.class, Integer.class);
@@ -145,8 +146,8 @@ public class Resource {
         StarterApplication.run(cla);
     }
 
+
     public static void onReturnResult(Object o, Object[] objects) {
-        long v1 = System.currentTimeMillis();
         MessageChainBuilder builder = new MessageChainBuilder();
         Integer type = Integer.valueOf(objects[5].toString());
         if (type == 0) {
@@ -164,10 +165,11 @@ public class Resource {
                 return;
             }
             //====
-            if (o.toString().startsWith("&"))
+            if (o.toString().startsWith("&")) {
                 o = o.toString().replaceFirst("&", "");
-            else
-                builder.append(new At(((User) objects[3]).getId())).append("\r\n");
+            } else {
+                builder.append(getAt(((User) objects[3]).getId())).append("\r\n");
+            }
             //====
             if (o instanceof String) {
                 MessageChain message = MessageTools.getMessageFromString(o.toString(), group);

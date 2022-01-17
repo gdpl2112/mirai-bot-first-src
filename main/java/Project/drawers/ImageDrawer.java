@@ -8,9 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
+import static Project.ResourceSet.Final.NOT_SUPPORT_LENGTH_IMG;
 import static Project.Tools.Tool.rand;
 import static Project.drawers.JImageDrawerUtils.*;
 
+/**
+ * @author github-kloping
+ */
 public class ImageDrawer {
 
     /**
@@ -30,7 +34,7 @@ public class ImageDrawer {
         encoder.setFrameRate(200);
         int rotateEve = 360 / files.length;
         final BufferedImage oImage = ImageIO.read(oFile);
-        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException("不支持长方形图片");
+        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         GifDecoder decoder = new GifDecoder();
         decoder.read(oFile.openStream());
         final int max = decoder.getFrameCount();
@@ -56,7 +60,7 @@ public class ImageDrawer {
         encoder.setQuality(5);
         encoder.setFrameRate(200);
         final BufferedImage oImage = ImageIO.read(oFile);
-        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException("不支持长方形图片");
+        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         GifDecoder decoder = new GifDecoder();
         decoder.read(oFile.openStream());
         final int max = decoder.getFrameCount();
@@ -72,7 +76,6 @@ public class ImageDrawer {
             int[] vs = getWt(i);
             image = putImage(main, image, vs[0], vs[1]);
             encoder.addFrame(image);
-//            ImageIO.write(image, "png", new File("./data/temp/" + i + ".png"));
         }
         encoder.finish();
         return outFile;
@@ -148,14 +151,15 @@ public class ImageDrawer {
                 x -= 1;
                 y += 3;
                 break;
-
+            default:
+                return new int[]{x, y};
         }
         return new int[]{x, y};
     }
 
     public static File getDui(File file, URL oFile, File outFile) throws Exception {
         BufferedImage oImage = ImageIO.read(oFile);
-        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException("不支持长方形图片");
+        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         oImage = roundImage(oImage, 9999);
         oImage = (BufferedImage) Image2Size(oImage, 150, 150);
         oImage = (BufferedImage) rotateImage(oImage, rand.nextInt(160) + 60);
@@ -169,6 +173,5 @@ public class ImageDrawer {
     public static void main(String[] args) throws Exception {
         getDui(new File("./images/diu/diu.png"), new URL("https://q1.qlogo.cn/g?b=qq&nk=189696825&s=640")
                 , new File("./temp/a.png"));
-
     }
 }

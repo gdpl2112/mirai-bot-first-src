@@ -1,7 +1,7 @@
 package Project.interfaces;
 
 import Entitys.apiEntitys.Songs;
-import Project.Plugins.NetMain;
+import Project.detailPlugin.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;

@@ -31,7 +31,7 @@ public class BotStarter2 {
         Resource.bot = bot;
         Resource.datePath = "./Libs2";
         Resource.init();
-        Resource.SetterStarterApplication(BotStarter2.class);
+        Resource.setterStarterApplication(BotStarter2.class);
         SpringStarter2.main(args);
         bot.login();
         BotStarter2.afterLogin();

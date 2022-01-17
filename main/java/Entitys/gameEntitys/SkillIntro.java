@@ -3,7 +3,7 @@ package Entitys.gameEntitys;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static Project.Services.DetailServices.GameSkillDetailService.*;
+import static Project.services.DetailServices.GameSkillDetailService.*;
 import static Project.Tools.Tool.trans;
 
 @Data

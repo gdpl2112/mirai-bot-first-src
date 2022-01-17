@@ -4,10 +4,11 @@ import Entitys.Group;
 import Entitys.UScore;
 import Entitys.User;
 import Project.DataBases.DataBase;
-import Project.Plugins.WeatherGetter;
-import Project.Services.DetailServices.Idiom;
-import Project.Services.Iservice.IOtherService;
+import Project.interfaces.ApiIyk0;
+import Project.detailPlugin.WeatherGetter;
 import Project.ResourceSet;
+import Project.services.DetailServices.Idiom;
+import Project.services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import Project.broadcast.PicBroadcast;
 import Project.drawers.ImageDrawer;
@@ -28,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.canGroup;
 import static Project.Controllers.NormalController.CustomController.BuilderAndAdd;
 import static Project.Controllers.NormalController.CustomController.QLIST;
 import static Project.Controllers.TimerController.BASE_URL_CLOUD;
@@ -55,7 +56,7 @@ public class EntertainmentController {
         if (mess.startsWith("[闪照")) {
 
         } else {
-            if (!CanGroup(group.getId())) {
+            if (!canGroup(group.getId())) {
                 throw new NoRunException();
             }
         }
@@ -99,6 +100,14 @@ public class EntertainmentController {
             speak(line, group);
         }
         return line;
+    }
+
+    @AutoStand
+    ApiIyk0 apiIyk0;
+
+    @Action("全国降水量")
+    public String lowWater() {
+        return Tool.pathToImg(apiIyk0.getJyu().getImg());
     }
 
     public static void speak(String line, Group group) {

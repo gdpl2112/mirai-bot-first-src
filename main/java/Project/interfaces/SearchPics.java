@@ -6,9 +6,7 @@ import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
-import java.util.List;
-
-import static Project.Plugins.NetMain.ROOT_PATH;
+import static Project.detailPlugin.NetMain.ROOT_PATH;
 
 /**
  * @author github kloping

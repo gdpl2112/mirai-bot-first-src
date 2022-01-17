@@ -25,6 +25,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -65,7 +66,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        if (CapHandler.caping.containsKey(event.getSender().getId())) {
+        if (CapHandler.CAPING.containsKey(event.getSender().getId())) {
             CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
             return;
         }
@@ -167,7 +168,7 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMemberRequest(@NotNull MemberJoinRequestEvent event) {
         try {
-            if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+            if (!ControllerTool.canGroup(event.getGroup().getId())) {
                 return;
             }
             MessageChainBuilder builder = new MessageChainBuilder();
@@ -199,7 +200,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberJoined(MemberJoinEvent event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+        if (!ControllerTool.canGroup(event.getGroup().getId())) {
             return;
         }
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -216,7 +217,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberLeft(MemberLeaveEvent.Quit event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+        if (!ControllerTool.canGroup(event.getGroup().getId())) {
             return;
         }
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -229,7 +230,7 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMemberLeave(MemberLeaveEvent.Kick event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) {
+        if (!ControllerTool.canGroup(event.getGroup().getId())) {
             return;
         }
         MessageChainBuilder builder = new MessageChainBuilder();

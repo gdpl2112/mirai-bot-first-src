@@ -9,7 +9,6 @@ import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -51,6 +50,7 @@ public class MessageTools {
     private static final Pattern patterAt = Pattern.compile("\\[At:.+?]|<At:.+?>");
 
     private static List<Object> append(String sb, MessageChainBuilder builder, Contact group) {
+        long v0 = System.currentTimeMillis();
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
             String str = o.toString();
@@ -64,16 +64,42 @@ public class MessageTools {
                         builder.append(createImage(group, s2));
                         break;
                     case "Face":
-                        builder.append(new Face(Integer.parseInt(s2)));
+                        builder.append(getFace(Integer.parseInt(s2)));
                         break;
                     case "At":
-                        builder.append(new At(Long.parseLong(s2)));
+                        builder.append(getAt(Long.parseLong(s2)));
                 }
             } else
                 builder.append(str.trim());
         }
+        System.out.println("lost -" + (System.currentTimeMillis() - v0));
         return lls;
     }
+
+    private static final Map<Integer, Face> faces = new ConcurrentHashMap<>();
+
+    private static Face getFace(int parseInt) {
+        if (faces.containsKey(parseInt)) {
+            return faces.get(parseInt);
+        } else {
+            Face face = new Face(parseInt);
+            faces.put(parseInt, face);
+            return face;
+        }
+    }
+
+    private static final Map<Long, At> ats = new ConcurrentHashMap<>();
+
+    public static At getAt(long id) {
+        if (ats.containsKey(id)) {
+            return ats.get(id);
+        } else {
+            At at = new At(id);
+            ats.put(id, at);
+            return at;
+        }
+    }
+
 
     public static List<Object> aStart(String line) {
         List<String> list = new ArrayList<>();

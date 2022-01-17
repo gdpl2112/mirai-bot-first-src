@@ -1,7 +1,7 @@
 package Project.interfaces;
 
-import Project.Plugins.pluginsDetail.entitys.CodeEntity;
-import Project.Plugins.pluginsDetail.entitys.CodeResponse;
+import Project.detailPlugin.pluginsDetail.entitys.CodeEntity;
+import Project.detailPlugin.pluginsDetail.entitys.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;

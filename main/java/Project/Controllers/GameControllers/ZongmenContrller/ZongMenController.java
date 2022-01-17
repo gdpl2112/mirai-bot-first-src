@@ -3,16 +3,20 @@ package Project.Controllers.GameControllers.ZongmenContrller;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.Services.Iservice.IZongMenService;
+import Project.services.Iservice.IZongMenService;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static Project.ResourceSet.Final.NOT_FOUND_AT;
+import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class ZongMenController {
 
@@ -25,14 +29,12 @@ public class ZongMenController {
 
     @Before
     public void before(Group group) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 
-    private static String line = "1.创建宗门(名称)\n" +
+    private static final String MENU = "1.创建宗门(名称)\n" +
             "2.宗门信息\n" +
             "3.宗门列表     #列出所有宗门\n" +
             "4.设置宗门图标(图片)\n" +
@@ -47,25 +49,25 @@ public class ZongMenController {
             "宗门的作用请见'宗门作用'";
 
     @Action("宗门系统")
-    public String Menu() {
-        return line;
+    public String menu() {
+        return MENU;
     }
 
     @Action("创建宗门<.+=>name>")
-    public String Create(@Param("name") String name, User qq, Group group) {
-        if (name == null || name.isEmpty() || name.equals("null"))
+    public String create(@Param("name") String name, User qq, Group group) {
+        if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
             return "名字 不可为空";
         if (longs.contains(qq.getId())) return "Can't";
         return zongMenService.create(name, qq.getId(), group);
     }
 
     @Action("宗门信息")
-    public String Info(User qq, Group group) {
+    public String info(User qq, Group group) {
         return zongMenService.ZongInfo(qq.getId(), group);
     }
 
     @Action("宗门列表")
-    public String List(Group g) {
+    public String list(Group g) {
         return zongMenService.List(g);
     }
 
@@ -83,9 +85,9 @@ public class ZongMenController {
     }
 
     @Action("邀请.+")
-    public Object Invite(@AllMess String mess, User qq, Group group) {
+    public Object invite(@AllMess String mess, User qq, Group group) {
         long l1 = MessageTools.getAtFromString(mess);
-        if (l1 < 0) return ("邀请谁");
+        if (l1 < 0) return NOT_FOUND_AT;
         if (longs.contains(l1)) return "Can't";
         return zongMenService.Invite(qq.getId(), l1, group);
     }
@@ -113,36 +115,39 @@ public class ZongMenController {
     }
 
     @Action("宗门作用")
-    public String Effect() {
+    public String effectIntro() {
         return line2;
     }
 
     @Action("宗门贡献")
-    public String Cob(User qq) {
+    public String cob(User qq) {
         return zongMenService.Cob(qq.getId());
     }
 
     @Action("救援.+")
     public String help(@AllMess String mess, User qq, Group group) {
         long who = MessageTools.getAtFromString(mess);
-        if (who < 0)
-            return "谁";
+        if (who < 0) {
+            return NOT_FOUND_AT;
+        }
         return zongMenService.help(qq.getId(), who);
     }
 
     @Action("设置长老.+")
     public String setElder(User qq, @AllMess String mess) {
         long who = MessageTools.getAtFromString(mess);
-        if (who < 0)
-            return "谁";
+        if (who < 0) {
+            return NOT_FOUND_AT;
+        }
         return zongMenService.setElder(qq.getId(), who);
     }
 
     @Action("取消长老.+")
     public String cancelElder(User qq, @AllMess String mess) {
         long who = MessageTools.getAtFromString(mess);
-        if (who < 0)
-            return "谁";
+        if (who < 0) {
+            return NOT_FOUND_AT;
+        }
         return zongMenService.cancelElder(qq.getId(), who);
     }
 

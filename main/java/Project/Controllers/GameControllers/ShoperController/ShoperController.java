@@ -4,16 +4,18 @@ package Project.Controllers.GameControllers.ShoperController;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.Iservice.IShoperService;
+import Project.services.Iservice.IShoperService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class ShoperController {
     public ShoperController() {
@@ -25,10 +27,8 @@ public class ShoperController {
 
     @Before
     public void before(Entitys.Group group, Entitys.User qq) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

@@ -4,17 +4,19 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.Iservice.IGameObjService;
-import Project.Services.Iservice.IGameService;
+import Project.services.Iservice.IGameObjService;
+import Project.services.Iservice.IGameService;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.number.NumberUtils;
 
-import static Project.Controllers.ControllerTool.CanGroup;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static Project.Controllers.ControllerTool.opened;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class GameController2 {
     public GameController2() {
@@ -24,10 +26,8 @@ public class GameController2 {
 
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

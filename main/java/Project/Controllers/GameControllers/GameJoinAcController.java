@@ -4,7 +4,7 @@ package Project.Controllers.GameControllers;
 import Entitys.Group;
 import Entitys.User;
 import Project.DataBases.GameDataBase;
-import Project.Services.Iservice.IGameJoinAcService;
+import Project.services.Iservice.IGameJoinAcService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.killedC;
 import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
@@ -45,11 +44,8 @@ public class GameJoinAcController {
 
     @Before
     public void before(User qq, Group group, @AllMess String message) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException();
-        }
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, message) == -1) {

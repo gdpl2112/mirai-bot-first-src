@@ -2,7 +2,7 @@ package Project.Controllers.Plugins;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.Plugins.SearchPic;
+import Project.detailPlugin.SearchPic;
 import Project.ResourceSet;
 import Project.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Action;
@@ -23,12 +23,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.DataBase.isFather;
 import static Project.Tools.Tool.isIlleg;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class PointPicController {
     public PointPicController() {
@@ -37,10 +39,8 @@ public class PointPicController {
 
     @Before
     public void before(Entitys.Group group) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

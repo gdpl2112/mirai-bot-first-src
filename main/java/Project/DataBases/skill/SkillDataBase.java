@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.Services.DetailServices.GameSkillDetailService.getUserPercent;
+import static Project.services.DetailServices.GameSkillDetailService.getUserPercent;
 import static Project.Tools.Tool.getStringFromFile;
 import static Project.Tools.Tool.putStringInFile;
 

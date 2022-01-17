@@ -1,8 +1,8 @@
 package Project.Controllers;
 
-import Project.Plugins.pluginsDetail.entitys.CodeContent;
-import Project.Plugins.pluginsDetail.entitys.CodeEntity;
-import Project.Plugins.pluginsDetail.entitys.CodeResponse;
+import Project.detailPlugin.pluginsDetail.entitys.CodeContent;
+import Project.detailPlugin.pluginsDetail.entitys.CodeEntity;
+import Project.detailPlugin.pluginsDetail.entitys.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -17,8 +17,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.Plugins.pluginsDetail.RunAll.*;
+import static Project.detailPlugin.pluginsDetail.RunAll.*;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class SessionController {
 

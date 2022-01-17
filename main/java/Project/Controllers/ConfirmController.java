@@ -15,6 +15,9 @@ import java.util.concurrent.*;
 
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class ConfirmController {
     public ConfirmController() {
@@ -33,7 +36,7 @@ public class ConfirmController {
      * @param who
      * @param objects [0] Method [1]This [3...] par
      */
-    public static void RegConfirm(Long who, Object[] objects) {
+    public static void regConfirm(Long who, Object[] objects) {
         Confirming.add(who);
         ConfirmMap.put(who, objects);
         startTime(who, 1);
@@ -45,7 +48,7 @@ public class ConfirmController {
      * @param who
      * @param objects [0] Method [1]This [3...] par
      */
-    public static void RegAgree(Long who, Object[] objects) {
+    public static void regAgree(Long who, Object[] objects) {
         Agreeing.add(who);
         AgreeMap.put(who, objects);
         startTime(who, 2);
@@ -63,7 +66,7 @@ public class ConfirmController {
             @Override
             public void run() {
                 try {
-                    Thread.currentThread().sleep(1000);
+                    Thread.sleep(1000);
                     t--;
                     if ((Confirming.contains(id) && ConfirmMap.containsKey(id)) || (AgreeMap.containsKey(id) && Agreeing.contains(id))) {
                         if (t > 0) {
@@ -110,7 +113,7 @@ public class ConfirmController {
     }
 
     @Action("取消")
-    public Object Cancel(User qq, Group group) throws NoRunException {
+    public Object cancel(User qq, Group group) throws NoRunException {
         if (Confirming.contains(qq.getId())) {
             Long id = qq.getId();
             Confirming.remove(id);
@@ -121,7 +124,7 @@ public class ConfirmController {
     }
 
     @Action("同意")
-    public Object Agree(User qq, Group group) throws NoRunException {
+    public Object agree(User qq, Group group) throws NoRunException {
         if (Agreeing.contains(qq.getId())) {
             Object[] objects = AgreeMap.get(qq.getId());
             Method method = (Method) objects[0];
@@ -144,7 +147,7 @@ public class ConfirmController {
     }
 
     @Action("不同意")
-    public String NoAgree(User qq, Group group) throws NoRunException {
+    public String noAgree(User qq, Group group) throws NoRunException {
         if (Agreeing.contains(qq.getId())) {
             Long id = qq.getId();
             Agreeing.remove(id);

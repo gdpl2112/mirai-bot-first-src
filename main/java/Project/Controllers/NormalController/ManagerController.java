@@ -6,7 +6,7 @@ import Entitys.User;
 import Project.Controllers.ConfirmController;
 import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
-import Project.Services.Iservice.IManagerService;
+import Project.services.Iservice.IManagerService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
 /**
@@ -43,13 +42,10 @@ public class ManagerController {
 
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
         if (qq.getId() == Long.parseLong(superQ)) {
             println("超级权限执行...");
             return;
-        }
-        if (!DataBase.isFather(qq.getId())) {
+        } else if (!DataBase.isFather(qq.getId())) {
             throw new NoRunException("无权限");
         }
     }
@@ -189,7 +185,7 @@ public class ManagerController {
                 Object[] objects = new Object[]{
                         method, this, new Object[]{numbers, gr}
                 };
-                ConfirmController.RegConfirm(q, objects);
+                ConfirmController.regConfirm(q, objects);
                 return "批量踢,请确认";
             } catch (Exception e) {
                 e.printStackTrace();

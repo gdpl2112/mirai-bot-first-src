@@ -8,6 +8,9 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.Properties;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class InitBeans {
 
@@ -55,4 +58,5 @@ public class InitBeans {
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
     }
+
 }

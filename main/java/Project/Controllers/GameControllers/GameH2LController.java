@@ -13,9 +13,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.getInfo;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 @Controller
@@ -50,8 +49,9 @@ public class GameH2LController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!AllK) throw new NoRunException("总开关——关闭");
-        if (!CanGroup(group.getId())) throw new NoRunException("未开启");
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
         if (getInfo(qq.getId()).getHp() <= 0) {
         }
     }

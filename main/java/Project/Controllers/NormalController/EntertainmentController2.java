@@ -2,39 +2,32 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
-import Entitys.apiEntitys.Song;
-import Entitys.apiEntitys.Songs;
 import Entitys.apiEntitys.baiKe.BaiKe;
 import Entitys.apiEntitys.colb.PickupABottle;
 import Entitys.apiEntitys.pvpQQH0.Data;
 import Entitys.apiEntitys.pvpQQVoice.Yy_4e;
 import Entitys.apiEntitys.pvpQqCom.Response0;
-import Entitys.apiEntitys.reping163.Reping163;
 import Entitys.apiEntitys.thb.ThrowABottle;
-import Project.Controllers.FirstController;
-import Project.Plugins.GetPvpNews;
-import Project.Plugins.Mihoyo;
-import Project.Plugins.PvpQq;
-import Project.Plugins.SearchSong;
+import Project.detailPlugin.GetPvpNews;
+import Project.detailPlugin.MihoyoP0;
+import Project.detailPlugin.PvpQq;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MusicKind;
-import net.mamoe.mirai.message.data.MusicShare;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ConUtils.*;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.Tools.Tool.findNumberFromString;
-import static io.github.kloping.Mirai.Main.Resource.*;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.Mirai.Main.Resource.superQL;
 
 /**
  * @author github-kloping
@@ -49,11 +42,8 @@ public class EntertainmentController2 {
 
     @Before
     public void before(Group group) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException();
-        }
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 
@@ -85,7 +75,7 @@ public class EntertainmentController2 {
     public String getBottle() {
         PickupABottle pab = null;
         try {
-            pab = FirstController.apiIyk0.pickupABottle(2);
+            pab = apiIyk0.pickupABottle(2);
             StringBuilder sb = new StringBuilder();
             sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
                     .append("\n的:").append(pab.getData().getUin())
@@ -102,7 +92,7 @@ public class EntertainmentController2 {
     public String setBottle(long q, Group group, @Param("str") String str) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
         try {
-            ThrowABottle throwABottle = FirstController.apiIyk0.throwABottle(1,
+            ThrowABottle throwABottle = apiIyk0.throwABottle(1,
                     str, q, group.getId());
             return throwABottle.getData().getMsg();
         } catch (Exception e) {
@@ -115,7 +105,7 @@ public class EntertainmentController2 {
     @Action("随机头像")
     public String sjtx() {
         try {
-            return Tool.pathToImg(FirstController.muXiaoGuo.getSjtx("pc").getData().getImgurl());
+            return Tool.pathToImg(muXiaoGuo.getSjtx("pc").getData().getImgurl());
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
@@ -125,7 +115,7 @@ public class EntertainmentController2 {
     @Action("百科<.+=>str>")
     public String m1(@Param("str") String name) {
         try {
-            BaiKe baiKe = FirstController.muXiaoGuo.getBaiKe("Baidu", name);
+            BaiKe baiKe = muXiaoGuo.getBaiKe("Baidu", name);
             return baiKe.getData().getContent() + "\n相关图片:" + Tool.pathToImg(baiKe.getData().getImgUrl());
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,7 +125,7 @@ public class EntertainmentController2 {
 
     @Action(value = "王者荣耀最新公告.*", otherName = {"王者公告.*"})
     public Object m3(Group group, @AllMess String str) throws Exception {
-        Response0 r0 = GetPvpNews.m1(FirstController.getPvpQQ);
+        Response0 r0 = GetPvpNews.m1(getPvpQQ);
         Message message;
         String numStr = findNumberFromString(str);
         int st = 0;
@@ -151,7 +141,7 @@ public class EntertainmentController2 {
 
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
     public Object m4(Group group, @AllMess String str) throws Exception {
-        Entitys.apiEntitys.mihoyoYuanshen.Data data = Mihoyo.getNews().getData()[0];
+        Entitys.apiEntitys.mihoyoYuanshen.Data data = MihoyoP0.getNews().getData()[0];
         String numStr = findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
@@ -161,7 +151,7 @@ public class EntertainmentController2 {
             }
         }
         String cid = data.getMainList()[st].getContentId();
-        String[] sss = Mihoyo.getNews(cid.substring(1, cid.length() - 1));
+        String[] sss = MihoyoP0.getNews(cid.substring(1, cid.length() - 1));
         if (!sss[0].startsWith("http")) {
             sss[0] = "https://ys.mihoyo.com" + sss[0];
         }

@@ -7,6 +7,9 @@ import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
+/**
+ * @author github-kloping
+ */
 @HttpClient("https://api.iyk0.com/")
 public interface ApiIyk0 {
     @GetPath("jyu")

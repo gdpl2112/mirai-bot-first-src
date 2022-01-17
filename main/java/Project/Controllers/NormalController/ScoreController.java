@@ -5,8 +5,8 @@ import Entitys.Group;
 import Entitys.UScore;
 import Entitys.User;
 import Project.DataBases.DataBase;
-import Project.Services.Iservice.IOtherService;
-import Project.Services.Iservice.IScoreService;
+import Project.services.Iservice.IOtherService;
+import Project.services.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -14,14 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.ResourceSet.Final.NOT_FOUND_AT;
 import static Project.ResourceSet.Final.PLAYER_NOT_REGISTERED;
 import static Project.Tools.Tool.findNumberFromString;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
+/**
+ * @author github-kloping
+ */
 @Controller
 public class ScoreController {
     public ScoreController() {
@@ -29,6 +31,7 @@ public class ScoreController {
     }
 
     public static final List<Long> closeings = new CopyOnWriteArrayList<>();
+
     @AutoStand
     IOtherService otherService;
     @AutoStand
@@ -36,10 +39,8 @@ public class ScoreController {
 
     @Before
     public void before(Group group) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

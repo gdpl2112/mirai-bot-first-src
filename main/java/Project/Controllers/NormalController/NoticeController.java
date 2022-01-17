@@ -6,10 +6,9 @@ import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.Controllers.ControllerTool.CanGroup;
-import static Project.Services.DetailServices.GameDetailService.MAX_SA_LOSE_HJ_B;
-import static Project.Services.DetailServices.GameDetailService.MAX_SA_LOSE_HP_B;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static Project.Controllers.ControllerTool.opened;
+import static Project.services.DetailServices.GameDetailService.MAX_SA_LOSE_HJ_B;
+import static Project.services.DetailServices.GameDetailService.MAX_SA_LOSE_HP_B;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
@@ -23,10 +22,8 @@ public class NoticeController {
 
     @Before
     public void before(Group group) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 
@@ -47,15 +44,16 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.17: 优化代码 (全国降水量)").append("\n");
         UPDATE_LOG.append("1.16:调整魂兽生成(等级)").append("\n");
         UPDATE_LOG.append("1.15:修复已知bug 削弱魂兽 蓄力伤害 削弱生成魂兽").append("\n");
         UPDATE_LOG.append("1.14:修复已知bug,新娱乐功能: 网易云热评").append("\n");
         UPDATE_LOG.append("1.12:修复已知bug").append("\n");
         UPDATE_LOG.append("1.11-v2:修复已知bug,技能效果可叠加,魂兽的削弱,魂技的更新").append("\n");
         UPDATE_LOG.append("1.11: 精神攻击<At/#><V> 或 精神攻击<At/#><V> 详情见\"精神力作用\"").append("\n");
-        UPDATE_LOG.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
-        UPDATE_LOG.append("1.5 : 更新了 更新日志").append("\n");
-        UPDATE_LOG.append("1.3 : 修复已知bug").append("\n");
+//        UPDATE_LOG.append("1.6 : 娱乐功能 变大<-size=value>").append("\n");
+//        UPDATE_LOG.append("1.5 : 更新了 更新日志").append("\n");
+//        UPDATE_LOG.append("1.3 : 修复已知bug").append("\n");
 //        UPDATE_LOG.append("1.2 : 每天0点更新排行,(提升性能").append("\n");
 //        UPDATE_LOG.append("12.31: 今年最后一次更新->修复已知bug").append("\n");
 //        UPDATE_LOG.append("12.30: 王者语音<名字>(n) 王者图片<名字>").append("\n");

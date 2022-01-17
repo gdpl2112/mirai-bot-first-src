@@ -8,9 +8,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.Services.DetailServices.GameDetailServiceUtils.*;
-import static Project.Services.DetailServices.GameJoinDetailService.getGhostObjFrom;
-import static Project.Services.DetailServices.GameSkillDetailService.*;
+import static Project.services.DetailServices.GameDetailServiceUtils.*;
+import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.DetailServices.GameSkillDetailService.*;
 import static Project.Tools.Tool.rand;
 
 /**

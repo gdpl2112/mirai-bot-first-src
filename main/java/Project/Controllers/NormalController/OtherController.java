@@ -3,7 +3,7 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Project.ASpring.SpringBootResource;
-import Project.Services.Iservice.IOtherService;
+import Project.services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -12,8 +12,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.contact.NormalMember;
 
-import static Project.Controllers.ControllerTool.CanGroup;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static Project.Controllers.ControllerTool.opened;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -31,10 +30,8 @@ public class OtherController {
 
     @Before
     public void before(Group group) throws NoRunException {
-        if (!AllK)
-            throw new NoRunException();
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
     }
 

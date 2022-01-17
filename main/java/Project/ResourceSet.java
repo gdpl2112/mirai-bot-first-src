@@ -15,6 +15,10 @@ public class ResourceSet {
         public final static String NOT_FOUND_AT = "未发现at";
         public final static String CUSTOM_MENU_STR = "回话菜单";
         public final static String NO_PERMISSION_STR = "无权限";
+        public final static String NULL_LOW_STR = "null";
+        public static final String VIDEO_TAG_STR = "video";
+        public static final String IMG_TAG_STR = "img";
+        public static final String NOT_SUPPORT_LENGTH_IMG = "不支持长方形图片";
     }
 
 }

@@ -21,15 +21,16 @@ public interface PvpQq {
      * @return
      */
     @GetPath("zlkdatasys/data_zlk_lb.json")
-    @Callback("Project.Plugins.PvpQq.c1")
+    @Callback("Project.detailPlugin.PvpQq.c1")
     PvpQQVoice get0(@ParamName("callback") String createList);
 
     /**
      * get data has hero id
+     *
      * @param createHeroList
      * @return
      */
     @GetPath("webplat/info/news_version3/15592/18024/23901/24397/24398/m22352/index.shtml?callback=createHeroList")
-    @Callback("Project.Plugins.PvpQq.c0")
+    @Callback("Project.detailPlugin.PvpQq.c1")
     PvpQQH0 get1(@ParamName("callback") String createHeroList);
 }

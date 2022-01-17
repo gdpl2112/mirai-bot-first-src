@@ -2,12 +2,11 @@ package Project.interfaces;
 
 import Entitys.apiEntitys.WeatherDetail;
 import Entitys.apiEntitys.WeatherM;
-import io.github.kloping.MySpringTool.annotations.Param;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
-import static Project.Plugins.NetMain.ROOT_PATH;
+import static Project.detailPlugin.NetMain.ROOT_PATH;
 
 /**
  * @author github kloping

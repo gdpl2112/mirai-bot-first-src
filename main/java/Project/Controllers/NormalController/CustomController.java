@@ -22,11 +22,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.Controllers.ControllerTool.CanGroup;
+import static Project.Controllers.ControllerTool.canGroup;
+import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.DataBase.isFather;
 import static Project.ResourceSet.Final.CUSTOM_MENU_STR;
 import static Project.ResourceSet.Final.NO_PERMISSION_STR;
-import static Project.Services.impl.GameServiceImpl.threads;
+import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
@@ -41,11 +42,8 @@ public class CustomController {
 
     @Before
     public void before(Group group, long qq, @AllMess String s) throws NoRunException {
-        if (!AllK) {
-            throw new NoRunException();
-        }
-        if (!CanGroup(group.getId())) {
-            throw new NoRunException();
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
         }
         if (s.equals(CUSTOM_MENU_STR)) {
             return;
@@ -63,7 +61,7 @@ public class CustomController {
     public static final synchronized String action(long qq, String s, Group group) {
         try {
             if ((index++ % finalIndex) == 0) tryUpdateMap();
-            if (!AllK || !CanGroup(group.getId())) {
+            if (!AllK || !canGroup(group.getId())) {
                 return null;
             }
             if (cd > System.currentTimeMillis()) return null;

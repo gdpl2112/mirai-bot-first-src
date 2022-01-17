@@ -3,7 +3,7 @@ package Project.DataBases.task;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.task.Task;
 import Entitys.gameEntitys.task.TaskPoint;
-import Project.Services.DetailServices.TaskDetailService;
+import Project.services.DetailServices.TaskDetailService;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;

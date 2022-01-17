@@ -16,7 +16,7 @@ public interface Mihoyo {
      * @return
      */
     @GetPath("main/news")
-    @Callback("Project.Plugins.Mihoyo.c0")
+    @Callback("Project.detailPlugin.MihoyoP0.c0")
     MihoyoYuanshen newsIndex();
 
     /**
@@ -26,6 +26,6 @@ public interface Mihoyo {
      * @return
      */
     @GetPath("/main/news/detail/")
-    @Callback("Project.Plugins.Mihoyo.c0")
+    @Callback("Project.detailPlugin.MihoyoP0.c0")
     MihoyoYuanshenDetail newsPoint(@PathValue Object id);
 }

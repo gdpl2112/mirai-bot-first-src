@@ -33,7 +33,7 @@ public class TimerController {
             DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
             for (Group group : bot.getGroups()) {
-                if (!ControllerTool.CanGroup(group.getId())) {
+                if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
                 group.sendMessage("自动关闭" + ts + "分钟");
@@ -46,7 +46,7 @@ public class TimerController {
             }
             Resource.Switch.AllK = true;
             for (Group group : bot.getGroups()) {
-                if (!ControllerTool.CanGroup(group.getId())) {
+                if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
                 group.sendMessage("自动开启");
@@ -73,7 +73,7 @@ public class TimerController {
         update_Today();
         THREADS.execute(() -> {
             for (Group group : bot.getGroups()) {
-                if (!ControllerTool.CanGroup(group.getId())) {
+                if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
                 MessageChainBuilder builder = new MessageChainBuilder();
@@ -89,7 +89,7 @@ public class TimerController {
         update_Today();
         THREADS.execute(() -> {
             for (Group group : bot.getGroups()) {
-                if (!ControllerTool.CanGroup(group.getId())) {
+                if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
                 MessageChainBuilder builder = new MessageChainBuilder();
@@ -104,7 +104,7 @@ public class TimerController {
         update_Today();
         THREADS.execute(() -> {
             for (Group group : bot.getGroups()) {
-                if (!ControllerTool.CanGroup(group.getId())) {
+                if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
                 MessageChainBuilder builder = new MessageChainBuilder();

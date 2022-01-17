@@ -4,7 +4,7 @@ package Project.Tools;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
-import Project.Services.DetailServices.GameJoinDetailService;
+import Project.services.DetailServices.GameJoinDetailService;
 import io.github.kloping.file.FileUtils;
 
 import java.io.File;
