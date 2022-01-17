@@ -6,8 +6,9 @@ import Entitys.User;
 import Project.Controllers.ConfirmController;
 import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
-import Project.services.Iservice.IManagerService;
 import Project.Tools.Tool;
+import Project.services.Iservice.IManagerService;
+import io.github.kloping.Mirai.Main.Handlers.CapHandler;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
@@ -47,6 +48,19 @@ public class ManagerController {
             return;
         } else if (!DataBase.isFather(qq.getId())) {
             throw new NoRunException("无权限");
+        }
+    }
+
+    @Action("跳过验证.+")
+    public String o3(@AllMess String mess) {
+        try {
+            String numStr = Tool.findNumberFromString(mess);
+            long qid = Long.parseLong(numStr);
+            CapHandler.ok(qid);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "not found";
         }
     }
 

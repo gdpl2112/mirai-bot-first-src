@@ -44,19 +44,6 @@ public class SuperController {
         }
     }
 
-    @Action("跳过验证.+")
-    public String o3(@AllMess String mess) {
-        try {
-            String numStr = Tool.findNumberFromString(mess);
-            long qid = Long.parseLong(numStr);
-            CapHandler.ok(qid);
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "not found";
-        }
-    }
-
     @Action("/execute.+")
     public String o1(@AllMess String str, Group group) {
         long q = MessageTools.getAtFromString(str);
