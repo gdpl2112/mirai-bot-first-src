@@ -93,11 +93,13 @@ public class ZongMenController {
     }
 
     @Action("宗门人数")
-    public String ListPer(User qq, Group group) {
+    public String listPer(User qq, Group group) {
         return zongMenService.ListPer(qq.getId(), group);
     }
 
     private static String line2 = "";
+
+    public static final int COB_CD = 6;
 
     static {
         StringBuilder sb = new StringBuilder();
@@ -110,7 +112,7 @@ public class ZongMenController {
                 .append("6级,宗门内所有长老及宗主每天多一次\"(请求)支援\"的次数,27人数").append("\r\n\t")
         ;
         sb.append("二.如何增加宗门经验").append("\r\n\t")
-                .append("每4个小时成员可使用‘宗门贡献’来贡献与等级相同的贡献点消耗同点金魂币").append("\r\n");
+                .append("每" + COB_CD + "个小时成员可使用‘宗门贡献’来贡献与等级相同的贡献点消耗同点金魂币").append("\r\n");
         line2 = sb.toString();
     }
 

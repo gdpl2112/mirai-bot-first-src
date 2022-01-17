@@ -1659,8 +1659,8 @@ public class SkillExecute {
                 }
                 long v = getHjFromAny(who, nums[0].longValue());
                 PersonInfo in = getInfo(who);
-                long v_ = percentTo(info.getAddPercent(), in.getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), v_));
+                long vv = percentTo(info.getAddPercent(), in.getAtt());
+                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), vv));
                 int b = toPercent(v, in.getHjL());
                 b = b > 15 ? 15 : b <= 2 ? 3 : b;
                 long v1 = percentTo(b, in.getHpL());

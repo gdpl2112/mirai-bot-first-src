@@ -400,7 +400,7 @@ public class GameServiceImpl implements IGameService {
                                                 .setMany(lg)
 
                                 ));
-                                tips = "你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                tips = "\n你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
                             }
                         } else {
                             tips = "魂力不足,攻击失败";
@@ -419,7 +419,6 @@ public class GameServiceImpl implements IGameService {
             }
         });
         return "准备攻击中...";
-
     }
 
     @Override

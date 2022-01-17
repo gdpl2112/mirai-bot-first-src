@@ -118,7 +118,6 @@ public class EntertainmentController2 {
             BaiKe baiKe = muXiaoGuo.getBaiKe("Baidu", name);
             return baiKe.getData().getContent() + "\n相关图片:" + Tool.pathToImg(baiKe.getData().getImgUrl());
         } catch (Exception e) {
-            e.printStackTrace();
             return "百科中没有找到相关资料";
         }
     }

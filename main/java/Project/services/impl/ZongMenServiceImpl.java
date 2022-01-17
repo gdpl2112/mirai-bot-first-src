@@ -8,6 +8,7 @@ import Entitys.gameEntitys.Zong;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ZongMenDataBase;
+import Project.ResourceSet;
 import Project.services.DetailServices.ZongDetailService;
 import Project.services.Iservice.IZongMenService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
@@ -16,9 +17,11 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import java.io.File;
 import java.lang.reflect.Method;
 
+import static Project.Controllers.GameControllers.ZongmenContrller.ZongMenController.COB_CD;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
+import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.FilterImg;
@@ -64,7 +67,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     public String createNow(Long who, String name, Group group) {
-        if (name == null || name.isEmpty() || name.equals("null"))
+        if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
             return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
         GameDataBase.putPerson(getInfo(who).addGold(-450L, new TradingRecord()
@@ -231,7 +234,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "贡献时间未到 => " + getTimeDDHHMM(info.getCbk1());
         zon.setXper(zon.getXper() + info.getLevel());
         zong.setXp(zong.getXp() + info.Level);
-        info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * 4);
+        info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * COB_CD);
         info.addGold((long) -info.getLevel(), new TradingRecord()
                 .setType1(TradingRecord.Type1.lost)
                 .setType0(TradingRecord.Type0.gold)

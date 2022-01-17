@@ -60,6 +60,8 @@ public class CapHandler {
                     } else {
                         run();
                     }
+                } catch (NullPointerException nullPointerException) {
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -15,6 +15,7 @@ import java.util.*;
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.skill.SkillDataBase.getSkillInfo;
+import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
@@ -155,7 +156,7 @@ public class GameSkillController {
                 numbers.add(-2);
             }
             Long l1 = MessageTools.getAtFromString(allMess);
-            allMess = allMess.replaceFirst("\\[@" + l1 + "\\]", "");
+            allMess = allMess.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "\\]", "");
             if (l1 == -1) break;
             else numbers.add(l1);
         }

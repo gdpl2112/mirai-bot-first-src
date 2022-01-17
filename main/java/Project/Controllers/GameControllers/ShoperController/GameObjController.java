@@ -36,7 +36,7 @@ public class GameObjController {
     }
 
     @Action("使用<.{1,}=>str>")
-    public Object Use(User qq, @Param("str") String str, Group g) {
+    public Object use(User qq, @Param("str") String str, Group g) {
         try {
             String what = str.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
@@ -55,13 +55,12 @@ public class GameObjController {
                 sss = gameUseObiService.useObj(qq.getId(), id, num);
             return sss;
         } catch (Exception e) {
-            e.printStackTrace();
-            return "未发现相关物品或使用失败";
+            return "未发现相关物品或使用失败#" + str;
         }
     }
 
     @Action("说明<.{1,}=>str>")
-    public Object Intro(User qq, @Param("str") String str, Group group) {
+    public Object intro(User qq, @Param("str") String str, Group group) {
         try {
             String what = str;
             what = what.replace("说明", "");

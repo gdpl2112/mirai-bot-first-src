@@ -56,6 +56,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_SHIELD = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
             if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString()) == true) {
@@ -65,6 +66,7 @@ public class BeatenRoles {
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);
                     p1.addTag(SkillDataBase.TAG_SHIELD, v - nv);
                     sb.append("\n此次伤害全部护盾抵挡\n============");
+                    response.setNowV(0);
                 } else {
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);
                     response.setNowV(nv - v);

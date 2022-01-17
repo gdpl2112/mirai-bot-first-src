@@ -30,7 +30,7 @@ public class MessageTools {
         int end = message.indexOf("]");
         if (start == -1 || end == -1) return -1;
         String str = message.substring(start + 2, end);
-        if (str.equals("me"))
+        if ("me".equals(str))
             return Resource.qq.getQq();
         long l = Long.parseLong(str);
         return l;
@@ -44,13 +44,12 @@ public class MessageTools {
         return message;
     }
 
-    private static final Pattern patterFace = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
-    private static final Pattern patterPic = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
-    private static final Pattern patterUrl = Pattern.compile("<Url:[^>^]+>");
-    private static final Pattern patterAt = Pattern.compile("\\[At:.+?]|<At:.+?>");
+    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
+    private static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
+    private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
+    private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
 
     private static List<Object> append(String sb, MessageChainBuilder builder, Contact group) {
-        long v0 = System.currentTimeMillis();
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
             String str = o.toString();
@@ -72,7 +71,6 @@ public class MessageTools {
             } else
                 builder.append(str.trim());
         }
-        System.out.println("lost -" + (System.currentTimeMillis() - v0));
         return lls;
     }
 
@@ -120,7 +118,7 @@ public class MessageTools {
 
     public static void a1b2c3(List<String> list, String line) {
         if (list == null || line == null || line.isEmpty()) return;
-        Map<Integer, String> nm = getNearestOne(line, patterPic, patterAt, patterFace, patterUrl);
+        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL);
         if (nm.isEmpty()) {
             list.add(line);
             return;
@@ -213,7 +211,7 @@ public class MessageTools {
     public static String getImageUrlFromMessageString(String allmess) {
         try {
             String url = "";
-            Matcher matcher = patterPic.matcher(allmess);
+            Matcher matcher = PATTER_PIC.matcher(allmess);
             if (matcher.find()) {
                 String p1 = matcher.group();
                 int i1 = p1.indexOf("{");
