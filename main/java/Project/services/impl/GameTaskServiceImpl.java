@@ -14,6 +14,9 @@ import java.util.UUID;
 
 import static Project.DataBases.task.TaskCreator.*;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameTaskServiceImpl implements IGameTaskService {
     @Override

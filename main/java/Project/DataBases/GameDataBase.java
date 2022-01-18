@@ -401,7 +401,7 @@ public class GameDataBase {
      */
     public static void testMan(Long who) {
         if (!exist(who))
-            RegPerson(new PersonInfo().setName(String.valueOf(who)));
+            regPerson(new PersonInfo().setName(String.valueOf(who)));
     }
 
     public static boolean exist(Long who) {
@@ -556,15 +556,16 @@ public class GameDataBase {
         }
         testMan(who);
         try {
-            lines = getStringFromFile(file.getPath());
-            if (lines == null || lines.isEmpty()) {
-                return null;
-            }
-            PersonInfo personInfo = new PersonInfo();
+            PersonInfo personInfo;
             if (HIST_INFOS.containsKey(who)) {
                 personInfo = HIST_INFOS.get(who);
             } else {
-                personInfo = ParseObj(personInfo, lines);
+                lines = getStringFromFile(file.getPath());
+                if (lines == null || lines.isEmpty()) {
+                    return null;
+                }
+                personInfo = new PersonInfo();
+                personInfo = parseObj(personInfo, lines);
                 HIST_INFOS.put(who, personInfo);
             }
             return personInfo;
@@ -584,7 +585,7 @@ public class GameDataBase {
 
     public static final Map<Long, PersonInfo> HIST_INFOS = new ConcurrentHashMap<>();
 
-    private final static <T extends Object> T ParseObj(T obj, String line) {
+    private final static <T extends Object> T parseObj(T obj, String line) {
         try {
             String[] lines = null;
             lines = line.split(line.contains("\r") ? "\r\n" : "\n");
@@ -597,7 +598,7 @@ public class GameDataBase {
                 Field field = null;
                 Class cls = null;
                 try {
-                    if (k.equals("level")) k = "Level";
+                    if ("level".equals(k)) k = "Level";
                     field = obj.getClass().getDeclaredField(k);
                     cls = field.getType();
                 } catch (Exception e) {
@@ -645,7 +646,7 @@ public class GameDataBase {
      *
      * @param personInfo
      */
-    public static synchronized void RegPerson(PersonInfo personInfo) {
+    public static synchronized void regPerson(PersonInfo personInfo) {
         try {
             String pathN = path + "/dates/users/" + personInfo.getName();
             File file = new File(path + "/dates/users/" + personInfo.getName() + "/infos");

@@ -54,7 +54,7 @@ public class GameSkillController {
     }
 
     @Action("激活魂技<.+=>st>")
-    public String InitSkill(User member, Group group, @Param("st") String st) {
+    public String initSkill(User member, Group group, @Param("st") String st) {
         Integer i;
         try {
             i = Integer.parseInt(st);

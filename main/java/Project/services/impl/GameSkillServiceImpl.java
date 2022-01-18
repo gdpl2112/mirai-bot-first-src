@@ -19,6 +19,10 @@ import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
+import static Project.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
+import static Project.Tools.Tool.getTimeTips;
 import static Project.services.DetailServices.GameSkillDetailService.*;
 
 /**
@@ -99,10 +103,11 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String useSkill(long qq, Integer st, Number[] allAt, String name, Group group) {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
-        if (!infos.containsKey(st)) return "你没有这个魂技";
+        if (!infos.containsKey(st)) return DONT_HAVE_SKILL;
         SkillInfo info = infos.get(st);
-        if (info.getState() < 0) return "该魂技处于不可用状态";
-        if (System.currentTimeMillis() < info.getTime()) return "魂技冷却中...\r\n" + Tool.getTimeHHMM(info.getTime());
+        if (info.getState() < 0) return THIS_SKILL_CANT_USE;
+        if (System.currentTimeMillis() < info.getTime())
+            return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
         long v = personInfo.getHll();
         long v1 = personInfo.getHl();
@@ -134,22 +139,22 @@ public class GameSkillServiceImpl implements ISkillService {
 
     @Override
     public String setName(long qq, Integer st, String str) {
-        if (Tool.isIlleg(str)) return "名字包含敏感字节";
-        if (str.length() > 6) return "名字过长";
+        if (Tool.isIlleg(str)) return IS_ILLEGAL_TIPS_1;
+        if (str.length() > 6) return STR_TOO_MUCH_LEN;
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (infos.containsKey(st)) {
             SkillInfo info = infos.get(st);
             if (info.getMd_time() >= System.currentTimeMillis()) {
-                return "魂技修改信息冷却中...";
+                return String.format(SKILL_INFO_WAIT_TIPS, getTimeTips(info.getMd_time()));
             } else saveSkillInfo(info.setName(str).setMd_time(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
             if (info.getName() != null && !info.getName().isEmpty()) {
                 info = infos.get(st);
                 return "您的第" + Tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();
             }
         } else {
-            return "你没有这个魂技";
+            return DONT_HAVE_SKILL;
         }
-        return "修改失败";
+        return ERR_TIPS;
     }
 
     @Override

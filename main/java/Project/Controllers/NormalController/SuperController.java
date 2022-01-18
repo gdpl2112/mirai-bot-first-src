@@ -2,6 +2,7 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
+import Project.Controllers.TimerController;
 import Project.DataBases.DataBase;
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.BotStarter;
@@ -42,6 +43,11 @@ public class SuperController {
         if (qq.getId() != superQL) {
             throw new NoRunException("can`t do this");
         }
+    }
+
+    @Action("/tet")
+    public String o2() {
+        return "===>";
     }
 
     @Action("/execute.+")

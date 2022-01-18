@@ -7,6 +7,7 @@ public class ResourceSet {
     public static class Final {
         public static final String ERR_TIPS = "错误";
         public static final String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
+        public static final String STR_TOO_MUCH_LEN = "该组字符过长";
         public static final String ADD_TO_AUTO_REPLY_ERROR = "添加失败,可能因为不支持该字符,或已存在";
         public static final String OPEN_STR = "开启";
         public static final String CLOSE_STR = "关闭";
@@ -48,16 +49,21 @@ public class ResourceSet {
         public static final String DAY_ONLY_HELP_TIPS = "一天仅可支援3次";
         public static final String HELP_SUCCEED = "支援成功";
         public static final String NOT_NEED_WAIT_TIPS = "已就绪";
+        public static final String THIS_SKILL_CANT_USE = "该魂技处于不可用状态";
+        public static final String DONT_HAVE_SKILL = "你没有这个魂技";
     }
 
     public static class FinalFormat {
+        public static final String TIPS_BUY_SUCCEED = "%s\n购买成功";
         public static final String WORK_WAIT_TIPS = "打工冷却中.\n大约等待%s";
         public static final String USE_OBJ_WAIT_TIPS = "使用物品冷却中.\n大约等待%s";
         public static final String BUY_OBJ_WAIT_TIPS = "购买物品冷却中.\n大约等待%s";
         public static final String XL_WAIT_TIPS = "修炼冷却中.\n大约等待%s";
         public static final String TXL_WAIT_TIPS = "双修冷却中.\n大约等待%s";
         public static final String ACTIVITY_WAIT_TIPS = "活动进入冷却中.\n大约等待%s";
-        public static final String TIPS_BUY_SUCCEED = "%s\n购买成功";
+        public static final String USE_SKILL_WAIT_TIPS = "魂技冷却中.\n大约等待%s";
+        public static final String SKILL_INFO_WAIT_TIPS = "魂技信息修改冷却中.\n大约等待%s";
+
     }
 
 }

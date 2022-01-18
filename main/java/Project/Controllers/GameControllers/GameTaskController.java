@@ -44,14 +44,16 @@ public class GameTaskController {
 
     static {
         MORNING_RUNNABLE.add(() -> {
-            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
-                List<Long> longs = new LinkedList<>();
-                for (long ql : GameTaskDatabase.getActivities(true)) {
-                    if (longs.contains(ql)) continue;
-                    else {
-                        TaskPoint.getInstance(ql).setNormalIndex(1000).apply();
-                        longs.add(ql);
-                    }
+//            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
+//
+//            }
+            List<Long> longs = new LinkedList<>();
+            for (long ql : GameTaskDatabase.getActivities(true)) {
+                if (longs.contains(ql)) {
+                    continue;
+                } else {
+                    TaskPoint.getInstance(ql).setNormalIndex(1000).apply();
+                    longs.add(ql);
                 }
             }
         });

@@ -29,9 +29,9 @@ public class Tool {
      * @return
      */
     public static int inRandge(int v, int from, int to) {
-        if (v > from) {
+        if (v < from) {
             return from;
-        } else if (v < to) {
+        } else if (v > to) {
             return to;
         }
         return v;

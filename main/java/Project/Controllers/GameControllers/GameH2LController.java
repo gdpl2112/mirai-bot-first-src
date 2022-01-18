@@ -24,19 +24,20 @@ public class GameH2LController {
     }
 
     public static void check(Object[] objects) throws NoRunException {
-        try {
-            long q = Long.parseLong(objects[0].toString());
-            Group group = (Group) objects[4];
-            PersonInfo info = getInfo(q);
-            if (info.getTemp()) {
-                if (!inCanDonging(objects[1].toString())) {
-                    MessageTools.sendMessageInGroupWithAt("您正在斗魂,请不要做其他不相干的事情", group.getId(), q);
-                    throw new NoRunException("out Around");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            long q = Long.parseLong(objects[0].toString());
+//            Group group = (Group) objects[4];
+//            PersonInfo info = getInfo(q);
+//            if (info.getTemp()) {
+//                if (!inCanDonging(objects[1].toString())) {
+//                    MessageTools.sendMessageInGroupWithAt("您正在斗魂,请不要做其他不相干的事情", group.getId(), q);
+//                    throw new NoRunException("out Around");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        return;
     }
 
     private static boolean inCanDonging(String str) {

@@ -101,6 +101,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_CANT_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (p1.containsTag(SkillDataBase.TAG_CANT_HIDE)) {
@@ -110,6 +111,7 @@ public class BeatenRoles {
         }
         return response;
     };
+
     public static final Role TAG_XYS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(TAG_XUAN_YU_S)) {
             putPerson(p1.eddTag(SkillDataBase.TAG_MS, 1));
@@ -118,6 +120,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_MS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
@@ -128,6 +131,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_WD = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_WD)) {
             sb.append("\n" + THIS_DANGER_OVER_FLAG + "无敌效果,攻击无效\n============");
@@ -136,6 +140,7 @@ public class BeatenRoles {
             return null;
         }
     };
+
     public static final Role XG_VERTIGO = (sb, q1, q2, ov, nv, p1, args) -> {
         BaseInfo p2 = getBaseInfoFromAny(q1, q2);
         if (p2.isVertigo()) {

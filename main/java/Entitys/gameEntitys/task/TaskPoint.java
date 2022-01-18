@@ -5,10 +5,11 @@ import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static Project.DataBases.task.TaskCreator.MAX_INDEX;
-import static Project.DataBases.task.TaskCreator.MAX_PRENTICE_INDEX;
-import static Project.Tools.Tool.inRandge;
+import static Project.DataBases.task.TaskCreator.*;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 public class TaskPoint {
@@ -31,13 +32,11 @@ public class TaskPoint {
 
     public TaskPoint setNormalIndex(Integer normalIndex) {
         this.normalIndex = normalIndex;
-        this.normalIndex = inRandge(this.normalIndex, 1000, MAX_INDEX);
         return this;
     }
 
     public void setPrenticeIndex(Integer prenticeIndex) {
         this.prenticeIndex = prenticeIndex;
-        this.prenticeIndex = inRandge(this.prenticeIndex, 0, MAX_PRENTICE_INDEX);
     }
 
     public void setMasterIndex(Integer masterIndex) {
@@ -55,7 +54,11 @@ public class TaskPoint {
 
     public TaskPoint addPrenticeIndex(int i) {
         this.prenticeIndex += i;
-        this.prenticeIndex = inRandge(this.prenticeIndex, 0, MAX_PRENTICE_INDEX);
+        if (this.prenticeIndex < MIN_PRENTICE_INDEX) {
+            this.prenticeIndex = MIN_PRENTICE_INDEX;
+        } else if (this.prenticeIndex > MAX_PRENTICE_INDEX) {
+            this.prenticeIndex = MAX_PRENTICE_INDEX;
+        }
         return this;
     }
 
@@ -71,6 +74,11 @@ public class TaskPoint {
 
     public TaskPoint addNormalIndex() {
         this.normalIndex++;
+        if (this.normalIndex < MIN_INDEX) {
+            this.normalIndex = MIN_INDEX;
+        } else if (this.normalIndex > MAX_INDEX) {
+            this.normalIndex = MAX_INDEX;
+        }
         return this;
     }
 

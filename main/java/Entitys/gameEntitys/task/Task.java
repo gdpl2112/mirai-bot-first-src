@@ -48,10 +48,10 @@ public class Task {
     }
 
     public void over() {
-        for (Long aLong : getTasker())
+        for (Long aLong : getTasker()) {
             TaskPoint.getInstance(aLong.longValue())
-                    .setNextCan(System.currentTimeMillis() + (cd_ * 2))
-                    .addPrenticeIndex(-1).apply();
+                    .setNextCan(System.currentTimeMillis() + (cd_ * 2)).apply();
+        }
 
         TaskPoint.getInstance(getHost().longValue())
                 .setNextCan(System.currentTimeMillis() + (cd_ * 2))

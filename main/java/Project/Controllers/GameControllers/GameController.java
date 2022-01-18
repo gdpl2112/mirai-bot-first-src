@@ -152,7 +152,7 @@ public class GameController {
             return ("攻击冷却中..=>" + getTimeHHMM(at));
         if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
         String sss = gameService.attWhos(qq.getId(), who, group);
-        putPerson(getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30));
+        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30).apply();
         return sss;
     }
 

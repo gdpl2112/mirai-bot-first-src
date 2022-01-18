@@ -8,10 +8,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.Tools.Tool.rand;
 import static Project.services.DetailServices.GameDetailServiceUtils.*;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameSkillDetailService.*;
-import static Project.Tools.Tool.rand;
 
 /**
  * @author github-kloping
@@ -519,6 +519,7 @@ public class SkillExecute {
             @Override
             public void before() {
                 getInfo(who).addTag(TAG_XUAN_YU_S, 1).apply();
+                setTips("作用于 " + Tool.At(who.longValue()));
             }
 
             @Override

@@ -29,13 +29,7 @@ public class MyTimer {
             builder.append("\r\n" + object.getString("note"));
             builder.append("\r\n" + object.getString("content"));
             builder.append("\r\n\t====>" + object.getString("dateline"));
-            for (int i = 1; i <= 3; i++) {
-                try {
-                    builder.append(Contact.uploadImage(group, new URL(object.getString("picture" + i)).openStream()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            builder.append(Contact.uploadImage(group, new URL(object.getString("picture4")).openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
