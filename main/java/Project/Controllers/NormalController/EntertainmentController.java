@@ -184,23 +184,25 @@ public class EntertainmentController {
             }
             return null;
         } else {
-            if (!DataBase.isFather(qq)) {
-                return null;
-            } else {
-                if (OPEN_STR.equals(str)) {
-                    return controller.open(group);
-                } else if (CLOSE_STR.equals(str)) {
-                    return controller.close(group);
-                } else if (DataBase.canSpeak(group.getId())) {
-                    String talk = otherService.Talk(str);
-                    if (voiceK) {
-                        speak(talk, group);
-                    }
-                    cd = System.currentTimeMillis() + cd_;
-                    return talk;
-                } else {
-                    throw new NoRunException();
+            if (OPEN_STR.equals(str)) {
+                if (!DataBase.isFather(qq)) {
+                    return null;
                 }
+                return controller.open(group);
+            } else if (CLOSE_STR.equals(str)) {
+                if (!DataBase.isFather(qq)) {
+                    return null;
+                }
+                return controller.close(group);
+            } else if (DataBase.canSpeak(group.getId())) {
+                String talk = otherService.Talk(str);
+                if (voiceK) {
+                    speak(talk, group);
+                }
+                cd = System.currentTimeMillis() + cd_;
+                return talk;
+            } else {
+                throw new NoRunException();
             }
         }
 
