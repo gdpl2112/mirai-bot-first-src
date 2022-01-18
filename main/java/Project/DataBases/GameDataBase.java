@@ -189,7 +189,9 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(1604, "黑升级券");
         ID_2_NAME_MAPS.put(1605, "红升级券");
 
-        //==========================
+        ID_2_NAME_MAPS.forEach((k, v) -> {
+            NAME_2_ID_MAPS.put(v, k);
+        });
     }
 
     private static void initIntro() {

@@ -85,7 +85,7 @@ public class GameObjController {
     }
 
     @Action("购买<.{1,}=>name>")
-    public Object Buy(User qq, @Param("name") String name, @AllMess String mess, Group group) {
+    public Object buy(User qq, @Param("name") String name, @AllMess String mess, Group group) {
         try {
             String what = name.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
