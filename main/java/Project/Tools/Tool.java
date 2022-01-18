@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import static Project.ResourceSet.Final.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
@@ -517,6 +518,25 @@ public class Tool {
     public static String getTimeHHMM(long l) {
         return HHmmss.format(new Date(l));
     }
+
+    /**
+     * 获取提示冷却
+     *
+     * @param l
+     * @return
+     */
+    public static String getTimeTips(long l) {
+        if (l < System.currentTimeMillis()) {
+            return NOT_NEED_WAIT_TIPS;
+        }
+        long v = l - System.currentTimeMillis();
+        if (v >= 60000L) {
+            return (v / 60000L) + "分钟";
+        } else {
+            return (v / 1000) + "秒";
+        }
+    }
+
 
     /**
      * 获取 格式时间 dd日hh时mm分ss秒

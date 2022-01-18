@@ -4,13 +4,13 @@ package Project.services.Iservice;
 import Entitys.Group;
 
 public interface IShoperService {
-    String AllInfo(Group group);
+    String allInfo(Group group);
 
-    String UpItem(long id, Integer id1, long aLong, Long aLong1);
+    String upItem(long id, Integer id1, long aLong, Long aLong1);
 
-    String DownItem(long id, int ids);
+    String downItem(long id, int ids);
 
-    String Buy(long id, Integer valueOf);
+    String buy(long id, Integer valueOf);
 
-    String Intro(long id, Integer valueOf, Group group);
+    String intro(long id, Integer valueOf, Group group);
 }

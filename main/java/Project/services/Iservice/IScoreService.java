@@ -17,7 +17,7 @@ public interface IScoreService   {
 
     String Sign(Long who);
 
-    String WorkLong(Long who);
+    String workLong(Long who);
 
     String todayList(Group group);
 }

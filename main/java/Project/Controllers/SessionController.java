@@ -36,7 +36,6 @@ public class SessionController {
                 group.sendMessage(new MessageChainBuilder().append(new At(q)).append(result.substring(1)).build());
             else
                 group.sendMessage(result);
-//        else group.sendMessage(new At(q).plus("\nNot Found"));
     }
 
     public static final List<Long> InTheSession = new CopyOnWriteArrayList<>();
@@ -69,9 +68,9 @@ public class SessionController {
             q2CodeRunInput.remove(q);
             return InTheSession.remove(q) ? "&\n结束会话" : "&\n您没有在会话";
         } else if (m1.startsWith("文件内容追加")) {
-            return "当前文件内容:\n" + WriteFile(m1.substring(6).trim(), q, true);
+            return "当前文件内容:\n" + writeFile(m1.substring(6).trim(), q, true);
         } else if (m1.startsWith("文件内容")) {
-            return "当前文件内容:\n" + WriteFile(m1.substring(4).trim(), q, false);
+            return "当前文件内容:\n" + writeFile(m1.substring(4).trim(), q, false);
         } else if (m1.startsWith("执行时输入")) {
             q2CodeRunInput.put(q, m1.substring(5));
             return "执行时输入:\n" + q2CodeRunInput.get(q);
@@ -86,15 +85,6 @@ public class SessionController {
     public String m1(long q) {
         return InTheSession.add(q) ? "开始会话" : "您已经在会话";
     }
-//    @Action("结束会话")
-//    public String m2(long q) {
-//        q2Filename.remove(q);
-//        q2CodeContent.remove(q);
-//        q2CodeRunInput.remove(q);
-//        return InTheSession.remove(q) ? "结束会话" : "您没有在会话";
-
-//    }
-
 
     public static String run(long q, Group group) {
         CodeEntity entity = new CodeEntity();
@@ -104,7 +94,6 @@ public class SessionController {
         content.setName(fileName);
         if (!q2CodeContent.containsKey(q)) return "文件文本为空";
         content.setContent(q2CodeContent.get(q));
-        // content 准备完成
         entity.setFiles(new CodeContent[]{content});
         entity.setStdin("");
         if (q2CodeRunInput.containsKey(q)) entity.setStdin(q2CodeRunInput.get(q));
@@ -112,7 +101,7 @@ public class SessionController {
         try {
             return "运行中...";
         } finally {
-            runCodeDaeThreads.execute(() -> {
+            RUN_CODE_DAEMONS.execute(() -> {
                 try {
                     CodeResponse response = new CodeResponse();
                     if (fileName.endsWith("java"))
@@ -121,7 +110,8 @@ public class SessionController {
                         response = runC(entity);
                     else if (fileName.endsWith("py"))
                         response = runPython(entity);
-                    else response = runAny(entity, supportLanguage.get(fileName.substring(fileName.indexOf(".") + 1)));
+                    else
+                        response = runAny(entity, SUPPORTED_LANGUAGE.get(fileName.substring(fileName.indexOf(".") + 1)));
                     String result = String.format("运行结果:\n%s\n\n运行警告:\n%s\n\n运行错误:\n%s\n\n", response.getStdout(), response.getStderr(), response.getError());
                     group.sendMessage(result);
                 } catch (Exception e) {
@@ -132,35 +122,35 @@ public class SessionController {
         }
     }
 
-    public static final Map<String, String> supportLanguage = new ConcurrentHashMap<>();
+    public static final Map<String, String> SUPPORTED_LANGUAGE = new ConcurrentHashMap<>();
 
     static {
-        supportLanguage.put("java", "java");
-        supportLanguage.put("c", "c");
-        supportLanguage.put("py", "python");
-        supportLanguage.put("cpp", "cpp");
-        supportLanguage.put("kt", "kotlin");
-        supportLanguage.put("go", "go");
-        supportLanguage.put("sh", "bash");
-        supportLanguage.put("lua", "lua");
-        supportLanguage.put("js", "javascript");
+        SUPPORTED_LANGUAGE.put("java", "java");
+        SUPPORTED_LANGUAGE.put("c", "c");
+        SUPPORTED_LANGUAGE.put("py", "python");
+        SUPPORTED_LANGUAGE.put("cpp", "cpp");
+        SUPPORTED_LANGUAGE.put("kt", "kotlin");
+        SUPPORTED_LANGUAGE.put("go", "go");
+        SUPPORTED_LANGUAGE.put("sh", "bash");
+        SUPPORTED_LANGUAGE.put("lua", "lua");
+        SUPPORTED_LANGUAGE.put("js", "javascript");
     }
 
-    private static final ExecutorService runCodeDaeThreads = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
+    private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
 
     public static String createFile(String fileName, long q) {
-        if (!(fileName.indexOf(".") > 0 && supportLanguage.containsKey(fileName.substring(fileName.indexOf(".") + 1))))
+        if (!(fileName.indexOf(".") > 0 && SUPPORTED_LANGUAGE.containsKey(fileName.substring(fileName.indexOf(".") + 1))))
             return "未知文件类型:" + fileName + "\nUnknown File Type:" + fileName;
         String f1 = q2Filename.put(q, fileName);
         return f1 == null ? String.format("创建文件:%s成功", fileName) : String.format("覆盖文件:%s,并创建文件:%s", f1, fileName);
     }
 
-    public static String WriteFile(String content, long q, boolean k) {
-        String old_content = "";
+    public static String writeFile(String content, long q, boolean k) {
+        String oldContent = "";
         if (k && q2CodeContent.containsKey(q))
-            old_content = q2CodeContent.get(q);
-        old_content = old_content + content;
-        q2CodeContent.put(q, old_content);
+            oldContent = q2CodeContent.get(q);
+        oldContent = oldContent + content;
+        q2CodeContent.put(q, oldContent);
         return q2CodeContent.get(q);
     }
 }

@@ -2,13 +2,13 @@ package Project.services.Iservice;
 
 
 public interface IGameWeaService  {
-    String UseAq(String what, Long who);
+    String useAq(String what, Long who);
 
-    String AqBgs(Long who);
+    String aqBgs(Long who);
 
     String makeAq(Long who, int id);
 
-    String AqList();
+    String aqList();
 
-    String AqMeun();
+    String aqMeun();
 }

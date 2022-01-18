@@ -12,6 +12,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import static Project.DataBases.DataBase.*;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
+import static Project.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.getImageFromFontString;
 import static Project.drawers.Drawer.getImageFromStrings;
@@ -130,12 +131,13 @@ public class ScoreServiceImpl implements IScoreService {
             case 9:
                 addScore(150, l.longValue());
                 return new Object[]{"额外获得150积分", r};
+            default:
+                return new Object[]{"", r};
         }
-        return new Object[]{"", r};
     }
 
     @Override
-    public String WorkLong(Long who) {
+    public String workLong(Long who) {
         setK(who, getK(who));
         if (getK(who) <= System.currentTimeMillis()) {
             int tr = rand.nextInt(26) + 12;
@@ -155,7 +157,7 @@ public class ScoreServiceImpl implements IScoreService {
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");
         } else {
-            return "打工冷却中...(=>" + getTimeHHMM(getK(who));
+            return String.format(WORK_WAIT_TIPS, getTimeTips(getK(who)));
         }
     }
 
@@ -169,10 +171,6 @@ public class ScoreServiceImpl implements IScoreService {
             String name = null;
             try {
                 name = MemberTools.getNameFromGroup(Long.parseLong(s.trim()), group);
-//                name = group.get(Long.valueOf(s.trim())).getNameCard();
-//                if(name.isEmpty()){
-//                    name = group.get(Long.valueOf(s.trim())).getNick();
-//                }
             } catch (Exception e) {
                 name = s;
             }

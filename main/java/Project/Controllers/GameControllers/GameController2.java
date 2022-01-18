@@ -68,7 +68,7 @@ public class GameController2 {
     @Action("合成<.+=>name>")
     public String m1(@Param("name") String name, long q) {
         try {
-            int id = GameDataBase.Name2idMaps.get(name);
+            int id = GameDataBase.NAME_2_ID_MAPS.get(name);
             return gameObjService.compound(q, id);
         } catch (Exception e) {
             return "未找到相关物品";

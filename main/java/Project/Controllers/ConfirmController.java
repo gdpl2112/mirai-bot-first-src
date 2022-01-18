@@ -55,10 +55,10 @@ public class ConfirmController {
     }
 
 
-    private static final ExecutorService threads = new ThreadPoolExecutor(25, 25, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(25));
+    private static final ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(25, 25, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(25));
 
     private static void startTime(Long who, int type1) {
-        threads.execute(new Runnable() {
+        THREAD_POOL_EXECUTOR.execute(new Runnable() {
             private int t = 30;
             private Long id = who;
             private int type = type1;

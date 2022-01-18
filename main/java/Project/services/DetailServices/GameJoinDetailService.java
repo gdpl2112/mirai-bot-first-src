@@ -423,7 +423,7 @@ public class GameJoinDetailService {
         if (bv >= 125) {
             return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
                     getImageFromStrings(
-                            "名字:" + id2NameMaps.get(ghostObj.getId()),
+                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),
                             "攻击:" + ghostObj.getAtt(),
                             "生命:" + ghostObj.getHp(),
@@ -433,7 +433,7 @@ public class GameJoinDetailService {
         } else {
             return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
                     getImageFromStrings(
-                            "名字:" + id2NameMaps.get(ghostObj.getId()),
+                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + getLevelTips(ghostObj.getL()),
                             "攻击:??",
                             "生命:??",

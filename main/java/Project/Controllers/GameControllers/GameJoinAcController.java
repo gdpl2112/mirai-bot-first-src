@@ -18,7 +18,7 @@ import java.util.Map;
 import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
-import static Project.DataBases.GameDataBase.killedC;
+import static Project.DataBases.GameDataBase.KILLED_C;
 import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -107,7 +107,7 @@ public class GameJoinAcController {
         if (n != null) {
             mc = Integer.valueOf(n);
         }
-        Map<Number, Integer> map = Tool.sortMapByValue(killedC);
+        Map<Number, Integer> map = Tool.sortMapByValue(KILLED_C);
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (Map.Entry<Number, Integer> entry : map.entrySet()) {
@@ -116,7 +116,7 @@ public class GameJoinAcController {
                 break;
             }
             sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(number.longValue(), group))
-                    .append("=>").append("击杀").append(killedC.get(number.longValue())).append("只\n");
+                    .append("=>").append("击杀").append(KILLED_C.get(number.longValue())).append("只\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }

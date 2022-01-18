@@ -31,6 +31,9 @@ import java.util.concurrent.Executors;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.ZongMenDataBase.getZonInfo;
 import static Project.DataBases.ZongMenDataBase.putZonInfo;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
+import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static Project.services.DetailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.Tool.*;
@@ -76,7 +79,7 @@ public class GameServiceImpl implements IGameService {
                     getImageFromStrings(sb.toString().split(",")) :
                     GameDataBase.getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
         } else {
-            return "冷却时间还没到=>" + getTimeHHMM(l);
+            return String.format(XL_WAIT_TIPS, getTimeTips(l));
         }
     }
 
@@ -84,7 +87,7 @@ public class GameServiceImpl implements IGameService {
     public String xl2(long who) {
         PersonInfo is = getInfo(who);
         if (is.getWh() == 0 && is.getLevel() >= 2) {
-            return "请先觉醒武魂 ";
+            return PLEASE_AWAKENING_WH;
         }
         long l = getK1(who);
         long now = System.currentTimeMillis();
@@ -117,7 +120,7 @@ public class GameServiceImpl implements IGameService {
                     GameDataBase.getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
 
         } else {
-            return "冷却时间还没到=>" + getTimeHHMM(l);
+            return String.format(TXL_WAIT_TIPS, getTimeTips(l));
         }
     }
 
@@ -141,18 +144,7 @@ public class GameServiceImpl implements IGameService {
             str1.append("你的武魂: " + GameDataBase.getNameById(n)).append("\r\n");
             str1.append(GameDataBase.getImgById((int) n)).append("\r\n");
         }
-
-//        str.append("经验:" + is.getXp() + "/" + is.getXpL()).append("\r\n");
-//        str.append("血量:" + is.getHp() + "/" + is.getHpl()).append("\r\n");
-//        str.append("精神力:" + is.getHj() + "/" + is.getHjL()).append("\r\n");
-//        str.append("魂力:" + is.getHl() + "/" + is.getHll()).append("\r\n");
-//        str.append("攻击值:" + is.getAtt()).append("\r\n");
-//        str.append("等级:" + is.getLevel() + "=>" + GamegetFH(is.getLevel())).append("\r\n");
-//        str.append("金魂币:" + is.getGold()).append("\r\n");
-//        str.append("融合状态:" + (is.getBindQ().longValue() == -1 ? "未融合" : "已融合")).append("\r\n");
-//        return str1 + pathToImg(createImage(str.toString().split("\r\n")));
         return str1 + pathToImg(Drawer.drawInfoPng(is));
-
     }
 
     @Override
@@ -162,7 +154,7 @@ public class GameServiceImpl implements IGameService {
         long xpL = is.getXpL();
         long L = is.getLevel();
         if (L == 2 && getInfo(who).getWh() == 0)
-            return "请先觉醒武魂";
+            return PLEASE_AWAKENING_WH;
         if (xp >= xpL) {
             if (L > 150) {
                 return "等级最大限制..";
@@ -230,15 +222,15 @@ public class GameServiceImpl implements IGameService {
     public String openEyeWh(Long who) {
         PersonInfo is = getInfo(who);
         if (is.getWh() != 0) {
-            return "你已经觉醒武魂了";
+            return AWAKENED_WH;
         }
-        long L = is.getLevel();
-        if (L < 2) {
-            return "2级即可觉醒";
+        long level = is.getLevel();
+        if (level < 2) {
+            return LEVEL2_AWAKENING_WH_TIPS;
         }
         int r = rand.nextInt(31) + 1;
         putPerson(is.setWh(r));
-        return "觉醒成功!!";
+        return AWAKENING_WH_SUCCEED;
     }
 
     @Override
@@ -285,7 +277,7 @@ public class GameServiceImpl implements IGameService {
                             .setDesc("购买金魂币" + num)
                             .setMany(num)
             ));
-            return "购买成功";
+            return BUY_SUCCESS;
         } else {
             return getImageFromStrings("积分不足", "你需要" + num * 2 + "积分", "才能购买" + num + "个金魂币");
         }
@@ -686,7 +678,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     private String ReturnNow(Long id) {
-        histInfos.remove(id);
+        HIST_INFOS.remove(id);
         boolean k1 = deleteDir(new File(GameDataBase.path + "/dates/users/" + id));
         boolean k2 = SkillDataBase.remove(id);
         return k1 && k2 ? "转生成功" : "转生失败";

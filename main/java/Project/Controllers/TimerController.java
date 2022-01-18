@@ -29,7 +29,7 @@ public class TimerController {
     public static void onZero() {
         update_Today();
         THREADS.execute(() -> {
-            GameDataBase.histInfos.clear();
+            GameDataBase.HIST_INFOS.clear();
             DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
             for (Group group : bot.getGroups()) {
@@ -81,6 +81,11 @@ public class TimerController {
                 MyTimer.appendOneDay(builder, group);
                 group.sendMessage(builder.build());
             }
+            THREADS.submit(() -> {
+                for (Runnable runnable : MORNING_RUNNABLE) {
+                    runnable.run();
+                }
+            });
         });
     }
 

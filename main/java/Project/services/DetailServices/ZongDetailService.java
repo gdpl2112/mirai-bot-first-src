@@ -16,6 +16,9 @@ import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class ZongDetailService {
 
@@ -105,26 +108,20 @@ public class ZongDetailService {
     }
 
     static {
-        Resource.StartOkRuns.add(new Runnable() {
-            @Override
-            public void run() {
-                MyTimer.ZERO_RUNS.add(new Runnable() {
-                    @Override
-                    public void run() {
-                        File[] files = new File(ZongMenDataBase.path).listFiles();
-                        for (File file : files) {
-                            if (file.getName().startsWith("t")) continue;
-                            Zong zong = getZongInfo(Integer.valueOf(file.getName()));
-                            ZongDetailService.update(zong);
-                        }
-                    }
-                });
-            }
+        Resource.StartOkRuns.add(() -> {
+            MyTimer.ZERO_RUNS.add(() -> {
+                File[] files = new File(ZongMenDataBase.path).listFiles();
+                for (File file : files) {
+                    if (file.getName().startsWith("t")) continue;
+                    Zong zong = getZongInfo(Integer.valueOf(file.getName()));
+                    ZongDetailService.update(zong);
+                }
+            });
         });
     }
 
     public static void update(Zong zong) {
-        Zon zon_;
+        Zon zon0;
         switch (zong.getLevel()) {
             case 1:
                 Zon zon = getZonInfo(zong.getMain().longValue());
@@ -134,9 +131,9 @@ public class ZongDetailService {
             case 2:
             case 3:
             case 4:
-                zon_ = getZonInfo(zong.getMain().longValue());
-                zon_.setTimes(1);
-                putZonInfo(zon_);
+                zon0 = getZonInfo(zong.getMain().longValue());
+                zon0.setTimes(1);
+                putZonInfo(zon0);
                 for (Number who1 : zong.getElder()) {
                     Long who = Long.valueOf(who1 + "");
                     Zon zon1 = getZonInfo(who);
@@ -145,9 +142,9 @@ public class ZongDetailService {
                 }
                 return;
             case 5:
-                zon_ = getZonInfo(zong.getMain().longValue());
-                zon_.setTimes(1);
-                putZonInfo(zon_);
+                zon0 = getZonInfo(zong.getMain().longValue());
+                zon0.setTimes(1);
+                putZonInfo(zon0);
                 for (Number who1 : zong.getElder()) {
                     Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
@@ -158,10 +155,10 @@ public class ZongDetailService {
                 putZongInfo(zong);
                 break;
             case 6:
-                zon_ = getZonInfo(zong.getMain().longValue());
-                zon_.setTimes(1);
-                putPerson(getInfo(zon_.getQq()).setHelpC(-1).setHelpToc(-1));
-                putZonInfo(zon_);
+                zon0 = getZonInfo(zong.getMain().longValue());
+                zon0.setTimes(1);
+                putPerson(getInfo(zon0.getQq()).setHelpC(-1).setHelpToc(-1));
+                putZonInfo(zon0);
                 for (Number who1 : zong.getElder()) {
                     Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
@@ -184,8 +181,9 @@ public class ZongDetailService {
                     Long z = null;
                     if (z1 instanceof Integer) {
                         z = Long.valueOf(z1 + "");
-                    } else
+                    } else {
                         z = z1.longValue();
+                    }
                     qq2id.remove(z);
                 }
                 File file = new File(path + "/" + zong.getId());

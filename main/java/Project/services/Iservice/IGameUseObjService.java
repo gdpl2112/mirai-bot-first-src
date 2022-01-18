@@ -12,9 +12,9 @@ public interface IGameUseObjService   {
 
     String useObj(Long who, int id, int num) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException;
 
-    String BuyObj(Long who, int id);
+    String buyObj(Long who, int id);
 
-    String BuyObj(Long who, int id, Integer num);
+    String buyObj(Long who, int id, Integer num);
 
     String SleObj(Long who, int id);
 

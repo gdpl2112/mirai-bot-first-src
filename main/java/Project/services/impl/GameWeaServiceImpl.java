@@ -15,15 +15,17 @@ import java.util.regex.Pattern;
 import static Project.DataBases.GameDataBase.*;
 import static Project.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameWeaServiceImpl implements IGameWeaService {
 
-
     @AutoStand
-    static GameWeaDetailService gameWeaDetailService;
+    public static GameWeaDetailService gameWeaDetailService;
 
     @Override
-    public String UseAq(String str, Long who) {
+    public String useAq(String str, Long who) {
         List<String> list = getLps(str);
         for (int i = list.size() - 1; i > -1; i--) {
             String s1 = list.get(i);
@@ -34,11 +36,11 @@ public class GameWeaServiceImpl implements IGameWeaService {
         return gameWeaDetailService.UseAq(list, who, str.trim());
     }
 
-    private static final Pattern pattern = Pattern.compile("(\\[\\@.+\\]|#)");
+    private static final Pattern PATTERN = Pattern.compile("(\\[\\@.+\\]|#)");
 
     public static List<String> getLps(String ss) {
         List<String> list = new ArrayList<>();
-        Matcher matcher = pattern.matcher(ss);
+        Matcher matcher = PATTERN.matcher(ss);
         while (matcher.find()) {
             list.add(matcher.group().trim());
         }
@@ -46,7 +48,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
     }
 
     @Override
-    public String AqBgs(Long who) {
+    public String aqBgs(Long who) {
         List<String> list = new ArrayList<>();
         Map<Integer, Map.Entry<Integer, Integer>> maps = getBgsw(who);
         if (maps.isEmpty()) {
@@ -61,36 +63,40 @@ public class GameWeaServiceImpl implements IGameWeaService {
     @Override
     public String makeAq(Long who, int id) {
         int num = getNumFromBgs(who, 1000);
-        int ns = id2WeaMaps.get(id);
+        int ns = ID_2_WEA_MAPS.get(id);
         if (num >= ns) {
-            addToAqBgs(who, id + ":" + (id2WeaONumMaps.get(id)));
+            addToAqBgs(who, id + ":" + (ID_2_WEA_O_NUM_MAPS.get(id)));
             for (int i = 0; i < ns; i++) {
                 removeFromBgs(who, 1000, ObjType.use);
             }
-            return "制作成功" + getImgById(id) + "\r\n" + id2IntroMaps.get(id);
+            return "制作成功" + getImgById(id) + "\r\n" + ID_2_INTRO_MAPS.get(id);
         } else {
             return "\"" + getNameById(id) + "\"制作的暗器零件不足,需要" + ns + "个";
         }
     }
 
-    @Override
-    public String AqMeun() {
-        List<String> list = new ArrayList<>();
-        list.add("(选择器(#为当前魂兽))");
-        list.add("使用暗器(暗器名)(选择器)");
-        list.add("暗器背包");
-        list.add("制作暗器 (暗器名)");
-        list.add("暗器制作表");
-        return getImageFromStrings(list.toArray(new String[0]));
+    public static String MENU;
+
+    static {
+        MENU += "\n#选择器(#为当前魂兽))";
+        MENU += "\n使用暗器<暗器名><选择器>";
+        MENU += "\n暗器背包";
+        MENU += "\n制作暗器<暗器名>";
+        MENU += "\n暗器制作表";
     }
 
     @Override
-    public String AqList() {
+    public String aqMeun() {
+        return MENU.trim();
+    }
+
+    @Override
+    public String aqList() {
         List<String> list = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        for (Integer i : id2WeaMaps.keySet()) {
-            list.add("\"" + getNameById(i) + "\"需要" + id2WeaMaps.get(i) + "个零件");
-            sb.append("\"" + getNameById(i) + "\"需要" + id2WeaMaps.get(i) + "个零件").append("\r\n");
+        for (Integer i : ID_2_WEA_MAPS.keySet()) {
+            list.add("\"" + getNameById(i) + "\"需要" + ID_2_WEA_MAPS.get(i) + "个零件");
+            sb.append("\"" + getNameById(i) + "\"需要" + ID_2_WEA_MAPS.get(i) + "个零件").append("\r\n");
         }
         return getImageFromStrings(list.toArray(new String[0])) + "\r\n" + sb;
     }

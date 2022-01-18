@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.opened;
-import static Project.ResourceSet.Final.NOT_FOUND_AT;
-import static Project.ResourceSet.Final.PLAYER_NOT_REGISTERED;
+import static Project.ResourceSet.Final.*;
 import static Project.Tools.Tool.findNumberFromString;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -81,14 +80,14 @@ public class ScoreController {
     }
 
     @Action(value = "积分转让.{0,}", otherName = {"转让积分.{0,}"})
-    public String Transfer(User qq, @AllMess String str) {
+    public String transfer(User qq, @AllMess String str) {
         Long num = null;
         try {
-            if (longs.contains(qq.getId())) return "Can't";
+            if (longs.contains(qq.getId())) return ILLEGAL_OPERATION;
             long who = getAtFromString(str);
             if (who == -1)
-                return "转给谁啊";
-            if (!DataBase.exists(who)) return "该玩家尚未注册";
+                return NOT_FOUND_AT;
+            if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             str = str.replaceFirst(Long.toString(who), "");
             num = Long.valueOf(findNumberFromString(str));
             num = num <= 0 ? 0L : num;
@@ -101,7 +100,7 @@ public class ScoreController {
     public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L}));
 
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
-    public String Robbery(User qq, @AllMess String str) {
+    public String robbery(User qq, @AllMess String str) {
         try {
             long who = getAtFromString(str);
             if (who == -1)
@@ -127,7 +126,7 @@ public class ScoreController {
     }
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
-    public String Sign(User qq, Group group) {
+    public String sign(User qq, Group group) {
         String str = scoreService.Sign(qq.getId());
         return str;
     }
@@ -157,7 +156,7 @@ public class ScoreController {
 
     @Action("打工")
     public String aJob(User qq, Group group) {
-        return scoreService.WorkLong(qq.getId());
+        return scoreService.workLong(qq.getId());
     }
 
     @Action(value = "他的发言.{1,}", otherName = {"她的发言.{1,}", "ta的发言.{1,}"})

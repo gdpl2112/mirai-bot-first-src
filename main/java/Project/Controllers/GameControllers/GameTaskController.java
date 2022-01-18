@@ -46,11 +46,11 @@ public class GameTaskController {
         MORNING_RUNNABLE.add(() -> {
             if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
                 List<Long> longs = new LinkedList<>();
-                for (long activity : GameTaskDatabase.getActivities(true)) {
-                    if (longs.contains(activity)) continue;
+                for (long ql : GameTaskDatabase.getActivities(true)) {
+                    if (longs.contains(ql)) continue;
                     else {
-                        TaskPoint.getInstance(activity).setNormalIndex(1000).apply();
-                        longs.add(activity);
+                        TaskPoint.getInstance(ql).setNormalIndex(1000).apply();
+                        longs.add(ql);
                     }
                 }
             }

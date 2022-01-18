@@ -16,11 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.Final.NOT_FOUND_SELECT;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.ACTIVITY_WAIT_TIPS;
+import static Project.Tools.Tool.getTimeTips;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.isATrue;
-import static Project.Tools.Tool.getTimeHHMM;
 import static Project.drawers.Drawer.getImageFromStrings;
 
 @Entity
@@ -56,13 +57,14 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
     @Override
     public String join(long who, String name, Group group) {
-        if (System.currentTimeMillis() < getK2(who))
-            return "活动时间未到(冷却中..)=>" + getTimeHHMM(getK2(who));
+        if (System.currentTimeMillis() < getK2(who)) {
+            return String.format(ACTIVITY_WAIT_TIPS, getTimeTips(getK2(who)));
+        }
 
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING)
             if (isATrue(Long.valueOf(ghostObj.getForWhoStr())))
-                return "你正在选择状态中...";
+                return IN_SELECT;
 
         if (ghostObj != null) saveGhostObjIn(who, ghostObj);
 
@@ -79,7 +81,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         what = what.replace("选择", "").trim();
         int i = decideMaps.indexOf(what);
         if (i == -1) return NOT_FOUND_SELECT;
-        if (!isATrue(who)) return "没有选择状态";
+        if (!isATrue(who)) return NOT_IN_SELECT;
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getTime() > System.currentTimeMillis()) {
@@ -89,7 +91,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                 return "已超过七分钟,超时无效!";
             }
         }
-        return "没有处于选择状态....";
+        return NOT_IN_SELECT;
     }
 
     @Override
@@ -124,22 +126,22 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                 }
             }
         } else {
-            return "你没有在选择状态";
+            return NOT_IN_SELECT;
         }
-        return "错误";
+        return ERR_TIPS;
     }
 
     @Override
     public String helpTo(long who, long whos) {
-        if (who == whos) return "不能帮助自己";
+        if (who == whos) return CANT_HELP_YOURSELF;
         GhostObj ghostObj = getGhostObjFrom(who);
         GhostObj ghostObj1 = getGhostObjFrom(whos);
         if (ghostObj1 != null) {
             if (ghostObj != null && ghostObj.getTime() < System.currentTimeMillis()) {
-                return "你正在处于选择状态....";
+                return IN_SELECT;
             } else {
                 if (getInfo(who).getHelpToc() >= MaxHelpToC) {
-                    return "一天 仅可 支援 3次";
+                    return DAY_ONLY_HELP_TIPS;
                 } else {
                     switch (ghostObj1.getState()) {
                         case GhostObj.NotNeed:
@@ -153,7 +155,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             ghostObj1.setWith(who);
                             saveGhostObjIn(whos, ghostObj1);
                             putPerson(getInfo(who).addHelpToC());
-                            return "支援成功";
+                            return HELP_SUCCEED;
                         case GhostObj.NeedAndY:
                             return "ta已经被支援";
                         default:
@@ -162,7 +164,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                 }
             }
         } else {
-            return "ta没有在选择状态(为遇到魂兽)";
+            return IT_NOT_IN_SELECT;
         }
     }
 
@@ -170,13 +172,10 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     public String getIntro(long qq) {
         GhostObj ghostObj = getGhostObjFrom(qq);
         if (ghostObj == null || !isATrue(qq)) {
-            return "您没有遇到魂兽,或已过期";
+            return NOT_IN_SELECT;
         }
         if (ghostObj.getState() == GhostObj.HELPING) {
             ghostObj = getGhostObjFrom(Long.valueOf(ghostObj.getForWhoStr()));
-        }
-        if (ghostObj == null || !isATrue(qq)) {
-            return "您没有遇到魂兽,或已过期";
         }
         int id = ghostObj.getId();
         long v1 = getInfo(qq).getHj();
@@ -188,13 +187,14 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             int bvc = 100 - bv;
             bvc = bvc > maxLose ? maxLose : bvc < 1 ? 1 : bvc;
             long ev = percentTo(bvc, getInfo(qq).getHjL());
-            if (getInfo(qq).getHj() < ev)
-                return "精神力不足!";
+            if (getInfo(qq).getHj() < ev) {
+                return HJ_NOT_ENOUGH;
+            }
             putPerson(getInfo(qq).addHj(-ev));
             sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
             sb.append(getImgById(ghostObj.getId()))
                     .append(getImageFromStrings(
-                            "名字:" + id2NameMaps.get(ghostObj.getId()),
+                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),
                             "攻击:" + ghostObj.getAtt(),
                             "生命:" + ghostObj.getHp(),
@@ -205,7 +205,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             sb.append("探查成功,这消耗了你0%的精神力");
             sb.append(getImgById(ghostObj.getId()))
                     .append(getImageFromStrings(
-                            "名字:" + id2NameMaps.get(ghostObj.getId()),
+                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),
                             "攻击:" + ghostObj.getAtt(),
                             "生命:" + ghostObj.getHp(),

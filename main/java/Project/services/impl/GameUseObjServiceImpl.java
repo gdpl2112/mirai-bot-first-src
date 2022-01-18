@@ -4,11 +4,11 @@ package Project.services.impl;
 import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.GameDataBase;
-import Project.services.Iservice.IGameService;
-import Project.services.Iservice.IGameUseObjService;
 import Project.Tools.GameTool;
 import Project.Tools.Tool;
 import Project.broadcast.enums.ObjType;
+import Project.services.Iservice.IGameService;
+import Project.services.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,11 +20,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.*;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.*;
 import static Project.Tools.GameTool.getRandXl;
+import static Project.Tools.Tool.getTimeTips;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameUseObjServiceImpl implements IGameUseObjService {
-
 
     private String getPic(Integer id) {
         return GameDataBase.getImgById(id) + "\r\n";
@@ -36,7 +41,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String useObj(Long who, int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         long l1 = GameDataBase.getInfo(who).getUk1();
         if (l1 >= System.currentTimeMillis()) {
-            return "使用时间未到=>" + Tool.getTimeHHMM(l1);
+            return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (id > 200 && id < 300) return "请使用 \"吸收\" 使用魂环";
@@ -57,17 +62,18 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String useObj(Long who, int id, int num) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         long l1 = GameDataBase.getInfo(who).getUk1();
         if (l1 >= System.currentTimeMillis()) {
-            return "使用时间未到=>" + Tool.getTimeHHMM(l1);
+            return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
         if (id == 109 || id == 110) {
             if (id == 109)
-                if (getInfo(who).getBuyHelpC() >= maxHelp) {
-                    return "今日购买此物次数上限";
-                } else
+                if (getInfo(who).getBuyHelpC() >= MAX_HELP) {
+                    return TODAY_BUY_UPPER_TIPS;
+                } else {
                     putPerson(getInfo(who).addBuyHelpToC());
+                }
             if (id == 110) {
-                if (getInfo(who).getBuyHelpToC() >= maxHelpTo) {
-                    return "今日购买此物次数上限";
+                if (getInfo(who).getBuyHelpToC() >= MAX_HELP_TO) {
+                    return TODAY_BUY_UPPER_TIPS;
                 } else {
                     putPerson(getInfo(who).addBuyHelpToC());
                 }
@@ -75,7 +81,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
         String[] sss = gameService.getBags(who);
         if (num <= 0 || num > 50)
-            return "数量超额";
+            return NUM_TOO_MUCH;
         if (GameDataBase.getNumForO(sss, getNameById(id)) >= num) {
             String str = new UseTool().UseObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
@@ -86,34 +92,34 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
     }
 
-    private static final int maxHelp = 3;
-    private static final int maxHelpTo = 3;
+    private static final int MAX_HELP = 3;
+    private static final int MAX_HELP_TO = 3;
 
     @Override
-    public String BuyObj(Long who, int id, Integer num) {
+    public String buyObj(Long who, int id, Integer num) {
         long l1 = GameDataBase.getGk1(who);
         if (l1 >= System.currentTimeMillis()) {
-            return "购买时间未到=>" + Tool.getTimeHHMM(l1);
+            return String.format(BUY_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
         if (num <= 0 || num > 50)
-            return "数量超额";
+            return NUM_TOO_MUCH;
         if (id == 109 || id == 110) {
-            if (num > 5) return "过多得购买";
+            if (num > 5) return BUY_NUM_TOO_MUCH_TIPS;
             if (id == 109)
-                if (getInfo(who).getBuyHelpC() >= maxHelp) {
-                    return "今日购买此物次数上限";
+                if (getInfo(who).getBuyHelpC() >= MAX_HELP) {
+                    return TODAY_BUY_UPPER_TIPS;
                 } else
                     putPerson(getInfo(who).setBuyHelpC(getInfo(who).getBuyHelpC() + num));
             if (id == 110) {
-                if (getInfo(who).getBuyHelpToC() >= maxHelpTo) {
-                    return "今日购买此物次数上限";
+                if (getInfo(who).getBuyHelpToC() >= MAX_HELP_TO) {
+                    return TODAY_BUY_UPPER_TIPS;
                 } else {
                     putPerson(getInfo(who).addBuyHelpToC());
                     putPerson(getInfo(who).setBuyHelpToC(getInfo(who).getBuyHelpToC() + num));
                 }
             }
         }
-        long l = GameDataBase.id2ShopMaps.get(id);
+        long l = GameDataBase.ID_2_SHOP_MAPS.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
         long wl = l * num + (num * 15L);
         if (Ig >= wl) {
@@ -131,24 +137,24 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
         } else {
-            return "金魂币不足! 需要额外支付 数量x15的 金魂币";
+            return BUY_NUM_NOT_ENOUGH_GOLD_TIPS;
         }
     }
 
     @Override
     public String getIntro(int id) {
         String intro = GameDataBase.getIntroById(id);
-        intro = intro == null ? "暂无介绍" : intro;
+        intro = intro == null ? NO_INTRO_NOW : intro;
         return getPic(id) + intro;
     }
 
     @Override
-    public String BuyObj(Long who, int id) {
+    public String buyObj(Long who, int id) {
         long l1 = GameDataBase.getGk1(who);
         if (l1 >= System.currentTimeMillis()) {
-            return "购买时间未到=>" + Tool.getTimeHHMM(l1);
+            return String.format(BUY_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
-        long l = GameDataBase.id2ShopMaps.get(id);
+        long l = GameDataBase.ID_2_SHOP_MAPS.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l) {
             GameDataBase.addToBgs(who, id, ObjType.buy);
@@ -162,9 +168,9 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                             .setDesc("购买" + getNameById(id) + "\"")
                             .setMany(l)
             ));
-            return getPic(id) + "购买成功";
+            return String.format(TIPS_BUY_SUCCEED, getPic(id));
         } else {
-            return "金魂币不足!";
+            return NOT_ENOUGH_GOLD;
         }
     }
 
@@ -186,7 +192,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             switch (id) {
                 case 102:
                     if (num > 6)
-                        return "多余的使用";
+                        return SUPERFLUOUS_USE;
                     else {
                         long m = personInfo.getHpL();
                         long t = personInfo.getHp();
@@ -237,7 +243,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                     return "增加了" + l + "点最大精神力";
                 default:
-                    return "该物品不支持 批量使用";
+                    return NOT_SUPPORTED_NUM_USE;
             }
         }
 
@@ -401,7 +407,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             if (bgids.contains(id)) {
                 long l = 0;
-                if (id2ShopMaps.containsKey(id)) l = GameDataBase.id2ShopMaps.get(id) / 3;
+                if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
                 else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
                 else return "商城中为发现此物品";
 
@@ -434,7 +440,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             removeFromBgs(who, id, num, ObjType.sell);
             long l;
 
-            if (id2ShopMaps.containsKey(id)) l = GameDataBase.id2ShopMaps.get(id) / 3;
+            if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
             else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
             else return "商城中为发现此物品";
 

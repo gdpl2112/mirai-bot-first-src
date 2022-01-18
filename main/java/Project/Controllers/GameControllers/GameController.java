@@ -36,7 +36,7 @@ public class GameController {
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");
-        StartOkRuns.add(() -> histInfos.clear());
+        StartOkRuns.add(() -> HIST_INFOS.clear());
     }
 
     @AutoStand
@@ -73,7 +73,6 @@ public class GameController {
         String str = gameService.xl(qq.getId());
         return str;
     }
-
 
     @Action("信息")
     public String info(User qq, Group group) {
@@ -135,7 +134,7 @@ public class GameController {
     @Action("吸收魂环<.{0,}=>name>")
     public String joinHh(User qq, @Param("name") String name, Group group) {
         try {
-            Integer id = GameDataBase.Name2idMaps.get(name.trim());
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
             String sss = gameService.parseHh(qq.getId(), id);
             return sss;
         } catch (Exception e) {
@@ -303,7 +302,7 @@ public class GameController {
     @Action("吸收<.{0,}=>str>")
     public String Xsh(@AllMess String message, Group group, @Param("str") String str, User qq) {
         try {
-            Integer id = GameDataBase.Name2idMaps.get(str);
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(str);
             if (id > 200 && id < 210) {
                 return joinHh(qq, str, group);
             } else if (id > 1500 && id < 1600) {

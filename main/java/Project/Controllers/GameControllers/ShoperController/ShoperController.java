@@ -34,7 +34,7 @@ public class ShoperController {
 
     @Action("交易市场")
     public String AllInfo(Group group) {
-        return shoperService.AllInfo(group);
+        return shoperService.allInfo(group);
     }
 
     @Action("市场上架.+")
@@ -48,10 +48,10 @@ public class ShoperController {
         String name = mess.replace("市场上架", "")
                 .replace(ll[0] + "个", "")
                 .replace(ll[1] + "", "");
-        Integer id = GameDataBase.Name2idMaps.get(name);
+        Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
         if (id == null)
             return "未发现相关物品";
-        return shoperService.UpItem(qq.getId(), id, ll[0], ll[1]);
+        return shoperService.upItem(qq.getId(), id, ll[0], ll[1]);
     }
 
     private static Long[] getNumAndPrice(String str) {
@@ -76,8 +76,8 @@ public class ShoperController {
     }
 
     @Action("市场下架<\\d+=>num>")
-    public String DownItem(@Param("num") String num, User qq) {
-        return shoperService.DownItem(qq.getId(), Integer.parseInt(num));
+    public String downItem(@Param("num") String num, User qq) {
+        return shoperService.downItem(qq.getId(), Integer.parseInt(num));
     }
 
     @Action("市场购买<\\d+=>ids>")
@@ -85,11 +85,11 @@ public class ShoperController {
         if (longs.contains(qq.getId())) {
             return "您不能购买物品";
         }
-        return shoperService.Buy(qq.getId(), Integer.valueOf(ids));
+        return shoperService.buy(qq.getId(), Integer.valueOf(ids));
     }
 
     @Action("市场说明<\\d+=>ids>")
-    public String IntroItem(@Param("ids") String ids, User qq, Group group) {
-        return shoperService.Intro(qq.getId(), Integer.valueOf(ids), group);
+    public String introItem(@Param("ids") String ids, User qq, Group group) {
+        return shoperService.intro(qq.getId(), Integer.valueOf(ids), group);
     }
 }

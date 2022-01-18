@@ -5,21 +5,59 @@ package Project;
  */
 public class ResourceSet {
     public static class Final {
-        public final static String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
-        public final static String ADD_TO_AUTO_REPLY_ERROR = "添加失败,可能因为不支持该字符,或已存在";
-        public final static String OPEN_STR = "开启";
-        public final static String CLOSE_STR = "关闭";
-        public final static String SPEAK_STR = "读";
-        public final static String LEFT_BRACKETS_STR = "[";
-        public final static String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
-        public final static String NOT_FOUND_AT = "未发现at";
-        public final static String CUSTOM_MENU_STR = "回话菜单";
-        public final static String NO_PERMISSION_STR = "无权限";
-        public final static String NULL_LOW_STR = "null";
+        public static final String ERR_TIPS = "错误";
+        public static final String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
+        public static final String ADD_TO_AUTO_REPLY_ERROR = "添加失败,可能因为不支持该字符,或已存在";
+        public static final String OPEN_STR = "开启";
+        public static final String CLOSE_STR = "关闭";
+        public static final String SPEAK_STR = "读";
+        public static final String LEFT_BRACKETS_STR = "[";
+        public static final String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
+        public static final String NOT_FOUND_AT = "未发现at";
+        public static final String CUSTOM_MENU_STR = "回话菜单";
+        public static final String NO_PERMISSION_STR = "无权限";
+        public static final String NULL_LOW_STR = "null";
         public static final String VIDEO_TAG_STR = "video";
         public static final String IMG_TAG_STR = "img";
         public static final String NOT_SUPPORT_LENGTH_IMG = "不支持长方形图片";
         public static final String NOT_FOUND_SELECT = "没有该选项";
+        public static final String ILLEGAL_OPERATION = "非法的操作";
+        public static final String
+                NOT_FOUND_SHOP_ITEM = ("未发现此商品"),
+                DOWN_SHOP_ITEM_OK = ("下架完成!"),
+                UP_SHOP_ITEM_OK = ("上架成功!!!"),
+                SHOP_ITEM_NOT_IS_YOU = ("那不是你上架的物品"),
+                NOT_ENOUGH_GOLD = ("金魂币不足"),
+                BUY_SUCCESS = ("购买成功");
+        public static final String BUY_NUM_NOT_ENOUGH_GOLD_TIPS = "金魂币不足! 需要额外支付 数量x15的 金魂币";
+        public static final String TODAY_BUY_UPPER_TIPS = "今日购买此物次数上限";
+        public static final String BUY_NUM_TOO_MUCH_TIPS = "过多得购买";
+        public static final String NUM_TOO_MUCH = "数量超额";
+        public static final String NO_INTRO_NOW = "暂无介绍";
+        public static final String SUPERFLUOUS_USE = "多余的使用";
+        public static final String NOT_SUPPORTED_NUM_USE = "该物品不支持 批量使用";
+        public static final String PLEASE_AWAKENING_WH = "请先觉醒武魂";
+        public static final String AWAKENED_WH = "你已经觉醒武魂了";
+        public static final String LEVEL2_AWAKENING_WH_TIPS = "2级即可觉醒";
+        public static final String AWAKENING_WH_SUCCEED = "觉醒成功!!!";
+        public static final String NOT_IN_SELECT = "没有选择状态";
+        public static final String IT_NOT_IN_SELECT = "ta没有选择状态";
+        public static final String IN_SELECT = "你正在选择状态中...";
+        public static final String HJ_NOT_ENOUGH = "精神力不足!!!";
+        public static final String CANT_HELP_YOURSELF = "不能帮助自己";
+        public static final String DAY_ONLY_HELP_TIPS = "一天仅可支援3次";
+        public static final String HELP_SUCCEED = "支援成功";
+        public static final String NOT_NEED_WAIT_TIPS = "已就绪";
+    }
+
+    public static class FinalFormat {
+        public static final String WORK_WAIT_TIPS = "打工冷却中.\n大约等待%s";
+        public static final String USE_OBJ_WAIT_TIPS = "使用物品冷却中.\n大约等待%s";
+        public static final String BUY_OBJ_WAIT_TIPS = "购买物品冷却中.\n大约等待%s";
+        public static final String XL_WAIT_TIPS = "修炼冷却中.\n大约等待%s";
+        public static final String TXL_WAIT_TIPS = "双修冷却中.\n大约等待%s";
+        public static final String ACTIVITY_WAIT_TIPS = "活动进入冷却中.\n大约等待%s";
+        public static final String TIPS_BUY_SUCCEED = "%s\n购买成功";
     }
 
 }

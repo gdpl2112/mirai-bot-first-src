@@ -6,17 +6,21 @@ import Entitys.gameEntitys.PersonInfo;
 import Entitys.gameEntitys.ShopItem;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ShopDataBase;
-import Project.services.Iservice.IShoperService;
 import Project.broadcast.enums.ObjType;
+import Project.services.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Tool.getTimeDDHHMM;
+import static Project.ResourceSet.Final.*;
+import static Project.Tools.Tool.getTimeYMdhms;
 import static Project.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class ShoperServiceImpl implements IShoperService {
-    private static final String info = "\r\n市场上架上架物品\t" +
+    private static final String INFO = "\r\n市场上架上架物品\t" +
             "示例:\r\n\t" +
             "=>市场上架百年魂环2个1000<=\r\n\t " +
             "以上架2个百年魂环总价为1000金魂币\r\n" +
@@ -25,7 +29,7 @@ public class ShoperServiceImpl implements IShoperService {
             "市场购买 (序号) 来购买 物品";
 
     @Override
-    public String AllInfo(Group group) {
+    public String allInfo(Group group) {
         StringBuilder sb = new StringBuilder();
         for (Integer id : ShopDataBase.map.keySet()) {
             ShopItem item = ShopDataBase.map.get(id);
@@ -34,39 +38,41 @@ public class ShoperServiceImpl implements IShoperService {
                     .append("=>").append(item.getPrice()).append("金魂币").append("\r\n");
         }
         String[] sss = sb.toString().split("\r\n");
-        return getImageFromStringsOnTwoColumns(sb.toString().isEmpty() ? new String[]{"暂无上架物品"} : sss) + info;
+        return getImageFromStringsOnTwoColumns(sb.toString().isEmpty() ? new String[]{"暂无上架物品"} : sss) + INFO;
     }
 
     @Override
-    public String UpItem(long id, Integer id1, long aLong, Long aLong1) {
+    public String upItem(long id, Integer id1, long aLong, Long aLong1) {
         if (GameDataBase.contiansBgsNum(id, id1, (int) aLong)) {
             GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell);
             ShopItem item = new ShopItem()
                     .setItemId(id1).setWho(id).setPrice(aLong1)
                     .setNum(Integer.valueOf(aLong + "")).setTime(System.currentTimeMillis());
             ShopDataBase.saveItem(item);
-            return UpShopItemOk;
+            return UP_SHOP_ITEM_OK;
         } else
             return ("你没有足够的 " + getNameById(id1));
     }
 
     @Override
-    public synchronized String DownItem(long id, int ids) {
+    public synchronized String downItem(long id, int ids) {
         if (ShopDataBase.map.containsKey(ids)) {
             ShopItem item = ShopDataBase.map.get(ids);
             Long who = item.getWho().longValue();
             if (who == id) {
                 ShopDataBase.deleteItem(item.getId());
                 addToBgs(id, item.getItemId(), item.getNum(), ObjType.un);
-                return DownShopItemOk;
-            } else
-                return ShopItemNotIsYou;
-        } else
-            return NotFoundShopItem;
+                return DOWN_SHOP_ITEM_OK;
+            } else {
+                return SHOP_ITEM_NOT_IS_YOU;
+            }
+        } else {
+            return NOT_FOUND_SHOP_ITEM;
+        }
     }
 
     @Override
-    public synchronized String Buy(long id, Integer ids) {
+    public synchronized String buy(long id, Integer ids) {
         if (ShopDataBase.map.containsKey(ids)) {
             ShopItem item = ShopDataBase.map.get(ids);
             PersonInfo info = getInfo(id);
@@ -95,14 +101,14 @@ public class ShoperServiceImpl implements IShoperService {
                 ));
                 addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
-                return BuySuccess;
-            } else return NotEnoughGold;
+                return BUY_SUCCESS;
+            } else return NOT_ENOUGH_GOLD;
         } else
-            return NotFoundShopItem;
+            return NOT_FOUND_SHOP_ITEM;
     }
 
     @Override
-    public String Intro(long id, Integer ids, Group group) {
+    public String intro(long id, Integer ids, Group group) {
         if (ShopDataBase.map.containsKey(ids)) {
             ShopItem item = ShopDataBase.map.get(ids);
             StringBuilder sb = new StringBuilder();
@@ -112,17 +118,10 @@ public class ShoperServiceImpl implements IShoperService {
             sb.append("上架人:").append(item.getWho()).append("\r\n");
             sb.append("数量:").append(item.getNum()).append("\r\n");
             sb.append("价格:").append(item.getPrice()).append("金魂币\r\n");
-            sb.append("上架时间:").append(getTimeDDHHMM(item.getTime()));
+            sb.append("上架时间:").append(getTimeYMdhms(item.getTime()));
             return sb.toString();
-        } else
-            return NotFoundShopItem;
+        } else {
+            return NOT_FOUND_SHOP_ITEM;
+        }
     }
-
-    private static final String
-            NotFoundShopItem = ("未发现此商品"),
-            DownShopItemOk = ("下架完成!"),
-            UpShopItemOk = ("上架成功!!!"),
-            ShopItemNotIsYou = ("那不是你上架的物品"),
-            NotEnoughGold = ("金魂币不足"),
-            BuySuccess = ("购买成功");
 }

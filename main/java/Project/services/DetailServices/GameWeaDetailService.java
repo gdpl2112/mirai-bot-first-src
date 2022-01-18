@@ -22,7 +22,7 @@ public class GameWeaDetailService {
 
     public GameWeaDetailService() {
         if (Aqs.isEmpty()) {
-            for (int id : id2NameMaps.keySet()) {
+            for (int id : ID_2_NAME_MAPS.keySet()) {
                 if (id > 1000 && id < 1200)
                     Aqs.add(getNameById(id));
             }
@@ -31,7 +31,7 @@ public class GameWeaDetailService {
 
     private synchronized void InitAqs() {
         if (Aqs.isEmpty())
-            for (int id : id2NameMaps.keySet()) {
+            for (int id : ID_2_NAME_MAPS.keySet()) {
                 if (id > 1000 && id < 1200)
                     Aqs.add(getNameById(id));
             }
@@ -41,7 +41,7 @@ public class GameWeaDetailService {
         if (Aqs.isEmpty()) InitAqs();
         if (!Aqs.contains(name))
             return "系统未找到 此暗器";
-        int id = Name2idMaps.get(name);
+        int id = NAME_2_ID_MAPS.get(name);
         if (!exitsO(id, who)) {
             return "你没有 " + name + "或已损坏";
         }

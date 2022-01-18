@@ -79,7 +79,7 @@ public class GameBoneController {
     public String parseBone(@Param("name") String name, long qq, Group g) {
         int id = 0;
         try {
-            id = Name2idMaps.get(name);
+            id = NAME_2_ID_MAPS.get(name);
             if (!(id > 1500 && id < 1600))
                 return new StringBuilder().append("系统没有找到==》").append(name).toString();
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class GameBoneController {
     public String unParseBone(@Param("name") String name, long qq, Group g) {
         int id = 0;
         try {
-            id = Name2idMaps.get(name);
+            id = NAME_2_ID_MAPS.get(name);
             if (!(id > 1500 && id < 1600))
                 return new StringBuilder().append("系统没有找到==》").append(name).toString();
         } catch (Exception e) {

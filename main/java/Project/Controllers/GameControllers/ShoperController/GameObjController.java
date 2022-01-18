@@ -47,12 +47,13 @@ public class GameObjController {
 
             }
             String shopName = what.replace("使用", "").trim();
-            Integer id = GameDataBase.Name2idMaps.get(shopName);
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
-            if (num == null)
+            if (num == null) {
                 sss = gameUseObiService.useObj(qq.getId(), id);
-            else
+            } else {
                 sss = gameUseObiService.useObj(qq.getId(), id, num);
+            }
             return sss;
         } catch (Exception e) {
             return "未发现相关物品或使用失败#" + str;
@@ -64,7 +65,7 @@ public class GameObjController {
         try {
             String what = str;
             what = what.replace("说明", "");
-            Integer id = GameDataBase.Name2idMaps.get(what.trim());
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(what.trim());
             if (id == null) {
                 return "未找到相关物品";
             }
@@ -94,12 +95,12 @@ public class GameObjController {
             } catch (Exception e) {
             }
             String shopName = what.trim();
-            Integer id = GameDataBase.Name2idMaps.get(shopName);
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
             if (num == null)
-                sss = gameUseObiService.BuyObj(qq.getId(), id);
+                sss = gameUseObiService.buyObj(qq.getId(), id);
             else
-                sss = gameUseObiService.BuyObj(qq.getId(), id, num);
+                sss = gameUseObiService.buyObj(qq.getId(), id, num);
             return sss;
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,7 +124,7 @@ public class GameObjController {
             } catch (Exception e) {
                 num = null;
             }
-            Integer id = GameDataBase.Name2idMaps.get(name);
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             String s;
             if (num == null)
                 s = gameUseObiService.ObjTo(qq.getId(), id, whos);
@@ -147,7 +148,7 @@ public class GameObjController {
             } catch (Exception e) {
                 num = null;
             }
-            Integer id = GameDataBase.Name2idMaps.get(what);
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
             if (id == null) return "未知物品";
             String mess = "";
             if (num == null) mess = gameUseObiService.SleObj(qq.getId(), id);
