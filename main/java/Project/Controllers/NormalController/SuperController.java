@@ -170,5 +170,16 @@ public class SuperController {
         }
     }
 
+    @Action("关机")
+    public String k0() {
+        Switch.AllK = false;
+        return "已关机..";
+    }
+
+    @Action("开机")
+    public String k1() {
+        Switch.AllK = true;
+        return "已开机..";
+    }
 
 }
