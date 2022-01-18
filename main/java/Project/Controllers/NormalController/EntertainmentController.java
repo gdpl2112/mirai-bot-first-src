@@ -86,7 +86,7 @@ public class EntertainmentController {
     }
 
     @AutoStand
-    IOtherService otherService;
+    public static IOtherService otherService;
 
     @Action("短时预报<.+=>address>")
     public String m2(@Param("address") String address) {

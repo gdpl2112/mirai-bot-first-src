@@ -2,6 +2,7 @@ package io.github.kloping.Mirai.Main.Handlers;
 
 import Project.Controllers.ControllerTool;
 import Project.Controllers.NormalController.CustomController;
+import Project.Controllers.NormalController.EntertainmentController;
 import Project.Controllers.SessionController;
 import Project.DataBases.DataBase;
 import Project.broadcast.game.GroupMessageBroadcast;
@@ -25,7 +26,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -65,8 +65,6 @@ public class MyHandler extends SimpleListenerHost {
         });
     }
 
-    public static Group upGroup = null;
-
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (CapHandler.CAPING.containsKey(event.getSender().getId())) {
@@ -89,7 +87,6 @@ public class MyHandler extends SimpleListenerHost {
             id = event.getSender().getId();
             boolean inS = SessionController.contains(id);
             group = event.getGroup();
-            upGroup = group;
             eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
@@ -108,9 +105,6 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
         if (!Resource.Switch.AllK) return;
-        if (upGroup == null) {
-            upGroup = bot.getGroups().stream().iterator().next();
-        }
         if (event.getSender() instanceof AnonymousMember) return;
         String text = null;
         Entitys.Group eGroup = null;
@@ -120,18 +114,27 @@ public class MyHandler extends SimpleListenerHost {
         try {
             chain = event.getMessage();
             id = event.getSender().getId();
-            group = upGroup;
+            group = getCg(id);
             eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
             if (INSTANCE.getActionManager().mather(text) != null) {
                 StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
             } else {
-                StarterApplication.ExecuteMethod(id, "[@me]" + text, id, eUser, eGroup, 1);
+                event.getSender().sendMessage(EntertainmentController.otherService.Talk(text));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Group getCg(long id) {
+        for (Group group : bot.getGroups()) {
+            if (group.contains(id)) {
+                return group;
+            }
+        }
+        return null;
     }
 
     private static final long CD = 20 * 1000;
