@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import static Project.Controllers.SessionController.gotoSession;
 import static Project.ResourceSet.Final.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
+import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
 /**
@@ -57,9 +58,9 @@ public class MyHandler extends SimpleListenerHost {
 
     static {
         Resource.StartOkRuns.add(() -> {
-            Entitys.User.create(Resource.bot.getId()
-                    , Resource.bot.getGroups().stream().iterator().next().getId()
-                    , Resource.bot.getNick(), Resource.bot.getNick());
+            Entitys.User.create(bot.getId()
+                    , bot.getGroups().stream().iterator().next().getId()
+                    , bot.getNick(), bot.getNick());
         });
     }
 
@@ -106,6 +107,9 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
         if (!Resource.Switch.AllK) return;
+        if (upGroup == null) {
+            upGroup = bot.getGroups().stream().iterator().next();
+        }
         if (event.getSender() instanceof AnonymousMember) return;
         String text = null;
         Entitys.Group eGroup = null;
