@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import static Project.Controllers.SessionController.gotoSession;
 import static Project.ResourceSet.Final.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
+import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
@@ -121,7 +122,7 @@ public class MyHandler extends SimpleListenerHost {
             id = event.getSender().getId();
             group = upGroup;
             eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
-            Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
+            Entitys.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
             if (INSTANCE.getActionManager().mather(text) != null) {
                 StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);

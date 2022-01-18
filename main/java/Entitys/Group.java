@@ -2,6 +2,9 @@ package Entitys;
 
 import java.util.Map;
 
+/**
+ * @author github-kloping
+ */
 public class Group {
     private Long id;
     private String nickName;
