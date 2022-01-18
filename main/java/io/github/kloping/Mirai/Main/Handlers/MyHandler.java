@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import static Project.Controllers.SessionController.gotoSession;
 import static Project.ResourceSet.Final.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
+import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
 /**
  * @author github-kloping
@@ -118,7 +119,11 @@ public class MyHandler extends SimpleListenerHost {
             eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
-            StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
+            if (INSTANCE.getActionManager().mather(text) != null) {
+                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
+            } else {
+                StarterApplication.ExecuteMethod(id, "[@me]" + text, id, eUser, eGroup, 1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

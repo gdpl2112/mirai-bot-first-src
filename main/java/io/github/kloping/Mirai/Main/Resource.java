@@ -183,7 +183,7 @@ public class Resource {
             }
             //====
         } else {
-            builder.append("=======").append("\r\n");
+            builder.append("\r\n");
             Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((Entitys.User) objects[3]).getId());
             if (o == null) return;
             if (o.getClass() == Object[].class) {

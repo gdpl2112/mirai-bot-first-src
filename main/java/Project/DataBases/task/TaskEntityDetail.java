@@ -33,8 +33,8 @@ public class TaskEntityDetail {
                 if (m1.get(1))
                     if (m1.containsKey(2))
                         if (m1.get(2))
-                            if (m1.containsKey(3))
-                                if (m1.get(3))
+//                            if (m1.containsKey(3))
+//                                if (m1.get(3))
                             return true;
             return false;
         }
