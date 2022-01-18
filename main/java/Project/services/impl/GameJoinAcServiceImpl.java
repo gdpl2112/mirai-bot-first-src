@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
+import static Project.ResourceSet.Final.NOT_FOUND_SELECT;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.isATrue;
@@ -77,7 +78,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         String what = select.trim();
         what = what.replace("选择", "").trim();
         int i = decideMaps.indexOf(what);
-        if (i == -1) return "没有此选项";
+        if (i == -1) return NOT_FOUND_SELECT;
         if (!isATrue(who)) return "没有选择状态";
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {

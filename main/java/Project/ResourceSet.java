@@ -19,6 +19,7 @@ public class ResourceSet {
         public static final String VIDEO_TAG_STR = "video";
         public static final String IMG_TAG_STR = "img";
         public static final String NOT_SUPPORT_LENGTH_IMG = "不支持长方形图片";
+        public static final String NOT_FOUND_SELECT = "没有该选项";
     }
 
 }

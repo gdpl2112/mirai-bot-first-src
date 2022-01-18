@@ -9,9 +9,14 @@ import java.lang.reflect.Method;
 
 import static Project.Tools.Tool.getRandT;
 
+/**
+ * 任务创建
+ *
+ * @author github-kloping
+ */
 public class TaskCreator {
-    public static final int maxPrenticeIndex = 1;
-    public static final int maxIndex = 1002;
+    public static final int MAX_PRENTICE_INDEX = 1;
+    public static final int MAX_INDEX = 1002;
 
     public static <T extends Task> T getTask(int id) {
         if (id < 10) return (T) new Task();
@@ -42,13 +47,13 @@ public class TaskCreator {
         return receiver;
     }
 
-    public static final Integer[] t1000objs = new Integer[]{201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 1000};
+    public static final Integer[] T_1000_OBJS = new Integer[]{201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 1000};
 
     public static int getRandObj1000() {
-        return getRandT(t1000objs);
+        return getRandT(T_1000_OBJS);
     }
 
-    public static synchronized Receiver task1000(Task task1000) {
+    public static Receiver task1000(Task task1000) {
         if (!(task1000 instanceof TaskEntityDetail.Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver = new TaskEntityDetail.GhostLostReceiverWithTask1000((TaskEntityDetail.Task1000) task1000));
@@ -62,4 +67,5 @@ public class TaskCreator {
                 new TaskEntityDetail.GhostLostReceiverWithTask1001((TaskEntityDetail.Task1001) task));
         return receiver;
     }
+
 }

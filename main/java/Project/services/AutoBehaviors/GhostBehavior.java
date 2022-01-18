@@ -1,15 +1,15 @@
 package Project.services.AutoBehaviors;
 
+import Entitys.Group;
 import Entitys.gameEntitys.AttributeBone;
 import Entitys.gameEntitys.GhostObj;
-import Entitys.Group;
 import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.skill.SkillDataBase;
+import Project.Tools.Tool;
 import Project.services.DetailServices.GameDetailService;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.Iservice.IGameBoneService;
 import Project.services.Iservice.IGameService;
-import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -21,9 +21,10 @@ import java.util.concurrent.Executors;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
+import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.getAllHHBL;
+import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 
 /**
  * @author github-kloping
@@ -67,7 +68,7 @@ public class GhostBehavior implements Runnable {
             int findTime = Tool.rand.nextInt(fs[1] - fs[0]) + fs[0];
             Thread.sleep(findTime * 1000);
             if (!updateGhost()) return;
-            Send("小心!!\n'" + ghostObj.getName() + "'发现了你!!!");
+            send("小心!!\n'" + ghostObj.getName() + "'发现了你!!!");
             boolean l = false;
             boolean led = false;
             while (true) {
@@ -93,45 +94,52 @@ public class GhostBehavior implements Runnable {
         }
     }
 
+
     private boolean startAtt(boolean lock) throws InterruptedException {
-        if (!updateGhost()) return false;
-        Send(ghostObj.getName() + "准备对你,进行蓄力一击!");
-        if (!updateGhost()) return false;
-        int[] fs = getReadyTime(ghostObj.getL());
-        int findTime = Tool.rand.nextInt(fs[1] - fs[0]) + fs[0];
-        while (findTime > 0) {
-            Thread.sleep(1600);
-            findTime--;
-            if (needAway()) {
-                Send(ghostObj.getName() + "取消了蓄力,准备逃跑");
-                startWay();
-            }
-            if (brokenPaper()) {
-                Send(ghostObj.getName() + "因为眩晕被打断了蓄力");
-                ghostObj.setVertigo(false);
-                return true;
+        long lostAtt = percentTo(12, ghostObj.getAtt());
+        try {
+            ghostObj.setAtt(ghostObj.getAtt() - lostAtt);
+            if (!updateGhost()) return false;
+            send(ghostObj.getName() + "准备对你,进行蓄力一击!");
+            if (!updateGhost()) return false;
+            int[] fs = getReadyTime(ghostObj.getL());
+            int findTime = Tool.rand.nextInt(fs[1] - fs[0]) + fs[0];
+            while (findTime > 0) {
+                Thread.sleep(1600);
+                findTime--;
+                if (needAway()) {
+                    send(ghostObj.getName() + "取消了蓄力,准备逃跑");
+                    startWay();
+                }
+                if (brokenPaper()) {
+                    send(ghostObj.getName() + "因为眩晕被打断了蓄力");
+                    ghostObj.setVertigo(false);
+                    return true;
+                }
+                if (!updateGhost()) return false;
+                if (needSay(findTime)) send("蓄力倒计时!\r\n" + findTime);
             }
             if (!updateGhost()) return false;
-            if (needSay(findTime)) Send("蓄力倒计时!\r\n" + findTime);
+            double attR = getAttR(ghostObj.getL());
+            StringBuilder builder = new StringBuilder();
+            long v = (long) (ghostObj.getAtt() * attR);
+            if (lock) {
+                builder.append(ghostObj.getName() + "锁定 并 蓄力 对你造成 无法躲避的  => " + v + "点伤害\r\n");
+            } else {
+                builder.append(ghostObj.getName() + "蓄力 对你造成了 => " + v + "点伤害\r\n");
+            }
+            builder.append(GameDetailService.beaten(qq, -2, v));
+            String str = gameService.info(qq);
+            builder.append("\n").append(str);
+            if (getInfo(qq).getHp() <= 0) {
+                saveGhostObjIn(qq, null);
+            }
+            send(builder.toString());
+            if (!updateGhost()) return false;
+            return true;
+        } finally {
+            ghostObj.setAtt(ghostObj.getAtt() + lostAtt);
         }
-        if (!updateGhost()) return false;
-        double attR = getAttR(ghostObj.getL());
-        StringBuilder builder = new StringBuilder();
-        long v = (long) (ghostObj.getAtt() * attR);
-        if (lock) {
-            builder.append(ghostObj.getName() + "锁定 并 蓄力 对你造成 无法躲避的  => " + v + "点伤害\r\n");
-        } else {
-            builder.append(ghostObj.getName() + "蓄力 对你造成了 => " + v + "点伤害\r\n");
-        }
-        builder.append(GameDetailService.beaten(qq, -2, v));
-        String str = gameService.info(qq);
-        builder.append("\n").append(str);
-        if (getInfo(qq).getHp() <= 0) {
-            saveGhostObjIn(qq, null);
-        }
-        Send(builder.toString());
-        if (!updateGhost()) return false;
-        return true;
     }
 
     private boolean brokenPaper() {
@@ -152,10 +160,10 @@ public class GhostBehavior implements Runnable {
                 Thread.sleep(3000);
                 if (Tool.rand.nextInt(10) < r) {
                     saveGhostObjIn(qq, null);
-                    Send(ghostObj.getName() + "拼尽全力逃跑了!");
+                    send(ghostObj.getName() + "拼尽全力逃跑了!");
                 } else {
                     if (sendl) {
-                        Send(ghostObj.getName() + "尝试逃跑");
+                        send(ghostObj.getName() + "尝试逃跑");
                         sendl = true;
                     }
                 }
@@ -171,12 +179,13 @@ public class GhostBehavior implements Runnable {
     }
 
     public void onDestroy(boolean is) {
-        if (is)
+        if (is) {
             putPerson(getInfo(qq).eddTag(SkillDataBase.TAG_CANT_HIDE, 0));
+        }
     }
 
     private boolean startLock() throws InterruptedException {
-        Send("小心!" + ghostObj.getName() + " 开始 锁定你了");
+        send("小心!" + ghostObj.getName() + " 开始 锁定你了");
         if (!updateGhost()) return false;
         Thread.sleep(1000);
         int[] fs = getLockTime(ghostObj.getL());
@@ -184,7 +193,7 @@ public class GhostBehavior implements Runnable {
         Thread.sleep(findTime * 1000);
         if (!updateGhost()) return false;
         putPerson(getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
-        Send(ghostObj.getName() + "已经锁定你了!");
+        send(ghostObj.getName() + "已经锁定你了!");
         return true;
     }
 
@@ -256,7 +265,7 @@ public class GhostBehavior implements Runnable {
         return new int[]{9999, 9999};
     }
 
-    private void Send(String str) {
+    private void send(String str) {
         MessageTools.sendMessageInGroupWithAt(str, group.getId(), qq);
     }
 }

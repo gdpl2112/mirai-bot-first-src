@@ -22,6 +22,9 @@ import static Project.Tools.Tool.getRandT;
  * @author github-kloping
  */
 public class TaskEntityDetail {
+    /**
+     * 周任务0
+     */
     public static class Task1000 extends Task {
         public Map<Integer, Boolean> m1 = new ConcurrentHashMap<>();
 
@@ -30,8 +33,8 @@ public class TaskEntityDetail {
                 if (m1.get(1))
                     if (m1.containsKey(2))
                         if (m1.get(2))
-//                            if (m1.containsKey(3))
-//                                if (m1.get(3))
+                            if (m1.containsKey(3))
+                                if (m1.get(3))
                             return true;
             return false;
         }
@@ -55,6 +58,9 @@ public class TaskEntityDetail {
         }
     }
 
+    /**
+     * 周任务1
+     */
     public static class Task1001 extends Task {
         public int needId;
         public static Integer[] ids = {501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512,
@@ -80,6 +86,9 @@ public class TaskEntityDetail {
     }
 
 
+    /**
+     * 师徒任务
+     */
     public static class GhostLostReceiverWithTask0
             extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task> {
         public GhostLostReceiverWithTask0(Task task) {
@@ -105,6 +114,9 @@ public class TaskEntityDetail {
         }
     }
 
+    /**
+     * 周任务2
+     */
     public static class GhostLostReceiverWithTask1001
             extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1001> {
         public GhostLostReceiverWithTask1001(Task1001 task) {
@@ -128,6 +140,9 @@ public class TaskEntityDetail {
         }
     }
 
+    /**
+     * 周任务1
+     */
     public static class GhostLostReceiverWithTask1000 extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1000> {
         public GhostLostReceiverWithTask1000(TaskEntityDetail.Task1000 task1000) {
             super(task1000);

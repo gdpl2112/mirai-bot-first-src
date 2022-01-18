@@ -5,8 +5,8 @@ import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static Project.DataBases.task.TaskCreator.maxIndex;
-import static Project.DataBases.task.TaskCreator.maxPrenticeIndex;
+import static Project.DataBases.task.TaskCreator.MAX_INDEX;
+import static Project.DataBases.task.TaskCreator.MAX_PRENTICE_INDEX;
 import static Project.Tools.Tool.inRandge;
 
 @Data
@@ -31,13 +31,13 @@ public class TaskPoint {
 
     public TaskPoint setNormalIndex(Integer normalIndex) {
         this.normalIndex = normalIndex;
-        this.normalIndex = inRandge(this.normalIndex, 1000, maxIndex);
+        this.normalIndex = inRandge(this.normalIndex, 1000, MAX_INDEX);
         return this;
     }
 
     public void setPrenticeIndex(Integer prenticeIndex) {
         this.prenticeIndex = prenticeIndex;
-        this.prenticeIndex = inRandge(this.prenticeIndex, 0, maxPrenticeIndex);
+        this.prenticeIndex = inRandge(this.prenticeIndex, 0, MAX_PRENTICE_INDEX);
     }
 
     public void setMasterIndex(Integer masterIndex) {
@@ -55,7 +55,7 @@ public class TaskPoint {
 
     public TaskPoint addPrenticeIndex(int i) {
         this.prenticeIndex += i;
-        this.prenticeIndex = inRandge(this.prenticeIndex, 0, maxPrenticeIndex);
+        this.prenticeIndex = inRandge(this.prenticeIndex, 0, MAX_PRENTICE_INDEX);
         return this;
     }
 

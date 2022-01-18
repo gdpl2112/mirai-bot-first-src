@@ -221,7 +221,6 @@ public class GameJoinDetailService {
                 true, bl);
         return ghostObj;
     }
-
     public Object Select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
         switch (id) {
@@ -344,10 +343,11 @@ public class GameJoinDetailService {
             }
             idxs.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
-            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.25f);
+            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
             long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
-            long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
+            long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
             StringBuilder sb = new StringBuilder();
+
             if (personInfo.getHl() > hl1) {
                 sb.append("\n消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1));
                 sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害").append("\n");
@@ -356,6 +356,7 @@ public class GameJoinDetailService {
             } else {
                 sb.append("魂力不足,攻击失败").append("\n");
             }
+
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
                     .append(GameDetailService.beaten(who, -2, at2));
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
