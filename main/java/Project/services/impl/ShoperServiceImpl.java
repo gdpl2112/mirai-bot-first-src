@@ -31,8 +31,8 @@ public class ShoperServiceImpl implements IShoperService {
     @Override
     public String allInfo(Group group) {
         StringBuilder sb = new StringBuilder();
-        for (Integer id : ShopDataBase.map.keySet()) {
-            ShopItem item = ShopDataBase.map.get(id);
+        for (Integer id : ShopDataBase.ITEM_MAP.keySet()) {
+            ShopItem item = ShopDataBase.ITEM_MAP.get(id);
             sb.append(id).append(",").append(getNameById(item.getItemId()))
                     .append("x").append(item.getNum())
                     .append("=>").append(item.getPrice()).append("金魂币").append("\r\n");
@@ -56,8 +56,8 @@ public class ShoperServiceImpl implements IShoperService {
 
     @Override
     public synchronized String downItem(long id, int ids) {
-        if (ShopDataBase.map.containsKey(ids)) {
-            ShopItem item = ShopDataBase.map.get(ids);
+        if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
+            ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             Long who = item.getWho().longValue();
             if (who == id) {
                 ShopDataBase.deleteItem(item.getId());
@@ -73,8 +73,8 @@ public class ShoperServiceImpl implements IShoperService {
 
     @Override
     public synchronized String buy(long id, Integer ids) {
-        if (ShopDataBase.map.containsKey(ids)) {
-            ShopItem item = ShopDataBase.map.get(ids);
+        if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
+            ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             PersonInfo info = getInfo(id);
             Long price = item.getPrice().longValue();
             if (info.getGold() >= price) {
@@ -109,8 +109,8 @@ public class ShoperServiceImpl implements IShoperService {
 
     @Override
     public String intro(long id, Integer ids, Group group) {
-        if (ShopDataBase.map.containsKey(ids)) {
-            ShopItem item = ShopDataBase.map.get(ids);
+        if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
+            ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             StringBuilder sb = new StringBuilder();
             sb.append(getNameById(item.getItemId())).append("\r\n");
             sb.append(getImgById(item.getItemId())).append("\r\n");

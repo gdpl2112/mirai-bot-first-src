@@ -8,10 +8,13 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author github-kloping
+ */
 public class ShopDataBase {
     public static String path;
-    private static Integer _id = 0;
-    public static final Map<Integer, ShopItem> map = new ConcurrentHashMap<>();
+    private static Integer anID = 0;
+    public static final Map<Integer, ShopItem> ITEM_MAP = new ConcurrentHashMap<>();
 
     public ShopDataBase(String mainPath) {
         try {
@@ -22,36 +25,36 @@ public class ShopDataBase {
             e.printStackTrace();
             System.err.println("ShopDataBase初始化异常");
         }
-        InitList();
+        initList();
     }
 
-    private void InitList() {
+    private void initList() {
         File[] files = new File(path).listFiles();
         for (File file : files) {
             String js = Tool.getStringFromFile(file.getPath(), "utf-8");
             ShopItem item = JSONUtils.jsonStringToObject(js, ShopItem.class);
-            map.put(item.getId(), item);
-            _id = _id < item.getId() ? item.getId() : _id;
+            ITEM_MAP.put(item.getId(), item);
+            anID = anID < item.getId() ? item.getId() : anID;
         }
     }
 
     public static synchronized Integer saveItem(ShopItem item) {
-        item.setId(get_id());
+        item.setId(getID());
         String js = JSONUtils.ObjectToJsonString(item);
         Tool.putStringInFile(js, path + "/" + (item.getId()) + ".json", "utf-8");
-        map.put(item.getId(), item);
+        ITEM_MAP.put(item.getId(), item);
         return item.getId();
     }
 
     public static synchronized boolean deleteItem(Integer id) {
-        ShopItem item = map.get(id);
-        map.remove(id);
+        ShopItem item = ITEM_MAP.get(id);
+        ITEM_MAP.remove(id);
         File file = new File(path + "/" + (item.getId()) + ".json");
         file.delete();
         return true;
     }
 
-    private static Integer get_id() {
-        return ++_id;
+    private static synchronized Integer getID() {
+        return ++anID;
     }
 }

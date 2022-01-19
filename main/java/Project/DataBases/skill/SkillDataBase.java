@@ -27,10 +27,10 @@ public class SkillDataBase {
         File file = new File(SkillDataBase.path);
         if (!file.exists())
             file.mkdirs();
-        InitMap();
+        initMap();
     }
 
-    private void InitMap() {
+    private void initMap() {
         File[] files = new File(path).listFiles();
         for (File files1 : files) {
             if (files1.isDirectory()) {
@@ -49,19 +49,19 @@ public class SkillDataBase {
         }
     }
 
-    public static final Map<Long, Map<Integer, SkillInfo>> qq2st2map = new ConcurrentHashMap<>();
+    public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
 
     public static final Map<Integer, SkillInfo> getSkillInfo(Long qq) {
-        if (!qq2st2map.containsKey(qq)) return new ConcurrentHashMap<>();
-        Map<Integer, SkillInfo> map = qq2st2map.get(qq);
+        if (!QQ_2_ST_2_MAP.containsKey(qq)) return new ConcurrentHashMap<>();
+        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
         if (map == null)
             map = new ConcurrentHashMap<>();
         return map;
     }
 
     public static synchronized final void update() {
-        for (Long k1 : qq2st2map.keySet()) {
-            for (SkillInfo info : qq2st2map.get(k1).values()) {
+        for (Long k1 : QQ_2_ST_2_MAP.keySet()) {
+            for (SkillInfo info : QQ_2_ST_2_MAP.get(k1).values()) {
                 break;
             }
         }
@@ -91,14 +91,14 @@ public class SkillDataBase {
      */
     public static final void remove(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
-        Map<Integer, SkillInfo> map = qq2st2map.get(qq);
+        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
         if (map == null)
             map = new ConcurrentHashMap<>();
         if (map.containsKey(info.getSt()))
             map.remove(info.getSt());
         File file = new File(path + "/" + info.getQq() + "/" + info.getUUID());
         file.delete();
-        qq2st2map.put(qq, map);
+        QQ_2_ST_2_MAP.put(qq, map);
     }
 
     /**
@@ -110,7 +110,7 @@ public class SkillDataBase {
     public static final boolean remove(Number who) {
         try {
             long qq = who.longValue();
-            Map<Integer, SkillInfo> map = qq2st2map.get(qq);
+            Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
             if (map == null)
                 map = new ConcurrentHashMap<>();
             map.clear();
@@ -121,7 +121,7 @@ public class SkillDataBase {
                 file_.delete();
             }
             file.delete();
-            qq2st2map.put(qq, map);
+            QQ_2_ST_2_MAP.put(qq, map);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,11 +136,11 @@ public class SkillDataBase {
      */
     private static final void appendInfo(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
-        Map<Integer, SkillInfo> map = qq2st2map.get(qq);
+        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
         if (map == null)
             map = new ConcurrentHashMap<>();
         map.put(info.getSt(), info);
-        qq2st2map.put(qq, map);
+        QQ_2_ST_2_MAP.put(qq, map);
     }
 
     //============================================================================================================================

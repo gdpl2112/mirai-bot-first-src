@@ -74,33 +74,34 @@ public class JSONUtils {
      * @return
      */
     public static <T> T jsonStringToObject(String json, Class<T> cla) {
-        try {
-            JSONObject jsonObject = JSON.parseObject(json);
-            T t = cla.newInstance();
-            Field[] fields = cla.getDeclaredFields();
-            for (Field field : fields) {
-                try {
-                    String name = field.getName();
-                    field.setAccessible(true);
-                    Object v = jsonObject.get(name);
-                    if (v == null) continue;
-                    if (field.getType() == Number.class) {
-                        v = new BigInteger(v.toString());
-                    }
-                    if (field.getType() == Long.class) {
-                        v = Long.valueOf(v.toString());
-                    }
-                    if (v.getClass() == JSONArray.class && field.getType() == Set.class) {
-                        v = JSONArray.parseObject(((JSONArray) v).toJSONString(), Set.class);
-                    }
-                    field.set(t, v);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return (T) t;
-        } catch (Exception e) {
-            return null;
-        }
+        return JSON.toJavaObject(JSON.parseObject(json), cla);
+//        try {
+//            JSONObject jsonObject = JSON.parseObject(json);
+//            T t = cla.newInstance();
+//            Field[] fields = cla.getDeclaredFields();
+//            for (Field field : fields) {
+//                try {
+//                    String name = field.getName();
+//                    field.setAccessible(true);
+//                    Object v = jsonObject.get(name);
+//                    if (v == null) continue;
+//                    if (field.getType() == Number.class) {
+//                        v = new BigInteger(v.toString());
+//                    }
+//                    if (field.getType() == Long.class) {
+//                        v = Long.valueOf(v.toString());
+//                    }
+//                    if (v.getClass() == JSONArray.class && field.getType() == Set.class) {
+//                        v = JSONArray.parseObject(((JSONArray) v).toJSONString(), Set.class);
+//                    }
+//                    field.set(t, v);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return (T) t;
+//        } catch (Exception e) {
+//            return null;
+//        }
     }
 }
