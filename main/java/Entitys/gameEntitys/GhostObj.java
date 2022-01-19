@@ -4,6 +4,7 @@ package Entitys.gameEntitys;
 import Entitys.gameEntitys.base.BaseInfo;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.Tools.JSONUtils;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 
@@ -29,11 +30,19 @@ public class GhostObj implements Serializable, BaseInfo {
     private Long maxHp = 0L;
     private Long hj = 0L;
     private Long hjL = 0L;
-    @JSONUtils.Transient
-    public static final int NotNeed = 0, NeedAndNo = 1, NeedAndY = 2, HELPING = 3;
     private String name;
     private Long with = -1L;
     private long whoMeet;
+
+    @JSONField(serialize = false, deserialize = false)
+    public static final int NotNeed = 0;
+    @JSONField(serialize = false, deserialize = false)
+    public static final int NeedAndNo = 1;
+    @JSONField(serialize = false, deserialize = false)
+    public static final int NeedAndY = 2;
+    @JSONField(serialize = false, deserialize = false)
+    public static final int HELPING = 3;
+
 
     public GhostObj() {
     }

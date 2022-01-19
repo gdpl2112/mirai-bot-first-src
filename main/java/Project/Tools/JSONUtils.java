@@ -15,27 +15,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class JSONUtils {
     public static String objectToJsonString(Object obj) {
-        try {
-            JSONObject json = new JSONObject();
-            Field[] fields = obj.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if (field.isAnnotationPresent(Transient.class)) {
-                    continue;
-                }
-                String name = field.getName();
-                field.setAccessible(true);
-                json.put(name, field.get(obj));
-            }
-            return json.toJSONString();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    @Target(ElementType.FIELD)
-    @java.lang.annotation.Retention(RetentionPolicy.RUNTIME)
-    public @interface Transient {
+        return JSONObject.toJSONString(obj);
+//        try {
+//            JSONObject json = new JSONObject();
+//            Field[] fields = obj.getClass().getDeclaredFields();
+//            for (Field field : fields) {
+//                if (field.isAnnotationPresent(Transient.class)) {
+//                    continue;
+//                }
+//                String name = field.getName();
+//                field.setAccessible(true);
+//                json.put(name, field.get(obj));
+//            }
+//            return json.toJSONString();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//            return "";
+//        }
     }
 
     private static final List<Class<?>> LIST = new CopyOnWriteArrayList<>();
