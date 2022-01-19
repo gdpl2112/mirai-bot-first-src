@@ -40,7 +40,7 @@ public class ShopDataBase {
 
     public static synchronized Integer saveItem(ShopItem item) {
         item.setId(getID());
-        String js = JSONUtils.ObjectToJsonString(item);
+        String js = JSONUtils.objectToJsonString(item);
         Tool.putStringInFile(js, path + "/" + (item.getId()) + ".json", "utf-8");
         ITEM_MAP.put(item.getId(), item);
         return item.getId();

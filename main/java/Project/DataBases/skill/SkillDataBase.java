@@ -80,7 +80,7 @@ public class SkillDataBase {
         if (!file.exists())
             if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
-        String json = JSONUtils.ObjectToJsonString(info);
+        String json = JSONUtils.objectToJsonString(info);
         putStringInFile(json, file.getPath(), "utf-8");
     }
 

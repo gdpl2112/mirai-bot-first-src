@@ -186,21 +186,18 @@ public class ZongDetailService {
                     f1.delete();
                 }
                 file.delete();
-                ZongMenDataBase.updateMap();
-                putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 30));
+                getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 30).apply();
                 return true;
             } else if (zon.getLevel() == 1) {
                 zong.getElder().remove(who);
                 zong.getMember().remove(who);
                 qq2id.remove(who);
-                ZongMenDataBase.updateMap();
                 File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");
                 putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
                 putZongInfo(zong);
                 return file.delete() & putZongInfo(zong);
             } else if (zon.getLevel() == 0) {
                 qq2id.remove(who);
-                ZongMenDataBase.updateMap();
                 zong.getMember().remove(who);
                 putZongInfo(zong);
                 File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");

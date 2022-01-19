@@ -1,25 +1,27 @@
 package Project.Tools;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * @author github-kloping
+ */
 public class JSONUtils {
-    public static String ObjectToJsonString(Object obj) {
+    public static String objectToJsonString(Object obj) {
         try {
             JSONObject json = new JSONObject();
             Field[] fields = obj.getClass().getDeclaredFields();
             for (Field field : fields) {
-                if (field.isAnnotationPresent(Transient.class)) continue;
+                if (field.isAnnotationPresent(Transient.class)) {
+                    continue;
+                }
                 String name = field.getName();
                 field.setAccessible(true);
                 json.put(name, field.get(obj));
@@ -36,33 +38,33 @@ public class JSONUtils {
     public @interface Transient {
     }
 
-    private static final List<Class<?>> list = new CopyOnWriteArrayList<>();
+    private static final List<Class<?>> LIST = new CopyOnWriteArrayList<>();
 
     static {
-        list.add(byte.class);
-        list.add(short.class);
-        list.add(int.class);
-        list.add(long.class);
-        list.add(boolean.class);
-        list.add(float.class);
-        list.add(double.class);
-        list.add(char.class);
+        LIST.add(byte.class);
+        LIST.add(short.class);
+        LIST.add(int.class);
+        LIST.add(long.class);
+        LIST.add(boolean.class);
+        LIST.add(float.class);
+        LIST.add(double.class);
+        LIST.add(char.class);
 
-        list.add(Byte.class);
-        list.add(Short.class);
-        list.add(Integer.class);
-        list.add(Long.class);
-        list.add(Boolean.class);
-        list.add(Float.class);
-        list.add(Double.class);
-        list.add(Character.class);
+        LIST.add(Byte.class);
+        LIST.add(Short.class);
+        LIST.add(Integer.class);
+        LIST.add(Long.class);
+        LIST.add(Boolean.class);
+        LIST.add(Float.class);
+        LIST.add(Double.class);
+        LIST.add(Character.class);
 
-        list.add(Number.class);
-        list.add(String.class);
+        LIST.add(Number.class);
+        LIST.add(String.class);
     }
 
     public static boolean isBasicType(Class<?> cla) {
-        return list.contains(cla);
+        return LIST.contains(cla);
     }
 
     /**

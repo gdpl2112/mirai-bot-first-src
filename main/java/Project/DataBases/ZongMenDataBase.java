@@ -6,7 +6,6 @@ import Project.Tools.JSONUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,6 +14,9 @@ import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.Tool.getStringFromFile;
 import static Project.Tools.Tool.putStringInFile;
 
+/**
+ * @author github-kloping
+ */
 public class ZongMenDataBase {
     public static String path;
     public static Map<Long, Integer> qq2id = new HashMap<>();
@@ -25,54 +27,17 @@ public class ZongMenDataBase {
         if (!file.exists()) {
             file.mkdirs();
         }
-        if (!new File(path + "/table.t").exists())
-            initFill();
         initMap();
     }
 
-    private void initFill() {
-        qq2id.put(0L, 1);
-        putStringInFile(mapToString(qq2id), path + "/table.t", "utf-8");
-    }
-
     private void initMap() {
-        qq2id = parseMap(getStringFromFile(path + "/table.t", "utf-8"), Long.class, Integer.class);
-    }
-
-    public static <K extends Object, V extends Object> Map<K, V> parseMap(String lines, Class<K> cla1, Class<V> cla2) {
-        return parseMap(lines.split("\\s+"), cla1, cla2);
-    }
-
-    public static <K extends Object, V extends Object> Map<K, V> parseMap(String[] lines, Class<K> kClass, Class<V> vClass) {
-        Map<K, V> map = new HashMap<>();
-        for (String line : lines) {
-            String[] ss = line.split("=");
-            if (ss.length <= 1) continue;
-            K k = null;
-            V v = null;
-            try {
-                if (kClass != String.class) {
-                    Method method = kClass.getDeclaredMethod("valueOf", String.class);
-                    k = (K) method.invoke(null, ss[0]);
-                } else k = (K) ss[0];
-                if (vClass != String.class) {
-                    Method method = vClass.getDeclaredMethod("valueOf", String.class);
-                    v = (V) method.invoke(null, ss[1]);
-                } else v = (V) ss[1];
-            } catch (Exception e) {
-                e.printStackTrace();
+        File[] files = new File(path).listFiles((f) -> f.isDirectory());
+        for (File file : files) {
+            Integer id = Integer.valueOf(file.getName());
+            for (Number r : getZongInfo(id).getMember()) {
+                qq2id.put(r.longValue(), id);
             }
-            map.put(k, v);
         }
-        return map;
-    }
-
-    public static <K extends Object, V extends Object> String mapToString(Map<K, V> map) {
-        StringBuilder sb = new StringBuilder();
-        for (K k : map.keySet()) {
-            sb.append(k + "=" + map.get(k)).append("\r\n");
-        }
-        return sb.toString();
     }
 
     public static boolean createNewZong(Long qq, String name) {
@@ -98,7 +63,6 @@ public class ZongMenDataBase {
             boolean k2 = putZonInfo(zon);
             qq2id.put(qq, id++);
             qq2id.put(0L, id);
-            updateMap();
             return k1 && k2;
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,7 +105,7 @@ public class ZongMenDataBase {
             File file = new File(path + "/" + zong.getId() + "/main.json");
             file.getParentFile().mkdirs();
             file.createNewFile();
-            String line = JSONUtils.ObjectToJsonString(zong);
+            String line = JSONUtils.objectToJsonString(zong);
             putStringInFile(line, file.getPath(), "utf-8");
             return true;
         } catch (IOException e) {
@@ -155,19 +119,14 @@ public class ZongMenDataBase {
             File file = new File(path + "/" + zon.getId() + "/" + zon.getQq() + ".json");
             file.getParentFile().mkdirs();
             file.createNewFile();
-            String line = JSONUtils.ObjectToJsonString(zon);
+            String line = JSONUtils.objectToJsonString(zon);
             putStringInFile(line, file.getPath(), "utf-8");
             qq2id.put(zon.getQq().longValue(), zon.getId());
-            updateMap();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public static void updateMap() {
-        putStringInFile(mapToString(qq2id), path + "/table.t", "utf-8");
     }
 
     public static boolean addPer(Zong zong, Long qq) {
@@ -188,7 +147,9 @@ public class ZongMenDataBase {
         for (File file1 : files) {
             if (file1.isDirectory()) {
                 sb.append(file1.getName()).append(":").append(getZongInfo(Integer.valueOf(file1.getName())).getName()).append("\r\n");
-            } else continue;
+            } else {
+                continue;
+            }
         }
         return sb.toString().split("\\s+");
     }

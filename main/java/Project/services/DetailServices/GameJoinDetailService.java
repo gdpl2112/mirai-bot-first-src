@@ -22,7 +22,7 @@ import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.jsonStringToObject;
-import static Project.Tools.JSONUtils.ObjectToJsonString;
+import static Project.Tools.JSONUtils.objectToJsonString;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
 import static Project.drawers.Drawer.getImageFromStrings;
@@ -467,7 +467,7 @@ public class GameJoinDetailService {
         if (ghostObj == null)
             putDataString(qq, "decide", "");
         else
-            putDataString(qq, "decide", ObjectToJsonString(ghostObj));
+            putDataString(qq, "decide", objectToJsonString(ghostObj));
         return ghostObj1;
     }
 
