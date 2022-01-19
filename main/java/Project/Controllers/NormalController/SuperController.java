@@ -50,7 +50,6 @@ public class SuperController {
     @Action("/test")
     public String o2(User qq, Group group) {
         String tips = "===>";
-        tips = zons.Invite(2591948781L, qq.getId(), group);
         return tips;
     }
 
