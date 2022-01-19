@@ -21,7 +21,7 @@ import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.GameTool.*;
-import static Project.Tools.JSONUtils.JsonStringToObject;
+import static Project.Tools.JSONUtils.jsonStringToObject;
 import static Project.Tools.JSONUtils.ObjectToJsonString;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
@@ -458,7 +458,7 @@ public class GameJoinDetailService {
     public static synchronized GhostObj getGhostObjFrom(long qq) {
         String js = getDataString(qq, "decide").toString();
         if (js == null || js.trim().isEmpty()) return null;
-        GhostObj g = JsonStringToObject(js, GhostObj.class);
+        GhostObj g = jsonStringToObject(js, GhostObj.class);
         return g;
     }
 

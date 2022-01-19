@@ -8,6 +8,9 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * @author github-kloping
+ */
 @Accessors(chain = true)
 @Data
 @AllArgsConstructor
@@ -99,4 +102,11 @@ public class Zong implements Serializable {
      */
     private Integer pub = 0;
 
+    public Integer getMembers() {
+        return member.size();
+    }
+
+    public Integer getElders() {
+        return elder.size();
+    }
 }

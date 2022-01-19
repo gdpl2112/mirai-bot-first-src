@@ -191,8 +191,6 @@ public class ZongDetailService {
                 return true;
             } else if (zon.getLevel() == 1) {
                 zong.getElder().remove(who);
-                zong.setElders(zong.getElders() - 1);
-                zong.setMembers(zong.getMembers() - 1);
                 zong.getMember().remove(who);
                 qq2id.remove(who);
                 ZongMenDataBase.updateMap();
@@ -201,10 +199,9 @@ public class ZongDetailService {
                 putZongInfo(zong);
                 return file.delete() & putZongInfo(zong);
             } else if (zon.getLevel() == 0) {
-                zong.setMembers(zong.getMembers() - 1);
                 qq2id.remove(who);
-                zong.getMember().remove(who);
                 ZongMenDataBase.updateMap();
+                zong.getMember().remove(who);
                 putZongInfo(zong);
                 File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");
                 return file.delete() & putZongInfo(zong);

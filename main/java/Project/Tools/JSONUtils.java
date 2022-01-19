@@ -73,7 +73,7 @@ public class JSONUtils {
      * @param <T>
      * @return
      */
-    public static <T> T JsonStringToObject(String json, Class<T> cla) {
+    public static <T> T jsonStringToObject(String json, Class<T> cla) {
         try {
             JSONObject jsonObject = JSON.parseObject(json);
             T t = cla.newInstance();
@@ -85,10 +85,10 @@ public class JSONUtils {
                     Object v = jsonObject.get(name);
                     if (v == null) continue;
                     if (field.getType() == Number.class) {
-                        v = new BigInteger(v + "");
+                        v = new BigInteger(v.toString());
                     }
                     if (field.getType() == Long.class) {
-                        v = Long.valueOf(v + "");
+                        v = Long.valueOf(v.toString());
                     }
                     if (v.getClass() == JSONArray.class && field.getType() == Set.class) {
                         v = JSONArray.parseObject(((JSONArray) v).toJSONString(), Set.class);

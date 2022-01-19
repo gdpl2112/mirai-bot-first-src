@@ -37,7 +37,7 @@ public class SkillDataBase {
                 for (File file : files1.listFiles()) {
                     try {
                         String json = getStringFromFile(file.getPath(), "utf-8");
-                        SkillInfo info = JSONUtils.JsonStringToObject(json, SkillInfo.class);
+                        SkillInfo info = JSONUtils.jsonStringToObject(json, SkillInfo.class);
                         info.setState(0);
                         info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                         appendInfo(info);

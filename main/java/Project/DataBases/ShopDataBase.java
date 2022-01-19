@@ -29,7 +29,7 @@ public class ShopDataBase {
         File[] files = new File(path).listFiles();
         for (File file : files) {
             String js = Tool.getStringFromFile(file.getPath(), "utf-8");
-            ShopItem item = JSONUtils.JsonStringToObject(js, ShopItem.class);
+            ShopItem item = JSONUtils.jsonStringToObject(js, ShopItem.class);
             map.put(item.getId(), item);
             _id = _id < item.getId() ? item.getId() : _id;
         }

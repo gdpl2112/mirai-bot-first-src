@@ -1,8 +1,8 @@
 package Project.DataBases;
 
-import Project.Tools.JSONUtils;
 import Entitys.gameEntitys.Zon;
 import Entitys.gameEntitys.Zong;
+import Project.Tools.JSONUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.Tool.getStringFromFile;
 import static Project.Tools.Tool.putStringInFile;
 
@@ -25,16 +26,16 @@ public class ZongMenDataBase {
             file.mkdirs();
         }
         if (!new File(path + "/table.t").exists())
-            InitFill();
-        InitMap();
+            initFill();
+        initMap();
     }
 
-    private void InitFill() {
+    private void initFill() {
         qq2id.put(0L, 1);
-        putStringInFile(MapToString(qq2id), path + "/table.t", "utf-8");
+        putStringInFile(mapToString(qq2id), path + "/table.t", "utf-8");
     }
 
-    private void InitMap() {
+    private void initMap() {
         qq2id = parseMap(getStringFromFile(path + "/table.t", "utf-8"), Long.class, Integer.class);
     }
 
@@ -66,7 +67,7 @@ public class ZongMenDataBase {
         return map;
     }
 
-    public static <K extends Object, V extends Object> String MapToString(Map<K, V> map) {
+    public static <K extends Object, V extends Object> String mapToString(Map<K, V> map) {
         StringBuilder sb = new StringBuilder();
         for (K k : map.keySet()) {
             sb.append(k + "=" + map.get(k)).append("\r\n");
@@ -76,7 +77,7 @@ public class ZongMenDataBase {
 
     public static boolean createNewZong(Long qq, String name) {
         try {
-            if (name == null || name.isEmpty() || name.equals("null"))
+            if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
                 return false;
             Zong zong = new Zong();
             Integer id = Integer.valueOf(qq2id.get(0L) + "");
@@ -106,22 +107,15 @@ public class ZongMenDataBase {
     }
 
     public static Zong getZongInfo(Long qq) {
-        try {
-            File file = new File(path + "/" + qq2id.get(qq) + "/main.json");
-            String line = getStringFromFile(file.getPath());
-            Zong zong = JSONUtils.JsonStringToObject(line, Zong.class);
-            return zong;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return getZongInfo(qq2id.get(qq));
     }
 
     public static Zong getZongInfo(Integer id) {
         try {
             File file = new File(path + "/" + id + "/main.json");
             String line = getStringFromFile(file.getPath());
-            Zong zong = JSONUtils.JsonStringToObject(line, Zong.class);
+            Zong zong = JSONUtils.jsonStringToObject(line, Zong.class);
+            System.out.println(zong);
             return zong;
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,10 +125,10 @@ public class ZongMenDataBase {
 
     public static Zon getZonInfo(Long qq) {
         try {
-            Integer id = qq2id.get(qq).intValue();
+            Integer id = qq2id.get(qq);
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
             String line = getStringFromFile(file.getPath());
-            Zon zon = JSONUtils.JsonStringToObject(line, Zon.class);
+            Zon zon = JSONUtils.jsonStringToObject(line, Zon.class);
             return zon;
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +167,7 @@ public class ZongMenDataBase {
     }
 
     public static void updateMap() {
-        putStringInFile(MapToString(qq2id), path + "/table.t", "utf-8");
+        putStringInFile(mapToString(qq2id), path + "/table.t", "utf-8");
     }
 
     public static boolean addPer(Zong zong, Long qq) {
