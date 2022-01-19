@@ -3,7 +3,6 @@ package Entitys.gameEntitys;
 
 import Entitys.gameEntitys.base.BaseInfo;
 import Project.services.DetailServices.GameJoinDetailService;
-import Project.Tools.JSONUtils;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
@@ -12,11 +11,11 @@ import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.Tools.GameTool.Lmax;
 import static Project.Tools.GameTool.randFloatByte1;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
+import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 
 /**
  * @author github-kloping
@@ -267,5 +266,49 @@ public class GhostObj implements Serializable, BaseInfo {
     public GhostObj setVertigo(boolean vertigo) {
         VERTIGO_IN.put(getIDxL(), vertigo);
         return this;
+    }
+
+    public static int getIdx() {
+        return idx;
+    }
+
+    public static void setIdx(int idx) {
+        GhostObj.idx = idx;
+    }
+
+    public void setHp(Long hp) {
+        this.hp = hp;
+    }
+
+    public void setXp(Long xp) {
+        this.xp = xp;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setL(Long l) {
+        L = l;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
+    }
+
+    public void setIDX(int IDX) {
+        this.IDX = IDX;
+    }
+
+    public void setMaxHp(Long maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public void setHjL(Long hjL) {
+        this.hjL = hjL;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

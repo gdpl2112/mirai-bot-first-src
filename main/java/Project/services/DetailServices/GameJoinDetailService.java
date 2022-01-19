@@ -5,12 +5,12 @@ import Entitys.Group;
 import Entitys.TradingRecord;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
-import Project.services.AutoBehaviors.GhostBehavior;
-import Project.services.Iservice.IGameService;
 import Project.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
+import Project.services.AutoBehaviors.GhostBehavior;
+import Project.services.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
