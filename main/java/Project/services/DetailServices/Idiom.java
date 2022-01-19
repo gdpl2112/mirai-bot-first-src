@@ -11,19 +11,22 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author github-kloping
+ */
 public abstract class Idiom {
     private String path;
     private int maxFail = 5;
 
     public Idiom(String path) {
         this.path = path;
-        Init();
+        init();
     }
 
     public Idiom(String path, int maxFail) {
         this.path = path;
         this.maxFail = maxFail;
-        Init();
+        init();
     }
 
     private static boolean inited = false;
@@ -35,7 +38,7 @@ public abstract class Idiom {
         return idiom.get(c);
     }
 
-    private void Init() {
+    private void init() {
         if (inited) return;
         inited = true;
         String[] strings = getStringsFromFile(path);

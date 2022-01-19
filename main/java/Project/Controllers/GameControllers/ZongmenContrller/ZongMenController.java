@@ -94,7 +94,7 @@ public class ZongMenController {
 
     @Action("宗门人数")
     public String listPer(User qq, Group group) {
-        return zongMenService.ListPer(qq.getId(), group);
+        return zongMenService.listPer(qq.getId(), group);
     }
 
     private static String line2 = "";

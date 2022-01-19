@@ -5,6 +5,7 @@ package Project;
  */
 public class ResourceSet {
     public static class Final {
+        public static final String JUMP_STR_0 = "$";
         public static final String ERR_TIPS = "错误";
         public static final String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
         public static final String STR_TOO_MUCH_LEN = "该组字符过长";
@@ -23,13 +24,12 @@ public class ResourceSet {
         public static final String NOT_SUPPORT_LENGTH_IMG = "不支持长方形图片";
         public static final String NOT_FOUND_SELECT = "没有该选项";
         public static final String ILLEGAL_OPERATION = "非法的操作";
-        public static final String
-                NOT_FOUND_SHOP_ITEM = ("未发现此商品"),
-                DOWN_SHOP_ITEM_OK = ("下架完成!"),
-                UP_SHOP_ITEM_OK = ("上架成功!!!"),
-                SHOP_ITEM_NOT_IS_YOU = ("那不是你上架的物品"),
-                NOT_ENOUGH_GOLD = ("金魂币不足"),
-                BUY_SUCCESS = ("购买成功");
+        public static final String NOT_FOUND_SHOP_ITEM = "未发现此商品";
+        public static final String DOWN_SHOP_ITEM_OK = "下架完成!";
+        public static final String UP_SHOP_ITEM_OK = "上架成功!!!";
+        public static final String SHOP_ITEM_NOT_IS_YOU = "那不是你上架的物品";
+        public static final String NOT_ENOUGH_GOLD = "金魂币不足";
+        public static final String BUY_SUCCESS = "购买成功";
         public static final String BUY_NUM_NOT_ENOUGH_GOLD_TIPS = "金魂币不足! 需要额外支付 数量x15的 金魂币";
         public static final String TODAY_BUY_UPPER_TIPS = "今日购买此物次数上限";
         public static final String BUY_NUM_TOO_MUCH_TIPS = "过多得购买";
@@ -51,6 +51,11 @@ public class ResourceSet {
         public static final String NOT_NEED_WAIT_TIPS = "已就绪";
         public static final String THIS_SKILL_CANT_USE = "该魂技处于不可用状态";
         public static final String DONT_HAVE_SKILL = "你没有这个魂技";
+        public static final String HJ_OVER_80_TIPS = "精神力高于80%,额外抵挡10%的伤害";
+        public static final String HJ_LOW_40_TIPS = "精神力低于40%,额外受到10%的伤害";
+        public static final String SPLIT_LINE_0 = "============";
+        public static final String NEWLINE = "\n";
+        public static final String ATTACKER_IN_VERTIGO = "攻击者处于眩晕状态";
     }
 
     public static class FinalFormat {
@@ -63,7 +68,8 @@ public class ResourceSet {
         public static final String ACTIVITY_WAIT_TIPS = "活动进入冷却中.\n大约等待%s";
         public static final String USE_SKILL_WAIT_TIPS = "魂技冷却中.\n大约等待%s";
         public static final String SKILL_INFO_WAIT_TIPS = "魂技信息修改冷却中.\n大约等待%s";
-
+        public static final String HJ_NOT_ENOUGH_TIPS0 = "精神力不足%s%%";
+        public static final String ATTACK_TIPS0 = "您对ta造成%s点伤害";
     }
 
 }

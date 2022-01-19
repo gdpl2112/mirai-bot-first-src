@@ -18,7 +18,7 @@ public interface IZongMenService {
 
     String Invite(long who, long qq, Group group);
 
-    String ListPer(Long who, Group group);
+    String listPer(Long who, Group group);
 
     String setName(String name, long id, Group group);
 

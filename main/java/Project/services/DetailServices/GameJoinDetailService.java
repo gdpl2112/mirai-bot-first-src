@@ -19,6 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
+import static Project.ResourceSet.Final.NULL_LOW_STR;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.JsonStringToObject;
 import static Project.Tools.JSONUtils.ObjectToJsonString;
@@ -54,10 +55,10 @@ public class GameJoinDetailService {
     private GhostObj isUse107(String who) {
         PersonInfo personInfo = getInfo(who);
         String da = personInfo.getUsinged();
-        if (da == null || "null".equals(da) || da.isEmpty())
+        if (da == null || NULL_LOW_STR.equals(da) || da.isEmpty())
             return null;
         else {
-            putPerson(personInfo.setUsinged("null"));
+            putPerson(personInfo.setUsinged(NULL_LOW_STR));
             GhostObj ghostObj = null;
             long n = randA(0, 100);
             if (n < 33) {
@@ -221,6 +222,7 @@ public class GameJoinDetailService {
                 true, bl);
         return ghostObj;
     }
+
     public Object Select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
         switch (id) {

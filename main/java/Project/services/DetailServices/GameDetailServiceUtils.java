@@ -5,6 +5,8 @@ import Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 
 import static Project.DataBases.GameDataBase.getInfo;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.ATTACK_TIPS0;
 import static Project.services.DetailServices.GameDetailService.beaten;
 import static Project.services.DetailServices.GameDetailService.onAtt;
 import static Project.services.DetailServices.GameJoinDetailService.attGho;
@@ -120,12 +122,12 @@ public class GameDetailServiceUtils {
             sb.append(attGho(who.longValue(), v, true, false));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
-                sb.append("该玩家尚未注册");
+                sb.append(PLAYER_NOT_REGISTERED);
                 return;
             }
             sb.append(beaten(who2, who, v));
-            sb.append("\n你对ta造成 " + v + "点伤害");
-            if (!sb.toString().contains("$")) {
+            sb.append(NEWLINE).append(String.format(ATTACK_TIPS0, v));
+            if (!sb.toString().contains(JUMP_STR_0)) {
                 sb.append(onAtt(who2, who, v));
             }
         }

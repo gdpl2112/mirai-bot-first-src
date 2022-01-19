@@ -27,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.HJ_NOT_ENOUGH_TIPS0;
 import static Project.services.DetailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
@@ -98,10 +100,10 @@ public class GameDetailService {
                 long ev = 0;
                 if (b > 80) {
                     ev = percentTo(10, oNow);
-                    sb.append("\n精神力高于80%,额外抵挡10%的伤害\n============");
+                    sb.append(NEWLINE).append(HJ_OVER_80_TIPS).append(NEWLINE).append(SPLIT_LINE_0);
                 } else if (b < 40) {
                     ev = -percentTo(10, oNow);
-                    sb.append("\n精神力低于40%,额外受到10%的伤害\n============");
+                    sb.append(NEWLINE).append(HJ_LOW_40_TIPS).append(NEWLINE).append(SPLIT_LINE_0);
                 } else if (b <= 1) {
                     ev = 0;
                 }
@@ -203,17 +205,16 @@ public class GameDetailService {
         synchronized (q) {
             PersonInfo p1 = getInfo(q);
             if (p1.isVertigo()) {
-                return "攻击者处于眩晕状态";
+                return ATTACKER_IN_VERTIGO;
             }
             long v1L = p1.getHjL();
             long v1 = p1.getHj();
             long v2 = percentTo(by, v1L);
             if (v2 > v1) {
-                return String.format("精神力不足" + by + "%");
+                return String.format(HJ_NOT_ENOUGH_TIPS0, by);
             } else {
                 p1.addHj(-v2);
             }
-
             StringBuilder sb = new StringBuilder();
             BaseInfo baseInfo = getBaseInfoFromAny(q, q2);
             int b1 = toPercent(v2, baseInfo.getHjL());

@@ -131,7 +131,7 @@ public class ZongMenDataBase {
 
     public static Zon getZonInfo(Long qq) {
         try {
-            Integer id = Integer.valueOf(qq2id.get(qq) + "");
+            Integer id = qq2id.get(qq).intValue();
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
             String line = getStringFromFile(file.getPath());
             Zon zon = JSONUtils.JsonStringToObject(line, Zon.class);

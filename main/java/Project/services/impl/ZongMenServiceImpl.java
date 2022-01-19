@@ -8,7 +8,6 @@ import Entitys.gameEntitys.Zong;
 import Project.Controllers.ConfirmController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.ZongMenDataBase;
-import Project.ResourceSet;
 import Project.services.DetailServices.ZongDetailService;
 import Project.services.Iservice.IZongMenService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
@@ -22,6 +21,7 @@ import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
 import static Project.ResourceSet.Final.NULL_LOW_STR;
+import static Project.ResourceSet.Final.PLAYER_NOT_REGISTERED;
 import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.FilterImg;
@@ -154,7 +154,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zon.getLevel() < 1)
             return ("仅宗主和长老有权限邀请成员");
         try {
-            Method method = this.getClass().getDeclaredMethod("Join", Long.class, Long.class, Group.class);
+            Method method = this.getClass().getDeclaredMethod("join", Long.class, Long.class, Group.class);
             if (ConfirmController.Agreeing.contains(qq))
                 return ("ta正在被邀请中...");
             if (zong.getMembers() >= zong.getMaxP()) {
@@ -170,7 +170,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         }
     }
 
-    public String Join(Long who, Long qq, Group group) {
+    public String join(Long who, Long qq, Group group) {
         if (getInfo(qq).getJk1() > System.currentTimeMillis()) {
             return ("宗门活动冷却中...==>" + getTimeDDHHMM(getInfo(qq).getJk1()));
         }
@@ -178,11 +178,11 @@ public class ZongMenServiceImpl implements IZongMenService {
         putPerson(getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
         addPer(zong, qq);
         putZongInfo(zong);
-        return new StringBuilder().append("加入成功!!\r\n").append(ListPer(who, group)).toString();
+        return new StringBuilder().append("加入成功!!\r\n").append(listPer(who, group)).toString();
     }
 
     @Override
-    public String ListPer(Long who, Group group) {
+    public String listPer(Long who, Group group) {
         if (!qq2id.containsKey(who))
             return ("你没有加入任何宗门");
         Zong zong = getZongInfo(who);
@@ -190,15 +190,19 @@ public class ZongMenServiceImpl implements IZongMenService {
         sb.append(zong.getName()).append("\r\n==================\r\n");
         int i = 1;
         for (Number z1 : zong.getMember()) {
-            Long z = z1.longValue();
-            Zon zon = getZonInfo(z);
-            sb.append(i).
-                    append(":").
-                    append(getFhName(z, true))
-                    .append("(").append(
-                            zon.getLevel() == 1 ? "长老" :
-                                    zon.getLevel() == 2 ? "宗主" : "").append("\r\n\t  ");
-            sb.append(zon.getXper()).append("点贡献").append("\r\n");
+            try {
+                Zon zon = getZonInfo(z1.longValue());
+                sb.append(i).
+                        append(":").
+                        append(getFhName(z1.longValue(), true))
+                        .append("(").append(
+                                zon.getLevel() == 1 ? "长老" :
+                                        zon.getLevel() == 2 ? "宗主" : "").append("\r\n\t  ");
+                sb.append(zon.getXper()).append("点贡献").append("\r\n");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println(z1);
+            }
             i++;
         }
         String end = getImageFromStrings(false, sb.toString().split("\r\n"));
@@ -257,7 +261,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (!qq2id.containsKey(who))
             return "ta没有加入任何宗门";
         if (!GameDataBase.exist(who))
-            return "该玩家尚未注册";
+            return PLAYER_NOT_REGISTERED;
         Long l1 = Long.valueOf(qq2id.get(qq) + "");
         Long l2 = Long.valueOf(qq2id.get(who) + "");
         if (l1 != l2)

@@ -178,12 +178,7 @@ public class ZongDetailService {
             Zon zon = getZonInfo(who);
             if (zon.getLevel() == 2) {
                 for (Number z1 : zong.getMember()) {
-                    Long z = null;
-                    if (z1 instanceof Integer) {
-                        z = Long.valueOf(z1 + "");
-                    } else {
-                        z = z1.longValue();
-                    }
+                    long z = z1.longValue();
                     qq2id.remove(z);
                 }
                 File file = new File(path + "/" + zong.getId());

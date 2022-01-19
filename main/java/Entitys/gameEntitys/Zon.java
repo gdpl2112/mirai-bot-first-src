@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor

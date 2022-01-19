@@ -2,11 +2,10 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
-import Project.Controllers.TimerController;
 import Project.DataBases.DataBase;
 import Project.Tools.Tool;
+import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.Mirai.Main.BotStarter;
-import io.github.kloping.Mirai.Main.Handlers.CapHandler;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -45,9 +44,14 @@ public class SuperController {
         }
     }
 
-    @Action("/tet")
-    public String o2() {
-        return "===>";
+    @AutoStand
+    ZongMenServiceImpl zons;
+
+    @Action("/test")
+    public String o2(User qq, Group group) {
+        String tips = "===>";
+        tips = zons.Invite(2591948781L, qq.getId(), group);
+        return tips;
     }
 
     @Action("/execute.+")
