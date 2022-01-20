@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.20:修复已知bug").append("\n");
         UPDATE_LOG.append("1.18:优化显示,修复已知bug").append("\n");
         UPDATE_LOG.append("1.18:魂兽蓄力 时 攻击减少 12%").append("\n");
         UPDATE_LOG.append("1.17:优化代码 修复 已知bug 一些事件的 调整").append("\n");

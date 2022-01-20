@@ -4,6 +4,7 @@ package Entitys.gameEntitys;
 import Entitys.gameEntitys.base.BaseInfo;
 import Project.services.DetailServices.GameJoinDetailService;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 
@@ -22,16 +23,35 @@ import static Project.services.DetailServices.GameJoinDetailService.getGhostObjF
  */
 public class GhostObj implements Serializable, BaseInfo {
     public static int idx = 100;
-    private Long hp, att, xp, id, L, time;
-    private int IDX;
+    @Nullable
+    private Long hp = -1L;
+    @Nullable
+    private Long att = -1L;
+    @Nullable
+    private Long xp = -1L;
+    @Nullable
+    private Long id = -1L;
+    @Nullable
+    private Long L = -1L;
+    @Nullable
+    private Long time = -1L;
+    @Nullable
+    private int IDX = -1;
+    @Nullable
     private int state = -99;
+    @Nullable
     private String forWhoStr = "";
+    @Nullable
     private Long maxHp = 0L;
+    @Nullable
     private Long hj = 0L;
+    @Nullable
     private Long hjL = 0L;
+    @Nullable
     private String name;
+    @Nullable
     private Long with = -1L;
-    private long whoMeet;
+    private long whoMeet = -1;
 
     @JSONField(serialize = false, deserialize = false)
     public static final int NotNeed = 0;
@@ -41,7 +61,6 @@ public class GhostObj implements Serializable, BaseInfo {
     public static final int NeedAndY = 2;
     @JSONField(serialize = false, deserialize = false)
     public static final int HELPING = 3;
-
 
     public GhostObj() {
     }
@@ -66,7 +85,9 @@ public class GhostObj implements Serializable, BaseInfo {
         this.forWhoStr = forWhoStr;
         state = HELPING;
         time = System.currentTimeMillis() + 1000 * 60 * 7;
-        IDX = getGhostObjFrom(Long.parseLong(forWhoStr.trim())).IDX;
+        GhostObj ghostObj = getGhostObjFrom(Long.parseLong(forWhoStr.trim()));
+        IDX = ghostObj.IDX;
+        id = ghostObj.id;
     }
 
     public GhostObj(long hp, long att, long xp, long id, long l) {
@@ -81,7 +102,6 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = ++idx;
     }
-
 
     public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
         this.hp = randFloatByte1(hp);
@@ -195,11 +215,11 @@ public class GhostObj implements Serializable, BaseInfo {
 
     @Override
     public Integer getId() {
-        return Integer.valueOf(id + "");
+        return id.intValue();
     }
 
     public Integer getL() {
-        return Integer.valueOf(L + "");
+        return L.intValue();
     }
 
     public GhostObj setAtt(Long att) {
