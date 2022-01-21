@@ -30,7 +30,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.canGroup;
-import static Project.Controllers.NormalController.CustomController.BuilderAndAdd;
+import static Project.Controllers.NormalController.CustomController.builderAndAdd;
 import static Project.Controllers.NormalController.CustomController.QLIST;
 import static Project.Controllers.TimerController.BASE_URL_CLOUD;
 import static Project.DataBases.DataBase.canBackShow;
@@ -74,7 +74,7 @@ public class EntertainmentController {
                 return "已填充1个";
             } else {
                 QLIST.remove(qq);
-                if (BuilderAndAdd(str, qq)) {
+                if (builderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else {
                     return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;

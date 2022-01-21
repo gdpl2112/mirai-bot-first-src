@@ -1,9 +1,14 @@
-package Project.broadcast;
+package Project.broadcast.game;
 
 import Entitys.TradingRecord;
+import Project.broadcast.Broadcast;
+import Project.broadcast.Receiver;
 
 import java.util.LinkedHashSet;
 
+/**
+ * @author github-kloping
+ */
 public class RecordBroadcast extends Broadcast {
     public RecordBroadcast() {
         super("RecordBroadcast");
@@ -15,17 +20,25 @@ public class RecordBroadcast extends Broadcast {
 
     @Override
     public boolean add(Receiver receiver) {
-        if (receiver instanceof RecordReceiver)
+        if (receiver instanceof RecordReceiver) {
             return receivers.add((RecordReceiver) receiver);
+        }
         return false;
     }
 
     public void broadcast(long who, TradingRecord record) {
-        for (RecordReceiver receiver : receivers)
+        for (RecordReceiver receiver : receivers) {
             threads.submit(() -> receiver.onReceiver(who, record));
+        }
     }
 
     public static interface RecordReceiver extends Receiver {
+        /**
+         * receive
+         *
+         * @param who
+         * @param record
+         */
         void onReceiver(long who, TradingRecord record);
     }
 }

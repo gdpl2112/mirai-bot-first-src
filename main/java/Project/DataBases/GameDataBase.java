@@ -324,7 +324,7 @@ public class GameDataBase {
 
     private static int indexKC = 0;
 
-    public static synchronized void OnKilldc(Number who) {
+    public static void OnKilldc(Number who) {
         if (KILLED_C.containsKey(who)) {
             KILLED_C.put(who, KILLED_C.get(who) + 1);
         } else KILLED_C.put(who, 1);
@@ -646,7 +646,7 @@ public class GameDataBase {
      *
      * @param personInfo
      */
-    public static synchronized void regPerson(PersonInfo personInfo) {
+    public static void regPerson(PersonInfo personInfo) {
         try {
             String pathN = path + "/dates/users/" + personInfo.getName();
             File file = new File(path + "/dates/users/" + personInfo.getName() + "/infos");
@@ -665,14 +665,14 @@ public class GameDataBase {
     }
 
 
-    public static synchronized Warp getWarp(Number id) {
+    public static Warp getWarp(Number id) {
         testMan(id.longValue());
         String pathN = path + "/dates/users/" + id;
         Warp warp = new Warp().setId(id.toString());
         return FileInitializeValue.getValue(pathN + "/warp", warp, true);
     }
 
-    public static synchronized Warp setWarp(Warp warp) {
+    public static Warp setWarp(Warp warp) {
         String pathN = path + "/dates/users/" + warp.getId();
         return FileInitializeValue.putValues(pathN + "/warp", warp, true);
     }
@@ -1047,7 +1047,7 @@ public class GameDataBase {
      * @param data
      * @return
      */
-    private static synchronized boolean putData(Long who, String dataName, Object data) {
+    private static boolean putData(Long who, String dataName, Object data) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
         testFile(pathN);
         try {
@@ -1073,7 +1073,7 @@ public class GameDataBase {
      * @param data
      * @return
      */
-    public static synchronized boolean putDataString(Long who, String dataName, Object data) {
+    public static boolean putDataString(Long who, String dataName, Object data) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
         testFile(pathN);
         try {
@@ -1091,7 +1091,7 @@ public class GameDataBase {
      * @param dataName
      * @return
      */
-    private static synchronized Object getData(Long who, String dataName) {
+    private static Object getData(Long who, String dataName) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
         testFile(pathN);
         try {
@@ -1112,7 +1112,7 @@ public class GameDataBase {
      * @param dataName
      * @return
      */
-    public static synchronized Object getDataString(Long who, String dataName) {
+    public static Object getDataString(Long who, String dataName) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
         testFile(pathN);
         try {

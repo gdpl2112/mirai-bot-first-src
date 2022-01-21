@@ -44,7 +44,7 @@ public class PointPicController {
         }
     }
 
-    public static final Map<Long, String[]> pic_history = new ConcurrentHashMap<>();
+    public static final Map<Long, String[]> PIC_HISTORY = new ConcurrentHashMap<>();
 
     @Action("发张<.+=>name>")
     public Object sendImg(@Param("name") String name, Group group) {
@@ -80,8 +80,8 @@ public class PointPicController {
         }
         try {
             String[] strings = SearchPic.getPicM(name);
-            pic_history.remove(user.getId());
-            pic_history.put(user.getId(), strings);
+            PIC_HISTORY.remove(user.getId());
+            PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,8 +96,8 @@ public class PointPicController {
         }
         try {
             String[] strings = SearchPic.getPic(name);
-            pic_history.remove(user.getId());
-            pic_history.put(user.getId(), strings);
+            PIC_HISTORY.remove(user.getId());
+            PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,8 +112,8 @@ public class PointPicController {
         }
         try {
             String[] strings = SearchPic.getPicDt(name);
-            pic_history.remove(user.getId());
-            pic_history.put(user.getId(), strings);
+            PIC_HISTORY.remove(user.getId());
+            PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,9 +124,9 @@ public class PointPicController {
     @Action("发第<.+=>str>")
     public Object sendSt(@Param("str") String str, Group group, User user) {
         str = str.replaceAll("个|张", "");
-        if (!pic_history.containsKey(user.getId())) return "您还没有进行相关";
-        if (str.equals("全部") && isFather(user.getId())) {
-            String[] ss = pic_history.get(user.getId());
+        if (!PIC_HISTORY.containsKey(user.getId())) return "您还没有进行相关";
+        if ("全部".equals(str) && isFather(user.getId())) {
+            String[] ss = PIC_HISTORY.get(user.getId());
             Object[] objects = new Object[ss.length];
             for (int n = 0; n < ss.length; n++) {
                 objects[n] = Tool.pathToImg(ss[n]);
@@ -152,7 +152,7 @@ public class PointPicController {
                 ns.add(1);
             }
         }
-        String[] strings = pic_history.get(user.getId());
+        String[] strings = PIC_HISTORY.get(user.getId());
         try {
             StringBuilder sb = new StringBuilder();
             for (int n : ns) {
@@ -188,8 +188,8 @@ public class PointPicController {
         try {
             String u1 = getUrl(urlStr);
             String[] strings = SearchPic.parseKsImgs(u1);
-            pic_history.remove(user.getId());
-            pic_history.put(user.getId(), strings);
+            PIC_HISTORY.remove(user.getId());
+            PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,8 +201,8 @@ public class PointPicController {
     public String parseDy(@Param("str") String urlStr, User user) {
         try {
             String[] strings = SearchPic.parseDyImgs(getUrl(urlStr));
-            pic_history.remove(user.getId());
-            pic_history.put(user.getId(), strings);
+            PIC_HISTORY.remove(user.getId());
+            PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         } catch (Exception e) {
             e.printStackTrace();

@@ -52,7 +52,8 @@ public class GameDetailService {
                             String endN = f1.getName();
                             PersonInfo personInfo = getInfo(endN);
                             if (isNeedUpdate(personInfo)) {
-                                putPerson(personInfo.setHelpC(0).setHelpToc(0).setBuyHelpC(0).setBuyHelpToC(0).setDied(false).setDowned(false));
+                                putPerson(personInfo.setVertigo(false).setHelpC(0).setHelpToc(0)
+                                        .setBuyHelpC(0).setBuyHelpToC(0).setDied(false).setDowned(false));
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -64,7 +65,7 @@ public class GameDetailService {
     }
 
     private static boolean isNeedUpdate(PersonInfo info) {
-        return info.getBuyHelpC() > 0 || info.getHelpToc() > 0 || info.getHelpC() > 0 || info.getHelpToc() > 0 || info.isDied() || info.isDowned();
+        return info.isVertigo() || info.getBuyHelpC() > 0 || info.getHelpToc() > 0 || info.getHelpC() > 0 || info.getHelpToc() > 0 || info.isDied() || info.isDowned();
     }
 
     /**

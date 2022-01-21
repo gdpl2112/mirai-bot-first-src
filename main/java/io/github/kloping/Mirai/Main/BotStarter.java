@@ -33,8 +33,8 @@ public class BotStarter {
     private static BotConf abot = null;
 
     public static void main(String[] args) {
-        SetOnErrInFIle(getLogTimeFormat() + "b1_err.log");
-        SetOnOutInFIle(getLogTimeFormat() + "b1_console.log");
+        setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
+        setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         deleteDir(new File("./cache"));
         deleteDir(new File("./cache1"));
         parseArgs(args);

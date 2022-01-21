@@ -6,6 +6,7 @@ import Project.Controllers.NormalController.EntertainmentController;
 import Project.Controllers.SessionController;
 import Project.DataBases.DataBase;
 import Project.broadcast.game.GroupMessageBroadcast;
+import Project.broadcast.normal.MessageBroadcast;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
@@ -91,6 +92,9 @@ public class MyHandler extends SimpleListenerHost {
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
             if (!inS) {
+                if (ControllerTool.canGroup(group.getId())) {
+                    MessageBroadcast.INSTANCE.broadcast(id, group.getId(), text);
+                }
                 StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
             } else {
                 gotoSession(group, text, id);

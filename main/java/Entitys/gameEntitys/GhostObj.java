@@ -17,6 +17,7 @@ import static Project.Tools.GameTool.randFloatByte1;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
+import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -285,6 +286,22 @@ public class GhostObj implements Serializable, BaseInfo {
     @Override
     public GhostObj setVertigo(boolean vertigo) {
         VERTIGO_IN.put(getIDxL(), vertigo);
+        return this;
+    }
+
+    @Override
+    public GhostObj letVertigo(long t) {
+        THREADS.submit(() -> {
+            try {
+                setVertigo(true);
+                apply();
+                Thread.sleep(t);
+                setVertigo(false);
+                apply();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         return this;
     }
 

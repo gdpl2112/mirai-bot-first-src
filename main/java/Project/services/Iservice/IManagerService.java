@@ -23,6 +23,6 @@ public interface IManagerService   {
 
     String NotSpeak(Member who, String what, Group group);
 
-    String BackMess(Group group,long whos,long g,int... ns);
+    String backMess(Group group, long whos, long g, int... ns);
 }
 

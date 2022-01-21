@@ -267,7 +267,7 @@ public class ManagerController {
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             int[] is = Tool.StringToInts(str, 1);
             is = is == null || is.length == 0 ? new int[]{0} : is;
-            return managerService.BackMess(bot.getGroup(group.getId()), at, group.getId(), is);
+            return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
         } catch (Exception e) {
             e.printStackTrace();
             return "未知异常";

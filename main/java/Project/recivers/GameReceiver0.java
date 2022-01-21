@@ -8,7 +8,7 @@ import Entitys.gameEntitys.SkillInfo;
 import Entitys.gameEntitys.task.Task;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.OtherDatabase;
-import Project.broadcast.RecordBroadcast;
+import Project.broadcast.game.RecordBroadcast;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;

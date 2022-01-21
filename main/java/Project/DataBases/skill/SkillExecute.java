@@ -663,6 +663,7 @@ public class SkillExecute {
                     }
                     t = i > 0 ? (long) i : 1L;
                     b2.setVertigo(true);
+                    b2.apply();
                     setTips("作用于 " + b2.getName());
                 } else {
                     setTips("未选择任何");
@@ -677,6 +678,7 @@ public class SkillExecute {
                         Thread.sleep((long) (t * 1000L));
                         if (b2 != null) {
                             b2.setVertigo(false);
+                            b2.apply();
                             setTips("眩晕失效");
                         }
                     } catch (InterruptedException e) {

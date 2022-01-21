@@ -15,6 +15,7 @@ import net.mamoe.mirai.message.data.MessageSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -96,24 +97,27 @@ public class ManagerServiceImpl implements IManagerService {
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
             return "我不是管理员啊";
         }
-        if (group.get(who.getId()).getPermission().getLevel() > 0)
+        if (group.get(who.getId()).getPermission().getLevel() > group.getBotAsMember().getPermission().getLevel()) {
             return "他是管理员 除非我是群主";
-        else {
+        } else {
             NormalMember m1 = (NormalMember) who;
-            if (t > 0)
+            if (t > 0) {
                 m1.mute((int) t);
-            else m1.unmute();
+            } else {
+                m1.unmute();
+            }
         }
         return "尝试禁言 ta " + t + "秒";
     }
 
     @Override
-    public String BackMess(Group group, long whos, long g, int... ns) {
+    public String backMess(Group group, long whos, long g, int... ns) {
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
             return "我不是管理员啊";
         }
-        if (group.get(whos).getPermission().getLevel() > 0)
+        if (group.get(whos).getPermission().getLevel() > 0) {
             return "他是管理员 无法禁言 除非我是群主";
+        }
         try {
 //            List<String> strings = Arrays.asList(Saver.getTexts(g, whos));
             List<String> strings = Arrays.asList(Saver.getTexts(g, whos, ns));

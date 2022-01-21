@@ -362,7 +362,7 @@ public class GameServiceImpl implements IGameService {
                     zon.setXper(zon.getXper() - 10);
                     putZonInfo(zon);
                 }
-                tips = "";
+                tips = "\n";
                 PersonInfo iper = getInfo(who);
                 PersonInfo yper = getInfo(whos);
                 if (iper.getHp() > 10) {

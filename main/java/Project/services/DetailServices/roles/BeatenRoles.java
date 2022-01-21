@@ -144,7 +144,7 @@ public class BeatenRoles {
     public static final Role XG_VERTIGO = (sb, q1, q2, ov, nv, p1, args) -> {
         BaseInfo p2 = getBaseInfoFromAny(q1, q2);
         if (p2.isVertigo()) {
-            sb.append("\n攻击者处于眩晕状态\n============");
+            sb.append("\n攻击者处于眩晕状态,攻击无效\n============");
             return new RoleResponse(STOP, ov, 0, q1, q2);
         }
         return null;

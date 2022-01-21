@@ -97,5 +97,14 @@ public interface BaseInfo {
      *
      * @return
      */
-    <T> T setVertigo(boolean vertigo);
+    <T extends BaseInfo> T setVertigo(boolean vertigo);
+
+    /**
+     * set Vertigo and t ms after over
+     *
+     * @param t
+     * @param <T>
+     * @return
+     */
+    <T extends BaseInfo> T letVertigo(long t);
 }

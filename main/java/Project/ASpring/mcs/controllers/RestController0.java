@@ -40,8 +40,10 @@ public class RestController0 {
     }
 
     @GetMapping("AuthCap")
-    public String AuthCap(@RequestParam("id") String id, @RequestParam("code") String code, @RequestParam("qid") String qid) {
-        if (!ucap.containsKey(id)) return "err";
+    public String authCap(@RequestParam("id") String id, @RequestParam("code") String code, @RequestParam("qid") String qid) {
+        if (!ucap.containsKey(id)) {
+            return "err";
+        }
         if (ucap.get(id).toLowerCase().equals(code.toLowerCase())) {
             String uuid = UUID.randomUUID().toString();
             cans.add(uuid);
@@ -49,12 +51,14 @@ public class RestController0 {
             caping.put(qid, code0);
             MessageTools.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
             return uuid;
-        } else return "err";
+        } else {
+            return "err";
+        }
     }
 
 
     @GetMapping("AuthCap0")
-    public String AuthCap0(@RequestParam("canId") String canId
+    public String authCap0(@RequestParam("canId") String canId
             , @RequestParam("code") String code, @RequestParam("qid") String qid) {
         if (!cans.contains(canId)) return "err";
         if (!caping.containsKey(qid)) return "err";

@@ -46,20 +46,20 @@ public class SessionController {
 
     public static final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
 
-    private static final String helpStr = "已知命令:\n" +
-            "创建文件(文件名)\n" +
+    private static final String HELP_STR = "已知命令:\n" +
+            "创建文件<FileName>\n" +
             "\t#仅可创建c,py,java 文件\n" +
             "\t例如:创建文件Main.java\n" +
-            "文件内容(内容)\n" +
-            "文件内容追加(内容)\n" +
-            "执行时输入(内容)\n" +
+            "文件内容<Text>\n" +
+            "文件内容追加<Text>\n" +
+            "执行时输入<Text>\n" +
             "开始执行\n" +
             "==============\n" +
             "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
 
     public static String i(String m1, long q, Group group) {
         if (m1.startsWith("帮助") || m1.startsWith("help")) {
-            return helpStr;
+            return HELP_STR;
         } else if (m1.startsWith("创建文件")) {
             return createFile(m1.substring(4).trim(), q);
         } else if (m1.startsWith("结束会话")) {

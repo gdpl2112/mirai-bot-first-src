@@ -6,9 +6,11 @@ import com.madgag.gif.fmsware.GifDecoder;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import static Project.ResourceSet.Final.NOT_SUPPORT_LENGTH_IMG;
+import static Project.Tools.Tool.getTouUrl;
 import static Project.Tools.Tool.rand;
 import static Project.drawers.JImageDrawerUtils.*;
 
@@ -47,34 +49,6 @@ public class ImageDrawer {
             image = (BufferedImage) rotateImage(image, rotate);
             image = roundImage(image, 9999);
             image = putImage(main, image, 93, 83);
-            encoder.addFrame(image);
-        }
-        encoder.finish();
-        return outFile;
-    }
-
-    public static File getWq(File[] files, URL oFile, File outFile) throws Exception {
-        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-        encoder.start(outFile.getAbsolutePath());
-        encoder.setRepeat(0);
-        encoder.setQuality(5);
-        encoder.setFrameRate(200);
-        final BufferedImage oImage = ImageIO.read(oFile);
-        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
-        GifDecoder decoder = new GifDecoder();
-        decoder.read(oFile.openStream());
-        final int max = decoder.getFrameCount();
-        int rotateEve = 360 / files.length;
-        for (int i = 0; i < files.length; i++) {
-            encoder.setDelay(100);
-            BufferedImage main = ImageIO.read(files[i]);
-            BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
-            float rotate = rotateEve * i;
-            image = (BufferedImage) Image2Size(image, 132, 132);
-            image = (BufferedImage) rotateImage(image, rotate);
-            image = roundImage(image, 9999);
-            int[] vs = getWt(i);
-            image = putImage(main, image, vs[0], vs[1]);
             encoder.addFrame(image);
         }
         encoder.finish();
@@ -157,6 +131,15 @@ public class ImageDrawer {
         return new int[]{x, y};
     }
 
+    /**
+     * 丢的动画
+     *
+     * @param file
+     * @param oFile
+     * @param outFile
+     * @return
+     * @throws Exception
+     */
     public static File getDui(File file, URL oFile, File outFile) throws Exception {
         BufferedImage oImage = ImageIO.read(oFile);
         if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
@@ -171,7 +154,68 @@ public class ImageDrawer {
     }
 
     public static void main(String[] args) throws Exception {
-        getDui(new File("./images/diu/diu.png"), new URL("https://q1.qlogo.cn/g?b=qq&nk=189696825&s=640")
-                , new File("./temp/a.png"));
+        File[] files = new File("D:\\Projects\\OwnProjects\\MyMirai_01\\data\\shake0").listFiles();
+        File file = new File("./data/aout/m0.gif");
+        getShake0(files, new URL(getTouUrl(3474006766L)), file);
+    }
+
+    public static File getShake0(File[] files, URL oFile, File outFile) throws Exception {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(200);
+        final BufferedImage oImage = ImageIO.read(oFile);
+        if (oImage.getHeight() != oImage.getWidth()) {
+            throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
+        }
+        encoder.setDelay(100);
+        for (int i = 0; i < files.length; i++) {
+            BufferedImage main = ImageIO.read(files[i]);
+            BufferedImage o1 = (BufferedImage) Image2Size(oImage, 115, 115);
+            o1 = roundImage(o1, 9999);
+            BufferedImage image = putImage(main, o1, 56, 58);
+            ImageIO.write(image, "png", new File("./data/aout/a" + i + ".png"));
+            encoder.addFrame(image);
+        }
+        encoder.finish();
+        return outFile;
+    }
+
+    /**
+     * 玩球的动画
+     *
+     * @param files
+     * @param oFile
+     * @param outFile
+     * @return
+     * @throws Exception
+     */
+    public static File getWq(File[] files, URL oFile, File outFile) throws Exception {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(200);
+        final BufferedImage oImage = ImageIO.read(oFile);
+        if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
+        GifDecoder decoder = new GifDecoder();
+        decoder.read(oFile.openStream());
+        final int max = decoder.getFrameCount();
+        int rotateEve = 360 / files.length;
+        for (int i = 0; i < files.length; i++) {
+            encoder.setDelay(100);
+            BufferedImage main = ImageIO.read(files[i]);
+            BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
+            float rotate = rotateEve * i;
+            image = (BufferedImage) Image2Size(image, 132, 132);
+            image = (BufferedImage) rotateImage(image, rotate);
+            image = roundImage(image, 9999);
+            int[] vs = getWt(i);
+            image = putImage(main, image, vs[0], vs[1]);
+            encoder.addFrame(image);
+        }
+        encoder.finish();
+        return outFile;
     }
 }

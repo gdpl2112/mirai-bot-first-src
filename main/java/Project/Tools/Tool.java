@@ -105,7 +105,7 @@ public class Tool {
         return sb.toString();
     }
 
-    public static final void SetOnErrInFIle(String path) {
+    public static final void setOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;
             new File(path).getParentFile().mkdirs();
@@ -130,7 +130,7 @@ public class Tool {
         }
     }
 
-    public static final void SetOnOutInFIle(String path) {
+    public static final void setOnOutInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.out;
             new File(path).getParentFile().mkdirs();

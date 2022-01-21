@@ -18,8 +18,8 @@ public class BotStarter2 {
     private static BotConf abot;
 
     public static void main(String[] args) {
-        SetOnErrInFIle(getLogTimeFormat() + "b2_err.log");
-        SetOnOutInFIle(getLogTimeFormat() + "b2_console.log");
+        setOnErrInFIle(getLogTimeFormat() + "b2_err.log");
+        setOnOutInFIle(getLogTimeFormat() + "b2_console.log");
         deleteDir(new File("./cache2"));
         abot = get(6);
         BotConfiguration botConfiguration = new BotConfiguration();

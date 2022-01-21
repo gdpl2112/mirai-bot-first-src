@@ -139,7 +139,7 @@ public class CustomController {
                 });
                 return "已添加到处理队列\r\n请在1分钟内完成内容填充\r\n发送emoji\\图片\\表情即可";
             } else {
-                if (BuilderAndAdd(str, qq))
+                if (builderAndAdd(str, qq))
                     return "OK";
                 else
                     return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
@@ -160,7 +160,7 @@ public class CustomController {
                 return "已填充1个";
             } else {
                 QLIST.remove(qq);
-                if (BuilderAndAdd(str, qq)) {
+                if (builderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else
                     return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
@@ -240,7 +240,7 @@ public class CustomController {
         }
     }
 
-    public static synchronized boolean BuilderAndAdd(String str, long q) {
+    public static synchronized boolean builderAndAdd(String str, long q) {
         int i1 = str.indexOf("问");
         int i2 = str.indexOf("答");
         String k = str.substring(i1 + 1, i2);

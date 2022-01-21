@@ -2,14 +2,34 @@ package Project.broadcast;
 
 import java.util.Iterator;
 
+/**
+ * @author github-kloping
+ */
 public class PicBroadcast extends Broadcast {
 
     public static interface PicReceiver extends Receiver {
+        /**
+         * on received call method
+         *
+         * @param qid
+         * @param gid
+         * @param pic
+         * @param objects
+         * @return
+         */
         Object onReceive(long qid, long gid, String pic, Object[] objects);
-
     }
 
     public static interface PicReceiverOnce extends PicReceiver {
+        /**
+         * will remove on first call return not is null
+         *
+         * @param qid
+         * @param gid
+         * @param pic
+         * @param objects
+         * @return
+         */
         @Override
         Object onReceive(long qid, long gid, String pic, Object[] objects);
     }

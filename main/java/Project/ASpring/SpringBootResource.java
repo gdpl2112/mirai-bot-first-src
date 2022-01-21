@@ -35,9 +35,13 @@ public class SpringBootResource {
 
     public static void init() {
         try {
-            scoreMapper = configuration.getBean(UScoreMapper.class);
-            personInfoMapper = configuration.getBean(PersonInfoMapper.class);
-            gInfoMapper = configuration.getBean(GInfoMapper.class);
+            try {
+                scoreMapper = configuration.getBean(UScoreMapper.class);
+                personInfoMapper = configuration.getBean(PersonInfoMapper.class);
+                gInfoMapper = configuration.getBean(GInfoMapper.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println("==============spring papered=================");
             System.err.println(configuration.getEnvironment().getProperty("spring.resources.static-locations"));
             address = "http://" + PUBLIC_IP + ":" + configuration.getEnvironment().getProperty("server.port");

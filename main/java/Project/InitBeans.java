@@ -3,6 +3,7 @@ package Project;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
+import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -13,6 +14,11 @@ import java.util.Properties;
  */
 @Entity
 public class InitBeans {
+
+    @Bean("dataPath")
+    public String dataPath() {
+        return Resource.datePath;
+    }
 
     @Bean
     public DefaultKaptcha m() {
