@@ -15,7 +15,13 @@ public class SearchSong {
     }
 
     public static Songs kugou(String name) {
-        return getSong.getSongs(name, "kugou");
+        try {
+            Songs songs = getSong.getSongs(name, "kugou");
+            return songs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Songs qq(String name) {
