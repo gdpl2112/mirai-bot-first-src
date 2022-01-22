@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @author github-kloping
+ */
 public class JImageDrawerUtils {
 
     /**
@@ -44,7 +47,7 @@ public class JImageDrawerUtils {
      * @param tagFilePath
      * @return
      */
-    public static Image Image2Size(BufferedImage bimg, int width, int height) throws IOException {
+    public static Image image2Size(BufferedImage bimg, int width, int height) throws IOException {
         File tempFile = null;
         try {
             tempFile = File.createTempFile("temp1", ".png");
@@ -98,13 +101,30 @@ public class JImageDrawerUtils {
     public static BufferedImage putImage(BufferedImage image, BufferedImage im, int x, int y) {
         Graphics graphics = image.getGraphics();
         graphics.drawImage(im, x, y, null);
+        graphics.dispose();
+        return image;
+    }
+
+    /**
+     * 画一条线
+     *
+     * @param image
+     * @param x
+     * @param y
+     * @return
+     */
+    public static BufferedImage putRect(BufferedImage image, int x, int y, int length, int height) {
+        Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(x, y, length, height);
+        graphics.dispose();
         return image;
     }
 
     public static Image getImageByUrl2Size(URL url, int width, int height) {
         try {
             BufferedImage image = ImageIO.read(url);
-            return Image2Size(image, width, height);
+            return image2Size(image, width, height);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,4 +145,30 @@ public class JImageDrawerUtils {
         }
         return null;
     }
+
+    /**
+     * 在 图片 上 绕指定点 旋转 图片
+     *
+     * @param image
+     * @param o
+     * @param rotate
+     * @param x
+     * @param y
+     * @return
+     * @throws IOException
+     */
+    public static Image rotateImage(BufferedImage image, BufferedImage o, float rotate, int x, int y) throws IOException {
+        int w = o.getWidth();
+        int h = o.getHeight();
+        int w2 = w / 2;
+        int h2 = h / 2;
+
+        o = roundImage(o, (int) rotate);
+
+        int xw = w - x;
+        int yh = h - y;
+
+        return image;
+    }
+
 }

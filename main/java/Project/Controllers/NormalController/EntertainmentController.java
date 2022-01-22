@@ -4,14 +4,14 @@ import Entitys.Group;
 import Entitys.UScore;
 import Entitys.User;
 import Project.DataBases.DataBase;
-import Project.interfaces.ApiIyk0;
-import Project.detailPlugin.WeatherGetter;
 import Project.ResourceSet;
-import Project.services.DetailServices.Idiom;
-import Project.services.Iservice.IOtherService;
 import Project.Tools.Tool;
 import Project.broadcast.PicBroadcast;
+import Project.detailPlugin.WeatherGetter;
 import Project.drawers.ImageDrawer;
+import Project.interfaces.ApiIyk0;
+import Project.services.DetailServices.Idiom;
+import Project.services.Iservice.IOtherService;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -30,8 +30,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.Controllers.ControllerTool.canGroup;
-import static Project.Controllers.NormalController.CustomController.builderAndAdd;
 import static Project.Controllers.NormalController.CustomController.QLIST;
+import static Project.Controllers.NormalController.CustomController.builderAndAdd;
 import static Project.Controllers.TimerController.BASE_URL_CLOUD;
 import static Project.DataBases.DataBase.canBackShow;
 import static Project.ResourceSet.Final.*;
@@ -379,6 +379,31 @@ public class EntertainmentController {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
             outFile = ImageDrawer.getDui(file_diu, u, outFile);
+            return Tool.pathToImg(outFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error:for\n" + e.getMessage();
+        }
+    }
+
+    public static final File EMPTY_FILE = new File("./images/gunc/empty200.png");
+    public static final File DIRT_FILE = new File("./images/gunc/dirt.png");
+
+    @Action("/滚草.*")
+    public String gunC(@AllMess String m) {
+        long q = MessageTools.getAtFromString(m);
+        String urlStr = null;
+        if (q == -1) {
+            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            if (urlStr == null)
+                return "目前只支@的形式、或携带图片";
+        } else {
+            urlStr = Tool.getTouUrl(q);
+        }
+        try {
+            URL u = new URL(urlStr);
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-gc.png");
+            outFile = ImageDrawer.getGunOnDirt(EMPTY_FILE, u, DIRT_FILE, 2, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();

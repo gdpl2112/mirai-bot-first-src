@@ -2,8 +2,11 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Entitys.User;
+import Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.DataBase;
+import Project.DataBases.GameDataBase;
 import Project.Tools.Tool;
+import Project.services.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.Mirai.Main.BotStarter;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
@@ -16,6 +19,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.DataBases.GameDataBase.getInfo;
 import static Project.Tools.Tool.getRandString;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.Mirai.Main.Resource.*;
@@ -191,4 +195,21 @@ public class SuperController {
         return "已开机..";
     }
 
+    @AutoStand
+    IGameService gameService;
+
+    @Action("超级侦查<.+=>name>")
+    public String select(User qq, @AllMess String chain, Group group) {
+        long who = MessageTools.getAtFromString(chain);
+        if (who == -1)
+            return ("谁?");
+        if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
+        PersonInfo I = getInfo(qq.getId());
+        PersonInfo Y = getInfo(who);
+        StringBuilder m1 = new StringBuilder();
+        m1.append("ta的信息\n");
+        String sss = gameService.info(who);
+        m1.append(sss);
+        return m1.toString();
+    }
 }

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.UUID;
 
-import static Project.drawers.JImageDrawerUtils.getImageByColor2Size;
 import static Project.drawers.JImageDrawerUtils.getImageByUrl2Size;
 
 /**

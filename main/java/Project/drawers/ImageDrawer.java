@@ -45,7 +45,7 @@ public class ImageDrawer {
             BufferedImage main = ImageIO.read(files[i]);
             float rotate = rotateEve * i;
             BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
-            image = (BufferedImage) Image2Size(image, 200, 200);
+            image = (BufferedImage) image2Size(image, 200, 200);
             image = (BufferedImage) rotateImage(image, rotate);
             image = roundImage(image, 9999);
             image = putImage(main, image, 93, 83);
@@ -144,41 +144,12 @@ public class ImageDrawer {
         BufferedImage oImage = ImageIO.read(oFile);
         if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         oImage = roundImage(oImage, 9999);
-        oImage = (BufferedImage) Image2Size(oImage, 150, 150);
+        oImage = (BufferedImage) image2Size(oImage, 150, 150);
         oImage = (BufferedImage) rotateImage(oImage, rand.nextInt(160) + 60);
         BufferedImage bgImage = ImageIO.read(file);
-        bgImage = (BufferedImage) Image2Size(bgImage, 512, 512);
+        bgImage = (BufferedImage) image2Size(bgImage, 512, 512);
         BufferedImage image = putImage(bgImage, oImage, 10, 175);
         ImageIO.write(image, "png", outFile);
-        return outFile;
-    }
-
-    public static void main(String[] args) throws Exception {
-        File[] files = new File("D:\\Projects\\OwnProjects\\MyMirai_01\\data\\shake0").listFiles();
-        File file = new File("./data/aout/m0.gif");
-        getShake0(files, new URL(getTouUrl(3474006766L)), file);
-    }
-
-    public static File getShake0(File[] files, URL oFile, File outFile) throws Exception {
-        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-        encoder.start(outFile.getAbsolutePath());
-        encoder.setRepeat(0);
-        encoder.setQuality(5);
-        encoder.setFrameRate(200);
-        final BufferedImage oImage = ImageIO.read(oFile);
-        if (oImage.getHeight() != oImage.getWidth()) {
-            throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
-        }
-        encoder.setDelay(100);
-        for (int i = 0; i < files.length; i++) {
-            BufferedImage main = ImageIO.read(files[i]);
-            BufferedImage o1 = (BufferedImage) Image2Size(oImage, 115, 115);
-            o1 = roundImage(o1, 9999);
-            BufferedImage image = putImage(main, o1, 56, 58);
-            ImageIO.write(image, "png", new File("./data/aout/a" + i + ".png"));
-            encoder.addFrame(image);
-        }
-        encoder.finish();
         return outFile;
     }
 
@@ -208,7 +179,7 @@ public class ImageDrawer {
             BufferedImage main = ImageIO.read(files[i]);
             BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
             float rotate = rotateEve * i;
-            image = (BufferedImage) Image2Size(image, 132, 132);
+            image = (BufferedImage) image2Size(image, 132, 132);
             image = (BufferedImage) rotateImage(image, rotate);
             image = roundImage(image, 9999);
             int[] vs = getWt(i);
@@ -218,4 +189,65 @@ public class ImageDrawer {
         encoder.finish();
         return outFile;
     }
+
+    public static File getGunOnDirt(File emptyFile, URL url, File dirtFile, int r0, File outFile) throws IOException {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(100);
+        encoder.setDelay(100);
+        final BufferedImage bgImage = ImageIO.read(emptyFile);
+        final BufferedImage dirt = ImageIO.read(dirtFile);
+        final BufferedImage oImage = ImageIO.read(url);
+        int sl = 24 * r0;
+        float r = 0;
+        int w = bgImage.getWidth();
+        int h = bgImage.getHeight();
+        for (int i = 0; i < sl; i++) {
+            r += (360 * r0 / sl);
+            BufferedImage main = ImageIO.read(emptyFile);
+            BufferedImage o1 = (BufferedImage) image2Size(oImage, 60, 60);
+            o1 = roundImage(o1, 9999);
+            o1 = (BufferedImage) rotateImage(o1, r);
+            o1 = putImage(main, o1, (w / sl) * i, h / 2);
+            o1 = putImage(o1, dirt, 0, h / 2 + 60);
+            encoder.addFrame(o1);
+        }
+        encoder.finish();
+        return outFile;
+    }
+
+    public static void main(String[] args) throws Throwable {
+        File outFile = new File("./data/out.gif");
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(100);
+        encoder.setDelay(100);
+        File bgFile = new File("data/empty200.png");
+        final BufferedImage oBImage = ImageIO.read(bgFile);
+        File dirtFile = new File("./data/dirt.png");
+        final BufferedImage dirt = ImageIO.read(dirtFile);
+        URL url = new URL(getTouUrl(3474006766L));
+        final BufferedImage oImage = ImageIO.read(url);
+        int r0 = 2;
+        int sl = 24 * r0;
+        float r = 0;
+        int w = oBImage.getWidth();
+        int h = oBImage.getHeight();
+        for (int i = 0; i < sl; i++) {
+            r += (360 * r0 / sl);
+            BufferedImage main = ImageIO.read(bgFile);
+            BufferedImage o1 = (BufferedImage) image2Size(oImage, 60, 60);
+            o1 = roundImage(o1, 9999);
+            o1 = (BufferedImage) rotateImage(o1, r);
+            o1 = putImage(main, o1, (w / sl) * i, h / 2);
+            o1 = putImage(o1, dirt, 0, h / 2 + 60);
+            encoder.addFrame(o1);
+        }
+        encoder.finish();
+    }
+
 }

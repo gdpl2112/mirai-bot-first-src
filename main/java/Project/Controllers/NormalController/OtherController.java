@@ -3,8 +3,8 @@ package Project.Controllers.NormalController;
 
 import Entitys.Group;
 import Project.ASpring.SpringBootResource;
-import Project.services.Iservice.IOtherService;
 import Project.Tools.Tool;
+import Project.services.Iservice.IOtherService;
 import io.github.kloping.Mirai.Main.ITools.MemberTools;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.ITools.Saver;
@@ -145,14 +145,21 @@ public class OtherController {
         ENTERTAINMENT_MENU_STR.append("堆糖搜图 xx \n");
         ENTERTAINMENT_MENU_STR.append("发张 xx \n");
         ENTERTAINMENT_MENU_STR.append("掷骰子\n");
+        ENTERTAINMENT_MENU_STR.append("随机头像\n");
+        ENTERTAINMENT_MENU_STR.append("王者公告\n");
+        ENTERTAINMENT_MENU_STR.append("原神公告\n");
         ENTERTAINMENT_MENU_STR.append("捡瓶子/捡漂流瓶\n");
         ENTERTAINMENT_MENU_STR.append("扔瓶子/仍漂流瓶<内容>\n");
+        ENTERTAINMENT_MENU_STR.append("王者语音<英雄名><序号>\n");
+        ENTERTAINMENT_MENU_STR.append("王者图片<英雄名>\n");
         ENTERTAINMENT_MENU_STR.append("/推<@>\n");
         ENTERTAINMENT_MENU_STR.append("/推[图片]\n");
         ENTERTAINMENT_MENU_STR.append("/玩球<@>\n");
         ENTERTAINMENT_MENU_STR.append("/玩球[图片]\n");
         ENTERTAINMENT_MENU_STR.append("/丢<@>\n");
         ENTERTAINMENT_MENU_STR.append("/丢[图片]\n");
+        ENTERTAINMENT_MENU_STR.append("/滚草<At>\n");
+        ENTERTAINMENT_MENU_STR.append("/滚草[图片]\n");
     }
 
     @Action("娱乐功能")

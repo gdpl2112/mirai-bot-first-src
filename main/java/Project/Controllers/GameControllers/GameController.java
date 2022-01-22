@@ -326,21 +326,6 @@ public class GameController {
         return gameService.makeSname(qq.getId(), name, group);
     }
 
-    @Action("超级侦查<.+=>name>")
-    public String select(User qq, @AllMess String chain, Group group) {
-        if (qq.getId() != Resource.superQL) return "超级侦查,查";
-        long who = MessageTools.getAtFromString(chain);
-        if (who == -1)
-            return ("谁?");
-        if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
-        PersonInfo I = getInfo(qq.getId());
-        PersonInfo Y = getInfo(who);
-        StringBuilder m1 = new StringBuilder();
-        m1.append("ta的信息\n");
-        String sss = gameService.info(who);
-        m1.append(sss);
-        return m1.toString();
-    }
 
     @Action("双修")
     public String Xl2(User qq, Group group) {

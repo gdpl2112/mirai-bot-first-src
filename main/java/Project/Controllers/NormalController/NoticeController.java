@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.22:新娱乐功能,/滚草<At/图片>").append("\n");
         UPDATE_LOG.append("1.21:修复已知bug").append("\n");
         UPDATE_LOG.append("1.20:修复已知bug").append("\n");
         UPDATE_LOG.append("1.18:优化显示,修复已知bug").append("\n");
