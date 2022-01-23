@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static Project.Tools.Tool.rand;
+import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
  * this is a utils for static class
@@ -22,6 +23,10 @@ import static Project.Tools.Tool.rand;
  */
 @Entity
 public class ConUtils {
+    public ConUtils() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
+
     @AutoStand
     public static GetSongs getSong;
 
