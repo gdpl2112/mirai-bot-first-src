@@ -26,6 +26,7 @@ import net.mamoe.mirai.message.data.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -44,6 +45,10 @@ public class LittleHandler extends SimpleListenerHost {
     public static ActionManagerImpl am = null;
     public static ContextManager contextManager;
 
+    public static File file = new File("./superQList.txt");
+
+    public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
+
     static {
         ClassManager classManager = new ClassManagerImpl(
                 new InstanceCraterImpl(),
@@ -57,24 +62,28 @@ public class LittleHandler extends SimpleListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        loadConf();
     }
 
     public LittleHandler() {
         super();
-        loadConf();
     }
 
-    public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
-
-    private void loadConf() {
-        for (String s : FileUtils.getStringsFromFile(file.getPath())) {
-            try {
-                long q = Long.parseLong(s.trim());
-                SUPER_LIST.add(q);
-                System.err.println("add SuperQL: " + q);
-            } catch (Exception e) {
-                e.printStackTrace();
+    private static void loadConf() {
+        try {
+            FileUtils.testFile(file.getAbsolutePath());
+            for (String s : FileUtils.getStringsFromFile(file.getPath())) {
+                try {
+                    if (s.trim().isEmpty()) continue;
+                    long q = Long.parseLong(s.trim());
+                    SUPER_LIST.add(q);
+                    System.err.println("add SuperQL: " + q);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -134,8 +143,6 @@ public class LittleHandler extends SimpleListenerHost {
             }
         }
     }
-
-    public static File file = new File("./superQList.txt");
 
     public static boolean isSuperQ(long q) {
         return SUPER_LIST.contains(q);
