@@ -45,11 +45,11 @@ public class PointSongController {
         Songs songs = SearchSong.qq(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180:20041/", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.QQMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180:20041/", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.QQMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,11 +61,11 @@ public class PointSongController {
         Songs songs = SearchSong.kugou(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180:20041/", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.KugouMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180:20041/", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.KugouMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,11 +77,11 @@ public class PointSongController {
         Songs songs = SearchSong.netEase(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180:20041/", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.NeteaseCloudMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180:20041/", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.NeteaseCloudMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://49.232.209.180", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,7 +117,7 @@ public class PointSongController {
                 Songs songs = SearchSong.netEase(reping163.getData().getSongName());
                 net.mamoe.mirai.contact.Group group = bot.getGroup(gro.getId());
                 Song s1 = songs.getData()[0];
-                MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180:20041/", s1.getImgUrl(), s1.getSongUrl());
+                MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
                 group.sendMessage(share1);
             }
         } catch (Exception e) {
