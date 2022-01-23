@@ -1,10 +1,8 @@
 package Project.Controllers;
 
-import Project.Controllers.GameControllers.GameController;
 import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.MySpringTool.StarterApplication;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static Project.Tools.Tool.rand;
-import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**
  * this is a utils for static class
@@ -21,44 +18,37 @@ import static io.github.kloping.Mirai.Main.Resource.println;
  * @author github-kloping
  * @version 1.0
  */
-@Entity
 public class ControllerSource {
-    public ControllerSource() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
 
-    @AutoStand
-    public static GetSongs getSong;
+    public static final GetSongs GET_SONGS =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GetSongs.class);
 
-    @AutoStand
-    public static RunCode runCode;
+    public static RunCode runCode =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(RunCode.class);
 
-    @AutoStand
-    public static DefaultKaptcha defaultKaptcha;
+    public static DefaultKaptcha defaultKaptcha =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(DefaultKaptcha.class);
 
-    @AutoStand
-    public static GetPvpQQ getPvpQQ;
+    public static GetPvpQQ getPvpQQ =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GetPvpQQ.class);
 
-    @AutoStand
-    public static ApiIyk0 apiIyk0;
+    public static ApiIyk0 apiIyk0 =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(ApiIyk0.class);
 
-    @AutoStand
-    public static MuXiaoGuo muXiaoGuo;
+    public static MuXiaoGuo muXiaoGuo =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(MuXiaoGuo.class);
 
-    @AutoStand
-    public static Mihoyo mihoyo;
+    public static Mihoyo mihoyo =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Mihoyo.class);
 
-    @AutoStand
-    public static PvpQq pvpQq;
+    public static PvpQq pvpQq =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(PvpQq.class);
 
-    @AutoStand
-    public static SearchPics searchPics;
+    public static SearchPics searchPics =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(SearchPics.class);
 
-    @AutoStand
-    public static WeatherI weatherM;
-
-    @AutoStand
-    public static GameController gameController;
+    public static WeatherI weatherM =
+            StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(WeatherI.class);
 
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
