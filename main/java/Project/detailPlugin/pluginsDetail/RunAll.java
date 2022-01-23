@@ -5,7 +5,7 @@ import Project.detailPlugin.pluginsDetail.entitys.CodeResponse;
 
 import java.io.IOException;
 
-import static Project.Controllers.ConUtils.runCode;
+import static Project.Controllers.ControllerSource.runCode;
 
 
 /**

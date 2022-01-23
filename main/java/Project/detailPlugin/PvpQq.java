@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.ConUtils.pvpQq;
+import static Project.Controllers.ControllerSource.pvpQq;
 
 /**
  * @author github-kloping

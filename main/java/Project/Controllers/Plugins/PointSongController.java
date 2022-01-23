@@ -14,7 +14,7 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 
-import static Project.Controllers.ConUtils.muXiaoGuo;
+import static Project.Controllers.ControllerSource.muXiaoGuo;
 import static Project.Controllers.ControllerTool.opened;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.println;

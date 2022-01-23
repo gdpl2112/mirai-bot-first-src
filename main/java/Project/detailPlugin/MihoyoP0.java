@@ -10,7 +10,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static Project.Controllers.ConUtils.mihoyo;
+import static Project.Controllers.ControllerSource.mihoyo;
 import static Project.ResourceSet.Final.IMG_TAG_STR;
 import static Project.ResourceSet.Final.VIDEO_TAG_STR;
 import static Project.Tools.Tool.pathToImg;

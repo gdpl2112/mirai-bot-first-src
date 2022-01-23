@@ -22,8 +22,8 @@ import static io.github.kloping.Mirai.Main.Resource.println;
  * @version 1.0
  */
 @Entity
-public class ConUtils {
-    public ConUtils() {
+public class ControllerSource {
+    public ControllerSource() {
         println(this.getClass().getSimpleName() + "构建");
     }
 

@@ -2,7 +2,7 @@ package Project.detailPlugin;
 
 import Entitys.apiEntitys.Songs;
 
-import static Project.Controllers.ConUtils.getSong;
+import static Project.Controllers.ControllerSource.getSong;
 
 
 /**

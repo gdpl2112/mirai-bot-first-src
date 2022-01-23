@@ -3,7 +3,7 @@ package Project.detailPlugin;
 import Entitys.apiEntitys.WeatherDetail;
 import Entitys.apiEntitys.WeatherM;
 
-import static Project.Controllers.ConUtils.weatherM;
+import static Project.Controllers.ControllerSource.weatherM;
 import static Project.detailPlugin.NetMain.*;
 
 /**

@@ -2,7 +2,7 @@ package Project.detailPlugin;
 
 import java.io.IOException;
 
-import static Project.Controllers.ConUtils.searchPics;
+import static Project.Controllers.ControllerSource.searchPics;
 
 
 /**
