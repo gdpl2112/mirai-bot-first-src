@@ -145,7 +145,6 @@ public class Resource {
         StarterApplication.run(cla);
     }
 
-
     public static void onReturnResult(Object o, Object[] objects) {
         MessageChainBuilder builder = new MessageChainBuilder();
         Integer type = Integer.valueOf(objects[5].toString());
@@ -287,7 +286,6 @@ public class Resource {
             this.bots = bots;
         }
     }
-
 }
 
 

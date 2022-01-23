@@ -14,6 +14,7 @@ import io.github.kloping.MySpringTool.interfaces.component.ClassManager;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
+import io.github.kloping.file.FileUtils;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Group;
@@ -25,7 +26,10 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author github-kloping
@@ -35,7 +39,7 @@ public class LittleHandler extends SimpleListenerHost {
 
     public static final String WANT_TITLE = "我要头衔";
     public static final String ILLEGAL = "敏感字节!";
-    public static final String TOK = "=>O了";
+    public static String TOK = "设置头衔完成";
     public static final String PRE = "/";
     public static final String PRE0 = "#";
     public static ActionManagerImpl am = null;
@@ -58,6 +62,21 @@ public class LittleHandler extends SimpleListenerHost {
 
     public LittleHandler() {
         super();
+        loadConf();
+    }
+
+    public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
+
+    private void loadConf() {
+        for (String s : FileUtils.getStringsFromFile(file.getPath())) {
+            try {
+                long q = Long.parseLong(s.trim());
+                SUPER_LIST.add(q);
+                System.err.println("add SuperQL: " + q);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -86,7 +105,7 @@ public class LittleHandler extends SimpleListenerHost {
                 }
             }
         }
-        if (yid == Resource.superQL) {
+        if (isSuperQ(yid)) {
             String text = EventTools.getStringFromGroupMessageEvent(event);
             if (group.get(iid).getPermission().getLevel() > 0) {
                 if (text.startsWith(PRE0)) {
@@ -114,6 +133,16 @@ public class LittleHandler extends SimpleListenerHost {
                     }
                 }
             }
+        }
+    }
+
+    public static File file = new File("./superQList.txt");
+
+    public static boolean isSuperQ(long q) {
+        if (q == Resource.superQL) {
+            return true;
+        } else {
+            return SUPER_LIST.contains(q);
         }
     }
 
