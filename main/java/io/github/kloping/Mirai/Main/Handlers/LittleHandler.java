@@ -2,7 +2,6 @@ package io.github.kloping.Mirai.Main.Handlers;
 
 import Project.Tools.Tool;
 import io.github.kloping.Mirai.Main.ITools.EventTools;
-import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.h1.impl.AutomaticWiringParamsImpl;
@@ -139,11 +138,7 @@ public class LittleHandler extends SimpleListenerHost {
     public static File file = new File("./superQList.txt");
 
     public static boolean isSuperQ(long q) {
-        if (q == Resource.superQL) {
-            return true;
-        } else {
-            return SUPER_LIST.contains(q);
-        }
+        return SUPER_LIST.contains(q);
     }
 
     @Action("setAdmin.+")
