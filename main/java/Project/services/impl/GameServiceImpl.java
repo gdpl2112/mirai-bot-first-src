@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.ZongMenDataBase.getZonInfo;
 import static Project.DataBases.ZongMenDataBase.putZonInfo;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static Project.services.DetailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;

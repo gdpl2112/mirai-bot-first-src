@@ -3,6 +3,9 @@ package Project.services.Iservice;
 
 import Entitys.Group;
 
+/**
+ * @author github-kloping
+ */
 public interface IScoreService   {
 
     String selectInfo(Long who);
@@ -13,9 +16,9 @@ public interface IScoreService   {
 
     String getScoreTo(Long who, Long whos, long num);
 
-    String Robbery(Long who, Long whos);
+    String robbery(Long who, Long whos);
 
-    String Sign(Long who);
+    String sign(Long who);
 
     String workLong(Long who);
 

@@ -3,6 +3,9 @@ package Project.drawers.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @author github-kloping
+ */
 @Accessors(chain = true)
 @Data
 public class MapPosition {

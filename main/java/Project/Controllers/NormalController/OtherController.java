@@ -193,8 +193,8 @@ public class OtherController {
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
         sb.append("群内名:").append(MemberTools.getNameFromGroup(qq, group)).append("\r\n");
         sb.append("QQ名:").append(member.getNick()).append("\r\n");
-        sb.append("加入时间:").append(Tool.getTimeM(member.getJoinTimestamp() * 1000L)).append("\r\n");
-        sb.append("最后发言:").append(Tool.getTimeM(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
+        sb.append("加入时间:").append(Tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
+        sb.append("最后发言:").append(Tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
         sb.append("头衔:").append(member.getSpecialTitle()).append("\r\n");
         sb.append("禁言时长:").append(member.getMuteTimeRemaining()).append("\r\n");
         sb.append("头像链接:").append(member.getAvatarUrl()).append("\r\n");

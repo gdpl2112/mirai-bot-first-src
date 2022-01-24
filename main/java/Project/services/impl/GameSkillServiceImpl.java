@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
 import static Project.Tools.Tool.getTimeTips;

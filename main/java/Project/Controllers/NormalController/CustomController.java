@@ -25,8 +25,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.Controllers.ControllerTool.canGroup;
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.DataBase.isFather;
-import static Project.ResourceSet.Final.CUSTOM_MENU_STR;
-import static Project.ResourceSet.Final.NO_PERMISSION_STR;
+import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
+import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -113,7 +113,7 @@ public class CustomController {
     public String add(@Param("str") String str, long qq) {
         if (qq != Resource.superQL) {
             if (Tool.isIlleg_(str))
-                return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
+                return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
         int i2 = str.indexOf("答");
@@ -142,7 +142,7 @@ public class CustomController {
                 if (builderAndAdd(str, qq))
                     return "OK";
                 else
-                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
+                    return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
             }
         } else {
             return "添加问_答_";
@@ -163,7 +163,7 @@ public class CustomController {
                 if (builderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else
-                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
+                    return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
             }
         } else throw new NoRunException("没有在添加");
     }

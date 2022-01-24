@@ -34,7 +34,7 @@ import static Project.Controllers.NormalController.CustomController.QLIST;
 import static Project.Controllers.NormalController.CustomController.builderAndAdd;
 import static Project.Controllers.TimerController.BASE_URL_CLOUD;
 import static Project.DataBases.DataBase.canBackShow;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
 import static io.github.kloping.Mirai.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.Mirai.Main.Resource.*;
@@ -77,7 +77,7 @@ public class EntertainmentController {
                 if (builderAndAdd(str, qq)) {
                     return "填充完成\r\n添加完成";
                 } else {
-                    return ResourceSet.Final.ADD_TO_AUTO_REPLY_ERROR;
+                    return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
                 }
             }
         } else {

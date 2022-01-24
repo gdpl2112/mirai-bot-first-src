@@ -6,8 +6,6 @@ import Project.DataBases.DataBase;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import static Project.ResourceSet.Final.NOT_NEED_WAIT_TIPS;
+import static Project.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
 public class Tool {
@@ -103,6 +101,21 @@ public class Tool {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * get int
+     *
+     * @param str
+     * @return
+     */
+    public static Integer getInteagerFromStr(String str) {
+        String s1 = findNumberFromString(str);
+        if (s1 == null || s1.trim().isEmpty()) {
+            return null;
+        } else {
+            return Integer.parseInt(s1);
+        }
     }
 
     public static final void setOnErrInFIle(String path) {

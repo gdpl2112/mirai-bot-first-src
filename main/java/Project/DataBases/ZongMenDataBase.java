@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static Project.ResourceSet.Final.NULL_LOW_STR;
+import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.Tools.Tool.getStringFromFile;
 import static Project.Tools.Tool.putStringInFile;
 

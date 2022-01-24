@@ -3,6 +3,9 @@ package Project.drawers.entity;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * @author github-kloping
+ */
 public class GameMap {
     private int width;
     private int height;

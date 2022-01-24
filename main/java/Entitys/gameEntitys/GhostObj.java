@@ -133,7 +133,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     private void initHj() {
-        long v = att / 9 + maxHp / 8;
+        long v = att / 7 + maxHp / 6;
         v = v < 100 ? 100 : v;
         hj = v;
         hjL = v;

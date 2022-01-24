@@ -148,6 +148,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(601, "泰坦雪魔王");
         ID_2_NAME_MAPS.put(602, "冰帝帝皇蝎");
         ID_2_NAME_MAPS.put(603, "极地冰凤凰");
+        //==================
         ID_2_NAME_MAPS.put(701, "枯木翼龙");
         ID_2_NAME_MAPS.put(702, "幻夕魔兽");
         ID_2_NAME_MAPS.put(703, "熔岩烈兽");

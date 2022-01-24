@@ -19,6 +19,7 @@ import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.KILLED_C;
+import static Project.ResourceSet.FinalString.LIST_STR;
 import static Project.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -55,7 +56,7 @@ public class GameJoinAcController {
         }
     }
 
-    @Action("列表")
+    @Action(LIST_STR)
     public String com0(Group group) {
         return getImageFromStrings(gameJoinAcService.list());
     }

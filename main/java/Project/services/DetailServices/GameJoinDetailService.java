@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.Final.NULL_LOW_STR;
+import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.jsonStringToObject;
 import static Project.Tools.JSONUtils.objectToJsonString;
@@ -27,6 +27,9 @@ import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
 import static Project.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameJoinDetailService {
 
@@ -255,7 +258,7 @@ public class GameJoinDetailService {
         return "逃跑完成";
     }
 
-    public static final List<Integer> idxs = new CopyOnWriteArrayList<>();
+    public static final List<Integer> IDXS = new CopyOnWriteArrayList<>();
 
     /**
      * 攻击一个魂兽
@@ -280,10 +283,10 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (idxs.contains(ghostObj.getIDX())) {
+            if (IDXS.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
             }
-            idxs.add(ghostObj.getIDX());
+            IDXS.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
 
             if (canAttMe) {
@@ -324,7 +327,7 @@ public class GameJoinDetailService {
             }
             return sb.toString();
         } finally {
-            idxs.remove((Object) ghostObj.getIDX());
+            IDXS.remove((Object) ghostObj.getIDX());
         }
     }
 
@@ -340,10 +343,10 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (idxs.contains(ghostObj.getIDX())) {
+            if (IDXS.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
             }
-            idxs.add(ghostObj.getIDX());
+            IDXS.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
             long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
@@ -413,7 +416,7 @@ public class GameJoinDetailService {
             }
             return sb.toString();
         } finally {
-            idxs.remove((Object) ghostObj.getIDX());
+            IDXS.remove((Object) ghostObj.getIDX());
         }
     }
 

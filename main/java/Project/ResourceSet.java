@@ -3,8 +3,8 @@ package Project;
 /**
  * @author github-kloping
  */
-public class ResourceSet {
-    public static class Final {
+public final class ResourceSet {
+    public static final class FinalString {
         public static final String JUMP_STR_0 = "$";
         public static final String ERR_TIPS = "错误";
         public static final String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
@@ -56,9 +56,16 @@ public class ResourceSet {
         public static final String SPLIT_LINE_0 = "============";
         public static final String NEWLINE = "\n";
         public static final String ATTACKER_IN_VERTIGO = "攻击者处于眩晕状态";
+        public static final String OVER_TIME_OR_DONT = "对战已超时或无效";
+        public static final String YOU_HELPING = "你正在帮帮忙中...";
+        public static final String YOU_REQUEST_HELPING = "正在请求支援中....";
+        public static final String REQUEST_HELP_SUCCEED = "请求支援成功\n\t#其他玩家使用=>\"支援@\"来支援ta)";
+        public static final String HELPED = "已经被支援";
+        public static final String NOT_NEED_HELP = "ta不需要支援";
+        public static final String LIST_STR = "活动列表";
     }
 
-    public static class FinalFormat {
+    public static final class FinalFormat {
         public static final String TIPS_BUY_SUCCEED = "%s\n购买成功";
         public static final String WORK_WAIT_TIPS = "打工冷却中.\n大约等待%s";
         public static final String USE_OBJ_WAIT_TIPS = "使用物品冷却中.\n大约等待%s";
@@ -70,6 +77,28 @@ public class ResourceSet {
         public static final String SKILL_INFO_WAIT_TIPS = "魂技信息修改冷却中.\n大约等待%s";
         public static final String HJ_NOT_ENOUGH_TIPS0 = "精神力不足%s%%";
         public static final String ATTACK_TIPS0 = "您对ta造成%s点伤害";
+        public static final String ONE_DAY_ONLY_HELP = "一天仅能请求支援%s次";
+        public static final String NOT_FOUND_SEE = "没有找到\"%s\"见\"%s\"";
+        public static final String CANT_BIGGER = "不可大于%s";
     }
 
+    public static final class FinalValue {
+        /**
+         * 精神力抵消后 剩余倍数 <br/>
+         * {@link Project.services.DetailServices.GameDetailService#onSpiritAttack}
+         */
+        public static final int HJ_LOSE_1_X = 8;
+        /**
+         * 最大精神力消耗血量百分比
+         */
+        public static final int MAX_SA_LOSE_HJ_B = 75;
+        /**
+         * 最大精神力抵消百分比
+         */
+        public static final int MAX_SA_LOSE_HP_B = 45;
+        /**
+         * 最大批量抢劫次数
+         */
+        public static final int MAX_ROBBERY_TIMES = 12;
+    }
 }

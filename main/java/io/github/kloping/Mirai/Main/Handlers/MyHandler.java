@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.Controllers.SessionController.gotoSession;
-import static Project.ResourceSet.Final.LEFT_BRACKETS_STR;
+import static Project.ResourceSet.FinalString.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.Mirai.Main.Resource.bot;

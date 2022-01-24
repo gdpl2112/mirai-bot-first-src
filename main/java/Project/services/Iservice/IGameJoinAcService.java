@@ -3,6 +3,9 @@ package Project.services.Iservice;
 
 import Entitys.Group;
 
+/**
+ * @author github-kloping
+ */
 public interface IGameJoinAcService  {
 
     String[] list();

@@ -20,8 +20,8 @@ import static Project.Controllers.GameControllers.ZongmenContrller.ZongMenContro
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
-import static Project.ResourceSet.Final.NULL_LOW_STR;
-import static Project.ResourceSet.Final.PLAYER_NOT_REGISTERED;
+import static Project.ResourceSet.FinalString.NULL_LOW_STR;
+import static Project.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static Project.Tools.GameTool.getFhName;
 import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.FilterImg;

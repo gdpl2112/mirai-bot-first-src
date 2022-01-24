@@ -16,21 +16,24 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.Final.*;
-import static Project.ResourceSet.FinalFormat.ACTIVITY_WAIT_TIPS;
+import static Project.ResourceSet.FinalString.*;
+import static Project.ResourceSet.FinalFormat.*;
 import static Project.Tools.Tool.getTimeTips;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 import static Project.Tools.GameTool.isATrue;
 import static Project.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameJoinAcServiceImpl implements IGameJoinAcService {
     public static List<String> maps = new ArrayList<>();
     public static Map<String, String> dimMaps = new ConcurrentHashMap<>();
     public static List<String> decideMaps = new ArrayList<>();
-    public static final Integer MaxHelpC = 5;
-    public static final Integer MaxHelpToC = 3;
+    public static final Integer MAX_HELP_C = 5;
+    public static final Integer MAX_HELP_TO_C = 3;
 
     static {
         maps.add("星斗森林");
@@ -48,7 +51,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
 
     @AutoStand
-    GameJoinDetailService service;
+    static GameJoinDetailService service;
 
     @Override
     public String[] list() {
@@ -62,16 +65,18 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         }
 
         GhostObj ghostObj = getGhostObjFrom(who);
-        if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING)
-            if (isATrue(Long.valueOf(ghostObj.getForWhoStr())))
+        if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
+            if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
                 return IN_SELECT;
+            }
+        }
 
         if (ghostObj != null) saveGhostObjIn(who, ghostObj);
 
         String what = name.trim();
         what = dimMaps.containsKey(what) ? dimMaps.get(what) : what;
         int id = maps.indexOf(what.trim());
-        if (id < 0) return "没有找到 " + what + "见 列表";
+        if (id < 0) return String.format(NOT_FOUND_SEE, what, LIST_STR);
         return service.run(id, who, group);
     }
 
@@ -101,27 +106,29 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             if (ghostObj.getState() != GhostObj.HELPING) {
                 if (!isATrue(who)) {
                     saveGhostObjIn(who, null);
-                    return "对战已超时或无效";
+                    return OVER_TIME_OR_DONT;
                 }
             }
             if (ghostObj.getState() == GhostObj.HELPING) {
                 if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
-                    return "你正在帮帮忙中...";
+                    return YOU_HELPING;
                 }
             } else {
-                if (getInfo(who).getHelpC() >= MaxHelpC) {
-                    return "一天 仅能 请求支援 5次";
+                if (getInfo(who).getHelpC() >= MAX_HELP_C) {
+                    return String.format(ONE_DAY_ONLY_HELP, MAX_HELP_C);
                 } else {
                     switch (ghostObj.getState()) {
                         case GhostObj.NotNeed:
                             ghostObj.setState(GhostObj.NeedAndNo);
                             saveGhostObjIn(who, ghostObj);
                             putPerson(getInfo(who).addHelpC());
-                            return "请求支援成功(其他玩家使用=>支援@ta>来支援ta)";
+                            return REQUEST_HELP_SUCCEED;
                         case GhostObj.NeedAndNo:
-                            return "正在请求支援中....";
+                            return YOU_REQUEST_HELPING;
                         case GhostObj.NeedAndY:
-                            return "已经被支援";
+                            return HELPED;
+                        default:
+                            return ERR_TIPS;
                     }
                 }
             }
@@ -140,12 +147,12 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             if (ghostObj != null && ghostObj.getTime() < System.currentTimeMillis()) {
                 return IN_SELECT;
             } else {
-                if (getInfo(who).getHelpToc() >= MaxHelpToC) {
+                if (getInfo(who).getHelpToc() >= MAX_HELP_TO_C) {
                     return DAY_ONLY_HELP_TIPS;
                 } else {
                     switch (ghostObj1.getState()) {
                         case GhostObj.NotNeed:
-                            return "ta不需要支援";
+                            return NOT_NEED_HELP;
                         case GhostObj.NeedAndNo:
                             saveGhostObjIn(who, null);
                             ghostObj = new GhostObj(String.valueOf(whos));
@@ -157,9 +164,9 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             putPerson(getInfo(who).addHelpToC());
                             return HELP_SUCCEED;
                         case GhostObj.NeedAndY:
-                            return "ta已经被支援";
+                            return HELPED;
                         default:
-                            return "unknown bug";
+                            return ERR_TIPS;
                     }
                 }
             }

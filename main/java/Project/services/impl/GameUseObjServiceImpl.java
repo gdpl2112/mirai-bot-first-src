@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.Tools.GameTool.getRandXl;
 import static Project.Tools.Tool.getTimeTips;

@@ -962,10 +962,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
-                long v = percentTo(info.getAddPercent(), lon);
-                info_.addAtt(v);
+                long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t77, who.longValue(), v));
             }
         };
@@ -1016,10 +1013,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
-                long v = percentTo(info.getAddPercent(), lon);
-                info_.addAtt(v);
+                long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
@@ -1090,10 +1084,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
-                long v = percentTo(info.getAddPercent(), lon);
-                info_.addAtt(v);
+                long v = percentTo(info.getAddPercent(),getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
@@ -1116,10 +1107,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
-                long v = percentTo(info.getAddPercent(), lon);
-                info_.addAtt(v);
+                long v = percentTo(info.getAddPercent(),getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };

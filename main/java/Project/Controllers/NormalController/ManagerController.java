@@ -6,6 +6,7 @@ import Entitys.User;
 import Project.Controllers.ConfirmController;
 import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
+import Project.ResourceSet;
 import Project.Tools.Tool;
 import Project.services.Iservice.IManagerService;
 import io.github.kloping.Mirai.Main.Handlers.CapHandler;
@@ -261,7 +262,7 @@ public class ManagerController {
     }
 
     @Action("撤回.+")
-    public String Recall(@AllMess String str, Group group) {
+    public String recall(@AllMess String str, Group group) {
         try {
             long at = getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
@@ -275,7 +276,7 @@ public class ManagerController {
     }
 
     @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
-    public String Isay(@AllMess String str, Group group) {
+    public String isay(@AllMess String str, Group group) {
         return str.substring(7);
     }
 
@@ -283,7 +284,7 @@ public class ManagerController {
     public String eddScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
         if (qq.getId() == superQL) {
             long who = MessageTools.getAtFromString(messages);
-            if (who == -1) return ("Are You True??");
+            if (who == -1) return ResourceSet.FinalString.ERR_TIPS;
             long num = Long.parseLong(Tool.findNumberFromString(messages));
             DataBase.addScore(-num, who);
             return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(-num + "").append("积分").toString();
@@ -302,12 +303,6 @@ public class ManagerController {
                 Object o = MessageChain.deserializeFromJsonString(s1);
                 MessageTools.sendMessageInGroup(o, group.getId());
             }
-//            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q));
-//            for (int n : ints) {
-//                String s1 = strings.get(n);
-//                Object o = MessageChain.deserializeFromJsonString(s1);
-//                MessageTools.sendMessageInGroup(o, group.getId());
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             MessageTools.sendMessageInGroup("Not Found", group.getId());
@@ -327,12 +322,6 @@ public class ManagerController {
             for (String s1 : strings) {
                 MessageTools.sendStringInGroup(s1, group.getId());
             }
-//            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q));
-//            for (int n : ints) {
-//                String s1 = strings.get(n);
-//                Object o = MessageChain.deserializeFromJsonString(s1);
-//                MessageTools.sendMessageInGroup(o, group.getId());
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             MessageTools.sendMessageInGroup("Not Found", group.getId());

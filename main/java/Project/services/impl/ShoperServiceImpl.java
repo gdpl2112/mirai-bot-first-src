@@ -11,7 +11,7 @@ import Project.services.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.Tools.Tool.getTimeYMdhms;
 import static Project.drawers.Drawer.getImageFromStringsOnTwoColumns;
 

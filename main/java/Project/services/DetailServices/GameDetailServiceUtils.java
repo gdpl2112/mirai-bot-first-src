@@ -5,7 +5,7 @@ import Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 
 import static Project.DataBases.GameDataBase.getInfo;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.ATTACK_TIPS0;
 import static Project.services.DetailServices.GameDetailService.beaten;
 import static Project.services.DetailServices.GameDetailService.onAtt;

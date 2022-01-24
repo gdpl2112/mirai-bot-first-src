@@ -50,7 +50,8 @@ public class Resource {
         System.setErr(err);
     }
 
-    public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
+    public static final ExecutorService THREADS =
+            Executors.newFixedThreadPool(20);
     public static final ExecutorService DEA_THREADS =
             new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 

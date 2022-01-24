@@ -19,7 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static Project.Controllers.ControllerSource.getPvpQQ;
-import static Project.ResourceSet.Final.IMG_TAG_STR;
+import static Project.ResourceSet.FinalString.IMG_TAG_STR;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImage;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 

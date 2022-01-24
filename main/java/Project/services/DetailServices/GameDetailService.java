@@ -7,14 +7,14 @@ import Entitys.gameEntitys.base.BaseInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.Tools.Tool;
+import Project.broadcast.game.HpChangeBroadcast;
+import Project.broadcast.game.PlayerLostBroadcast;
 import Project.services.DetailServices.roles.BeatenRoles;
 import Project.services.DetailServices.roles.Role;
 import Project.services.DetailServices.roles.RoleResponse;
 import Project.services.DetailServices.roles.RoleState;
 import Project.services.Iservice.IGameBoneService;
-import Project.Tools.Tool;
-import Project.broadcast.game.HpChangeBroadcast;
-import Project.broadcast.game.PlayerLostBroadcast;
 import io.github.kloping.Mirai.Main.Handlers.MyTimer;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -27,8 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.HJ_NOT_ENOUGH_TIPS0;
+import static Project.ResourceSet.FinalValue.*;
 import static Project.services.DetailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
@@ -191,9 +192,6 @@ public class GameDetailService {
         return "";
     }
 
-    public static final int MAX_SA_LOSE_HJ_B = 75;
-    public static final int MAX_SA_LOSE_HP_B = 45;
-
     /**
      * 精神攻击
      *
@@ -231,6 +229,7 @@ public class GameDetailService {
 
             long nv2 = v2 - ov2;
             if (nv2 > 0) {
+                nv2 *= HJ_LOSE_1_X;
                 int v = toPercent(nv2, baseInfo.getHpL());
                 v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                 long nv0 = percentTo(v, baseInfo.getHpL());
@@ -241,7 +240,6 @@ public class GameDetailService {
                     sb.append(beaten(q2, q, nv0)).append("\n");
                 }
             }
-
             p1.apply();
             return sb.toString().trim();
         }

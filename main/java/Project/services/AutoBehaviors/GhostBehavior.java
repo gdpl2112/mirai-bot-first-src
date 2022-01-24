@@ -31,7 +31,7 @@ import static Project.services.DetailServices.GameJoinDetailService.saveGhostObj
  */
 @Entity
 public class GhostBehavior implements Runnable {
-    public static final ExecutorService threads = Executors.newFixedThreadPool(20);
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
     public static Map<Long, GhostBehavior> ls = new HashMap<>();
     private Group group;
     private Long qq;
@@ -44,7 +44,7 @@ public class GhostBehavior implements Runnable {
 
     public static void exRun(GhostBehavior ghostBehavior) {
         ls.put(ghostBehavior.qq, ghostBehavior);
-        threads.execute(ghostBehavior);
+        THREADS.execute(ghostBehavior);
     }
 
     public GhostBehavior() {
@@ -138,7 +138,9 @@ public class GhostBehavior implements Runnable {
             if (!updateGhost()) return false;
             return true;
         } finally {
-            ghostObj.setAtt(ghostObj.getAtt() + lostAtt);
+            if (ghostObj != null) {
+                ghostObj.setAtt(ghostObj.getAtt() + lostAtt);
+            }
         }
     }
 

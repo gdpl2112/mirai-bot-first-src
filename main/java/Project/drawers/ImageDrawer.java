@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import static Project.ResourceSet.Final.NOT_SUPPORT_LENGTH_IMG;
+import static Project.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
 import static Project.Tools.Tool.getTouUrl;
 import static Project.Tools.Tool.rand;
 import static Project.drawers.JImageDrawerUtils.*;

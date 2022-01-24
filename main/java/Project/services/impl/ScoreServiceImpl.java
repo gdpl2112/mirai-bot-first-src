@@ -17,9 +17,11 @@ import static Project.Tools.Tool.*;
 import static Project.drawers.Drawer.getImageFromFontString;
 import static Project.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class ScoreServiceImpl implements IScoreService {
-
 
     @Override
     public String selectInfo(Long who) {
@@ -67,7 +69,7 @@ public class ScoreServiceImpl implements IScoreService {
     }
 
     @Override
-    public String Robbery(Long who, Long whos) {
+    public String robbery(Long who, Long whos) {
         long lI = DataBase.getAllInfo(who).getScore();
         long lY = DataBase.getAllInfo(whos).getScore();
         long fI = DataBase.getAllInfo(who).getFz();
@@ -91,7 +93,7 @@ public class ScoreServiceImpl implements IScoreService {
     }
 
     @Override
-    public String Sign(Long who) {
+    public String sign(Long who) {
         UScore ls = DataBase.getAllInfo(who);
         long day = Long.parseLong(getToday());
         if (ls.getDay() == day) {

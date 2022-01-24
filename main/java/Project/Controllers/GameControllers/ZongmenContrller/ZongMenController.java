@@ -10,8 +10,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
-import static Project.ResourceSet.Final.NOT_FOUND_AT;
-import static Project.ResourceSet.Final.NULL_LOW_STR;
+import static Project.ResourceSet.FinalString.NOT_FOUND_AT;
+import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static io.github.kloping.Mirai.Main.Resource.println;
 
 /**

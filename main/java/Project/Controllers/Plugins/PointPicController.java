@@ -48,7 +48,7 @@ public class PointPicController {
 
     @Action("发张<.+=>name>")
     public Object sendImg(@Param("name") String name, Group group) {
-        if (isIlleg(name)) return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
+        if (isIlleg(name)) return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         return Tool.pathToImg(getImgFromName(name));
     }
 
@@ -76,7 +76,7 @@ public class PointPicController {
     @Action("百度搜图<.+=>name>")
     public String searchPic(@Param("name") String name, User user) {
         if (isIlleg(name)) {
-            return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
+            return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
             String[] strings = SearchPic.getPicM(name);
@@ -92,7 +92,7 @@ public class PointPicController {
     @Action("搜图<.+=>name>")
     public String searchPicM(@Param("name") String name, User user) {
         if (isIlleg(name)) {
-            return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
+            return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
             String[] strings = SearchPic.getPic(name);
@@ -108,7 +108,7 @@ public class PointPicController {
     @Action("堆糖搜图<.+=>name>")
     public String searchPic2(@Param("name") String name, User user) {
         if (isIlleg(name)) {
-            return ResourceSet.Final.IS_ILLEGAL_TIPS_1;
+            return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
             String[] strings = SearchPic.getPicDt(name);

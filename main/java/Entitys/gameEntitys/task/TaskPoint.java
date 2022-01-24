@@ -32,11 +32,21 @@ public class TaskPoint {
 
     public TaskPoint setNormalIndex(Integer normalIndex) {
         this.normalIndex = normalIndex;
+        if (this.normalIndex < MIN_INDEX) {
+            this.normalIndex = MIN_INDEX;
+        } else if (this.normalIndex > MAX_INDEX) {
+            this.normalIndex = MAX_INDEX;
+        }
         return this;
     }
 
     public void setPrenticeIndex(Integer prenticeIndex) {
         this.prenticeIndex = prenticeIndex;
+        if (this.prenticeIndex < MIN_PRENTICE_INDEX) {
+            this.prenticeIndex = MIN_PRENTICE_INDEX;
+        } else if (this.prenticeIndex > MAX_PRENTICE_INDEX) {
+            this.prenticeIndex = MAX_PRENTICE_INDEX;
+        }
     }
 
     public void setMasterIndex(Integer masterIndex) {
@@ -49,6 +59,11 @@ public class TaskPoint {
 
     public TaskPoint addPrenticeIndex() {
         this.prenticeIndex++;
+        if (this.prenticeIndex < MIN_PRENTICE_INDEX) {
+            this.prenticeIndex = MIN_PRENTICE_INDEX;
+        } else if (this.prenticeIndex > MAX_PRENTICE_INDEX) {
+            this.prenticeIndex = MAX_PRENTICE_INDEX;
+        }
         return this;
     }
 
@@ -58,6 +73,16 @@ public class TaskPoint {
             this.prenticeIndex = MIN_PRENTICE_INDEX;
         } else if (this.prenticeIndex > MAX_PRENTICE_INDEX) {
             this.prenticeIndex = MAX_PRENTICE_INDEX;
+        }
+        return this;
+    }
+
+    public TaskPoint addNormalIndex() {
+        this.normalIndex++;
+        if (this.normalIndex < MIN_INDEX) {
+            this.normalIndex = MIN_INDEX;
+        } else if (this.normalIndex > MAX_INDEX) {
+            this.normalIndex = MAX_INDEX;
         }
         return this;
     }
@@ -72,18 +97,13 @@ public class TaskPoint {
         return this;
     }
 
-    public TaskPoint addNormalIndex() {
-        this.normalIndex++;
+    public TaskPoint addNormalIndex(int i) {
+        this.normalIndex += i;
         if (this.normalIndex < MIN_INDEX) {
             this.normalIndex = MIN_INDEX;
         } else if (this.normalIndex > MAX_INDEX) {
             this.normalIndex = MAX_INDEX;
         }
-        return this;
-    }
-
-    public TaskPoint addNormalIndex(int i) {
-        this.normalIndex += i;
         return this;
     }
 

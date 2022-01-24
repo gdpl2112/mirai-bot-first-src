@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.opened;
-import static Project.ResourceSet.Final.*;
+import static Project.ResourceSet.FinalFormat.CANT_BIGGER;
+import static Project.ResourceSet.FinalString.*;
+import static Project.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
 import static Project.Tools.Tool.findNumberFromString;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -29,7 +31,7 @@ public class ScoreController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    public static final List<Long> closeings = new CopyOnWriteArrayList<>();
+    public static final List<Long> CLOSED = new CopyOnWriteArrayList<>();
 
     @AutoStand
     IOtherService otherService;
@@ -55,7 +57,7 @@ public class ScoreController {
 
     @Action("取积分<\\d{1,}=>str>")
     public String getScore(long qq, @Param("str") String str) {
-        if (closeings.contains(qq))
+        if (CLOSED.contains(qq))
             return "账户锁定中...\r\n退出客户端登录后重试";
         Long num = null;
         try {
@@ -68,7 +70,7 @@ public class ScoreController {
 
     @Action("存积分<\\d{1,}=>str>")
     public String putScore(long qq, @Param("str") String str) {
-        if (closeings.contains(qq))
+        if (CLOSED.contains(qq))
             return "账户锁定中...\r\n退出客户端登录后重试";
         Long num = null;
         try {
@@ -108,18 +110,18 @@ public class ScoreController {
             String numStr = findNumberFromString(str.replace(String.valueOf(who), ""));
             if (numStr != null && !numStr.trim().isEmpty()) {
                 int n = Integer.parseInt(numStr);
-                if (n > 10) {
-                    return "不可大于10次";
+                if (n > MAX_ROBBERY_TIMES) {
+                    return String.format(CANT_BIGGER, MAX_ROBBERY_TIMES);
                 } else {
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < n; i++) {
-                        sb.append(scoreService.Robbery(qq.getId(), who)).append("\n");
+                        sb.append(scoreService.robbery(qq.getId(), who)).append("\n");
                     }
                     return sb.toString().trim();
                 }
             }
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
-            return scoreService.Robbery(qq.getId(), who);
+            return scoreService.robbery(qq.getId(), who);
         } catch (NumberFormatException e) {
             return "格式错误(例: 打劫 @我 )";
         }
@@ -127,7 +129,7 @@ public class ScoreController {
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
     public String sign(User qq, Group group) {
-        String str = scoreService.Sign(qq.getId());
+        String str = scoreService.sign(qq.getId());
         return str;
     }
 
