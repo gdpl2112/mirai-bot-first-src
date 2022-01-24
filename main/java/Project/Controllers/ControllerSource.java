@@ -4,6 +4,7 @@ import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ import static Project.Tools.Tool.rand;
  * @author github-kloping
  * @version 1.0
  */
+@Entity
 public class ControllerSource {
 
     @AutoStand
