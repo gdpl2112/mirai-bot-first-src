@@ -10,7 +10,7 @@ import io.github.kloping.file.FileUtils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
@@ -225,10 +225,14 @@ public class GameTool {
             return randA(3900, 4000);
         else if (level < 95)
             return randA(39000, 40000);
-        else if (level < 100) return randA(95000, 100000);
-        else if (level < 110) return randA(179500, 190000);
-        else if (level < 120) return randA(290000, 310000);
-        else if (level < 150) return randA(160000, 166667);
+        else if (level < 100)
+            return randA(95000, 100000);
+        else if (level < 110)
+            return randA(179500, 190000);
+        else if (level < 120)
+            return randA(290000, 310000);
+        else if (level < 150)
+            return randA(160000, 166667);
         return -1;
     }
 
@@ -244,8 +248,8 @@ public class GameTool {
         else if (level < 40) return 4;
         else if (level < 60) return 7;
         else if (level < 70) return 8;
-        else if (level < 80) return 10;
-        else if (level < 90) return 12;
+        else if (level < 80) return 11;
+        else if (level < 90) return 14;
         else if (level < 95) return 19;
         else if (level < 98) return 24;
         else if (level < 100) return 29;
@@ -328,7 +332,7 @@ public class GameTool {
         } else {
             for (File f1 : new File(GameDataBase.path + "/dates/users/").listFiles()) {
                 try {
-                    final long id = Long.parseLong(f1.getName());
+                    final Long id = Long.parseLong(f1.getName());
                     if (id == -1L) {
                         f1.delete();
                         continue;
@@ -337,10 +341,7 @@ public class GameTool {
                     if (l < 10) {
                         continue;
                     } else {
-                        Entry<String, Integer> e1 = getEntry(String.valueOf(id), l);
-                        if (!PH.contains(e1))
-                            PH.add(e1);
-
+                        PHMAP.put(id.toString(), l);
                         THREADS.execute(() -> {
                             removeAllTag(id);
                         });
@@ -353,6 +354,9 @@ public class GameTool {
             }
         }
         System.out.println("load---end");
+        PH.clear();
+        PH.addAll(PHMAP.entrySet());
+        PHMAP.clear();
         Collections.sort(PH, new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
@@ -369,9 +373,7 @@ public class GameTool {
                 String[] ss = s2.split(":");
                 Long who = Long.parseLong(ss[0]);
                 int level = Integer.valueOf(ss[1]);
-                Entry<String, Integer> e1 = Tool.getEntry(who.toString(), level);
-                if (!containsPh(e1))
-                    PH.add(e1);
+                PHMAP.put(who.toString(), level);
                 THREADS.execute(() -> {
                     removeAllTag(who);
                 });
@@ -381,15 +383,6 @@ public class GameTool {
                 continue;
             }
         }
-    }
-
-    private static boolean containsPh(Entry<String, Integer> e1) {
-        for (Entry<String, Integer> stringIntegerEntry : PH) {
-            if (stringIntegerEntry.getKey().equals(e1.getKey())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static void removeAllTag(Number number) {
@@ -412,6 +405,7 @@ public class GameTool {
     }
 
     public static final List<Map.Entry<String, Integer>> PH = new LinkedList<>();
+    public static final Map<String, Integer> PHMAP = new ConcurrentHashMap<>();
     public static int num = 199;
 
     private static void flushIndexs() {

@@ -254,7 +254,7 @@ public class SkillDataBase {
             return (long) (f * (v.intValue()));
         }
         double d = v.longValue();
-        d /= 100;
+        d /= 100f;
         d *= b;
         long v1 = (long) d;
         return v1;
@@ -269,7 +269,7 @@ public class SkillDataBase {
         double dv1 = (double) v1.longValue();
         double dv2 = (double) v2.longValue();
         double dv3 = dv1 / dv2;
-        dv3 *= 100;
+        dv3 *= 100f;
         int v3 = (int) dv3;
         return v3;
     }

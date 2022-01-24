@@ -349,7 +349,7 @@ public class SkillExecute {
                 super.run();
                 try {
                     Thread.sleep(t11);
-                    putPerson(getInfo(q).eddTag(TAG_TRUE));
+                    putPerson(getInfo(q).eddTag(TAG_TRUE, 1));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -376,7 +376,6 @@ public class SkillExecute {
                 AttributeBone.addForAttr(q, v, AttributeBone.Type.HIDE_PRO);
                 setTips("作用于 " + Tool.At(q));
             }
-
 
             private Long q, v;
 
@@ -1084,7 +1083,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                long v = percentTo(info.getAddPercent(),getInfo(q).getAtt());
+                long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
@@ -1107,7 +1106,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                long v = percentTo(info.getAddPercent(),getInfo(q).getAtt());
+                long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
@@ -1160,8 +1159,7 @@ public class SkillExecute {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                Long lon = getInfo(q).getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 try {
@@ -1478,6 +1476,17 @@ public class SkillExecute {
                 info_.addHl(percentTo(info.getAddPercent() / 3, info_.getHll()));
                 putPerson(info_.addTag(TAG_TRUE, 1));
                 hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t724, who.longValue(), v));
+            }
+
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(t724);
+                    putPerson(getInfo(who).eddTag(TAG_TRUE, 1));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
         return skill;
