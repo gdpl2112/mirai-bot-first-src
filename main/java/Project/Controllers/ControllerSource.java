@@ -3,6 +3,7 @@ package Project.Controllers;
 import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,33 +21,43 @@ import static Project.Tools.Tool.rand;
  */
 public class ControllerSource {
 
-    public static final GetSongs GET_SONGS =
+    @AutoStand
+    public static GetSongs GET_SONGS =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GetSongs.class);
 
+    @AutoStand
     public static RunCode runCode =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(RunCode.class);
 
+    @AutoStand
     public static DefaultKaptcha defaultKaptcha =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(DefaultKaptcha.class);
 
+    @AutoStand
     public static GetPvpQQ getPvpQQ =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GetPvpQQ.class);
 
+    @AutoStand
     public static ApiIyk0 apiIyk0 =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(ApiIyk0.class);
 
+    @AutoStand
     public static MuXiaoGuo muXiaoGuo =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(MuXiaoGuo.class);
 
+    @AutoStand
     public static Mihoyo mihoyo =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Mihoyo.class);
 
+    @AutoStand
     public static PvpQq pvpQq =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(PvpQq.class);
 
+    @AutoStand
     public static SearchPics searchPics =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(SearchPics.class);
 
+    @AutoStand
     public static WeatherI weatherM =
             StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(WeatherI.class);
 
