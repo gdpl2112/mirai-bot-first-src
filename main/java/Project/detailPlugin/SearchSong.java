@@ -1,22 +1,27 @@
 package Project.detailPlugin;
 
 import Entitys.apiEntitys.Songs;
-
-import static Project.Controllers.ControllerSource.GET_SONGS;
+import Project.interfaces.GetSongs;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
 
 /**
  * @author github-kloping
  */
+@Entity
 public class SearchSong {
 
-    public static Songs netEase(String name) {
-        return GET_SONGS.getSongs(name, "wy");
+    @AutoStand
+    GetSongs getSongs;
+
+    public Songs netEase(String name) {
+        return getSongs.getSongs(name, "wy");
     }
 
-    public static Songs kugou(String name) {
+    public Songs kugou(String name) {
         try {
-            Songs songs = GET_SONGS.getSongs(name, "kugou");
+            Songs songs = getSongs.getSongs(name, "kugou");
             return songs;
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,7 +29,7 @@ public class SearchSong {
         }
     }
 
-    public static Songs qq(String name) {
-        return GET_SONGS.getSongs(name, "qq");
+    public Songs qq(String name) {
+        return getSongs.getSongs(name, "qq");
     }
 }

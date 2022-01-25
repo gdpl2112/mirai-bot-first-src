@@ -38,26 +38,52 @@ public class Drawer {
     private static Color hpColor = fromStrToARGB("FF5Dff5D");
     private static Color hlColor = fromStrToARGB("FFFFB946");
     private static Color hjColor = fromStrToARGB("FF8b8bFF");
+    private static Color levelColor = new Color(255, 154, 87);
 
     private static Map<String, Image> map = new LinkedHashTreeMap<>();
 
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
 
+    public static Color BORDER_COLOR = Color.BLACK;
+    public static Color BACKGROUD_COLOR = Color.LIGHT_GRAY;
+    private static BufferedImage INFO_BASE = null;
+
+    static {
+        BORDER_COLOR = new Color(123, 20, 135);
+        BACKGROUD_COLOR = new Color(249, 79, 108);
+        try {
+            INFO_BASE = ImageIO.read(new File("./images/b0.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static final String drawInfoPng(PersonInfo p) {
         int width = 600;
         int height = 600 - 50;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(0, 0, width, height);
+        BufferedImage image = null;
+        Graphics g = null;
+        if (INFO_BASE == null) {
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+            g = image.getGraphics();
+            g.setClip(0, 0, width, height);
+            g.setColor(BACKGROUD_COLOR);
+            g.fillRect(0, 0, width, height);
+        } else {
+            try {
+                image = (BufferedImage) JImageDrawerUtils.image2Size(INFO_BASE, width, height);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            g = image.getGraphics();
+        }
         g.setFont(bigFont);
         Rectangle clip = g.getClipBounds();
         FontMetrics fm = g.getFontMetrics(bigFont);
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
-        int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(Color.BLUE);
+        int y = 40;
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         g.setFont(smallFont);
         //==================================
@@ -109,7 +135,7 @@ public class Drawer {
         g.setFont(smallFont);
         g.drawString(filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + smallFont.getSize());
         y = y + 85;
-        g.setColor(Color.RED);
+        g.setColor(levelColor);
         g.setFont(bigFont);
         g.drawString("等级:" + p.getLevel() + "=>" + GameTool.getFH(p.getLevel().intValue()), x, y);
         /*y = y + 50;
@@ -118,7 +144,7 @@ public class Drawer {
         g.drawString("融合状态:" + (p.getBindQ().longValue() == -1 ? "未融合" : "已融合"), x, y);
         */
         //==================================
-        g.setColor(Color.BLACK);
+        g.setColor(BORDER_COLOR);
         g.setFont(bigFont);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
@@ -139,7 +165,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(bigFont);
         Rectangle clip = g.getClipBounds();
@@ -147,7 +173,7 @@ public class Drawer {
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(Color.BLUE);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         g.setFont(smallFont);
         //==================================
@@ -186,7 +212,7 @@ public class Drawer {
         g.setColor(k ? Color.RED : Color.GREEN);
         g.drawString("所处宗门:" + m, x, y + smallFont.getSize());
         //==================================
-        g.setColor(Color.BLACK);
+        g.setColor(BORDER_COLOR);
         g.setFont(bigFont);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
@@ -207,7 +233,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(bigFont);
         Rectangle clip = g.getClipBounds();
@@ -215,7 +241,7 @@ public class Drawer {
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(Color.BLUE);
+        g.setColor(BORDER_COLOR);
         g.drawString("※=★===?====$=====☆=?==*=※", 10, 40);
         g.setFont(smallFont);
         //==================================
@@ -242,7 +268,7 @@ public class Drawer {
         g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + smallFont.getSize());
 
         //==================================
-        g.setColor(Color.BLACK);
+        g.setColor(BORDER_COLOR);
         g.setFont(bigFont);
         g.drawString("※=?======★=====$==☆=?=*=※", 10, height - 30);
         g.dispose();
@@ -288,7 +314,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(font);
         Rectangle clip = g.getClipBounds();
@@ -296,13 +322,13 @@ public class Drawer {
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < strs.length; i++) {
             g.setColor(colors[Tool.rand.nextInt(colors.length)]);
             g.drawString("◎" + filterBigNum(strs[i]), 10, (i + 2) * 40);
         }
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
         String name = UUID.randomUUID() + ".jpg";
@@ -322,7 +348,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(font);
         Rectangle clip = g.getClipBounds();
@@ -330,13 +356,13 @@ public class Drawer {
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < strs.length; i++) {
             g.setColor(colors[Tool.rand.nextInt(colors.length)]);
             g.drawString("◎" + filterBigNum(strs[i]), 10, (i + 2) * 40);
         }
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
         String name = UUID.randomUUID() + ".jpg";
@@ -356,7 +382,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(font);
         Rectangle clip = g.getClipBounds();
@@ -364,7 +390,7 @@ public class Drawer {
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < strs.length; i++) {
             g.setColor(colors[Tool.rand.nextInt(colors.length)]);
@@ -373,7 +399,7 @@ public class Drawer {
             else
                 g.drawString("◎" + strs[i], 10, (i + 2) * 40);
         }
-        g.setColor(colors[Tool.rand.nextInt(colors.length)]);
+        g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
         String name = UUID.randomUUID() + ".jpg";
@@ -396,7 +422,6 @@ public class Drawer {
     private static int height = 100;
 
     private static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
-
 
     public static String createFont(String str) {
         if (HIST_FONT_IMAGES.containsKey(str)) {
@@ -429,7 +454,7 @@ public class Drawer {
         BufferedImage image = new BufferedImage(100, 25, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, 100, 25);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, 100, 25);
         g.setColor(Color.GREEN);
         g.fillRect(0, 0, index, 25);
@@ -466,7 +491,7 @@ public class Drawer {
         return null;
     }
 
-    public static String DrawStringOnTwoColumns(String... ss) {
+    public static String drawStringOnTwoColumns(String... ss) {
         int width = 1000;
         int le = ss.length;
         le += le % 2 == 0 ? 0 : 1;
@@ -474,14 +499,14 @@ public class Drawer {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUD_COLOR);
         g.fillRect(0, 0, width, height);
         g.setFont(font);
         Rectangle clip = g.getClipBounds();
         FontMetrics fm = g.getFontMetrics(font);
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
-        g.setColor(Color.RED);
+        g.setColor(BORDER_COLOR);
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
         g.drawString("※====☆=?==★===?====$==*=※===※====☆=?==★===?====$==*=※===", 15, 25);
         for (int i = 0; i < ss.length; i++) {
@@ -524,7 +549,7 @@ public class Drawer {
     }
 
     public static String getImageFromStringsOnTwoColumns(String... strings) {
-        return Tool.pathToImg(DrawStringOnTwoColumns(strings));
+        return Tool.pathToImg(drawStringOnTwoColumns(strings));
     }
 
 

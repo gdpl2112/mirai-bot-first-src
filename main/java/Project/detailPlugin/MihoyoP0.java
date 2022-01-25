@@ -2,6 +2,9 @@ package Project.detailPlugin;
 
 import Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
 import Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import Project.interfaces.Mihoyo;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,7 +13,6 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static Project.Controllers.ControllerSource.mihoyo;
 import static Project.ResourceSet.FinalString.IMG_TAG_STR;
 import static Project.ResourceSet.FinalString.VIDEO_TAG_STR;
 import static Project.Tools.Tool.pathToImg;
@@ -19,16 +21,20 @@ import static Project.Tools.Tool.unicodeToCn;
 /**
  * @author github-kloping
  */
+@Entity
 public class MihoyoP0 {
-    public static String c0(Document arg) {
+    @AutoStand
+    Mihoyo mihoyo;
+
+    public String c0(Document arg) {
         return getJsonFromYs(arg);
     }
 
-    public static MihoyoYuanshen getNews() {
+    public MihoyoYuanshen getNews() {
         return mihoyo.newsIndex();
     }
 
-    public static String[] getNews(String cid) {
+    public String[] getNews(String cid) {
         MihoyoYuanshenDetail detail = mihoyo.newsPoint(cid);
         String html = detail.getData()[0].getArticle().getContent();
         String title = detail.getData()[0].getArticle().getTitle();
@@ -38,7 +44,7 @@ public class MihoyoP0 {
         return new String[]{unicodeToCn(pic), title, s};
     }
 
-    public static String getMessageStringYs(Element element) {
+    public String getMessageStringYs(Element element) {
         StringBuilder sb = new StringBuilder();
         if (hasVideoTag(element)) {
             String s1 = element.getElementsByTag(VIDEO_TAG_STR).get(0).attr("src");
@@ -57,7 +63,7 @@ public class MihoyoP0 {
         return sb.toString();
     }
 
-    private static boolean hasImgTag(Element element) {
+    private boolean hasImgTag(Element element) {
         if (element.children() != null && element.children().size() > 0) {
             for (Element child : element.children()) {
                 if (IMG_TAG_STR.equals(child.tagName())) {
@@ -70,7 +76,7 @@ public class MihoyoP0 {
         return false;
     }
 
-    private static boolean hasVideoTag(Element element) {
+    private boolean hasVideoTag(Element element) {
         if (element.children() != null && element.children().size() > 0) {
             for (Element child : element.children()) {
                 if (child.tagName().equals(VIDEO_TAG_STR)) {
@@ -83,7 +89,7 @@ public class MihoyoP0 {
         return false;
     }
 
-    public static String getJsonFromYs(Document doc) {
+    public String getJsonFromYs(Document doc) {
         Element element = doc.body().getElementsByTag("script").get(0);
         final String oStr = element.toString();
         int i1 = oStr.lastIndexOf("(");

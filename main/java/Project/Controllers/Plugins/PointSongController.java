@@ -5,16 +5,13 @@ import Entitys.apiEntitys.Song;
 import Entitys.apiEntitys.Songs;
 import Entitys.apiEntitys.reping163.Reping163;
 import Project.detailPlugin.SearchSong;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.Param;
+import Project.interfaces.MuXiaoGuo;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 
-import static Project.Controllers.ControllerSource.muXiaoGuo;
 import static Project.Controllers.ControllerTool.opened;
 import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.println;
@@ -40,9 +37,15 @@ public class PointSongController {
         return SB.toString();
     }
 
+    @AutoStand
+    SearchSong searchSong;
+
+    @AutoStand
+    MuXiaoGuo muXiaoGuo;
+
     @Action("QQ点歌<.+=>name>")
     public void pointSongQQ(@Param("name") String name, User qq, Entitys.Group gro) {
-        Songs songs = SearchSong.qq(name);
+        Songs songs = searchSong.qq(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
@@ -58,7 +61,7 @@ public class PointSongController {
 
     @Action("酷狗点歌<.+=>name>")
     public void pointSongKugou(@Param("name") String name, User qq, Entitys.Group gro) {
-        Songs songs = SearchSong.kugou(name);
+        Songs songs = searchSong.kugou(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
@@ -74,7 +77,7 @@ public class PointSongController {
 
     @Action("网易点歌<.+=>name>")
     public void pointSongNetEase(@Param("name") String name, User qq, Entitys.Group gro) {
-        Songs songs = SearchSong.netEase(name);
+        Songs songs = searchSong.netEase(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());
@@ -114,7 +117,7 @@ public class PointSongController {
             try {
                 return sb.toString();
             } finally {
-                Songs songs = SearchSong.netEase(reping163.getData().getSongName());
+                Songs songs = searchSong.netEase(reping163.getData().getSongName());
                 net.mamoe.mirai.contact.Group group = bot.getGroup(gro.getId());
                 Song s1 = songs.getData()[0];
                 MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://49.232.209.180", s1.getImgUrl(), s1.getSongUrl());

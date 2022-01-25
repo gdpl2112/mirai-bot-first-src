@@ -2,18 +2,25 @@ package Project.detailPlugin;
 
 import Entitys.apiEntitys.WeatherDetail;
 import Entitys.apiEntitys.WeatherM;
+import Project.interfaces.WeatherI;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
-import static Project.Controllers.ControllerSource.weatherM;
 import static Project.detailPlugin.NetMain.*;
+
 
 /**
  * @author github-kloping
  */
+@Entity
 public class WeatherGetter {
-    private static final String AD1 = ROOT_PATH + getWeatherShort;
-    private static final String AD2 = ROOT_PATH + getWeatherDetail;
+    private final String AD1 = ROOT_PATH + getWeatherShort;
+    private final String AD2 = ROOT_PATH + getWeatherDetail;
 
-    public static String get(String address) {
+    @AutoStand
+    WeatherI weatherM;
+
+    public String get(String address) {
         try {
             WeatherM wm = weatherM.weatherM(address);
             StringBuilder sb = new StringBuilder();
@@ -29,7 +36,7 @@ public class WeatherGetter {
         return "获取异常";
     }
 
-    public static String detail(String address) {
+    public String detail(String address) {
         try {
             WeatherDetail wd = weatherM.weatherDetail(address);
             StringBuilder sb = new StringBuilder();

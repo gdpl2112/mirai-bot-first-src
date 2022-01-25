@@ -1,10 +1,13 @@
 package Project.ASpring.mcs.controllers;
 
 import Entitys.TradingRecord;
+import Project.Controllers.ControllerSource;
 import Project.DataBases.OtherDatabase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,22 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.ControllerSource.createCapImage;
 import static Project.Controllers.ControllerSource.getCode;
 
 /**
  * @author github-kloping
  */
 @RestController
+
+@Entity
 public class RestController0 {
     private static final Map<String, String> ucap = new ConcurrentHashMap<>();
     public static final Set<String> cans = new LinkedHashSet<>();
     public static final Map<String, String> caping = new ConcurrentHashMap<>();
     private static final Map<String, Integer> capingErr = new ConcurrentHashMap<>();
 
+    @AutoStand
+    ControllerSource controllerSource;
+
     @GetMapping("getCap")
     public String getCap() {
-        Object[] o = createCapImage();
+        Object[] o = controllerSource.createCapImage();
         String path = o[2].toString();
         String capCode = o[1].toString();
         String uuid = UUID.randomUUID().toString();

@@ -5,19 +5,21 @@ import Entitys.apiEntitys.pvpQQH0.PvpQQH0;
 import Entitys.apiEntitys.pvpQQVoice.PvpQQVoice;
 import Entitys.apiEntitys.pvpQQVoice.Yy_4e;
 import Entitys.apiEntitys.pvpQQVoice.Yylb_34;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.initialize.FileInitializeValue;
 
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.ControllerSource.pvpQq;
 
 /**
  * @author github-kloping
  * @version 1.0
  * @date 2021/12/30-11
  */
+@Entity
 public class PvpQq {
     public static String c1(String arg) {
         int i1 = arg.indexOf("(");
@@ -36,14 +38,17 @@ public class PvpQq {
     public static final Map<String, Integer> NAME2ID = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
 
-    public static void m1() {
+    @AutoStand
+    Project.interfaces.PvpQq pvpQq;
+
+    public void m1() {
         PvpQQH0 g = pvpQq.get1("createHeroList");
         PvpQQVoice v = pvpQq.get0("createList");
         FileInitializeValue.putValues("./data/pvpqq/hd.json", g, true);
         FileInitializeValue.putValues("./data/pvpqq/vs.json", v, true);
     }
 
-    public static void m0() {
+    public void m0() {
         if (!new File("./data/pvpqq/hd.json").exists()) {
             m1();
         }
@@ -65,7 +70,7 @@ public class PvpQq {
         }
     }
 
-    public static Yy_4e[] getY4e(String name) {
+    public Yy_4e[] getY4e(String name) {
         if (NAME2VOICE.isEmpty()) {
             m0();
         }
@@ -76,7 +81,7 @@ public class PvpQq {
         }
     }
 
-    public static Entitys.apiEntitys.pvpQQH0.Data getD(String name) {
+    public Entitys.apiEntitys.pvpQQH0.Data getD(String name) {
         if (NAME2DATA.isEmpty()) {
             m0();
         }

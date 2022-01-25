@@ -20,38 +20,11 @@ import static Project.Tools.Tool.rand;
  * @author github-kloping
  * @version 1.0
  */
-@Controller
+@Entity
 public class ControllerSource {
 
     @AutoStand
-    public static GetSongs GET_SONGS;
-
-    @AutoStand
-    public static RunCode runCode;
-
-    @AutoStand
-    public static DefaultKaptcha defaultKaptcha;
-
-    @AutoStand
-    public static GetPvpQQ getPvpQQ;
-
-    @AutoStand
-    public static ApiIyk0 apiIyk0;
-
-    @AutoStand
-    public static MuXiaoGuo muXiaoGuo;
-
-    @AutoStand
-    public static Mihoyo mihoyo;
-
-    @AutoStand
-    public static PvpQq pvpQq;
-
-    @AutoStand
-    public static SearchPics searchPics;
-
-    @AutoStand
-    public static WeatherI weatherM;
+    public DefaultKaptcha defaultKaptcha;
 
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -68,7 +41,7 @@ public class ControllerSource {
         return caps;
     }
 
-    public static Object[] createCapImage() {
+    public Object[] createCapImage() {
         try {
             String caps = getCode();
             BufferedImage bi = defaultKaptcha.createImage(caps);

@@ -32,7 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.Controllers.SessionController.gotoSession;
 import static Project.ResourceSet.FinalString.LEFT_BRACKETS_STR;
 import static io.github.kloping.Mirai.Main.Handlers.CapHandler.join;
 import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
@@ -40,6 +39,7 @@ import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
 /**
+ *
  * @author github-kloping
  */
 public class MyHandler extends SimpleListenerHost {
@@ -86,7 +86,7 @@ public class MyHandler extends SimpleListenerHost {
         try {
             chain = event.getMessage();
             id = event.getSender().getId();
-            boolean inS = SessionController.contains(id);
+            boolean inS = SessionController.INSTANCE.contains(id);
             group = event.getGroup();
             eGroup = Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             Entitys.User eUser = Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
@@ -97,7 +97,7 @@ public class MyHandler extends SimpleListenerHost {
                 }
                 StarterApplication.executeMethod(id, text, id, eUser, eGroup, 0);
             } else {
-                gotoSession(group, text, id);
+                SessionController.INSTANCE.gotoSession(group, text, id);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,8 +108,12 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
-        if (!Resource.Switch.AllK) return;
-        if (event.getSender() instanceof AnonymousMember) return;
+        if (!Resource.Switch.AllK) {
+            return;
+        }
+        if (event.getSender() instanceof AnonymousMember) {
+            return;
+        }
         String text = null;
         Entitys.Group eGroup = null;
         Group group = null;
@@ -275,7 +279,8 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }*/
 
-    /*private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
+    /*
+    private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
 
     static {
         gs.put(GroupHonorType.TALKATIVE, "龙王");
@@ -301,7 +306,8 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }*/
 
-    /*@EventHandler
+    /*
+    @EventHandler
     public void onMemberHonorChangeEvent_Lose(MemberHonorChangeEvent.Lose event) {
         if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
         MessageChainBuilder builder = new MessageChainBuilder();
@@ -312,5 +318,4 @@ public class MyHandler extends SimpleListenerHost {
         builder.append(new Face(Face.SAO_RAO));
         event.getGroup().sendMessage(builder.build());
     }*/
-
 }

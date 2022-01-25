@@ -14,6 +14,10 @@ import Project.detailPlugin.PvpQq;
 import Project.Tools.Tool;
 import Project.drawers.GameDrawer;
 import Project.drawers.entity.GameMap;
+import Project.interfaces.ApiIyk0;
+import Project.interfaces.GetPvpQQ;
+import Project.interfaces.Mihoyo;
+import Project.interfaces.MuXiaoGuo;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -88,6 +92,9 @@ public class EntertainmentController2 {
         }
     }
 
+    @AutoStand
+    ApiIyk0 apiIyk0;
+
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
     public String setBottle(long q, Group group, @Param("str") String str) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
@@ -112,6 +119,9 @@ public class EntertainmentController2 {
         }
     }
 
+    @AutoStand
+    MuXiaoGuo muXiaoGuo;
+
     @Action("百科<.+=>str>")
     public String m1(@Param("str") String name) {
         try {
@@ -122,25 +132,35 @@ public class EntertainmentController2 {
         }
     }
 
+    @AutoStand
+    GetPvpQQ getPvpQQ;
+
     @Action(value = "王者荣耀最新公告.*", otherName = {"王者公告.*"})
     public Object m3(Group group, @AllMess String str) throws Exception {
-        Response0 r0 = GetPvpNews.m1(getPvpQQ);
+        Response0 r0 = getPvpNews.m1();
         Message message;
         String numStr = findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
-            if (r0.getData().getItems().length > n)
+            if (r0.getData().getItems().length > n) {
                 st = n;
+            }
         }
         long newsId = r0.getData().getItems()[st].getINewsId().longValue();
-        message = GetPvpNews.getNews("王者荣耀更新公告\n", newsId, group.getId());
+        message = getPvpNews.getNews("王者荣耀更新公告\n", newsId, group.getId());
         return message;
     }
 
+    @AutoStand
+    GetPvpNews getPvpNews;
+
+    @AutoStand
+    MihoyoP0 mihoyoP0;
+
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
     public Object m4(Group group, @AllMess String str) throws Exception {
-        Entitys.apiEntitys.mihoyoYuanshen.Data data = MihoyoP0.getNews().getData()[0];
+        Entitys.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
         String numStr = findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
@@ -150,7 +170,7 @@ public class EntertainmentController2 {
             }
         }
         String cid = data.getMainList()[st].getContentId();
-        String[] sss = MihoyoP0.getNews(cid.substring(1, cid.length() - 1));
+        String[] sss = mihoyoP0.getNews(cid.substring(1, cid.length() - 1));
         if (!sss[0].startsWith("http")) {
             sss[0] = "https://ys.mihoyo.com" + sss[0];
         }
@@ -172,9 +192,12 @@ public class EntertainmentController2 {
 
     @Action("/init_pvp")
     public String p() {
-        PvpQq.m1();
+        pvpQq.m1();
         return "ok";
     }
+
+    @AutoStand
+    PvpQq pvpQq;
 
     @Action("王者语音.+")
     public String m0(@AllMess String a, Group group) {
@@ -186,7 +209,7 @@ public class EntertainmentController2 {
         }
         a = a.replace(numStr, "");
         a = a.replaceFirst("王者语音", "");
-        Yy_4e[] yy4es = PvpQq.getY4e(a);
+        Yy_4e[] yy4es = pvpQq.getY4e(a);
         if (yy4es == null) return "未发现相关英雄";
         Yy_4e yy4e = yy4es[0];
         if (yy4es.length > i) {
@@ -199,7 +222,7 @@ public class EntertainmentController2 {
     @Action("王者图片.+")
     public String pvpQQpic(@AllMess String a, Group group) {
         a = a.replaceFirst("王者图片", "");
-        Data data = PvpQq.getD(a);
+        Data data = pvpQq.getD(a);
         return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
 }

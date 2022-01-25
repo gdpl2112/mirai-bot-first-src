@@ -1,9 +1,11 @@
 package Project.Controllers;
 
+import Project.detailPlugin.pluginsDetail.RunAll;
 import Project.detailPlugin.pluginsDetail.entitys.CodeContent;
 import Project.detailPlugin.pluginsDetail.entitys.CodeEntity;
 import Project.detailPlugin.pluginsDetail.entitys.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import net.mamoe.mirai.contact.Group;
@@ -17,7 +19,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.detailPlugin.pluginsDetail.RunAll.*;
 
 /**
  * @author github-kloping
@@ -25,28 +26,36 @@ import static Project.detailPlugin.pluginsDetail.RunAll.*;
 @Controller
 public class SessionController {
 
-    public static boolean contains(long id) {
+    @AutoStand
+    public static SessionController INSTANCE;
+
+    @AutoStand
+    private RunAll runAll;
+
+    public boolean contains(long id) {
         return InTheSession.contains(id);
     }
 
-    public static void gotoSession(Group group, String text, long q) {
+    public void gotoSession(Group group, String text, long q) {
         String result = i(text, q, group);
-        if (result != null)
-            if (result.startsWith("&"))
+        if (result != null) {
+            if (result.startsWith("&")) {
                 group.sendMessage(new MessageChainBuilder().append(new At(q)).append(result.substring(1)).build());
-            else
+            } else {
                 group.sendMessage(result);
+            }
+        }
     }
 
-    public static final List<Long> InTheSession = new CopyOnWriteArrayList<>();
+    public final List<Long> InTheSession = new CopyOnWriteArrayList<>();
 
-    public static final Map<Long, String> q2Filename = new ConcurrentHashMap<>();
+    public final Map<Long, String> q2Filename = new ConcurrentHashMap<>();
 
-    public static final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
+    public final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
 
-    public static final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
+    public final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
 
-    private static final String HELP_STR = "已知命令:\n" +
+    private final String HELP_STR = "已知命令:\n" +
             "创建文件<FileName>\n" +
             "\t#仅可创建c,py,java 文件\n" +
             "\t例如:创建文件Main.java\n" +
@@ -57,7 +66,7 @@ public class SessionController {
             "==============\n" +
             "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
 
-    public static String i(String m1, long q, Group group) {
+    public String i(String m1, long q, Group group) {
         if (m1.startsWith("帮助") || m1.startsWith("help")) {
             return HELP_STR;
         } else if (m1.startsWith("创建文件")) {
@@ -86,7 +95,7 @@ public class SessionController {
         return InTheSession.add(q) ? "开始会话" : "您已经在会话";
     }
 
-    public static String run(long q, Group group) {
+    public String run(long q, Group group) {
         CodeEntity entity = new CodeEntity();
         CodeContent content = new CodeContent();
         if (!q2Filename.containsKey(q)) return "未设置文件名";
@@ -105,13 +114,13 @@ public class SessionController {
                 try {
                     CodeResponse response = new CodeResponse();
                     if (fileName.endsWith("java"))
-                        response = runJava(entity);
+                        response = runAll.runJava(entity);
                     else if (fileName.endsWith("c"))
-                        response = runC(entity);
+                        response = runAll.runC(entity);
                     else if (fileName.endsWith("py"))
-                        response = runPython(entity);
+                        response = runAll.runPython(entity);
                     else
-                        response = runAny(entity, SUPPORTED_LANGUAGE.get(fileName.substring(fileName.indexOf(".") + 1)));
+                        response = runAll.runAny(entity, SUPPORTED_LANGUAGE.get(fileName.substring(fileName.indexOf(".") + 1)));
                     String result = String.format("运行结果:\n%s\n\n运行警告:\n%s\n\n运行错误:\n%s\n\n", response.getStdout(), response.getStderr(), response.getError());
                     group.sendMessage(result);
                 } catch (Exception e) {
@@ -124,7 +133,7 @@ public class SessionController {
 
     public static final Map<String, String> SUPPORTED_LANGUAGE = new ConcurrentHashMap<>();
 
-    static {
+    {
         SUPPORTED_LANGUAGE.put("java", "java");
         SUPPORTED_LANGUAGE.put("c", "c");
         SUPPORTED_LANGUAGE.put("py", "python");
@@ -138,14 +147,14 @@ public class SessionController {
 
     private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
 
-    public static String createFile(String fileName, long q) {
+    public String createFile(String fileName, long q) {
         if (!(fileName.indexOf(".") > 0 && SUPPORTED_LANGUAGE.containsKey(fileName.substring(fileName.indexOf(".") + 1))))
             return "未知文件类型:" + fileName + "\nUnknown File Type:" + fileName;
         String f1 = q2Filename.put(q, fileName);
         return f1 == null ? String.format("创建文件:%s成功", fileName) : String.format("覆盖文件:%s,并创建文件:%s", f1, fileName);
     }
 
-    public static String writeFile(String content, long q, boolean k) {
+    public String writeFile(String content, long q, boolean k) {
         String oldContent = "";
         if (k && q2CodeContent.containsKey(q))
             oldContent = q2CodeContent.get(q);

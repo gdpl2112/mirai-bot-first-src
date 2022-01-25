@@ -5,10 +5,7 @@ import Entitys.User;
 import Project.detailPlugin.SearchPic;
 import Project.ResourceSet;
 import Project.Tools.Tool;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.Param;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.io.BufferedReader;
@@ -73,13 +70,16 @@ public class PointPicController {
         }
     }
 
+    @AutoStand
+    SearchPic searchPic;
+
     @Action("百度搜图<.+=>name>")
     public String searchPic(@Param("name") String name, User user) {
         if (isIlleg(name)) {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
-            String[] strings = SearchPic.getPicM(name);
+            String[] strings = searchPic.getPicM(name);
             PIC_HISTORY.remove(user.getId());
             PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -95,7 +95,7 @@ public class PointPicController {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
-            String[] strings = SearchPic.getPic(name);
+            String[] strings = searchPic.getPic(name);
             PIC_HISTORY.remove(user.getId());
             PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -111,7 +111,7 @@ public class PointPicController {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
-            String[] strings = SearchPic.getPicDt(name);
+            String[] strings = searchPic.getPicDt(name);
             PIC_HISTORY.remove(user.getId());
             PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -124,7 +124,9 @@ public class PointPicController {
     @Action("发第<.+=>str>")
     public Object sendSt(@Param("str") String str, Group group, User user) {
         str = str.replaceAll("个|张", "");
-        if (!PIC_HISTORY.containsKey(user.getId())) return "您还没有进行相关";
+        if (!PIC_HISTORY.containsKey(user.getId())) {
+            return "您还没有进行相关";
+        }
         if ("全部".equals(str) && isFather(user.getId())) {
             String[] ss = PIC_HISTORY.get(user.getId());
             Object[] objects = new Object[ss.length];
@@ -187,7 +189,7 @@ public class PointPicController {
     public String parseKs(@Param("str") String urlStr, User user) {
         try {
             String u1 = getUrl(urlStr);
-            String[] strings = SearchPic.parseKsImgs(u1);
+            String[] strings = searchPic.parseKsImgs(u1);
             PIC_HISTORY.remove(user.getId());
             PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
@@ -200,7 +202,7 @@ public class PointPicController {
     @Action("解析抖音图片<.+=>str>")
     public String parseDy(@Param("str") String urlStr, User user) {
         try {
-            String[] strings = SearchPic.parseDyImgs(getUrl(urlStr));
+            String[] strings = searchPic.parseDyImgs(getUrl(urlStr));
             PIC_HISTORY.remove(user.getId());
             PIC_HISTORY.put(user.getId(), strings);
             return String.format("一共解析到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);

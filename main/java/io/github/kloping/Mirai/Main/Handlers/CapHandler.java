@@ -1,7 +1,11 @@
 package io.github.kloping.Mirai.Main.Handlers;
 
+import Project.Controllers.ControllerSource;
+import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.Image;
@@ -12,20 +16,23 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.Controllers.ControllerSource.createCapImage;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAt;
 
 /**
  * @author github-kloping
  */
+@Entity
 public class CapHandler {
     public static final Map<Long, String> CAPING = new ConcurrentHashMap<>();
     public static final Map<Long, Group> CAP_2 = new ConcurrentHashMap<>();
     public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
 
+    @AutoStand
+    static ControllerSource controllerSource;
+
     public static void join(long qid, Group group) {
         if (DataBase.needCap(group.getId())) {
-            Object[] o = createCapImage();
+            Object[] o = controllerSource.createCapImage();
             String path = o[0].toString();
             String capCode = o[1].toString();
             Image image = MessageTools.createImage(group, path);

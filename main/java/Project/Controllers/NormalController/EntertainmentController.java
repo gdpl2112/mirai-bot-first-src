@@ -88,14 +88,17 @@ public class EntertainmentController {
     @AutoStand
     public static IOtherService otherService;
 
+    @AutoStand
+    public WeatherGetter weatherGetter;
+
     @Action("短时预报<.+=>address>")
     public String m2(@Param("address") String address) {
-        return WeatherGetter.get(address);
+        return weatherGetter.get(address);
     }
 
     @Action("天气<.+=>name>")
     public String Weather(@Param("name") String name, Group group) {
-        String line = WeatherGetter.detail(name);
+        String line = weatherGetter.detail(name);
         if (voiceK) {
             speak(line, group);
         }
@@ -254,10 +257,13 @@ public class EntertainmentController {
     @Action("我接<.+=>str>")
     public String s2(@Param("str") String str, Group group, User user) {
         Idiom idiom = longIdiomMap.get(group.getId());
-        if (idiom == null) return "游戏未开始:请说 开始成语接龙";
+        if (idiom == null) {
+            return "游戏未开始:请说 开始成语接龙";
+        }
         UScore score = DataBase.getAllInfo(user.getId());
-        if (score.getScore() < eveS1)
+        if (score.getScore() < eveS1) {
             return "您的积分不足...";
+        }
         String s = idiom.meet(str);
         StringBuilder sb = new StringBuilder();
         switch (s) {
@@ -303,8 +309,9 @@ public class EntertainmentController {
             for (String s1 : idiom.getHist()) {
                 sb.append(s1).append("=>");
             }
-            if (sb.toString().endsWith("=>"))
+            if (sb.toString().endsWith("=>")) {
                 sb = sb.replace(sb.length() - 2, sb.length(), "");
+            }
         }
         return sb.toString();
     }
@@ -326,8 +333,9 @@ public class EntertainmentController {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null)
+            if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
+            }
         } else {
             urlStr = Tool.getTouUrl(q);
         }
@@ -348,8 +356,9 @@ public class EntertainmentController {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null)
+            if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
+            }
         } else {
             urlStr = Tool.getTouUrl(q);
         }
@@ -370,8 +379,9 @@ public class EntertainmentController {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null)
+            if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
+            }
         } else {
             urlStr = Tool.getTouUrl(q);
         }
@@ -395,8 +405,9 @@ public class EntertainmentController {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null)
+            if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
+            }
         } else {
             urlStr = Tool.getTouUrl(q);
         }
@@ -430,7 +441,9 @@ public class EntertainmentController {
             String[] ss = mess.split("-");
             Map<String, Integer> maps = new HashMap<>();
             for (String s : ss) {
-                if (s.trim().isEmpty() || !s.contains("=")) continue;
+                if (s.trim().isEmpty() || !s.contains("=")) {
+                    continue;
+                }
                 try {
                     String[] s2 = s.split("=");
                     maps.put(s2[0], Integer.valueOf(s2[1]));

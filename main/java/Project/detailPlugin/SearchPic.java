@@ -1,32 +1,38 @@
 package Project.detailPlugin;
 
-import java.io.IOException;
+import Project.interfaces.SearchPics;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 
-import static Project.Controllers.ControllerSource.searchPics;
+import java.io.IOException;
 
 
 /**
  * @author github-kloping
  */
+@Entity
 public class SearchPic {
 
-    public static String[] getPic(String name) throws IOException {
+    @AutoStand
+    SearchPics searchPics;
+
+    public String[] getPic(String name) throws IOException {
         return searchPics.getPicNum(name, 6, null).getData();
     }
 
-    public static String[] getPicDt(String name) throws IOException {
+    public String[] getPicDt(String name) throws IOException {
         return searchPics.getPicNum(name, null, "duit").getData();
     }
 
-    public static String[] getPicM(String name) throws Exception {
+    public String[] getPicM(String name) throws Exception {
         return searchPics.getPicNum(name, 19, "baidu").getData();
     }
 
-    public static String[] parseKsImgs(String urlStr) throws IOException {
+    public String[] parseKsImgs(String urlStr) throws IOException {
         return searchPics.parsePic(urlStr, null);
     }
 
-    public static String[] parseDyImgs(String urlStr) throws IOException {
+    public String[] parseDyImgs(String urlStr) throws IOException {
         return searchPics.parsePic(urlStr, "dy");
     }
 }
