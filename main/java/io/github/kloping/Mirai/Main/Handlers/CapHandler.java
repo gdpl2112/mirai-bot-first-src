@@ -26,7 +26,7 @@ public class CapHandler {
     public static final Map<Long, String> CAPING = new ConcurrentHashMap<>();
     public static final Map<Long, Group> CAP_2 = new ConcurrentHashMap<>();
     public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
-
+    private static final Number MAX_WAIT = 300;
     @AutoStand
     static ControllerSource controllerSource;
 
@@ -37,14 +37,14 @@ public class CapHandler {
             String capCode = o[1].toString();
             Image image = MessageTools.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(getAt(qid)).append("\n请在180秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
+            builder.append(getAt(qid)).append("\n请在").append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
             CAPING.put(qid, capCode);
             CAP_2.put(qid, group);
             if (!CAP_T.containsKey(qid))
                 startTimer(qid);
-            CAP_T.put(qid, 180);
+            CAP_T.put(qid, MAX_WAIT.intValue());
         }
     }
 
