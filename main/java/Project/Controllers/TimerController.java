@@ -122,5 +122,4 @@ public class TimerController {
     public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static String baseC3 = null;
     public static final SimpleDateFormat FORMAT = new SimpleDateFormat("MM_dd_HH");
-
 }

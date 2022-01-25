@@ -2,13 +2,11 @@ package Project.services.DetailServices;
 
 import Entitys.eEntitys.CustomElement;
 import Entitys.eEntitys.CustomReplyGroup;
-import Project.broadcast.PicBroadcast;
 import Project.broadcast.normal.MessageBroadcast;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.serialize.HMLObject;
 
 import java.io.File;
@@ -31,15 +29,17 @@ public class CustomRandReplyService {
     public static List<CustomReplyGroup> customReplyGroups = new CopyOnWriteArrayList<>();
 
     private void init() {
-        for (File file : new File(path).listFiles()) {
-            CustomReplyGroup customReplyGroup =
-                    HMLObject.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()), CustomReplyGroup.class);
-            customReplyGroups.add(customReplyGroup);
-            if (customReplyGroup.getId() > ID) {
-                ID = customReplyGroup.getId() + 1;
+        if (new File(path).exists()) {
+            for (File file : new File(path).listFiles()) {
+                CustomReplyGroup customReplyGroup =
+                        HMLObject.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()), CustomReplyGroup.class);
+                customReplyGroups.add(customReplyGroup);
+                if (customReplyGroup.getId() > ID) {
+                    ID = customReplyGroup.getId() + 1;
+                }
             }
+            init1();
         }
-        init1();
     }
 
     private void init1() {

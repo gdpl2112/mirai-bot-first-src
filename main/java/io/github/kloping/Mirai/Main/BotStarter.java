@@ -28,7 +28,6 @@ public class BotStarter {
             e.printStackTrace();
         }
     }
-
     private static BotConf abot = null;
 
     public static void main(String[] args) {
