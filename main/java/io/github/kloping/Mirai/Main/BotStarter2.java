@@ -13,6 +13,9 @@ import java.io.File;
 import static Project.Tools.Tool.*;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
+/**
+ * @author github-kloping
+ */
 @CommentScan(path = "Project")
 public class BotStarter2 {
 
