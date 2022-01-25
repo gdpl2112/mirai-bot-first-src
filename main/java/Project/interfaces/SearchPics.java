@@ -15,7 +15,6 @@ import static Project.detailPlugin.NetMain.ROOT_PATH;
  */
 @HttpClient(ROOT_PATH)
 public interface SearchPics {
-
     /**
      * 获取图片
      *

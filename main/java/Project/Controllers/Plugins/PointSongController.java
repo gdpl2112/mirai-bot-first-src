@@ -4,6 +4,7 @@ import Entitys.User;
 import Entitys.apiEntitys.Song;
 import Entitys.apiEntitys.Songs;
 import Entitys.apiEntitys.reping163.Reping163;
+import Project.detailPlugin.SearchPic;
 import Project.detailPlugin.SearchSong;
 import Project.interfaces.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
