@@ -95,7 +95,7 @@ public class MyHandler extends SimpleListenerHost {
                 if (ControllerTool.canGroup(group.getId())) {
                     MessageBroadcast.INSTANCE.broadcast(id, group.getId(), text);
                 }
-                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 0);
+                StarterApplication.executeMethod(id, text, id, eUser, eGroup, 0);
             } else {
                 gotoSession(group, text, id);
             }
@@ -123,7 +123,7 @@ public class MyHandler extends SimpleListenerHost {
             Entitys.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
             if (INSTANCE.getActionManager().mather(text) != null) {
-                StarterApplication.ExecuteMethod(id, text, id, eUser, eGroup, 1);
+                StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
             } else {
                 event.getSender().sendMessage(EntertainmentController.otherService.Talk(text));
             }

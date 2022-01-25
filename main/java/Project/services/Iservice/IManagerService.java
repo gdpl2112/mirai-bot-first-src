@@ -21,7 +21,7 @@ public interface IManagerService   {
      */
     String removeFather(long father,long who);
 
-    String NotSpeak(Member who, String what, Group group);
+    String notSpeak(Member who, String what, Group group);
 
     String backMess(Group group, long whos, long g, int... ns);
 }

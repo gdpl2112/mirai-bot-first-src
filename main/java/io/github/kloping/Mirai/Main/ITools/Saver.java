@@ -77,17 +77,6 @@ public class Saver {
         request(savePath2, false, dataC);
     }
 
-    public static void saveRecalled(String text, long group, long q) throws Exception {
-        if (ROOT_PATH == null) return;
-        DataC dataC = new DataC();
-        dataC.setContent(text);
-        dataC.setGroupId(group);
-        dataC.setqId(q);
-        dataC.setType(1);
-        dataC.setToken(token);
-        request(saveRecallPath, false, dataC);
-    }
-
     public static String[] getTexts(long group, long q, int[] ints) throws Exception {
         if (ROOT_PATH == null) return null;
         DataC dataC = new DataC();

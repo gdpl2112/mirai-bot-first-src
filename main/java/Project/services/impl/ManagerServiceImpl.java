@@ -2,10 +2,11 @@ package Project.services.impl;
 
 
 import Project.DataBases.DataBase;
-import Project.services.Iservice.IManagerService;
 import Project.Tools.Tool;
+import Project.services.Iservice.IManagerService;
 import io.github.kloping.Mirai.Main.ITools.Saver;
 import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
@@ -15,14 +16,13 @@ import net.mamoe.mirai.message.data.MessageSource;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.kloping.Mirai.Main.Resource.bot;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
 
-import io.github.kloping.MySpringTool.annotations.Entity;
-
+/**
+ * @author github-kloping
+ */
 @Entity
 public class ManagerServiceImpl implements IManagerService {
-
     @Override
     public String addFather(long father, long who) {
         if (father == superQL) {
@@ -50,7 +50,7 @@ public class ManagerServiceImpl implements IManagerService {
     private static final String[] sss = new String[]{"秒", "分", "时", "天", "月"};
 
     @Override
-    public String NotSpeak(Member who, String what, Group group) {
+    public String notSpeak(Member who, String what, Group group) {
         String es = "";
         long t = 1;
         for (String s : sss) {
@@ -97,8 +97,8 @@ public class ManagerServiceImpl implements IManagerService {
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
             return "我不是管理员啊";
         }
-        if (group.get(who.getId()).getPermission().getLevel() > group.getBotAsMember().getPermission().getLevel()) {
-            return "他是管理员 除非我是群主";
+        if (group.get(who.getId()).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
+            return "权限不足";
         } else {
             NormalMember m1 = (NormalMember) who;
             if (t > 0) {
@@ -115,30 +115,17 @@ public class ManagerServiceImpl implements IManagerService {
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
             return "我不是管理员啊";
         }
-        if (group.get(whos).getPermission().getLevel() > 0) {
-            return "他是管理员 无法禁言 除非我是群主";
+        if (group.get(whos).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
+            return "权限不足";
         }
         try {
-//            List<String> strings = Arrays.asList(Saver.getTexts(g, whos));
             List<String> strings = Arrays.asList(Saver.getTexts(g, whos, ns));
             if (strings == null || strings.size() == 0) return "没有发现他ta的消息";
             String m = "撤回成功";
-//            for (int n : ns) {
-//                try {
-//                    String text = strings.get(n);
-//                    MessageChain chain = MessageChain.deserializeFromJsonString(text);
-//                    MessageSource.recall(chain);
-//                    Saver.saveRecalled(text, g, whos);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    m = "部分撤回失败";
-//                }
-//            }
             for (String text : strings) {
                 try {
                     MessageChain chain = MessageChain.deserializeFromJsonString(text);
                     MessageSource.recall(chain);
-                    Saver.saveRecalled(text, g, whos);
                 } catch (Exception e) {
                     e.printStackTrace();
                     m = "部分撤回失败";
@@ -150,10 +137,4 @@ public class ManagerServiceImpl implements IManagerService {
         }
         return "撤回失败";
     }
-
-//    private static void Recall(long id,long st){
-//        MessageChain source = MiraiCode.deserializeMiraiCode("[mirai:source:["+id+"],["+st+"]]");
-//
-//        MessageSource.recallIn(source,1);
-//    }
 }

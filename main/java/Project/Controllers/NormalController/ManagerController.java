@@ -244,7 +244,7 @@ public class ManagerController {
         if (who == -1)
             return "谁？";
         net.mamoe.mirai.contact.Group group = bot.getGroup(egroup.getId());
-        return managerService.NotSpeak(group.get(who), str.replace(who + "", ""), group);
+        return managerService.notSpeak(group.get(who), str.replace(who + "", ""), group);
     }
 
     @Action("解除禁言.{1,}")
@@ -253,7 +253,7 @@ public class ManagerController {
         if (who == -1)
             return "谁？";
         net.mamoe.mirai.contact.Group group = bot.getGroup(egroup.getId());
-        String str = managerService.NotSpeak(group.get(who), "0秒", group);
+        String str = managerService.notSpeak(group.get(who), "0秒", group);
         if ("尝试禁言 ta 0秒".equals(str)) {
             return "解除成功";
         } else {
@@ -266,7 +266,16 @@ public class ManagerController {
         try {
             long at = getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
-            int[] is = Tool.StringToInts(str, 1);
+            int[] is;
+            if (str.trim().matches("最近\\d+条")) {
+                int i = Tool.getInteagerFromStr(str);
+                is = new int[i];
+                for (int i1 = 0; i1 < i; i1++) {
+                    is[i1] = i1;
+                }
+            } else {
+                is = Tool.StringToInts(str);
+            }
             is = is == null || is.length == 0 ? new int[]{0} : is;
             return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
         } catch (Exception e) {
