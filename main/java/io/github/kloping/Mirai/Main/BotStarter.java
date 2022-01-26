@@ -3,6 +3,7 @@ package io.github.kloping.Mirai.Main;
 import Project.ASpring.SpringStarter;
 import io.github.kloping.Mirai.Main.Handlers.LittleHandler;
 import io.github.kloping.Mirai.Main.Handlers.MyHandler;
+import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -54,6 +55,7 @@ public class BotStarter {
         bot.login();
         BotStarter.afterLogin();
         pluginLoad();
+        StarterApplication.logger.info("this is info");
     }
 
     private static void initBot() {

@@ -26,17 +26,13 @@ import static io.github.kloping.Mirai.Main.Resource.THREADS;
 @Entity
 public class GameReceiver0 {
     public GameReceiver0() {
-        THREADS.execute(() -> {
-            Method[] methods = this.getClass().getDeclaredMethods();
-            for (Method method : methods) {
-                if (method.getName().equals("lambda$new$0")) continue;
-                try {
-                    method.invoke(null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        init();
+        init1();
+        init2();
+        init3();
+        init4();
+        init5();
+        init6();
     }
 
     private static void init() {
