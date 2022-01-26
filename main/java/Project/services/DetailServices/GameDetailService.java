@@ -231,12 +231,12 @@ public class GameDetailService {
             long nv2 = v2 - ov2;
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
-                int v = toPercent(nv2, baseInfo.getHpL());
-                v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
-                long nv0 = percentTo(v, baseInfo.getHpL());
                 if (baseInfo instanceof GhostObj) {
-                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv0, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
+                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv2, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
                 } else {
+                    int v = toPercent(nv2, baseInfo.getHpL());
+                    v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
+                    long nv0 = percentTo(v, baseInfo.getHpL());
                     sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
                     sb.append(beaten(q2, q, nv0)).append("\n");
                 }
