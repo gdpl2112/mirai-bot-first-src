@@ -163,7 +163,7 @@ public class GameSkillDetailService {
             case 77:
                 return String.format("释放白虎真身,增加%s%%的攻击力", getAddP(jid, id));
             case 78:
-                return String.format("释放邪火凤凰真身,增加%%s% + 魂力剩余百分比的一半% 的攻击力", getAddP(jid, id));
+                return String.format("释放邪火凤凰真身,增加%%s%% + 魂力剩余百分比的一半% 的攻击力", getAddP(jid, id));
             case 79:
                 return String.format("释放七杀剑真身,增加%s%%的攻击力", getAddP(jid, id));
             case 710:
