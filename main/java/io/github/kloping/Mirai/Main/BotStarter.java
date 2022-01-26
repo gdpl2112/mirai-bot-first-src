@@ -55,7 +55,6 @@ public class BotStarter {
         bot.login();
         BotStarter.afterLogin();
         pluginLoad();
-        StarterApplication.logger.info("this is info");
     }
 
     private static void initBot() {

@@ -43,7 +43,6 @@ public class SpringBootResource {
                 e.printStackTrace();
             }
             System.out.println("==============spring papered=================");
-            System.err.println(configuration.getEnvironment().getProperty("spring.resources.static-locations"));
             address = "http://" + PUBLIC_IP + ":" + configuration.getEnvironment().getProperty("server.port");
         } catch (Exception e) {
             e.printStackTrace();

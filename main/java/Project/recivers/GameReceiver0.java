@@ -43,7 +43,7 @@ public class GameReceiver0 {
                         who, ghostObj.getL(), with));
                 if (with.longValue() == -1) {
                     if (ghostObj.getL() >= lowst * 10000L) {
-                        StarterApplication.logger.info(String.format("add master point %s", who));
+                        StarterApplication.logger.info(String.format("add master point %s ", who));
                         GInfo.getInstance(who).addMasterPoint().apply();
                     }
                 }

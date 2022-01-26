@@ -9,6 +9,9 @@ import lombok.experimental.Accessors;
 
 import static Project.ASpring.SpringBootResource.gInfoMapper;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
@@ -59,7 +62,7 @@ public class GInfo {
     }
 
     public GInfo addMasterPoint() {
-        this.masterPoint++;
+        ++this.masterPoint;
         return this;
     }
 
