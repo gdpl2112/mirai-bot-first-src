@@ -15,6 +15,9 @@ import java.util.*;
 import static Project.DataBases.GameTaskDatabase.*;
 import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 public class Task {

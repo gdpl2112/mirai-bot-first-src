@@ -3,8 +3,14 @@ package Project.DataBases.task;
 import Entitys.gameEntitys.task.Task;
 import Project.broadcast.Receiver;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.DetailServices.tasks.Task1000;
+import Project.services.DetailServices.tasks.Task1001;
+import Project.services.DetailServices.tasks.Task1002;
+import Project.services.DetailServices.tasks.reciver.GhostLostReceiverWithTask0;
+import Project.services.DetailServices.tasks.reciver.GhostLostReceiverWithTask1000;
+import Project.services.DetailServices.tasks.reciver.GhostLostReceiverWithTask1001;
+import Project.services.DetailServices.tasks.reciver.GhostLostReceiverWithTask1002;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static Project.Tools.Tool.getRandT;
@@ -17,13 +23,14 @@ import static Project.Tools.Tool.getRandT;
 public class TaskCreator {
     public static final int MAX_PRENTICE_INDEX = 1;
     public static final int MIN_PRENTICE_INDEX = 0;
-    public static final int MAX_INDEX = 1002;
+    public static final int MAX_INDEX = 1003;
     public static final int MIN_INDEX = 1000;
 
     public static <T extends Task> T getTask(int id) {
-        if (id < 10) return (T) new Task();
-        else if (id < 1001) return (T) new TaskEntityDetail.Task1000();
-        else if (id < 1002) return (T) new TaskEntityDetail.Task1001();
+        if (id == 0) return (T) new Task();
+        else if (id == 1000) return (T) new Task1000();
+        else if (id == 1001) return (T) new Task1001();
+        else if (id == 1002) return (T) new Task1002();
         return null;
     }
 
@@ -33,11 +40,7 @@ public class TaskCreator {
             Method method = TaskCreator.class.getDeclaredMethod("task" + id, Task.class);
             method.setAccessible(true);
             return (Receiver) method.invoke(null, task);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -45,7 +48,7 @@ public class TaskCreator {
 
     public static synchronized Receiver task0(final Task taskN) {
         Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver = new TaskEntityDetail.GhostLostReceiverWithTask0(taskN));
+        GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostReceiverWithTask0(taskN));
         return receiver;
     }
 
@@ -56,18 +59,26 @@ public class TaskCreator {
     }
 
     public static Receiver task1000(Task task) {
-        if (!(task instanceof TaskEntityDetail.Task1000)) return null;
+        if (!(task instanceof Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new TaskEntityDetail.GhostLostReceiverWithTask1000((TaskEntityDetail.Task1000) task));
+                = new GhostLostReceiverWithTask1000((Task1000) task));
         return receiver;
     }
 
     public static synchronized Receiver task1001(Task task) {
-        if (!(task instanceof TaskEntityDetail.Task1001)) return null;
+        if (!(task instanceof Task1001)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new TaskEntityDetail.GhostLostReceiverWithTask1001((TaskEntityDetail.Task1001) task));
+                = new GhostLostReceiverWithTask1001((Task1001) task));
+        return receiver;
+    }
+
+    public static synchronized Receiver task1002(Task task) {
+        if (!(task instanceof Task1002)) return null;
+        Receiver receiver = null;
+        GhostLostBroadcast.INSTANCE.add(receiver
+                = new GhostLostReceiverWithTask1002((Task1002) task));
         return receiver;
     }
 

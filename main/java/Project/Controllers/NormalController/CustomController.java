@@ -3,7 +3,7 @@ package Project.Controllers.NormalController;
 import Entitys.Group;
 import Project.ResourceSet;
 import Project.Tools.Tool;
-import Project.Utils.DBUtils;
+import Project.Utils.DataBaseSourcePack;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.Mirai.Main.Resource;
@@ -257,7 +257,7 @@ public class CustomController {
 
     public final static synchronized Map<String, Reply> getAllAutoReply() {
         try {
-            Connection connection = DBUtils.getConnection();
+            Connection connection = DataBaseSourcePack.getConnection();
             PreparedStatement statement = connection.prepareStatement("select * from auto_reply where delete_stat=0;");
             Map<String, Reply> map = new LinkedHashTreeMap<>();
             ResultSet set = statement.executeQuery();
@@ -282,7 +282,7 @@ public class CustomController {
     public final static synchronized int getAllAutoReplyCount() {
         Connection connection = null;
         try {
-            connection = DBUtils.getConnection();
+            connection = DataBaseSourcePack.getConnection();
             PreparedStatement statement = connection.prepareStatement("select count(*) from auto_reply where delete_stat=0;");
             Map<String, Reply> map = new ConcurrentHashMap<>();
             ResultSet set = statement.executeQuery();
@@ -304,7 +304,7 @@ public class CustomController {
     public final static synchronized boolean deleteReply(Reply reply) {
         Connection connection = null;
         try {
-            connection = DBUtils.getConnection();
+            connection = DataBaseSourcePack.getConnection();
             PreparedStatement statement = connection.prepareStatement("update auto_reply set delete_stat=1 where id=?;");
             statement.setInt(1, reply.id);
             return statement.executeUpdate() > 0;
@@ -323,7 +323,7 @@ public class CustomController {
     public final static synchronized boolean addReply(Reply reply) {
         Connection connection = null;
         try {
-            connection = DBUtils.getConnection();
+            connection = DataBaseSourcePack.getConnection();
             PreparedStatement statement = connection.prepareStatement("insert into auto_reply (k,v,who,time,delete_stat) VALUES (?,?,?,?,0);");
             statement.setBytes(1, reply.key.getBytes(StandardCharsets.UTF_8));
             statement.setBytes(2, reply.content.getBytes(StandardCharsets.UTF_8));

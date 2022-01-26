@@ -122,17 +122,17 @@ public class GameTool {
             case 201:
                 return 1;
             case 202:
-                return 1.2;
+                return 1.3;
             case 203:
-                return 1.5;
+                return 1.6;
             case 204:
-                return 1.8;
+                return 1.9;
             case 205:
-                return 2.0;
+                return 2.2;
             case 206:
-                return 2.5;
+                return 2.6;
             case 207:
-                return 3;
+                return 3.3;
         }
         return -1;
     }

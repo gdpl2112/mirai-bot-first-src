@@ -38,7 +38,7 @@ public class GameReceiver0 {
     private static void init() {
         GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
             @Override
-            public void onReceive(long who, Long with, GhostObj ghostObj) {
+            public void onReceive(long who, Long with, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
                 StarterApplication.logger.info(String.format("ghost losted by %s level=%s with %s",
                         who, ghostObj.getL(), with));
                 if (with.longValue() == -1) {

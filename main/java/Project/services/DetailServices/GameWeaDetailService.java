@@ -3,6 +3,7 @@ package Project.services.DetailServices;
 
 import Entitys.TradingRecord;
 import Entitys.gameEntitys.PersonInfo;
+import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Method;
@@ -15,38 +16,41 @@ import static Project.services.DetailServices.GameJoinDetailService.attGho;
 import static Project.Tools.GameTool.isAlive;
 import static Project.Tools.Tool.randLong;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameWeaDetailService {
-    private final static Class cla = GameWeaDetailService.class;
-    public static final List<String> Aqs = new ArrayList<>();
+    private final static Class CLA = GameWeaDetailService.class;
+    public static final List<String> AQS = new ArrayList<>();
 
     public GameWeaDetailService() {
-        if (Aqs.isEmpty()) {
+        if (AQS.isEmpty()) {
             for (int id : ID_2_NAME_MAPS.keySet()) {
                 if (id > 1000 && id < 1200)
-                    Aqs.add(getNameById(id));
+                    AQS.add(getNameById(id));
             }
         }
     }
 
-    private synchronized void InitAqs() {
-        if (Aqs.isEmpty())
+    private synchronized void initAqs() {
+        if (AQS.isEmpty())
             for (int id : ID_2_NAME_MAPS.keySet()) {
                 if (id > 1000 && id < 1200)
-                    Aqs.add(getNameById(id));
+                    AQS.add(getNameById(id));
             }
     }
 
-    public String UseAq(List<String> lps, long who, String name) {
-        if (Aqs.isEmpty()) InitAqs();
-        if (!Aqs.contains(name))
+    public String useAq(List<String> lps, long who, String name) {
+        if (AQS.isEmpty()) initAqs();
+        if (!AQS.contains(name))
             return "系统未找到 此暗器";
         int id = NAME_2_ID_MAPS.get(name);
         if (!exitsO(id, who)) {
             return "你没有 " + name + "或已损坏";
         }
         try {
-            Method method = cla.getMethod("use" + (id), List.class, long.class);
+            Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
             used(who, id);
             return mes;
@@ -68,7 +72,7 @@ public class GameWeaDetailService {
             ar = ar > 10000 ? 10000 : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, true, false);
+                String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -169,7 +173,7 @@ public class GameWeaDetailService {
             ar = ar > 2500000 ? 2500000 : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, true, false);
+                String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -234,7 +238,7 @@ public class GameWeaDetailService {
         for (String whos : lps) {
             if (whos.equals("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, n++ == lps.size(), false);
+                String ss = attGho(who, l, n++ == lps.size(), false, GhostLostBroadcast.KillType.ANQ_ATT);
                 if (ss.startsWith("你对"))
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");

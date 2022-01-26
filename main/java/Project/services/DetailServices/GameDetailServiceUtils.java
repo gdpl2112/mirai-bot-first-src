@@ -3,6 +3,7 @@ package Project.services.DetailServices;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
+import Project.broadcast.game.GhostLostBroadcast;
 
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.ResourceSet.FinalString.*;
@@ -119,7 +120,7 @@ public class GameDetailServiceUtils {
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v) {
         if (who2.longValue() == -2) {
-            sb.append(attGho(who.longValue(), v, true, false));
+            sb.append(attGho(who.longValue(), v, true, false, GhostLostBroadcast.KillType.SKILL_ATT));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
                 sb.append(PLAYER_NOT_REGISTERED);

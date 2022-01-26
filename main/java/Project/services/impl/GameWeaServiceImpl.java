@@ -33,7 +33,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
             list.remove(s1);
             list.add(s1.replace("[@", "").replace("]", ""));
         }
-        return gameWeaDetailService.UseAq(list, who, str.trim());
+        return gameWeaDetailService.useAq(list, who, str.trim());
     }
 
     private static final Pattern PATTERN = Pattern.compile("(\\[\\@.+\\]|#)");

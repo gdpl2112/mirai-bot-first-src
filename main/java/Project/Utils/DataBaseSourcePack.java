@@ -6,7 +6,10 @@ import java.sql.Connection;
 
 import static io.github.kloping.Mirai.Main.Resource.contextManager;
 
-public class DBUtils {
+/**
+ * @author github-kloping
+ */
+public class DataBaseSourcePack {
     private static DruidDataSource ds;
     private static String url, user, password;
     private static Connection connection = null;

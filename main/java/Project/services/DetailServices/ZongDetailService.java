@@ -24,7 +24,7 @@ public class ZongDetailService {
 
     private static ExecutorService threads = Executors.newFixedThreadPool(10);
 
-    public static void OnKilled(Long who, Long xp) {
+    public static void onKilled(Long who, Long xp) {
         threads.execute(() -> {
             try {
                 startShare(who, xp);

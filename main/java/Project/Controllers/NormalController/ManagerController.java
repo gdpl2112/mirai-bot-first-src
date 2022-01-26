@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static Project.ResourceSet.FinalString.*;
 import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.Mirai.Main.Resource.*;
 
@@ -174,17 +175,19 @@ public class ManagerController {
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
     public String Out(long q, Group gr, @AllMess String chain) {
         Number[] numbers = getAllAt(chain);
-        if (numbers.length == 0) return "谁?";
+        if (numbers.length == 0) {
+            return NOT_FOUND_AT;
+        }
         if (numbers.length == 1) {
             long who = numbers[0].longValue();
             net.mamoe.mirai.contact.Group group = bot.getGroup(gr.getId());
             NormalMember m1 = group.get(Resource.qq.getQq());
             NormalMember m2 = group.get(who);
             if (m1.getPermission().getLevel() == 0) {
-                return "我不是管理员，抱歉了。。";
+                return PERMISSION_DENIED;
             } else {
-                if (m2.getPermission().getLevel() > 0) {
-                    return "ta也是管理员啊。。";
+                if (m2.getPermission().getLevel() > m1.getPermission().getLevel()) {
+                    return NO_PERMISSION_STR;
                 }
                 String name = m2.getNameCard();
                 try {
@@ -254,11 +257,7 @@ public class ManagerController {
             return "谁？";
         net.mamoe.mirai.contact.Group group = bot.getGroup(egroup.getId());
         String str = managerService.notSpeak(group.get(who), "0秒", group);
-        if ("尝试禁言 ta 0秒".equals(str)) {
-            return "解除成功";
-        } else {
-            return str;
-        }
+        return TRY_UNMUTE;
     }
 
     @Action("撤回.+")
@@ -281,7 +280,7 @@ public class ManagerController {
             return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
         } catch (Exception e) {
             e.printStackTrace();
-            return "未知异常";
+            return ERR_TIPS;
         }
     }
 
@@ -315,7 +314,6 @@ public class ManagerController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MessageTools.sendMessageInGroup("Not Found", group.getId());
             throw new NoRunException();
         }
     }
@@ -334,7 +332,6 @@ public class ManagerController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MessageTools.sendMessageInGroup("Not Found", group.getId());
             throw new NoRunException();
         }
     }
@@ -352,7 +349,6 @@ public class ManagerController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MessageTools.sendMessageInGroup("Not Found", group.getId());
             throw new NoRunException();
         }
     }

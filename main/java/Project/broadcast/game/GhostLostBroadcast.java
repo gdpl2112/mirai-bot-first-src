@@ -11,6 +11,9 @@ import java.util.Set;
 import static Project.DataBases.GameDataBase.addToBgs;
 import static Project.DataBases.GameDataBase.getImgById;
 
+/**
+ * @author github-kloping
+ */
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
 
@@ -18,12 +21,12 @@ public class GhostLostBroadcast extends Broadcast {
         super("GhostLostBroadcast");
     }
 
-    public void broadcast(long who, GhostObj ghostObj) {
+    public void broadcast(long who, GhostObj ghostObj, KillType type) {
         for (Receiver receiver : receivers) {
             if (receiver instanceof GhostLostReceiver)
-                ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWith(), ghostObj);
+                ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWith(), ghostObj, type);
         }
-        threads.submit(this::After);
+        threads.submit(this::after);
     }
 
     public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
@@ -35,7 +38,7 @@ public class GhostLostBroadcast extends Broadcast {
         return false;
     }
 
-    public synchronized void After() {
+    public synchronized void after() {
         if (AfterRunnable.isEmpty())
             return;
         Iterator<Runnable> runnableIterator = AfterRunnable.iterator();
@@ -51,8 +54,31 @@ public class GhostLostBroadcast extends Broadcast {
         return index++;
     }
 
+    public static enum KillType {
+        NORMAL_ATT("普通攻击"),
+        SPIRIT_ATT("精神攻击"),
+        SKILL_ATT("魂技攻击"),
+        ANQ_ATT("暗器攻击");
+        String name;
+
+        KillType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public static interface GhostLostReceiver extends Receiver {
-        void onReceive(long who, Long with, GhostObj ghostObj);
+        /**
+         * receive
+         *
+         * @param who
+         * @param with
+         * @param ghostObj
+         */
+        void onReceive(long who, Long with, GhostObj ghostObj, KillType killType);
     }
 
     public static abstract class AbstractGhostLostReceiverWith<T> implements GhostLostReceiver {

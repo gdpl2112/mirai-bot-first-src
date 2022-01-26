@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.26:修复已知bug,新的周任务,精神力伤害的调整,魂技效果加成的调整").append("\n");
         UPDATE_LOG.append("1.25:修复已知bug,新年样式#狗头保命").append("\n");
         UPDATE_LOG.append("1.23: 修复永久加攻击的bug").append("\n");
         UPDATE_LOG.append("1.23:批量抢劫最大12").append("\n");

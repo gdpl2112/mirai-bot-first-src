@@ -51,7 +51,7 @@ public class ManagerServiceImpl implements IManagerService {
         }
     }
 
-    public static final String[] TIME_UNIT = new String[]{MINUTE, MINUTE, HOUR, DAY, MONTH};
+    public static final String[] TIME_UNIT = new String[]{SECONDS, MINUTE, HOUR, DAY, MONTH};
 
     @Override
     public String notSpeak(Member who, String what, Group group) {

@@ -84,6 +84,8 @@ public final class ResourceSet {
 
         public static final String RECALL_SUCCEED = "撤回成功";
         public static final String RECALL_FAIL = "撤回失败";
+
+        public static final String TRY_UNMUTE = "尝试解除禁言";
     }
 
     public static final class FinalFormat {
@@ -110,7 +112,7 @@ public final class ResourceSet {
          * 精神力抵消后 剩余倍数 <br/>
          * {@link Project.services.DetailServices.GameDetailService#onSpiritAttack}
          */
-        public static final int HJ_LOSE_1_X = 8;
+        public static final int HJ_LOSE_1_X = 15;
         /**
          * 最大精神力消耗血量百分比
          */

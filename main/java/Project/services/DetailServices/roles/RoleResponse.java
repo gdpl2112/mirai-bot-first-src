@@ -5,6 +5,9 @@ import Entitys.gameEntitys.PersonInfo;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author github-kloping
+ */
 public class RoleResponse {
     private RoleState state = RoleState.CONTINUE;
     private final long oV;

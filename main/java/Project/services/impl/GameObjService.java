@@ -13,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.*;
 import static Project.Tools.Tool.getEntry;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameObjService implements IGameObjService {
     @AutoStand
@@ -21,8 +24,9 @@ public class GameObjService implements IGameObjService {
     @Override
     public String compound(long q, int id) {
         //拦截暗器
-        if ((id > 1000 && id < 1200))
+        if ((id > 1000 && id < 1200)) {
             return gameWeaService.makeAq(q, id);
+        }
         Map.Entry<Integer, Integer> entry = needNums.get(id);
         if (entry == null) return "该物品 暂时不可合成!";
         int needId = entry.getKey().intValue();

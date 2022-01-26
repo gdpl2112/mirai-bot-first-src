@@ -8,6 +8,7 @@ import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.Tools.Tool;
+import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.services.DetailServices.roles.BeatenRoles;
@@ -234,7 +235,7 @@ public class GameDetailService {
                 v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                 long nv0 = percentTo(v, baseInfo.getHpL());
                 if (baseInfo instanceof GhostObj) {
-                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv0, true, false));
+                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv0, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
                 } else {
                     sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
                     sb.append(beaten(q2, q, nv0)).append("\n");
