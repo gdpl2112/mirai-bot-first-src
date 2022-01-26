@@ -194,10 +194,10 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     if (num > 6)
                         return SUPERFLUOUS_USE;
                     else {
+                        String s0 = "";
                         long m = personInfo.getHpL();
                         long t = personInfo.getHp();
                         l = 0;
-
                         int i1 = personInfo.getLevel() / 10;
                         i1 = i1 < 4 ? 4 : i1;
                         l = m / i1;
@@ -205,14 +205,16 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                         if (m - t < l) {
                             l = m - t;
                         }
-                        personInfo.addHl(l);
                         if (GameTool.isATrue(who)) {
                             personInfo.addHp(l / 2);
-                            return "处于选择状态增加减半 加血=>" + (l / 2);
-                        } else personInfo.addHp(l);
+                            s0 = "处于选择状态增加减半 加血=>" + (l / 2);
+                        } else {
+                            personInfo.addHp(l);
+                            s0 = "加血=>" + l;
+                        }
                         putPerson(personInfo);
                         removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
-                        return "加血=>" + l;
+                        return s0;
                     }
                 case 103:
                     if (personInfo.getLevel() >= 150) return "等级最大限制";

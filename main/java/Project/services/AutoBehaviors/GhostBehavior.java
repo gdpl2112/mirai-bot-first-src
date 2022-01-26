@@ -36,6 +36,9 @@ public class GhostBehavior implements Runnable {
     private Group group;
     private Long qq;
 
+    public GhostBehavior() {
+    }
+
     @AutoStand
     static IGameBoneService gameBoneService;
 
