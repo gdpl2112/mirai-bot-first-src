@@ -90,6 +90,8 @@ public class GameJoinDetailService {
         r = getInfo(who).getNextR1();
         if (r == -1) {
             r = ro;
+        } else {
+            getInfo(who).setNextR1(-1);
         }
         if (need) {
             if (r < 3) {
