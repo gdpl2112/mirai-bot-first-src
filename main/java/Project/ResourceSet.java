@@ -86,6 +86,10 @@ public final class ResourceSet {
         public static final String RECALL_FAIL = "撤回失败";
 
         public static final String TRY_UNMUTE = "尝试解除禁言";
+
+        public static final String JOIN_AC3_EVENT0 = "遇到冰火两仪眼的温泉,恢复了3%的血量";
+        public static final String JOIN_AC3_EVENT1 = "吸收了落日散发的能量,恢复了4%的魂力";
+        public static final String JOIN_AC3_EVENT2 = "得到森林中古老植物的祝福,恢复了5%的精神力";
     }
 
     public static final class FinalFormat {
@@ -104,7 +108,9 @@ public final class ResourceSet {
         public static final String NOT_FOUND_SEE = "没有找到\"%s\"见\"%s\"";
         public static final String CANT_BIGGER = "不可大于%s";
         public static final String TRY_MUTE_SECONDS = "尝试禁言ta %s 秒";
-        ;
+        public static final String ADDHP_TIPS = "恢复了%s点的血量";
+        public static final String ADDHL_TIPS = "恢复了%s点的魂力";
+        public static final String ADDHJ_TIPS = "恢复了%s点的精神力";
     }
 
     public static final class FinalValue {

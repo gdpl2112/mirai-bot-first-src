@@ -3,16 +3,15 @@ package Entitys.gameEntitys;
 
 import Entitys.TradingRecord;
 import Entitys.gameEntitys.base.BaseInfo;
+import Entitys.gameEntitys.base.BaseInfoTemp;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.broadcast.game.RecordBroadcast;
 
 import java.lang.reflect.Field;
 
-import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.Controllers.GameControllers.GameController.maxXp;
 import static Project.DataBases.GameDataBase.getInfo;
-import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -138,6 +137,10 @@ public class PersonInfo implements BaseInfo {
      * 下次进入 极北
      */
     public Integer nextR2 = -1;
+    /**
+     * 下次进 落日
+     */
+    public Integer nextR3 = -1;
     /**
      * 封号名字
      */
@@ -726,28 +729,18 @@ public class PersonInfo implements BaseInfo {
 
     @Override
     public boolean isVertigo() {
-        return VERTIGO_IN.containsKey(getId().longValue()) ? VERTIGO_IN.get(getId().longValue()) : false;
+        return BaseInfoTemp.isVertigo(getId().longValue());
     }
 
     @Override
-    public PersonInfo setVertigo(boolean vertigo) {
-        VERTIGO_IN.put(getId().longValue(), vertigo);
+    public PersonInfo cancelVertigo() {
+        BaseInfoTemp.removeVertigo(getId().longValue());
         return this;
     }
 
     @Override
     public PersonInfo letVertigo(long t) {
-        THREADS.submit(() -> {
-            try {
-                setVertigo(true);
-                apply();
-                Thread.sleep(t);
-                setVertigo(false);
-                apply();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        BaseInfoTemp.letVertigo(getId().longValue(), t);
         return this;
     }
 
@@ -759,6 +752,15 @@ public class PersonInfo implements BaseInfo {
     @Override
     public PersonInfo apply() {
         GameDataBase.putPerson(this);
+        return this;
+    }
+
+    public Integer getNextR3() {
+        return nextR3;
+    }
+
+    public PersonInfo setNextR3(Integer nextR3) {
+        this.nextR3 = nextR3;
         return this;
     }
 }

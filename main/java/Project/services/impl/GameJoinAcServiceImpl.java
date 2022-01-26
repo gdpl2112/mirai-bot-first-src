@@ -90,7 +90,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getTime() > System.currentTimeMillis()) {
-                return service.Select(i, ghostObj, who);
+                return service.select(i, ghostObj, who);
             } else {
                 saveGhostObjIn(who, null);
                 return "已超过七分钟,超时无效!";

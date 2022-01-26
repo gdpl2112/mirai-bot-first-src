@@ -47,7 +47,9 @@ public class GhostBehavior implements Runnable {
         THREADS.execute(ghostBehavior);
     }
 
-    public GhostBehavior() {
+    public static GhostBehavior create(long who, Group group, Integer level) {
+
+        return null;
     }
 
     public GhostBehavior(Long qq, Group group) {
@@ -56,6 +58,7 @@ public class GhostBehavior implements Runnable {
     }
 
     private GhostObj ghostObj;
+
     private Integer level;
 
     @Override
@@ -113,7 +116,7 @@ public class GhostBehavior implements Runnable {
                 }
                 if (brokenPaper()) {
                     send(ghostObj.getName() + "因为眩晕被打断了蓄力");
-                    ghostObj.setVertigo(false);
+                    ghostObj.cancelVertigo();
                     return true;
                 }
                 if (!updateGhost()) return false;

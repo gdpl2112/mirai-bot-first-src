@@ -2,14 +2,13 @@ package Project.services.DetailServices;
 
 
 import Entitys.Group;
-import Entitys.TradingRecord;
 import Entitys.gameEntitys.GhostObj;
 import Entitys.gameEntitys.PersonInfo;
 import Project.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
-import Project.services.AutoBehaviors.GhostBehavior;
+import Project.services.DetailServices.ac.JoinAcService;
 import Project.services.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -19,11 +18,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.Tools.GameTool.*;
 import static Project.Tools.JSONUtils.jsonStringToObject;
 import static Project.Tools.JSONUtils.objectToJsonString;
-import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
 import static Project.drawers.Drawer.getImageFromStrings;
 
@@ -36,178 +33,18 @@ public class GameJoinDetailService {
     @AutoStand
     IGameService gameService;
 
+    @AutoStand
+    JoinAcService join;
+
     public String run(int id, long who, Group group) {
         try {
             //广播
             JoinBroadcast.INSTANCE.broadcast(who, id);
-            if (id == 0) {
-                String str = join0(who, group);
-                return str;
-            }
-            if (id == 1) {
-                String str = join1(who, group);
-                return str;
-            }
-            return "暂未实现";
+            return join.join(id, who, group);
         } finally {
             int r = Tool.rand.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
         }
-    }
-
-    private GhostObj isUse107(String who) {
-        PersonInfo personInfo = getInfo(who);
-        String da = personInfo.getUsinged();
-        if (da == null || NULL_LOW_STR.equals(da) || da.isEmpty())
-            return null;
-        else {
-            putPerson(personInfo.setUsinged(NULL_LOW_STR));
-            GhostObj ghostObj = null;
-            long n = randA(0, 100);
-            if (n < 33) {
-                ghostObj = summonFor(who, 501, 521);
-            } else {
-                ghostObj = new GhostObj(-1, 0, 0, 0, 0);
-            }
-            return ghostObj;
-        }
-    }
-
-    public String join0(long who, Group group) {
-        int r = Tool.rand.nextInt(250);
-        GhostObj ghostObj = isUse107(String.valueOf(who));
-        boolean need = true;
-        if (ghostObj != null) {
-            if (ghostObj.getHp() == -1) {
-                r = Tool.rand.nextInt(25);
-            } else {
-                if (ghostObj.getHp() > 1) {
-                    need = false;
-                }
-            }
-        }
-        int ro = r;
-        r = getInfo(who).getNextR1();
-        if (r == -1) {
-            r = ro;
-        } else {
-            getInfo(who).setNextR1(-1);
-        }
-        if (need) {
-            if (r < 3) {
-                //十万年
-                ghostObj = GhostObj.create(100000, 501, 521);
-            } else if (r < 6) {
-                //万年
-                ghostObj = GhostObj.create(10000, 501, 521);
-            } else if (r < 16) {
-                //千年
-                ghostObj = GhostObj.create(1000, 501, 521);
-            } else if (r < 31) {
-                //百年
-                ghostObj = GhostObj.create(100, 501, 521);
-            } else if (r < 61) {
-                //十年
-                ghostObj = GhostObj.create(10, 501, 521);
-            } else if (r < 71) {
-                //时光胶囊5%
-                addToBgs(who, 101, ObjType.got);
-                return "你去星斗森林,只捡到了一个时光胶囊已存入背包";
-            } else if (r < 81) {
-                //恢复药水5%
-                addToBgs(who, 102, ObjType.got);
-                return "你去星斗森林,只捡到了一个恢复药水已存入背包";
-            } else if (r < 91) {
-                //大瓶经验5%
-                addToBgs(who, 103, ObjType.got);
-                return "你去星斗森林,只捡到了一个大瓶经验已存入背包";
-            } else if (r < 116) {
-                int r1 = Tool.rand.nextInt(3) + 1;
-                for (int i = 0; i < r1; i++) {
-                    addToBgs(who, 1000, ObjType.got);
-                }
-                return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
-            } else if (r < 190) {
-                int rr = Tool.rand.nextInt(90) + 30;
-                putPerson(getInfo(who).addGold((long) rr
-                        , new TradingRecord()
-                                .setFrom(-1)
-                                .setMain(who).setDesc("从星斗森林捡到")
-                                .setTo(who)
-                                .setMany(rr)
-                                .setType0(TradingRecord.Type0.gold)
-                                .setType1(TradingRecord.Type1.add)
-                ));
-
-                return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
-            } else if (Tool.rand.nextInt(1000) == 0) {
-                int id = 111;
-                addToBgs(who, id, ObjType.got);
-                return "震惊!!!\n你去星斗森林捡到一个" + getNameById(id);
-            } else {
-                return "你去星斗森林,只捡到了个寂寞!" + Tool.toFaceMes(String.valueOf(239));
-            }
-        }
-        if (ghostObj != null) {
-            ghostObj.setWhoMeet(who);
-            GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-            System.out.println(ghostObj);
-            int id = ghostObj.getId();
-            if (ghostObj.getL() > 3000L)
-                GhostBehavior.exRun(new GhostBehavior(who, group));
-            return WillTips(who, ghostObj, false);
-        }
-        return "你将遇到魂兽,功能为实现,尽请期待";
-    }
-
-    private static int maxRand2 = 150;
-    public static int minMeed = 60;
-    private static int mustMeed = 70;
-
-    public String join1(long who, Group group) {
-        int r = 0;
-        r = getInfo(who).getNextR2();
-        if (r == -1) {
-            r = Tool.rand.nextInt(maxRand2);
-        } else if (r == -2) {
-            r = Tool.rand.nextInt(minMeed);
-        }
-        putPerson(getInfo(who).setNextR2(Tool.rand.nextInt(maxRand2)));
-        GhostObj ghostObj = null;
-        if (r < mustMeed) {
-            if (r == 0) {
-                ghostObj = summonFor(String.valueOf(who), 601, 604);
-            } else if (r < 3) {
-                //十万年0.5%
-                ghostObj = GhostObj.create(100000, 601, 604);
-            } else if (r < 16) {
-                //万年2%
-                ghostObj = GhostObj.create(10000, 601, 604);
-            } else if (r < 31) {
-                //千年5%
-                ghostObj = GhostObj.create(1000, 601, 604);
-            } else if (r < minMeed) {
-                //百年8%
-                ghostObj = GhostObj.create(100, 601, 604);
-            } else {
-                addToBgs(who, 112, ObjType.got);
-                return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
-            }
-            int r1 = Tool.rand.nextInt(3);
-            ghostObj.setId(601 + r1);
-        } else {
-            return "你去极北之地 ,只捡到了个寂寞。。" + Tool.toFaceMes(String.valueOf(271));
-        }
-        if (ghostObj != null) {
-            ghostObj.setWhoMeet(who);
-            GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-            System.out.println(ghostObj);
-            int id = ghostObj.getId();
-            if (ghostObj.getL() > 3000L)
-                GhostBehavior.exRun(new GhostBehavior(who, group));
-            return WillTips(who, ghostObj, false);
-        }
-        return "你将遇到魂兽,功能为实现,尽请期待";
     }
 
     /**
@@ -218,7 +55,7 @@ public class GameJoinDetailService {
     public GhostObj summonFor(String who, int idMin, int idMax) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
-        GhostObj ghostObj = new GhostObj(
+        GhostObj ghostObj = GhostObj.create(
                 (long) (personInfo.getAtt() * bl),
                 personInfo.getHpL(),
                 (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel())),
@@ -228,21 +65,21 @@ public class GameJoinDetailService {
         return ghostObj;
     }
 
-    public Object Select(int id, GhostObj ghostObj, long who) {
+    public Object select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
         switch (id) {
             case 0:
                 String m1 = att(who, ghostObj);
                 return m1;
             case 1:
-                return taop(ghostObj, who);
+                return taoPao(ghostObj, who);
             default:
                 break;
         }
         return "未知选择";
     }
 
-    private String taop(GhostObj ghostObj, long who) {
+    private String taoPao(GhostObj ghostObj, long who) {
         if (ghostObj.getState() == GhostObj.HELPING) {
             String whos = ghostObj.getForWhoStr();
             GameJoinDetailService.saveGhostObjIn(who, null);
@@ -348,6 +185,7 @@ public class GameJoinDetailService {
             if (IDXS.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
             }
+
             IDXS.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
@@ -366,7 +204,9 @@ public class GameJoinDetailService {
 
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
                     .append(GameDetailService.beaten(who, -2, at2));
+
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
+
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {
@@ -422,12 +262,12 @@ public class GameJoinDetailService {
         }
     }
 
-    public static synchronized String WillTips(Number qq, GhostObj ghostObj, boolean k) {
+    public static String WillTips(Number qq, GhostObj ghostObj, boolean k) {
         int id = ghostObj.getId();
         long v1 = getInfo(qq).getHj();
         long v2 = ghostObj.getHj();
         int bv = toPercent(v1, v2);
-        if (bv >= 125) {
+        if (bv >= 120) {
             return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
                     getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),

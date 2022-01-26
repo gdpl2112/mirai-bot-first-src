@@ -6,6 +6,9 @@ import lombok.experimental.Accessors;
 import static Project.services.DetailServices.GameSkillDetailService.*;
 import static Project.Tools.Tool.trans;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 public class SkillIntro {

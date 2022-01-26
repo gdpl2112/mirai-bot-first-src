@@ -93,11 +93,12 @@ public interface BaseInfo {
     boolean isVertigo();
 
     /**
-     * set Vertigo
+     * cancel Vertigo
      *
+     * @param <T>
      * @return
      */
-    <T extends BaseInfo> T setVertigo(boolean vertigo);
+    <T extends BaseInfo> T cancelVertigo();
 
     /**
      * set Vertigo and t ms after over

@@ -661,7 +661,7 @@ public class SkillExecute {
                         i /= 2;
                     }
                     t = i > 0 ? (long) i : 1L;
-                    b2.setVertigo(true);
+                    b2.letVertigo((long) (t * info.getAddPercent() * 1000L));
                     b2.apply();
                     setTips("作用于 " + b2.getName());
                 } else {
@@ -672,18 +672,6 @@ public class SkillExecute {
             @Override
             public void run() {
                 super.run();
-                if (t > 0) {
-                    try {
-                        Thread.sleep((long) (t * 1000L));
-                        if (b2 != null) {
-                            b2.setVertigo(false);
-                            b2.apply();
-                            setTips("眩晕失效");
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         };
     }

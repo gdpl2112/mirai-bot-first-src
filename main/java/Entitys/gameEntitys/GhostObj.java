@@ -2,13 +2,13 @@ package Entitys.gameEntitys;
 
 
 import Entitys.gameEntitys.base.BaseInfo;
+import Entitys.gameEntitys.base.BaseInfoTemp;
 import Project.services.DetailServices.GameJoinDetailService;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 
-import static Entitys.gameEntitys.base.BaseInfoTemp.VERTIGO_IN;
 import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
@@ -17,7 +17,6 @@ import static Project.Tools.GameTool.randFloatByte1;
 import static Project.Tools.Tool.randA;
 import static Project.Tools.Tool.randLong;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.Mirai.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -63,6 +62,10 @@ public class GhostObj implements Serializable, BaseInfo {
     @JSONField(serialize = false, deserialize = false)
     public static final int HELPING = 3;
 
+    public static final synchronized int getID() {
+        return idx++;
+    }
+
     public GhostObj() {
     }
 
@@ -101,7 +104,7 @@ public class GhostObj implements Serializable, BaseInfo {
         state = NotNeed;
         name = getNameById(this.id);
         initHj();
-        IDX = ++idx;
+        IDX = getIdx();
     }
 
     public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
@@ -114,7 +117,15 @@ public class GhostObj implements Serializable, BaseInfo {
         state = NotNeed;
         name = getNameById(this.id);
         initHj();
-        IDX = ++idx;
+        IDX = getIdx();
+    }
+
+    public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
+        if (idMax > 700) {
+            return null;
+        } else {
+            return new GhostObj(hp, att, xp, idMin, idMax, l, rand, bl);
+        }
     }
 
     private Long summonL(float bl) {
@@ -246,18 +257,11 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static GhostObj create(int level, int idMin, int idMax) {
-        switch (level) {
-            case 10:
-            case 100:
-            case 1000:
-            case 10000:
-            case 100000:
-                GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level), randA(10 * level, 35 * level)
-                        , randA(idMin, idMax), randA(level + 1, Lmax(level)));
-                return ghostObj;
-            default:
-                return null;
-        }
+        GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                , randA(10 * level, 35 * level)
+                , randA(idMin, idMax), randA(level + 1, Lmax(level)));
+        return ghostObj;
+
     }
 
     public Long getWith() {
@@ -280,28 +284,18 @@ public class GhostObj implements Serializable, BaseInfo {
 
     @Override
     public boolean isVertigo() {
-        return VERTIGO_IN.containsKey(getIDxL()) ? VERTIGO_IN.get(getIDxL()) : false;
+        return BaseInfoTemp.isVertigo(getId());
     }
 
     @Override
-    public GhostObj setVertigo(boolean vertigo) {
-        VERTIGO_IN.put(getIDxL(), vertigo);
+    public GhostObj cancelVertigo() {
+        BaseInfoTemp.removeVertigo(getId().longValue());
         return this;
     }
 
     @Override
     public GhostObj letVertigo(long t) {
-        THREADS.submit(() -> {
-            try {
-                setVertigo(true);
-                apply();
-                Thread.sleep(t);
-                setVertigo(false);
-                apply();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        BaseInfoTemp.letVertigo(getId(), t);
         return this;
     }
 

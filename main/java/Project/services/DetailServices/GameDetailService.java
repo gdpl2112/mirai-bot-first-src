@@ -28,8 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
-import static Project.ResourceSet.FinalFormat.HJ_NOT_ENOUGH_TIPS0;
 import static Project.ResourceSet.FinalValue.*;
 import static Project.services.DetailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
@@ -54,7 +54,7 @@ public class GameDetailService {
                             String endN = f1.getName();
                             PersonInfo personInfo = getInfo(endN);
                             if (isNeedUpdate(personInfo)) {
-                                putPerson(personInfo.setVertigo(false).setHelpC(0).setHelpToc(0)
+                                putPerson(personInfo.cancelVertigo().setHelpC(0).setHelpToc(0)
                                         .setBuyHelpC(0).setBuyHelpToC(0).setDied(false).setDowned(false));
                             }
                         } catch (Exception e) {
@@ -244,6 +244,27 @@ public class GameDetailService {
             p1.apply();
             return sb.toString().trim();
         }
+    }
+
+    public static String addHp(long q, int b) {
+        Long l = getInfo(q).getHpL();
+        Long v = percentTo(b, l);
+        getInfo(q).addHp(v).apply();
+        return String.format(ADDHP_TIPS, v);
+    }
+
+    public static String addHl(long q, int b) {
+        Long l = getInfo(q).getHll();
+        Long v = percentTo(b, l);
+        getInfo(q).addHl(v).apply();
+        return String.format(ADDHL_TIPS, v);
+    }
+
+    public static String addHj(long q, int b) {
+        Long l = getInfo(q).getHjL();
+        Long v = percentTo(b, l);
+        getInfo(q).addHj(v).apply();
+        return String.format(ADDHJ_TIPS, v);
     }
 }
 
