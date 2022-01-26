@@ -16,6 +16,8 @@ import net.mamoe.mirai.message.data.MessageSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static Project.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
+import static Project.ResourceSet.FinalString.*;
 import static io.github.kloping.Mirai.Main.Resource.superQL;
 
 /**
@@ -26,10 +28,11 @@ public class ManagerServiceImpl implements IManagerService {
     @Override
     public String addFather(long father, long who) {
         if (father == superQL) {
-            if (DataBase.addFather(Long.valueOf(who)))
+            if (DataBase.addFather(Long.valueOf(who))) {
                 return "添加完成";
-            else
+            } else {
                 return "他本来就是";
+            }
         } else {
             return "你无权限";
         }
@@ -38,67 +41,79 @@ public class ManagerServiceImpl implements IManagerService {
     @Override
     public String removeFather(long father, long who) {
         if (father == superQL) {
-            if (DataBase.removeFather(Long.valueOf(who)))
+            if (DataBase.removeFather(Long.valueOf(who))) {
                 return "移除完成";
-            else
+            } else {
                 return "他本来就不是";
+            }
         } else {
             return "你无权限";
         }
     }
 
-    private static final String[] sss = new String[]{"秒", "分", "时", "天", "月"};
+    public static final String[] TIME_UNIT = new String[]{MINUTE, MINUTE, HOUR, DAY, MONTH};
 
     @Override
     public String notSpeak(Member who, String what, Group group) {
         String es = "";
         long t = 1;
-        for (String s : sss) {
+        for (String s : TIME_UNIT) {
             if (what.contains(s)) {
                 es = s;
             }
         }
-        if (es.isEmpty()) return "没有单位(秒,分,时...)";
+        if (es.isEmpty()) {
+            return NOT_FOUND_TIME_UNIT;
+        }
         String s1 = Tool.findNumberFromString(what);
-        if (s1 == null || s1.isEmpty()) return "没有时长,多少";
+        if (s1 == null || s1.isEmpty()) {
+            s1 = "1";
+        }
         long t1 = Long.parseLong(s1);
         switch (es) {
-            case "秒":
-                if (t1 > 60)
-                    return "超过60秒,请使用分钟";
-                else
+            case SECONDS:
+            default:
+                if (t1 > 60) {
+                    return SECONDS_TOO_MUCH;
+                } else {
                     t = t1;
+                }
                 break;
-            case "分":
-                if (t1 > 60)
-                    return "超过60分,请使用小时";
-                else
+            case MINUTE:
+                if (t1 > 60) {
+                    return MINUTE_TOO_MUCH;
+                } else {
                     t = t1 * 60;
+                }
                 break;
-            case "时":
-                if (t1 > 24)
-                    return "超过24小时,请使用天";
-                else
+            case HOUR:
+                if (t1 > 24) {
+                    return HOUR_TOO_MUCH;
+                } else {
                     t = t1 * 60 * 60;
+                }
                 break;
-            case "天":
-                if (t1 > 60)
-                    return "超过30天,请使用月";
-                else
+            case DAY:
+                if (t1 > 60) {
+                    return DAY_TOO_MUCH;
+                } else {
                     t = t1 * 60 * 60 * 24;
+                }
                 break;
-            case "月":
-                if (t1 > 1)
-                    return "最大1个月";
-                else
+            case MONTH:
+                if (t1 > 1) {
+                    return MONTH_TOO_MUCH;
+                } else {
                     t = t1 * 60 * 60 * 24 * 30;
+                }
                 break;
+
         }
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
-            return "我不是管理员啊";
+            return NOT_MANAGER;
         }
         if (group.get(who.getId()).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
-            return "权限不足";
+            return PERMISSION_DENIED;
         } else {
             NormalMember m1 = (NormalMember) who;
             if (t > 0) {
@@ -107,34 +122,36 @@ public class ManagerServiceImpl implements IManagerService {
                 m1.unmute();
             }
         }
-        return "尝试禁言 ta " + t + "秒";
+        return String.format(TRY_MUTE_SECONDS, t);
     }
 
     @Override
-    public String backMess(Group group, long whos, long g, int... ns) {
+    public String backMess(Group group, long who, long g, int... ns) {
         if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
-            return "我不是管理员啊";
+            return NOT_MANAGER;
         }
-        if (group.get(whos).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
-            return "权限不足";
+        if (group.get(who).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
+            return PERMISSION_DENIED;
         }
         try {
-            List<String> strings = Arrays.asList(Saver.getTexts(g, whos, ns));
-            if (strings == null || strings.size() == 0) return "没有发现他ta的消息";
-            String m = "撤回成功";
+            List<String> strings = Arrays.asList(Saver.getTexts(g, who, ns));
+            if (strings == null || strings.size() == 0) {
+                return NOT_FOUND;
+            }
+            String m = RECALL_SUCCEED;
             for (String text : strings) {
                 try {
                     MessageChain chain = MessageChain.deserializeFromJsonString(text);
                     MessageSource.recall(chain);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    m = "部分撤回失败";
+                    m = RECALL_FAIL;
                 }
             }
             return m;
         } catch (Exception e) {
             e.printStackTrace();
+            return RECALL_FAIL;
         }
-        return "撤回失败";
     }
 }

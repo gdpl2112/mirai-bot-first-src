@@ -269,6 +269,7 @@ public class ManagerController {
             int[] is;
             if (str.trim().matches("最近\\d+条")) {
                 int i = Tool.getInteagerFromStr(str);
+                i = i > 15 ? 15 : i;
                 is = new int[i];
                 for (int i1 = 0; i1 < i; i1++) {
                     is[i1] = i1;
@@ -349,12 +350,6 @@ public class ManagerController {
                 Object o = MessageChain.deserializeFromJsonString(s1);
                 MessageTools.sendMessageInGroup(o, group.getId());
             }
-//            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q));
-//            for (int n : ints) {
-//                String s1 = strings.get(n);
-//                Object o = MessageChain.deserializeFromJsonString(s1);
-//                MessageTools.sendMessageInGroup(o, group.getId());
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             MessageTools.sendMessageInGroup("Not Found", group.getId());

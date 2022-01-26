@@ -316,13 +316,13 @@ public class EntertainmentController {
         return sb.toString();
     }
 
-    public static final File[] files_tui = new File("./images/tui").listFiles();
-    public static final File[] files_wq = new File("./images/wq").listFiles();
-    public static final File file_diu = new File("./images/diu/diu.png");
+    public static File[] filesTui = new File("./images/tui").listFiles();
+    public static File[] filesWq = new File("./images/wq").listFiles();
+    public static File fileDiu = new File("./images/diu/diu.png");
 
     static {
-        Arrays.sort(files_wq);
-        Arrays.sort(files_tui);
+        Arrays.sort(filesWq);
+        Arrays.sort(filesTui);
     }
 
     //===============
@@ -342,7 +342,7 @@ public class EntertainmentController {
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
-            outFile = ImageDrawer.getTuiGift(files_tui, u, outFile);
+            outFile = ImageDrawer.getTuiGift(filesTui, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
@@ -365,7 +365,7 @@ public class EntertainmentController {
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
-            outFile = ImageDrawer.getWq(files_wq, u, outFile);
+            outFile = ImageDrawer.getWq(filesWq, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
@@ -388,7 +388,7 @@ public class EntertainmentController {
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
-            outFile = ImageDrawer.getDui(file_diu, u, outFile);
+            outFile = ImageDrawer.getDui(fileDiu, u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();

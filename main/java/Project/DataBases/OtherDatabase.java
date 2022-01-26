@@ -8,11 +8,14 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author github-kloping
+ */
 public class OtherDatabase {
     private static String lib = "";
 
     public OtherDatabase(String lib) {
-        this.lib = new File(lib, "records").getAbsolutePath();
+        OtherDatabase.lib = new File(lib, "records").getAbsolutePath();
     }
 
     public static List<TradingRecord> getList(long q) {

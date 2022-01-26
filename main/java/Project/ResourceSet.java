@@ -16,6 +16,7 @@ public final class ResourceSet {
         public static final String LEFT_BRACKETS_STR = "[";
         public static final String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
         public static final String NOT_FOUND_AT = "未发现at";
+        public static final String NOT_FOUND = "未发现";
         public static final String CUSTOM_MENU_STR = "回话菜单";
         public static final String NO_PERMISSION_STR = "无权限";
         public static final String NULL_LOW_STR = "null";
@@ -63,6 +64,26 @@ public final class ResourceSet {
         public static final String HELPED = "已经被支援";
         public static final String NOT_NEED_HELP = "ta不需要支援";
         public static final String LIST_STR = "活动列表";
+        public static final String TRY_MUTE = "活动列表";
+        public static final String NOT_MANAGER = "权限不足#不是管理";
+        public static final String PERMISSION_DENIED = "权限不足";
+
+        public static final String MONTH = "月";
+        public static final String DAY = "天";
+        public static final String HOUR = "时";
+        public static final String MINUTE = "分";
+        public static final String SECONDS = "秒";
+
+        public static final String NOT_FOUND_TIME_UNIT = "没有单位(秒,分,时...)";
+
+        public static final String SECONDS_TOO_MUCH = "超过60秒,请使用分钟";
+        public static final String MINUTE_TOO_MUCH = "超过60分,请使用小时";
+        public static final String HOUR_TOO_MUCH = "超过24小时,请使用天";
+        public static final String DAY_TOO_MUCH = "超过30天,请使用月";
+        public static final String MONTH_TOO_MUCH = "最大1个月";
+
+        public static final String RECALL_SUCCEED = "撤回成功";
+        public static final String RECALL_FAIL = "撤回失败";
     }
 
     public static final class FinalFormat {
@@ -80,6 +101,8 @@ public final class ResourceSet {
         public static final String ONE_DAY_ONLY_HELP = "一天仅能请求支援%s次";
         public static final String NOT_FOUND_SEE = "没有找到\"%s\"见\"%s\"";
         public static final String CANT_BIGGER = "不可大于%s";
+        public static final String TRY_MUTE_SECONDS = "尝试禁言ta %s 秒";
+        ;
     }
 
     public static final class FinalValue {

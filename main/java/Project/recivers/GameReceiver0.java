@@ -43,10 +43,11 @@ public class GameReceiver0 {
         GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
             @Override
             public void onReceive(long who, Long with, GhostObj ghostObj) {
-                StarterApplication.logger.Log(String.format("ghost losted by %s level=%s with %s",
-                        who, ghostObj.getL(), with), 0);
+                StarterApplication.logger.info(String.format("ghost losted by %s level=%s with %s",
+                        who, ghostObj.getL(), with));
                 if (with.longValue() == -1) {
                     if (ghostObj.getL() >= lowst * 10000L) {
+                        StarterApplication.logger.info(String.format("add master point %s", who));
                         GInfo.getInstance(who).addMasterPoint().apply();
                     }
                 }
@@ -58,8 +59,8 @@ public class GameReceiver0 {
         GotOrLostObjBroadcast.INSTANCE.add(new GotOrLostObjBroadcast.GotOrLostReceiver() {
             @Override
             public void onReceive(long who, int id, int num, ObjType type) {
-                StarterApplication.logger.Log(String.format("%s,got/lost,%s,%s nums , from %s",
-                        who, id, num, type.name()), 0);
+                StarterApplication.logger.log(String.format("%s,got/lost,%s,%s nums , from %s",
+                        who, id, num, type.name()));
                 switch (type) {
                     case buy:
                     case got:

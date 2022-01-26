@@ -133,7 +133,7 @@ public class EntertainmentController2 {
     }
 
     @AutoStand
-    GetPvpQQ getPvpQQ;
+    GetPvpQQ getpvpqq;
 
     @Action(value = "王者荣耀最新公告.*", otherName = {"王者公告.*"})
     public Object m3(Group group, @AllMess String str) throws Exception {

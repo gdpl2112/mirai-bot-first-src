@@ -148,7 +148,9 @@ public class GInfo {
 
     public static GInfo getInstance(long qid) {
         GInfo gInfo = gInfoMapper.selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
-        if (gInfo != null) return gInfo;
+        if (gInfo != null) {
+            return gInfo;
+        }
         return new GInfo().setQid(qid);
     }
 }
