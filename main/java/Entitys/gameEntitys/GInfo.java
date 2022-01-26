@@ -2,10 +2,12 @@ package Entitys.gameEntitys;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import io.github.kloping.MySpringTool.StarterApplication;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.boot.SpringApplication;
 
 import static Project.ASpring.SpringBootResource.gInfoMapper;
 
@@ -147,6 +149,7 @@ public class GInfo {
         if (gInfoMapper.update(this, wrapper) == 0) {
             gInfoMapper.insert(this);
         }
+        StarterApplication.logger.waring(String.format("update for %s ", this.toString()));
     }
 
     public static GInfo getInstance(long qid) {
