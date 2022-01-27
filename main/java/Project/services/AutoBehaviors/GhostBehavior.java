@@ -1,16 +1,16 @@
 package Project.services.AutoBehaviors;
 
-import Entitys.Group;
-import Entitys.gameEntitys.AttributeBone;
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.skill.SkillDataBase;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.DetailServices.GameDetailService;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.Iservice.IGameBoneService;
 import Project.services.Iservice.IGameService;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -23,7 +23,7 @@ import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.Tools.GameTool.getAllHHBL;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
 
 /**

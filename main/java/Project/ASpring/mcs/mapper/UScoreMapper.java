@@ -1,6 +1,6 @@
 package Project.ASpring.mcs.mapper;
 
-import Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UScore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

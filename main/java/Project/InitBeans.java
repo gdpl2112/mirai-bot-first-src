@@ -3,17 +3,39 @@ package Project;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Entitys.apiEntitys.RunnableWithOver;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.ktor.util.collections.ConcurrentSet;
 
-import java.util.Properties;
+import java.util.*;
+
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
  */
 @Entity
 public class InitBeans {
+
+    @Bean("m100")
+    public Set<RunnableWithOver> m500() {
+        Set<RunnableWithOver> rs = new ConcurrentSet<>();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                rs.forEach(r -> THREADS.submit(r));
+                Iterator<RunnableWithOver> iterator = rs.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().over()) {
+                        iterator.remove();
+                    }
+                }
+            }
+        }, 100, 100);
+        return rs;
+    }
 
     @Bean("dataPath")
     public String dataPath() {

@@ -1,12 +1,12 @@
 package Project.services.impl;
 
 
-import Entitys.Group;
-import Entitys.Mora;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.Mora;
 import Project.DataBases.DataBase;
 import Project.services.Iservice.IOtherService;
-import Project.Tools.Tool;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -16,7 +16,7 @@ import java.net.URL;
 
 import static Project.Controllers.ControllerTool.canGroup;
 import static Project.DataBases.DataBase.isFather;
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.*;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.*;
 
 @Entity
 public class OtherServiceImpl implements IOtherService {

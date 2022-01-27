@@ -1,9 +1,9 @@
 package Project.DataBases;
 
 
-import Entitys.gameEntitys.PersonInfo;
-import Entitys.gameEntitys.Warp;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import io.github.kloping.initialize.FileInitializeValue;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Tools.Tool.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping

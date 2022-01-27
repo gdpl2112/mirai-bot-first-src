@@ -1,6 +1,6 @@
 package Project.DataBases.task;
 
-import Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import Project.broadcast.Receiver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.DetailServices.tasks.Task1000;
@@ -13,7 +13,7 @@ import Project.services.DetailServices.tasks.reciver.GhostLostReceiverWithTask10
 
 import java.lang.reflect.Method;
 
-import static Project.Tools.Tool.getRandT;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 任务创建

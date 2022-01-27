@@ -1,20 +1,20 @@
 package Project.Controllers.NormalController;
 
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.Controllers.ConfirmController;
 import Project.Controllers.ControllerTool;
 import Project.DataBases.DataBase;
 import Project.ResourceSet;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IManagerService;
-import io.github.kloping.Mirai.Main.Handlers.CapHandler;
-import io.github.kloping.Mirai.Main.Handlers.MyHandler;
-import io.github.kloping.Mirai.Main.ITools.MemberTools;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.ITools.Saver;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.Handlers.CapHandler;
+import io.github.kloping.mirai0.Main.Handlers.MyHandler;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.Saver;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.contact.Member;
@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 import static Project.ResourceSet.FinalString.*;
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
+import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github-kloping
@@ -97,13 +97,13 @@ public class ManagerController {
     }
 
     @Action(value = "开启", otherName = "说话")
-    public String open(Entitys.Group group) {
+    public String open(io.github.kloping.mirai0.Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.openGroup(group.getId()) ? "已经开启" : "开启成功";
     }
 
     @Action(value = "关闭", otherName = "闭嘴")
-    public String close(Entitys.Group group) {
+    public String close(io.github.kloping.mirai0.Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.closeGroup(group.getId()) ? "关闭成功" : "已经关闭";
     }

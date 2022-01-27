@@ -1,6 +1,6 @@
 package Project.services.DetailServices;
 
-import Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import Project.services.DetailServices.tasks.Task1001;
 import Project.services.DetailServices.tasks.Task1002;
 

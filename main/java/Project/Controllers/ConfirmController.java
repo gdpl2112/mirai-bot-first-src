@@ -1,7 +1,7 @@
 package Project.Controllers;
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

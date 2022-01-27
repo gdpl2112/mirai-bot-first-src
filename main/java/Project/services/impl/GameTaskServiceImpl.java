@@ -1,13 +1,13 @@
 package Project.services.impl;
 
-import Entitys.Group;
-import Entitys.gameEntitys.Warp;
-import Entitys.gameEntitys.task.Task;
-import Entitys.gameEntitys.task.TaskPoint;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import Project.DataBases.GameTaskDatabase;
 import Project.services.DetailServices.TaskDetailService;
 import Project.services.Iservice.IGameTaskService;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.UUID;

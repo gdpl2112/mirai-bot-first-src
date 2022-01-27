@@ -1,12 +1,12 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
+import io.github.kloping.mirai0.Entitys.Group;
 import Project.ResourceSet;
-import Project.Tools.Tool;
-import Project.Utils.DataBaseSourcePack;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Utils.DataBaseSourcePack;
 import com.google.gson.internal.LinkedHashTreeMap;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -28,8 +28,8 @@ import static Project.DataBases.DataBase.isFather;
 import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
 import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.services.impl.GameServiceImpl.threads;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

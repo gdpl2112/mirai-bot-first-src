@@ -1,17 +1,17 @@
 package Project.Controllers.GameControllers.ShoperController;
 
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.GameDataBase;
 import Project.services.Iservice.IShoperService;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.Controllers.NormalController.ScoreController.longs;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping
@@ -26,7 +26,7 @@ public class ShoperController {
     IShoperService shoperService;
 
     @Before
-    public void before(Entitys.Group group, Entitys.User qq) throws NoRunException {
+    public void before(io.github.kloping.mirai0.Entitys.Group group, io.github.kloping.mirai0.Entitys.User qq) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }

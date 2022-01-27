@@ -1,10 +1,10 @@
 package Project.services.DetailServices;
 
-import Entitys.eEntitys.CustomElement;
-import Entitys.eEntitys.CustomReplyGroup;
+import io.github.kloping.mirai0.Entitys.eEntitys.CustomElement;
+import io.github.kloping.mirai0.Entitys.eEntitys.CustomReplyGroup;
 import Project.broadcast.normal.MessageBroadcast;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.serialize.HMLObject;

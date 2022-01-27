@@ -1,13 +1,13 @@
 package Project.services.DetailServices;
 
-import Entitys.gameEntitys.AttributeBone;
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.PersonInfo;
-import Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
@@ -16,8 +16,8 @@ import Project.services.DetailServices.roles.Role;
 import Project.services.DetailServices.roles.RoleResponse;
 import Project.services.DetailServices.roles.RoleState;
 import Project.services.Iservice.IGameBoneService;
-import io.github.kloping.Mirai.Main.Handlers.MyTimer;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.Handlers.MyTimer;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

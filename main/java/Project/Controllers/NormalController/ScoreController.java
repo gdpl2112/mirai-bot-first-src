@@ -1,9 +1,9 @@
 package Project.Controllers.NormalController;
 
 
-import Entitys.Group;
-import Entitys.UScore;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.DataBase;
 import Project.services.Iservice.IOtherService;
 import Project.services.Iservice.IScoreService;
@@ -18,9 +18,9 @@ import static Project.Controllers.ControllerTool.opened;
 import static Project.ResourceSet.FinalFormat.CANT_BIGGER;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
-import static Project.Tools.Tool.findNumberFromString;
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

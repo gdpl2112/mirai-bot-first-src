@@ -1,12 +1,11 @@
 package Project.interfaces;
 
-import Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import org.jsoup.nodes.Document;
 
 @HttpClient("https://ys.mihoyo.com/")
 public interface Mihoyo {

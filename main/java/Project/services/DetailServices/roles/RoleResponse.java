@@ -1,6 +1,6 @@
 package Project.services.DetailServices.roles;
 
-import Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 
 import java.util.HashMap;
 import java.util.Map;

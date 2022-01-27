@@ -1,7 +1,7 @@
 package Project.services.impl;
 
 
-import Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import Project.DataBases.GameDataBase;
 import Project.services.Iservice.IGameBoneService;
 import Project.broadcast.game.PlayerLostBroadcast;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.drawers.Drawer.getImageFromStrings;
-import static Project.Tools.Tool.getEntry;
-import static Project.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {

@@ -1,11 +1,11 @@
 package Project.Controllers.GameControllers;
 
-import Entitys.Group;
-import Entitys.User;
-import Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import Project.services.Iservice.ISkillService;
-import Project.Tools.Tool;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.number.NumberUtils;
@@ -15,8 +15,8 @@ import java.util.*;
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.skill.SkillDataBase.getSkillInfo;
-import static io.github.kloping.Mirai.Main.Resource.bot;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

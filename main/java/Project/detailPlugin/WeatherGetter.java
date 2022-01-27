@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import Entitys.apiEntitys.WeatherDetail;
-import Entitys.apiEntitys.WeatherM;
+import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherDetail;
+import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherM;
 import Project.interfaces.WeatherI;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

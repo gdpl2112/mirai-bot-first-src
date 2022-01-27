@@ -1,10 +1,10 @@
 package Project.Controllers.Plugins;
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.detailPlugin.SearchPic;
 import Project.ResourceSet;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -22,8 +22,8 @@ import java.util.regex.Pattern;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.DataBase.isFather;
-import static Project.Tools.Tool.isIlleg;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.isIlleg;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping
@@ -35,7 +35,7 @@ public class PointPicController {
     }
 
     @Before
-    public void before(Entitys.Group group) throws NoRunException {
+    public void before(io.github.kloping.mirai0.Entitys.Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }

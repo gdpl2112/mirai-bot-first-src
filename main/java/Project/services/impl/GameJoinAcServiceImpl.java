@@ -1,12 +1,12 @@
 package Project.services.impl;
 
 
-import Entitys.Group;
-import Entitys.gameEntitys.GhostObj;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.*;
-import static Project.Tools.Tool.getTimeTips;
+import static Project.ResourceSet.FinalString.*;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
-import static Project.Tools.GameTool.isATrue;
-import static Project.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -190,7 +190,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         int bv = toPercent(v1, v2);
         StringBuilder sb = new StringBuilder();
         int maxLose = 16;
-        if (bv < 100) {
+        if (bv < 80) {
             int bvc = 100 - bv;
             bvc = bvc > maxLose ? maxLose : bvc < 1 ? 1 : bvc;
             long ev = percentTo(bvc, getInfo(qq).getHjL());

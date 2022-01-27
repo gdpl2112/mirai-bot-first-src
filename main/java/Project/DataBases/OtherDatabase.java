@@ -1,6 +1,6 @@
 package Project.DataBases;
 
-import Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.initialize.FileInitializeValue;
 

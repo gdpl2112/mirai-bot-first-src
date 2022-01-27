@@ -1,6 +1,6 @@
 package Project.interfaces;
 
-import Entitys.apiEntitys.PicData;
+import io.github.kloping.mirai0.Entitys.apiEntitys.PicData;
 import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;

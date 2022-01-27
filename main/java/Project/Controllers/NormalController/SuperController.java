@@ -1,16 +1,16 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
-import Entitys.User;
-import Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
-import io.github.kloping.Mirai.Main.ITools.MemberTools;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.getInfo;
-import static Project.Tools.Tool.getRandString;
-import static io.github.kloping.Mirai.Main.ITools.MemberTools.getUser;
-import static io.github.kloping.Mirai.Main.Resource.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
+import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github-kloping

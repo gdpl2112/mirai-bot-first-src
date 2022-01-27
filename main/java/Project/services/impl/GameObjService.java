@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.GameDataBase.*;
-import static Project.Tools.Tool.getEntry;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**
  * @author github-kloping

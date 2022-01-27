@@ -1,11 +1,11 @@
 package Project.services.DetailServices.tasks;
 
-import Entitys.gameEntitys.task.Task;
-import Entitys.gameEntitys.task.TaskPoint;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.DataBases.GameTaskDatabase.cd_0;
-import static Project.Tools.Tool.getRandT;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 周任务2

@@ -1,6 +1,6 @@
 package Project.broadcast.game;
 
-import Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 

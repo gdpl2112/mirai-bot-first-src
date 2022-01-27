@@ -1,8 +1,8 @@
 package Project.DataBases.skill;
 
-import Entitys.gameEntitys.Skill;
-import Entitys.gameEntitys.SkillInfo;
-import Project.Tools.JSONUtils;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -12,8 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.services.DetailServices.GameSkillDetailService.getUserPercent;
-import static Project.Tools.Tool.getStringFromFile;
-import static Project.Tools.Tool.putStringInFile;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.putStringInFile;
 
 /**
  * @author github-kloping

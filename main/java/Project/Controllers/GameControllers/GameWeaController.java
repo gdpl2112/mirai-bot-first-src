@@ -1,14 +1,14 @@
 package Project.Controllers.GameControllers;
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.GameDataBase;
 import Project.services.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.opened;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

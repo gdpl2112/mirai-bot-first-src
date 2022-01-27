@@ -1,11 +1,12 @@
 package Project.interfaces;
 
-import Entitys.apiEntitys.pvpQQH0.PvpQQH0;
-import Entitys.apiEntitys.pvpQQVoice.PvpQQVoice;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.PvpQQH0;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQVoice.PvpQQVoice;
 import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpSkin.PvpSkin;
 
 /**
  * @author github kloping
@@ -33,4 +34,12 @@ public interface PvpQq {
     @GetPath("webplat/info/news_version3/15592/18024/23901/24397/24398/m22352/index.shtml?callback=createHeroList")
     @Callback("Project.detailPlugin.PvpQq.c1")
     PvpQQH0 get1(@ParamName("callback") String createHeroList);
+
+    /**
+     * get all skin
+     *
+     * @return
+     */
+    @GetPath("zlkdatasys/data_zlk_xpflby.json")
+    PvpSkin getSkins();
 }

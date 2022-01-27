@@ -1,12 +1,12 @@
 
 package Project.services.DetailServices.tasks.reciver;
 
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.DetailServices.TaskDetailService;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.DataBases.GameDataBase.addToBgs;
 import static Project.DataBases.GameTaskDatabase.deleteTask;

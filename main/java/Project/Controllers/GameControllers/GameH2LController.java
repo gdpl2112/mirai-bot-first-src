@@ -1,9 +1,7 @@
 package Project.Controllers.GameControllers;
 
-import Entitys.Group;
-import Entitys.User;
-import Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
@@ -15,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.getInfo;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 @Controller
 public class GameH2LController {

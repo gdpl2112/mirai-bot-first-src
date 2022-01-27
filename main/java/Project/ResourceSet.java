@@ -67,6 +67,7 @@ public final class ResourceSet {
         public static final String TRY_MUTE = "活动列表";
         public static final String NOT_MANAGER = "权限不足#不是管理";
         public static final String PERMISSION_DENIED = "权限不足";
+        public static final String HTTPS_PRE = "https:";
 
         public static final String MONTH = "月";
         public static final String DAY = "天";

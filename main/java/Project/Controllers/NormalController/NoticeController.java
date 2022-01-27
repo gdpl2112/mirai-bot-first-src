@@ -1,7 +1,7 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
@@ -10,7 +10,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.ResourceSet.FinalValue.*;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping
@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.27:修复已知bug,新娱乐功能,王者最新皮肤<N>,王者皮肤<名字> #可获取皮肤原画无水印哦.<Face:334>").append("\n");
         UPDATE_LOG.append("1.26:修复已知bug,新的周任务,精神力伤害的调整,魂技效果加成的调整").append("\n");
         UPDATE_LOG.append("1.25:修复已知bug,新年样式#狗头保命").append("\n");
         UPDATE_LOG.append("1.23: 修复永久加攻击的bug").append("\n");

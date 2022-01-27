@@ -1,7 +1,7 @@
 package Project.services.Iservice;
 
 
-import Entitys.Group;
+import io.github.kloping.mirai0.Entitys.Group;
 
 public interface ISkillService {
 

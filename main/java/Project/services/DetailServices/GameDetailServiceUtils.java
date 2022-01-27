@@ -1,7 +1,7 @@
 package Project.services.DetailServices;
 
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 import Project.broadcast.game.GhostLostBroadcast;
 

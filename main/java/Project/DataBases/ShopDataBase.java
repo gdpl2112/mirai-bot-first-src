@@ -1,8 +1,8 @@
 package Project.DataBases;
 
-import Entitys.gameEntitys.ShopItem;
-import Project.Tools.JSONUtils;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
+import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.util.Map;

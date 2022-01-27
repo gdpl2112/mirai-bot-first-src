@@ -1,8 +1,9 @@
 package Project.services.DetailServices.roles;
 
-import Entitys.gameEntitys.AttributeBone;
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.base.BaseInfo;
+import Project.broadcast.game.GhostLostBroadcast;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.services.DetailServices.GameJoinDetailService;
@@ -35,9 +36,8 @@ public class BeatenRoles {
                 sb.append("\n被攻击者,由于带有反甲,攻击者受到 ").append(v1).append("点伤害\n============");
             } else {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
-                ghostObj.updateHp(-v1);
-                GameJoinDetailService.saveGhostObjIn(q1.longValue(), ghostObj);
                 sb.append("\n您带有反甲,").append(ghostObj.getName()).append("受到").append(v1).append("点伤害\n============");
+                sb.append(GameJoinDetailService.attGho(q1.longValue(), v1, false, false, GhostLostBroadcast.KillType.SKILL_ATT));
             }
         }
         return null;

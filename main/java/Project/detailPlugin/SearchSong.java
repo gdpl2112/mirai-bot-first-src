@@ -1,6 +1,6 @@
 package Project.detailPlugin;
 
-import Entitys.apiEntitys.Songs;
+import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import Project.interfaces.GetSongs;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

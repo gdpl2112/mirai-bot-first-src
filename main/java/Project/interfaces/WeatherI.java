@@ -1,7 +1,7 @@
 package Project.interfaces;
 
-import Entitys.apiEntitys.WeatherDetail;
-import Entitys.apiEntitys.WeatherM;
+import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherDetail;
+import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherM;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;

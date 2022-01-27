@@ -1,20 +1,20 @@
 package Project.Controllers.NormalController;
 
 
-import Entitys.Group;
+import io.github.kloping.mirai0.Entitys.Group;
 import Project.ASpring.SpringBootResource;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IOtherService;
-import io.github.kloping.Mirai.Main.ITools.MemberTools;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.ITools.Saver;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.Saver;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.contact.NormalMember;
 
 import static Project.Controllers.ControllerTool.opened;
-import static io.github.kloping.Mirai.Main.Resource.bot;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github kloping

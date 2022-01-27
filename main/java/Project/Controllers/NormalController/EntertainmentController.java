@@ -1,19 +1,19 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
-import Entitys.UScore;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.DataBase;
 import Project.ResourceSet;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.WeatherGetter;
-import Project.drawers.ImageDrawer;
+import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import Project.interfaces.ApiIyk0;
 import Project.services.DetailServices.Idiom;
 import Project.services.Iservice.IOtherService;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import net.mamoe.mirai.message.data.Image;
@@ -35,9 +35,9 @@ import static Project.Controllers.NormalController.CustomController.builderAndAd
 import static Project.Controllers.TimerController.BASE_URL_CLOUD;
 import static Project.DataBases.DataBase.canBackShow;
 import static Project.ResourceSet.FinalString.*;
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
-import static io.github.kloping.Mirai.Main.Resource.Switch.sendFlashToSuper;
-import static io.github.kloping.Mirai.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
+import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github-kloping

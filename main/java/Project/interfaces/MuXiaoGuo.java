@@ -1,8 +1,8 @@
 package Project.interfaces;
 
-import Entitys.apiEntitys.baiKe.BaiKe;
-import Entitys.apiEntitys.reping163.Reping163;
-import Entitys.apiEntitys.sjtx.Sjtx;
+import io.github.kloping.mirai0.Entitys.apiEntitys.baiKe.BaiKe;
+import io.github.kloping.mirai0.Entitys.apiEntitys.reping163.Reping163;
+import io.github.kloping.mirai0.Entitys.apiEntitys.sjtx.Sjtx;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;

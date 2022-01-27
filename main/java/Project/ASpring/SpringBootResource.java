@@ -1,7 +1,7 @@
 package Project.ASpring;
 
-import Entitys.UScore;
-import Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.ASpring.mcs.mapper.GInfoMapper;
 import Project.ASpring.mcs.mapper.PersonInfoMapper;
 import Project.ASpring.mcs.mapper.UScoreMapper;
@@ -10,7 +10,6 @@ import Project.DataBases.GameDataBase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 

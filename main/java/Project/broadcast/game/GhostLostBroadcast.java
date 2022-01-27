@@ -1,6 +1,6 @@
 package Project.broadcast.game;
 
-import Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 

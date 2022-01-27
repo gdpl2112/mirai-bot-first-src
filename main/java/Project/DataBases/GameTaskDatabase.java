@@ -1,6 +1,6 @@
 package Project.DataBases;
 
-import Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import Project.DataBases.task.TaskCreator;
 import Project.broadcast.Receiver;
 import com.alibaba.fastjson.JSON;

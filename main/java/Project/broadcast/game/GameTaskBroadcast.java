@@ -1,10 +1,8 @@
 package Project.broadcast.game;
 
-import Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
-
-import java.lang.reflect.Method;
 
 public class GameTaskBroadcast extends Broadcast {
     public GameTaskBroadcast() {

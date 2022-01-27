@@ -1,8 +1,8 @@
 package Project.services.DetailServices;
 
 
-import Entitys.TradingRecord;
-import Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -13,8 +13,8 @@ import java.util.Map;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.services.DetailServices.GameJoinDetailService.attGho;
-import static Project.Tools.GameTool.isAlive;
-import static Project.Tools.Tool.randLong;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 
 /**
  * @author github-kloping

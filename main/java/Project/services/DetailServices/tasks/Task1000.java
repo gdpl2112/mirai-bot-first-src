@@ -1,8 +1,8 @@
 package Project.services.DetailServices.tasks;
 
-import Entitys.gameEntitys.task.Task;
-import Entitys.gameEntitys.task.TaskPoint;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

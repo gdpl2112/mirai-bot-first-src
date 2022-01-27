@@ -1,10 +1,11 @@
 package Project.services.DetailServices.ac;
 
-import Entitys.Group;
-import Entitys.TradingRecord;
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.PersonInfo;
-import Project.Tools.Tool;
+import Project.services.DetailServices.ac.entity.GhostWithGroup;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.services.AutoBehaviors.GhostBehavior;
 import Project.services.DetailServices.GameDetailService;
@@ -14,8 +15,8 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
-import static Project.Tools.Tool.rand;
-import static Project.Tools.Tool.randA;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 import static Project.services.DetailServices.GameJoinDetailService.WillTips;
 
 /**
@@ -205,7 +206,7 @@ public class JoinAcService {
                 break;
         }
         getInfo(who).setNextR3(rand.nextInt(MAX_RAND3)).apply();
-        GhostObj ghostObj = null;
+        GhostWithGroup ghostObj = null;
         if (r == 0) {
             ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 705);
         } else if (r < 3) {
@@ -225,8 +226,11 @@ public class JoinAcService {
         } else if (r < MIN_MEET3 + 75) {
             GameDetailService.addHj(who, 5);
             return JOIN_AC3_EVENT2;
+        } else {
+            return "";
         }
         if (ghostObj != null) {
+            ghostObj.setGroup(group);
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             int id = ghostObj.getId();
@@ -235,6 +239,6 @@ public class JoinAcService {
             }
             return WillTips(who, ghostObj, false);
         }
-        return "";
+        return ERR_TIPS;
     }
 }

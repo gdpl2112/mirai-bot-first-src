@@ -1,28 +1,34 @@
 package Project.services.DetailServices;
 
 
-import Entitys.Group;
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.PersonInfo;
-import Project.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.services.DetailServices.ac.JoinAcService;
+import Project.services.DetailServices.ac.entity.Ghost701;
 import Project.services.Iservice.IGameService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.Tools.GameTool.*;
-import static Project.Tools.JSONUtils.jsonStringToObject;
-import static Project.Tools.JSONUtils.objectToJsonString;
-import static Project.Tools.Tool.randLong;
-import static Project.drawers.Drawer.getImageFromStrings;
+import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
+import static io.github.kloping.mirai0.unitls.Tools.JSONUtils.jsonStringToObject;
+import static io.github.kloping.mirai0.unitls.Tools.JSONUtils.objectToJsonString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -52,7 +58,7 @@ public class GameJoinDetailService {
      * @param idType 5 星斗 6 极北
      * @return
      */
-    public GhostObj summonFor(String who, int idMin, int idMax) {
+    public <T extends GhostObj> T summonFor(String who, int idMin, int idMax) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
         GhostObj ghostObj = GhostObj.create(
@@ -62,7 +68,7 @@ public class GameJoinDetailService {
                 idMin, idMax,
                 -1,
                 true, bl);
-        return ghostObj;
+        return (T) ghostObj;
     }
 
     public Object select(int id, GhostObj ghostObj, long who) {
@@ -89,7 +95,8 @@ public class GameJoinDetailService {
             GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
-            if (Tool.rand.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt() >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
+            if (Tool.rand.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
+                    >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
             GameJoinDetailService.saveGhostObjIn(who, null);
@@ -129,10 +136,12 @@ public class GameJoinDetailService {
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
 
             if (canAttMe) {
-                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2));
+                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
+                        .append(GameDetailService.beaten(who, -2, at2));
             }
 
-            ghostObj.updateHp(-att);
+            ghostObj.updateHp(-att, getInfo(who));
+
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
             sb.append("\n你对 ").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害").append("\r\n");
             boolean showY = false;
@@ -145,8 +154,8 @@ public class GameJoinDetailService {
                 }
             } else {
                 sb.append("\n").append(getNameById(ghostObj.getId())).append("被你打败了\n");
-                sb.append(WillGet(ghostObj.getL(), who, ghostObj.getId()));
-                sb.append(WillGetXp(ghostObj, who, isHelp));
+                sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                sb.append(willGetXp(ghostObj, who, isHelp));
                 ZongDetailService.onKilled(who, ghostObj.getXp());
                 if (isHelp) {
                     GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
@@ -185,8 +194,8 @@ public class GameJoinDetailService {
             if (IDXS.contains(ghostObj.getIDX())) {
                 return "该魂兽,正在被攻击中";
             }
-
             IDXS.add(ghostObj.getIDX());
+
             PersonInfo personInfo = getInfo(who);
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
             long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
@@ -196,7 +205,7 @@ public class GameJoinDetailService {
             if (personInfo.getHl() > hl1) {
                 sb.append("\n消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1));
                 sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害").append("\n");
-                ghostObj.updateHp(-at1);
+                ghostObj.updateHp(-at1, personInfo);
                 sb.append(GameDetailService.onAtt(who, -2, at1));
             } else {
                 sb.append("魂力不足,攻击失败").append("\n");
@@ -221,8 +230,8 @@ public class GameJoinDetailService {
                 } else {
                     showI = true;
                     sb.append("\n").append(getNameById(ghostObj.getId())).append("被你打败了\n");
-                    sb.append(WillGet(ghostObj.getL(), who, ghostObj.getId()));
-                    sb.append(WillGetXp(ghostObj, who, isHelp));
+                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                    sb.append(willGetXp(ghostObj, who, isHelp));
                     ZongDetailService.onKilled(who, ghostObj.getXp());
                     if (isHelp) {
                         GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
@@ -238,7 +247,7 @@ public class GameJoinDetailService {
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
                 }
             } else {
-                sb.append("你被打败了!!!");
+                sb.append("你被打败了!!!").append(SPLIT_LINE_0);
                 if (ghostObj.getHp() < 0) {
                     sb.append(getNameById(ghostObj.getId())).append("也失败了,但你无法获得魂环");
                 }
@@ -300,28 +309,49 @@ public class GameJoinDetailService {
         return "未知级别";
     }
 
-    public static synchronized GhostObj getGhostObjFrom(long qq) {
-        String js = getDataString(qq, "decide").toString();
-        if (js == null || js.trim().isEmpty()) return null;
-        GhostObj g = jsonStringToObject(js, GhostObj.class);
-        return g;
+    public static final Map<Long, ? extends GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
+
+    public static GhostObj getGhostObjFrom(long qq) {
+        if (GHOST_TEMP.containsKey(qq)) {
+            return GHOST_TEMP.get(qq);
+        } else {
+            String js = getDataString(qq, "decide").toString();
+            if (js == null || js.trim().isEmpty()) return null;
+            GHOST_TEMP.put(qq, getGhost(js));
+            return GHOST_TEMP.get(qq);
+        }
     }
 
-    public static synchronized GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
-        GhostObj ghostObj1 = getGhostObjFrom(qq);
-        if (ghostObj == null)
+    public static <T extends GhostObj> T getGhost(String jsonStr) {
+        JSONObject jo = JSON.parseObject(jsonStr);
+        int id = jo.getInteger("id");
+        if (id > 700) {
+            switch (id) {
+                case 701:
+                    return (T) jsonStringToObject(jsonStr, Ghost701.class);
+
+            }
+            return null;
+        } else {
+            return (T) jsonStringToObject(jsonStr, GhostObj.class);
+        }
+    }
+
+    public static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
+        if (ghostObj == null) {
             putDataString(qq, "decide", "");
-        else
+        } else {
             putDataString(qq, "decide", objectToJsonString(ghostObj));
-        return ghostObj1;
+        }
+        return getGhostObjFrom(qq);
     }
 
-    public static String WillGet(int level, long who, int id) {
+    public static String willGet(int level, long who, int id) {
         OnKilldc(who);
         if (id > 600) {
-            return WillGetBone(level, who);
+            return willGetBone(level, who);
         } else {
-            return WillGetHh(level, who);
+            return willGetHh(level, who);
         }
     }
 
@@ -337,7 +367,7 @@ public class GameJoinDetailService {
         return Tool.rand.nextInt(100) < 75;
     }
 
-    public static String WillGetXp(GhostObj ghostObj, long who, boolean isHelp) {
+    public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
         if (getInfo(who).getLevel() >= 150) {
             return "\n等级最大限制,无法获得经验";
         } else {
@@ -354,7 +384,7 @@ public class GameJoinDetailService {
         }
     }
 
-    private static String WillGetBone(int level, long who) {
+    private static String willGetBone(int level, long who) {
         if (randHh(level)) {
             Integer id = 0;
             int r1 = Tool.rand.nextInt(5) + 1;
@@ -373,7 +403,7 @@ public class GameJoinDetailService {
         return "";
     }
 
-    private static String WillGetHh(int level, long who) {
+    private static String willGetHh(int level, long who) {
         int sid = getHhByGh(level);
         if (randHh(level)) {
             addToBgs(who, sid, ObjType.got);
@@ -381,4 +411,5 @@ public class GameJoinDetailService {
         }
         return "";
     }
+
 }

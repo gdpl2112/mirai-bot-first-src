@@ -1,10 +1,8 @@
 package Project.broadcast.game;
 
-import Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
-
-import java.lang.reflect.Method;
 
 public class SkillUseBroadcast extends Broadcast {
     public static final SkillUseBroadcast INSTANCE = new SkillUseBroadcast();

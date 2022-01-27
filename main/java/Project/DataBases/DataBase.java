@@ -1,8 +1,8 @@
 package Project.DataBases;
 
 
-import Entitys.GroupConf;
-import Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.GroupConf;
+import io.github.kloping.mirai0.Entitys.UScore;
 import com.alibaba.fastjson.JSON;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Tools.Tool.*;
-import static io.github.kloping.Mirai.Main.Resource.superQ;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static io.github.kloping.mirai0.Main.Resource.superQ;
 
 public class DataBase {
 

@@ -1,9 +1,7 @@
 package Project.Controllers;
 
-import Project.interfaces.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import javax.imageio.ImageIO;
@@ -12,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static Project.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 
 /**
  * this is a utils for static class

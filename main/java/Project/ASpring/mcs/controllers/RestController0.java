@@ -1,11 +1,11 @@
 package Project.ASpring.mcs.controllers;
 
-import Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
 import Project.Controllers.ControllerSource;
 import Project.DataBases.OtherDatabase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import org.springframework.web.bind.annotation.GetMapping;

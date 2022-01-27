@@ -2,10 +2,10 @@ package Project.services.impl;
 
 
 import Project.DataBases.DataBase;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IManagerService;
-import io.github.kloping.Mirai.Main.ITools.Saver;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.ITools.Saver;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static Project.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static Project.ResourceSet.FinalString.*;
-import static io.github.kloping.Mirai.Main.Resource.superQL;
+import static io.github.kloping.mirai0.Main.Resource.superQL;
 
 /**
  * @author github-kloping

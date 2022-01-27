@@ -1,10 +1,10 @@
 package Project.Controllers.GameControllers;
 
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.services.Iservice.IGameBoneService;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -14,8 +14,8 @@ import java.util.Map;
 
 import static Project.Controllers.ControllerTool.opened;
 import static Project.DataBases.GameDataBase.*;
-import static Project.drawers.Drawer.getImageFromStrings;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

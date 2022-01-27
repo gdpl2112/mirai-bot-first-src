@@ -1,9 +1,9 @@
 package Project.Controllers;
 
-import Project.detailPlugin.pluginsDetail.RunAll;
-import Project.detailPlugin.pluginsDetail.entitys.CodeContent;
-import Project.detailPlugin.pluginsDetail.entitys.CodeEntity;
-import Project.detailPlugin.pluginsDetail.entitys.CodeResponse;
+import Project.detailPlugin.RunAll;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeContent;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeEntity;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;

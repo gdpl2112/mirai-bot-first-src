@@ -1,11 +1,11 @@
 package Project.services.DetailServices;
 
-import Entitys.gameEntitys.GhostObj;
-import Entitys.gameEntitys.PersonInfo;
-import Entitys.gameEntitys.SkillIntro;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
-import Project.Tools.GameTool;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import Project.broadcast.game.HpChangeBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

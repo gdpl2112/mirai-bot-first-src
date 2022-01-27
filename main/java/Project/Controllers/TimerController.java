@@ -2,8 +2,8 @@ package Project.Controllers;
 
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import io.github.kloping.Mirai.Main.Handlers.MyTimer;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.Handlers.MyTimer;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import net.mamoe.mirai.contact.Group;
@@ -13,10 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static Project.Tools.Tool.update_Today;
-import static io.github.kloping.Mirai.Main.Handlers.MyTimer.ZERO_RUNS;
-import static io.github.kloping.Mirai.Main.Resource.THREADS;
-import static io.github.kloping.Mirai.Main.Resource.bot;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
+import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.Resource.bot;
 
 /**
  * @author github-kloping

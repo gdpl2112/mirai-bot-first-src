@@ -1,11 +1,11 @@
 package Project.services.DetailServices;
 
-import Entitys.gameEntitys.PersonInfo;
-import Entitys.gameEntitys.Zon;
-import Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
 import Project.DataBases.ZongMenDataBase;
-import io.github.kloping.Mirai.Main.Handlers.MyTimer;
-import io.github.kloping.Mirai.Main.Resource;
+import io.github.kloping.mirai0.Main.Handlers.MyTimer;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;

@@ -7,7 +7,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.kloping.Mirai.Main.Resource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 
 /**
  * @author github-kloping

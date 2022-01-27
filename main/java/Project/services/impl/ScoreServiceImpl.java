@@ -1,21 +1,21 @@
 package Project.services.impl;
 
 
-import Entitys.Group;
-import Entitys.TradingRecord;
-import Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.UScore;
 import Project.DataBases.DataBase;
 import Project.services.Iservice.IScoreService;
-import io.github.kloping.Mirai.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.DataBase.*;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
-import static Project.Tools.Tool.*;
-import static Project.drawers.Drawer.getImageFromFontString;
-import static Project.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping

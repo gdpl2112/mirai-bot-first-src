@@ -1,13 +1,13 @@
 package Project.Controllers.GameControllers;
 
 
-import Entitys.Group;
-import Entitys.User;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.GameDataBase;
 import Project.services.Iservice.IGameJoinAcService;
-import Project.Tools.Tool;
-import io.github.kloping.Mirai.Main.ITools.MemberTools;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
@@ -20,9 +20,9 @@ import static Project.Controllers.NormalController.ScoreController.longs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.KILLED_C;
 import static Project.ResourceSet.FinalString.LIST_STR;
-import static Project.drawers.Drawer.getImageFromStrings;
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.Mirai.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

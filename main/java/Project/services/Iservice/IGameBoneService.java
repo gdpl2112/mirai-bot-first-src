@@ -1,7 +1,7 @@
 package Project.services.Iservice;
 
 
-import Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 
 import java.util.Map;
 

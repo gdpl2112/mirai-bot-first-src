@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import Project.interfaces.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -15,8 +15,8 @@ import javax.script.ScriptEngineManager;
 
 import static Project.ResourceSet.FinalString.IMG_TAG_STR;
 import static Project.ResourceSet.FinalString.VIDEO_TAG_STR;
-import static Project.Tools.Tool.pathToImg;
-import static Project.Tools.Tool.unicodeToCn;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.unicodeToCn;
 
 /**
  * @author github-kloping

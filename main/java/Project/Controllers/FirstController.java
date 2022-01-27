@@ -1,11 +1,11 @@
 package Project.Controllers;
 
-import Entitys.Group;
-import Entitys.User;
-import Project.Tools.Tool;
-import Project.drawers.GameDrawer;
-import Project.drawers.entity.GameMap;
-import Project.drawers.entity.MapPosition;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
+import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
+import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Controller;

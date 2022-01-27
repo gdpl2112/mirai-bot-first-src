@@ -1,8 +1,8 @@
 package Project.DataBases;
 
-import Entitys.gameEntitys.Zon;
-import Entitys.gameEntitys.Zong;
-import Project.Tools.JSONUtils;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static Project.ResourceSet.FinalString.NULL_LOW_STR;
-import static Project.Tools.Tool.getStringFromFile;
-import static Project.Tools.Tool.putStringInFile;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.putStringInFile;
 
 /**
  * @author github-kloping

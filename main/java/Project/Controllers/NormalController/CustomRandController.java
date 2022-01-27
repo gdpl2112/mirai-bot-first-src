@@ -1,21 +1,19 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
-import Entitys.User;
-import Entitys.eEntitys.CustomElement;
-import Entitys.eEntitys.CustomReplyGroup;
-import Project.DataBases.DataBase;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.eEntitys.CustomElement;
+import io.github.kloping.mirai0.Entitys.eEntitys.CustomReplyGroup;
 import Project.broadcast.PicBroadcast;
 import Project.services.DetailServices.CustomRandReplyService;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.kloping.Mirai.Main.Resource.println;
-import static io.github.kloping.Mirai.Main.Resource.superQ;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

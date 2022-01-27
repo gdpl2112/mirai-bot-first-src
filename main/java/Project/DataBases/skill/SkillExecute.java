@@ -1,14 +1,14 @@
 package Project.DataBases.skill;
 
-import Entitys.gameEntitys.*;
-import Entitys.gameEntitys.base.BaseInfo;
-import Project.Tools.Tool;
+import io.github.kloping.mirai0.Entitys.gameEntitys.*;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static Project.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static Project.services.DetailServices.GameDetailServiceUtils.*;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameSkillDetailService.*;

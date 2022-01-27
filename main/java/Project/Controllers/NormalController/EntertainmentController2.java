@@ -1,37 +1,40 @@
 package Project.Controllers.NormalController;
 
-import Entitys.Group;
-import Entitys.User;
-import Entitys.apiEntitys.baiKe.BaiKe;
-import Entitys.apiEntitys.colb.PickupABottle;
-import Entitys.apiEntitys.pvpQQH0.Data;
-import Entitys.apiEntitys.pvpQQVoice.Yy_4e;
-import Entitys.apiEntitys.pvpQqCom.Response0;
-import Entitys.apiEntitys.thb.ThrowABottle;
 import Project.detailPlugin.GetPvpNews;
 import Project.detailPlugin.MihoyoP0;
 import Project.detailPlugin.PvpQq;
-import Project.Tools.Tool;
-import Project.drawers.GameDrawer;
-import Project.drawers.entity.GameMap;
 import Project.interfaces.ApiIyk0;
 import Project.interfaces.GetPvpQQ;
-import Project.interfaces.Mihoyo;
 import Project.interfaces.MuXiaoGuo;
-import io.github.kloping.Mirai.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.apiEntitys.baiKe.BaiKe;
+import io.github.kloping.mirai0.Entitys.apiEntitys.colb.PickupABottle;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.Data;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQVoice.Yy_4e;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.Response0;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpSkin.Pcblzlby_c6;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpSkin.PvpSkin;
+import io.github.kloping.mirai0.Entitys.apiEntitys.thb.ThrowABottle;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
+import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 import net.mamoe.mirai.message.data.Message;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Project.Controllers.ControllerSource.*;
 import static Project.Controllers.ControllerTool.opened;
-import static Project.Tools.Tool.findNumberFromString;
-import static io.github.kloping.Mirai.Main.Resource.println;
-import static io.github.kloping.Mirai.Main.Resource.superQL;
+import static Project.ResourceSet.FinalString.NEWLINE;
+import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
+import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.Resource.superQL;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 
 /**
  * @author github-kloping
@@ -160,7 +163,7 @@ public class EntertainmentController2 {
 
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
     public Object m4(Group group, @AllMess String str) throws Exception {
-        Entitys.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
+        io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
         String numStr = findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
@@ -224,5 +227,42 @@ public class EntertainmentController2 {
         a = a.replaceFirst("王者图片", "");
         Data data = pvpQq.getD(a);
         return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
+    }
+
+    @AutoStand
+    Project.interfaces.PvpQq pvpQqi;
+
+    public static final int PAGE_SIZE = 5;
+    public PvpSkin upPS = null;
+
+    @Action("王者最新皮肤.*?")
+    public Object pvpQQSkin(@AllMess String m) {
+        PvpSkin pvpSkin = upPS == null ? pvpQqi.getSkins() : upPS;
+        upPS = pvpSkin;
+        Integer i = getInteagerFromStr(m);
+        i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
+        StringBuilder sb = new StringBuilder();
+        int[] ints = {i * PAGE_SIZE, i * PAGE_SIZE + 1, i * PAGE_SIZE + 2, i * PAGE_SIZE + 3, i * PAGE_SIZE + 4};
+        for (int i1 : ints) {
+            Pcblzlby_c6 pcblzlby_c6 = pvpSkin.getPcblzlby_c6()[i1];
+            sb.append("皮肤名:").append(pcblzlby_c6.getPcblzlbybt_d3()).append(NEWLINE)
+                    .append("预览图:").append(NEWLINE).append(Tool.pathToImg("https:" + pcblzlby_c6.getPcblzlbydt_8b()))
+                    .append(NEWLINE).append("相关链接:").append(pcblzlby_c6.getPcblzlbyxqydz_c4().substring(2))
+                    .append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
+        }
+        return sb.toString();
+    }
+
+    @Action("王者皮肤.*?")
+    public Object pvpQQSkin0(@AllMess String m) {
+        PvpSkin pvpSkin = upPS == null ? pvpQqi.getSkins() : upPS;
+        upPS = pvpSkin;
+        String name = m.replace("王者皮肤", "");
+        for (Pcblzlby_c6 pcblzlby_c6 : pvpSkin.getPcblzlby_c6()) {
+            if (pcblzlby_c6.getPcblzlbybt_d3().equals(name)) {
+                return pvpQq.getSkinPic("https:" + pcblzlby_c6.getPcblzlbyxqydz_c4());
+            }
+        }
+        return "未发现该皮肤";
     }
 }

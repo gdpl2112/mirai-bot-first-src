@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import Entitys.apiEntitys.pvpQqCom.Response0;
-import Entitys.apiEntitys.pvpQqCom.v1.Response1;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.Response0;
+import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.v1.Response1;
 import Project.interfaces.GetPvpQQ;
 import com.alibaba.fastjson.JSON;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -21,8 +21,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static Project.ResourceSet.FinalString.IMG_TAG_STR;
-import static io.github.kloping.Mirai.Main.ITools.MessageTools.createImage;
-import static io.github.kloping.Mirai.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.createImage;
+import static io.github.kloping.mirai0.Main.Resource.bot;
 
 /**
  * @author github-kloping
