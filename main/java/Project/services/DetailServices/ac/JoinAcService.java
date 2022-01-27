@@ -1,5 +1,6 @@
 package Project.services.DetailServices.ac;
 
+import Project.Controllers.TimerController;
 import Project.broadcast.enums.ObjType;
 import Project.services.AutoBehaviors.GhostBehavior;
 import Project.services.DetailServices.GameDetailService;
@@ -16,6 +17,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import static Project.DataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.services.DetailServices.GameJoinDetailService.WillTips;
+import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
@@ -28,12 +30,20 @@ public class JoinAcService {
     @AutoStand
     GameJoinDetailService gameJoinDetailService;
 
+    public static boolean opend = false;
+
+    static {
+        ZERO_RUNS.add(() -> {
+            opend = true;
+        });
+    }
+
     public String join(int id, long who, Group group) {
         if (id == 0) {
             return join0(who, group);
         } else if (id == 1) {
             return join1(who, group);
-        } else if (id == 2) {
+        } else if (opend && id == 2) {
             return join2(who, group);
         } else {
             return "暂未实现";
