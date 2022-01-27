@@ -49,26 +49,30 @@ public class PvpQq {
     public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
 
     public Object getSkinPic(String arg) {
+        List list = new LinkedList();
         try {
             Document document = Jsoup.connect(arg).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69")
                     .get();
-            List list = new LinkedList();
             String picStr = document.getElementsByClass("banner").get(0).getElementsByTag("img").get(0).attr("src");
             picStr = HTTPS_PRE + picStr;
             list.add("皮肤原画:" + Tool.pathToImg(picStr));
-            Elements elements = document.getElementsByClass("relation-cont");
-            list.add("技能效果");
-            Elements es;
-            Element e;
-            e = elements.get(elements.size() - 3);
-            es = e.getElementsByTag("img");
-            list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
-            e = elements.get(elements.size() - 2);
-            es = e.getElementsByTag("img");
-            list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
-            e = elements.get(elements.size() - 1);
-            es = e.getElementsByTag("img");
-            list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+            try {
+                Elements elements = document.getElementsByClass("relation-cont");
+                list.add("技能效果");
+                Elements es;
+                Element e;
+                e = elements.get(elements.size() - 3);
+                es = e.getElementsByTag("img");
+                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                e = elements.get(elements.size() - 2);
+                es = e.getElementsByTag("img");
+                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                e = elements.get(elements.size() - 1);
+                es = e.getElementsByTag("img");
+                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 //            list.add("皮肤语音");
 //            es = document.getElementsByClass("wrap-content");
 //            e = es.get(es.size() - 1);

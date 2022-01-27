@@ -68,9 +68,11 @@ public class MessageTools {
                         break;
                     case "At":
                         builder.append(getAt(Long.parseLong(s2)));
+                        break;
                     case "Voice":
                     case "Audio":
                         builder.append(createVoiceMessageInGroup(s2, contact.getId()));
+                        break;
                 }
             } else {
                 builder.append(str.trim());
@@ -123,7 +125,7 @@ public class MessageTools {
 
     public static void a1b2c3(List<String> list, String line) {
         if (list == null || line == null || line.isEmpty()) return;
-        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE);
+        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL);
         if (nm.isEmpty()) {
             list.add(line);
             return;

@@ -258,11 +258,9 @@ public class EntertainmentController2 {
         PvpSkin pvpSkin = upPS == null ? pvpQqi.getSkins() : upPS;
         upPS = pvpSkin;
         String name = m.replace("王者皮肤", "");
-        for (Pcblzlby_c6 pcblzlby_c6 : pvpSkin.getPcblzlby_c6()) {
-            if (pcblzlby_c6.getPcblzlbybt_d3().equals(name)) {
-                return pvpQq.getSkinPic("https:" + pcblzlby_c6.getPcblzlbyxqydz_c4());
-            }
-        }
-        return "未发现该皮肤";
+        Integer i = getInteagerFromStr(m);
+        i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
+        Pcblzlby_c6 pcblzlby_c6 = pvpSkin.getPcblzlby_c6()[i];
+        return pvpQq.getSkinPic("https:" + pcblzlby_c6.getPcblzlbyxqydz_c4());
     }
 }

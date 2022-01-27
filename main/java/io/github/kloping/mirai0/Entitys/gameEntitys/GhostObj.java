@@ -63,10 +63,6 @@ public class GhostObj implements Serializable, BaseInfo {
     @JSONField(serialize = false, deserialize = false)
     public static final int HELPING = 3;
 
-    public static final synchronized int getID() {
-        return idx++;
-    }
-
     public GhostObj() {
     }
 
@@ -352,7 +348,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static int getIdx() {
-        return idx;
+        return idx++;
     }
 
     public static void setIdx(int idx) {
