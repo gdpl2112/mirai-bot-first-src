@@ -1,25 +1,26 @@
 package Project.services.DetailServices;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import Project.Controllers.GameControllers.GameController;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.services.DetailServices.ac.entity.Ghost702;
 import Project.services.DetailServices.roles.BeatenRoles;
 import Project.services.DetailServices.roles.Role;
 import Project.services.DetailServices.roles.RoleResponse;
 import Project.services.DetailServices.roles.RoleState;
 import Project.services.Iservice.IGameBoneService;
-import io.github.kloping.mirai0.Main.Handlers.MyTimer;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.Main.Handlers.MyTimer;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.util.Map;
@@ -185,8 +186,19 @@ public class GameDetailService {
             if (info.containsTag(TAG_SHE) && info.containsTag(TAG_SHIELD)) {
                 int b = info.getTagValue(TAG_SHE).intValue();
                 long v2 = percentTo(b, v);
-                putPerson(getInfo(qq2.longValue()).addHp(v2));
+                putPerson(getInfo(qq2.longValue()).addHp(-v2));
                 sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");
+            }
+        } else {
+            GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(qq.longValue());
+            if (ghostObj instanceof Ghost702) {
+                Ghost702 ghost702 = (Ghost702) ghostObj;
+                if (ghost702.getShield() >= 0) {
+                    int b = info.getTagValue(TAG_SHE).intValue();
+                    long v2 = percentTo(b, v);
+                    GameJoinDetailService.attGho(qq.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
+                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");
+                }
             }
         }
         putPerson(info);

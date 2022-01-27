@@ -27,6 +27,7 @@ import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JSONUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JSONUtils.objectToJsonString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -197,9 +198,11 @@ public class GameJoinDetailService {
             IDXS.add(ghostObj.getIDX());
 
             PersonInfo personInfo = getInfo(who);
+
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
             long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
             long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
+
             StringBuilder sb = new StringBuilder();
 
             if (personInfo.getHl() > hl1) {
@@ -349,7 +352,9 @@ public class GameJoinDetailService {
 
     public static String willGet(int level, long who, int id) {
         OnKilldc(who);
-        if (id > 600) {
+        if (id > 700) {
+            return willGetLr(level, who);
+        } else if (id > 600) {
             return willGetBone(level, who);
         } else {
             return willGetHh(level, who);
@@ -413,4 +418,34 @@ public class GameJoinDetailService {
         return "";
     }
 
+    private static String willGetLr(int level, long who) {
+        int r = rand.nextInt(100);
+        if (r < 30) {
+            return willGetHh(level, who);
+        } else if (r < 60) {
+            return willGetBone(level, who);
+        } else {
+            r = rand.nextInt(300);
+            int n = rand.nextInt(4) + 1;
+            if (r == 1) {
+                if (level >= 3000) {
+                    addToBgs(who, 1601, ObjType.got);
+                    return "你获得了一个" + getNameById(1601) + getImgById(1601);
+                }
+            } else if (r < 30) {
+                addToAqBgs(who, "1005:" + n);
+                return String.format("你获得了一个%s耐久的孔雀翎", n) + getImgById(1005);
+            } else if (r < 75) {
+                addToAqBgs(who, "1004:" + n);
+                return String.format("你获得了一个%s耐久的子母追魂夺命胆", n) + getImgById(1004);
+            } else if (r < 130) {
+                addToAqBgs(who, "1003:" + n);
+                return String.format("你获得了一个%s耐久的含沙射影", n) + getImgById(1003);
+            } else if (r < 160) {
+                addToAqBgs(who, "1002:" + n);
+                return String.format("你获得了一个%s耐久的龙须针", n) + getImgById(1002);
+            }
+        }
+        return "";
+    }
 }

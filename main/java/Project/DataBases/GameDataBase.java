@@ -1,12 +1,12 @@
 package Project.DataBases;
 
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import io.github.kloping.initialize.FileInitializeValue;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -222,7 +222,7 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(1001, "暗器,诸葛神弩,单体伤害,造成 500+攻击x0.9的伤害,需要选择某(所有暗器,不消耗魂力)");
         ID_2_INTRO_MAPS.put(1002, "暗器,龙须针,多体伤害,最大3个,伤害,攻击,等级x1000,@即可,#为当前魂兽");
         ID_2_INTRO_MAPS.put(1003, "暗器,含沙射影,多体伤害,最大2个,伤害攻击x0.6");
-        ID_2_INTRO_MAPS.put(1004, "暗器,母追魂夺命胆,多体伤害,最大4个,伤害1500+攻击x0.45");
+        ID_2_INTRO_MAPS.put(1004, "暗器,子母追魂夺命胆,多体伤害,最大4个,伤害1500+攻击x0.45");
         ID_2_INTRO_MAPS.put(1005, "暗器,孔雀翎,多体伤害,最大3个,伤害,攻击x0.65");
         ID_2_INTRO_MAPS.put(1006, "暗器,暴雨梨花针,单体伤害 3000+攻击x2.8");
         ID_2_INTRO_MAPS.put(1007, "暗器,佛怒唐莲,多体伤害,最大三个,伤害 4500+攻击x0.72+等级x10");
@@ -252,7 +252,12 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(1603, "紫升级券,用于合成更高记得升级券,升级魂环");
         ID_2_INTRO_MAPS.put(1604, "黑升级券,用于合成更高记得升级券,升级魂环");
         ID_2_INTRO_MAPS.put(1605, "红升级券,升级魂环");
-
+        //====
+        ID_2_INTRO_MAPS.put(701, "每5秒对敌人造成枯木翼龙的最大生命值得1%的伤害");
+        ID_2_INTRO_MAPS.put(702, "出生自带20%的最大生命值得护盾");
+        ID_2_INTRO_MAPS.put(703, "被攻击时随50%几率造成攻击的15%的反弹伤害");
+        ID_2_INTRO_MAPS.put(704, "来自地狱魔魔兽,免疫一次死亡");
+        ID_2_INTRO_MAPS.put(705, "吸收大地之力,血量低于25%时恢复已损失18%的生命值,冷却30秒");
     }
 
     private static void initShop() {

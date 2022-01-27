@@ -159,10 +159,11 @@ public class GhostBehavior implements Runnable {
             PersonInfo info = getInfo(qq);
             int b1 = toPercent(ghostObj.getAtt(), info.getAtt());
             int r = 5;
-            if (b1 < 70)
+            if (b1 < 70) {
                 r = 3;
-            else if (b1 > 135)
+            } else if (b1 > 135) {
                 r = 7;
+            }
             boolean sendl = false;
             while (true) {
                 Thread.sleep(3000);

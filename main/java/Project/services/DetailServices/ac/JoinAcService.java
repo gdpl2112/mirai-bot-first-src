@@ -1,23 +1,23 @@
 package Project.services.DetailServices.ac;
 
+import Project.broadcast.enums.ObjType;
+import Project.services.AutoBehaviors.GhostBehavior;
+import Project.services.DetailServices.GameDetailService;
+import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.DetailServices.ac.entity.GhostWithGroup;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import Project.broadcast.enums.ObjType;
-import Project.services.AutoBehaviors.GhostBehavior;
-import Project.services.DetailServices.GameDetailService;
-import Project.services.DetailServices.GameJoinDetailService;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
+import static Project.services.DetailServices.GameJoinDetailService.WillTips;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
-import static Project.services.DetailServices.GameJoinDetailService.WillTips;
 
 /**
  * @author github-kloping
@@ -33,6 +33,8 @@ public class JoinAcService {
             return join0(who, group);
         } else if (id == 1) {
             return join1(who, group);
+        } else if (id == 2) {
+            return join2(who, group);
         } else {
             return "暂未实现";
         }
@@ -191,7 +193,13 @@ public class JoinAcService {
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
 
-    private static final int MAX_RAND3 = 500;
+    public static final String[] TIPS0 = {
+            "你去落日森林,欣赏了风景<Face:335>",
+            "你从花开<Face:64>看到了花落<Face:63>",
+            "你去落日森林捡到了一片落叶\uD83C\uDF42"
+    };
+
+    private static final int MAX_RAND3 = 400;
     private static final int MIN_MEET3 = 50;
 
     public String join2(long who, Group group) {
@@ -227,7 +235,7 @@ public class JoinAcService {
             GameDetailService.addHj(who, 5);
             return JOIN_AC3_EVENT2;
         } else {
-            return "";
+            return Tool.getRandT(TIPS0);
         }
         if (ghostObj != null) {
             ghostObj.setGroup(group);

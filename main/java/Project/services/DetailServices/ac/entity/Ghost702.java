@@ -1,14 +1,9 @@
 package Project.services.DetailServices.ac.entity;
 
-import Project.services.DetailServices.GameDetailService;
-import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.apiEntitys.RunnableWithOver;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
-import java.util.Set;
+import static Project.DataBases.skill.SkillDataBase.TAG_TRUE;
 
 /**
  * @author github-kloping
@@ -26,11 +21,45 @@ public class Ghost702 extends GhostWithGroup {
         this.shield = shield;
     }
 
+    public Ghost702() {
+    }
+
+    public Ghost702(String forWhoStr) {
+        super(forWhoStr);
+    }
+
+    public Ghost702(long hp, long att, long xp, long id, long l) {
+        super(hp, att, xp, id, l);
+    }
+
+    public Ghost702(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
+        super(hp, att, xp, idMin, idMax, l, rand, bl);
+    }
+
     @Override
     public long updateHp(long l, BaseInfo who) {
         if (shield.longValue() == -1) {
-
+            shield = getHpL() / 5;
         }
-        return super.updateHp(l, who);
+        if (who instanceof PersonInfo) {
+            PersonInfo p1 = (PersonInfo) who;
+            if (p1.containsTag(TAG_TRUE)) {
+                sendMessage("真实伤害护盾未生效\n护盾剩余:" + shield);
+                return super.updateHp(l, who);
+            } else {
+                if (l > shield.longValue()) {
+                    l = l - shield.longValue();
+                    shield = 0L;
+                    sendMessage("伤害部分护盾抵挡\n伤害剩余:" + l);
+                    return super.updateHp(l, who);
+                } else {
+                    shield = l - shield;
+                    sendMessage("伤害全部护盾抵挡\n护盾剩余:" + shield);
+                    return super.updateHp(0, who);
+                }
+            }
+        } else {
+            return super.updateHp(l, who);
+        }
     }
 }

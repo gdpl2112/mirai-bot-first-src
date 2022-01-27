@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static Project.DataBases.GameDataBase.getInfo;
 import static Project.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -60,6 +61,19 @@ public class ManagerController {
             long qid = Long.parseLong(numStr);
             CapHandler.ok(qid);
             return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "not found";
+        }
+    }
+
+    @Action("跳过进入冷却.+")
+    public String oo1(@AllMess String mess) {
+        try {
+            String numStr = Tool.findNumberFromString(mess);
+            long qid = Long.parseLong(numStr);
+            getInfo(qid).setK2(-1L).apply();
+            return "ok";
         } catch (Exception e) {
             e.printStackTrace();
             return "not found";

@@ -1,10 +1,11 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 
+import Project.services.DetailServices.GameJoinDetailService;
+import Project.services.DetailServices.ac.entity.*;
+import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
-import Project.services.DetailServices.GameJoinDetailService;
-import com.alibaba.fastjson.annotation.JSONField;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -12,11 +13,11 @@ import java.io.Serializable;
 import static Project.DataBases.GameDataBase.getNameById;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
+import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.Lmax;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.randFloatByte1;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
-import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 
 /**
  * @author github-kloping
@@ -119,14 +120,6 @@ public class GhostObj implements Serializable, BaseInfo {
         name = getNameById(this.id);
         initHj();
         IDX = getIdx();
-    }
-
-    public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        if (idMax > 700) {
-            return null;
-        } else {
-            return new GhostObj(hp, att, xp, idMin, idMax, l, rand, bl);
-        }
     }
 
     private Long summonL(float bl) {
@@ -235,6 +228,67 @@ public class GhostObj implements Serializable, BaseInfo {
         return L.intValue();
     }
 
+    public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
+        if (idMax > 700) {
+            int id = (int) randA(idMin, idMax);
+            switch (id) {
+                case 701:
+                    return new Ghost701(hp, att, xp, idMin, idMax, l, rand, bl);
+                case 702:
+                    return new Ghost702(hp, att, xp, idMin, idMax, l, rand, bl);
+                case 703:
+                    return new Ghost703(hp, att, xp, idMin, idMax, l, rand, bl);
+                case 704:
+                    return new Ghost704(hp, att, xp, idMin, idMax, l, rand, bl);
+                case 705:
+                    return new Ghost705(hp, att, xp, idMin, idMax, l, rand, bl);
+                default:
+                    return null;
+            }
+        } else {
+            return new GhostObj(hp, att, xp, idMin, idMax, l, rand, bl);
+        }
+    }
+
+    public static GhostObj createHelp(String valueOf) {
+        return new GhostObj(valueOf);
+    }
+
+    public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
+        if (idMax > 700) {
+            int id = (int) randA(idMin, idMax);
+            switch (id) {
+                case 701:
+                    return (T) new Ghost701(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                            , randA(10 * level, 35 * level)
+                            , id, randA(level + 1, Lmax(level)));
+                case 702:
+                    return (T) new Ghost702(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                            , randA(10 * level, 35 * level)
+                            , id, randA(level + 1, Lmax(level)));
+                case 703:
+                    return (T) new Ghost703(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                            , randA(10 * level, 35 * level)
+                            , id, randA(level + 1, Lmax(level)));
+                case 704:
+                    return (T) new Ghost704(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                            , randA(10 * level, 35 * level)
+                            , id, randA(level + 1, Lmax(level)));
+                case 705:
+                    return (T) new Ghost705(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                            , randA(10 * level, 35 * level)
+                            , id, randA(level + 1, Lmax(level)));
+                default:
+                    return null;
+            }
+        } else {
+            GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
+                    , randA(10 * level, 35 * level)
+                    , randA(idMin, idMax), randA(level + 1, Lmax(level)));
+            return (T) ghostObj;
+        }
+    }
+
     public GhostObj setAtt(Long att) {
         this.att = att;
         return this;
@@ -255,18 +309,6 @@ public class GhostObj implements Serializable, BaseInfo {
         long v = percentTo(bv, hj);
         hj -= v;
         return getHp();
-    }
-
-    public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
-        if (idMax > 700) {
-
-            return null;
-        } else {
-            GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                    , randA(10 * level, 35 * level)
-                    , randA(idMin, idMax), randA(level + 1, Lmax(level)));
-            return (T) ghostObj;
-        }
     }
 
     public Long getWith() {

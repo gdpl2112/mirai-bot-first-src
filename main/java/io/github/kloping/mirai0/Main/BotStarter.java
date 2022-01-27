@@ -9,7 +9,9 @@ import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
+import java.util.Scanner;
 
+import static Project.DataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -28,6 +30,7 @@ public class BotStarter {
             e.printStackTrace();
         }
     }
+
     private static BotConf abot = null;
 
     public static void main(String[] args) {
@@ -53,7 +56,6 @@ public class BotStarter {
         SpringStarter.main(args);
         bot.login();
         BotStarter.afterLogin();
-        pluginLoad();
     }
 
     private static void initBot() {

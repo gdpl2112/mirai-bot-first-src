@@ -63,16 +63,13 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         if (System.currentTimeMillis() < getK2(who)) {
             return String.format(ACTIVITY_WAIT_TIPS, getTimeTips(getK2(who)));
         }
-
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
             if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
                 return IN_SELECT;
             }
         }
-
         if (ghostObj != null) saveGhostObjIn(who, ghostObj);
-
         String what = name.trim();
         what = dimMaps.containsKey(what) ? dimMaps.get(what) : what;
         int id = maps.indexOf(what.trim());
@@ -155,7 +152,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             return NOT_NEED_HELP;
                         case GhostObj.NeedAndNo:
                             saveGhostObjIn(who, null);
-                            ghostObj = new GhostObj(String.valueOf(whos));
+                            ghostObj = GhostObj.createHelp(String.valueOf(whos));
                             ghostObj.setState(GhostObj.HELPING);
                             saveGhostObjIn(who, ghostObj);
                             ghostObj1.setState(GhostObj.NeedAndY);
