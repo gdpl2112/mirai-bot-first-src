@@ -47,7 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("1.27:修复已知bug,新娱乐功能,王者最新皮肤<N>,王者皮肤<名字> #可获取皮肤原画无水印哦 <Face:334>.\n").append("\n");
+        UPDATE_LOG.append("1.27:修复已知bug,新娱乐功能,王者最新皮肤<N>,王者皮肤<名字> #可获取皮肤原画无水印哦 <Face:334>.").append("\n");
         UPDATE_LOG.append("1.26:修复已知bug,新的周任务,精神力伤害的调整,魂技效果加成的调整").append("\n");
         UPDATE_LOG.append("1.25:修复已知bug,新年样式#狗头保命").append("\n");
         UPDATE_LOG.append("1.23: 修复永久加攻击的bug").append("\n");
@@ -56,6 +56,7 @@ public class NoticeController {
         UPDATE_LOG.append("1.22:新娱乐功能,/滚草<At/图片>").append("\n");
         UPDATE_LOG.append("1.21:修复已知bug").append("\n");
         UPDATE_LOG.append("1.20:修复已知bug").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("1.18:优化显示,修复已知bug").append("\n");
         UPDATE_LOG.append("1.18:魂兽蓄力 时 攻击减少 12%").append("\n");
         UPDATE_LOG.append("1.17:优化代码 修复 已知bug 一些事件的 调整").append("\n");
