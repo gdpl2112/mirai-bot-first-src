@@ -309,7 +309,7 @@ public class GameJoinDetailService {
         return "未知级别";
     }
 
-    public static final Map<Long, ? extends GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
+    public static final Map<Long, GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
 
     public static GhostObj getGhostObjFrom(long qq) {
         if (GHOST_TEMP.containsKey(qq)) {
@@ -329,7 +329,6 @@ public class GameJoinDetailService {
             switch (id) {
                 case 701:
                     return (T) jsonStringToObject(jsonStr, Ghost701.class);
-
             }
             return null;
         } else {
@@ -340,8 +339,10 @@ public class GameJoinDetailService {
     public static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
         if (ghostObj == null) {
             putDataString(qq, "decide", "");
+            GHOST_TEMP.remove(qq);
         } else {
             putDataString(qq, "decide", objectToJsonString(ghostObj));
+            GHOST_TEMP.put(qq, ghostObj);
         }
         return getGhostObjFrom(qq);
     }

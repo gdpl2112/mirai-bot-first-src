@@ -123,7 +123,7 @@ public class MessageTools {
 
     public static void a1b2c3(List<String> list, String line) {
         if (list == null || line == null || line.isEmpty()) return;
-        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL, PATTER_VOICE);
+        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE);
         if (nm.isEmpty()) {
             list.add(line);
             return;
