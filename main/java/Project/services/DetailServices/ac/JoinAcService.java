@@ -1,6 +1,5 @@
 package Project.services.DetailServices.ac;
 
-import Project.Controllers.TimerController;
 import Project.broadcast.enums.ObjType;
 import Project.services.AutoBehaviors.GhostBehavior;
 import Project.services.DetailServices.GameDetailService;
@@ -237,15 +236,15 @@ public class JoinAcService {
             ghostObj = GhostObj.create(100, 701, 705);
         } else if (r < MIN_MEET3 + 25) {
             GameDetailService.addHp(who, 3);
-            return JOIN_AC3_EVENT0;
+            return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT0;
         } else if (r < MIN_MEET3 + 50) {
             GameDetailService.addHl(who, 4);
-            return JOIN_AC3_EVENT1;
+            return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT1;
         } else if (r < MIN_MEET3 + 75) {
             GameDetailService.addHj(who, 5);
-            return JOIN_AC3_EVENT2;
+            return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT2;
         } else {
-            return Tool.getRandT(TIPS0);
+            return  "<Pic:./images/ac2.png>.\n" +Tool.getRandT(TIPS0);
         }
         if (ghostObj != null) {
             ghostObj.setGroup(group);
@@ -257,6 +256,6 @@ public class JoinAcService {
             }
             return WillTips(who, ghostObj, false);
         }
-        return ERR_TIPS;
+        return  ERR_TIPS;
     }
 }
