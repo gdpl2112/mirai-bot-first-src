@@ -1,18 +1,18 @@
 package Project.services.AutoBehaviors;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.DataBases.skill.SkillDataBase;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.DetailServices.GameDetailService;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.Iservice.IGameBoneService;
 import Project.services.Iservice.IGameService;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +23,8 @@ import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.percentTo;
 import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 
 /**
  * @author github-kloping
@@ -51,8 +51,19 @@ public class GhostBehavior implements Runnable {
     }
 
     public static GhostBehavior create(long who, Group group, Integer level) {
-
-        return null;
+        return new GhostBehavior(who, group) {
+            @Override
+            protected synchronized double getAttR(Integer level) {
+                if (level < 200000) return 0.5;
+                else {
+                    if (level < 300000) return 0.75;
+                    if (level < 1000000) return 0.9;
+                    if (level < 3000000) return 1.18;
+                    if (level <= 8000000) return 1.4;
+                    return 1.7;
+                }
+            }
+        };
     }
 
     public GhostBehavior(Long qq, Group group) {
@@ -231,7 +242,7 @@ public class GhostBehavior implements Runnable {
         }
     }
 
-    private static final synchronized double getAttR(Integer level) {
+    protected synchronized double getAttR(Integer level) {
         if (level < 200000) return 0.7;
         else {
             if (level < 300000) return 0.85;

@@ -16,7 +16,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import static Project.DataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.services.DetailServices.GameJoinDetailService.WillTips;
-import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
@@ -29,20 +28,12 @@ public class JoinAcService {
     @AutoStand
     GameJoinDetailService gameJoinDetailService;
 
-    public static boolean opend = false;
-
-    static {
-        ZERO_RUNS.add(() -> {
-            opend = true;
-        });
-    }
-
     public String join(int id, long who, Group group) {
         if (id == 0) {
             return join0(who, group);
         } else if (id == 1) {
             return join1(who, group);
-        } else if (opend && id == 2) {
+        } else if (id == 2) {
             return join2(who, group);
         } else {
             return "暂未实现";
@@ -244,7 +235,7 @@ public class JoinAcService {
             GameDetailService.addHj(who, 5);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT2;
         } else {
-            return  "<Pic:./images/ac2.png>.\n" +Tool.getRandT(TIPS0);
+            return "<Pic:./images/ac2.png>.\n" + Tool.getRandT(TIPS0);
         }
         if (ghostObj != null) {
             ghostObj.setGroup(group);
@@ -256,6 +247,6 @@ public class JoinAcService {
             }
             return WillTips(who, ghostObj, false);
         }
-        return  ERR_TIPS;
+        return ERR_TIPS;
     }
 }
