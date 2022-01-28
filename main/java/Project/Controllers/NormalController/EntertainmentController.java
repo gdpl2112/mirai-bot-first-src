@@ -1,21 +1,21 @@
 package Project.Controllers.NormalController;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.UScore;
-import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.DataBase;
 import Project.ResourceSet;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.WeatherGetter;
-import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import Project.interfaces.ApiIyk0;
 import Project.services.DetailServices.Idiom;
 import Project.services.Iservice.IOtherService;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.SimpleServiceMessage;
@@ -115,7 +115,7 @@ public class EntertainmentController {
 
     public static void speak(String line, Group group) {
         try {
-            MessageTools.sendVoiceMessageInGroup(String.format(baseUrlV, URLEncoder.encode(line, "utf-8")), group.getId());
+            MessageTools.sendVoiceMessageInGroup(String.format(BASE_VOICE_URL, URLEncoder.encode(line, "utf-8")), group.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -216,7 +216,7 @@ public class EntertainmentController {
 
     public static boolean voiceK = false;
 
-    public static final String baseUrlV = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
+    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
 
     @Action("语音")
     public String a1() {
@@ -324,8 +324,6 @@ public class EntertainmentController {
         Arrays.sort(filesWq);
         Arrays.sort(filesTui);
     }
-
-    //===============
 
     @Action("/推.*")
     public String m1(@AllMess String m) {
