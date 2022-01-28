@@ -213,7 +213,7 @@ public class ManagerController {
             }
         } else {
             try {
-                Method method = this.getClass().getDeclaredMethod("KickNum", Number[].class, Group.class);
+                Method method = this.getClass().getDeclaredMethod("kickNum", Number[].class, Group.class);
                 Object[] objects = new Object[]{
                         method, this, new Object[]{numbers, gr}
                 };
@@ -226,7 +226,7 @@ public class ManagerController {
         }
     }
 
-    private String KickNum(Number[] numbers, Group g) {
+    private String kickNum(Number[] numbers, Group g) {
         try {
             net.mamoe.mirai.contact.Group group = bot.getGroup(g.getId());
             for (Number n : numbers) {
@@ -306,8 +306,9 @@ public class ManagerController {
     @Action("eddScore<.+=>n>")
     public String eddScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
         if (qq.getId() == superQL) {
-            long who = MessageTools.getAtFromString(messages);
+            Long who = MessageTools.getAtFromString(messages);
             if (who == -1) return ResourceSet.FinalString.ERR_TIPS;
+            messages = messages.replace(who.toString(), "");
             long num = Long.parseLong(Tool.findNumberFromString(messages));
             DataBase.addScore(-num, who);
             return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(-num + "").append("积分").toString();

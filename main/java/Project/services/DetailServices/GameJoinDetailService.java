@@ -5,7 +5,7 @@ import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.services.DetailServices.ac.JoinAcService;
-import Project.services.DetailServices.ac.entity.Ghost701;
+import Project.services.DetailServices.ac.entity.*;
 import Project.services.Iservice.IGameService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -332,8 +332,17 @@ public class GameJoinDetailService {
             switch (id) {
                 case 701:
                     return (T) jsonStringToObject(jsonStr, Ghost701.class);
+                case 702:
+                    return (T) jsonStringToObject(jsonStr, Ghost702.class);
+                case 703:
+                    return (T) jsonStringToObject(jsonStr, Ghost703.class);
+                case 704:
+                    return (T) jsonStringToObject(jsonStr, Ghost704.class);
+                case 705:
+                    return (T) jsonStringToObject(jsonStr, Ghost705.class);
+                default:
+                    return null;
             }
-            return null;
         } else {
             return (T) jsonStringToObject(jsonStr, GhostObj.class);
         }
