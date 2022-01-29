@@ -100,7 +100,6 @@ public class Resource {
         shopDataBase = new ShopDataBase(datePath);
         skillDataBase = new SkillDataBase(datePath);
         gameTaskDatabase = new GameTaskDatabase(datePath);
-        gameTaskDatabase = new GameTaskDatabase(datePath);
         otherDatabase = new OtherDatabase(datePath);
     }
 

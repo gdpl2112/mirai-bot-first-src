@@ -18,6 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.DataBases.task.TaskCreator.getTask;
 
+/**
+ * @author github-kloping
+ */
 public class GameTaskDatabase {
     public static String path;
 
@@ -96,8 +99,9 @@ public class GameTaskDatabase {
         }
         Receiver receiver = createTask(task);
         task.setReceiver(receiver);
-        for (Long aLong : task.getTasker())
+        for (Long aLong : task.getTasker()) {
             MapUtils.append(tasks, aLong.longValue(), task);
+        }
         MapUtils.append(tasks, task.getHost().longValue(), task);
         return receiver;
     }

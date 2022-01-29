@@ -55,9 +55,10 @@ public class GameWeaController {
 
     @Action("制作暗器<.{1,}=>name>")
     public String makeAq(User qq, @Param("name") String name, Group group) {
-        int id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
-        if (!(id > 1000 && id < 1200))
+        Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
+        if (id == null || !(id > 1000 && id < 1200)) {
             return "系统找不到=>" + name;
+        }
         String str = gameWeaService.makeAq(qq.getId(), id);
         return str;
     }
