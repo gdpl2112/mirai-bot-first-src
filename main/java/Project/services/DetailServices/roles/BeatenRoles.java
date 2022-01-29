@@ -1,14 +1,14 @@
 package Project.services.DetailServices.roles;
 
-import Project.broadcast.game.GhostLostBroadcast;
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
+import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.DetailServices.GameJoinDetailService;
 import Project.services.DetailServices.GameSkillDetailService;
 import Project.services.impl.GameBoneServiceImpl;
+import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
@@ -114,7 +114,7 @@ public class BeatenRoles {
 
     public static final Role TAG_XYS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(TAG_XUAN_YU_S)) {
-            putPerson(p1.eddTag(SkillDataBase.TAG_MS, 1));
+            putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
             sb.append("\n" + THIS_DANGER_OVER_FLAG + "被攻击者,由于使用了免疫此次伤害\n============");
             return new RoleResponse(STOP, ov, 0, q1, q2);
         }

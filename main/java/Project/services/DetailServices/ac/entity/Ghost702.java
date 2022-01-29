@@ -10,8 +10,7 @@ import static Project.DataBases.skill.SkillDataBase.TAG_TRUE;
  * @version 1.0
  */
 public class Ghost702 extends GhostWithGroup {
-    private Long shield = -1L;
-
+    private Long shield = null;
 
     public Long getShield() {
         return shield;
@@ -37,29 +36,31 @@ public class Ghost702 extends GhostWithGroup {
     }
 
     @Override
-    public long updateHp(long l, BaseInfo who) {
-        if (shield.longValue() == -1) {
+    public long updateHp(long l0, BaseInfo who) {
+        if (shield == null) {
             shield = getHpL() / 5;
         }
+        long l = -l0;
         if (who instanceof PersonInfo) {
             PersonInfo p1 = (PersonInfo) who;
             if (p1.containsTag(TAG_TRUE)) {
-                sendMessage("真实伤害护盾未生效\n护盾剩余:" + shield);
+                sendMessage("真实伤害护盾未生效\n护盾剩余:" + shield, who.getId().longValue());
                 return super.updateHp(l, who);
             } else {
-                if (l > shield.longValue()) {
-                    l = l - shield.longValue();
-                    shield = 0L;
-                    sendMessage("伤害部分护盾抵挡\n伤害剩余:" + l);
-                    return super.updateHp(l, who);
-                } else {
-                    shield = l - shield;
-                    sendMessage("伤害全部护盾抵挡\n护盾剩余:" + shield);
-                    return super.updateHp(0, who);
+                if (shield.longValue() > 0) {
+                    if (l > shield.longValue()) {
+                        l = l - shield.longValue();
+                        shield = 0L;
+                        sendMessage("伤害部分护盾抵挡\n伤害剩余:" + l, who.getId().longValue());
+                        return super.updateHp(-l, who);
+                    } else {
+                        shield = l - shield;
+                        sendMessage("伤害全部护盾抵挡\n护盾剩余:" + shield);
+                        return super.updateHp(0, who);
+                    }
                 }
             }
-        } else {
-            return super.updateHp(l, who);
         }
+        return super.updateHp(-l, who);
     }
 }

@@ -1,14 +1,16 @@
 package Project.services.DetailServices.ac.entity;
 
+import Project.ResourceSet;
 import Project.services.DetailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.apiEntitys.RunnableWithOver;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.Set;
+
+import static Project.DataBases.GameDataBase.getInfo;
+import static Project.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -32,10 +34,13 @@ public class Ghost701 extends GhostWithGroup {
             @Override
             public void run() {
                 if (index++ % 50 == 0) {
+                    baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
+                        v = v <= 0 ? 1 : v;
                         MessageTools.sendMessageInGroupWithAt(
-                                GameDetailService.beaten(baseInfo.getId(), -1, v),
+                                getName() + "对你造成" + v + "伤害" + ResourceSet.FinalString.SPLIT_LINE_0 + NEWLINE
+                                        + GameDetailService.beaten(baseInfo.getId(), -1, v),
                                 group.getId(), baseInfo.getId().longValue()
                         );
                     }

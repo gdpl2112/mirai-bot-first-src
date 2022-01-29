@@ -31,7 +31,7 @@ public class Ghost703 extends GhostWithGroup {
         l = l > getHp() ? getHp() : l;
         if (rand.nextInt(2) == 0) {
             long v1 = percentTo(Math.toIntExact(l), 15);
-            sendMessage("受到反甲效果:\n" + GameDetailService.beaten(who.getId(), -1, v1));
+            sendMessage("受到反甲效果:\n" + GameDetailService.beaten(who.getId(), -1, v1), who.getId().longValue());
         }
         return super.updateHp(l, who);
     }

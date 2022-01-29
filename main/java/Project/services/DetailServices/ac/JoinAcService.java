@@ -199,18 +199,19 @@ public class JoinAcService {
             "你去落日森林捡到了一片落叶\uD83C\uDF42"
     };
 
-    private static final int MAX_RAND3 = 400;
+    private static final int MAX_RAND3 = 300;
     private static final int MIN_MEET3 = 50;
 
     public String join2(long who, Group group) {
         int r = getInfo(who).getNextR3();
         switch (r) {
             case -1:
-            default:
                 r = rand.nextInt(MAX_RAND3);
                 break;
             case -2:
                 r = rand.nextInt(MIN_MEET3);
+                break;
+            default:
                 break;
         }
         getInfo(who).setNextR3(rand.nextInt(MAX_RAND3)).apply();

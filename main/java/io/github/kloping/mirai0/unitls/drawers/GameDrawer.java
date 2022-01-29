@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.UUID;
 
-import static io.github.kloping.mirai0.unitls.drawers.JImageDrawerUtils.getImageByUrl2Size;
+import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.getImageByUrl2Size;
 
 /**
  * @author github-kloping

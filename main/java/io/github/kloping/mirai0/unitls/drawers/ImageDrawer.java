@@ -12,7 +12,7 @@ import java.net.URL;
 import static Project.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
-import static io.github.kloping.mirai0.unitls.drawers.JImageDrawerUtils.*;
+import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
  * @author github-kloping
@@ -48,7 +48,7 @@ public class ImageDrawer {
             image = (BufferedImage) image2Size(image, 200, 200);
             image = (BufferedImage) rotateImage(image, rotate);
             image = roundImage(image, 9999);
-            image = putImage(main, image, 93, 83);
+            image = putImage(main, image, 95, 80);
             encoder.addFrame(image);
         }
         encoder.finish();
@@ -219,35 +219,22 @@ public class ImageDrawer {
     }
 
     public static void main(String[] args) throws Throwable {
-        File outFile = new File("./data/out.gif");
-        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-        encoder.start(outFile.getAbsolutePath());
-        encoder.setRepeat(0);
-        encoder.setQuality(5);
-        encoder.setFrameRate(100);
-        encoder.setDelay(100);
-        File bgFile = new File("data/empty200.png");
-        final BufferedImage oBImage = ImageIO.read(bgFile);
-        File dirtFile = new File("./data/dirt.png");
-        final BufferedImage dirt = ImageIO.read(dirtFile);
-        URL url = new URL(getTouUrl(3474006766L));
-        final BufferedImage oImage = ImageIO.read(url);
-        int r0 = 2;
-        int sl = 24 * r0;
-        float r = 0;
-        int w = oBImage.getWidth();
-        int h = oBImage.getHeight();
-        for (int i = 0; i < sl; i++) {
-            r += (360 * r0 / sl);
-            BufferedImage main = ImageIO.read(bgFile);
-            BufferedImage o1 = (BufferedImage) image2Size(oImage, 60, 60);
-            o1 = roundImage(o1, 9999);
-            o1 = (BufferedImage) rotateImage(o1, r);
-            o1 = putImage(main, o1, (w / sl) * i, h / 2);
-            o1 = putImage(o1, dirt, 0, h / 2 + 60);
-            encoder.addFrame(o1);
-        }
-        encoder.finish();
-    }
+        BufferedImage bi0;
+//        bi0 = ImageIO.read(new File("./data/empty200.png"));
+        bi0 = ImageIO.read(new File("./data/m3.png"));
+        BufferedImage t0 = ImageIO.read(new URL(getTouUrl(3474006766L)));
+        int x0 = 27, y0 = 36;
+        BufferedImage t1 = t0;
+        t1 = (BufferedImage) image2Size(t1, 43, 43);
+        t1 = roundImage(t1, 999);
+        BufferedImage o1 = putImage(bi0, t1, x0, y0);
 
+        BufferedImage t2 = t0;
+        t2 = (BufferedImage) image2Size(t2, 115, 115);
+        t2 = roundImage(t2, 999);
+        t2 = (BufferedImage) rotateImage(t2, 18);
+        o1 = putImage(o1, t2, 54, 57);
+
+        ImageIO.write(o1, "png", new File("./data/mout.png"));
+    }
 }

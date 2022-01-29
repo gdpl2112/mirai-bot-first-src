@@ -9,6 +9,9 @@ public class Group {
     private Long id;
     private String nickName;
 
+    public Group() {
+    }
+
     private Group(Long id, String nickName) {
         this.id = id;
         this.nickName = nickName;

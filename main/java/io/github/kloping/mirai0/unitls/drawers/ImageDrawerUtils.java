@@ -14,7 +14,7 @@ import java.net.URL;
 /**
  * @author github-kloping
  */
-public class JImageDrawerUtils {
+public class ImageDrawerUtils {
 
     /**
      * 图片圆角
@@ -158,17 +158,7 @@ public class JImageDrawerUtils {
      * @throws IOException
      */
     public static Image rotateImage(BufferedImage image, BufferedImage o, float rotate, int x, int y) throws IOException {
-        int w = o.getWidth();
-        int h = o.getHeight();
-        int w2 = w / 2;
-        int h2 = h / 2;
-
-        o = roundImage(o, (int) rotate);
-
-        int xw = w - x;
-        int yh = h - y;
 
         return image;
     }
-
 }

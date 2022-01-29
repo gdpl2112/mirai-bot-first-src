@@ -8,10 +8,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.DataBases.GameDataBase.*;
 import static Project.DataBases.skill.SkillDataBase.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static Project.services.DetailServices.GameDetailServiceUtils.*;
 import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.DetailServices.GameSkillDetailService.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 
 /**
  * @author github-kloping
@@ -525,12 +525,11 @@ public class SkillExecute {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(info.getAddPercent() * 1000);
+                    Thread.sleep(info.getAddPercent() * 1000L);
+                    getInfo(who).eddTag(TAG_XUAN_YU_S, 1).apply();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                getInfo(who).eddTag(TAG_XUAN_YU_S, 1).apply();
-
             }
         };
         return skill;

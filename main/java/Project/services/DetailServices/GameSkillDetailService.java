@@ -1,13 +1,13 @@
 package Project.services.DetailServices;
 
+import Project.DataBases.GameDataBase;
+import Project.DataBases.skill.SkillDataBase;
+import Project.broadcast.game.HpChangeBroadcast;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
-import Project.DataBases.GameDataBase;
-import Project.DataBases.skill.SkillDataBase;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import Project.broadcast.game.HpChangeBroadcast;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(13, 25);
         BASE_PERCENT_MAP.put(15, 18);
         BASE_PERCENT_MAP.put(16, 50);
-        BASE_PERCENT_MAP.put(17, 5);
+        BASE_PERCENT_MAP.put(17, 9);
         BASE_PERCENT_MAP.put(18, 40);
         BASE_PERCENT_MAP.put(19, 40);
         BASE_PERCENT_MAP.put(20, 1);

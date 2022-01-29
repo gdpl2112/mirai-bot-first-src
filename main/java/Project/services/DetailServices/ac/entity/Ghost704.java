@@ -34,8 +34,8 @@ public class Ghost704 extends GhostWithGroup {
 
     @Override
     public long updateHp(long l, BaseInfo who) {
-        if (k && l > getHp()) {
-            sendMessage("来自地狱魔的力量免疫该次死亡");
+        if (k && (-l) > getHp()) {
+            sendMessage("来自地狱魔的力量免疫该次死亡", who.getId().longValue());
             k = false;
             return getHp();
         }

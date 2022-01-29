@@ -71,7 +71,7 @@ public class Drawer {
             g.fillRect(0, 0, width, height);
         } else {
             try {
-                image = (BufferedImage) JImageDrawerUtils.image2Size(INFO_BASE, width, height);
+                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
             } catch (IOException e) {
                 e.printStackTrace();
             }
