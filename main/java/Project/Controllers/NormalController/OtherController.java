@@ -49,7 +49,6 @@ public class OtherController {
         menuStr.append("9.娱乐功能").append("\r\n");
         menuStr.append("-1.开始会话 #在线运行代码").append("\r\n");
         menuStr.append("不用at我,直接说就行了哦");
-        //.append("\r\n");
     }
 
     @Action("菜单")
@@ -57,114 +56,121 @@ public class OtherController {
         return menuStr.toString();
     }
 
-    private static final StringBuilder BASE_MENU_STR = new StringBuilder();
-    private static String BaseMenuString;
     private static String[] BaseMenuStrings;
 
     static {
-        BASE_MENU_STR.append("修炼\n");
-        BASE_MENU_STR.append("信息\n");
-        BASE_MENU_STR.append("详细信息 #查看信息\n");
-        BASE_MENU_STR.append("升级 #经验足够时\n");
-        BASE_MENU_STR.append("觉醒 #2级时用来觉醒武魂\n");
-        BASE_MENU_STR.append("转生 #重置信息\n");
-        BASE_MENU_STR.append("商城/商店/商场\n");
-        BASE_MENU_STR.append("背包/我的背包 #查看背包\n");
-        BASE_MENU_STR.append("说明 #见商城)\n");
-        BASE_MENU_STR.append("购买 #见商城)\n");
-        BASE_MENU_STR.append("使用 #见背包)\n");
-        BASE_MENU_STR.append("物品转让(名字)(at)\n");
-        BASE_MENU_STR.append("列表\n");
-        BASE_MENU_STR.append("进入 #见列表\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("请求支援(遇到魂兽时请求)\n");
-        BASE_MENU_STR.append("支援<At>\n");
-        BASE_MENU_STR.append("探查 #查看当前魂兽信息\n");
-        BASE_MENU_STR.append("吸收(十/百/千..)年魂环\n");
-        BASE_MENU_STR.append("魂环配置 #展示魂环\n");
-        BASE_MENU_STR.append("购买金魂币(值) #2积分1个\n");
-        BASE_MENU_STR.append("攻击<At>\n");
-        BASE_MENU_STR.append("精神冲击<Any>\n");
-        BASE_MENU_STR.append("侦查<At>\n");
-        BASE_MENU_STR.append("升级第<几>魂环\n");
-        BASE_MENU_STR.append("取名封号<名字>\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("选择<攻击/逃跑>\r\n\t#当遇到魂兽时使用\n");
-        BASE_MENU_STR.append("换积分<value>\r\n\t#(用金魂币换积分)1金魂币1.5积分(多出500的金魂币才能换)\n");
-        BASE_MENU_STR.append("等级排行\n");
-        BASE_MENU_STR.append("称号 #(查看所有称号)\n");
-        BASE_MENU_STR.append("武魂类型 #查看自己的武魂类型是什么)\n");
-        BASE_MENU_STR.append("融合武魂 <At>  # 需要融合戒指\n");
-        BASE_MENU_STR.append("魂兽击杀排行\n");
-        BASE_MENU_STR.append("关系列表\n");
-        BASE_MENU_STR.append("收徒 <At>\n");
-        BASE_MENU_STR.append("出师\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("魂环吸收限制");
-        BASE_MENU_STR.append("精神力作用\n");
-        BASE_MENU_STR.append("新机制\n");
-        BASE_MENU_STR.append("怎么获得名师点\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("#任务相关\n");
-        BASE_MENU_STR.append("接徒弟任务\n");
-        BASE_MENU_STR.append("接每周任务\n");
-        BASE_MENU_STR.append("当前任务\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("#积分相关\n");
-        BASE_MENU_STR.append("签到\n");
-        BASE_MENU_STR.append("今日签榜\n");
-        BASE_MENU_STR.append("签榜\n");
-        BASE_MENU_STR.append("取积分<value>\n");
-        BASE_MENU_STR.append("存积分<value>\n");
-        BASE_MENU_STR.append("积分转让/转让积分<At><value>\n");
-        BASE_MENU_STR.append("积分侦查<At>\n");
-        BASE_MENU_STR.append("打工 #赚积分\n");
-        BASE_MENU_STR.append("积分查询/查询积分\n");
-        BASE_MENU_STR.append("猜拳<石头/剪刀/布><value>\n");
-        BASE_MENU_STR.append("抢劫<At>\n");
-        BASE_MENU_STR.append("我的发言\n");
-        BASE_MENU_STR.append("====");
-        BASE_MENU_STR.append("#管理相关 #需要权限\n");
-        BASE_MENU_STR.append("禁言(@xx)(值)(单位,秒,分..)\n");
-        BASE_MENU_STR.append("解除禁言(@xx)\n");
-        BASE_MENU_STR.append("开启/说话\n");
-        BASE_MENU_STR.append("关闭/闭嘴\n");
-        BASE_MENU_STR.append("(开启/关闭)闪照破解\n");
-        BASE_MENU_STR.append("获取 @xx \n");
-        BASE_MENU_STR.append("撤回 <@> <index...> \n");
-        BaseMenuString = BASE_MENU_STR.toString();
-        BaseMenuStrings = BaseMenuString.split("====");
+        final StringBuilder baseMenuStr = new StringBuilder();
+        baseMenuStr.append("修炼\n");
+        baseMenuStr.append("信息\n");
+        baseMenuStr.append("详细信息 #查看信息\n");
+        baseMenuStr.append("升级 #经验足够时\n");
+        baseMenuStr.append("觉醒 #2级时用来觉醒武魂\n");
+        baseMenuStr.append("转生 #重置信息\n");
+        baseMenuStr.append("商城/商店/商场\n");
+        baseMenuStr.append("背包/我的背包 #查看背包\n");
+        baseMenuStr.append("说明 #见商城)\n");
+        baseMenuStr.append("购买 #见商城)\n");
+        baseMenuStr.append("使用 #见背包)\n");
+        baseMenuStr.append("物品转让(名字)(at)\n");
+        baseMenuStr.append("列表\n");
+        baseMenuStr.append("进入 #见列表\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("请求支援(遇到魂兽时请求)\n");
+        baseMenuStr.append("支援<At>\n");
+        baseMenuStr.append("探查 #查看当前魂兽信息\n");
+        baseMenuStr.append("吸收(十/百/千..)年魂环\n");
+        baseMenuStr.append("魂环配置 #展示魂环\n");
+        baseMenuStr.append("购买金魂币(值) #2积分1个\n");
+        baseMenuStr.append("攻击<At>\n");
+        baseMenuStr.append("精神冲击<Any>\n");
+        baseMenuStr.append("侦查<At>\n");
+        baseMenuStr.append("升级第<几>魂环\n");
+        baseMenuStr.append("取名封号<名字>\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("选择<攻击/逃跑>\r\n\t#当遇到魂兽时使用\n");
+        baseMenuStr.append("换积分<value>\r\n\t#(用金魂币换积分)1金魂币1.5积分(多出500的金魂币才能换)\n");
+        baseMenuStr.append("等级排行\n");
+        baseMenuStr.append("称号 #(查看所有称号)\n");
+        baseMenuStr.append("武魂类型 #查看自己的武魂类型是什么)\n");
+        baseMenuStr.append("融合武魂 <At>  # 需要融合戒指\n");
+        baseMenuStr.append("魂兽击杀排行\n");
+        baseMenuStr.append("关系列表\n");
+        baseMenuStr.append("收徒 <At>\n");
+        baseMenuStr.append("出师\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("魂环吸收限制");
+        baseMenuStr.append("精神力作用\n");
+        baseMenuStr.append("新机制\n");
+        baseMenuStr.append("怎么获得名师点\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("#任务相关\n");
+        baseMenuStr.append("接徒弟任务\n");
+        baseMenuStr.append("接每周任务\n");
+        baseMenuStr.append("当前任务\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("#积分相关\n");
+        baseMenuStr.append("签到\n");
+        baseMenuStr.append("今日签榜\n");
+        baseMenuStr.append("签榜\n");
+        baseMenuStr.append("取积分<value>\n");
+        baseMenuStr.append("存积分<value>\n");
+        baseMenuStr.append("积分转让/转让积分<At><value>\n");
+        baseMenuStr.append("积分侦查<At>\n");
+        baseMenuStr.append("打工 #赚积分\n");
+        baseMenuStr.append("积分查询/查询积分\n");
+        baseMenuStr.append("猜拳<石头/剪刀/布><value>\n");
+        baseMenuStr.append("抢劫<At>\n");
+        baseMenuStr.append("我的发言\n");
+        baseMenuStr.append("====");
+        baseMenuStr.append("#管理相关 #需要权限\n");
+        baseMenuStr.append("禁言(@xx)(值)(单位,秒,分..)\n");
+        baseMenuStr.append("解除禁言(@xx)\n");
+        baseMenuStr.append("开启/说话\n");
+        baseMenuStr.append("关闭/闭嘴\n");
+        baseMenuStr.append("(开启/关闭)闪照破解\n");
+        baseMenuStr.append("获取 @xx \n");
+        baseMenuStr.append("撤回 <@> <index...> \n");
+        String baseMenuString = baseMenuStr.toString();
+        BaseMenuStrings = baseMenuString.split("====");
     }
 
-    private static final StringBuilder
-            ENTERTAINMENT_MENU_STR = new StringBuilder();
+    public static String[] E_MENUS = null;
 
     static {
-        ENTERTAINMENT_MENU_STR.append("搜图 xx \n");
-        ENTERTAINMENT_MENU_STR.append("百度搜图 xx \n");
-        ENTERTAINMENT_MENU_STR.append("堆糖搜图 xx \n");
-        ENTERTAINMENT_MENU_STR.append("发张 xx \n");
-        ENTERTAINMENT_MENU_STR.append("掷骰子\n");
-        ENTERTAINMENT_MENU_STR.append("随机头像\n");
-        ENTERTAINMENT_MENU_STR.append("王者公告\n");
-        ENTERTAINMENT_MENU_STR.append("原神公告\n");
-        ENTERTAINMENT_MENU_STR.append("捡瓶子/捡漂流瓶\n");
-        ENTERTAINMENT_MENU_STR.append("扔瓶子/仍漂流瓶<内容>\n");
-        ENTERTAINMENT_MENU_STR.append("王者语音<英雄名><序号>\n");
-        ENTERTAINMENT_MENU_STR.append("王者图片<英雄名>\n");
-        ENTERTAINMENT_MENU_STR.append("/推<@>\n");
-        ENTERTAINMENT_MENU_STR.append("/推[图片]\n");
-        ENTERTAINMENT_MENU_STR.append("/玩球<@>\n");
-        ENTERTAINMENT_MENU_STR.append("/玩球[图片]\n");
-        ENTERTAINMENT_MENU_STR.append("/丢<@>\n");
-        ENTERTAINMENT_MENU_STR.append("/丢[图片]\n");
-        ENTERTAINMENT_MENU_STR.append("/滚草<At>\n");
-        ENTERTAINMENT_MENU_STR.append("/滚草[图片]\n");
+        final StringBuilder m0 = new StringBuilder();
+        m0.append("搜图 xx \n");
+        m0.append("百度搜图 xx \n");
+        m0.append("堆糖搜图 xx \n");
+        m0.append("发张 xx \n");
+        m0.append("掷骰子\n");
+        m0.append("随机头像\n");
+        m0.append("王者公告\n");
+        m0.append("原神公告\n");
+        m0.append("捡瓶子/捡漂流瓶\n");
+        m0.append("扔瓶子/仍漂流瓶<内容>\n");
+        m0.append("王者语音<英雄名><序号>\n");
+        m0.append("王者图片<英雄名>\n");
+        m0.append("====");
+        m0.append("/推<@>\n");
+        m0.append("/推[图片]\n");
+        m0.append("/玩球<@>\n");
+        m0.append("/玩球[图片]\n");
+        m0.append("/丢<@>\n");
+        m0.append("/丢[图片]\n");
+        m0.append("/滚草<At>\n");
+        m0.append("/滚草[图片]\n");
+        m0.append("/爬<At>\n");
+        m0.append("/举牌子<At>\n");
+        E_MENUS = m0.toString().split("====");
     }
 
-    @Action("娱乐功能")
-    public String m0() {
-        return ENTERTAINMENT_MENU_STR.toString();
+    @Action("娱乐功能.*?")
+    public String m0(@AllMess String m) {
+        Integer i1 = Tool.getInteagerFromStr(m);
+        int n = 1;
+        n = i1 == null ? n : i1;
+        n = n > E_MENUS.length ? 1 : n;
+        return E_MENUS[n - 1].trim() + "\r\n##当前第" + n + "页,共" + E_MENUS.length + "页";
     }
 
     @Action("基本菜单")

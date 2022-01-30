@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("1.30:新娱乐功能 /爬<At> /举牌子<msg>").append("\n");
         UPDATE_LOG.append("1.29:修复已知bug").append("\n");
         UPDATE_LOG.append("1.28:尝试修复已知bug").append("\n");
         UPDATE_LOG.append("1.28:修复已知bug,开放落日森林#存在bug请及时反馈").append("\n");

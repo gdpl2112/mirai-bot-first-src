@@ -322,6 +322,14 @@ public class MessageTools {
     }
 */
 
+    public static synchronized void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
+        Group group = bot.getGroup(gid);
+        ExternalResource resource = ExternalResource.create(bytes);
+        Image image = group.uploadImage(resource);
+        MessageChainBuilder mcb = new MessageChainBuilder().append(getAt(qid)).append("\n").append(image);
+        group.sendMessage(mcb.build());
+    }
+
     public static synchronized void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;
