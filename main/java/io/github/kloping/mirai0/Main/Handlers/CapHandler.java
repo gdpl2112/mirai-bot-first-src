@@ -2,9 +2,8 @@ package io.github.kloping.mirai0.Main.Handlers;
 
 import Project.Controllers.ControllerSource;
 import Project.DataBases.DataBase;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.Image;
@@ -26,12 +25,10 @@ public class CapHandler {
     public static final Map<Long, Group> CAP_2 = new ConcurrentHashMap<>();
     public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
     private static final Number MAX_WAIT = 300;
-    @AutoStand
-    static ControllerSource controllerSource;
 
     public static void join(long qid, Group group) {
         if (DataBase.needCap(group.getId())) {
-            Object[] o = controllerSource.createCapImage();
+            Object[] o = ControllerSource.INSTANCE.createCapImage();
             String path = o[0].toString();
             String capCode = o[1].toString();
             Image image = MessageTools.createImage(group, path);

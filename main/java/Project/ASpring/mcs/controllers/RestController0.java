@@ -21,7 +21,6 @@ import static Project.Controllers.ControllerSource.getCode;
  * @author github-kloping
  */
 @RestController
-
 @Entity
 public class RestController0 {
     private static final Map<String, String> ucap = new ConcurrentHashMap<>();
@@ -30,7 +29,7 @@ public class RestController0 {
     private static final Map<String, Integer> capingErr = new ConcurrentHashMap<>();
 
     @AutoStand
-    ControllerSource controllerSource;
+    static ControllerSource controllerSource;
 
     @GetMapping("getCap")
     public String getCap() {

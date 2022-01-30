@@ -20,6 +20,8 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
  */
 @Entity
 public class ControllerSource {
+    @AutoStand
+    public static ControllerSource INSTANCE;
 
     @AutoStand
     public DefaultKaptcha defaultKaptcha;
