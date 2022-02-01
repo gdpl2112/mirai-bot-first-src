@@ -75,7 +75,9 @@ public class LittleHandler extends SimpleListenerHost {
             FileUtils.testFile(file.getAbsolutePath());
             for (String s : FileUtils.getStringsFromFile(file.getPath())) {
                 try {
-                    if (s.trim().isEmpty()) continue;
+                    if (s.trim().isEmpty()) {
+                        continue;
+                    }
                     long q = Long.parseLong(s.trim());
                     SUPER_LIST.add(q);
                     System.err.println("add SuperQL: " + q);

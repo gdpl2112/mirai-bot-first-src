@@ -31,7 +31,7 @@ public class InitBeans {
                     while (iterator.hasNext()) {
                         RunnableWithOver o = iterator.next();
                         if (o == null || o.over()) {
-                            iterator.remove();
+                            rs.remove(o);
                         }
                     }
                 } catch (Exception e) {
