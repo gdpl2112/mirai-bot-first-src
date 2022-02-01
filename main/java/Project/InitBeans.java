@@ -25,12 +25,17 @@ public class InitBeans {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                rs.forEach(r -> THREADS.submit(r));
-                Iterator<RunnableWithOver> iterator = rs.iterator();
-                while (iterator.hasNext()) {
-                    if (iterator.next().over()) {
-                        iterator.remove();
+                try {
+                    rs.forEach(r -> THREADS.submit(r));
+                    Iterator<RunnableWithOver> iterator = rs.iterator();
+                    while (iterator.hasNext()) {
+                        RunnableWithOver o = iterator.next();
+                        if (o == null || o.over()) {
+                            iterator.remove();
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }, 100, 100);
