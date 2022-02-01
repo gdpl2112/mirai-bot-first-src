@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Main;
 
+import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -30,6 +32,7 @@ public class BotS0 {
         botConfiguration.fileBasedDeviceInfo(args.length >= 4 ? args[3] : "./device.json");
         Bot bot = BotFactory.INSTANCE.newBot(Long.parseLong(args[0]), args[1].trim(), botConfiguration);
         bot.login();
+        StarterApplication.logger = new LoggerImpl();
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
     }
 

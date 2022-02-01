@@ -50,7 +50,8 @@ public class LittleHandler extends SimpleListenerHost {
     public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
 
     static {
-        ClassManager classManager = new ClassManagerImpl(
+        ClassManager classManager;
+        classManager = new ClassManagerImpl(
                 new InstanceCraterImpl(),
                 contextManager = new ContextManagerImpl(),
                 new AutomaticWiringParamsImpl(),
