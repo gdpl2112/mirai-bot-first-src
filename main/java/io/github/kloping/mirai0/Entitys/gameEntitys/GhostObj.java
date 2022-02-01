@@ -253,7 +253,6 @@ public class GhostObj implements Serializable, BaseInfo {
     public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
         if (idMax > 700) {
             int id = (int) randA(idMin, idMax);
-            id = 701;
             switch (id) {
                 case 701:
                     return (T) new Ghost701(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
