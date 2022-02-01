@@ -10,6 +10,8 @@ import net.mamoe.mirai.utils.BotConfiguration;
 import java.io.File;
 
 import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getLogTimeFormat;
 
 /**
  * qq
@@ -23,6 +25,8 @@ import static io.github.kloping.mirai0.Main.Resource.bot;
  */
 public class BotS0 {
     public static void main(String[] args) {
+        setOnErrInFIle(getLogTimeFormat() + "err.log");
+        setOnOutInFIle(getLogTimeFormat() + "console.log");
         BotConfiguration botConfiguration = new BotConfiguration();
         BotConfiguration.MiraiProtocol protocol = BotConfiguration.MiraiProtocol.valueOf(args[2]);
         botConfiguration.setProtocol(protocol == null ? BotConfiguration.MiraiProtocol.ANDROID_PAD : protocol);
