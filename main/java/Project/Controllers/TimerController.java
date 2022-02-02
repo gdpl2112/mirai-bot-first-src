@@ -2,21 +2,22 @@ package Project.Controllers;
 
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
-import io.github.kloping.mirai0.Main.Handlers.MyTimer;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
+import io.github.kloping.mirai0.Main.Handlers.MyTimer;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
-import java.text.SimpleDateFormat;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
 import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
 
 /**
  * @author github-kloping
@@ -77,7 +78,6 @@ public class TimerController {
                     continue;
                 }
                 MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append("早啊,早啊");
                 MyTimer.appendOneDay(builder, group);
                 group.sendMessage(builder.build());
             }
@@ -89,6 +89,8 @@ public class TimerController {
         });
     }
 
+    public static String[] At_NOON_TIPS = {"中午好呀~", "午好<Face:336>", "午好<Face:287>", "午好", "又到中午了", "干饭了吗<Face:171>"};
+
     @Schedule("12:00:00")
     public static void onMidTwe() {
         update_Today();
@@ -97,12 +99,12 @@ public class TimerController {
                 if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
-                MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append("午好,午好");
-                group.sendMessage(builder.build());
+                MessageTools.sendMessageInGroup(getRandString(At_NOON_TIPS), group.getId());
             }
         });
     }
+
+    public static String[] AT_NIGHT_TIPS = {"晚好..", "晚上好<Face:41>", "晚好<Face:63>", "晚好晚好\n<Pic:{74FC0290-CD86-C3E2-754A-9A3FB4196522}.gif>", "晚好\n<Pic:{4687B190-05D6-922E-8B7F-B769D555648C}.gif>"};
 
     @Schedule("17:50:00")
     public static void onNightSix() {
@@ -112,14 +114,10 @@ public class TimerController {
                 if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
-                MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append("晚好");
-                group.sendMessage(builder.build());
+                MessageTools.sendMessageInGroup(getRandString(AT_NIGHT_TIPS), group.getId());
             }
         });
     }
 
     public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
-    public static String baseC3 = null;
-    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("MM_dd_HH");
 }

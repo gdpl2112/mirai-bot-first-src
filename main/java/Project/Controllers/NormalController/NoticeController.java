@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("2.2 :问候语改动").append("\n");
         UPDATE_LOG.append("2.1 :尝试修复已知Bug").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("1.30:新娱乐功能 /爬<At> /举牌子<msg>").append("\n");

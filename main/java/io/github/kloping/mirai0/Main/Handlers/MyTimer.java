@@ -24,11 +24,8 @@ public class MyTimer {
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
             String str = br.readLine();
             JSONObject object = (JSONObject) JSONObject.parse(str);
-            builder.append("\r\n 每日一句");
             builder.append("\r\n" + object.getString("note"));
             builder.append("\r\n" + object.getString("content"));
-            builder.append("\r\n\t====>" + object.getString("dateline"));
-            builder.append(Contact.uploadImage(group, new URL(object.getString("picture4")).openStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
