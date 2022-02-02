@@ -119,7 +119,7 @@ public final class ResourceSet {
          * 精神力抵消后 剩余倍数 <br/>
          * {@link Project.services.DetailServices.GameDetailService#onSpiritAttack}
          */
-        public static final int HJ_LOSE_1_X = 15;
+        public static final int HJ_LOSE_1_X = 9;
         /**
          * 最大精神力消耗血量百分比
          */
