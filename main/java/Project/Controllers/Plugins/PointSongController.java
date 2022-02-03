@@ -98,6 +98,9 @@ public class PointSongController {
         SB.append("2，酷狗点歌 歌名").append("\r\n");
         SB.append("3，网易点歌 歌名").append("\r\n");
         SB.append("4，网易云热评 ").append("\r\n");
+        SB.append("5，QQ歌词 歌名").append("\r\n");
+        SB.append("6，酷狗歌词 歌名").append("\r\n");
+        SB.append("7，网易歌词 歌名").append("\r\n");
     }
 
 

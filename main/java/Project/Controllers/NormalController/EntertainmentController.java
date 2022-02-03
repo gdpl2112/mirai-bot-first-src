@@ -3,6 +3,7 @@ package Project.Controllers.NormalController;
 import Project.DataBases.DataBase;
 import Project.ResourceSet;
 import Project.broadcast.PicBroadcast;
+import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
 import Project.interfaces.ApiIyk0;
 import Project.services.DetailServices.Idiom;
@@ -12,6 +13,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.UScore;
 import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -316,160 +318,46 @@ public class EntertainmentController {
         return sb.toString();
     }
 
-    public static File[] filesTui = new File("./images/tui").listFiles();
-    public static File[] filesWq = new File("./images/wq").listFiles();
-    public static File fileDiu = new File("./images/diu/diu.png");
+    @AutoStand
+    SearchSong searchSong;
 
-    static {
-        Arrays.sort(filesWq);
-        Arrays.sort(filesTui);
-    }
-
-    @Action("/推.*")
-    public String m1(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
-        String urlStr = null;
-        if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
-            }
-        } else {
-            urlStr = Tool.getTouUrl(q);
-        }
+    @Action("QQ歌词<.+=>name>")
+    public Object mq(@Param("name") String name, Group group) {
         try {
-            URL u = new URL(urlStr);
-            File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
-            outFile = ImageDrawer.getTuiGift(filesTui, u, outFile);
-            return Tool.pathToImg(outFile.getAbsolutePath());
+            Songs songs = searchSong.qq(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return "error:for\n" + e.getMessage();
+            return "歌词获取失败";
         }
     }
 
-    @Action("/玩球.*")
-    public String m_2(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
-        String urlStr = null;
-        if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
-            }
-        } else {
-            urlStr = Tool.getTouUrl(q);
-        }
+    @Action("酷狗歌词<.+=>name>")
+    public Object mk(@Param("name") String name, Group group) {
         try {
-            URL u = new URL(urlStr);
-            File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
-            outFile = ImageDrawer.getWq(filesWq, u, outFile);
-            return Tool.pathToImg(outFile.getAbsolutePath());
+            Songs songs = searchSong.kugou(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return "error:for\n" + e.getMessage();
+            return "歌词获取失败";
         }
     }
 
-    @Action("/丢.*")
-    public String m_3(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
-        String urlStr = null;
-        if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
-            }
-        } else {
-            urlStr = Tool.getTouUrl(q);
-        }
+    @Action("网易歌词<.+=>name>")
+    public Object mw(@Param("name") String name, Group group) {
         try {
-            URL u = new URL(urlStr);
-            File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
-            outFile = ImageDrawer.getDui(fileDiu, u, outFile);
-            return Tool.pathToImg(outFile.getAbsolutePath());
+            Songs songs = searchSong.netEase(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return "error:for\n" + e.getMessage();
+            return "歌词获取失败";
         }
     }
 
-    public static final File EMPTY_FILE = new File("./images/gunc/empty200.png");
-    public static final File DIRT_FILE = new File("./images/gunc/dirt.png");
-
-    @Action("/滚草.*")
-    public String gunC(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
-        String urlStr = null;
-        if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
-            if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
-            }
-        } else {
-            urlStr = Tool.getTouUrl(q);
-        }
-        try {
-            URL u = new URL(urlStr);
-            File outFile = new File("./temp/" + UUID.randomUUID() + "-gc.png");
-            outFile = ImageDrawer.getGunOnDirt(EMPTY_FILE, u, DIRT_FILE, 2, outFile);
-            return Tool.pathToImg(outFile.getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error:for\n" + e.getMessage();
-        }
-    }
-
-    private static final String XML_STR0 = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n" +
-            "<msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"[超级大图片表情]\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\"\n" +
-            "     multiMsgFlag=\"0\">\n" +
-            "    <item layout=\"0\" advertiser_id=\"0\" aid=\"0\">\n" +
-            "        <image uuid=\"%s\" md5=\"%s\"\n" +
-            "               minWidth=\"%s\" minHeight=\"%s\" maxWidth=\"%s\" maxHeight=\"%s\"/>\n" +
-            "    </item>\n" +
-            "    <source name=\"\" icon=\"\" action=\"\" appid=\"-1\"/>\n" +
-            "</msg>";
-
-    private static final String COM_PRE = "-";
-
-    @Action("变大.*+")
-    public void m0(@AllMess String mess, Group group, long qId) {
-        int size0 = 1200;
-        if (mess.contains(COM_PRE)) {
-            String[] ss = mess.split("-");
-            Map<String, Integer> maps = new HashMap<>();
-            for (String s : ss) {
-                if (s.trim().isEmpty() || !s.contains("=")) {
-                    continue;
-                }
-                try {
-                    String[] s2 = s.split("=");
-                    maps.put(s2[0], Integer.valueOf(s2[1]));
-                } catch (NumberFormatException e) {
-                }
-            }
-            size0 = maps.containsKey("size") ? maps.get("size") : size0;
-            size0 = size0 >= 2000 ? 2000 : size0;
-        }
-        MessageTools.sendMessageInGroup("请在发送要变大的图片", group.getId());
-        int size = size0;
-        PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
-            @Override
-            public Object onReceive(long qid, long gid, String pic, Object[] objects) {
-                if (qId == qid) {
-                    int i = pic.indexOf("{");
-                    int i2 = pic.indexOf("}");
-                    String md5 = pic.substring(i + 1, i2);
-                    md5 = md5.replaceAll("-", "");
-                    String suffix = pic.substring(i2 + 1, i2 + 5);
-                    String xmlStr = XML_STR0;
-                    xmlStr = String.format(xmlStr, md5 + suffix, md5, size, size, size, size);
-                    SimpleServiceMessage simpleServiceMessage = new SimpleServiceMessage(5, xmlStr);
-                    MessageTools.sendMessageInGroup(simpleServiceMessage, group.getId());
-                    return "ok";
-                }
-                return null;
-            }
-        });
-    }
 }

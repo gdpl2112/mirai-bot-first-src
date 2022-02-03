@@ -376,6 +376,15 @@ public class MessageTools {
         group.sendMessage(builder.build());
     }
 
+    public static synchronized void sendMessageByForward(long gid, String[] strings) {
+        Group group = bot.getGroup(gid);
+        ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
+        for (String string : strings) {
+            builder.add(bot.getId(), bot.getNick(), new PlainText(string));
+        }
+        group.sendMessage(builder.build());
+    }
+
     public static boolean containsOneInGroup(Long qq, long id) {
         try {
             return bot.getGroup(id).contains(qq);

@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("2.2 :新的歌词功能,详情见\"点歌系统\"").append("\n");
         UPDATE_LOG.append("2.2 :问候语改动,精神攻击削弱").append("\n");
         UPDATE_LOG.append("2.1 :尝试修复已知Bug").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");

@@ -160,7 +160,7 @@ public class OtherController {
         m0.append("/滚草<At>\n");
         m0.append("/滚草[图片]\n");
         m0.append("/爬<At>\n");
-        m0.append("/举牌子<At>\n");
+        m0.append("/举牌子<Text>\n");
         E_MENUS = m0.toString().split("====");
     }
 
