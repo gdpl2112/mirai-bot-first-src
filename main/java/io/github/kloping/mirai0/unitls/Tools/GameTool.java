@@ -12,10 +12,10 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.Controllers.TimerController.ZERO_RUNS;
 import static Project.DataBases.GameDataBase.getHhs;
 import static Project.DataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
-import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
 public class GameTool {

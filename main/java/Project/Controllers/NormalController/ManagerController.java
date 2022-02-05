@@ -187,7 +187,7 @@ public class ManagerController {
     }
 
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
-    public String Out(long q, Group gr, @AllMess String chain) {
+    public String out(long q, Group gr, @AllMess String chain) {
         Number[] numbers = getAllAt(chain);
         if (numbers.length == 0) {
             return NOT_FOUND_AT;

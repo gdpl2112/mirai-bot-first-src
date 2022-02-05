@@ -28,11 +28,12 @@ public class Ghost703 extends GhostWithGroup {
 
     @Override
     public long updateHp(long l, BaseInfo who) {
+        l = -l;
         l = l > getHp() ? getHp() : l;
         if (rand.nextInt(2) == 0) {
             long v1 = percentTo(Math.toIntExact(l), 15);
             sendMessage("受到反甲效果:\n受到" + v1 + "点反弹伤害\n" + GameDetailService.beaten(who.getId(), -1, v1), who.getId().longValue());
         }
-        return super.updateHp(l, who);
+        return super.updateHp(-l, who);
     }
 }

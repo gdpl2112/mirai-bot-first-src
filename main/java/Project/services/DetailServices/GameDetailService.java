@@ -18,7 +18,6 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.Main.Handlers.MyTimer;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -26,6 +25,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.Controllers.TimerController.ZERO_RUNS;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.skill.SkillDataBase.*;
@@ -47,7 +47,7 @@ public class GameDetailService {
         Resource.StartOkRuns.add(new Runnable() {
             @Override
             public void run() {
-                MyTimer.ZERO_RUNS.add(() -> {
+                ZERO_RUNS.add(() -> {
                     GameController.deleteC.clear();
                     File file = new File(GameDataBase.path + "/dates/users/");
                     for (File f1 : file.listFiles()) {

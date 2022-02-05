@@ -38,6 +38,6 @@ public class BotS0 {
         bot.login();
         StarterApplication.logger = new LoggerImpl();
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-    }
 
+    }
 }

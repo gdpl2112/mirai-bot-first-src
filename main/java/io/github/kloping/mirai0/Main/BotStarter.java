@@ -4,6 +4,7 @@ import Project.ASpring.SpringStarter;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -64,8 +65,9 @@ public class BotStarter {
 
     private static void parseArgs(String[] args) {
         try {
-            if ("test".equals(args[0].trim().toLowerCase()))
+            if ("test".equals(args[0].trim().toLowerCase())) {
                 test = true;
+            }
         } catch (Exception e) {
         }
     }
@@ -80,6 +82,7 @@ public class BotStarter {
 
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
+        bot.getEventChannel().registerListenerHost(new SaveHandler());
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
     }
 }

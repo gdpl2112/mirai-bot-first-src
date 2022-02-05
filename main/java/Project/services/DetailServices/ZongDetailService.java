@@ -4,7 +4,6 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
 import Project.DataBases.ZongMenDataBase;
-import io.github.kloping.mirai0.Main.Handlers.MyTimer;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -12,6 +11,7 @@ import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.Controllers.TimerController.ZERO_RUNS;
 import static Project.DataBases.GameDataBase.getInfo;
 import static Project.DataBases.GameDataBase.putPerson;
 import static Project.DataBases.ZongMenDataBase.*;
@@ -109,7 +109,7 @@ public class ZongDetailService {
 
     static {
         Resource.StartOkRuns.add(() -> {
-            MyTimer.ZERO_RUNS.add(() -> {
+            ZERO_RUNS.add(() -> {
                 File[] files = new File(ZongMenDataBase.path).listFiles();
                 for (File file : files) {
                     if (file.getName().startsWith("t")) continue;

@@ -1,17 +1,17 @@
 package io.github.kloping.mirai0.Main;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
 import Project.DataBases.*;
 import Project.DataBases.skill.SkillDataBase;
 import Project.detailPlugin.NetMain;
-import io.github.kloping.mirai0.Main.Handlers.MyHandler;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.initialize.FileInitializeValue;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Main.Handlers.MyHandler;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import static Project.Controllers.GameControllers.GameH2LController.check;
-import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
+import static Project.Controllers.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
 /**

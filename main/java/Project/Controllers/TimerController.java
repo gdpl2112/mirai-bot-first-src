@@ -2,18 +2,23 @@ package Project.Controllers;
 
 import Project.DataBases.DataBase;
 import Project.DataBases.GameDataBase;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
-import io.github.kloping.mirai0.Main.Handlers.MyTimer;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static io.github.kloping.mirai0.Main.Handlers.MyTimer.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
@@ -25,6 +30,20 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
 @Controller
 public class TimerController {
     private static int ts = 10;
+    public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
+
+    public static void appendOneDay(MessageChainBuilder builder, Group group) {
+        try {
+            URL url = new URL("http://open.iciba.com/dsapi");
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            String str = br.readLine();
+            JSONObject object = (JSONObject) JSONObject.parse(str);
+            builder.append("\r\n" + object.getString("note"));
+            builder.append("\r\n" + object.getString("content"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Schedule("00:00:00")
     public static void onZero() {
@@ -78,7 +97,7 @@ public class TimerController {
                     continue;
                 }
                 MessageChainBuilder builder = new MessageChainBuilder();
-                MyTimer.appendOneDay(builder, group);
+                appendOneDay(builder, group);
                 group.sendMessage(builder.build());
             }
             THREADS.submit(() -> {

@@ -12,6 +12,7 @@ import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageSource;
+import net.mamoe.mirai.message.data.MessageSourceBuilder;
 
 import java.util.Arrays;
 import java.util.List;
