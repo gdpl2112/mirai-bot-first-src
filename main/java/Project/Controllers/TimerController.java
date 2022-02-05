@@ -38,7 +38,7 @@ public class TimerController {
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
             String str = br.readLine();
             JSONObject object = (JSONObject) JSONObject.parse(str);
-            builder.append("\r\n" + object.getString("note"));
+            builder.append(object.getString("note"));
             builder.append("\r\n" + object.getString("content"));
         } catch (IOException e) {
             e.printStackTrace();
