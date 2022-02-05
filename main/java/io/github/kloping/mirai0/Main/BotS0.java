@@ -3,6 +3,7 @@ package io.github.kloping.mirai0.Main;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
+import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -38,6 +39,6 @@ public class BotS0 {
         bot.login();
         StarterApplication.logger = new LoggerImpl();
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-
+        bot.getEventChannel().registerListenerHost(new SaveHandler());
     }
 }

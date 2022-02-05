@@ -6,8 +6,6 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.StrangerMessageEvent;
-import net.mamoe.mirai.message.data.MessageSource;
-import net.mamoe.mirai.message.data.MessageSourceBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -36,16 +34,17 @@ public class SaveHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
+        AllMessage.factory(event, groupDataFile).save();
     }
 
     @EventHandler
     public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
-
+        AllMessage.factory(event, friendDataFile).save();
     }
 
     @EventHandler
     public void onMessage(@NotNull StrangerMessageEvent event) throws Exception {
-
+        AllMessage.factory(event, strangerDataFile).save();
     }
 
 }
