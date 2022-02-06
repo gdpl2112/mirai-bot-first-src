@@ -25,14 +25,22 @@ public class CurfewScheduler extends TimerTask {
             String dateStr = Curfew.FORMAT.format(new Date());
             for (String from : v.getFroms()) {
                 if (from != null && from.equals(dateStr)) {
-                    Resource.bot.getGroup(k).getSettings().setMuteAll(true);
-                    Resource.bot.getGroup(k).sendMessage("宵禁开始");
+                    try {
+                        Resource.bot.getGroup(k).getSettings().setMuteAll(true);
+                        Resource.bot.getGroup(k).sendMessage("宵禁开始");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             for (String to : v.getTos()) {
                 if (to != null && to.equals(dateStr)) {
-                    Resource.bot.getGroup(k).getSettings().setMuteAll(false);
-                    Resource.bot.getGroup(k).sendMessage("宵禁结束");
+                    try {
+                        Resource.bot.getGroup(k).getSettings().setMuteAll(false);
+                        Resource.bot.getGroup(k).sendMessage("宵禁结束");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
