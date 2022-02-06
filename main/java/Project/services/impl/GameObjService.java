@@ -1,6 +1,6 @@
 package Project.services.impl;
 
-import Project.DataBases.GameDataBase;
+import Project.dataBases.GameDataBase;
 import Project.services.Iservice.IGameObjService;
 import Project.services.Iservice.IGameWeaService;
 import Project.broadcast.enums.ObjType;
@@ -10,7 +10,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.DataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**

@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
-import Project.DataBases.GameDataBase;
+import Project.dataBases.GameDataBase;
 import io.github.kloping.map.MapUtils;
 
 import java.lang.reflect.Field;

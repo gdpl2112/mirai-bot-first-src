@@ -3,7 +3,7 @@ package io.github.kloping.mirai0.Entitys.gameEntitys;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static Project.services.DetailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
 
 /**

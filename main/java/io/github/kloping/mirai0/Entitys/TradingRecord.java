@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Entitys;
 
-import Project.DataBases.OtherDatabase;
+import Project.dataBases.OtherDatabase;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.experimental.Accessors;

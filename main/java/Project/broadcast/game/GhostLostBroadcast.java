@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static Project.DataBases.GameDataBase.addToBgs;
-import static Project.DataBases.GameDataBase.getImgById;
+import static Project.dataBases.GameDataBase.addToBgs;
+import static Project.dataBases.GameDataBase.getImgById;
 
 /**
  * @author github-kloping

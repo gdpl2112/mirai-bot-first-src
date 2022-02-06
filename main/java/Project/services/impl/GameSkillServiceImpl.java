@@ -5,9 +5,9 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
-import Project.DataBases.GameDataBase;
-import Project.DataBases.skill.SkillDataBase;
-import Project.services.DetailServices.GameDetailService;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
+import Project.services.detailServices.GameDetailService;
 import Project.services.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -17,13 +17,13 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.Map;
 
-import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.skill.SkillDataBase.*;
+import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
-import static Project.services.DetailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github-kloping

@@ -117,7 +117,7 @@ public final class ResourceSet {
     public static final class FinalValue {
         /**
          * 精神力抵消后 剩余倍数 <br/>
-         * {@link Project.services.DetailServices.GameDetailService#onSpiritAttack}
+         * {@link Project.services.detailServices.GameDetailService#onSpiritAttack}
          */
         public static final int HJ_LOSE_1_X = 9;
         /**

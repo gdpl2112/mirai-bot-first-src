@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
-import Project.ASpring.SpringStarter0;
+import Project.aSpring.SpringStarter0;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

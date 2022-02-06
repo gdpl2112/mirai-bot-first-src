@@ -1,11 +1,11 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys.task;
 
-import Project.DataBases.GameDataBase;
+import Project.dataBases.GameDataBase;
 import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import static Project.DataBases.task.TaskCreator.*;
+import static Project.dataBases.task.TaskCreator.*;
 
 /**
  * @author github-kloping

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import static Project.ASpring.SpringBootResource.gInfoMapper;
+import static Project.aSpring.SpringBootResource.gInfoMapper;
 
 /**
  * @author github-kloping

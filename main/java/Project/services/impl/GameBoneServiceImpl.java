@@ -2,7 +2,7 @@ package Project.services.impl;
 
 
 import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
-import Project.DataBases.GameDataBase;
+import Project.dataBases.GameDataBase;
 import Project.services.Iservice.IGameBoneService;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.enums.ObjType;
@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static Project.DataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;

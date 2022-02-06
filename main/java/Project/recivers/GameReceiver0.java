@@ -6,8 +6,8 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
-import Project.DataBases.GameDataBase;
-import Project.DataBases.OtherDatabase;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.OtherDatabase;
 import Project.broadcast.game.RecordBroadcast;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.*;
@@ -16,7 +16,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.List;
 
-import static Project.Controllers.NormalController.NoticeController.lowst;
+import static Project.controllers.NormalController.NoticeController.lowst;
 
 /**
  * @author github-kloping

@@ -4,14 +4,14 @@ package Project.services.impl;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.UScore;
-import Project.DataBases.DataBase;
+import Project.dataBases.DataBase;
 import Project.services.Iservice.IScoreService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
-import static Project.DataBases.DataBase.*;
-import static Project.DataBases.GameDataBase.getInfo;
-import static Project.DataBases.GameDataBase.putPerson;
+import static Project.dataBases.DataBase.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.putPerson;
 import static Project.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;

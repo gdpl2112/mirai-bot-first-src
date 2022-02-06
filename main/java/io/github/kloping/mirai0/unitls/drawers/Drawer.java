@@ -21,10 +21,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.DataBases.GameDataBase.getImgById;
-import static Project.DataBases.ZongMenDataBase.getZongInfo;
-import static Project.DataBases.ZongMenDataBase.qq2id;
-import static Project.DataBases.skill.SkillDataBase.toPercent;
+import static Project.dataBases.GameDataBase.getImgById;
+import static Project.dataBases.ZongMenDataBase.getZongInfo;
+import static Project.dataBases.ZongMenDataBase.qq2id;
+import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
 
 /**

@@ -1,7 +1,7 @@
 package Project.services.impl;
 
 
-import Project.services.DetailServices.GameJoinDetailService;
+import Project.services.detailServices.GameJoinDetailService;
 import Project.services.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.DataBases.GameDataBase.*;
-import static Project.DataBases.skill.SkillDataBase.percentTo;
-import static Project.DataBases.skill.SkillDataBase.toPercent;
+import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
-import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
-import static Project.services.DetailServices.GameJoinDetailService.saveGhostObjIn;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;

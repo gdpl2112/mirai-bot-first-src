@@ -1,6 +1,6 @@
 package Project.services.impl;
 
-import Project.services.DetailServices.GameWeaDetailService;
+import Project.services.detailServices.GameWeaDetailService;
 import Project.services.Iservice.IGameWeaService;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Project.DataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**

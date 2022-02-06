@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import static Project.DataBases.GameDataBase.getWarp;
-import static Project.DataBases.GameDataBase.setWarp;
+import static Project.dataBases.GameDataBase.getWarp;
+import static Project.dataBases.GameDataBase.setWarp;
 
 @Data
 @Accessors(chain = true)

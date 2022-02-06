@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.Main;
 
-import Project.DataBases.*;
-import Project.DataBases.skill.SkillDataBase;
+import Project.dataBases.*;
+import Project.dataBases.skill.SkillDataBase;
 import Project.detailPlugin.NetMain;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
@@ -28,8 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static Project.Controllers.GameControllers.GameH2LController.check;
-import static Project.Controllers.TimerController.ZERO_RUNS;
+import static Project.controllers.GameControllers.GameH2LController.check;
+import static Project.controllers.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
 /**

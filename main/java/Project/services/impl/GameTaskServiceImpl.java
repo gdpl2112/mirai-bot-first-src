@@ -4,15 +4,15 @@ import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
-import Project.DataBases.GameTaskDatabase;
-import Project.services.DetailServices.TaskDetailService;
+import Project.dataBases.GameTaskDatabase;
+import Project.services.detailServices.TaskDetailService;
 import Project.services.Iservice.IGameTaskService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.UUID;
 
-import static Project.DataBases.task.TaskCreator.*;
+import static Project.dataBases.task.TaskCreator.*;
 
 /**
  * @author github-kloping

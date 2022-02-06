@@ -1,8 +1,8 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 
-import Project.DataBases.GameDataBase;
-import Project.DataBases.skill.SkillDataBase;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.broadcast.game.RecordBroadcast;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
@@ -11,8 +11,8 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
-import static Project.Controllers.GameControllers.GameController.maxXp;
-import static Project.DataBases.GameDataBase.getInfo;
+import static Project.controllers.GameControllers.GameController.maxXp;
+import static Project.dataBases.GameDataBase.getInfo;
 
 /**
  * @author github-kloping

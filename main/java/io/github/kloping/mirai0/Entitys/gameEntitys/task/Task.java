@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys.task;
 
-import Project.DataBases.GameTaskDatabase;
+import Project.dataBases.GameTaskDatabase;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 import java.io.File;
 import java.util.*;
 
-import static Project.DataBases.GameTaskDatabase.*;
+import static Project.dataBases.GameTaskDatabase.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
 /**

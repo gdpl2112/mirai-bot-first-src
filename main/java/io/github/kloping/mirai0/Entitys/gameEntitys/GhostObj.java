@@ -1,8 +1,8 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 
-import Project.services.DetailServices.GameJoinDetailService;
-import Project.services.DetailServices.ac.entity.*;
+import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.entity.*;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 
-import static Project.DataBases.GameDataBase.getNameById;
-import static Project.DataBases.skill.SkillDataBase.percentTo;
-import static Project.DataBases.skill.SkillDataBase.toPercent;
-import static Project.services.DetailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.dataBases.GameDataBase.getNameById;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.Lmax;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.randFloatByte1;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;

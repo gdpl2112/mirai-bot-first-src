@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main;
 
-import Project.ASpring.SpringStarter2;
+import Project.aSpring.SpringStarter2;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;

@@ -3,8 +3,8 @@ package io.github.kloping.mirai0.unitls.Tools;
 
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import Project.DataBases.GameDataBase;
-import Project.services.DetailServices.GameJoinDetailService;
+import Project.dataBases.GameDataBase;
+import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.file.FileUtils;
 
 import java.io.File;
@@ -12,9 +12,9 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.Controllers.TimerController.ZERO_RUNS;
-import static Project.DataBases.GameDataBase.getHhs;
-import static Project.DataBases.GameDataBase.getInfo;
+import static Project.controllers.TimerController.ZERO_RUNS;
+import static Project.dataBases.GameDataBase.getHhs;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
