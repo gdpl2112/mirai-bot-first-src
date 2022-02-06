@@ -55,8 +55,11 @@ public class CurfewScheduler extends TimerTask {
         File file = new File("./conf/");
         if (file.exists()) {
             for (File listFile : file.listFiles()) {
-                Long gid = Long.parseLong(listFile.getName());
-                update(Curfew.getInstance(gid));
+                try {
+                    Long gid = Long.parseLong(listFile.getName());
+                    update(Curfew.getInstance(gid));
+                } catch (NumberFormatException e) {
+                }
             }
         }
     }
