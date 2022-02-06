@@ -57,6 +57,8 @@ public class BotStarter {
         SpringStarter.main(args);
         bot.login();
         BotStarter.afterLogin();
+
+        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 
     private static void initBot() {
@@ -83,5 +85,7 @@ public class BotStarter {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+
+
     }
 }
