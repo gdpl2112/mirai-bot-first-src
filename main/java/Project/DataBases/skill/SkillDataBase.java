@@ -6,6 +6,7 @@ import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -274,7 +275,7 @@ public class SkillDataBase {
         return v3;
     }
 
-    public static final Map<Long, HasTimeAdder> hasAdder = new ConcurrentHashMap<>();
+    public static final Map<Long, List<HasTimeAdder>> hasAdder = new ConcurrentHashMap<>();
 
     public static class HasTimeAdder {
         private long toTime;
@@ -288,12 +289,7 @@ public class SkillDataBase {
         }
 
         public boolean test() {
-            boolean k = System.currentTimeMillis() < toTime;
-            if (!k) try {
-                hasAdder.remove(who);
-            } catch (Exception e) {
-            }
-            return k;
+            return System.currentTimeMillis() < toTime;
         }
 
         public long getToTime() {
@@ -307,5 +303,9 @@ public class SkillDataBase {
         public Number getValue() {
             return value;
         }
+    }
+
+    public static void addAttHasTime(long who, HasTimeAdder adder) {
+
     }
 }

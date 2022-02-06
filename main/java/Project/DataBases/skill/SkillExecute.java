@@ -128,7 +128,7 @@ public class SkillExecute {
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 v = v > info_.getAtt() ? info_.getAtt() : v;
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 setTips("作用于 " + Tool.At(q));
             }
         };
@@ -187,7 +187,7 @@ public class SkillExecute {
                     Long lon = info_.getAtt();
                     long v = percentTo(info.getAddPercent(), lon);
                     v = v > info_.getAtt() ? info_.getAtt() : v;
-                    hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t5, q.longValue(), v));
+                   addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t5, q.longValue(), v));
                     setTips("作用于 " + Tool.At(q));
                 }
             }
@@ -741,7 +741,7 @@ public class SkillExecute {
                 PersonInfo pinfo = getInfo(q);
                 Long lon = pinfo.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t72, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t72, who.longValue(), v));
             }
 
             @Override
@@ -773,7 +773,7 @@ public class SkillExecute {
             public void before() {
                 PersonInfo info1 = getInfo(who);
                 long v = percentTo(info.getAddPercent(), info1.getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t73, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t73, who.longValue(), v));
                 eve();
             }
 
@@ -870,7 +870,7 @@ public class SkillExecute {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.getAtt();
                 long v = percentTo(info.getAddPercent() * 4, lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t75, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t75, who.longValue(), v));
                 putPerson(pInfo);
                 eve();
             }
@@ -949,7 +949,7 @@ public class SkillExecute {
                     return;
                 }
                 long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t77, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t77, who.longValue(), v));
             }
         };
         return skill;
@@ -976,7 +976,7 @@ public class SkillExecute {
                 int n2 = n / 2;
                 int a = info.getAddPercent() + n2;
                 long v = percentTo(a, info1.getHll());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t78, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t78, who.longValue(), v));
                 setTips("剩余" + n + "% 的魂力,增加" + a + "%的攻击力");
             }
         };
@@ -1000,7 +1000,7 @@ public class SkillExecute {
                     return;
                 }
                 long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
         return skill;
@@ -1071,7 +1071,7 @@ public class SkillExecute {
                     return;
                 }
                 long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
         return skill;
@@ -1094,7 +1094,7 @@ public class SkillExecute {
                     return;
                 }
                 long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
             }
         };
         return skill;
@@ -1116,7 +1116,7 @@ public class SkillExecute {
                 PersonInfo info_ = getInfo(q);
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 try {
                     if (nums.length != 0) {
                         putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
@@ -1148,7 +1148,7 @@ public class SkillExecute {
                 }
                 Long lon = getInfo(q).getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t4, who.longValue(), v));
                 try {
                     if (nums.length != 0) {
                         putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
@@ -1226,7 +1226,7 @@ public class SkillExecute {
                 long v = percentTo(p, lon);
                 long o = percentTo(p, v);
                 info_.addTag(TAG_SHIELD, o);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t716, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t716, who.longValue(), v));
                 putPerson(info_.addTag(TAG_XX, info.getAddPercent() / 8));
             }
         };
@@ -1250,7 +1250,7 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addTag(TAG_SHIELD, percentTo(info.getAddPercent(), info_.getHpL()));
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t717, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t717, who.longValue(), v));
             }
         };
     }
@@ -1274,7 +1274,7 @@ public class SkillExecute {
                 long v = percentTo(p, lon);
                 long o = percentTo(p, v);
                 info_.addTag(TAG_SHIELD, o);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t718, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t718, who.longValue(), v));
                 putPerson(info_.addTag(TAG_XX, info.getAddPercent() / 8));
             }
         };
@@ -1360,7 +1360,7 @@ public class SkillExecute {
                 PersonInfo p_info = getInfo(q);
                 Long lon = p_info.getAtt();
                 v2 = percentTo(info.getAddPercent(), lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t721, who.longValue(), v2));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t721, who.longValue(), v2));
                 q1 = Long.valueOf(who + "");
                 v = Long.valueOf(info.getAddPercent());
                 AttributeBone.addForAttr(q1, v, AttributeBone.Type.HIDE_PRO);
@@ -1409,7 +1409,7 @@ public class SkillExecute {
                 info_.addHl(v3);
                 info_.addHj(v4);
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t722, who.longValue(), v1));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t722, who.longValue(), v1));
             }
         };
         return skill;
@@ -1438,7 +1438,7 @@ public class SkillExecute {
                 info_.addHj(v4);
                 info_.addTag(TAG_XX, b / 5);
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t723, who.longValue(), v1));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t723, who.longValue(), v1));
             }
         };
         return skill;
@@ -1462,7 +1462,7 @@ public class SkillExecute {
                 long v = percentTo(info.getAddPercent(), lon);
                 info_.addHl(percentTo(info.getAddPercent() / 3, info_.getHll()));
                 putPerson(info_.addTag(TAG_TRUE, 1));
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t724, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t724, who.longValue(), v));
             }
 
             @Override
@@ -1498,7 +1498,7 @@ public class SkillExecute {
                 v1 = percentTo(b, lon);
                 info_.addTag(TAG_FJ, b / 3);
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t725, who.longValue(), v1));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t725, who.longValue(), v1));
             }
 
             long v1;
@@ -1535,7 +1535,7 @@ public class SkillExecute {
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
                 putPerson(info_.eddTag(TAG_SHE, b / 8));
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t726, who.longValue(), v1));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t726, who.longValue(), v1));
             }
 
             private long v1;
@@ -1571,7 +1571,7 @@ public class SkillExecute {
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t727, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t727, who.longValue(), v));
             }
         };
         return skill;
@@ -1594,7 +1594,7 @@ public class SkillExecute {
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t728, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t728, who.longValue(), v));
             }
         };
         return skill;
@@ -1623,7 +1623,7 @@ public class SkillExecute {
                 id -= 200;
                 b += id;
                 long v = percentTo(b, lon);
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t729, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t729, who.longValue(), v));
                 setTips(String.format("增加%s%%(%s)攻击", b, percentTo(b, getInfo(who).getAtt())));
             }
         };
@@ -1647,7 +1647,7 @@ public class SkillExecute {
                 long v = getHjFromAny(who, nums[0].longValue());
                 PersonInfo in = getInfo(who);
                 long vv = percentTo(info.getAddPercent(), in.getAtt());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), vv));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), vv));
                 int b = toPercent(v, in.getHjL());
                 b = b > 15 ? 15 : b <= 2 ? 3 : b;
                 long v1 = percentTo(b, in.getHpL());
@@ -1676,7 +1676,7 @@ public class SkillExecute {
                 PersonInfo in = getInfo(who);
                 v_ = percentTo(info.getAddPercent(), in.getAtt());
                 long v = percentTo(info.getAddPercent(), in.getHpL());
-                hasAdder.put(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t731, who.longValue(), v));
+               addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t731, who.longValue(), v));
                 in.addTag(TAG_SHIELD, v);
                 putPerson(in);
             }

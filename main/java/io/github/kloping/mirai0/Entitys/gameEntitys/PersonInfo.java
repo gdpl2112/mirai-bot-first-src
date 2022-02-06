@@ -1,14 +1,15 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
 import Project.DataBases.GameDataBase;
 import Project.DataBases.skill.SkillDataBase;
 import Project.broadcast.game.RecordBroadcast;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 
 import static Project.Controllers.GameControllers.GameController.maxXp;
 import static Project.DataBases.GameDataBase.getInfo;
@@ -254,11 +255,22 @@ public class PersonInfo implements BaseInfo {
     @Override
     public Long getAtt() {
         long at1 = att;
-        if (SkillDataBase.hasAdder.containsKey(Long.valueOf(name))) {
-            SkillDataBase.HasTimeAdder adder = SkillDataBase.hasAdder.get(Long.valueOf(name));
-            if (adder.test()) {
-                at1 += adder.getValue().longValue();
+        try {
+            if (SkillDataBase.hasAdder.containsKey(getId().longValue())) {
+                if (!SkillDataBase.hasAdder.get(getId().longValue()).isEmpty()) {
+                    Iterator<SkillDataBase.HasTimeAdder> iterator = SkillDataBase.hasAdder.get(getId().longValue()).iterator();
+                    while (iterator.hasNext()) {
+                        SkillDataBase.HasTimeAdder adder = iterator.next();
+                        if (adder.test()) {
+                            at1 += adder.getValue().longValue();
+                        } else {
+                            iterator.remove();
+                        }
+                    }
+                }
             }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
         return at1;
     }
@@ -266,7 +278,6 @@ public class PersonInfo implements BaseInfo {
     public PersonInfo setAtt(Long att) {
         this.att = att;
         return this;
-
     }
 
     public Long getGold() {

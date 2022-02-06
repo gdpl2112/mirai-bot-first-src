@@ -6,6 +6,7 @@ import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
 import Project.interfaces.ApiIyk0;
+import Project.interfaces.ApiKit9;
 import Project.services.DetailServices.Idiom;
 import Project.services.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -360,4 +361,17 @@ public class EntertainmentController {
         }
     }
 
+    @AutoStand
+    ApiKit9 apiKit9;
+
+    @Action("QQ信息.*?")
+    public Object info(@AllMess String mess, long q) {
+        String str = Tool.findNumberFromString(mess);
+        try {
+            Long q2 = Long.parseLong(str);
+            q = q2.longValue();
+        } catch (NumberFormatException e) {
+        }
+        return apiKit9.getInfo(q).toString();
+    }
 }
