@@ -13,7 +13,7 @@ import static Project.aSpring.SpringBootResource.*;
  * @author github-kloping
  */
 @SpringBootApplication(scanBasePackages = {"Project.aSpring.mcs.save"})
-@MapperScan("Project.ASpring.mcs.save")
+@MapperScan("Project.aSpring.mcs.save")
 public class SpringStarter0 {
     public static SaveMapper saveMapper;
 
