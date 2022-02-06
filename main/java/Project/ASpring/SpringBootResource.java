@@ -10,6 +10,7 @@ import Project.DataBases.GameDataBase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -50,11 +51,12 @@ public class SpringBootResource {
 
     public static String getPublicIp() {
         try {
-            String jsonStr = Jsoup.connect("https://ip.cn/api/index?ip=&type=0")
+            Document document = Jsoup.connect("https://2021.ip138.com/")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62")
-                    .ignoreContentType(true).get().body().text();
-            JSONObject jo = JSON.parseObject(jsonStr);
-            return jo.getString("ip");
+                    .ignoreContentType(true)
+                    .get();
+            String ip = document.getElementsByTag("a").get(0).text();
+            return ip;
         } catch (IOException e) {
             e.printStackTrace();
             return "localhost";
