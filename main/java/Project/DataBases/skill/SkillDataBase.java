@@ -1,5 +1,6 @@
 package Project.DataBases.skill;
 
+import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
@@ -275,7 +276,7 @@ public class SkillDataBase {
         return v3;
     }
 
-    public static final Map<Long, List<HasTimeAdder>> hasAdder = new ConcurrentHashMap<>();
+    public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
 
     public static class HasTimeAdder {
         private long toTime;
@@ -306,6 +307,6 @@ public class SkillDataBase {
     }
 
     public static void addAttHasTime(long who, HasTimeAdder adder) {
-
+        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder);
     }
 }
