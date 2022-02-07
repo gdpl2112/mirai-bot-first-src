@@ -1,9 +1,10 @@
 package Project.interfaces;
 
-import io.github.kloping.MySpringTool.annotations.Param;
+import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.mirai0.Entitys.apiEntitys.qqGroupInfo.QQGroupInfo;
 import io.github.kloping.mirai0.Entitys.apiEntitys.qqMemberInfo.QQMemberInfo;
 
 /**
@@ -20,4 +21,23 @@ public interface ApiKit9 {
      */
     @GetPath("api/member/")
     QQMemberInfo getInfo(@ParamName("qq") Long qq);
+
+    /**
+     * get group
+     *
+     * @param qq
+     * @return
+     */
+    @GetPath("api/groupinformation/")
+    QQGroupInfo getGroupInfo(@ParamName("qh") Long qq);
+
+    /**
+     * qq达人
+     *
+     * @param qq
+     * @return
+     */
+    @GetPath("api/talent/")
+    @Callback("Project.detailPlugin.All.getTalentDays")
+    String getTalent(@ParamName("qq") Long qq);
 }

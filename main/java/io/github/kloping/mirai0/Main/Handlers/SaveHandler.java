@@ -4,9 +4,7 @@ import Project.aSpring.SpringStarter0;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.event.events.StrangerMessageEvent;
+import net.mamoe.mirai.event.events.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,12 +28,27 @@ public class SaveHandler extends SimpleListenerHost {
     }
 
     @EventHandler
+    public void onMessage(@NotNull GroupMessageSyncEvent event) throws Exception {
+        AllMessage.factory(event).save();
+    }
+
+    @EventHandler
     public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
         AllMessage.factory(event).save();
     }
 
     @EventHandler
+    public void onMessage(@NotNull FriendMessageSyncEvent event) throws Exception {
+        AllMessage.factory(event).save();
+    }
+
+    @EventHandler
     public void onMessage(@NotNull StrangerMessageEvent event) throws Exception {
+        AllMessage.factory(event).save();
+    }
+
+    @EventHandler
+    public void onMessage(@NotNull StrangerMessageSyncEvent event) throws Exception {
         AllMessage.factory(event).save();
     }
 

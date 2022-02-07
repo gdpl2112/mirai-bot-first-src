@@ -1,15 +1,15 @@
 package Project.controllers.NormalController;
 
-import Project.dataBases.DataBase;
 import Project.ResourceSet;
 import Project.broadcast.PicBroadcast;
+import Project.dataBases.DataBase;
 import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
 import Project.interfaces.ApiIyk0;
 import Project.interfaces.ApiKit9;
 import Project.interfaces.SalaSale;
-import Project.services.detailServices.Idiom;
 import Project.services.Iservice.IOtherService;
+import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
@@ -19,19 +19,20 @@ import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.net.URLEncoder;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.ResourceSet.FinalString.*;
 import static Project.controllers.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
 import static Project.controllers.TimerController.BASE_URL_CLOUD;
 import static Project.dataBases.DataBase.canBackShow;
-import static Project.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -372,6 +373,64 @@ public class EntertainmentController {
             e.printStackTrace();
             return "获取失败";
         }
+    }
+
+    @Action("QQ群信息.*?")
+    public Object groupInfo(@AllMess String mess, Group group) {
+        long q = group.getId();
+        String str = Tool.findNumberFromString(mess);
+        try {
+            Long q2 = Long.parseLong(str);
+            q = q2.longValue();
+        } catch (NumberFormatException e) {
+        }
+        try {
+            return apiKit9.getGroupInfo(q).toStrings();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
+
+    @Action("QQ达人.*?")
+    public Object getTalent(@AllMess String mess, long q) {
+        String str = Tool.findNumberFromString(mess);
+        try {
+            Long q2 = Long.parseLong(str);
+            q = q2.longValue();
+        } catch (NumberFormatException e) {
+        }
+        try {
+            return "QQ达人天数:" + apiKit9.getTalent(q);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
+
+    @Action("QQ达人排行")
+    public Object getTalentPh(@AllMess String mess, Group group) {
+        List<Map.Entry<Long, Integer>> list = new LinkedList<>();
+        Map<Long, Integer> map = new HashMap<>();
+        for (NormalMember member : bot.getGroup(group.getId()).getMembers()) {
+            try {
+                map.put(member.getId(), Integer.valueOf(apiKit9.getTalent(member.getId())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        list.addAll(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Long, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Long, Integer> o1, Map.Entry<Long, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10 && i < list.size(); i++) {
+            sb.append(i + 1).append(",QQ:").append(list.get(i).getKey()).append("\n\t   ").append(list.get(i).getValue()).append("天达人").append("\r\n");
+        }
+        return sb.toString().trim();
     }
 
     @AutoStand

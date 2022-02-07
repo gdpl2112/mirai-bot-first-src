@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.event.events.MessageEvent;
-import net.mamoe.mirai.event.events.StrangerMessageEvent;
+import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
@@ -46,6 +43,17 @@ public class AllMessage {
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
                     .setType("group").setTime(System.currentTimeMillis())
                     ;
+        } else if (event instanceof GroupMessageSyncEvent) {
+            GroupMessageSyncEvent gme = (GroupMessageSyncEvent) event;
+            return new AllMessage()
+                    .setBotId(event.getBot().getId())
+                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setContent(getText(gme.getMessage()))
+                    .setFromId(gme.getSubject().getId())
+                    .setSenderId(gme.getSender().getId())
+                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setType("groupSelf").setTime(System.currentTimeMillis())
+                    ;
         } else if (event instanceof FriendMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
@@ -56,6 +64,16 @@ public class AllMessage {
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
                     .setType("friend").setTime(System.currentTimeMillis());
+        } else if (event instanceof FriendMessageSyncEvent) {
+            FriendMessageSyncEvent gme = (FriendMessageSyncEvent) event;
+            return new AllMessage()
+                    .setBotId(event.getBot().getId())
+                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setContent(getText(gme.getMessage()))
+                    .setFromId(gme.getSubject().getId())
+                    .setSenderId(gme.getSender().getId())
+                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setType("friendSelf").setTime(System.currentTimeMillis());
         } else if (event instanceof StrangerMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
@@ -66,6 +84,16 @@ public class AllMessage {
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
                     .setType("stranger").setTime(System.currentTimeMillis());
+        } else if (event instanceof StrangerMessageSyncEvent) {
+            FriendMessageSyncEvent gme = (FriendMessageSyncEvent) event;
+            return new AllMessage()
+                    .setBotId(event.getBot().getId())
+                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setContent(getText(gme.getMessage()))
+                    .setFromId(gme.getSubject().getId())
+                    .setSenderId(gme.getSender().getId())
+                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setType("strangerSelf").setTime(System.currentTimeMillis());
         }
         return null;
     }
