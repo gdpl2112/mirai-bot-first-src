@@ -166,6 +166,8 @@ public class OtherController {
         m0.append("解析快手图片<url>");
         m0.append("解析抖音图片<url>");
         m0.append("QQ信息<qq>");
+        m0.append("QQ群信息<qq>");
+        m0.append("/搜图<图片>");
         E_MENUS = m0.toString().split("====");
     }
 
