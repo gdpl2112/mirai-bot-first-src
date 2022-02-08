@@ -47,7 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("2.7 :修复已知bug,/赞<At>").append("\n");
+        UPDATE_LOG.append("2.8 :新增 /搜图<图片> 功能").append("\n");
+        UPDATE_LOG.append("2.8 :修复已知bug,/赞<At>").append("\n");
         UPDATE_LOG.append("2.7 :啥也没更新").append("\n");
         UPDATE_LOG.append("2.6 :宵禁功能").append("\n");
         UPDATE_LOG.append("2.6 :修复已知bug,新功能\"QQ信息\"").append("\n");
