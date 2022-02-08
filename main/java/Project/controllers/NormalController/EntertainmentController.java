@@ -7,7 +7,6 @@ import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
 import Project.interfaces.ApiIyk0;
 import Project.interfaces.ApiKit9;
-import Project.interfaces.SalaSale;
 import Project.services.Iservice.IOtherService;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -19,12 +18,11 @@ import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.ResourceSet.FinalString.*;
@@ -408,36 +406,4 @@ public class EntertainmentController {
         }
     }
 
-    @Action("QQ达人排行")
-    public Object getTalentPh(@AllMess String mess, Group group) {
-        List<Map.Entry<Long, Integer>> list = new LinkedList<>();
-        Map<Long, Integer> map = new HashMap<>();
-        for (NormalMember member : bot.getGroup(group.getId()).getMembers()) {
-            try {
-                map.put(member.getId(), Integer.valueOf(apiKit9.getTalent(member.getId())));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        list.addAll(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Long, Integer>>() {
-            @Override
-            public int compare(Map.Entry<Long, Integer> o1, Map.Entry<Long, Integer> o2) {
-                return o2.getValue() - o1.getValue();
-            }
-        });
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 10 && i < list.size(); i++) {
-            sb.append(i + 1).append(",QQ:").append(list.get(i).getKey()).append("\n\t   ").append(list.get(i).getValue()).append("天达人").append("\r\n");
-        }
-        return sb.toString().trim();
-    }
-
-    @AutoStand
-    SalaSale salaSale;
-
-    @Action("冬奥排名")
-    private String dongAoHui() {
-        return salaSale.winterOlympics();
-    }
 }

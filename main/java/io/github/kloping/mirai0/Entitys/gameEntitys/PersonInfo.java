@@ -4,6 +4,7 @@ package io.github.kloping.mirai0.Entitys.gameEntitys;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.broadcast.game.RecordBroadcast;
+import io.github.kloping.MySpringTool.h1.impl.component.HttpClientManagerImpl;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;

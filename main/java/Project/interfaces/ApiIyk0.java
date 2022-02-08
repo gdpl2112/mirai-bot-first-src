@@ -1,5 +1,6 @@
 package Project.interfaces;
 
+import Project.controllers.GameControllers.GameController;
 import io.github.kloping.mirai0.Entitys.apiEntitys.Jyu;
 import io.github.kloping.mirai0.Entitys.apiEntitys.colb.PickupABottle;
 import io.github.kloping.mirai0.Entitys.apiEntitys.thb.ThrowABottle;
@@ -18,7 +19,6 @@ public interface ApiIyk0 {
     @GetPath("drift")
     ThrowABottle throwABottle(@ParamName("type") Integer one, @ParamName("msg") String msg
             , @ParamName("uin") Long uin, @ParamName("group") Object group);
-
     @GetPath("drift")
     PickupABottle pickupABottle(@ParamName("type") Integer two);
 }

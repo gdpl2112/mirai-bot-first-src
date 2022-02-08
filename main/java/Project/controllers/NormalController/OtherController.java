@@ -161,6 +161,7 @@ public class OtherController {
         m0.append("/滚草[图片]\n");
         m0.append("/爬<At>\n");
         m0.append("/举牌子<Text>\n");
+        m0.append("/赞<At>\n");
         m0.append("====");
         m0.append("解析快手图片<url>");
         m0.append("解析抖音图片<url>");

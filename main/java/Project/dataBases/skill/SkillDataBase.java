@@ -7,6 +7,7 @@ import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -307,6 +308,7 @@ public class SkillDataBase {
     }
 
     public static void addAttHasTime(long who, HasTimeAdder adder) {
-        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder);
+        adder.toTime = System.currentTimeMillis() + 10 * 1000;
+        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
     }
 }

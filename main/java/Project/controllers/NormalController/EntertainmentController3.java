@@ -1,7 +1,8 @@
 package Project.controllers.NormalController;
 
 import Project.broadcast.PicBroadcast;
-import Project.interfaces.JuiLi;
+import Project.interfaces.Qxu66;
+import Project.interfaces.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
@@ -67,7 +68,10 @@ public class EntertainmentController3 {
     }
 
     @AutoStand
-    JuiLi jiuLi;
+    WeiJieYue weiJieYue;
+
+    @AutoStand
+    Qxu66 qxu66;
 
     @Action("/爬.+")
     public Object o1(@AllMess String m, Group group, long q1) {
@@ -76,7 +80,19 @@ public class EntertainmentController3 {
         if (q == -1) {
             return "目前只支@的形式";
         }
-        byte[] bytes = jiuLi.paImg(q, null);
+        byte[] bytes = weiJieYue.paImg(q);
+        MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
+        return null;
+    }
+
+    @Action("/赞.+")
+    public Object o3(@AllMess String m, Group group, long q1) {
+        long q = MessageTools.getAtFromString(m);
+        String urlStr = null;
+        if (q == -1) {
+            return "目前只支@的形式";
+        }
+        byte[] bytes = weiJieYue.zan(q);
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
@@ -87,7 +103,7 @@ public class EntertainmentController3 {
         if (msg == null || msg.trim().isEmpty()) {
             msg = "请指定内容哦~";
         }
-        byte[] bytes = jiuLi.jupaizi(msg);
+        byte[] bytes = qxu66.jupaizi(msg);
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
