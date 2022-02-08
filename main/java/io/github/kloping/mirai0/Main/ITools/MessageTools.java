@@ -181,7 +181,7 @@ public class MessageTools {
 
     private static final Map<String, Image> HIST_IMAGES = new ConcurrentHashMap<>();
 
-    public static synchronized Image createImage(Contact group, String path) {
+    public static Image createImage(Contact group, String path) {
         Image image = null;
         try {
             if (HIST_IMAGES.containsKey(path)) {
@@ -232,7 +232,7 @@ public class MessageTools {
         return null;
     }
 
-    public static synchronized void sendMessageInGroup(String str, long id) {
+    public static void sendMessageInGroup(String str, long id) {
         try {
             Group group = bot.getGroup(id);
             Message message = MessageTools.getMessageFromString(str, group);
@@ -242,7 +242,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendStringInGroup(String str, long id) {
+    public static void sendStringInGroup(String str, long id) {
         try {
             Group group = bot.getGroup(id);
             group.sendMessage(new PlainText(str));
@@ -251,7 +251,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendMessageInGroup(Object o, long id) {
+    public static void sendMessageInGroup(Object o, long id) {
         try {
             Group group = bot.getGroup(id);
             if (o instanceof Message) {
@@ -265,7 +265,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendVoiceMessageInGroup(String url, long id) {
+    public static void sendVoiceMessageInGroup(String url, long id) {
         try {
             Group group = bot.getGroup(id);
             group.sendMessage(createVoiceMessageInGroup(url, id));
@@ -274,7 +274,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized Message createVoiceMessageInGroup(String url, long id) {
+    public static Message createVoiceMessageInGroup(String url, long id) {
         try {
             Group group = bot.getGroup(id);
             byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
@@ -322,7 +322,7 @@ public class MessageTools {
     }
 */
 
-    public static synchronized void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
+    public static void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
         Group group = bot.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);
         Image image = group.uploadImage(resource);
@@ -330,7 +330,15 @@ public class MessageTools {
         group.sendMessage(mcb.build());
     }
 
-    public static synchronized void sendMessageInGroupWithAt(String str, long gid, long qq) {
+    public static Image toImage(byte[] bytes, long gid) {
+        if (bytes==null){return null;}
+        Group group = bot.getGroup(gid);
+        ExternalResource resource = ExternalResource.create(bytes);
+        Image image = group.uploadImage(resource);
+        return image;
+    }
+
+    public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;
             Group group = bot.getGroup(gid);
@@ -341,7 +349,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendMessageInOneFromGroup(String str, long id, long gid) {
+    public static void sendMessageInOneFromGroup(String str, long id, long gid) {
         try {
             Contact contact = bot.getGroup(gid).get(id);
             Message message = MessageTools.getMessageFromString(str, contact);
@@ -351,7 +359,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendMessageInOneFromGroup(String str, long id) {
+    public static void sendMessageInOneFromGroup(String str, long id) {
         try {
             for (Group group : bot.getGroups()) {
                 if (group.contains(id)) {
@@ -366,7 +374,7 @@ public class MessageTools {
         }
     }
 
-    public static synchronized void sendMessageByForward(long gid, Object[] objects) {
+    public static void sendMessageByForward(long gid, Object[] objects) {
         Group group = bot.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (Object o : objects) {
@@ -376,7 +384,7 @@ public class MessageTools {
         group.sendMessage(builder.build());
     }
 
-    public static synchronized void sendMessageByForward(long gid, String[] strings) {
+    public static void sendMessageByForward(long gid, String[] strings) {
         Group group = bot.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (String string : strings) {

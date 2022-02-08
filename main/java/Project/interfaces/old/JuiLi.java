@@ -1,4 +1,4 @@
-package Project.interfaces;
+package Project.interfaces.old;
 
 import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;

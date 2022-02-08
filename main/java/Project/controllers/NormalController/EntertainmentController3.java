@@ -1,29 +1,36 @@
 package Project.controllers.NormalController;
 
 import Project.broadcast.PicBroadcast;
+import Project.detailPlugin.BaiduShituDetail;
+import Project.interfaces.IBaiduShitu;
 import Project.interfaces.Qxu66;
 import Project.interfaces.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.BaiduShitu;
+import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.BaiduShituResponse;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
+import net.mamoe.mirai.message.data.ForwardMessageBuilder;
+import net.mamoe.mirai.message.data.Image;
+import net.mamoe.mirai.message.data.MessageChainBuilder;
 import net.mamoe.mirai.message.data.SimpleServiceMessage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
+import static Project.ResourceSet.FinalString.*;
 import static Project.controllers.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static Project.detailPlugin.All.getTitle;
+import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github-kloping
@@ -264,4 +271,40 @@ public class EntertainmentController3 {
             }
         });
     }
+
+    @Action("/搜图.+")
+    public Object searchPic(@AllMess String mess, Group group) throws InterruptedException {
+        net.mamoe.mirai.contact.Group g = bot.getGroup(group.getId());
+        long q = MessageTools.getAtFromString(mess);
+        String urlStr = null;
+        if (q == -1) {
+            urlStr = MessageTools.getImageUrlFromMessageString(mess);
+            if (urlStr == null) {
+                return "目前只支@的形式、或携带图片";
+            }
+        } else {
+            urlStr = Tool.getTouUrl(q);
+            urlStr = Image.queryUrl(MessageTools.createImage(g, urlStr));
+        }
+        BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
+        BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
+        Iterator<io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
+        ForwardMessageBuilder builder = new ForwardMessageBuilder(bot.getGroup(group.getId()));
+        while (iterator.hasNext() && builder.size() <= 8) {
+            io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List e = iterator.next();
+            String title = "标题";
+            try {
+                title = getTitle(e.getFromUrl());
+            } catch (Throwable ex) {
+            }
+            MessageChainBuilder b = new MessageChainBuilder();
+            b.append(MessageTools.createImage(g, e.getThumbUrl())).append(NEWLINE)
+                    .append(IMAGE_SOURCE).append(NEWLINE).append("<<").append(title).append(">>").append(NEWLINE).append(e.getFromUrl());
+            builder.add(g.getBotAsMember(), b.build());
+        }
+        return builder.build();
+    }
+
+    @AutoStand
+    IBaiduShitu iBaiduShitu;
 }

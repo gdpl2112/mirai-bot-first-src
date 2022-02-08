@@ -91,6 +91,9 @@ public final class ResourceSet {
         public static final String JOIN_AC3_EVENT0 = "遇到冰火两仪眼的温泉,恢复了3%的血量";
         public static final String JOIN_AC3_EVENT1 = "吸收了落日散发的能量,恢复了4%的魂力";
         public static final String JOIN_AC3_EVENT2 = "得到森林中古老植物的祝福,恢复了5%的精神力";
+
+        public static final String DISPLAY_IMAGES = "相似图片";
+        public static final String IMAGE_SOURCE = "图片来源";
     }
 
     public static final class FinalFormat {

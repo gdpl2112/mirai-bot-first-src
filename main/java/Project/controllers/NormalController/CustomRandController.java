@@ -24,6 +24,7 @@ public class CustomRandController {
 
     @Before
     public void before(User qq) throws NoRunException {
+        throw new NoRunException("not Open");
     /*    if (qq.getId() == Long.parseLong(superQ)) {
             println("超级权限执行...");
             return;
@@ -31,7 +32,6 @@ public class CustomRandController {
             throw new NoRunException("无权限");
         }
     */
-        throw new NoRunException("not Open");
     }
 
     private final Map<Long, CustomReplyGroup> rands = new ConcurrentHashMap<>();
