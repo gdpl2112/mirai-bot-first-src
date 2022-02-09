@@ -269,6 +269,9 @@ public class EntertainmentController3 {
         });
     }
 
+    @AutoStand
+    IBaiduShitu iBaiduShitu;
+
     @Action("/搜图.+")
     public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {
         net.mamoe.mirai.contact.Group g = bot.getGroup(group.getId());
@@ -284,22 +287,18 @@ public class EntertainmentController3 {
             urlStr = Image.queryUrl(MessageTools.createImage(g, urlStr));
         }
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
-        BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
 
+        BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
         Iterator<io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
         List<String> list = new LinkedList();
         while (iterator.hasNext() && list.size() <= 8) {
             io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List e = iterator.next();
-            String title = "标题";
             try {
-                title = getTitle(e.getFromUrl());
+                String title = getTitle(e.getFromUrl());
+                list.add(Tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
             } catch (Throwable ex) {
             }
-            list.add(Tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
         }
         return list.toArray();
     }
-
-    @AutoStand
-    IBaiduShitu iBaiduShitu;
 }

@@ -49,6 +49,9 @@ public class BaiduShituDetail {
                 "\n" +
                 dataStr +
                 "\n------WebKitFormBoundaryhj2XGBn7j9a5lo36--\n", null, null, null, null, imageUrl, System.currentTimeMillis());
+        if (shitu.getData() == null) {
+            initDataStr();
+        }
         return shitu;
     }
 
