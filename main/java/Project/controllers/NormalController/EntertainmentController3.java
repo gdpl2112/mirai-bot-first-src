@@ -16,10 +16,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
-import net.mamoe.mirai.message.data.ForwardMessageBuilder;
-import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
-import net.mamoe.mirai.message.data.SimpleServiceMessage;
+import net.mamoe.mirai.message.data.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -273,7 +270,7 @@ public class EntertainmentController3 {
     }
 
     @Action("/搜图.+")
-    public Object searchPic(@AllMess String mess, Group group) throws InterruptedException {
+    public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {
         net.mamoe.mirai.contact.Group g = bot.getGroup(group.getId());
         long q = MessageTools.getAtFromString(mess);
         String urlStr = null;
@@ -288,21 +285,19 @@ public class EntertainmentController3 {
         }
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
         BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
+
         Iterator<io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
-        ForwardMessageBuilder builder = new ForwardMessageBuilder(bot.getGroup(group.getId()));
-        while (iterator.hasNext() && builder.size() <= 8) {
+        List<String> list = new LinkedList();
+        while (iterator.hasNext() && list.size() <= 8) {
             io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List e = iterator.next();
             String title = "标题";
             try {
                 title = getTitle(e.getFromUrl());
             } catch (Throwable ex) {
             }
-            MessageChainBuilder b = new MessageChainBuilder();
-            b.append(MessageTools.createImage(g, e.getThumbUrl())).append(NEWLINE)
-                    .append(IMAGE_SOURCE).append(NEWLINE).append("<<").append(title).append(">>").append(NEWLINE).append(e.getFromUrl());
-            builder.add(g.getBotAsMember(), b.build());
+            list.add(Tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
         }
-        return builder.build();
+        return list.toArray();
     }
 
     @AutoStand

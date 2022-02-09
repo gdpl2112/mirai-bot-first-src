@@ -308,7 +308,6 @@ public class SkillDataBase {
     }
 
     public static void addAttHasTime(long who, HasTimeAdder adder) {
-        adder.toTime = System.currentTimeMillis() + 10 * 1000;
         MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
     }
 }

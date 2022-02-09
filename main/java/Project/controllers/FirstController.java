@@ -24,7 +24,14 @@ public class FirstController {
 
     @Action("测试.+")
     public Object a(@AllMess String mess, Group group, User user) throws Exception {
-        String url = MessageTools.getImageUrlFromMessageString(mess);
-        return "";
+        return new Object[]{
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+        };
     }
 }

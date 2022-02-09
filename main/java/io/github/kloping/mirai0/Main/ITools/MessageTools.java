@@ -331,7 +331,9 @@ public class MessageTools {
     }
 
     public static Image toImage(byte[] bytes, long gid) {
-        if (bytes==null){return null;}
+        if (bytes == null) {
+            return null;
+        }
         Group group = bot.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);
         Image image = group.uploadImage(resource);
