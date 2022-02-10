@@ -279,7 +279,7 @@ public class EntertainmentController3 {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(mess);
-            mess = mess.replace(urlStr, "");
+            mess = mess.replace(MessageTools.getImageIDFromMessageString(mess), "");
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }

@@ -231,6 +231,20 @@ public class MessageTools {
         }
         return null;
     }
+    public static String getImageIDFromMessageString(String allmess) {
+        try {
+            Matcher matcher = PATTER_PIC.matcher(allmess);
+            if (matcher.find()) {
+                String p1 = matcher.group();
+                int i1 = p1.indexOf("{");
+                int i2 = p1.indexOf("]");
+                return p1.substring(i1, i2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void sendMessageInGroup(String str, long id) {
         try {
