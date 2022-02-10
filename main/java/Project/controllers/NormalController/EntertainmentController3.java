@@ -275,23 +275,27 @@ public class EntertainmentController3 {
     @Action("/搜图.+")
     public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {
         net.mamoe.mirai.contact.Group g = bot.getGroup(group.getId());
-        long q = MessageTools.getAtFromString(mess);
+        Long q = MessageTools.getAtFromString(mess);
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageTools.getImageUrlFromMessageString(mess);
+            mess = mess.replace(urlStr, "");
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
+            mess = mess.replace(q.toString(), "");
             urlStr = Tool.getTouUrl(q);
             urlStr = Image.queryUrl(MessageTools.createImage(g, urlStr));
         }
+        int i = 6;
+        Integer i1 = Tool.getInteagerFromStr(mess);
+        i = i1 == null ? i : i1;
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
-
         BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
         Iterator<io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
         List<String> list = new LinkedList();
-        while (iterator.hasNext() && list.size() <= 8) {
+        while (iterator.hasNext() && list.size() <= i) {
             io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List e = iterator.next();
             try {
                 String title = getTitle(e.getFromUrl());

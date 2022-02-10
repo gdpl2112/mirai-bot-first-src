@@ -377,8 +377,11 @@ public class GameJoinDetailService {
      * @return
      */
     public static boolean randHh(int level) {
-        if (level > 100 * 10000) return Tool.rand.nextInt(100) < 38;
-        else if (level > 10 * 10000) return Tool.rand.nextInt(100) < 54;
+        if (level > 100 * 10000) {
+            return Tool.rand.nextInt(100) < 38;
+        } else if (level > 10 * 10000) {
+            return Tool.rand.nextInt(100) < 54;
+        }
         return Tool.rand.nextInt(100) < 75;
     }
 
@@ -429,9 +432,11 @@ public class GameJoinDetailService {
 
     private static String willGetLr(int level, long who) {
         int r = rand.nextInt(100);
-        if (r < 30) {
+        if (r > 75) {
+
+        } else if (r > 50) {
             return willGetHh(level, who);
-        } else if (r < 60) {
+        } else if (r > 25) {
             return willGetBone(level, who);
         } else {
             r = rand.nextInt(300);

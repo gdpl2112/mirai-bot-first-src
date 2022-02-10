@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
+import Project.broadcast.Broadcast;
+import Project.broadcast.normal.MemberJoinedBroadcast;
 import Project.controllers.ControllerSource;
 import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -110,5 +112,6 @@ public class CapHandler {
         builder.append("\n说\"菜单\"即可查看我的功能了");
         builder.append(new Face(Face.HAN_XIAO));
         group.sendMessage(builder.build());
+        MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId());
     }
 }

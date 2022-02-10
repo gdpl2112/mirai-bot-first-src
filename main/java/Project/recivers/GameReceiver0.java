@@ -1,5 +1,10 @@
 package Project.recivers;
 
+import Project.broadcast.normal.MemberJoinedBroadcast;
+import Project.broadcast.normal.MessageBroadcast;
+import Project.controllers.NormalController.EntertainmentController3;
+import Project.interfaces.WeiJieYue;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
@@ -13,6 +18,7 @@ import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.List;
 
@@ -31,6 +37,7 @@ public class GameReceiver0 {
         init4();
         init5();
         init6();
+        init7();
     }
 
     private static void init() {
@@ -140,6 +147,22 @@ public class GameReceiver0 {
                 List<TradingRecord> tradingRecordList = OtherDatabase.getList(who);
                 tradingRecordList.add(record);
                 OtherDatabase.apply(who, tradingRecordList);
+            }
+        });
+    }
+
+    @AutoStand
+    static WeiJieYue weiJieYue;
+
+    /**
+     * 注册新人加群
+     */
+    public static void init7() {
+        MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
+            @Override
+            public void onReceive(long q, long g) {
+                byte[] bytes = weiJieYue.zan(q);
+                MessageTools.sendImageByBytesOnGroupWithAt(bytes, g, q);
             }
         });
     }

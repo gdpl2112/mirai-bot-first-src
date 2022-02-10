@@ -51,11 +51,11 @@ public class Drawer {
     static {
         BORDER_COLOR = new Color(123, 20, 135);
 //        BACKGROUD_COLOR = new Color(249, 79, 108);
-        try {
-            INFO_BASE = ImageIO.read(new File("./images/b0.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            INFO_BASE = ImageIO.read(new File("./images/b0.png"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static final String drawInfoPng(PersonInfo p) {
