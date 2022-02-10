@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Entitys.eEntitys;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,10 +16,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AutoReply {
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String who;
     private String k;
     private String v;
     private String time;
-    private int deleteStat;
+    private Integer deleteStat;
 }
