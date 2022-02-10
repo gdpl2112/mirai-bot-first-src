@@ -5,6 +5,7 @@ import Project.broadcast.normal.MessageBroadcast;
 import Project.controllers.NormalController.EntertainmentController3;
 import Project.interfaces.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
@@ -152,7 +153,7 @@ public class GameReceiver0 {
     }
 
     @AutoStand
-    static WeiJieYue weiJieYue;
+    static EntertainmentController3 entertainmentController3;
 
     /**
      * 注册新人加群
@@ -161,8 +162,8 @@ public class GameReceiver0 {
         MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
             @Override
             public void onReceive(long q, long g) {
-                byte[] bytes = weiJieYue.zan(q);
-                MessageTools.sendImageByBytesOnGroupWithAt(bytes, g, q);
+                String m = entertainmentController3.o3("/赞[@" + q + "]", Group.get(g), q).toString();
+                MessageTools.sendMessageInGroupWithAt(m, g, q);
             }
         });
     }

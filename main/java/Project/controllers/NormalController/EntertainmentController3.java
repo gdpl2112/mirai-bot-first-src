@@ -94,11 +94,22 @@ public class EntertainmentController3 {
         long q = MessageTools.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            return "目前只支@的形式";
+            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            if (urlStr == null) {
+                return "目前只支@的形式、或携带图片";
+            }
+        } else {
+            urlStr = Tool.getTouUrl(q);
         }
-        byte[] bytes = weiJieYue.zan(q);
-        MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
-        return null;
+        try {
+            URL u = new URL(urlStr);
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
+            outFile = ImageDrawer.getZan(new File("./images/zan.jpg"), u, outFile);
+            return Tool.pathToImg(outFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error:for\n" + e.getMessage();
+        }
     }
 
     @Action("/举牌子.+")

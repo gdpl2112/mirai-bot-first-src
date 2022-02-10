@@ -190,6 +190,16 @@ public class ImageDrawer {
         return outFile;
     }
 
+    public static File getZan(File file, URL oFile, File outFile) throws Exception {
+        BufferedImage oImage = ImageIO.read(oFile);
+        oImage = (BufferedImage) image2Size(oImage, 138, 138);
+        oImage = roundImage(oImage, 9999);
+        BufferedImage bI = ImageIO.read(file);
+        bI = putImage(bI, oImage, 6, 242);
+        ImageIO.write(bI, "png", outFile);
+        return outFile;
+    }
+
     public static File getGunOnDirt(File emptyFile, URL url, File dirtFile, int r0, File outFile) throws IOException {
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
         encoder.start(outFile.getAbsolutePath());
