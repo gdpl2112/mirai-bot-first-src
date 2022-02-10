@@ -75,7 +75,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         }
     }
 
-    public static String MENU;
+    public static String MENU="";
 
     static {
         MENU += "\n#选择器(#为当前魂兽))";
