@@ -1,12 +1,17 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
+import Project.dataBases.GameDataBase;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.file.FileUtils;
+import io.github.kloping.serialize.HMLObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.io.File;
 
 import static Project.aSpring.SpringBootResource.gInfoMapper;
 
@@ -142,20 +147,41 @@ public class GInfo {
         return this;
     }
 
-    public void apply() {
-        UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();
-        wrapper.eq("qid", this.getQid());
-        if (gInfoMapper.update(this, wrapper) == 0) {
-            gInfoMapper.insert(this);
+    public GInfo apply() {
+        if (gInfoMapper == null) {
+            FileUtils.putStringInFile(HMLObject.toHMLString(this), new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml"));
+            return this;
+        } else {
+            UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();
+            wrapper.eq("qid", this.getQid());
+            if (gInfoMapper.update(this, wrapper) == 0) {
+                gInfoMapper.insert(this);
+            }
+            StarterApplication.logger.waring(String.format("update for %s ", this.toString()));
+            return this;
         }
-        StarterApplication.logger.waring(String.format("update for %s ", this.toString()));
     }
 
     public static GInfo getInstance(long qid) {
-        GInfo gInfo = gInfoMapper.selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
-        if (gInfo != null) {
-            return gInfo;
+        if (gInfoMapper != null) {
+            GInfo gInfo = gInfoMapper.selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
+            if (gInfo != null) {
+                return gInfo;
+            }
+            return new GInfo().setQid(qid);
+        } else {
+            File file = new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml");
+            String s1 = FileUtils.getStringFromFile(file.getAbsolutePath());
+            if (s1 == null || s1.trim().isEmpty()) {
+                return new GInfo().setQid(qid).apply();
+            } else {
+                try {
+                    return (GInfo) HMLObject.parseObject(s1).toJavaObject();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    return new GInfo().setQid(qid).apply();
+                }
+            }
         }
-        return new GInfo().setQid(qid);
     }
 }

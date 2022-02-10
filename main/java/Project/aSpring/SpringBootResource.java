@@ -1,6 +1,8 @@
 package Project.aSpring;
 
+import Project.aSpring.mcs.mapper.AutoReplyMapper;
 import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.eEntitys.AutoReply;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.aSpring.mcs.mapper.GInfoMapper;
 import Project.aSpring.mcs.mapper.PersonInfoMapper;
@@ -29,6 +31,7 @@ public class SpringBootResource {
     public static UScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
     public static GInfoMapper gInfoMapper;
+    public static AutoReplyMapper autoReplyMapper;
     public static String address;
 
     public static void init() {
@@ -37,6 +40,7 @@ public class SpringBootResource {
                 scoreMapper = configuration.getBean(UScoreMapper.class);
                 personInfoMapper = configuration.getBean(PersonInfoMapper.class);
                 gInfoMapper = configuration.getBean(GInfoMapper.class);
+                autoReplyMapper = configuration.getBean(AutoReplyMapper.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }

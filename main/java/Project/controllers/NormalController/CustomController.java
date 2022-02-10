@@ -1,27 +1,25 @@
 package Project.controllers.NormalController;
 
 import Project.ResourceSet;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.eEntitys.AutoReply;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.Utils.DataBaseSourcePack;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.aSpring.SpringBootResource.autoReplyMapper;
 import static Project.controllers.ControllerTool.canGroup;
 import static Project.controllers.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
@@ -53,19 +51,21 @@ public class CustomController {
         }
     }
 
-    private static final int finalIndex = 10;
+    private static final int FINAL_INDEX = 10;
     private static int index = 1;
-    private static final long _cd = 15 * 1000;
+    private static final long CD = 15 * 1000;
     private static long cd = -1;
 
     public static final synchronized String action(long qq, String s, Group group) {
+        if (MAP.isEmpty()) {
+            MAP = getAllAutoReply();
+        }
         try {
-            if ((index++ % finalIndex) == 0) tryUpdateMap();
+            if ((index++ % FINAL_INDEX) == 0) tryUpdateMap();
             if (!AllK || !canGroup(group.getId())) {
                 return null;
             }
             if (cd > System.currentTimeMillis()) return null;
-
             if (MAP.containsKey(s)) {
                 Reply reply = MAP.get(s);
                 MessageChainBuilder builder = new MessageChainBuilder();
@@ -75,7 +75,7 @@ public class CustomController {
                 } else {
                     MessageTools.sendMessageInGroup(reply.content, group.getId());
                 }
-                cd = System.currentTimeMillis() + _cd;
+                cd = System.currentTimeMillis() + CD;
                 return reply.content;
             }
         } catch (Exception e) {
@@ -105,8 +105,8 @@ public class CustomController {
         return LINE;
     }
 
-    public static final Map<String, Reply> MAP = getAllAutoReply();
-    public static final Map<Long, String> QLIST = new ConcurrentHashMap<>();
+    public static Map<String, Reply> MAP = new HashMap<>();
+    public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
     public static List<Reply> collections = new CopyOnWriteArrayList<>();
 
     @Action("添加<.+=>str>")
@@ -124,7 +124,6 @@ public class CustomController {
                 QLIST.put(qq, str);
                 threads.execute(new Runnable() {
                     private long q1 = qq;
-
                     @Override
                     public void run() {
                         try {
@@ -256,90 +255,39 @@ public class CustomController {
     }
 
     public final static synchronized Map<String, Reply> getAllAutoReply() {
-        try {
-            Connection connection = DataBaseSourcePack.getConnection();
-            PreparedStatement statement = connection.prepareStatement("select * from auto_reply where delete_stat=0;");
-            Map<String, Reply> map = new LinkedHashTreeMap<>();
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                int id = set.getInt(1);
-                String k = new String(set.getBytes(2), "utf-8");
-                String v = new String(set.getBytes(3), "utf-8");
-                String w = set.getString(4);
-                String t = set.getString(5);
-                Reply reply = new Reply(Long.valueOf(w), v, Long.valueOf(t), k);
-                reply.id = id;
-                map.put(k, reply);
-            }
-            connection.close();
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new HashMap<>();
+        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("delete_stat", 0);
+        Map<String, Reply> map = new LinkedHashTreeMap<>();
+        for (AutoReply autoReply : autoReplyMapper.selectList(queryWrapper)) {
+            Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
+            reply.id = autoReply.getId();
+            map.put(autoReply.getK(), reply);
         }
+        return map;
     }
 
     public final static synchronized int getAllAutoReplyCount() {
-        Connection connection = null;
-        try {
-            connection = DataBaseSourcePack.getConnection();
-            PreparedStatement statement = connection.prepareStatement("select count(*) from auto_reply where delete_stat=0;");
-            Map<String, Reply> map = new ConcurrentHashMap<>();
-            ResultSet set = statement.executeQuery();
-            set.next();
-            int num = set.getInt(1);
-            return num;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("delete_stat", 0);
+        return autoReplyMapper.selectList(queryWrapper).size();
     }
 
     public final static synchronized boolean deleteReply(Reply reply) {
-        Connection connection = null;
-        try {
-            connection = DataBaseSourcePack.getConnection();
-            PreparedStatement statement = connection.prepareStatement("update auto_reply set delete_stat=1 where id=?;");
-            statement.setInt(1, reply.id);
-            return statement.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        AutoReply autoReply = autoReplyMapper.selectById(reply.id);
+        autoReply.setDeleteStat(1);
+        UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
+        wrapper.eq("id", reply.id);
+        return autoReplyMapper.update(autoReply, wrapper) > 0;
     }
 
     public final static synchronized boolean addReply(Reply reply) {
-        Connection connection = null;
-        try {
-            connection = DataBaseSourcePack.getConnection();
-            PreparedStatement statement = connection.prepareStatement("insert into auto_reply (k,v,who,time,delete_stat) VALUES (?,?,?,?,0);");
-            statement.setBytes(1, reply.key.getBytes(StandardCharsets.UTF_8));
-            statement.setBytes(2, reply.content.getBytes(StandardCharsets.UTF_8));
-            statement.setString(3, reply.who + "");
-            statement.setString(4, reply.time + "");
-            return statement.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        AutoReply autoReply = new AutoReply()
+                .setK(reply.key)
+                .setV(reply.content)
+                .setDeleteStat(0)
+                .setWho(String.valueOf(reply.who))
+                .setTime(String.valueOf(reply.time));
+        return autoReplyMapper.insert(autoReply) > 0;
     }
 
     public final static class Reply {

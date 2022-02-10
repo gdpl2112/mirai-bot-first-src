@@ -22,7 +22,6 @@ public class SpringStarter0 {
             args = Arrays.copyOf(args, args.length + 1);
             args[args.length - 1] = "--spring.config.location=./spring/conf/application0.yml";
             configuration = SpringApplication.run(SpringStarter.class, args);
-
             saveMapper = configuration.getBean(SaveMapper.class);
         } catch (Exception e) {
             e.printStackTrace();

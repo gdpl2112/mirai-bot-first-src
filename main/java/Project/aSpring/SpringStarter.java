@@ -21,8 +21,9 @@ public class SpringStarter {
             configuration = SpringApplication.run(SpringStarter.class, args);
             environment = configuration.getEnvironment();
             init();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
+            System.err.println("未发现spring的配置,启动本地文件模式");
         }
     }
 }
