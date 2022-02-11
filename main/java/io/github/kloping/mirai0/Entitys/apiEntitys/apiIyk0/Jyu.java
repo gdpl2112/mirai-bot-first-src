@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.Entitys.apiEntitys;
+package io.github.kloping.mirai0.Entitys.apiEntitys.apiIyk0;
 
 public class Jyu {
 	private String img;

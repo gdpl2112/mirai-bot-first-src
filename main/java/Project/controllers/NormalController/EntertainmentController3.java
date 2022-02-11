@@ -16,18 +16,19 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
-import net.mamoe.mirai.message.data.*;
+import net.mamoe.mirai.message.data.Image;
+import net.mamoe.mirai.message.data.SimpleServiceMessage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
-import static Project.ResourceSet.FinalString.*;
+import static Project.ResourceSet.FinalString.NEWLINE;
 import static Project.controllers.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
-import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

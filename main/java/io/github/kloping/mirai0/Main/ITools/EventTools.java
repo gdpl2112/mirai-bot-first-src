@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.Main.ITools;
 
 import io.github.kloping.mirai0.Main.Resource;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
@@ -11,7 +12,7 @@ import static io.github.kloping.mirai0.Main.Resource.superQL;
  * @author github-kloping
  */
 public class EventTools {
-    public static String getStringFromGroupMessageEvent(GroupMessageEvent event) {
+    public static String getStringFromGroupMessageEvent(MessageEvent event) {
         StringBuilder sb = new StringBuilder();
         sb.append(getStringFromMessageChain(event.getMessage()));
         String text = sb.toString();

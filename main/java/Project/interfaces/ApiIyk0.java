@@ -1,7 +1,6 @@
 package Project.interfaces;
 
-import Project.controllers.GameControllers.GameController;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Jyu;
+import io.github.kloping.mirai0.Entitys.apiEntitys.apiIyk0.Jyu;
 import io.github.kloping.mirai0.Entitys.apiEntitys.colb.PickupABottle;
 import io.github.kloping.mirai0.Entitys.apiEntitys.thb.ThrowABottle;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;

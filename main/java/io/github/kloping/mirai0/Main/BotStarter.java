@@ -1,9 +1,11 @@
 package io.github.kloping.mirai0.Main;
 
 import Project.aSpring.SpringStarter;
+import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import Project.listeners.NbListener;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -81,5 +83,8 @@ public class BotStarter {
     private static void startRegisterListenerHost() {
         bot.getEventChannel().registerListenerHost(new MyHandler());
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+        bot.getEventChannel().registerListenerHost(
+                StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
+        );
     }
 }
