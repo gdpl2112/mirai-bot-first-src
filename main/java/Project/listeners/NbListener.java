@@ -64,12 +64,17 @@ public class NbListener extends SimpleListenerHost {
             guessCd = System.currentTimeMillis() + 10000L;
             if (responses != null && responses.length >= 1 && responses[0].getTrans() != null) {
                 if (!responses[0].getTrans()[0].equalsIgnoreCase(a)) {
-                    MessageChainBuilder mbc = new MessageChainBuilder();
-                    mbc.append(new QuoteReply(event.getSource()))
-                            .append(new At(event.getSender().getId()))
-                            .append("\n-释义结果:")
-                            .append(responses[0].getTrans()[0]);
-                    event.getSubject().sendMessage(mbc.build());
+                    MessageChainBuilder mcb = new MessageChainBuilder();
+                    mcb.append(new QuoteReply(event.getSource()))
+                            .append(new At(event.getSender().getId())).append("\n");
+                    for (MagiconchNbnhhshResponse response : responses) {
+                        mcb.append(response.getName()).append("\n-释义结果:");
+                        for (String tran : response.getTrans()) {
+                            mcb.append(tran).append("; ");
+                        }
+                        mcb.append("\n");
+                    }
+                    event.getSubject().sendMessage(mcb.build());
                 }
             }
         }
