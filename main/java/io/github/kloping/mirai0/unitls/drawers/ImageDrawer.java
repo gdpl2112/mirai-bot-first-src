@@ -195,7 +195,7 @@ public class ImageDrawer {
         oImage = (BufferedImage) image2Size(oImage, 138, 138);
         oImage = roundImage(oImage, 9999);
         BufferedImage bI = ImageIO.read(file);
-        bI = putImage(bI, oImage, 6, 242);
+        bI = putImage(bI, oImage, 4, 242);
         ImageIO.write(bI, "png", outFile);
         return outFile;
     }
