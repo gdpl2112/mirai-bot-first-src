@@ -13,6 +13,7 @@ public final class ResourceSet {
         public static final String OPEN_STR = "开启";
         public static final String CLOSE_STR = "关闭";
         public static final String SPEAK_STR = "读";
+        public static final String SING_STR = "唱";
         public static final String LEFT_BRACKETS_STR = "[";
         public static final String PLAYER_NOT_REGISTERED = "该玩家尚未注册";
         public static final String NOT_FOUND_AT = "未发现at";

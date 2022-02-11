@@ -8,6 +8,7 @@ import Project.detailPlugin.SearchSong;
 import Project.interfaces.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
@@ -32,13 +33,18 @@ public class PointSongController {
         }
     }
 
+    public static void sing(String name, io.github.kloping.mirai0.Entitys.Group group) {
+        Songs songs = searchSong.kugou(name);
+        MessageTools.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
+    }
+
     @Action("点歌系统")
     public String menu() {
         return SB.toString();
     }
 
     @AutoStand
-    SearchSong searchSong;
+    static SearchSong searchSong;
 
     @AutoStand
     MuXiaoGuo muXiaoGuo;

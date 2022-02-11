@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.unitls.Tools;
 
 
 import Project.dataBases.DataBase;
+import io.github.kloping.io.ReadUtils;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -17,6 +18,18 @@ import static Project.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.mirai0.Main.Resource.contextManager;
 
 public class Tool {
+    public static String[] print(Process exec) throws IOException {
+        try {
+            exec.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        InputStream is = exec.getInputStream();
+        String s1 = new String(ReadUtils.readAll(is));
+        InputStream es = exec.getErrorStream();
+        String s2 = new String(ReadUtils.readAll(es));
+        return new String[]{s1, s2};
+    }
 
     /**
      * let v in from between to

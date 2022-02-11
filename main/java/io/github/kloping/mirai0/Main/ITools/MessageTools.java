@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Main.ITools;
 
+import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
@@ -9,17 +11,16 @@ import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromMessageChain;
 import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
 
 /**
  * @author github-kloping
@@ -231,6 +232,7 @@ public class MessageTools {
         }
         return null;
     }
+
     public static String getImageIDFromMessageString(String allmess) {
         try {
             Matcher matcher = PATTER_PIC.matcher(allmess);
@@ -289,33 +291,26 @@ public class MessageTools {
     }
 
     public static Message createVoiceMessageInGroup(String url, long id) {
+        ExternalResource resource = null;
         try {
             Group group = bot.getGroup(id);
             byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
-            ExternalResource resource = ExternalResource.create(bytes);
-            return group.uploadAudio(resource);
+            bytes = mp32amr(bytes);
+            resource = ExternalResource.create(bytes);
+            Audio audio = group.uploadAudio(resource);
+            return audio;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-    }
-/*
-
-    private static final EncodingAttributes attrs = new EncodingAttributes();
-
-    static {
-        //[ac3, adpcm_adx, adpcm_ima_wav, adpcm_ms, adpcm_swf, adpcm_yamaha, flac, g726,
-        // libamr_nb, libamr_wb, libfaac, libgsm, libgsm_ms, libmp3lame, libvorbis, mp2,
-        // pcm_alaw, pcm_mulaw, pcm_s16be, pcm_s16le, pcm_s24be, pcm_s24daud, pcm_s24le,
-        // pcm_s32be, pcm_s32le, pcm_s8, pcm_u16be, pcm_u16le, pcm_u24be, pcm_u24le, pcm_u32be,
-        // pcm_u32le, pcm_u8, pcm_zork, roq_dpcm, sonic, sonicls, vorbis, wmav1, wmav2]
-        AudioAttributes audio = new AudioAttributes();
-        audio.setCodec("libamr_nb");
-        audio.setBitRate(12200);
-        audio.setChannels(1);
-        audio.setSamplingRate(8000);
-        attrs.setFormat("amr");
-        attrs.setAudioAttributes(audio);
     }
 
     public static byte[] mp32amr(byte[] bytes) throws Exception {
@@ -323,18 +318,27 @@ public class MessageTools {
         File target = File.createTempFile("temp1", ".amr");
         FileUtils.writeBytesToFile(bytes, source);
         FileUtils.writeBytesToFile(bytes, target);
-        Encoder encoder = new Encoder();
         try {
-            encoder.encode(source, target, attrs);
+            String[] args = {
+                    "ffmpeg", "-i", source.getAbsolutePath(),
+                    "-ac", "1",
+                    "-ar", "8000",
+                    "-f", "amr",
+                    "-y", target.getAbsolutePath()
+            };
+            StarterApplication.logger.info("exec(" + Arrays.toString(args) + ")");
+            String[] ss = print(Runtime.getRuntime().exec(args));
+            StarterApplication.logger.info("exec out:" + ss[0]);
+            StarterApplication.logger.error("exec err:" + ss[1]);
         } catch (Exception e) {
             e.printStackTrace();
         }
         bytes = FileUtils.getBytesFromFile(target.getAbsolutePath());
-//        source.delete();
-//        target.delete();
+        source.delete();
+        target.delete();
         return bytes;
     }
-*/
+
 
     public static void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
         Group group = bot.getGroup(gid);

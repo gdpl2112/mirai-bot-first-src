@@ -29,6 +29,7 @@ import static Project.ResourceSet.FinalString.*;
 import static Project.controllers.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
+import static Project.controllers.Plugins.PointSongController.sing;
 import static Project.controllers.TimerController.BASE_URL_CLOUD;
 import static Project.dataBases.DataBase.canBackShow;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
@@ -182,6 +183,9 @@ public class EntertainmentController {
                 speak(str.substring(1), group);
             }
             return null;
+        } else if (str.startsWith(SING_STR)) {
+            sing(str.substring(1), group);
+            return null;
         } else {
             if (OPEN_STR.equals(str)) {
                 if (!DataBase.isFather(qq)) {
@@ -204,7 +208,6 @@ public class EntertainmentController {
                 throw new NoRunException();
             }
         }
-
     }
 
     @AutoStand
