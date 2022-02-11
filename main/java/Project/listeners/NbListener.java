@@ -61,7 +61,7 @@ public class NbListener extends SimpleListenerHost {
         String a = getStringFromGroupMessageEvent(event);
         if (a.matches("[a-z]+")) {
             MagiconchNbnhhshResponse[] responses = magiconch.trans(new MagiconchNbnhhshRequest(a), HEADER);
-            guessCd = guessCd += 10000L;
+            guessCd = System.currentTimeMillis() + 10000L;
             if (responses != null && responses.length >= 1 && responses[0].getTrans() != null) {
                 if (!responses[0].getTrans()[0].equalsIgnoreCase(a)) {
                     MessageChainBuilder mbc = new MessageChainBuilder();
