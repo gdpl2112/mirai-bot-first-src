@@ -48,10 +48,10 @@ public class NbListener extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        if (!ControllerTool.canGroup(event.getSubject().getId())) {
-            return;
-        }
-        touch(event);
+//        if (!ControllerTool.canGroup(event.getSubject().getId())) {
+//            return;
+//        }
+//        touch(event);
     }
 
     private void touch(MessageEvent event) {
