@@ -67,7 +67,7 @@ public class NbListener extends SimpleListenerHost {
                     MessageChainBuilder mbc = new MessageChainBuilder();
                     mbc.append(new QuoteReply(event.getSource()))
                             .append(new At(event.getSender().getId()))
-                            .append("-释义结果:")
+                            .append("\n-释义结果:")
                             .append(responses[0].getTrans()[0]);
                     event.getSubject().sendMessage(mbc.build());
                 }
