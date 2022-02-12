@@ -1021,14 +1021,16 @@ public class Tool {
         return -1;
     }
 
-    private static int IllegalIndex = 0;
-    private static String upIllegalStr = null;
-    private static String[] upIllegalss = null;
+    public static String[] getIllegal() {
+        return contextManager.getContextEntity(String.class, "Illegal.txt").trim().split("\\s+");
+    }
 
-    public static synchronized String[] getIllegal() {
-        if (upIllegalStr == null || upIllegalss == null)
-            upIllegalStr = contextManager.getContextEntity(String.class, "Illegal.txt").trim();
-        return upIllegalss == null ? upIllegalss = upIllegalStr.split("\\s+") : upIllegalss;
+    private static String[] illegalSends = null;
+
+    public static String[] getIllegalSend() {
+        return illegalSends == null ?
+                illegalSends = contextManager.getContextEntity(String.class, "Illegal.send").trim().split("\\s+") :
+                illegalSends;
     }
 
     /**
@@ -1045,8 +1047,8 @@ public class Tool {
         return false;
     }
 
-    public static boolean isIlleg_(String s) {
-        for (String s1 : getIllegal()) {
+    public static boolean isIllegSend(String s) {
+        for (String s1 : getIllegalSend()) {
             if (s.toUpperCase().contains(s1.toUpperCase()))
                 return true;
         }

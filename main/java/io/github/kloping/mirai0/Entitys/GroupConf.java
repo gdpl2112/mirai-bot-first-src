@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +18,5 @@ public class GroupConf {
     private boolean speak = true;
     private boolean show = true;
     private boolean cap = true;
+    private boolean voiceK = true;
 }

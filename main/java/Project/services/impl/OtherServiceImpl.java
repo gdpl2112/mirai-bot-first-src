@@ -52,7 +52,8 @@ public class OtherServiceImpl implements IOtherService {
 
     private static String BasicUrl = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
 
-    public String Talk(String str) {
+    @Override
+    public String talk(String str) {
         try {
             URL url = new URL(BasicUrl + java.net.URLEncoder.encode(str, "utf-8"));
             InputStream is = url.openStream();

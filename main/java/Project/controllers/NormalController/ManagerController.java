@@ -1,35 +1,30 @@
 package Project.controllers.NormalController;
 
 
-import io.github.kloping.mirai0.Entitys.Curfew;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import Project.ResourceSet;
 import Project.controllers.ConfirmController;
 import Project.controllers.ControllerTool;
 import Project.dataBases.DataBase;
-import Project.ResourceSet;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IManagerService;
+import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.ITools.Saver;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.message.data.MessageChain;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.ResourceSet.FinalString.*;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -91,12 +86,6 @@ public class ManagerController {
                 return "已通过!!";
             }
         throw new NoRunException();
-    }
-
-    @Action("好友请求")
-    public String A1() {
-        MyHandler.autoAcceptFriend = !MyHandler.autoAcceptFriend;
-        return MyHandler.autoAcceptFriend ? "当前开启" : "当前关闭";
     }
 
     @Action("不通过")
@@ -280,23 +269,20 @@ public class ManagerController {
         try {
             long at = getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
-            int[] is;
             if (str.trim().matches("最近\\d+条")) {
+                int[] is;
                 int i = Tool.getInteagerFromStr(str);
                 i = i > 15 ? 15 : i;
                 is = new int[i];
                 for (int i1 = 0; i1 < i; i1++) {
                     is[i1] = i1;
                 }
-            } else {
-                is = Tool.StringToInts(str);
+                return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
             }
-            is = is == null || is.length == 0 ? new int[]{0} : is;
-            return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
         } catch (Exception e) {
             e.printStackTrace();
-            return ERR_TIPS;
         }
+        return ERR_TIPS;
     }
 
     @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
@@ -314,68 +300,5 @@ public class ManagerController {
             DataBase.addScore(-num, who);
             return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(-num + "").append("积分").toString();
         } else throw new NoRunException();
-    }
-
-    @Action("/superGet<.+=>str>")
-    public void mn2(@Param("str") String str, Group group) {
-        try {
-            String[] ss = str.split(":");
-            long gid = Long.parseLong(ss[0]);
-            long q = Long.parseLong(ss[1]);
-            int[] ints = Tool.StringToInts(ss[2]);
-            List<String> strings = Arrays.asList(Saver.getTexts(gid, q, ints));
-            for (String s1 : strings) {
-                Object o = MessageChain.deserializeFromJsonString(s1);
-                MessageTools.sendMessageInGroup(o, group.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new NoRunException();
-        }
-    }
-
-    @Action("/superGetJson<.+=>str>")
-    public void mn3(@Param("str") String str, Group group) {
-        try {
-            String[] ss = str.split(":");
-            long gid = Long.parseLong(ss[0]);
-            long q = Long.parseLong(ss[1]);
-            int[] ints = Tool.StringToInts(ss[2]);
-            ints = new int[]{ints[0]};
-            List<String> strings = Arrays.asList(Saver.getTexts(gid, q, ints));
-            for (String s1 : strings) {
-                MessageTools.sendStringInGroup(s1, group.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new NoRunException();
-        }
-    }
-
-    @Action("/get<.+=>str>")
-    public void mn1(@Param("str") String str, Group group) {
-        try {
-            String[] ss = str.split(":");
-            long q = Long.parseLong(ss[0]);
-            int[] ints = Tool.StringToInts(ss[1]);
-            List<String> strings = Arrays.asList(Saver.getTexts(group.getId(), q, ints));
-            for (String s1 : strings) {
-                Object o = MessageChain.deserializeFromJsonString(s1);
-                MessageTools.sendMessageInGroup(o, group.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new NoRunException();
-        }
-    }
-
-    @Action("设置成语接龙最大失败次数<\\d=>s>")
-    public String m1(@Param("s") Integer s) {
-        if (s != null && s > 0) {
-            s = s > 10 ? 10 : s;
-            EntertainmentController.maxFail = s;
-            return "设置最大次数为: " + s;
-        }
-        return "&error";
     }
 }

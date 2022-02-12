@@ -4,6 +4,9 @@ package Project.services.Iservice;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 
+/**
+ * @author github-kloping
+ */
 public interface IManagerService   {
     /**
      * 添加管理

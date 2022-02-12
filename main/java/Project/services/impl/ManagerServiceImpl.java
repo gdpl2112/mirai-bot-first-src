@@ -1,23 +1,27 @@
 package Project.services.impl;
 
 
+import Project.aSpring.SaverSpringStarter;
 import Project.dataBases.DataBase;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.services.Iservice.IManagerService;
-import io.github.kloping.mirai0.Main.ITools.Saver;
-import io.github.kloping.mirai0.Main.Resource;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Main.Handlers.AllMessage;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageSource;
+import net.mamoe.mirai.message.data.MessageSourceBuilder;
+import net.mamoe.mirai.message.data.MessageSourceKind;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import static Project.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
 
 /**
@@ -133,25 +137,27 @@ public class ManagerServiceImpl implements IManagerService {
         if (group.get(who).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
             return PERMISSION_DENIED;
         }
-        try {
-            List<String> strings = Arrays.asList(Saver.getTexts(g, who, ns));
-            if (strings == null || strings.size() == 0) {
-                return NOT_FOUND;
+        String tips = RECALL_SUCCEED;
+        List<AllMessage> messages = SaverSpringStarter.saveMapper.selectMessage(g, who, ns.length);
+        for (AllMessage message : messages) {
+            try {
+                MessageSourceBuilder builder = new MessageSourceBuilder();
+                builder.setInternalIds(new int[]{message.getInternalId()});
+                builder.setIds(new int[]{message.getId()});
+                builder.setFromId(message.getSenderId());
+                builder.setTime(message.getIntTime());
+                builder.setTargetId(message.getFromId());
+                MessageSource source = builder.build(message.getBotId(), MessageSourceKind.GROUP);
+                MessageSource.recall(source);
+                UpdateWrapper<AllMessage> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.eq("internal_id", message.getInternalId());
+                message.setRecalled(1);
+                SaverSpringStarter.saveMapper.update(message, updateWrapper);
+            } catch (Exception e) {
+                e.printStackTrace();
+                tips = RECALL_FAIL;
             }
-            String m = RECALL_SUCCEED;
-            for (String text : strings) {
-                try {
-                    MessageChain chain = MessageChain.deserializeFromJsonString(text);
-                    MessageSource.recall(chain);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    m = RECALL_FAIL;
-                }
-            }
-            return m;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return RECALL_FAIL;
         }
+        return tips;
     }
 }

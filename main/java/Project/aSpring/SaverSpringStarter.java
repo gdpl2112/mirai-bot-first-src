@@ -14,7 +14,7 @@ import static Project.aSpring.SpringBootResource.*;
  */
 @SpringBootApplication(scanBasePackages = {"Project.aSpring.mcs.save"})
 @MapperScan("Project.aSpring.mcs.save")
-public class SpringStarter0 {
+public class SaverSpringStarter {
     public static SaveMapper saveMapper;
 
     public static void main(String[] args) {
@@ -23,6 +23,7 @@ public class SpringStarter0 {
             args[args.length - 1] = "--spring.config.location=./spring/conf/application0.yml";
             configuration = SpringApplication.run(SpringStarter.class, args);
             saveMapper = configuration.getBean(SaveMapper.class);
+            System.err.println("saver spring started succeed");
         } catch (Exception e) {
             e.printStackTrace();
         }

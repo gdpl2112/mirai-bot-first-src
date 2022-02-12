@@ -1,17 +1,15 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
+import Project.broadcast.game.GroupMessageBroadcast;
+import Project.broadcast.normal.MessageBroadcast;
 import Project.controllers.ControllerTool;
-import Project.controllers.NormalController.CustomController;
 import Project.controllers.NormalController.EntertainmentController;
 import Project.controllers.SessionController;
 import Project.dataBases.DataBase;
-import Project.broadcast.game.GroupMessageBroadcast;
-import Project.broadcast.normal.MessageBroadcast;
-import io.github.kloping.mirai0.Main.ITools.EventTools;
-import io.github.kloping.mirai0.Main.ITools.Saver;
-import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.MySpringTool.Starter;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.mirai0.Main.ITools.EventTools;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Contact;
@@ -32,14 +30,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.ResourceSet.FinalString.LEFT_BRACKETS_STR;
+import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.join;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.bot;
-import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 
 /**
- *
  * @author github-kloping
  */
 public class MyHandler extends SimpleListenerHost {
@@ -129,7 +125,7 @@ public class MyHandler extends SimpleListenerHost {
             if (INSTANCE.getActionManager().mather(text) != null) {
                 StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
             } else {
-                event.getSender().sendMessage(EntertainmentController.otherService.Talk(text));
+                event.getSender().sendMessage(EntertainmentController.otherService.talk(text));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,34 +141,15 @@ public class MyHandler extends SimpleListenerHost {
         return null;
     }
 
-    private static final long CD = 20 * 1000;
-    private static long cd = 10 * 1000;
-
     private static void eveEnd(String text, long id, io.github.kloping.mirai0.Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         DAE_THREADS.execute(() -> {
             DataBase.addTimes(1, id);
-            if (!text.trim().isEmpty()) {
-                if (text.contains(LEFT_BRACKETS_STR) || !Starter.matcher(text)) {
-                    String finalText = text;
-                    CustomController.action(id, finalText, eGroup);
-                }
-            }
             if (upMessage != null && upMessage.equals(text)) {
-                if (cd < System.currentTimeMillis()) {
-                    Nudge nudge = member.nudge();
-                    nudge.sendTo(group);
-                    group.sendMessage(message);
-                    cd = System.currentTimeMillis() + CD;
-                    upMessage = null;
-                }
+                Nudge nudge = member.nudge();
+                nudge.sendTo(group);
+                group.sendMessage(message);
             } else {
                 upMessage = text;
-            }
-            try {
-                String json = MessageChain.serializeToJsonString(message);
-                Saver.saveMessage(json, eGroup.getId(), id);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
         });
@@ -181,8 +158,6 @@ public class MyHandler extends SimpleListenerHost {
     private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
 
     public static String upMessage = null;
-
-    public static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
     public static MemberJoinRequestEvent joinRequestEvent;
 
@@ -266,6 +241,15 @@ public class MyHandler extends SimpleListenerHost {
                 .append("位成员了\n");
         builder.append("(" + event.getUser().getId() + ")");
         event.getGroup().sendMessage(builder.build());
+    }
+
+    @EventHandler
+    public void onPreMessage(MessagePreSendEvent event) {
+        String str = EventTools.getStringFromMessageChain((MessageChain) event.getMessage());
+        if (Tool.isIllegSend(str)) {
+            event.cancel();
+            StarterApplication.logger.waring("cancel " + event);
+        }
     }
 
     /*@EventHandler

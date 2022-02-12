@@ -81,8 +81,9 @@ public class Resource {
                 return (qq = bots.getBots().get(4));
             case 6:
                 return (qq = bots.getBots().get(5));
+            default:
+                return null;
         }
-        return null;
     }
 
     public static DataBase dataBase = null;
@@ -103,7 +104,7 @@ public class Resource {
         otherDatabase = new OtherDatabase(datePath);
     }
 
-    public static void startTimer() {
+    static {
         ZERO_RUNS.add(() -> {
             for (File file : new File("./temp").listFiles()) {
                 if (file.isFile()) {
@@ -182,7 +183,9 @@ public class Resource {
             //====
         } else {
             Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((io.github.kloping.mirai0.Entitys.User) objects[3]).getId());
-            if (o == null) return;
+            if (o == null) {
+                return;
+            }
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;
                 MessageTools.sendMessageByForward(contact.getId(), objs);
@@ -202,7 +205,6 @@ public class Resource {
                 System.err.println("未知的返回类型");
             }
         }
-        MyHandler.upMessage = null;
     }
 
     public static final synchronized void onServerAddTimes() {
@@ -220,7 +222,7 @@ public class Resource {
 
     public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
 
-    public static void starterOk(boolean k) {
+    public static void starterOk() {
         THREADS.execute(new Runnable() {
             @Override
             public void run() {
@@ -229,7 +231,6 @@ public class Resource {
                         runnable.run();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Resource.bot.getFriend(superQL).sendMessage(e.getMessage());
                     }
                 }
             }

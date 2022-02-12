@@ -47,7 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("2.11:拼音首字母缩写检测与翻译").append("\n");
+        UPDATE_LOG.append("2.12:尽可能的避免了不干净的发言").append("\n");
+        UPDATE_LOG.append("2.11:拼音首字母缩写检测与翻译(私聊").append("\n");
         UPDATE_LOG.append("2.9 :修复bug").append("\n");
         UPDATE_LOG.append("2.8 :新增 /搜图<图片> 功能").append("\n");
         UPDATE_LOG.append("2.8 :修复已知bug,/赞<At>").append("\n");

@@ -1,10 +1,13 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
-import Project.aSpring.SpringStarter0;
+import Project.aSpring.SaverSpringStarter;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
+import net.mamoe.mirai.internal.network.protocol.packet.chat.receive.MessageSvcPbSendMsg;
+import net.mamoe.mirai.message.code.MiraiCode;
+import net.mamoe.mirai.message.data.MessageChain;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class SaveHandler extends SimpleListenerHost {
 
     public SaveHandler(String[] args) {
-        SpringStarter0.main(args);
+        SaverSpringStarter.main(args);
     }
 
     @Override
@@ -24,6 +27,11 @@ public class SaveHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
+        AllMessage.factory(event).save();
+    }
+
+    @EventHandler
+    public void onMessage(@NotNull MessagePostSendEvent event) throws Exception {
         AllMessage.factory(event).save();
     }
 

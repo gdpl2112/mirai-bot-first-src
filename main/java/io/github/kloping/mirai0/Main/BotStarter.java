@@ -6,6 +6,7 @@ import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import Project.listeners.NbListener;
+import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -28,7 +29,6 @@ public class BotStarter {
         try {
             test = System.getenv().containsKey("USERDOMAIN_ROAMINGPROFILE");
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -39,7 +39,6 @@ public class BotStarter {
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         deleteDir(new File("./cache"));
         deleteDir(new File("./cache1"));
-        parseArgs(args);
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
         BotConfiguration botConfiguration = new BotConfiguration();
@@ -53,38 +52,25 @@ public class BotStarter {
         Resource.bot = bot;
         datePath = "./Libs";
         init();
-        setterStarterApplication(BotStarter.class);
         SpringStarter.main(args);
         bot.login();
-        BotStarter.afterLogin();
+        starterOk();
+        setterStarterApplication(BotStarter.class);
+        startRegisterListenerHost(args);
+        System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
+        Resource.println("运行的线程=》" + Thread.activeCount());
     }
 
     private static void initBot() {
         abot = Resource.get(test ? 3 : 1);
     }
 
-    private static void parseArgs(String[] args) {
-        try {
-            if ("test".equals(args[0].trim().toLowerCase())) {
-                test = true;
-            }
-        } catch (Exception e) {
-        }
-    }
-
-    public static void afterLogin() {
-        startRegisterListenerHost();
-        startTimer();
-        System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
-        Resource.println("运行的线程=》" + Thread.activeCount());
-        starterOk(true);
-    }
-
-    private static void startRegisterListenerHost() {
+    private static void startRegisterListenerHost(String[] args) {
         bot.getEventChannel().registerListenerHost(new MyHandler());
         bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
         bot.getEventChannel().registerListenerHost(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
         );
+        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 }

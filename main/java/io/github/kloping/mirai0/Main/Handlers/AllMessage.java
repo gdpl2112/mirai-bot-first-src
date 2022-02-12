@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
-import Project.aSpring.SpringStarter0;
+import Project.aSpring.SaverSpringStarter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,9 +25,36 @@ public class AllMessage {
     private String type;
     private Long fromId;
     private String content;
+    private Integer recalled = 0;
 
     public void save() {
-        SpringStarter0.saveMapper.insert(this);
+        SaverSpringStarter.saveMapper.insert(this);
+    }
+
+    public static AllMessage factory(MessagePostSendEvent event) {
+        OnlineMessageSource.Outgoing messageSource = event.getReceipt().getSource();
+        if (messageSource instanceof OnlineMessageSource.Outgoing.ToGroup) {
+            MessageChain mc = event.getMessage();
+            return new AllMessage()
+                    .setBotId(event.getBot().getId())
+                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setContent(getText(mc))
+                    .setFromId(messageSource.getTargetId())
+                    .setSenderId(event.getBot().getId())
+                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setType("groupSelf").setTime(System.currentTimeMillis());
+        } else if (messageSource instanceof OnlineMessageSource.Outgoing.ToFriend) {
+            MessageChain mc = event.getMessage();
+            return new AllMessage()
+                    .setBotId(event.getBot().getId())
+                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setContent(getText(mc))
+                    .setFromId(messageSource.getTargetId())
+                    .setSenderId(event.getBot().getId())
+                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setType("friendSelf").setTime(System.currentTimeMillis());
+        }
+        return null;
     }
 
     public static AllMessage factory(MessageEvent event) {
@@ -41,8 +68,7 @@ public class AllMessage {
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
-                    .setType("group").setTime(System.currentTimeMillis())
-                    ;
+                    .setType("group").setTime(System.currentTimeMillis());
         } else if (event instanceof GroupMessageSyncEvent) {
             GroupMessageSyncEvent gme = (GroupMessageSyncEvent) event;
             return new AllMessage()
@@ -52,8 +78,7 @@ public class AllMessage {
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
-                    .setType("groupSelf").setTime(System.currentTimeMillis())
-                    ;
+                    .setType("groupSelfSync").setTime(System.currentTimeMillis());
         } else if (event instanceof FriendMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
@@ -73,7 +98,7 @@ public class AllMessage {
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
-                    .setType("friendSelf").setTime(System.currentTimeMillis());
+                    .setType("friendSelfSync").setTime(System.currentTimeMillis());
         } else if (event instanceof StrangerMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
@@ -93,7 +118,7 @@ public class AllMessage {
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
                     .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
-                    .setType("strangerSelf").setTime(System.currentTimeMillis());
+                    .setType("strangerSelfSync").setTime(System.currentTimeMillis());
         }
         return null;
     }
@@ -115,7 +140,7 @@ public class AllMessage {
     public static String getStringFromMessageChain(MessageChain chain) {
         StringBuilder sb = new StringBuilder();
         for (Object o : chain) {
-            if (o instanceof OnlineMessageSource) {
+            if (o instanceof  MessageSource) {
                 continue;
             }
             if (o instanceof PlainText) {
@@ -137,9 +162,15 @@ public class AllMessage {
                 long qid = mn.getTarget().getId();
                 sb.append("[戳一戳:").append(qid).append("]");
             } else {
-                continue;
+                Message message = (Message) o;
+                sb.append(message.toString());
             }
         }
         return sb.toString();
+    }
+
+    public int getIntTime() {
+        Long t0 = time;
+        return Integer.parseInt(t0.toString().substring(0, 10));
     }
 }

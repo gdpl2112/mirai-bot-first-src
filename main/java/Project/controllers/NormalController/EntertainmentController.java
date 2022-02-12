@@ -12,6 +12,7 @@ import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.GroupConf;
 import io.github.kloping.mirai0.Entitys.UScore;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
@@ -32,6 +33,7 @@ import static Project.controllers.NormalController.CustomController.builderAndAd
 import static Project.controllers.Plugins.PointSongController.sing;
 import static Project.controllers.TimerController.BASE_URL_CLOUD;
 import static Project.dataBases.DataBase.canBackShow;
+import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -96,7 +98,7 @@ public class EntertainmentController {
     @Action("天气<.+=>name>")
     public String Weather(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
-        if (voiceK) {
+        if (getConf(group.getId()).isVoiceK()) {
             speak(line, group);
         }
         return line;
@@ -179,9 +181,7 @@ public class EntertainmentController {
             return null;
         }
         if (str.startsWith(SPEAK_STR)) {
-            if (voiceK) {
-                speak(str.substring(1), group);
-            }
+            speak(str.substring(1), group);
             return null;
         } else if (str.startsWith(SING_STR)) {
             sing(str.substring(1), group);
@@ -198,29 +198,26 @@ public class EntertainmentController {
                 }
                 return controller.close(group);
             } else if (DataBase.canSpeak(group.getId())) {
-                String talk = otherService.Talk(str);
-                if (voiceK) {
-                    speak(talk, group);
+                if (!Tool.isIlleg(str)) {
+                    String talk = otherService.talk(str);
+                    cd = System.currentTimeMillis() + cd_;
+                    return talk;
                 }
-                cd = System.currentTimeMillis() + cd_;
-                return talk;
-            } else {
-                throw new NoRunException();
             }
         }
+        throw new NoRunException();
     }
 
     @AutoStand
     private ManagerController controller;
 
-    public static boolean voiceK = false;
-
     public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
 
     @Action("语音")
-    public String a1() {
-        voiceK = !voiceK;
-        return voiceK ? "当前开启" : "当前关闭";
+    public String a1(Group group) {
+        GroupConf conf = getConf(group.getId());
+        conf.setVoiceK(!conf.isVoiceK());
+        return conf.isVoiceK() ? "当前开启" : "当前关闭";
     }
 
     @Action(value = "掷骰子", otherName = "摇骰子")

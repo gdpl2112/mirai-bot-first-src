@@ -20,7 +20,7 @@ public interface IOtherService {
      * @param str
      * @return
      */
-    String Talk(String str);
+    String talk(String str);
 
     /**
      * 2传话

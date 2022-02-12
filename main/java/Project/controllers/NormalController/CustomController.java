@@ -112,7 +112,7 @@ public class CustomController {
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
         if (qq != Resource.superQL) {
-            if (Tool.isIlleg_(str))
+            if (Tool.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
@@ -124,6 +124,7 @@ public class CustomController {
                 QLIST.put(qq, str);
                 threads.execute(new Runnable() {
                     private long q1 = qq;
+
                     @Override
                     public void run() {
                         try {
