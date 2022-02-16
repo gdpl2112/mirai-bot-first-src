@@ -37,21 +37,21 @@ public class AllMessage {
             MessageChain mc = event.getMessage();
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(mc))
                     .setFromId(messageSource.getTargetId())
                     .setSenderId(event.getBot().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("groupSelf").setTime(System.currentTimeMillis());
         } else if (messageSource instanceof OnlineMessageSource.Outgoing.ToFriend) {
             MessageChain mc = event.getMessage();
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(mc))
                     .setFromId(messageSource.getTargetId())
                     .setSenderId(event.getBot().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("friendSelf").setTime(System.currentTimeMillis());
         }
         return null;
@@ -63,64 +63,80 @@ public class AllMessage {
             GroupMessageEvent gme = (GroupMessageEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("group").setTime(System.currentTimeMillis());
         } else if (event instanceof GroupMessageSyncEvent) {
             GroupMessageSyncEvent gme = (GroupMessageSyncEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("groupSelfSync").setTime(System.currentTimeMillis());
         } else if (event instanceof FriendMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("friend").setTime(System.currentTimeMillis());
         } else if (event instanceof FriendMessageSyncEvent) {
             FriendMessageSyncEvent gme = (FriendMessageSyncEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("friendSelfSync").setTime(System.currentTimeMillis());
         } else if (event instanceof StrangerMessageEvent) {
             FriendMessageEvent gme = (FriendMessageEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("stranger").setTime(System.currentTimeMillis());
         } else if (event instanceof StrangerMessageSyncEvent) {
             FriendMessageSyncEvent gme = (FriendMessageSyncEvent) event;
             return new AllMessage()
                     .setBotId(event.getBot().getId())
-                    .setId(messageSource.getIds()[messageSource.getIds().length - 1])
+                    .setId(latest(0, messageSource.getIds()))
                     .setContent(getText(gme.getMessage()))
                     .setFromId(gme.getSubject().getId())
                     .setSenderId(gme.getSender().getId())
-                    .setInternalId(messageSource.getInternalIds()[messageSource.getInternalIds().length - 1])
-                    .setType("strangerSelfSync").setTime(System.currentTimeMillis());
+                    .setInternalId(latest(0, messageSource.getInternalIds()))
+                    .setType("strangerSelf").setTime(System.currentTimeMillis());
         }
         return null;
+    }
+
+    public static final int latest(int defaultValue, int... ts) {
+        if (ts.length == 0 || ts[ts.length - 1] == 0) {
+            return defaultValue;
+        } else {
+            return ts[ts.length - 1];
+        }
+    }
+
+    public static final <T> T latest(T defaultValue, T... ts) {
+        if (ts.length == 0 || ts[ts.length - 1] == null) {
+            return defaultValue;
+        } else {
+            return ts[ts.length - 1];
+        }
     }
 
     private static String getText(MessageChain chain) {
@@ -140,7 +156,7 @@ public class AllMessage {
     public static String getStringFromMessageChain(MessageChain chain) {
         StringBuilder sb = new StringBuilder();
         for (Object o : chain) {
-            if (o instanceof  MessageSource) {
+            if (o instanceof MessageSource) {
                 continue;
             }
             if (o instanceof PlainText) {

@@ -31,8 +31,12 @@ public class CustomRandReplyService {
     private void init() {
         if (new File(path).exists()) {
             for (File file : new File(path).listFiles()) {
-                CustomReplyGroup customReplyGroup =
-                        HMLObject.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()), CustomReplyGroup.class);
+                CustomReplyGroup customReplyGroup = null;
+                try {
+                    customReplyGroup = HMLObject.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()), CustomReplyGroup.class);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 customReplyGroups.add(customReplyGroup);
                 if (customReplyGroup.getId() > ID) {
                     ID = customReplyGroup.getId() + 1;
