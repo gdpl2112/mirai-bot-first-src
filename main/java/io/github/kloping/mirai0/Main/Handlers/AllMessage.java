@@ -9,6 +9,8 @@ import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
+import static io.github.kloping.mirai0.Main.Resource.DEA_THREADS;
+
 /**
  * @author github-kloping
  */
@@ -28,7 +30,9 @@ public class AllMessage {
     private Integer recalled = 0;
 
     public void save() {
-        SaverSpringStarter.saveMapper.insert(this);
+        DEA_THREADS.submit(() -> {
+            SaverSpringStarter.saveMapper.insert(this);
+        });
     }
 
     public static AllMessage factory(MessagePostSendEvent event) {
