@@ -30,6 +30,9 @@ public class AllMessage {
     private Integer recalled = 0;
 
     public void save() {
+        if (content == null || content.isEmpty()) {
+            return;
+        }
         DEA_THREADS.submit(() -> {
             SaverSpringStarter.saveMapper.insert(this);
         });
@@ -124,7 +127,7 @@ public class AllMessage {
                     .setInternalId(latest(0, messageSource.getInternalIds()))
                     .setType("strangerSelf").setTime(System.currentTimeMillis());
         }
-        return null;
+        return new AllMessage();
     }
 
     public static final int latest(int defaultValue, int... ts) {
