@@ -152,7 +152,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -220,7 +220,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -276,7 +276,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -335,7 +335,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -369,7 +369,7 @@ public class Drawer {
         new File("./temp/" + n).mkdirs();
         File file = new File("./temp/" + n + "/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -406,7 +406,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -442,7 +442,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -463,7 +463,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -483,7 +483,7 @@ public class Drawer {
             Graphics g = bi.getGraphics();
             g.drawImage(Img, 0, 0, Img.getWidth(), Img.getHeight(), null);
             g.dispose();
-            ImageIO.write(bi, "png", file);
+            ImageIO.write(bi, "jpg", file);
             return file;
         } catch (IOException e) {
             e.printStackTrace();
@@ -524,7 +524,7 @@ public class Drawer {
             String name = UUID.randomUUID() + ".jpg";
             new File("./temp").mkdirs();
             File file = new File("./temp/" + name);
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
             return file.getPath();
         } catch (IOException e) {
             e.printStackTrace();
@@ -592,7 +592,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -704,7 +704,7 @@ public class Drawer {
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -722,7 +722,7 @@ public class Drawer {
             String name = UUID.randomUUID() + ".jpg";
             new File("./temp").mkdirs();
             File file = new File("./temp/" + name);
-            ImageIO.write(image, "png", file);
+            ImageIO.write(image, "jpg", file);
             return file.getPath();
         } catch (IOException e) {
             e.printStackTrace();

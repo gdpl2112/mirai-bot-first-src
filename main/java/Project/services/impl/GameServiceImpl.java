@@ -1,24 +1,24 @@
 package Project.services.impl;
 
 
+import Project.broadcast.enums.ObjType;
+import Project.controllers.ConfirmController;
+import Project.dataBases.DataBase;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.ZongMenDataBase;
+import Project.dataBases.skill.SkillDataBase;
+import Project.services.Iservice.IGameService;
+import Project.services.detailServices.GameDetailService;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
-import Project.controllers.ConfirmController;
-import Project.dataBases.DataBase;
-import Project.dataBases.GameDataBase;
-import Project.dataBases.ZongMenDataBase;
-import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.GameDetailService;
-import Project.services.Iservice.IGameService;
-import Project.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -28,17 +28,17 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
+import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static Project.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
-import static Project.ResourceSet.FinalString.*;
-import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
-import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
 
 /**
  * @author github-kloping
@@ -139,9 +139,9 @@ public class GameServiceImpl implements IGameService {
         }
         long n = is.getWh();
         if (n == 0)
-            str1.append("你的武魂: 暂未获得").append("\r\n");
+            str1.append("你的武魂:暂未获得").append("\r\n");
         else {
-            str1.append("你的武魂: " + GameDataBase.getNameById(n)).append("\r\n");
+            str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
             str1.append(GameDataBase.getImgById((int) n)).append("\r\n");
         }
         return str1 + pathToImg(Drawer.drawInfoPng(is));

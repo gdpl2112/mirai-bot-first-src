@@ -246,10 +246,14 @@ public class MyHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onPreMessage(MessagePreSendEvent event) {
-        String str = EventTools.getStringFromMessageChain((MessageChain) event.getMessage());
-        if (Tool.isIllegSend(str)) {
-            event.cancel();
-            StarterApplication.logger.waring("cancel " + event);
+        try {
+            String str = EventTools.getStringFromMessageChain((MessageChain) event.getMessage());
+            if (Tool.isIllegSend(str)) {
+                event.cancel();
+                StarterApplication.logger.waring("cancel " + event);
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 
