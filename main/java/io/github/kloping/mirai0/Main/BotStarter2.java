@@ -4,6 +4,7 @@ import Project.aSpring.SpringStarter2;
 import Project.listeners.NbListener;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.mirai0.Main.Handlers.EmojiCompositeHandler;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
@@ -54,6 +55,7 @@ public class BotStarter2 {
         bot.getEventChannel().registerListenerHost(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
         );
+        bot.getEventChannel().registerListenerHost(new EmojiCompositeHandler());
         bot.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 
