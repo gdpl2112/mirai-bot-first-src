@@ -38,7 +38,7 @@ public class Drawer {
     private static Color hpColor = fromStrToARGB("FF5Dff5D");
     private static Color hlColor = fromStrToARGB("FFFFB946");
     private static Color hjColor = fromStrToARGB("FF8b8bFF");
-    private static Color levelColor = new Color(255, 154, 87);
+    private static Color levelColor = new Color(255, 0, 136);
 
     private static Map<String, Image> map = new LinkedHashTreeMap<>();
 

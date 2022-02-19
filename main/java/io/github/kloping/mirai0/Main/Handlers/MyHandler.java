@@ -244,19 +244,6 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }
 
-    @EventHandler
-    public void onPreMessage(MessagePreSendEvent event) {
-        try {
-            String str = EventTools.getStringFromMessageChain((MessageChain) event.getMessage());
-            if (Tool.isIllegSend(str)) {
-                event.cancel();
-                StarterApplication.logger.waring("cancel " + event);
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-
     /*@EventHandler
     public void onMemberNameCardModify(MemberCardChangeEvent event) {
         if (!ControllerTool.CanGroup(event.getGroup().getId())) return;

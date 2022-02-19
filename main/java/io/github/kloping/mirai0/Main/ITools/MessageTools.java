@@ -358,7 +358,7 @@ public class MessageTools {
         return image;
     }
 
-    public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
+    public static void sendMessageInGroupWithAt(String str, long gid, long qq){
         try {
             if (str == null || gid == -1 || qq == -1) return;
             Group group = bot.getGroup(gid);

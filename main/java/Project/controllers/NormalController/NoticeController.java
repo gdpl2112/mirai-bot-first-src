@@ -47,7 +47,9 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("2.19:尝试修复信息发不出去的问题,新功能emoji表情合成#发输入法中的两个emoji表情即可").append("\n");
         UPDATE_LOG.append("2.16:修复部分bug").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("2.12:尽可能的避免了不干净的发言").append("\n");
         UPDATE_LOG.append("2.11:拼音首字母缩写检测与翻译(私聊").append("\n");
         UPDATE_LOG.append("2.9 :修复bug").append("\n");

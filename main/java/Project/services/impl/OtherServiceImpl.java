@@ -62,6 +62,9 @@ public class OtherServiceImpl implements IOtherService {
             br.read(bytes1);
             String result = new String(bytes1, "utf-8").trim();
             result = filter(result);
+            if (Tool.isIllegSend(result)) {
+                return ".....";
+            }
             return result.trim();
         } catch (Exception e) {
             return "";
