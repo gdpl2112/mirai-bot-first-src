@@ -10,7 +10,9 @@ import Project.services.Iservice.IGameTaskService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import static Project.controllers.ControllerTool.opened;
 import static Project.controllers.TimerController.MORNING_RUNNABLE;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
 
 /**
  * @author github-kloping
@@ -41,16 +44,15 @@ public class GameTaskController {
 
     static {
         MORNING_RUNNABLE.add(() -> {
-//            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
-//
-//            }
-            List<Long> longs = new LinkedList<>();
-            for (long ql : GameTaskDatabase.getActivities(true)) {
-                if (longs.contains(ql)) {
-                    continue;
-                } else {
-                    TaskPoint.getInstance(ql).setNormalIndex(1000).apply();
-                    longs.add(ql);
+            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
+                List<Long> longs = new LinkedList<>();
+                for (long ql : GameTaskDatabase.getActivities(true)) {
+                    if (longs.contains(ql)) {
+                        continue;
+                    } else {
+                        TaskPoint.getInstance(ql).setNormalIndex(1000).apply();
+                        longs.add(ql);
+                    }
                 }
             }
         });
