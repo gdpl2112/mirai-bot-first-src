@@ -3,12 +3,14 @@ package Project.services.impl;
 
 import Project.broadcast.enums.ObjType;
 import Project.controllers.ConfirmController;
+import Project.controllers.GameControllers.GameController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
@@ -681,8 +683,18 @@ public class GameServiceImpl implements IGameService {
         HIST_INFOS.remove(id);
         boolean k1 = deleteDir(new File(GameDataBase.path + "/dates/users/" + id));
         boolean k2 = SkillDataBase.remove(id);
+        Warp warp = getWarp(id);
+        if (warp.getMaster().longValue() != -1) {
+            chuShiNow(id.longValue());
+        }
+        if (warp.getBindQ().longValue() != -1) {
+            gameController.RemoveFusionNow(id.longValue());
+        }
         return k1 && k2 ? "转生成功" : "转生失败";
     }
+
+    @AutoStand
+    GameController gameController;
 
     @Override
     public String fusion(Long q1, Long q2, Group group) {

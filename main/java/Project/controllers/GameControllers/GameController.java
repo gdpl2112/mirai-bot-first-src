@@ -325,7 +325,6 @@ public class GameController {
         return gameService.makeSname(qq.getId(), name, group);
     }
 
-
     @Action("双修")
     public String Xl2(User qq, Group group) {
         if (getWarp(qq.getId()).getBindQ().longValue() == -1)
@@ -342,7 +341,6 @@ public class GameController {
         String s1 = gameService.fusion(qq.getId(), q2, group);
         return s1;
     }
-
 
     public String RemoveFusionNow(Long qq) {
         Warp warp = getWarp(qq);
