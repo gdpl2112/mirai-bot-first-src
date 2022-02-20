@@ -47,7 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("2.19:修复转生后关系还在的bug,修复每天都刷新每周任务的bug").append("\n");
+        UPDATE_LOG.append("2.20:修复转生后关系还在的bug,修复每天都刷新每周任务的bug").append("\n");
         UPDATE_LOG.append("2.19:尝试修复信息发不出去的问题,新功能emoji表情合成#发输入法中的两个emoji表情即可").append("\n");
         UPDATE_LOG.append("2.16:修复部分bug").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
