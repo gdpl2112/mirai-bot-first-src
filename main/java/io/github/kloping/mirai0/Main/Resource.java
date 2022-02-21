@@ -10,7 +10,6 @@ import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
@@ -208,10 +207,10 @@ public class Resource {
     }
 
     public static final synchronized void onServerAddTimes() {
-        DEA_THREADS.execute(runnableBefore);
+        DEA_THREADS.execute(RUNNABLE_BEFORE);
     }
 
-    private static final Runnable runnableBefore = () -> {
+    private static final Runnable RUNNABLE_BEFORE = () -> {
         try {
             URL url = new URL(NetMain.ROOT_PATH + "/abo?id=" + bot.getId() + "&key=hrskloping");
             url.openStream();
@@ -220,13 +219,13 @@ public class Resource {
         }
     };
 
-    public static final List<Runnable> StartOkRuns = new CopyOnWriteArrayList<>();
+    public static final List<Runnable> START_AFTER = new CopyOnWriteArrayList<>();
 
-    public static void starterOk() {
+    public static void startedAfter() {
         THREADS.execute(new Runnable() {
             @Override
             public void run() {
-                for (Runnable runnable : StartOkRuns) {
+                for (Runnable runnable : START_AFTER) {
                     try {
                         runnable.run();
                     } catch (Exception e) {

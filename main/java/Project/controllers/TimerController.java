@@ -52,38 +52,36 @@ public class TimerController {
             GameDataBase.HIST_INFOS.clear();
             DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
-            for (Group group : bot.getGroups()) {
-                if (!ControllerTool.canGroup(group.getId())) {
-                    continue;
-                }
-                group.sendMessage("自动关闭" + ts + "分钟");
-            }
+//            for (Group group : bot.getGroups()) {
+//                if (!ControllerTool.canGroup(group.getId())) {
+//                    continue;
+//                }
+//                group.sendMessage("自动关闭" + ts + "分钟");
+//            }
             startOnZeroTime();
-            try {
-                Thread.sleep(1000 * 60 * ts);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000 * 60 * ts);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             Resource.Switch.AllK = true;
-            for (Group group : bot.getGroups()) {
-                if (!ControllerTool.canGroup(group.getId())) {
-                    continue;
-                }
-                group.sendMessage("自动开启");
-            }
+//            for (Group group : bot.getGroups()) {
+//                if (!ControllerTool.canGroup(group.getId())) {
+//                    continue;
+//                }
+//                group.sendMessage("自动开启");
+//            }
         });
     }
 
     private static void startOnZeroTime() {
-        THREADS.execute(() -> {
-            for (Runnable runnable : ZERO_RUNS) {
-                try {
-                    runnable.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        for (Runnable runnable : ZERO_RUNS) {
+            try {
+                runnable.run();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
     public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
@@ -108,35 +106,33 @@ public class TimerController {
         });
     }
 
-    public static String[] At_NOON_TIPS = {"中午好呀~", "午好<Face:336>", "午好<Face:287>", "午好", "又到中午了", "干饭了吗<Face:171>"};
+//    public static String[] At_NOON_TIPS = {"中午好呀~", "午好<Face:336>", "午好<Face:287>", "午好", "又到中午了", "干饭了吗<Face:171>"};
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
         update_Today();
-        THREADS.execute(() -> {
-            for (Group group : bot.getGroups()) {
-                if (!ControllerTool.canGroup(group.getId())) {
-                    continue;
-                }
-                MessageTools.sendMessageInGroup(getRandString(At_NOON_TIPS), group.getId());
-            }
-        });
+//        THREADS.execute(() -> {
+//            for (Group group : bot.getGroups()) {
+//                if (!ControllerTool.canGroup(group.getId())) {
+//                    continue;
+//                }
+//                MessageTools.sendMessageInGroup(getRandString(At_NOON_TIPS), group.getId());
+//            }
+//        });
     }
 
-    public static String[] AT_NIGHT_TIPS = {"晚好..", "晚上好<Face:41>", "晚好<Face:63>", "晚好晚好\n<Pic:{74FC0290-CD86-C3E2-754A-9A3FB4196522}.gif>", "晚好\n<Pic:{4687B190-05D6-922E-8B7F-B769D555648C}.gif>"};
+//    public static String[] AT_NIGHT_TIPS = {"晚好..", "晚上好<Face:41>", "晚好<Face:63>", "晚好晚好\n<Pic:{74FC0290-CD86-C3E2-754A-9A3FB4196522}.gif>", "晚好\n<Pic:{4687B190-05D6-922E-8B7F-B769D555648C}.gif>"};
 
     @Schedule("17:50:00")
     public static void onNightSix() {
         update_Today();
-        THREADS.execute(() -> {
-            for (Group group : bot.getGroups()) {
-                if (!ControllerTool.canGroup(group.getId())) {
-                    continue;
-                }
-                MessageTools.sendMessageInGroup(getRandString(AT_NIGHT_TIPS), group.getId());
-            }
-        });
+//        THREADS.execute(() -> {
+//            for (Group group : bot.getGroups()) {
+//                if (!ControllerTool.canGroup(group.getId())) {
+//                    continue;
+//                }
+//                MessageTools.sendMessageInGroup(getRandString(AT_NIGHT_TIPS), group.getId());
+//            }
+//        });
     }
-
-    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
 }

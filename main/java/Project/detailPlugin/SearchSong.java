@@ -13,7 +13,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 public class SearchSong {
 
     @AutoStand
-    GetSongs getSongs;
+    private GetSongs getSongs;
 
     public Songs netEase(String name) {
         return getSongs.getSongs(name, "wy");

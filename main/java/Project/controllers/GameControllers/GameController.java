@@ -25,7 +25,7 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarpPng;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
-import static io.github.kloping.mirai0.Main.Resource.StartOkRuns;
+import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
 @Controller
@@ -35,7 +35,7 @@ public class GameController {
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");
-        StartOkRuns.add(() -> HIST_INFOS.clear());
+        START_AFTER.add(() -> HIST_INFOS.clear());
     }
 
     @AutoStand

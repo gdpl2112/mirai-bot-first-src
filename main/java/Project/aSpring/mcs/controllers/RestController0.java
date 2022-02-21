@@ -23,10 +23,10 @@ import static Project.controllers.ControllerSource.getCode;
 @RestController
 @Entity
 public class RestController0 {
-    private static final Map<String, String> ucap = new ConcurrentHashMap<>();
-    public static final Set<String> cans = new LinkedHashSet<>();
-    public static final Map<String, String> caping = new ConcurrentHashMap<>();
-    private static final Map<String, Integer> capingErr = new ConcurrentHashMap<>();
+    private static final Map<String, String> UCAP = new ConcurrentHashMap<>();
+    public static final Set<String> CANS = new LinkedHashSet<>();
+    public static final Map<String, String> CAPING = new ConcurrentHashMap<>();
+    private static final Map<String, Integer> CAPING_ERR = new ConcurrentHashMap<>();
 
     @AutoStand
     static ControllerSource controllerSource;
@@ -40,20 +40,20 @@ public class RestController0 {
         JSONObject jo = new JSONObject();
         jo.put("uuid", uuid);
         jo.put("src", path);
-        ucap.put(uuid, capCode);
+        UCAP.put(uuid, capCode);
         return jo.toString();
     }
 
     @GetMapping("AuthCap")
     public String authCap(@RequestParam("id") String id, @RequestParam("code") String code, @RequestParam("qid") String qid) {
-        if (!ucap.containsKey(id)) {
+        if (!UCAP.containsKey(id)) {
             return "err";
         }
-        if (ucap.get(id).toLowerCase().equals(code.toLowerCase())) {
+        if (UCAP.get(id).toLowerCase().equals(code.toLowerCase())) {
             String uuid = UUID.randomUUID().toString();
-            cans.add(uuid);
+            CANS.add(uuid);
             String code0 = getCode();
-            caping.put(qid, code0);
+            CAPING.put(qid, code0);
             MessageTools.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
             return uuid;
         } else {
@@ -65,11 +65,11 @@ public class RestController0 {
     @GetMapping("AuthCap0")
     public String authCap0(@RequestParam("canId") String canId
             , @RequestParam("code") String code, @RequestParam("qid") String qid) {
-        if (!cans.contains(canId)) return "err";
-        if (!caping.containsKey(qid)) return "err";
-        if (caping.get(qid).toLowerCase().equals(code.toLowerCase())) {
-            caping.remove(qid);
-            cans.remove(canId);
+        if (!CANS.contains(canId)) return "err";
+        if (!CAPING.containsKey(qid)) return "err";
+        if (CAPING.get(qid).toLowerCase().equals(code.toLowerCase())) {
+            CAPING.remove(qid);
+            CANS.remove(canId);
             List<TradingRecord> records = OtherDatabase.getList(Long.parseLong(qid));
             Collections.sort(records, new Comparator<TradingRecord>() {
                 @Override

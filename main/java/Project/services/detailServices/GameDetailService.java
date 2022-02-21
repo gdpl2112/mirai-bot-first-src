@@ -44,7 +44,7 @@ public class GameDetailService {
     public static IGameBoneService gameBoneService;
 
     static {
-        Resource.StartOkRuns.add(new Runnable() {
+        Resource.START_AFTER.add(new Runnable() {
             @Override
             public void run() {
                 ZERO_RUNS.add(() -> {

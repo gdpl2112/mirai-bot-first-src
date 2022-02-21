@@ -22,7 +22,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
-import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,9 +30,9 @@ import static Project.controllers.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
 import static Project.controllers.Plugins.PointSongController.sing;
-import static Project.controllers.TimerController.BASE_URL_CLOUD;
 import static Project.dataBases.DataBase.canBackShow;
 import static Project.dataBases.DataBase.getConf;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -96,7 +95,7 @@ public class EntertainmentController {
     }
 
     @Action("天气<.+=>name>")
-    public String Weather(@Param("name") String name, Group group) {
+    public String weather0(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
         if (getConf(group.getId()).isVoiceK()) {
             speak(line, group);
@@ -104,21 +103,22 @@ public class EntertainmentController {
         return line;
     }
 
+    @Action("天气预报.+")
+    public String weather1(@AllMess String mess, Group group) {
+        String line = otherService.talk(mess);
+        return line;
+    }
+
     @AutoStand
-    ApiIyk0 apiIyk0;
+    private ApiIyk0 apiIyk0;
 
     @Action("全国降水量")
     public String lowWater() {
         return Tool.pathToImg(apiIyk0.getJyu().getImg());
     }
 
-    public static void speak(String line, Group group) {
-        try {
-            MessageTools.sendVoiceMessageInGroup(String.format(BASE_VOICE_URL, URLEncoder.encode(line, "utf-8")), group.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
+    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
 
     @Action("卫星云图")
     public void mn(Group g) {
@@ -134,7 +134,7 @@ public class EntertainmentController {
     @Action("全球卫星云图")
     public void m1(Group g) {
         net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImage(group, "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG");
+        Image image = MessageTools.createImage(group, BASE_URL_CLOUD0);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");
@@ -172,14 +172,8 @@ public class EntertainmentController {
         throw new NoRunException();
     }
 
-    private final long cd_ = 10 * 1000;
-    private long cd = 10 * 1000;
-
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, Group group, @Param("str") String str) {
-        if (cd > System.currentTimeMillis()) {
-            return null;
-        }
         if (str.startsWith(SPEAK_STR)) {
             speak(str.substring(1), group);
             return null;
@@ -200,7 +194,6 @@ public class EntertainmentController {
             } else if (DataBase.canSpeak(group.getId())) {
                 if (!Tool.isIlleg(str)) {
                     String talk = otherService.talk(str);
-                    cd = System.currentTimeMillis() + cd_;
                     return talk;
                 }
             }
@@ -210,8 +203,6 @@ public class EntertainmentController {
 
     @AutoStand
     private ManagerController controller;
-
-    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
 
     @Action("语音")
     public String a1(Group group) {
@@ -248,6 +239,9 @@ public class EntertainmentController {
         return "游戏开始:\n当前成语: " + idiom.getRandom() + "\n命令:我接xxxx";
     }
 
+    /**
+     * 成语接龙消耗积分
+     */
     private static int eveS1 = 2;
 
     @Action("我接<.+=>str>")
@@ -313,7 +307,7 @@ public class EntertainmentController {
     }
 
     @AutoStand
-    SearchSong searchSong;
+    private SearchSong searchSong;
 
     @Action("QQ歌词<.+=>name>")
     public Object mq(@Param("name") String name, Group group) {
@@ -355,7 +349,7 @@ public class EntertainmentController {
     }
 
     @AutoStand
-    ApiKit9 apiKit9;
+    private ApiKit9 apiKit9;
 
     @Action("QQ信息.*?")
     public Object info(@AllMess String mess, long q) {
@@ -405,5 +399,4 @@ public class EntertainmentController {
             return "获取失败";
         }
     }
-
 }

@@ -55,7 +55,7 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         bot.login();
-        starterOk();
+        startedAfter();
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");

@@ -13,6 +13,7 @@ import net.mamoe.mirai.utils.ExternalResource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -163,6 +164,16 @@ public class MessageTools {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
+
+    public static void speak(String line, io.github.kloping.mirai0.Entitys.Group group) {
+        try {
+            MessageTools.sendVoiceMessageInGroup(String.format(BASE_VOICE_URL, URLEncoder.encode(line, "utf-8")), group.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

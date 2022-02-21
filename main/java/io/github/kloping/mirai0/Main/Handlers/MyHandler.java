@@ -9,7 +9,6 @@ import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Contact;
@@ -55,7 +54,7 @@ public class MyHandler extends SimpleListenerHost {
     private static final Map<Long, io.github.kloping.mirai0.Entitys.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
 
     static {
-        Resource.StartOkRuns.add(() -> {
+        Resource.START_AFTER.add(() -> {
             io.github.kloping.mirai0.Entitys.User.create(bot.getId()
                     , bot.getGroups().stream().iterator().next().getId()
                     , bot.getNick(), bot.getNick());

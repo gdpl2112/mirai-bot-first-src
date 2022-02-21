@@ -51,7 +51,7 @@ public class SuperController {
     }
 
     @AutoStand
-    ZongMenServiceImpl zons;
+    private ZongMenServiceImpl zons;
 
     @Action("/test")
     public String o2(User qq, Group group) {
@@ -237,4 +237,12 @@ public class SuperController {
         return "ok";
     }
 
+
+    @Action("/即时公告.+")
+    public String announcement(@AllMess String str) {
+        for (net.mamoe.mirai.contact.Group group : bot.getGroups()) {
+            group.sendMessage(str);
+        }
+        return "ok";
+    }
 }

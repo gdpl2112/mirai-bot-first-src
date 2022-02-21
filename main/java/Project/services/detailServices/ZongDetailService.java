@@ -108,7 +108,7 @@ public class ZongDetailService {
     }
 
     static {
-        Resource.StartOkRuns.add(() -> {
+        Resource.START_AFTER.add(() -> {
             ZERO_RUNS.add(() -> {
                 File[] files = new File(ZongMenDataBase.path).listFiles();
                 for (File file : files) {
