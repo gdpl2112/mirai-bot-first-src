@@ -7,6 +7,9 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 public class TradingRecord {
@@ -58,7 +61,6 @@ public class TradingRecord {
     public String desc;
 
     public long time = System.currentTimeMillis();
-
 
     public static final synchronized List<TradingRecord> getInstance(long q) {
         return OtherDatabase.getList(q);

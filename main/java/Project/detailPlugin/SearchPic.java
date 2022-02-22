@@ -1,6 +1,6 @@
 package Project.detailPlugin;
 
-import Project.interfaces.SearchPics;
+import Project.interfaces.http_api.SearchPics;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

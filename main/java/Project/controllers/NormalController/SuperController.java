@@ -3,24 +3,30 @@ package Project.controllers.NormalController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.detailPlugin.CurfewScheduler;
-import Project.services.Iservice.IGameService;
+import Project.interfaces.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Entitys.Curfew;
 import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.GroupConf;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import org.springframework.core.io.buffer.DataBuffer;
 
+import java.io.File;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.dataBases.DataBase.path;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -245,4 +251,25 @@ public class SuperController {
         }
         return "ok";
     }
+
+    @Action("/moveFathers")
+    public Object m0() {
+        for (File file : new File(path + "/mainfist/fathers/").listFiles()) {
+            Long qid = Long.parseLong(file.getName().trim());
+            DataBase.addFather(qid);
+        }
+        return "moved";
+    }
+
+    @Action("/moveGroupConf")
+    public Object m1() {
+        for (File file : new File(path + "/mainfist/groups/").listFiles()) {
+            String s = file.getName();
+            Long id = Long.parseLong(s.substring(0, s.length() - 5).trim());
+            GroupConf conf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
+            DataBase.setConf(conf);
+        }
+        return "moved";
+    }
+
 }

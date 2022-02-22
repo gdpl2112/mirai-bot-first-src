@@ -1,8 +1,8 @@
 package Project.services.impl;
 
 import Project.dataBases.GameDataBase;
-import Project.services.Iservice.IGameObjService;
-import Project.services.Iservice.IGameWeaService;
+import Project.interfaces.Iservice.IGameObjService;
+import Project.interfaces.Iservice.IGameWeaService;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

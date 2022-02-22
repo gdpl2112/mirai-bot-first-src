@@ -3,7 +3,7 @@ package Project.services.impl;
 
 import Project.aSpring.SaverSpringStarter;
 import Project.dataBases.DataBase;
-import Project.services.Iservice.IManagerService;
+import Project.interfaces.Iservice.IManagerService;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.Handlers.AllMessage;
@@ -16,12 +16,10 @@ import net.mamoe.mirai.message.data.MessageSource;
 import net.mamoe.mirai.message.data.MessageSourceBuilder;
 import net.mamoe.mirai.message.data.MessageSourceKind;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import static Project.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static Project.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
 
 /**

@@ -11,7 +11,7 @@ import Project.services.detailServices.roles.BeatenRoles;
 import Project.services.detailServices.roles.Role;
 import Project.services.detailServices.roles.RoleResponse;
 import Project.services.detailServices.roles.RoleState;
-import Project.services.Iservice.IGameBoneService;
+import Project.interfaces.Iservice.IGameBoneService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;

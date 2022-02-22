@@ -22,7 +22,7 @@ public class ZongMenDataBase {
     public static Map<Long, Integer> qq2id = new HashMap<>();
 
     public ZongMenDataBase(String mainPath) {
-        path = mainPath + "/dates/games" + "/dates/system/ZongMens";
+        path = mainPath + "/dates/games/dates/system/ZongMens";
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();

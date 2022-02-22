@@ -2,7 +2,7 @@ package Project.controllers.NormalController;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.services.Iservice.IOtherService;
+import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;

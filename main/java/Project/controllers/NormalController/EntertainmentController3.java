@@ -2,9 +2,9 @@ package Project.controllers.NormalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
-import Project.interfaces.IBaiduShitu;
-import Project.interfaces.Qxu66;
-import Project.interfaces.WeiJieYue;
+import Project.interfaces.http_api.IBaiduShitu;
+import Project.interfaces.http_api.Qxu66;
+import Project.interfaces.http_api.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;

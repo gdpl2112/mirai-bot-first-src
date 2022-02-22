@@ -6,7 +6,7 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
-import Project.services.Iservice.IGameService;
+import Project.interfaces.Iservice.IGameService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;

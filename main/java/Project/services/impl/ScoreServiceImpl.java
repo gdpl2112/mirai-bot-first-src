@@ -5,7 +5,7 @@ import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.UScore;
 import Project.dataBases.DataBase;
-import Project.services.Iservice.IScoreService;
+import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

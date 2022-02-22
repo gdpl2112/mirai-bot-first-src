@@ -2,7 +2,7 @@ package Project.detailPlugin;
 
 import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.v1.Response1;
-import Project.interfaces.GetPvpQQ;
+import Project.interfaces.http_api.GetPvpQQ;
 import com.alibaba.fastjson.JSON;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

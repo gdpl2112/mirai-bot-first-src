@@ -8,7 +8,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameDetailService;
-import Project.services.Iservice.ISkillService;
+import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.game.SkillUseBroadcast;

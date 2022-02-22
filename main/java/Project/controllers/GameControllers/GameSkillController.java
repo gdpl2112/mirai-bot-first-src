@@ -3,7 +3,7 @@ package Project.controllers.GameControllers;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
-import Project.services.Iservice.ISkillService;
+import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;

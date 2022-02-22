@@ -4,7 +4,7 @@ package Project.controllers.GameControllers.ShoperController;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.dataBases.GameDataBase;
-import Project.services.Iservice.IShoperService;
+import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

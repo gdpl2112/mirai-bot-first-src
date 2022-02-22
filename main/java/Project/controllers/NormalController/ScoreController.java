@@ -5,8 +5,8 @@ import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.UScore;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.dataBases.DataBase;
-import Project.services.Iservice.IOtherService;
-import Project.services.Iservice.IScoreService;
+import Project.interfaces.Iservice.IOtherService;
+import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 

@@ -2,7 +2,7 @@ package Project.detailPlugin;
 
 import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
 import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
-import Project.interfaces.Mihoyo;
+import Project.interfaces.http_api.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import org.jsoup.Jsoup;

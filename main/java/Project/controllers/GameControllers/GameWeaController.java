@@ -3,7 +3,7 @@ package Project.controllers.GameControllers;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.dataBases.GameDataBase;
-import Project.services.Iservice.IGameWeaService;
+import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 

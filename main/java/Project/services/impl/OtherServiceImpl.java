@@ -4,7 +4,7 @@ package Project.services.impl;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.Mora;
 import Project.dataBases.DataBase;
-import Project.services.Iservice.IOtherService;
+import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;

@@ -7,7 +7,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ShopDataBase;
 import Project.broadcast.enums.ObjType;
-import Project.services.Iservice.IShoperService;
+import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.dataBases.GameDataBase.*;

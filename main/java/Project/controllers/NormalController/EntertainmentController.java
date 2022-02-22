@@ -5,9 +5,9 @@ import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
 import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
-import Project.interfaces.ApiIyk0;
-import Project.interfaces.ApiKit9;
-import Project.services.Iservice.IOtherService;
+import Project.interfaces.http_api.ApiIyk0;
+import Project.interfaces.http_api.ApiKit9;
+import Project.interfaces.Iservice.IOtherService;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -97,7 +97,7 @@ public class EntertainmentController {
     @Action("天气<.+=>name>")
     public String weather0(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
-        if (getConf(group.getId()).isVoiceK()) {
+        if (getConf(group.getId()).getVoiceK()) {
             speak(line, group);
         }
         return line;
@@ -207,8 +207,8 @@ public class EntertainmentController {
     @Action("语音")
     public String a1(Group group) {
         GroupConf conf = getConf(group.getId());
-        conf.setVoiceK(!conf.isVoiceK());
-        return conf.isVoiceK() ? "当前开启" : "当前关闭";
+        conf.setVoiceK(!conf.getVoiceK());
+        return conf.getVoiceK() ? "当前开启" : "当前关闭";
     }
 
     @Action(value = "掷骰子", otherName = "摇骰子")

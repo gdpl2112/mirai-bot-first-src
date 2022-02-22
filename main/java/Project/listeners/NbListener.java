@@ -1,7 +1,6 @@
 package Project.listeners;
 
-import Project.controllers.ControllerTool;
-import Project.interfaces.Magiconch;
+import Project.interfaces.http_api.Magiconch;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.apiEntitys.magiconch.MagiconchNbnhhshRequest;

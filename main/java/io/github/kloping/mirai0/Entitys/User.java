@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * @author github-kloping
+ */
 public class User {
     private Long id = -1L;
     private Long group = -1L;
@@ -17,16 +20,15 @@ public class User {
         this.name = name;
     }
 
-
-    public static final Map<Long, User> hist = new HashMap<>();
+    public static final Map<Long, User> HIST = new HashMap<>();
 
     public static User create(long id, Long group, String nickName, String name) {
-        if (!hist.containsKey(id)) hist.put(id, new User(id, group, nickName, name));
-        return hist.get(id);
+        if (!HIST.containsKey(id)) HIST.put(id, new User(id, group, nickName, name));
+        return HIST.get(id);
     }
 
     public static User get(Long id) {
-        return hist.get(id.longValue());
+        return HIST.get(id.longValue());
     }
 
     public long getId() {
@@ -60,7 +62,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
 
     @Override
     public boolean equals(Object o) {

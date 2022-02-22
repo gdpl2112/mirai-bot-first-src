@@ -8,7 +8,7 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.services.Iservice.IGameService;
+import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

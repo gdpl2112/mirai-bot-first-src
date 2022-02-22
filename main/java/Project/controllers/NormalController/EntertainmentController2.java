@@ -3,9 +3,9 @@ package Project.controllers.NormalController;
 import Project.detailPlugin.GetPvpNews;
 import Project.detailPlugin.MihoyoP0;
 import Project.detailPlugin.PvpQq;
-import Project.interfaces.ApiIyk0;
-import Project.interfaces.GetPvpQQ;
-import Project.interfaces.MuXiaoGuo;
+import Project.interfaces.http_api.ApiIyk0;
+import Project.interfaces.http_api.GetPvpQQ;
+import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
@@ -199,7 +199,7 @@ public class EntertainmentController2 {
     }
 
     @AutoStand
-    Project.interfaces.PvpQq pvpQqi;
+    Project.interfaces.http_api.PvpQq pvpQqi;
 
     public static final int PAGE_SIZE = 5;
     public PvpSkin upPS = null;

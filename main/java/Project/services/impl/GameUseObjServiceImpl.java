@@ -7,8 +7,8 @@ import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.enums.ObjType;
-import Project.services.Iservice.IGameService;
-import Project.services.Iservice.IGameUseObjService;
+import Project.interfaces.Iservice.IGameService;
+import Project.interfaces.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.lang.reflect.InvocationTargetException;

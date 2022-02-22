@@ -88,7 +88,7 @@ public class PvpQq {
     }
 
     @AutoStand
-    Project.interfaces.PvpQq pvpQq;
+    Project.interfaces.http_api.PvpQq pvpQq;
 
     public void m1() {
         PvpQQH0 g = pvpQq.get1("createHeroList");

@@ -6,7 +6,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import Project.dataBases.GameTaskDatabase;
 import Project.services.detailServices.TaskDetailService;
-import Project.services.Iservice.IGameTaskService;
+import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

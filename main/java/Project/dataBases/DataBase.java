@@ -1,11 +1,14 @@
 package Project.dataBases;
 
 
-import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.UScore;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
+import io.github.kloping.mirai0.Entitys.Father;
+import io.github.kloping.mirai0.Entitys.GroupConf;
+import io.github.kloping.mirai0.Entitys.UScore;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +16,14 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static Project.aSpring.SpringBootResource.fatherMapper;
+import static Project.aSpring.SpringBootResource.groupConfMapper;
 import static io.github.kloping.mirai0.Main.Resource.superQ;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
+/**
+ * @author github-kloping
+ */
 public class DataBase {
 
     public static String path = ".";
@@ -37,59 +45,90 @@ public class DataBase {
         }
     }
 
-    public static boolean isFather(Long who) {
-        return new File(path + "/mainfist/fathers/" + who).exists();
-    }
-
     public static boolean canBackShow(Long where) {
-        return getConf(where).isShow();
+        return getConf(where).getShow();
     }
 
     public static boolean canBack(Long where) {
-        return getConf(where).isOpen();
+        return getConf(where).getOpen();
     }
 
     public static boolean canSpeak(Long where) {
-        return getConf(where).isSpeak();
+        return getConf(where).getSpeak();
     }
 
     public static boolean needCap(long where) {
-        return getConf(where).isCap();
+        return getConf(where).getCap();
     }
 
     public static boolean setSpeak(Long where, boolean k) {
-        return setConf(getConf(where).setSpeak(k)).isSpeak();
+        return setConf(getConf(where).setSpeak(k)).getSpeak();
     }
 
     public static boolean setCap(long where, boolean k) {
-        return setConf(getConf(where).setCap(k)).isCap();
+        return setConf(getConf(where).setCap(k)).getCap();
     }
 
     public static boolean openShow(Long where) {
-        return setConf(getConf(where).setShow(true)).isShow();
+        return setConf(getConf(where).setShow(true)).getShow();
     }
 
     public static boolean closeShow(Long where) {
-        return setConf(getConf(where).setShow(false)).isShow();
+        return setConf(getConf(where).setShow(false)).getShow();
     }
 
     public static boolean openGroup(Long where) {
-        return setConf(getConf(where).setOpen(true)).isOpen();
+        return setConf(getConf(where).setOpen(true)).getOpen();
     }
 
     public static boolean closeGroup(Long where) {
-        return setConf(getConf(where).setOpen(false)).isOpen();
+        return setConf(getConf(where).setOpen(false)).getOpen();
     }
 
     public static synchronized GroupConf getConf(long id) {
-        return FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
+        GroupConf groupConf;
+        if (groupConfMapper != null) {
+            groupConf = groupConfMapper.selectById(id);
+            if (groupConf == null) {
+                groupConf = new GroupConf().setId(id);
+                groupConfMapper.insert(groupConf);
+            }
+        } else {
+            groupConf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
+        }
+        return groupConf;
     }
 
     public static synchronized GroupConf setConf(GroupConf conf) {
+        if (groupConfMapper != null) {
+            UpdateWrapper<GroupConf> queryWrapper = new UpdateWrapper<>();
+            queryWrapper.eq("id", conf.getId());
+            groupConfMapper.update(conf, queryWrapper);
+            return conf;
+        }
         return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);
     }
 
+    public static boolean isFather(Long who) {
+        if (fatherMapper != null) {
+            Father father = null;
+            try {
+                father = fatherMapper.selectById(who);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return father != null;
+        }
+        return new File(path + "/mainfist/fathers/" + who).exists();
+    }
+
     public static boolean addFather(Long who) {
+        if (fatherMapper != null) {
+            Father father = new Father();
+            father.setId(who.longValue());
+            father.setPermission("all");
+            return fatherMapper.insert(father) > 0;
+        }
         File file = new File(path + "/mainfist/fathers/" + who);
         if (file.exists()) {
             return false;
@@ -104,13 +143,15 @@ public class DataBase {
     }
 
     public static boolean removeFather(Long who) {
+        if (fatherMapper != null) {
+            return fatherMapper.deleteById(who.longValue()) > 0;
+        }
         File file = new File(path + "/mainfist/fathers/" + who);
         if (file.exists()) {
             return file.delete();
         }
         return false;
     }
-
 
     public static boolean RegA(Long who) {
         try {
@@ -312,10 +353,6 @@ public class DataBase {
         UScore score = getAllInfo(who);
         score.setK(l);
         putInfo(score);
-    }
-
-    public static void AddAllScore(long num) {
-
     }
 
     public static String getString(String fileName) {

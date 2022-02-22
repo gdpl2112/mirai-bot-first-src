@@ -2,7 +2,7 @@ package Project.services.impl;
 
 
 import Project.services.detailServices.GameJoinDetailService;
-import Project.services.Iservice.IGameJoinAcService;
+import Project.interfaces.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;

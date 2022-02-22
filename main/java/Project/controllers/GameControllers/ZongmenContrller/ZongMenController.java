@@ -3,7 +3,7 @@ package Project.controllers.GameControllers.ZongmenContrller;
 
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
-import Project.services.Iservice.IZongMenService;
+import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

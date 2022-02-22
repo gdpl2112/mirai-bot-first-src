@@ -9,7 +9,7 @@ import Project.controllers.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.services.detailServices.ZongDetailService;
-import Project.services.Iservice.IZongMenService;
+import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

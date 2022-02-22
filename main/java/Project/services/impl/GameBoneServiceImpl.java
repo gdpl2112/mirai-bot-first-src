@@ -3,7 +3,7 @@ package Project.services.impl;
 
 import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import Project.dataBases.GameDataBase;
-import Project.services.Iservice.IGameBoneService;
+import Project.interfaces.Iservice.IGameBoneService;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.Entity;

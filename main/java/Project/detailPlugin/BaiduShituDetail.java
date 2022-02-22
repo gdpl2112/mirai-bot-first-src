@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import Project.interfaces.BaiduShitu0;
-import Project.interfaces.IBaiduShitu;
+import Project.interfaces.http_api.BaiduShitu0;
+import Project.interfaces.http_api.IBaiduShitu;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.BaiduShitu;

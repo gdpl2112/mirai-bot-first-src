@@ -5,7 +5,7 @@ import io.github.kloping.mirai0.Entitys.apiEntitys.Song;
 import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import io.github.kloping.mirai0.Entitys.apiEntitys.reping163.Reping163;
 import Project.detailPlugin.SearchSong;
-import Project.interfaces.MuXiaoGuo;
+import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;

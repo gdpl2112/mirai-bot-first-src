@@ -7,7 +7,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import Project.controllers.ConfirmController;
 import Project.dataBases.GameDataBase;
-import Project.services.Iservice.IGameService;
+import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
