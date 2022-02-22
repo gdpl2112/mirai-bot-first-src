@@ -2,7 +2,7 @@ package Project.dataBases;
 
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
-import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
+import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,7 +78,7 @@ public class ZongMenDataBase {
         try {
             File file = new File(path + "/" + id + "/main.json");
             String line = getStringFromFile(file.getPath());
-            Zong zong = JSONUtils.jsonStringToObject(line, Zong.class);
+            Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
             System.out.println(zong);
             return zong;
         } catch (Exception e) {
@@ -92,7 +92,7 @@ public class ZongMenDataBase {
             Integer id = qq2id.get(qq);
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
             String line = getStringFromFile(file.getPath());
-            Zon zon = JSONUtils.jsonStringToObject(line, Zon.class);
+            Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
             return zon;
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class ZongMenDataBase {
             File file = new File(path + "/" + zong.getId() + "/main.json");
             file.getParentFile().mkdirs();
             file.createNewFile();
-            String line = JSONUtils.objectToJsonString(zong);
+            String line = JsonUtils.objectToJsonString(zong);
             putStringInFile(line, file.getPath(), "utf-8");
             return true;
         } catch (IOException e) {
@@ -119,7 +119,7 @@ public class ZongMenDataBase {
             File file = new File(path + "/" + zon.getId() + "/" + zon.getQq() + ".json");
             file.getParentFile().mkdirs();
             file.createNewFile();
-            String line = JSONUtils.objectToJsonString(zon);
+            String line = JsonUtils.objectToJsonString(zon);
             putStringInFile(line, file.getPath(), "utf-8");
             qq2id.put(zon.getQq().longValue(), zon.getId());
             return true;

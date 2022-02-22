@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.Main.Handlers;
+package Project.listeners;
 
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -18,8 +18,8 @@ import java.util.Map;
 /**
  * @author github.kloping
  */
-public class EmojiCompositeHandler extends SimpleListenerHost {
-    public EmojiCompositeHandler() {
+public class EmojiCompositeListenerHost extends SimpleListenerHost {
+    public EmojiCompositeListenerHost() {
         super();
     }
 

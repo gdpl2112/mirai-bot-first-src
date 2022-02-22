@@ -3,7 +3,7 @@ package Project.dataBases.skill;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.unitls.Tools.JSONUtils;
+import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -40,7 +40,7 @@ public class SkillDataBase {
                 for (File file : files1.listFiles()) {
                     try {
                         String json = getStringFromFile(file.getPath(), "utf-8");
-                        SkillInfo info = JSONUtils.jsonStringToObject(json, SkillInfo.class);
+                        SkillInfo info = JsonUtils.jsonStringToObject(json, SkillInfo.class);
                         info.setState(0);
                         info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                         appendInfo(info);
@@ -83,7 +83,7 @@ public class SkillDataBase {
         if (!file.exists())
             if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
-        String json = JSONUtils.objectToJsonString(info);
+        String json = JsonUtils.objectToJsonString(info);
         putStringInFile(json, file.getPath(), "utf-8");
     }
 

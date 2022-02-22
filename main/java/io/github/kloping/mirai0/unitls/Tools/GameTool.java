@@ -91,6 +91,11 @@ public class GameTool {
         return is > 0;
     }
 
+    /**
+     * 魂环加成
+     * @param id
+     * @return
+     */
     public static double getAHBl(int id) {
         switch (id) {
             case 201:
