@@ -101,9 +101,10 @@ public class DataBase {
 
     public static synchronized GroupConf setConf(GroupConf conf) {
         if (groupConfMapper != null) {
-            UpdateWrapper<GroupConf> queryWrapper = new UpdateWrapper<>();
-            queryWrapper.eq("id", conf.getId());
-            groupConfMapper.update(conf, queryWrapper);
+            getConf(conf.getId());
+            UpdateWrapper<GroupConf> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id", conf.getId());
+            groupConfMapper.update(conf, updateWrapper);
             return conf;
         }
         return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);

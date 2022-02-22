@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.aSpring.SpringBootResource.groupConfMapper;
 import static Project.dataBases.DataBase.path;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
@@ -267,6 +268,7 @@ public class SuperController {
             String s = file.getName();
             Long id = Long.parseLong(s.substring(0, s.length() - 5).trim());
             GroupConf conf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
+            DataBase.getConf(id);
             DataBase.setConf(conf);
         }
         return "moved";
