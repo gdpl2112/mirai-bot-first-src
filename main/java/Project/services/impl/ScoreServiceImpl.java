@@ -3,7 +3,7 @@ package Project.services.impl;
 
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -26,7 +26,7 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public String selectInfo(Long who) {
         StringBuilder str = new StringBuilder();
-        UScore lll = DataBase.getAllInfo(who);
+        UserScore lll = DataBase.getAllInfo(who);
         str.append("剩的积分:").append(lll.getScore()).append("\r\n");
         str.append("存的积分:").append(lll.getSScore());
         return str.toString();
@@ -94,7 +94,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String sign(Long who) {
-        UScore ls = DataBase.getAllInfo(who);
+        UserScore ls = DataBase.getAllInfo(who);
         long day = Long.parseLong(getToday());
         if (ls.getDay() == day) {
             return "签到失败,你今天已经签到过了!!";

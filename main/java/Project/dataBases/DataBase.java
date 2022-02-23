@@ -1,13 +1,14 @@
 package Project.dataBases;
 
 
+import Project.aSpring.SpringBootResource;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Entitys.Father;
 import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UserScore;
 
 import java.io.File;
 import java.io.IOException;
@@ -153,35 +154,17 @@ public class DataBase {
         return false;
     }
 
-    public static boolean RegA(Long who) {
-        try {
-            String pathN = path + "/users/" + who;
-            File file = new File(pathN + "/infos");
-            UScore score = new UScore();
-            score.setWho(who);
-            String jsonStr = JSON.toJSONString(score);
-            putStringInFile(jsonStr, file.getPath());
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public static boolean regA(Long who) {
+        return SpringBootResource.getScoreMapper().insert(new UserScore().setWho(who.longValue())) > 0;
     }
 
     public static boolean exists(Long who) {
-        try {
-            String pathN = path + "/users/" + who;
-            File file = new File(pathN);
-            boolean k = file.exists();
-            return k;
-        } catch (Exception e) {
-            return false;
-        }
+        return SpringBootResource.getScoreMapper().selectById(who.longValue()) != null;
     }
 
     public static long[] getAllInfoOld(Long who) {
         if (!exists(who)) {
-            RegA(who);
+            regA(who);
         }
         try {
             System.out.println("查询 " + who + "的 信息");
@@ -204,13 +187,27 @@ public class DataBase {
         }
     }
 
-    public static final Map<Long, UScore> HIST_U_SCORE = new ConcurrentHashMap<>();
+    public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
 
-    public static UScore getAllInfo(Long who) {
+    public static UserScore getAllInfo(Long who) {
         if (!exists(who)) {
-            RegA(who);
+            regA(who);
         }
-        UScore uScore = null;
+        UserScore uScore = null;
+        try {
+            if (HIST_U_SCORE.containsKey(who.longValue())) {
+                return HIST_U_SCORE.get(who.longValue());
+            }
+            uScore = SpringBootResource.getScoreMapper().selectById(who.longValue());
+            HIST_U_SCORE.put(who.longValue(), uScore);
+            return uScore;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static UserScore getAllInfoFile(Long who) {
+        UserScore uScore = null;
         try {
             if (HIST_U_SCORE.containsKey(who.longValue())) {
                 return HIST_U_SCORE.get(who.longValue());
@@ -219,11 +216,11 @@ public class DataBase {
             File file = new File(pathN + "/infos");
             if (file.exists()) {
                 String jsonStr = getStringFromFile(file.getPath());
-                uScore = JSON.parseObject(jsonStr, UScore.class);
+                uScore = JSON.parseObject(jsonStr, UserScore.class);
                 tryDeleteOld(who);
             } else {
                 long[] ll = getAllInfoOld(who);
-                uScore = new UScore();
+                uScore = new UserScore();
                 uScore.setScore(ll[0]);
                 uScore.setSScore(ll[1]);
                 uScore.setTimesDay(ll[2]);
@@ -256,57 +253,29 @@ public class DataBase {
         new File(pathN + "/" + who + ".k").delete();
     }
 
-    public static final int PUT_INFO_INDEX_MAX = 10;
-
-    private static final Map<Long, Integer> PUT_INFO_INDEX = new ConcurrentHashMap<>();
-
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                PUT_INFO_INDEX.forEach((k, v) -> {
-                    putInfoTrue(HIST_U_SCORE.get(k));
-                });
-            }
-        });
-    }
-
-    public static void putInfoTrue(UScore score) {
+    public static void putInfo(UserScore score) {
         long who = score.getWho().longValue();
-        String pathN = path + "/users/" + who + "/infos";
-        putStringInFile(JSON.toJSONString(score), pathN);
-    }
-
-    public static void putInfo(UScore score) {
-        long who = score.getWho().longValue();
-        if (PUT_INFO_INDEX.containsKey(who)) {
-            if (PUT_INFO_INDEX.get(who) >= PUT_INFO_INDEX_MAX) {
-                putInfoTrue(score);
-                PUT_INFO_INDEX.remove(who);
-            } else {
-                PUT_INFO_INDEX.put(who, PUT_INFO_INDEX.get(who) + 1);
-            }
-        } else {
-            PUT_INFO_INDEX.put(who, 1);
-        }
+        UpdateWrapper<UserScore> q = new UpdateWrapper<>();
+        q.eq("who", who);
+        SpringBootResource.getScoreMapper().update(score, q);
     }
 
     public static long addScore(long l, Long who) {
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         score.setScore(score.getScore() + l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long addFz(long l, Long who) {
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         score.setFz(score.getFz() + l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long addScore_(long l, Long who) {
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         score.setSScore(score.getSScore() + l);
         putInfo(score);
         return score.getScore();
@@ -314,9 +283,9 @@ public class DataBase {
 
     public static long addTimes(long l, Long who) {
         if (!exists(who)) {
-            RegA(who);
+            regA(who);
         }
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         try {
             int today = Integer.parseInt(getToday());
             if (score.getTimesDay().intValue() != today) {
@@ -332,13 +301,13 @@ public class DataBase {
             String pathN = path + "/users/" + who;
             File file = new File(pathN + "/infos");
             file.delete();
-            RegA(who);
+            regA(who);
         }
         return 1L;
     }
 
     private static long addTimes_(long l, Long who) {
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         score.setSTimes(score.getSTimes() + l);
         putInfo(score);
         return score.getScore();
@@ -350,7 +319,7 @@ public class DataBase {
     }
 
     public static void setK(Long who, long l) {
-        UScore score = getAllInfo(who);
+        UserScore score = getAllInfo(who);
         score.setK(l);
         putInfo(score);
     }

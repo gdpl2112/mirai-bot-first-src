@@ -142,7 +142,7 @@ public class MyHandler extends SimpleListenerHost {
 
     private static void eveEnd(String text, long id, io.github.kloping.mirai0.Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         DAE_THREADS.execute(() -> {
-            DataBase.addTimes(1, id);
+//            DataBase.addTimes(1, id);
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
             if (CD < System.currentTimeMillis()) {
                 if (upMessage != null && upMessage.equals(text)) {

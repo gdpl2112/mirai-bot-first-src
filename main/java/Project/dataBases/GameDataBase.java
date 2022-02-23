@@ -31,7 +31,6 @@ public class GameDataBase {
     public static final Map<Integer, Integer> ID_2_WEA_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> ID_2_WEA_O_NUM_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> WH_2_TYPE = new ConcurrentHashMap<>();
-    public static final Map<Number, Integer> KILLED_C = new LinkedHashMap<>();
 
     public GameDataBase(String mainPath) {
         try {
@@ -58,7 +57,6 @@ public class GameDataBase {
         initWeaList();
         initWeaONumList();
         initWhType();
-        initKilledC();
     }
 
     private static void initName() {
@@ -312,23 +310,6 @@ public class GameDataBase {
         ID_2_WEA_O_NUM_MAPS.put(1007, 2);
     }
 
-    private static void initKilledC() {
-        try {
-            String[] sss = getStringsFromFile(path + "/dates/system/killedsc");
-            for (String s1 : sss) {
-                if (s1.trim().isEmpty()) continue;
-                String[] ss = s1.split("=");
-                Number number = Long.valueOf(ss[0]);
-                Integer c = Integer.valueOf(ss[1]);
-                KILLED_C.put(number, c);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static int indexKC = 0;
-
     public static void onKilled(Number who) {
         Integer n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
         n0 = n0 == null ? 1 : n0 + 1;
@@ -402,7 +383,6 @@ public class GameDataBase {
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN);
         boolean k = file.exists();
-        System.gc();
         return k;
     }
 
@@ -413,7 +393,6 @@ public class GameDataBase {
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN);
         boolean k = file.exists();
-        System.gc();
         return k;
     }
     //=========================================

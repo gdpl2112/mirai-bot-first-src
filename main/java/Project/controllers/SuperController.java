@@ -1,5 +1,6 @@
 package Project.controllers;
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.detailPlugin.CurfewScheduler;
@@ -11,8 +12,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Curfew;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
@@ -23,9 +24,6 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.aSpring.SpringBootResource.getKillGhostMapper;
-import static Project.aSpring.SpringBootResource.getWarpMapper;
-import static Project.dataBases.GameDataBase.KILLED_C;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -249,18 +247,23 @@ public class SuperController {
         return "ok";
     }
 
-    @Action("/moveWarp")
+    @Action("/moveUS")
     public Object m4() {
-        for (File file : new File(GameDataBase.path + "/dates/users/").listFiles()) {
+        for (File file : new File(DataBase.path + "/users/").listFiles()) {
             try {
                 Long q = Long.valueOf(file.getName());
-                getWarpMapper().insert(Warp.getInstanceFromFile(q));
-            } catch (NumberFormatException e) {
+                UserScore score = DataBase.getAllInfoFile(q);
+                SpringBootResource.getScoreMapper().insert(score);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return "ok";
     }
+
+
+/*
+
 
     @Action("/moveKC")
     public Object m5() {
@@ -270,7 +273,6 @@ public class SuperController {
         return "ok";
     }
 
-/*
     @Action("/moveFathers")
     public Object m0() {
         for (File file : new File(path + "/mainfist/fathers/").listFiles()) {

@@ -5,7 +5,7 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.clasz.ClassUtils;
-import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,7 +29,7 @@ public class SpringBootResource {
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
 
-    public static UScoreMapper scoreMapper;
+    public static UserScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
     public static GInfoMapper gInfoMapper;
     public static AutoReplyMapper autoReplyMapper;
@@ -56,7 +56,7 @@ public class SpringBootResource {
         return environment;
     }
 
-    public static UScoreMapper getScoreMapper() {
+    public static UserScoreMapper getScoreMapper() {
         return scoreMapper;
     }
 
@@ -148,7 +148,7 @@ public class SpringBootResource {
             for (File f : file.listFiles()) {
                 try {
                     long q = Long.valueOf(f.getName());
-                    UScore score = getAllInfo(q);
+                    UserScore score = getAllInfo(q);
                     getScoreMapper().insert(score);
                     System.out.println("moved sc: " + q);
                 } catch (Exception e) {

@@ -13,7 +13,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -250,7 +250,7 @@ public class EntertainmentController {
         if (idiom == null) {
             return "游戏未开始:请说 开始成语接龙";
         }
-        UScore score = DataBase.getAllInfo(user.getId());
+        UserScore score = DataBase.getAllInfo(user.getId());
         if (score.getScore() < eveS1) {
             return "您的积分不足...";
         }

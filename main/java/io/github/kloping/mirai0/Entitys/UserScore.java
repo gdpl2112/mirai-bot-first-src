@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.Entitys;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UScore implements Serializable {
-    private Long score = Long.valueOf(1000);
+public class UserScore implements Serializable {
+    private Long score = 1000L;
     private Long times = 0L;
     private Long fz = 0L;
     @JSONField(name = "times_")
@@ -28,5 +29,6 @@ public class UScore implements Serializable {
     private Long K = -1L;
     private Long day = -1L;
     private Long timesDay = -1L;
+    @TableId
     private Long who;
 }

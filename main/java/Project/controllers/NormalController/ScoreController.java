@@ -2,7 +2,7 @@ package Project.controllers.NormalController;
 
 
 import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
@@ -140,7 +140,7 @@ public class ScoreController {
 
     @Action("我的发言")
     public String getSpeaks(User qq) {
-        UScore ls = DataBase.getAllInfo(qq.getId());
+        UserScore ls = DataBase.getAllInfo(qq.getId());
         return "你今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次";
     }
 
@@ -149,7 +149,7 @@ public class ScoreController {
         try {
             long who = getAtFromString(mess);
             if (!DataBase.exists(who)) return "该玩家尚未注册";
-            UScore ls = DataBase.getAllInfo(who);
+            UserScore ls = DataBase.getAllInfo(who);
             return "ta的积分剩余:" + ls.getScore();
         } catch (NumberFormatException e) {
             return "格式错误(例: 侦查积分 @我 )";
@@ -169,7 +169,7 @@ public class ScoreController {
             if (who == -1)
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
-            UScore ls = DataBase.getAllInfo(who);
+            UserScore ls = DataBase.getAllInfo(who);
             return builder.append("ta").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();
