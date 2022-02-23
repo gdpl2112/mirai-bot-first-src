@@ -802,8 +802,8 @@ public class GameServiceImpl implements IGameService {
     public String chuShiNow(long q) {
         Warp warp1 = getWarp(q);
         Warp warp2 = getWarp(warp1.getMaster());
-        warp1.setMaster(-1);
-        warp2.setPrentice(-1);
+        warp1.setMaster(-1L);
+        warp2.setPrentice(-1L);
         setWarp(warp1);
         setWarp(warp2);
         return pathToImg(drawWarpPng(warp1));

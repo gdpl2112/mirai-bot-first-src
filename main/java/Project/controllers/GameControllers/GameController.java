@@ -348,8 +348,8 @@ public class GameController {
             long q1 = qq;
             long q2 = warp.getBindQ().longValue();
             Warp warp2 = getWarp(q2);
-            warp.setBindQ(-1);
-            warp2.setBindQ(-1);
+            warp.setBindQ(-1L);
+            warp2.setBindQ(-1L);
             setWarp(warp);
             setWarp(warp2);
             return "解除成功";

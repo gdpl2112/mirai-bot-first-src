@@ -25,6 +25,7 @@ import static Project.dataBases.GameDataBase.getInfo;
  */
 public class SpringBootResource {
     private static final String PUBLIC_IP = getPublicIp();
+    public static String address;
 
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
@@ -36,7 +37,11 @@ public class SpringBootResource {
     public static FatherMapper fatherMapper;
     public static TradingRecordMapper tradingRecordMapper;
     public static ShopItemMapper shopItemMapper;
-    public static String address;
+    public static WarpMapper warpMapper;
+
+    public static WarpMapper getWarpMapper() {
+        return warpMapper;
+    }
 
     public static ConfigurableApplicationContext getConfiguration() {
         return configuration;

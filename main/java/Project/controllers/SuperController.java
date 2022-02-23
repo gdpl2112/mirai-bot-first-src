@@ -2,35 +2,29 @@ package Project.controllers;
 
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
-import Project.dataBases.OtherDatabase;
-import Project.dataBases.ShopDataBase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.*;
+import io.github.kloping.mirai0.Entitys.Curfew;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
+import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import org.springframework.core.io.buffer.DataBuffer;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.aSpring.SpringBootResource.*;
-import static Project.dataBases.DataBase.path;
+import static Project.aSpring.SpringBootResource.getWarpMapper;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.ShopDataBase.ITEM_MAP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
@@ -205,7 +199,6 @@ public class SuperController {
         return m1.toString();
     }
 
-
     @Action("更新宵禁<.+=>str>")
     public String a0(@Param("str") String str, Group group) {
         String[] ss = getTime(str);
@@ -246,7 +239,6 @@ public class SuperController {
         return "ok";
     }
 
-
     @Action("/即时公告.+")
     public String announcement(@AllMess String str) {
         for (net.mamoe.mirai.contact.Group group : bot.getGroups()) {
@@ -255,6 +247,19 @@ public class SuperController {
         return "ok";
     }
 
+    @Action("/moveWarp")
+    public Object m4() {
+        for (File file : new File(GameDataBase.path + "/dates/users/").listFiles()) {
+            try {
+                Long q = Long.valueOf(file.getName());
+                getWarpMapper().insert(Warp.getInstanceFromFile(q));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return "ok";
+    }
+/*
     @Action("/moveFathers")
     public Object m0() {
         for (File file : new File(path + "/mainfist/fathers/").listFiles()) {
@@ -298,5 +303,6 @@ public class SuperController {
             ITEM_MAP.put(item.getId(), item);
         }
         return "1";
-    }
+    }*/
+
 }
