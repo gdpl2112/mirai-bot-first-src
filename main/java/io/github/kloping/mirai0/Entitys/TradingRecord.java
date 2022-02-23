@@ -2,6 +2,8 @@ package io.github.kloping.mirai0.Entitys;
 
 import Project.dataBases.OtherDatabase;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -35,6 +37,7 @@ public class TradingRecord {
     public void setType0(String type0) {
         this.type0 = Type0.valueOf(type0);
     }
+
     @JSONField(name = "type1")
     public void setType1(String type1) {
         this.type1 = Type1.valueOf(type1);
@@ -49,20 +52,71 @@ public class TradingRecord {
         this.type1 = type1;
         return this;
     }
+//
+//    public Type0 type0;
+//    public Type1 type1;
+//    public Long from;
+//    public Long to;
+//    public Long main;
+//    public Long now;
+//    public Long many;
+//    public String desc;
 
-    public Type0 type0;
-    public Type1 type1;
+    @TableField("`type0`")
+    private Type0 type0;
 
-    public long from;
-    public long to;
-    public long main;
-    public Number now;
-    public Number many;
-    public String desc;
+    @TableField("`type1`")
+    private Type1 type1;
 
-    public long time = System.currentTimeMillis();
+    @TableField("`from`")
+    private Long from;
 
-    public static final synchronized List<TradingRecord> getInstance(long q) {
-        return OtherDatabase.getList(q);
+    @TableField("`to`")
+    private Long to;
+
+    @TableField("`main`")
+    private Long main;
+
+    @TableField("`now`")
+    private Long now;
+
+    @TableField("`many`")
+    private Long many;
+
+    @TableField("`desc`")
+    private String desc;
+
+    @TableField("`time`")
+    private Long time = System.currentTimeMillis();
+
+
+    public TradingRecord setTo(Integer to) {
+        this.to = to.longValue();
+        return this;
+    }
+
+    public TradingRecord setTo(Long to) {
+        this.to = to.longValue();
+        return this;
+    }
+
+    public TradingRecord setFrom(Integer v) {
+        this.from = v.longValue();
+        return this;
+    }
+
+    public TradingRecord setFrom(Long v) {
+        this.from = v.longValue();
+        return this;
+    }
+
+    public TradingRecord setMany(Integer v) {
+        this.many = v.longValue();
+        return this;
+    }
+
+    public TradingRecord setMany(Long v) {
+        this.many = v.longValue();
+        return this;
     }
 }

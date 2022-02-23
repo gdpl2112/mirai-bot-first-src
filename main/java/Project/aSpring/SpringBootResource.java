@@ -31,11 +31,13 @@ public class SpringBootResource {
     public static AutoReplyMapper autoReplyMapper;
     public static GroupConfMapper groupConfMapper;
     public static FatherMapper fatherMapper;
+    public static TradingRecordMapper tradingRecordMapper;
     public static String address;
 
     public static void init() {
         try {
             try {
+                tradingRecordMapper = configuration.getBean(TradingRecordMapper.class);
                 fatherMapper = configuration.getBean(FatherMapper.class);
                 groupConfMapper = configuration.getBean(GroupConfMapper.class);
                 scoreMapper = configuration.getBean(UScoreMapper.class);

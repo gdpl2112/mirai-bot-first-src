@@ -143,9 +143,7 @@ public class GameReceiver0 {
         RecordBroadcast.INSTANCE.add(new RecordBroadcast.RecordReceiver() {
             @Override
             public void onReceiver(long who, TradingRecord record) {
-                List<TradingRecord> tradingRecordList = OtherDatabase.getList(who);
-                tradingRecordList.add(record);
-                OtherDatabase.apply(who, tradingRecordList);
+                OtherDatabase.insert(record);
             }
         });
     }

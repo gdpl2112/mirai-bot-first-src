@@ -2,6 +2,7 @@ package Project.controllers.NormalController;
 
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.OtherDatabase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
@@ -9,10 +10,7 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.Curfew;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.*;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -27,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.groupConfMapper;
+import static Project.aSpring.SpringBootResource.tradingRecordMapper;
 import static Project.dataBases.DataBase.path;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
@@ -272,5 +271,17 @@ public class SuperController {
             DataBase.setConf(conf);
         }
         return "moved";
+    }
+
+    @Action("/moveTR")
+    public Object m2() {
+        for (File file : new File(OtherDatabase.lib).listFiles()) {
+            String n0 = file.getName();
+            Long qid = Long.valueOf(n0);
+            for (TradingRecord tradingRecord : OtherDatabase.getList(qid.longValue())) {
+                tradingRecordMapper.insert(tradingRecord);
+            }
+        }
+        return "01";
     }
 }

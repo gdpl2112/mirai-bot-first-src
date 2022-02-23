@@ -71,12 +71,6 @@ public class RestController0 {
             CAPING.remove(qid);
             CANS.remove(canId);
             List<TradingRecord> records = OtherDatabase.getList(Long.parseLong(qid));
-            Collections.sort(records, new Comparator<TradingRecord>() {
-                @Override
-                public int compare(TradingRecord o1, TradingRecord o2) {
-                    return (int) (o2.getTime() - o1.getTime());
-                }
-            });
             return JSON.toJSONString(records);
         }
         return "err";

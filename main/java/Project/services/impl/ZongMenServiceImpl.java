@@ -1,27 +1,27 @@
 package Project.services.impl;
 
+import Project.controllers.ConfirmController;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.ZongMenDataBase;
+import Project.interfaces.Iservice.IZongMenService;
+import Project.services.detailServices.ZongDetailService;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
-import Project.controllers.ConfirmController;
-import Project.dataBases.GameDataBase;
-import Project.dataBases.ZongMenDataBase;
-import Project.services.detailServices.ZongDetailService;
-import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
+import static Project.ResourceSet.FinalString.NULL_LOW_STR;
+import static Project.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static Project.controllers.GameControllers.ZongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
-import static Project.ResourceSet.FinalString.NULL_LOW_STR;
-import static Project.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.FilterImg;
@@ -77,7 +77,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                 .setMain(who)
                 .setFrom(who)
                 .setDesc("创建宗门")
-                .setMany(-450)
+                .setMany(450)
         ));
         putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
         return ZongInfo(who, group);
