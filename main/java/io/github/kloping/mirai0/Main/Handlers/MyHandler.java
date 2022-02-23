@@ -6,6 +6,7 @@ import Project.controllers.auto.ControllerTool;
 import Project.controllers.NormalController.EntertainmentController;
 import Project.controllers.NormalController.SessionController;
 import Project.dataBases.DataBase;
+import com.baomidou.mybatisplus.extension.api.R;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.Resource;
@@ -67,19 +68,14 @@ public class MyHandler extends SimpleListenerHost {
             CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
             return;
         }
-        if (!Resource.Switch.AllK) {
-            return;
-        }
         if (event.getSender() instanceof AnonymousMember) {
             return;
         }
         String text = null;
         io.github.kloping.mirai0.Entitys.Group eGroup = null;
         Group group = null;
-        MessageChain chain = null;
         long id = -1;
         try {
-            chain = event.getMessage();
             id = event.getSender().getId();
             boolean inS = SessionController.INSTANCE.contains(id);
             group = event.getGroup();
@@ -97,7 +93,7 @@ public class MyHandler extends SimpleListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            eveEnd(text, id, eGroup, group, event.getSender(), chain);
+            eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
         }
     }
 
@@ -140,24 +136,29 @@ public class MyHandler extends SimpleListenerHost {
         return null;
     }
 
+    public static String upMessage = null;
+    public static final long REPEAT_CD = 10 * 1000;
+    public static long CD = 10 * 1000;
+
     private static void eveEnd(String text, long id, io.github.kloping.mirai0.Entitys.Group eGroup, Group group, Member member, MessageChain message) {
         DAE_THREADS.execute(() -> {
             DataBase.addTimes(1, id);
-            if (upMessage != null && upMessage.equals(text)) {
-                Nudge nudge = member.nudge();
-                nudge.sendTo(group);
-                group.sendMessage(message);
-                upMessage = null;
-            } else {
-                upMessage = text;
-            }
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
+            if (CD < System.currentTimeMillis()) {
+                if (upMessage != null && upMessage.equals(text)) {
+                    Nudge nudge = member.nudge();
+                    nudge.sendTo(group);
+                    group.sendMessage(message);
+                    CD = System.currentTimeMillis() + REPEAT_CD;
+                    upMessage = null;
+                } else {
+                    upMessage = text;
+                }
+            }
         });
     }
 
     private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
-
-    public static String upMessage = null;
 
     public static MemberJoinRequestEvent joinRequestEvent;
 
@@ -182,15 +183,6 @@ public class MyHandler extends SimpleListenerHost {
             event.getGroup().sendMessage(builder.build());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public static boolean autoAcceptFriend = false;
-
-    @EventHandler
-    public void onAceFriend(NewFriendRequestEvent event) {
-        if (autoAcceptFriend) {
-            event.accept();
         }
     }
 
@@ -230,12 +222,12 @@ public class MyHandler extends SimpleListenerHost {
             return;
         }
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("有个人,被凶狠踢出群聊,好吓机器人").append(new Face(Face.HAI_PA)).append("\n");
+        builder.append("有个人,被踢出群聊").append(new Face(Face.HAI_PA)).append("\n");
         Member member = event.getOperator();
         if (member == null) {
             return;
         }
-        builder.append("\"凶狠\":").append(member == null ? "原来是我自己" : member.getNameCard())
+        builder.append("\"操作者\":").append(member == null ? event.getBot().getNick() : member.getNameCard())
                 .append("\r\n");
         builder.append("群里只剩").append(String.valueOf(event.getGroup().getMembers().size() + 1))
                 .append("位成员了\n");
