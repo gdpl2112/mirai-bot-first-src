@@ -122,7 +122,7 @@ public class Resource {
 
     protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
-        StarterApplication.setWaitTime(120 * 1000L);
+        StarterApplication.setWaitTime(9999 * 1000L);
         StarterApplication.setAccessTypes(Long.class, io.github.kloping.mirai0.Entitys.User.class, Group.class, Integer.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
