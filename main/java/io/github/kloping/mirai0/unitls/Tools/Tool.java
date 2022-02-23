@@ -847,7 +847,7 @@ public class Tool {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            return defaultValue.toString();
         }
     }
 

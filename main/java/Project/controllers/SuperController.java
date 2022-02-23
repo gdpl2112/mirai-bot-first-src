@@ -255,6 +255,7 @@ public class SuperController {
                 Long q = Long.valueOf(file.getName());
                 UserScore score = DataBase.getAllInfoFile(q);
                 score.setWho(q);
+                score.check();
                 SpringBootResource.getScoreMapper().insert(score);
             } catch (Exception e) {
                 e.printStackTrace();

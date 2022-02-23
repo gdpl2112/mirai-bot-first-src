@@ -232,10 +232,10 @@ public class DataBase {
                 putStringInFile(jsonStr, file.getPath());
             }
             HIST_U_SCORE.put(who.longValue(), uScore);
-            return uScore;
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
         }
+        return uScore;
     }
 
     private static void tryDeleteOld(long who) {
