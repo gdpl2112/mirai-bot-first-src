@@ -162,28 +162,6 @@ public class DataBase {
         return SpringBootResource.getScoreMapper().selectById(who.longValue()) != null;
     }
 
-    public static long[] getAllInfoOld(Long who) {
-        try {
-            System.out.println("查询 " + who + "的 信息");
-            String pathN = path + "/users/" + who;
-            long l1 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
-            long l2 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
-            long l31 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
-            long l32 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
-            long l4 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
-            long l5 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
-            long l6 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
-            long l7 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
-            long l8 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
-            long[] ls = new long[]{l1, l2, l32, l32, l4, l5, l6, l7, l8};
-            System.out.println(Arrays.toString(ls));
-            return ls;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
 
     public static UserScore getAllInfo(Long who) {
@@ -238,6 +216,30 @@ public class DataBase {
         return uScore;
     }
 
+    public static long[] getAllInfoOld(Long who) {
+        try {
+            System.out.println("查询 " + who + "的 信息");
+            String pathN = path + "/users/" + who;
+            long l1 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
+            long l2 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
+            long l31 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
+            long l32 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
+            long l4 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
+            long l5 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
+            long l6 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
+            long l7 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
+            long l8 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
+            long[] ls = new long[]{l1, l2, l32, l32, l4, l5, l6, l7, l8};
+            System.out.println(Arrays.toString(ls));
+            return ls;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            tryDeleteOld(who);
+        }
+    }
+
     private static void tryDeleteOld(long who) {
         String pathN = path + "/users/" + who;
         new File(pathN + "/" + who + ".score").delete();
@@ -251,6 +253,7 @@ public class DataBase {
     }
 
     public static void putInfo(UserScore score) {
+        HIST_U_SCORE.put(score.getWho().longValue(), score);
         long who = score.getWho().longValue();
         UpdateWrapper<UserScore> q = new UpdateWrapper<>();
         q.eq("who", who);
