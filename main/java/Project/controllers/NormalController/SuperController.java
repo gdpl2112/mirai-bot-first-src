@@ -278,7 +278,7 @@ public class SuperController {
         for (File file : new File(OtherDatabase.lib).listFiles()) {
             String n0 = file.getName();
             Long qid = Long.valueOf(n0);
-            for (TradingRecord tradingRecord : OtherDatabase.getList(qid.longValue())) {
+            for (TradingRecord tradingRecord : OtherDatabase.getListF(qid.longValue())) {
                 tradingRecordMapper.insert(tradingRecord);
             }
         }

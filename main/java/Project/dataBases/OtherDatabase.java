@@ -20,6 +20,17 @@ public class OtherDatabase {
         OtherDatabase.lib = new File(lib, "records").getAbsolutePath();
     }
 
+    public static List<TradingRecord> getListF(long q) {
+        File file = new File(lib, String.format("%s/%s.json", q, q));
+        List<JSONObject> list = new LinkedList<>();
+        List<TradingRecord> listo = new LinkedList<>();
+        list = FileInitializeValue.getValue(file.getAbsolutePath(), list, true);
+        list.forEach(e -> {
+            listo.add(e.toJavaObject(TradingRecord.class));
+        });
+        return listo;
+    }
+
     public static List<TradingRecord> getList(long q) {
         return SpringBootResource.tradingRecordMapper.getList(q);
     }
