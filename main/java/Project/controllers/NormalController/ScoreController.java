@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.ResourceSet.FinalFormat.CANT_BIGGER;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;

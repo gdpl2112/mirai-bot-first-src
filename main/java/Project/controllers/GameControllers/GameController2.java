@@ -11,7 +11,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.number.NumberUtils;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**

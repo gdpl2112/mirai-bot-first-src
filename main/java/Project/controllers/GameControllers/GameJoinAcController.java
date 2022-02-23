@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.NormalController.ScoreController.longs;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.KILLED_C;

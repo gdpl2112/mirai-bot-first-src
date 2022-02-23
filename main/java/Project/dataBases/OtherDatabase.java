@@ -32,13 +32,16 @@ public class OtherDatabase {
     }
 
     public static List<TradingRecord> getList(long q) {
-        return SpringBootResource.tradingRecordMapper.getList(q);
+        return SpringBootResource.getTradingRecordMapper().getList(q);
     }
 
     public static boolean insert(TradingRecord tradingRecord) {
-        return SpringBootResource.tradingRecordMapper.insert(tradingRecord)>0;
+        return SpringBootResource.getTradingRecordMapper().insert(tradingRecord)>0;
     }
-    /*public static String lib = "";
+
+    /*
+
+    public static String lib = "";
 
     public OtherDatabase(String lib) {
         OtherDatabase.lib = new File(lib, "records").getAbsolutePath();

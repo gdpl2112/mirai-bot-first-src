@@ -11,7 +11,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 

@@ -9,7 +9,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.NormalController.ScoreController.longs;
 import static io.github.kloping.mirai0.Main.Resource.println;
 

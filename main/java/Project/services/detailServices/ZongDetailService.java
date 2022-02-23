@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.controllers.TimerController.ZERO_RUNS;
+import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;

@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.controllers.TimerController.ZERO_RUNS;
+import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;

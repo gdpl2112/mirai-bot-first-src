@@ -14,7 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import static Project.controllers.ControllerTool.canGroup;
+import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.isFather;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.*;
 

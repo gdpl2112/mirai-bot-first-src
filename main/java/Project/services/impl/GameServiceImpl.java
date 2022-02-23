@@ -2,7 +2,7 @@ package Project.services.impl;
 
 
 import Project.broadcast.enums.ObjType;
-import Project.controllers.ConfirmController;
+import Project.controllers.auto.ConfirmController;
 import Project.controllers.GameControllers.GameController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;

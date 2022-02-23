@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.controllers.TimerController.ZERO_RUNS;
+import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getHhs;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;

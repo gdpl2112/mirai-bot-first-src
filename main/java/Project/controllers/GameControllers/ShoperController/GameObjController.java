@@ -10,7 +10,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.NormalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;

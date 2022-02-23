@@ -1,4 +1,4 @@
-package Project.controllers;
+package Project.controllers.NormalController;
 
 import Project.detailPlugin.RunAll;
 import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeContent;

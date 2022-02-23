@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.isIlleg;
 import static io.github.kloping.mirai0.Main.Resource.println;

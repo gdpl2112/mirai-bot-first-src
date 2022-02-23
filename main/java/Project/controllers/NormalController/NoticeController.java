@@ -8,7 +8,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.ResourceSet.FinalValue.*;
 import static io.github.kloping.mirai0.Main.Resource.println;
 

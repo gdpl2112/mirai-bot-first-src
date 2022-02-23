@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static Project.controllers.ControllerTool.opened;
-import static Project.controllers.TimerController.MORNING_RUNNABLE;
+import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;

@@ -1,4 +1,4 @@
-package Project.controllers;
+package Project.controllers.auto;
 
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;

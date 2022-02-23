@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.aSpring.SpringBootResource.autoReplyMapper;
-import static Project.controllers.ControllerTool.canGroup;
-import static Project.controllers.ControllerTool.opened;
+import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
+import static Project.controllers.auto.ControllerTool.canGroup;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
 import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
 import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
@@ -259,7 +259,7 @@ public class CustomController {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
         Map<String, Reply> map = new LinkedHashTreeMap<>();
-        for (AutoReply autoReply : autoReplyMapper.selectList(queryWrapper)) {
+        for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
             Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
             reply.id = autoReply.getId();
             map.put(autoReply.getK(), reply);
@@ -270,15 +270,15 @@ public class CustomController {
     public final static synchronized int getAllAutoReplyCount() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
-        return autoReplyMapper.selectList(queryWrapper).size();
+        return getAutoReplyMapper().selectList(queryWrapper).size();
     }
 
     public final static synchronized boolean deleteReply(Reply reply) {
-        AutoReply autoReply = autoReplyMapper.selectById(reply.id);
+        AutoReply autoReply = getAutoReplyMapper().selectById(reply.id);
         autoReply.setDeleteStat(1);
         UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
         wrapper.eq("id", reply.id);
-        return autoReplyMapper.update(autoReply, wrapper) > 0;
+        return getAutoReplyMapper().update(autoReply, wrapper) > 0;
     }
 
     public final static synchronized boolean addReply(Reply reply) {
@@ -288,7 +288,7 @@ public class CustomController {
                 .setDeleteStat(0)
                 .setWho(String.valueOf(reply.who))
                 .setTime(String.valueOf(reply.time));
-        return autoReplyMapper.insert(autoReply) > 0;
+        return getAutoReplyMapper().insert(autoReply) > 0;
     }
 
     public final static class Reply {

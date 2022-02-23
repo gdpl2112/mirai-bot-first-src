@@ -1,8 +1,9 @@
-package Project.controllers.NormalController;
+package Project.controllers;
 
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
+import Project.dataBases.ShopDataBase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.impl.ZongMenServiceImpl;
@@ -12,9 +13,11 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Entitys.*;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.springframework.core.io.buffer.DataBuffer;
 
@@ -24,10 +27,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.aSpring.SpringBootResource.groupConfMapper;
-import static Project.aSpring.SpringBootResource.tradingRecordMapper;
+import static Project.aSpring.SpringBootResource.*;
 import static Project.dataBases.DataBase.path;
 import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.ShopDataBase.ITEM_MAP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
@@ -279,9 +282,21 @@ public class SuperController {
             String n0 = file.getName();
             Long qid = Long.valueOf(n0);
             for (TradingRecord tradingRecord : OtherDatabase.getListF(qid.longValue())) {
-                tradingRecordMapper.insert(tradingRecord);
+                getTradingRecordMapper().insert(tradingRecord);
             }
         }
         return "01";
+    }
+
+    @Action("/moveSI")
+    public Object m3() {
+        File[] files = new File(ShopDataBase.path).listFiles();
+        for (File file : files) {
+            String js = Tool.getStringFromFile(file.getPath(), "utf-8");
+            ShopItem item = JsonUtils.jsonStringToObject(js, ShopItem.class);
+            getShopItemMapper().insert(item);
+            ITEM_MAP.put(item.getId(), item);
+        }
+        return "1";
     }
 }

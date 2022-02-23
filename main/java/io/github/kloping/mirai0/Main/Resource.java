@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import static Project.controllers.GameControllers.GameH2LController.check;
-import static Project.controllers.TimerController.ZERO_RUNS;
+import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
 /**

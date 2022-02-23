@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.*;
 
 import static Project.ResourceSet.FinalString.NEWLINE;
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;

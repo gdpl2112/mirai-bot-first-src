@@ -12,7 +12,7 @@ import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.Resource.bot;

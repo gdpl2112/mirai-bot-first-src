@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 
 import java.io.File;
 
-import static Project.aSpring.SpringBootResource.gInfoMapper;
+import static Project.aSpring.SpringBootResource.getgInfoMapper;
 
 /**
  * @author github-kloping
@@ -148,14 +148,14 @@ public class GInfo {
     }
 
     public GInfo apply() {
-        if (gInfoMapper == null) {
+        if (getgInfoMapper() == null) {
             FileUtils.putStringInFile(HMLObject.toHMLString(this), new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml"));
             return this;
         } else {
             UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();
             wrapper.eq("qid", this.getQid());
-            if (gInfoMapper.update(this, wrapper) == 0) {
-                gInfoMapper.insert(this);
+            if (getgInfoMapper().update(this, wrapper) == 0) {
+                getgInfoMapper().insert(this);
             }
             StarterApplication.logger.waring(String.format("update for %s ", this.toString()));
             return this;
@@ -163,8 +163,8 @@ public class GInfo {
     }
 
     public static GInfo getInstance(long qid) {
-        if (gInfoMapper != null) {
-            GInfo gInfo = gInfoMapper.selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
+        if (getgInfoMapper() != null) {
+            GInfo gInfo = getgInfoMapper().selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
             if (gInfo != null) {
                 return gInfo;
             }

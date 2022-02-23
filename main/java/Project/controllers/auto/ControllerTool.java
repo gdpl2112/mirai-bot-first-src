@@ -1,4 +1,4 @@
-package Project.controllers;
+package Project.controllers.auto;
 
 
 import Project.dataBases.DataBase;

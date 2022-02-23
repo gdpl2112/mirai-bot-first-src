@@ -13,7 +13,7 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 

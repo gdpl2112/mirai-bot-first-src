@@ -148,11 +148,11 @@ public class Drawer {
         g.setFont(bigFont);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,11 +216,11 @@ public class Drawer {
         g.setFont(bigFont);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -272,11 +272,11 @@ public class Drawer {
         g.setFont(bigFont);
         g.drawString("※=?======★=====$==☆=?=*=※", 10, height - 30);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -331,11 +331,11 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -365,11 +365,11 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp/" + n).mkdirs();
         File file = new File("./temp/" + n + "/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -402,11 +402,11 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (strs.length + 2) * 40);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -438,11 +438,11 @@ public class Drawer {
         g.setColor(Color.RED);
         g.drawString(str, 20, height / 3 * 2);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -459,11 +459,11 @@ public class Drawer {
         g.setColor(Color.GREEN);
         g.fillRect(0, 0, index, 25);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -483,7 +483,7 @@ public class Drawer {
             Graphics g = bi.getGraphics();
             g.drawImage(Img, 0, 0, Img.getWidth(), Img.getHeight(), null);
             g.dispose();
-            ImageIO.write(bi, "jpg", file);
+            ImageIO.write(bi, "png", file);
             return file;
         } catch (IOException e) {
             e.printStackTrace();
@@ -521,10 +521,10 @@ public class Drawer {
         g.dispose();
 
         try {
-            String name = UUID.randomUUID() + ".jpg";
+            String name = UUID.randomUUID() + ".png";
             new File("./temp").mkdirs();
             File file = new File("./temp/" + name);
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
             return file.getPath();
         } catch (IOException e) {
             e.printStackTrace();
@@ -588,11 +588,11 @@ public class Drawer {
             e.printStackTrace();
         }
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -700,11 +700,11 @@ public class Drawer {
         g.drawImage(image_, 0, 0, width, height, null);
         g.drawImage(loadImageFromPath("./temp/1/base.png"), 0, 0, width, height, null);
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -719,10 +719,10 @@ public class Drawer {
 
         g.dispose();
         try {
-            String name = UUID.randomUUID() + ".jpg";
+            String name = UUID.randomUUID() + ".png";
             new File("./temp").mkdirs();
             File file = new File("./temp/" + name);
-            ImageIO.write(image, "jpg", file);
+            ImageIO.write(image, "png", file);
             return file.getPath();
         } catch (IOException e) {
             e.printStackTrace();

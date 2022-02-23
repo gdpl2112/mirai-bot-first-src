@@ -50,7 +50,7 @@ public class GameDrawer {
             }
         }
         g.dispose();
-        String name = UUID.randomUUID() + ".jpg";
+        String name = UUID.randomUUID() + ".png";
         new File("./temp").mkdirs();
         File file = new File("./temp/" + name);
         try {

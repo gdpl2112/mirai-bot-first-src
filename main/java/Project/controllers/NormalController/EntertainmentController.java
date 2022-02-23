@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.ResourceSet.FinalString.*;
-import static Project.controllers.ControllerTool.canGroup;
+import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
 import static Project.controllers.Plugins.PointSongController.sing;

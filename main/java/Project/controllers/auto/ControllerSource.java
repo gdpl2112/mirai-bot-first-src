@@ -1,4 +1,4 @@
-package Project.controllers;
+package Project.controllers.auto;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;

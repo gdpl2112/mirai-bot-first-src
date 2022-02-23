@@ -2,9 +2,9 @@ package io.github.kloping.mirai0.Main.Handlers;
 
 import Project.broadcast.game.GroupMessageBroadcast;
 import Project.broadcast.normal.MessageBroadcast;
-import Project.controllers.ControllerTool;
+import Project.controllers.auto.ControllerTool;
 import Project.controllers.NormalController.EntertainmentController;
-import Project.controllers.SessionController;
+import Project.controllers.NormalController.SessionController;
 import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.EventTools;

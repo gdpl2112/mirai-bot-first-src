@@ -1,11 +1,13 @@
 package Project.aSpring;
 
 import Project.aSpring.mcs.mapper.*;
-import io.github.kloping.mirai0.Entitys.UScore;
-import io.github.kloping.mirai0.Entitys.eEntitys.AutoReply;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.github.kloping.clasz.ClassUtils;
+import io.github.kloping.mirai0.Entitys.UScore;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.object.ObjectUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,6 +15,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import static Project.dataBases.DataBase.getAllInfo;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -32,18 +35,74 @@ public class SpringBootResource {
     public static GroupConfMapper groupConfMapper;
     public static FatherMapper fatherMapper;
     public static TradingRecordMapper tradingRecordMapper;
+    public static ShopItemMapper shopItemMapper;
     public static String address;
+
+    public static ConfigurableApplicationContext getConfiguration() {
+        return configuration;
+    }
+
+    public static ConfigurableEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public static UScoreMapper getScoreMapper() {
+        return scoreMapper;
+    }
+
+    public static PersonInfoMapper getPersonInfoMapper() {
+        return personInfoMapper;
+    }
+
+    public static GInfoMapper getgInfoMapper() {
+        return gInfoMapper;
+    }
+
+    public static AutoReplyMapper getAutoReplyMapper() {
+        return autoReplyMapper;
+    }
+
+    public static GroupConfMapper getGroupConfMapper() {
+        return groupConfMapper;
+    }
+
+    public static FatherMapper getFatherMapper() {
+        return fatherMapper;
+    }
+
+    public static TradingRecordMapper getTradingRecordMapper() {
+        return tradingRecordMapper;
+    }
+
+    public static ShopItemMapper getShopItemMapper() {
+        return shopItemMapper;
+    }
+
+    public static String getAddress() {
+        return address;
+    }
 
     public static void init() {
         try {
             try {
-                tradingRecordMapper = configuration.getBean(TradingRecordMapper.class);
-                fatherMapper = configuration.getBean(FatherMapper.class);
-                groupConfMapper = configuration.getBean(GroupConfMapper.class);
-                scoreMapper = configuration.getBean(UScoreMapper.class);
-                personInfoMapper = configuration.getBean(PersonInfoMapper.class);
-                gInfoMapper = configuration.getBean(GInfoMapper.class);
-                autoReplyMapper = configuration.getBean(AutoReplyMapper.class);
+                for (Field declaredField : SpringBootResource.class.getDeclaredFields()) {
+                    if (ClassUtils.isStatic(declaredField)) {
+                        Class c0 = declaredField.getType();
+                        if (ObjectUtils.isSuperOrInterface(c0, BaseMapper.class)) {
+                            Class<? extends BaseMapper> c1 = c0;
+                            declaredField.setAccessible(true);
+                            Object o0 = configuration.getBean(c1);
+                            declaredField.set(null, o0);
+                        }
+                    }
+                }
+//                tradingRecordMapper = configuration.getBean(TradingRecordMapper.class);
+//                fatherMapper = configuration.getBean(FatherMapper.class);
+//                groupConfMapper = configuration.getBean(GroupConfMapper.class);
+//                scoreMapper = configuration.getBean(UScoreMapper.class);
+//                personInfoMapper = configuration.getBean(PersonInfoMapper.class);
+//                gInfoMapper = configuration.getBean(GInfoMapper.class);
+//                autoReplyMapper = configuration.getBean(AutoReplyMapper.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,7 +138,7 @@ public class SpringBootResource {
                 try {
                     long q = Long.valueOf(f.getName());
                     UScore score = getAllInfo(q);
-                    scoreMapper.insert(score);
+                    getScoreMapper().insert(score);
                     System.out.println("moved sc: " + q);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -99,7 +158,7 @@ public class SpringBootResource {
                 try {
                     long q = Long.valueOf(f.getName());
                     PersonInfo info = getInfo(q);
-                    personInfoMapper.insert(info);
+                    getPersonInfoMapper().insert(info);
                     System.out.println("moved pi: " + q);
                 } catch (Exception e) {
                     e.printStackTrace();

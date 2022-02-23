@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.println;

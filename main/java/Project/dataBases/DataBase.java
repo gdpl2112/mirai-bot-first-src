@@ -2,7 +2,6 @@ package Project.dataBases;
 
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
@@ -16,8 +15,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.aSpring.SpringBootResource.fatherMapper;
-import static Project.aSpring.SpringBootResource.groupConfMapper;
+import static Project.aSpring.SpringBootResource.getFatherMapper;
+import static Project.aSpring.SpringBootResource.getGroupConfMapper;
 import static io.github.kloping.mirai0.Main.Resource.superQ;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
@@ -87,11 +86,11 @@ public class DataBase {
 
     public static synchronized GroupConf getConf(long id) {
         GroupConf groupConf;
-        if (groupConfMapper != null) {
-            groupConf = groupConfMapper.selectById(id);
+        if (getGroupConfMapper() != null) {
+            groupConf = getGroupConfMapper().selectById(id);
             if (groupConf == null) {
                 groupConf = new GroupConf().setId(id);
-                groupConfMapper.insert(groupConf);
+                getGroupConfMapper().insert(groupConf);
             }
         } else {
             groupConf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
@@ -100,21 +99,21 @@ public class DataBase {
     }
 
     public static synchronized GroupConf setConf(GroupConf conf) {
-        if (groupConfMapper != null) {
+        if (getGroupConfMapper() != null) {
             getConf(conf.getId());
             UpdateWrapper<GroupConf> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("id", conf.getId());
-            groupConfMapper.update(conf, updateWrapper);
+            getGroupConfMapper().update(conf, updateWrapper);
             return conf;
         }
         return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);
     }
 
     public static boolean isFather(Long who) {
-        if (fatherMapper != null) {
+        if (getFatherMapper() != null) {
             Father father = null;
             try {
-                father = fatherMapper.selectById(who);
+                father = getFatherMapper().selectById(who);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -124,11 +123,11 @@ public class DataBase {
     }
 
     public static boolean addFather(Long who) {
-        if (fatherMapper != null) {
+        if (getFatherMapper() != null) {
             Father father = new Father();
             father.setId(who.longValue());
             father.setPermission("all");
-            return fatherMapper.insert(father) > 0;
+            return getFatherMapper().insert(father) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);
         if (file.exists()) {
@@ -144,8 +143,8 @@ public class DataBase {
     }
 
     public static boolean removeFather(Long who) {
-        if (fatherMapper != null) {
-            return fatherMapper.deleteById(who.longValue()) > 0;
+        if (getFatherMapper() != null) {
+            return getFatherMapper().deleteById(who.longValue()) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);
         if (file.exists()) {

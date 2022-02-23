@@ -5,7 +5,7 @@ import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import Project.controllers.ConfirmController;
+import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;

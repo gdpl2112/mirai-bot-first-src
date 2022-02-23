@@ -1,6 +1,6 @@
 package Project.services.impl;
 
-import Project.controllers.ConfirmController;
+import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.interfaces.Iservice.IZongMenService;

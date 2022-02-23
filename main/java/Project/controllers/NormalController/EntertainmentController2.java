@@ -21,7 +21,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Message;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static Project.ResourceSet.FinalString.NEWLINE;
 import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.Main.Resource.println;

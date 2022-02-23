@@ -2,8 +2,8 @@ package Project.controllers.NormalController;
 
 
 import Project.ResourceSet;
-import Project.controllers.ConfirmController;
-import Project.controllers.ControllerTool;
+import Project.controllers.auto.ConfirmController;
+import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;

@@ -1,11 +1,11 @@
-package Project.controllers;
+package Project.controllers.auto;
 
+import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -21,7 +21,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.bot;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
 
 /**

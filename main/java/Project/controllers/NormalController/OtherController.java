@@ -11,7 +11,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
-import static Project.controllers.ControllerTool.opened;
+import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
