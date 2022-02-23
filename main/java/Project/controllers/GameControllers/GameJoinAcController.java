@@ -1,28 +1,28 @@
 package Project.controllers.GameControllers;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static Project.controllers.auto.ControllerTool.opened;
-import static Project.controllers.NormalController.ScoreController.longs;
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.KILLED_C;
 import static Project.ResourceSet.FinalString.LIST_STR;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.controllers.NormalController.ScoreController.longs;
+import static Project.controllers.auto.ControllerTool.opened;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -108,16 +108,15 @@ public class GameJoinAcController {
         if (n != null) {
             mc = Integer.valueOf(n);
         }
-        Map<Number, Integer> map = Tool.sortMapByValue(KILLED_C);
         StringBuilder sb = new StringBuilder();
+        List<Map<String, Number>> list = SpringBootResource.getKillGhostMapper().select(mc);
         int na = 0;
-        for (Map.Entry<Number, Integer> entry : map.entrySet()) {
-            Number number = entry.getKey();
-            if (na++ == mc) {
-                break;
-            }
-            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(number.longValue(), group))
-                    .append("=>").append("击杀").append(KILLED_C.get(number.longValue())).append("只\n");
+        for (Map<String, Number> map : list) {
+            ++na;
+            Long qid = map.get("id").longValue();
+            Integer num = map.get("num").intValue();
+            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+                    .append("=>").append("击杀").append(num).append("只\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }

@@ -23,7 +23,9 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.aSpring.SpringBootResource.getKillGhostMapper;
 import static Project.aSpring.SpringBootResource.getWarpMapper;
+import static Project.dataBases.GameDataBase.KILLED_C;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -259,6 +261,15 @@ public class SuperController {
         }
         return "ok";
     }
+
+    @Action("/moveKC")
+    public Object m5() {
+        KILLED_C.forEach((k, v) -> {
+            getKillGhostMapper().insert(v, k.longValue());
+        });
+        return "ok";
+    }
+
 /*
     @Action("/moveFathers")
     public Object m0() {

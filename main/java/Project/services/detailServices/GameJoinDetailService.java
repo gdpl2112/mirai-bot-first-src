@@ -360,7 +360,7 @@ public class GameJoinDetailService {
     }
 
     public static String willGet(int level, long who, int id) {
-        OnKilldc(who);
+        onKilled(who);
         if (id > 700) {
             return willGetLr(level, who);
         } else if (id > 600) {

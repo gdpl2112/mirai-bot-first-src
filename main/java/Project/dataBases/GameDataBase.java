@@ -1,6 +1,7 @@
 package Project.dataBases;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import io.github.kloping.initialize.FileInitializeValue;
@@ -56,7 +57,7 @@ public class GameDataBase {
         initShop();
         initWeaList();
         initWeaONumList();
-        InitWhType();
+        initWhType();
         initKilledC();
     }
 
@@ -311,7 +312,6 @@ public class GameDataBase {
         ID_2_WEA_O_NUM_MAPS.put(1007, 2);
     }
 
-
     private static void initKilledC() {
         try {
             String[] sss = getStringsFromFile(path + "/dates/system/killedsc");
@@ -329,21 +329,10 @@ public class GameDataBase {
 
     private static int indexKC = 0;
 
-    public static void OnKilldc(Number who) {
-        if (KILLED_C.containsKey(who)) {
-            KILLED_C.put(who, KILLED_C.get(who) + 1);
-        } else KILLED_C.put(who, 1);
-        if (indexKC++ % 10 == 0) {
-            flushKilledCMap();
-        }
-    }
-
-    private static void flushKilledCMap() {
-        StringBuilder sb = new StringBuilder();
-        for (Number number : KILLED_C.keySet()) {
-            sb.append(String.format("%s=%s", number, KILLED_C.get(number))).append("\n");
-        }
-        putStringInFile(sb.toString(), path + "/dates/system/killedsc");
+    public static void onKilled(Number who) {
+        Integer n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
+        n0 = n0 == null ? 1 : n0 + 1;
+        SpringBootResource.getKillGhostMapper().update(n0, who.longValue());
     }
 
     /**
@@ -352,7 +341,7 @@ public class GameDataBase {
      * 13:奇茸通天菊 14:鬼魅 15:刺豚 16:蛇矛 17:骨龙 18:蛇杖 19:蓝银草 20:玄龟 21:幽冥灵猫  22:光明圣龙
      * 23:黑暗圣龙 24:修罗神剑  25:青龙  26:海神  27:锄头  28:斧头  29:杀神昊天锤 30:魔神剑 31:暗金恐爪熊
      */
-    private static void InitWhType() {
+    private static void initWhType() {
         WH_2_TYPE.put(-1, -1);
         WH_2_TYPE.put(1, 0);
         WH_2_TYPE.put(2, 1);//1
@@ -696,8 +685,9 @@ public class GameDataBase {
         for (String s : sss) {
             ls.add(Integer.valueOf(s));
         }
-        if (ls.isEmpty())
+        if (ls.isEmpty()) {
             return new Integer[]{0};
+        }
         return ls.toArray(new Integer[ls.size()]);
     }
 

@@ -3,10 +3,12 @@ package io.github.kloping.mirai0.Entitys.gameEntitys;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @author github-kloping
+ */
 @Data
 @Accessors(chain = true)
 public class SkillInfo {
-
     /**
      * 第几魂技
      */

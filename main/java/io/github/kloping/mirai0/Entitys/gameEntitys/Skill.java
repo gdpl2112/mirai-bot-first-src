@@ -7,6 +7,9 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author github-kloping
+ */
 public abstract class Skill implements Runnable {
     private SkillInfo info = null;
     private Number qq = 0;

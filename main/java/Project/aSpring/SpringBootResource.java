@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.mirai0.Entitys.UScore;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.object.ObjectUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -29,6 +28,7 @@ public class SpringBootResource {
 
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
+
     public static UScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
     public static GInfoMapper gInfoMapper;
@@ -38,6 +38,11 @@ public class SpringBootResource {
     public static TradingRecordMapper tradingRecordMapper;
     public static ShopItemMapper shopItemMapper;
     public static WarpMapper warpMapper;
+    public static KillGhostMapper normalMapper;
+
+    public static KillGhostMapper getKillGhostMapper() {
+        return normalMapper;
+    }
 
     public static WarpMapper getWarpMapper() {
         return warpMapper;
@@ -93,9 +98,10 @@ public class SpringBootResource {
                 for (Field declaredField : SpringBootResource.class.getDeclaredFields()) {
                     if (ClassUtils.isStatic(declaredField)) {
                         Class c0 = declaredField.getType();
-                        if (ObjectUtils.isSuperOrInterface(c0, BaseMapper.class)) {
-                            Class<? extends BaseMapper> c1 = c0;
+                        if (c0.isInterface()) {
                             declaredField.setAccessible(true);
+                            if (declaredField.get(null)!=null){continue;}
+                            Class<? extends BaseMapper> c1 = c0;
                             Object o0 = configuration.getBean(c1);
                             declaredField.set(null, o0);
                         }
