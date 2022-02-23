@@ -39,7 +39,7 @@ public interface KillGhostMapper {
      * @param id
      * @return
      */
-    @Insert("insert Integero killc (id,num) VALUES(#{id},#{num})")
+    @Insert("insert into killc (id,num) VALUES(#{id},#{num})")
     Integer insert(@Param("num") Integer num, @Param("id") Long id);
 
     /**
