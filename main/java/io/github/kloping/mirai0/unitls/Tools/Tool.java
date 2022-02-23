@@ -831,6 +831,26 @@ public class Tool {
         }
     }
 
+    public static synchronized String getStringFromFile(String filename, Long defaultValue) {
+        testFile(filename);
+        try {
+            System.gc();
+            File file = new File(filename);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            fis.read(bytes);
+            String result = new String(bytes, "utf-8");
+            fis.close();
+            if (result.trim().isEmpty()) {
+                return defaultValue.toString();
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
     public static synchronized String getStringFromFile(String filename, String charcter) {
         testFile(filename);
         try {

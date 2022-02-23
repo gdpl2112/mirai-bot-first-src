@@ -20,6 +20,7 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -254,7 +255,7 @@ public class SuperController {
                 Long q = Long.valueOf(file.getName());
                 UserScore score = DataBase.getAllInfoFile(q);
                 SpringBootResource.getScoreMapper().insert(score);
-            } catch (Exception e) {
+            }catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -166,15 +166,15 @@ public class DataBase {
         try {
             System.out.println("查询 " + who + "的 信息");
             String pathN = path + "/users/" + who;
-            long l1 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score").replaceAll("\r|\n", ""));
-            long l2 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score_").replaceAll("\r|\n", ""));
-            long l31 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times").split(":")[0]);
-            long l32 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times").split(":")[1].replaceAll("\r|\n", ""));
-            long l4 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times_").replaceAll("\r|\n", ""));
-            long l5 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".day").replaceAll("\r|\n", ""));
-            long l6 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".days").replaceAll("\r|\n", ""));
-            long l7 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".fz").replaceAll("\r|\n", ""));
-            long l8 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".k").replaceAll("\r|\n", ""));
+            long l1 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
+            long l2 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
+            long l31 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
+            long l32 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
+            long l4 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
+            long l5 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
+            long l6 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
+            long l7 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
+            long l8 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
             long[] ls = new long[]{l1, l2, l32, l32, l4, l5, l6, l7, l8};
             System.out.println(Arrays.toString(ls));
             return ls;
