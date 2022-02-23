@@ -163,9 +163,6 @@ public class DataBase {
     }
 
     public static long[] getAllInfoOld(Long who) {
-        if (!exists(who)) {
-            regA(who);
-        }
         try {
             System.out.println("查询 " + who + "的 信息");
             String pathN = path + "/users/" + who;
@@ -282,9 +279,6 @@ public class DataBase {
     }
 
     public static long addTimes(long l, Long who) {
-        if (!exists(who)) {
-            regA(who);
-        }
         UserScore score = getAllInfo(who);
         try {
             int today = Integer.parseInt(getToday());
@@ -301,7 +295,6 @@ public class DataBase {
             String pathN = path + "/users/" + who;
             File file = new File(pathN + "/infos");
             file.delete();
-            regA(who);
         }
         return 1L;
     }
