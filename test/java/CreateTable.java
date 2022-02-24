@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by lingsf on 2019/11/5.
+ * modify by kloping on 2022/2/24
  */
 public class CreateTable {
     public static Map<String, String> javaProperty2SqlColumnMap = new HashMap<>();
