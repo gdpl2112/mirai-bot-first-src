@@ -30,7 +30,7 @@ public interface BagMapper {
      * @return
      */
     @Insert("INSERT INTO `bag` (`oid`, `qid`, `time`,`desc`) VALUES (#{oid},#{qid},#{time},#{desc});")
-    Integer insert(@Param("oid") Integer oid, @Param("qid") Long qid, @Param("time") Long time, @Param("desc") String desc);
+    Integer insertWithDesc(@Param("oid") Integer oid, @Param("qid") Long qid, @Param("time") Long time, @Param("desc") String desc);
 
     /**
      * 获取玩家背包中指定的物品id
