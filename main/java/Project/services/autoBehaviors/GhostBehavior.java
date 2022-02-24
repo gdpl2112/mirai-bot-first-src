@@ -1,5 +1,6 @@
 package Project.services.autoBehaviors;
 
+import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
@@ -8,9 +9,9 @@ import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -148,7 +149,7 @@ public class GhostBehavior implements Runnable {
             builder.append(GameDetailService.beaten(qq, -2, v));
             String str = gameService.info(qq);
             builder.append("\n").append(str);
-            if (getInfo(qq).getHp() <= 0) {
+            if (GameDataBase.getInfo(qq).getHp() <= 0) {
                 saveGhostObjIn(qq, null);
             }
             send(builder.toString());
@@ -167,7 +168,7 @@ public class GhostBehavior implements Runnable {
 
     private void startWay() {
         try {
-            PersonInfo info = getInfo(qq);
+            PersonInfo info = GameDataBase.getInfo(qq);
             int b1 = toPercent(ghostObj.getAtt(), info.getAtt());
             int r = 5;
             if (b1 < 70) {
@@ -200,7 +201,7 @@ public class GhostBehavior implements Runnable {
 
     public void onDestroy(boolean is) {
         if (is) {
-            putPerson(getInfo(qq).eddTag(SkillDataBase.TAG_CANT_HIDE, 0));
+            putPerson(GameDataBase.getInfo(qq).eddTag(SkillDataBase.TAG_CANT_HIDE, 0));
         }
     }
 
@@ -212,15 +213,15 @@ public class GhostBehavior implements Runnable {
         int findTime = Tool.rand.nextInt(fs[1] - fs[0]) + fs[0];
         Thread.sleep(findTime * 1000);
         if (!updateGhost()) return false;
-        putPerson(getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
+        putPerson(GameDataBase.getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
         send(ghostObj.getName() + "已经锁定你了!");
         return true;
     }
 
     private boolean needLock() {
-        PersonInfo info = getInfo(qq);
-        AttributeBone attributeBone = gameBoneService.getAttribute(qq);
-        boolean k1 = attributeBone.getHidePro() >= 50;
+        PersonInfo info = GameDataBase.getInfo(qq);
+        SoulAttribute attributeBone = gameBoneService.getSoulAttribute(qq);
+        boolean k1 = attributeBone.getHideChance() >= 50;
         boolean k2 = ((double) info.getHpL() / (double) info.getHp()) > 0.5;
         boolean k3 = info.getAtt() * getAllHHBL(qq) >= ghostObj.getHp() / 2;
         return k1 && (k2 || k3);
@@ -232,7 +233,7 @@ public class GhostBehavior implements Runnable {
     }
 
     private boolean needAway() {
-        PersonInfo info = getInfo(qq);
+        PersonInfo info = GameDataBase.getInfo(qq);
         int b1 = toPercent(info.getHp(), info.getHpL());
         int b2 = toPercent(ghostObj.getHp(), ghostObj.getMaxHp());
         if (b1 >= 50 && b2 <= 50) {

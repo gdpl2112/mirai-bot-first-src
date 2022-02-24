@@ -1,5 +1,6 @@
 package Project.services.detailServices;
 
+import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
@@ -55,7 +56,7 @@ public class ZongDetailService {
                     } else
                         qq = z1.longValue();
                     if (qq == who) continue;
-                    PersonInfo info = getInfo(qq);
+                    PersonInfo info = GameDataBase.getInfo(qq);
                     if (info.getLevel() >= 150) continue;
                     int level = info.getLevel();
                     float bt = level / 1000f;
@@ -157,12 +158,12 @@ public class ZongDetailService {
             case 6:
                 zon0 = getZonInfo(zong.getMain().longValue());
                 zon0.setTimes(1);
-                putPerson(getInfo(zon0.getQq()).setHelpC(-1).setHelpToc(-1));
+                putPerson(GameDataBase.getInfo(zon0.getQq()).setHelpC(-1).setHelpToc(-1));
                 putZonInfo(zon0);
                 for (Number who1 : zong.getElder()) {
                     Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
-                    putPerson(getInfo(who).setHelpC(-1).setHelpToc(-1));
+                    putPerson(GameDataBase.getInfo(who).setHelpC(-1).setHelpToc(-1));
                     zon1.setTimes(1);
                     putZonInfo(zon1);
                 }
@@ -186,14 +187,14 @@ public class ZongDetailService {
                     f1.delete();
                 }
                 file.delete();
-                getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 30).apply();
+                GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 30).apply();
                 return true;
             } else if (zon.getLevel() == 1) {
                 zong.getElder().remove(who);
                 zong.getMember().remove(who);
                 qq2id.remove(who);
                 File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");
-                putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
+                putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
                 putZongInfo(zong);
                 return file.delete() & putZongInfo(zong);
             } else if (zon.getLevel() == 0) {

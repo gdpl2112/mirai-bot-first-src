@@ -1,8 +1,7 @@
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.mirai0.Entitys.GroupConf;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.Entitys.gameEntitys.*;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 
 import java.io.File;
@@ -29,11 +28,12 @@ public class CreateTable {
         javaProperty2SqlColumnMap.put("Number", "BIGINT(18)");
         javaProperty2SqlColumnMap.put("Float", "INT(22,2)");
         javaProperty2SqlColumnMap.put("Boolean", "tinyint");
+        javaProperty2SqlColumnMap.put("boolean", "tinyint");
         javaProperty2SqlColumnMap.put("Timestamp", "date");
         javaProperty2SqlColumnMap.put("String", "VARCHAR(255)");
     }
 
-    public static final Class c = TaskPoint.class;
+    public static final Class c = SoulBone.class;
 
     public static void main(String[] args) throws IOException {
         createTable(c);
@@ -71,6 +71,7 @@ public class CreateTable {
         boolean firstId = true;
         File file = null;
         for (Field f : fields) {
+            if (ClassUtils.isStatic(f))continue;
             column = f.getName();
             column = filterName(column);
             param = f.getType().getSimpleName();

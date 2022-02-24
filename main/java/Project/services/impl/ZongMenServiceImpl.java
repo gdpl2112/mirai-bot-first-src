@@ -31,7 +31,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class ZongMenServiceImpl implements IZongMenService {
 
     public long isJkOk(Long qq) {
-        PersonInfo info = getInfo(qq);
+        PersonInfo info = GameDataBase.getInfo(qq);
         if (info.getJk1() <= System.currentTimeMillis())
             return 0;
         return info.getJk1();
@@ -47,7 +47,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         //=================
         if (qq2id.containsKey(who))
             return "你已经在宗门之中";
-        PersonInfo info = getInfo(who);
+        PersonInfo info = GameDataBase.getInfo(who);
         if (info.getGold() < 500)
             return "创建,至少需要500金魂币才能出创建宗门";
         if (info.getLevel() < 50)
@@ -70,7 +70,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
             return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
-        GameDataBase.putPerson(getInfo(who).addGold(-450L, new TradingRecord()
+        GameDataBase.putPerson(GameDataBase.getInfo(who).addGold(-450L, new TradingRecord()
                 .setType1(TradingRecord.Type1.lost)
                 .setType0(TradingRecord.Type0.gold)
                 .setTo(-1)
@@ -79,7 +79,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                 .setDesc("创建宗门")
                 .setMany(450)
         ));
-        putPerson(getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
+        putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
         return ZongInfo(who, group);
     }
 
@@ -171,11 +171,11 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     public String join(Long who, Long qq, Group group) {
-        if (getInfo(qq).getJk1() > System.currentTimeMillis()) {
-            return ("宗门活动冷却中...==>" + getTimeDDHHMM(getInfo(qq).getJk1()));
+        if (GameDataBase.getInfo(qq).getJk1() > System.currentTimeMillis()) {
+            return ("宗门活动冷却中...==>" + getTimeDDHHMM(GameDataBase.getInfo(qq).getJk1()));
         }
         Zong zong = getZongInfo(who);
-        putPerson(getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
+        putPerson(GameDataBase.getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
         addPer(zong, qq);
         putZongInfo(zong);
         return new StringBuilder().append("加入成功!!\r\n").append(listPer(who, group)).toString();
@@ -231,7 +231,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "你没有加入任何宗门";
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
-        PersonInfo info = getInfo(who);
+        PersonInfo info = GameDataBase.getInfo(who);
         if (info.getGold() < info.getLevel())
             return "金魂币不足";
         if (info.getCbk1() > System.currentTimeMillis())
@@ -268,8 +268,8 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "你们不在同一个宗门";
         Zong zong = getZongInfo(qq);
         Zon zon = getZonInfo(qq);
-        PersonInfo info = getInfo(qq);
-        PersonInfo info1 = getInfo(who);
+        PersonInfo info = GameDataBase.getInfo(qq);
+        PersonInfo info1 = GameDataBase.getInfo(who);
         if (info1.getHp() > 0)
             return "ta仍有状态";
         if (zon.getTimes() > 0) {

@@ -48,7 +48,7 @@ public class GameJoinAcController {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
-        if (getInfo(qq.getId()).getHp() <= 0) {
+        if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, message) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();

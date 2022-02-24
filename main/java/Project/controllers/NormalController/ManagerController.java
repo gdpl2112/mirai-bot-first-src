@@ -5,6 +5,7 @@ import Project.ResourceSet;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
+import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -68,7 +69,7 @@ public class ManagerController {
         try {
             String numStr = Tool.findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
-            getInfo(qid).setK2(-1L).apply();
+            GameDataBase.getInfo(qid).setK2(-1L).apply();
             return "ok";
         } catch (Exception e) {
             e.printStackTrace();

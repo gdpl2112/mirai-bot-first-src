@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 import Project.aSpring.SpringBootResource;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ import static Project.dataBases.GameDataBase.setWarp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Warp {
+    @TableId
     private Long id = -1L;
     private Long bindQ = -1L;
     private Long master = -1L;

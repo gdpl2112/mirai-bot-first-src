@@ -82,7 +82,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         String[] sss = gameService.getBags(who);
         if (num <= 0 || num > 50)
             return NUM_TOO_MUCH;
-        if (GameDataBase.getNumForO(sss, getNameById(id)) >= num) {
+        if (getNumForO(sss, getNameById(id)) >= num) {
             String str = new UseTool().UseObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (15 * 1000 * num * 1.25f)));
@@ -90,6 +90,19 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         } else {
             return "你的背包里没有足够的" + getNameById(id);
         }
+    }
+
+    public static Integer getNumForO(String[] sss, String s1) {
+        for (String str : sss) {
+            if (str.startsWith(s1)) {
+                if (str.contains("x")) {
+                    return Integer.valueOf(str.split("x")[1]);
+                } else {
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 
     private static final int MAX_HELP = 3;

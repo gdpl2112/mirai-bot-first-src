@@ -1,5 +1,6 @@
 package Project.controllers.GameControllers;
 
+import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
@@ -45,7 +46,7 @@ public class GameSkillController {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
-        if (getInfo(qq.getId()).getHp() <= 0) {
+        if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.EveListStartWith(listFx, str) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");

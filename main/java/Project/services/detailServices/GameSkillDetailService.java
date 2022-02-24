@@ -418,7 +418,7 @@ public class GameSkillDetailService {
      * @return
      */
     public static Number getTagValue(Number qq, String tag) {
-        PersonInfo info = getInfo(qq);
+        PersonInfo info = GameDataBase.getInfo(qq);
         String sb = info.getMyTag();
         int i = sb.indexOf(tag);
         if (i < 0) {
@@ -443,7 +443,7 @@ public class GameSkillDetailService {
             if (!GameDataBase.exist(num.longValue())) {
                 return false;
             }
-            putPerson(getInfo(num).addAtt(-v));
+            putPerson(GameDataBase.getInfo(num).addAtt(-v));
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             ghostObj.setAtt(ghostObj.getAtt() - v);
@@ -460,9 +460,9 @@ public class GameSkillDetailService {
      * @param bf   比例
      */
     public static void addHp(Number who, long who2, float bf) {
-        PersonInfo p1 = getInfo(who);
+        PersonInfo p1 = GameDataBase.getInfo(who);
         long v1 = percentTo((int) bf, p1.getHpL());
-        PersonInfo p2 = getInfo(who2);
+        PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
         HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
                 p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
@@ -478,9 +478,9 @@ public class GameSkillDetailService {
      * @param bf   比例
      */
     public static void addHl(Number who, long who2, float bf) {
-        PersonInfo p1 = getInfo(who);
+        PersonInfo p1 = GameDataBase.getInfo(who);
         long v1 = percentTo((int) bf, p1.getHll());
-        PersonInfo p2 = getInfo(who2);
+        PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
         HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
                 p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);

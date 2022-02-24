@@ -1,5 +1,6 @@
 package Project.controllers.GameControllers;
 
+import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.MySpringTool.annotations.Action;
@@ -51,7 +52,7 @@ public class GameH2LController {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
-        if (getInfo(qq.getId()).getHp() <= 0) {
+        if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
         }
     }
 

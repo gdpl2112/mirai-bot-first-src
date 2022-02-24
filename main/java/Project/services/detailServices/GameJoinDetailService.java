@@ -447,16 +447,16 @@ public class GameJoinDetailService {
                     return "你获得了一个" + getNameById(1601) + getImgById(1601);
                 }
             } else if (r < 30) {
-                addToAqBgs(who, "1005:" + n);
+                addToAqBgs(who, 1005, n);
                 return String.format("你获得了一个%s耐久的孔雀翎", n) + getImgById(1005);
             } else if (r < 75) {
-                addToAqBgs(who, "1004:" + n);
+                addToAqBgs(who, 1004, n);
                 return String.format("你获得了一个%s耐久的子母追魂夺命胆", n) + getImgById(1004);
             } else if (r < 130) {
-                addToAqBgs(who, "1003:" + n);
+                addToAqBgs(who, 1003, n);
                 return String.format("你获得了一个%s耐久的含沙射影", n) + getImgById(1003);
             } else if (r < 160) {
-                addToAqBgs(who, "1002:" + n);
+                addToAqBgs(who, 1002, n);
                 return String.format("你获得了一个%s耐久的龙须针", n) + getImgById(1002);
             }
         }

@@ -47,10 +47,10 @@ public class GameDataBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        IntiObj();
+        intiObj();
     }
 
-    private static void IntiObj() {
+    private static void intiObj() {
         initName();
         initIntro();
         initShop();
@@ -90,8 +90,7 @@ public class GameDataBase {
                 "28:斧头\n" +
                 "29:杀神昊天锤\n" +
                 "30:魔神剑\n" +
-                "31:暗金恐爪熊\n" +
-                "";
+                "31:暗金恐爪熊\n";
         for (String s : whs.trim().split("\n")) {
             if (s.isEmpty()) {
                 continue;
@@ -310,18 +309,6 @@ public class GameDataBase {
         ID_2_WEA_O_NUM_MAPS.put(1007, 2);
     }
 
-    public static void onKilled(Number who) {
-        Integer n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
-        n0 = n0 == null ? 1 : n0 + 1;
-        SpringBootResource.getKillGhostMapper().update(n0, who.longValue());
-    }
-
-    /**
-     * 1:蓝电霸王龙 2:昊天锤
-     * 3:六翼天使 4:噬魂珠皇 5:蓝银皇 6:柔骨兔 7:邪眸白虎 8:邪火凤凰 9:七杀剑 10:碧灵蛇皇 11:破魂枪 12:大力金刚熊
-     * 13:奇茸通天菊 14:鬼魅 15:刺豚 16:蛇矛 17:骨龙 18:蛇杖 19:蓝银草 20:玄龟 21:幽冥灵猫  22:光明圣龙
-     * 23:黑暗圣龙 24:修罗神剑  25:青龙  26:海神  27:锄头  28:斧头  29:杀神昊天锤 30:魔神剑 31:暗金恐爪熊
-     */
     private static void initWhType() {
         WH_2_TYPE.put(-1, -1);
         WH_2_TYPE.put(1, 0);
@@ -357,6 +344,12 @@ public class GameDataBase {
         WH_2_TYPE.put(31, 0);
     }
 
+    public static void onKilled(Number who) {
+        Integer n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
+        n0 = n0 == null ? 1 : n0 + 1;
+        SpringBootResource.getKillGhostMapper().update(n0, who.longValue());
+    }
+
     public static final String getWhType(int type) {
         switch (type) {
             case 0:
@@ -365,8 +358,9 @@ public class GameDataBase {
                 return "器武魂";
             case 2:
                 return "兽器武魂";
+            default:
+                return "未知类型";
         }
-        return "未知类型";
     }
 
     /**
@@ -380,21 +374,9 @@ public class GameDataBase {
     }
 
     public static boolean exist(Long who) {
-        String pathN = path + "/dates/users/" + who;
-        File file = new File(pathN);
-        boolean k = file.exists();
-        return k;
+        return SpringBootResource.getPersonInfoMapper().selectById(who.toString()) != null;
     }
 
-    public static boolean exist(Number who) {
-        if (who == null) {
-            return false;
-        }
-        String pathN = path + "/dates/users/" + who;
-        File file = new File(pathN);
-        boolean k = file.exists();
-        return k;
-    }
     //=========================================
 
     /**
@@ -404,6 +386,11 @@ public class GameDataBase {
      * @return
      */
     public static Integer[] getBgs(Long who) {
+        List<Integer> bags = SpringBootResource.getBagMapper().selectAll(who.longValue());
+        return bags.toArray(new Integer[bags.size()]);
+    }
+
+    public static Integer[] getBgsFromFile(Long who) {
         testMan(who);
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN + "/bgs");
@@ -454,17 +441,6 @@ public class GameDataBase {
         return n1;
     }
 
-    public static Integer getNumForO(String[] sss, String s1) {
-        for (String str : sss) {
-            if (str.startsWith(s1)) {
-                if (str.contains("x")) {
-                    return Integer.valueOf(str.split("x")[1]);
-                } else return 1;
-            }
-        }
-        return 0;
-    }
-
     /**
      * 判断某人背包是否存在 指定东西
      *
@@ -484,6 +460,15 @@ public class GameDataBase {
      * @return Map<K ( 序列 ), Entry < K ( 暗器ID ), V ( 暗器次数 )>>
      */
     public static Map<Integer, Map.Entry<Integer, Integer>> getBgsw(Long who) {
+        Map<Integer, Map.Entry<Integer, Integer>> maps = new LinkedHashMap<>();
+        int i = 1;
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(who.longValue())) {
+            maps.put(i, getEntry(map.get("oid"), map.get("num")));
+        }
+        return maps;
+    }
+
+    public static Map<Integer, Map.Entry<Integer, Integer>> getBgswFromFile(Long who) {
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN + "/Aqbgs");
         Map<Integer, Map.Entry<Integer, Integer>> maps = new LinkedHashMap<>();
@@ -498,20 +483,6 @@ public class GameDataBase {
         return maps;
     }
 
-    public static PersonInfo createTempInfo(PersonInfo personInfo) {
-        personInfo.setTemp(true);
-        HIST_INFOS.put(Long.parseLong(personInfo.getName()), personInfo);
-        Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
-                "utf-8");
-        return personInfo;
-    }
-
-    public static PersonInfo deleteTempInfo(PersonInfo personInfo) {
-        HIST_INFOS.remove(Long.parseLong(personInfo.getName()));
-        new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").delete();
-        return getInfo(personInfo.getName());
-    }
-
     /**
      * 获取玩家信息
      *
@@ -519,6 +490,10 @@ public class GameDataBase {
      * @return
      */
     public static PersonInfo getInfo(Long who) {
+        return SpringBootResource.getPersonInfoMapper().selectById(who.toString());
+    }
+
+    public static PersonInfo getInfoFromFile(Long who) {
         if (who == null || who.longValue() <= 0) return null;
         File file;
         String lines;
@@ -604,14 +579,15 @@ public class GameDataBase {
     public static void putPerson(PersonInfo personInfo) {
         testMan(Long.valueOf(personInfo.getName()));
         HIST_INFOS.put(Long.parseLong(personInfo.getName()), personInfo);
-        if (new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").exists()) {
-            personInfo.setTemp(true);
-            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
-                    "utf-8");
-        } else {
-            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos",
-                    "utf-8");
-        }
+        SpringBootResource.getPersonInfoMapper().updateById(personInfo);
+//        if (new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").exists()) {
+//            personInfo.setTemp(true);
+//            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
+//                    "utf-8");
+//        } else {
+//            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos",
+//                    "utf-8");
+//        }
     }
 
     /**
@@ -620,34 +596,38 @@ public class GameDataBase {
      * @param personInfo
      */
     public static void regPerson(PersonInfo personInfo) {
-        try {
-            String pathN = path + "/dates/users/" + personInfo.getName();
-            File file = new File(path + "/dates/users/" + personInfo.getName() + "/infos");
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-            Tool.putStringInFile(personInfo.toString(), file.getPath(), "utf-8");
-            new File(pathN + "/bgs").createNewFile();
-            new File(pathN + "/Aqbgs").createNewFile();
-            new File(pathN + "/hhpz").createNewFile();
-            new File(pathN + "/decide").createNewFile();
-            new File(pathN + "/AttributeBone").createNewFile();
-            FileInitializeValue.putValues(pathN + "/warp", new Warp().setId(personInfo.getName()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SpringBootResource.getPersonInfoMapper().insert(personInfo);
+//        try {
+//            String pathN = path + "/dates/users/" + personInfo.getName();
+//            File file = new File(path + "/dates/users/" + personInfo.getName() + "/infos");
+//            file.getParentFile().mkdirs();
+//            file.createNewFile();
+//            Tool.putStringInFile(personInfo.toString(), file.getPath(), "utf-8");
+//            new File(pathN + "/bgs").createNewFile();
+//            new File(pathN + "/Aqbgs").createNewFile();
+//            new File(pathN + "/hhpz").createNewFile();
+//            new File(pathN + "/decide").createNewFile();
+//            new File(pathN + "/AttributeBone").createNewFile();
+//            FileInitializeValue.putValues(pathN + "/warp", new Warp().setId(personInfo.getName()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
-
     public static Warp getWarp(Number id) {
-        testMan(id.longValue());
+        return SpringBootResource.getWarpMapper().selectById(id.longValue());
+    }
+
+    public static Warp getWarpFromFile(Number id) {
         String pathN = path + "/dates/users/" + id;
         Warp warp = new Warp().setId(id.toString());
         return FileInitializeValue.getValue(pathN + "/warp", warp, true);
     }
 
     public static Warp setWarp(Warp warp) {
-        String pathN = path + "/dates/users/" + warp.getId();
-        return FileInitializeValue.putValues(pathN + "/warp", warp, true);
+        SpringBootResource.getWarpMapper().updateById(warp);
+        return warp;
     }
 
     /**
@@ -657,6 +637,11 @@ public class GameDataBase {
      * @return
      */
     public static Integer[] getHhs(Long who) {
+        List<Integer> ls = SpringBootResource.getHhpzMapper().select(who.longValue());
+        return ls.toArray(new Integer[ls.size()]);
+    }
+
+    public static Integer[] getHhsFromFile(Long who) {
         testMan(who);
         List<Integer> ls = new ArrayList<>();
         String pathN = path + "/dates/users/" + who;
@@ -671,19 +656,14 @@ public class GameDataBase {
     }
 
     /**
-     * 设置魂环
+     * 更新魂环
      *
      * @param who
      * @param ints
      */
-    public static void setHhs(Long who, Integer... ints) {
-        testMan(who);
-        List<Integer> ls = new ArrayList<>();
-        String pathN = path + "/dates/users/" + who + "/hhpz";
-        new File(pathN).delete();
-        for (int anInt : ints) {
-            Tool.addStingInFile(anInt, pathN, "utf-8");
-        }
+    public static void upHh(Long who, Integer st, Integer oid) {
+        Integer id = SpringBootResource.getHhpzMapper().selectIds(who.longValue()).get(st);
+        SpringBootResource.getHhpzMapper().update(st, oid);
     }
 
     /**
@@ -871,8 +851,7 @@ public class GameDataBase {
      * @return
      */
     public static String addHh(Long who, int id) {
-        String pathN = path + "/dates/users/" + who + "/hhpz";
-        addStingInFile(String.valueOf(id), pathN, "utf-8");
+        SpringBootResource.getHhpzMapper().insert(who.longValue(), id, System.currentTimeMillis());
         return "OK";
     }
 
@@ -884,8 +863,7 @@ public class GameDataBase {
      * @return
      */
     public static String addToBgs(Long who, int id, ObjType type) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        addStingInFile(id + "", pathN, "utf-8");
+        SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
                 type);
         return "OK";
@@ -899,9 +877,9 @@ public class GameDataBase {
      * @return
      */
     public static String addToBgs(Long who, int id, Integer num, ObjType type) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        for (int i = 0; i < num; i++)
-            addStingInFile(id + "", pathN, "utf-8");
+        for (Integer j = 0; j < num; j++) {
+            SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
+        }
         GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
                 type);
         return "OK";
@@ -915,18 +893,12 @@ public class GameDataBase {
      * @return
      */
     public static String removeFromBgs(Long who, int id, ObjType type) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        String ids = id + "";
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        if (ss.remove(ids)) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
+        if (SpringBootResource.getBagMapper().update(SpringBootResource.getBagMapper().selectId(who.longValue(), id)) > 0) {
+            GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
+                    type);
+            return "OK";
         }
-        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
-                type);
-        return "OK";
+        return "err";
     }
 
     /**
@@ -937,23 +909,11 @@ public class GameDataBase {
      * @return
      */
     public static String removeFromBgs(Long who, int id, int num, ObjType type) {
-        String pathN = path + "/dates/users/" + who + "/bgs";
-        String ids = id + "";
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        boolean k = false;
-        for (int i = num; i > 0; i--) {
-            if (ss.remove(ids)) {
-                k = true;
+        for (Integer sid : SpringBootResource.getBagMapper().selectIds(who.longValue(), id, num)) {
+            if (SpringBootResource.getBagMapper().update(sid) > 0) {
+                GotOrLostObjBroadcast.INSTANCE.broadcast(who, sid, num, type);
             }
         }
-        if (k) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
-        }
-        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
-                type);
         return "OK";
     }
 
@@ -964,42 +924,8 @@ public class GameDataBase {
      * @param o
      * @return
      */
-    public static String addToAqBgs(Long who, String o) {
-        String pathN = path + "/dates/users/" + who + "/Aqbgs";
-        addStingInFile(o, pathN, "utf-8");
-        return "OK";
-    }
-
-    /**
-     * 移除 暗器
-     *
-     * @param who
-     * @param o
-     * @return
-     */
-    public static String removeFromAqBgs(Long who, String o) {
-        String pathN = path + "/dates/users/" + who + "/Aqbgs";
-        String ids = o.toString();
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        if (ss.remove(ids)) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
-        }
-        return "OK";
-    }
-
-    public static String removeFromAqBgs(String who, String o) {
-        String pathN = path + "/dates/users/" + who + "/Aqbgs";
-        String ids = o + "";
-        List<String> ss = new ArrayList<>(Arrays.asList(getStringsFromFile(pathN)));
-        if (ss.remove(ids)) {
-            Tool.putStringInFile("", pathN, "utf-8");
-            for (String s : ss) {
-                addStingInFile(s, pathN, "utf-8");
-            }
-        }
+    public static String addToAqBgs(Long who, Integer oid, Integer num) {
+        SpringBootResource.getAqBagMapper().insert(oid, who.longValue(), num, System.currentTimeMillis());
         return "OK";
     }
 

@@ -1,6 +1,5 @@
 package Project.controllers;
 
-import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.detailPlugin.CurfewScheduler;
@@ -12,15 +11,12 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Curfew;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.io.File;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -192,8 +188,8 @@ public class SuperController {
         if (who == -1)
             return ("谁?");
         if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
-        PersonInfo I = getInfo(qq.getId());
-        PersonInfo Y = getInfo(who);
+        PersonInfo I = GameDataBase.getInfo(qq.getId());
+        PersonInfo Y = GameDataBase.getInfo(who);
         StringBuilder m1 = new StringBuilder();
         m1.append("ta的信息\n");
         String sss = gameService.info(who);

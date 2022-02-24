@@ -14,14 +14,16 @@ import Project.services.detailServices.roles.RoleState;
 import Project.interfaces.Iservice.IGameBoneService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -83,7 +85,7 @@ public class GameDetailService {
         synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
-            PersonInfo p1 = getInfo(qq);
+            PersonInfo p1 = GameDataBase.getInfo(qq);
             Map<String, Object> maps = new ConcurrentHashMap<>();
             for (Role r : BeatenRoles.RS) {
                 RoleResponse response = r.call(sb, qq, qq2, o, oNow, p1, maps);
@@ -142,17 +144,17 @@ public class GameDetailService {
     }
 
     public static String consumedHl(long who, final long o) {
-        PersonInfo personInfo = getInfo(who);
+        PersonInfo personInfo = GameDataBase.getInfo(who);
         StringBuilder sb = new StringBuilder();
-        AttributeBone attributeBone = gameBoneService.getAttribute(who);
+        SoulAttribute attributeBone = gameBoneService.getSoulAttribute(who);
         long oNow = o;
         //=====恢复了
-        if (proZ(attributeBone.getHlPro())) {
+        if (proZ(attributeBone.getHlChance())) {
             float fn;
             if (o > 100) {
-                fn = percentTo(attributeBone.getHlRecEff(), o);
+                fn = percentTo(attributeBone.getHlEffect(), o);
             } else {
-                fn = attributeBone.getHlRecEff();
+                fn = attributeBone.getHlEffect();
             }
             oNow -= fn;
             sb.append("\n得益于 魂骨 你恢复了" + fn + "魂力\n============");
@@ -168,7 +170,7 @@ public class GameDetailService {
     }
 
     public static String onAtt(Number qq, Number qq2, Long v) {
-        PersonInfo info = getInfo(qq);
+        PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====
         if (info.containsTag(SkillDataBase.TAG_XX)) {
@@ -182,11 +184,11 @@ public class GameDetailService {
             sb.append("\n攻击者,由于吸血技能恢复了 " + v1 + "的生命值\n============");
         }
         if (qq2.longValue() > 0) {
-            PersonInfo info1 = getInfo(qq2);
+            PersonInfo info1 = GameDataBase.getInfo(qq2);
             if (info.containsTag(TAG_SHE) && info.containsTag(TAG_SHIELD)) {
                 int b = info.getTagValue(TAG_SHE).intValue();
                 long v2 = percentTo(b, v);
-                putPerson(getInfo(qq2.longValue()).addHp(-v2));
+                putPerson(GameDataBase.getInfo(qq2.longValue()).addHp(-v2));
                 sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");
             }
         } else {
@@ -215,7 +217,7 @@ public class GameDetailService {
      */
     public static String onSpiritAttack(Number q, Number q2, Integer by) {
         synchronized (q) {
-            PersonInfo p1 = getInfo(q);
+            PersonInfo p1 = GameDataBase.getInfo(q);
             if (p1.isVertigo()) {
                 return ATTACKER_IN_VERTIGO;
             }
@@ -259,23 +261,23 @@ public class GameDetailService {
     }
 
     public static String addHp(long q, int b) {
-        Long l = getInfo(q).getHpL();
+        Long l = GameDataBase.getInfo(q).getHpL();
         Long v = percentTo(b, l);
-        getInfo(q).addHp(v).apply();
+        GameDataBase.getInfo(q).addHp(v).apply();
         return String.format(ADDHP_TIPS, v);
     }
 
     public static String addHl(long q, int b) {
-        Long l = getInfo(q).getHll();
+        Long l = GameDataBase.getInfo(q).getHll();
         Long v = percentTo(b, l);
-        getInfo(q).addHl(v).apply();
+        GameDataBase.getInfo(q).addHl(v).apply();
         return String.format(ADDHL_TIPS, v);
     }
 
     public static String addHj(long q, int b) {
-        Long l = getInfo(q).getHjL();
+        Long l = GameDataBase.getInfo(q).getHjL();
         Long v = percentTo(b, l);
-        getInfo(q).addHj(v).apply();
+        GameDataBase.getInfo(q).addHj(v).apply();
         return String.format(ADDHJ_TIPS, v);
     }
 }

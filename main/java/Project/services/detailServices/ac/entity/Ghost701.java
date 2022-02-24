@@ -1,6 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
 import Project.ResourceSet;
+import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Entitys.apiEntitys.RunnableWithOver;
@@ -34,7 +35,7 @@ public class Ghost701 extends GhostWithGroup {
             @Override
             public void run() {
                 if (index++ % 50 == 0) {
-                    baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
+                    baseInfo = baseInfo == null ? baseInfo = GameDataBase.getInfo(getWhoMeet()) : baseInfo;
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
                         v = v <= 0 ? 1 : v;

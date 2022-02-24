@@ -1,40 +1,186 @@
 package Project.services.impl;
 
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import Project.aSpring.SpringBootResource;
+import Project.broadcast.enums.ObjType;
+import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
-import Project.broadcast.game.PlayerLostBroadcast;
-import Project.broadcast.enums.ObjType;
+import Project.services.detailServices.GameBoneDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
-
-
     @Override
     public String getInfoAttributes(Long who) {
-        AttributeBone attributeBone = getAttribute(who);
-        String[] sss = new String[6];
+        SoulAttribute attributeBone = getSoulAttribute(who);
+        String[] sss = new String[8];
         sss[0] = "============我的属性";
-        sss[1] = "伤害闪避率:" + attributeBone.getHidePro() + "%";
-        sss[2] = "生命恢复率:" + attributeBone.getHpPro() + "%";
-        sss[3] = "生命恢复效果:" + attributeBone.getHpRecEff() + "%";
-        sss[4] = "魂力恢复率:" + attributeBone.getHlPro() + "%";
-        sss[5] = "魂力恢复效果:" + attributeBone.getHlRecEff() + "%";
+        sss[1] = "伤害闪避率:" + attributeBone.getHideChance() + "%";
+        sss[2] = "生命恢复率:" + attributeBone.getHpChance() + "%";
+        sss[3] = "生命恢复效果:" + attributeBone.getHpEffect() + "%";
+        sss[4] = "魂力恢复率:" + attributeBone.getHlChance() + "%";
+        sss[5] = "魂力恢复效果:" + attributeBone.getHlEffect() + "%";
+        sss[6] = "精神力恢复率:" + attributeBone.getHjChance() + "%";
+        sss[7] = "精神力恢复效果:" + attributeBone.getHjEffect() + "%";
         return getImageFromStrings(sss);
     }
 
+    @Override
+    public SoulAttribute getSoulAttribute(Long who) {
+        Integer wh = GameDataBase.getInfo(who).getWh();
+        SoulAttribute soulAttribute;
+        if (wh > 0) {
+            soulAttribute = SpringBootResource.getSoulAttributeMapper().selectById(wh);
+            for (SoulBone soulBone : getSoulBones(who.longValue())) {
+                soulAttribute.appendSoulBone(soulBone);
+            }
+        } else {
+            soulAttribute = new SoulAttribute().setWh(wh);
+        }
+        return soulAttribute;
+    }
+
+    @Override
+    public List<SoulBone> getSoulBones(Long who) {
+        return SpringBootResource.getSoulBoneMapper().selectBons(who);
+    }
+
+    public Map<Integer, Map.Entry<String, Integer>> getAttributeMap(Long who, boolean k1) {
+        try {
+            String str = GameDataBase.getStringFromData(who, "AttributeBoneMap");
+            String[] sss = str.split(str.contains("\r") ? "\r\n" : "\n");
+            Map<Integer, Map.Entry<String, Integer>> map = new LinkedHashMap<>();
+            for (String s1 : sss) {
+                if (s1.trim().isEmpty())
+                    continue;
+                String[] ss = s1.split("=");
+                Integer k = Integer.valueOf(ss[0]);
+                String[] vv = ss[1].split(":");
+                String v1 = vv[0];
+                Integer v2 = Integer.valueOf(vv[1]);
+                map.put(k, getEntry(v1, v2));
+            }
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new LinkedHashMap<>();
+        }
+    }
+
+    @Override
+    public String parseBone(int id, long qq) {
+        //判断 该 是否有 此魂骨
+        if (!GameDataBase.containsInBg(id, qq))
+            return "你的背包里没有 " + getNameById(id);
+        // Id Int To String
+        String sb = String.valueOf(id);
+        // 解析 id 位数
+        sb = sb.substring(sb.length() - 1);
+        // 转 Int
+        int i = Integer.parseInt(sb);
+        // 计算加成
+        int nu = 0;
+        List<SoulBone> list = getSoulBones(qq);
+        if (hasSamePart(list, id)) {
+            return "已经吸收过 相同部位的魂骨了";
+        }
+        GameDataBase.removeFromBgs(qq, id, ObjType.use);
+        int r1 = rand.nextInt(7);
+        switch (r1) {
+            case 0:
+                nu = i * 3;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HIDE_PRO.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点 闪避\r\n" + getImgById(id);
+            case 1:
+                nu = i * 5;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HP_PRO.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点 生命回复率\r\n" + getImgById(id);
+            case 2:
+                nu = i * 6;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HP_REC_EFF.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点 生命回复效果\r\n" + getImgById(id);
+            case 3:
+                nu = i * 5;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HL_PRO.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点 魂力回复率\r\n" + getImgById(id);
+            case 4:
+                nu = i * 6;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HL_REC_EFF.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点 魂力回复效果\r\n" + getImgById(id);
+            case 5:
+                nu = i * 5;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HJ_PRO.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了 " + nu + "点精神力回复率\r\n" + getImgById(id);
+            case 6:
+                nu = i * 6;
+                SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
+                        .setType(GameBoneDetailService.Type.HJ_REC_EFF.getValue())
+                        .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
+                );
+                return "吸收成功 获得了" + nu + "点精神力回复效果\r\n" + getImgById(id);
+            default:
+                return "未知 Bug ";
+        }
+    }
+
+    @Override
+    public String unInstallBone(Integer id, Long who) {
+        List<SoulBone> list = getSoulBones(who);
+        for (SoulBone soulBone : list) {
+            if (soulBone.getOid().intValue() == id.intValue()) {
+                SpringBootResource.getSoulBoneMapper().delete(soulBone);
+                addToBgs(who, id, ObjType.un);
+                GameDataBase.putPerson(getInfo(who).setHp(0L).setHl(0L).setXp(0L));
+                PlayerLostBroadcast.INSTANCE.broadcast(who, who, PlayerLostBroadcast.PlayerLostReceiver.type.un);
+                return "卸掉成功 状态全无";
+            }
+        }
+        return "你没有 对应的魂骨";
+    }
+
+    private static boolean hasSamePart(List<SoulBone> list, Integer id) {
+        for (SoulBone soulBone : list) {
+            String s1 = soulBone.getOid().toString().substring(0, 3);
+            String s2 = id.toString().substring(0, 3);
+            if (s1.trim().equals(s2.trim())) return true;
+        }
+        return false;
+    }
+
+/*
     @Override
     public AttributeBone getAttribute(Long who) {
         AttributeBone attributeBone = null;
@@ -195,5 +341,5 @@ public class GameBoneServiceImpl implements IGameBoneService {
         } else {
             return "你没有 对应的魂骨";
         }
-    }
+    }*/
 }

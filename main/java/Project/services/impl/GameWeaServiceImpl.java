@@ -65,7 +65,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         int num = getNumFromBgs(who, 1000);
         int ns = ID_2_WEA_MAPS.get(id);
         if (num >= ns) {
-            addToAqBgs(who, id + ":" + (ID_2_WEA_O_NUM_MAPS.get(id)));
+            addToAqBgs(who, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
             for (int i = 0; i < ns; i++) {
                 removeFromBgs(who, 1000, ObjType.use);
             }
@@ -75,7 +75,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         }
     }
 
-    public static String MENU="";
+    public static String MENU = "";
 
     static {
         MENU += "\n#选择器(#为当前魂兽))";

@@ -2,8 +2,8 @@ package Project.services.impl;
 
 
 import Project.broadcast.enums.ObjType;
-import Project.controllers.auto.ConfirmController;
 import Project.controllers.GameControllers.GameController;
+import Project.controllers.auto.ConfirmController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
@@ -837,10 +837,11 @@ public class GameServiceImpl implements IGameService {
         }
         if (containsInBg(needId, q)) {
             removeFromBgs(q, needId, ObjType.use);
-            ints[st - 1] = ++id;
-            setHhs(q, ints);
+            GameDataBase.upHh(q, st - 1, ++id);
             return showHh(q);
-        } else return "需要:" + getNameById(needId) + getImgById(needId);
+        } else {
+            return "需要:" + getNameById(needId);
+        }
     }
 
     @Override

@@ -1,3 +1,5 @@
+package io.github.kloping.mirai0.Main;
+
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.services.impl.GameBoneServiceImpl;
@@ -7,7 +9,6 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
-import io.github.kloping.mirai0.Main.BotStarter;
 
 import java.io.File;
 import java.util.Map;
@@ -15,12 +16,12 @@ import java.util.Map;
 /**
  * @author github.kloping
  */
-public class TestBootstrap {
-    public static void main(String[] args) throws Throwable {
-        BotStarter.main(args);
+public class TempStarter {
+    public static void main(String[] args) {
         GameBoneServiceImpl bs = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GameBoneServiceImpl.class);
         for (File file : new File(GameDataBase.path, "dates/users").listFiles()) {
             Long qid = Long.valueOf(file.getName());
+            if (qid <= 0) continue;
             try {
                 //person info
                 PersonInfo personInfo = GameDataBase.getInfoFromFile(qid);
@@ -58,6 +59,7 @@ public class TestBootstrap {
                 taskPoint.apply();
             } catch (Throwable e) {
                 e.printStackTrace();
+                System.err.println("failed for qq=>" + qid);
             }
         }
         sourceSAM();

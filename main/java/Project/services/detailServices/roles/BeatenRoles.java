@@ -1,16 +1,15 @@
 package Project.services.detailServices.roles;
 
-import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.GameSkillDetailService;
-import Project.services.impl.GameBoneServiceImpl;
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static Project.services.detailServices.GameDetailService.proZ;
@@ -42,14 +41,15 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role HG_HF = (sb, q1, q2, ov, nv, p1, args) -> {
-        AttributeBone attributeBone = gameBoneService.getAttribute(q1.longValue());
-        if (proZ(attributeBone.getHpPro())) {
+        SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(q1.longValue());
+        if (proZ(soulAttribute.getHpChance())) {
             float fn;
             if (ov > 100) {
-                fn = percentTo(attributeBone.getHpRecEff(), ov);
+                fn = percentTo(soulAttribute.getHpEffect(), ov);
             } else {
-                fn = attributeBone.getHpRecEff();
+                fn = soulAttribute.getHpEffect();
             }
             p1.addHp((long) fn);
             sb.append("\n得益于魂骨你恢复了").append(fn).append("生命\n").append("============");
@@ -88,14 +88,11 @@ public class BeatenRoles {
         }
         return response;
     };
+
     public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
-            if (proZ(gameBoneService.getAttribute(q1.longValue()).getHidePro())) {
-                Integer[] ids = GameBoneServiceImpl.getIdsFromAttributeMap(gameBoneService.getAttributeMap(q1.longValue(), true), "hide");
-                for (Integer i : ids) {
-                    sb.append(GameDataBase.getNameById(i)).append(",");
-                }
-                sb.append("\n" + THIS_DANGER_OVER_FLAG + "得益于 " + sb + "你闪避了此次伤害" + (ids.length > 0 ? getImgById(ids[0]) : "") + "\n============");
+            if (proZ(gameBoneService.getSoulAttribute(q1.longValue()).getHideChance())) {
+                sb.append("\n" + THIS_DANGER_OVER_FLAG + "得益于魂骨你闪避了此次伤害" + "\n============");
                 return new RoleResponse(STOP, ov, 0, q1, q2);
             }
         }

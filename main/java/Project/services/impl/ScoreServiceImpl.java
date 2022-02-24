@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.UserScore;
@@ -146,7 +147,7 @@ public class ScoreServiceImpl implements IScoreService {
             int nr = rand.nextInt(45) + 25;
             int s = tr * 5;
             addScore(s, who);
-            putPerson(getInfo(who).addGold((long) nr
+            putPerson(GameDataBase.getInfo(who).addGold((long) nr
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)
                             .setType0(TradingRecord.Type0.gold)

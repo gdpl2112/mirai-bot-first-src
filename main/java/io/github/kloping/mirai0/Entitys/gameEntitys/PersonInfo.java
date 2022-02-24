@@ -4,7 +4,7 @@ package io.github.kloping.mirai0.Entitys.gameEntitys;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.broadcast.game.RecordBroadcast;
-import io.github.kloping.MySpringTool.h1.impl.component.HttpClientManagerImpl;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
@@ -130,6 +130,7 @@ public class PersonInfo implements BaseInfo {
     /**
      * 名字QQ
      */
+    @TableId
     public String name = null;
     /**
      * 下次进入星斗 R
@@ -733,7 +734,7 @@ public class PersonInfo implements BaseInfo {
     }
 
     public Integer getWhType() {
-        if (whType == -1) {
+        if (whType == null || whType == -1) {
             return (whType = GameDataBase.WH_2_TYPE.get(wh.intValue()));
         }
         return whType;

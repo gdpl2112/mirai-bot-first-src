@@ -1,23 +1,15 @@
 package Project.aSpring;
 
 import Project.aSpring.mcs.mapper.*;
-import Project.dataBases.DataBase;
-import Project.dataBases.GameDataBase;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.clasz.ClassUtils;
-import io.github.kloping.mirai0.Entitys.UserScore;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-
-import static Project.dataBases.DataBase.getAllInfo;
-import static Project.dataBases.GameDataBase.getInfo;
 
 /**
  * @author github-kloping
@@ -25,7 +17,6 @@ import static Project.dataBases.GameDataBase.getInfo;
 public class SpringBootResource {
     private static final String PUBLIC_IP = getPublicIp();
     public static String address;
-
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
 
@@ -38,10 +29,40 @@ public class SpringBootResource {
     public static TradingRecordMapper tradingRecordMapper;
     public static ShopItemMapper shopItemMapper;
     public static WarpMapper warpMapper;
-    public static KillGhostMapper normalMapper;
+    public static KillGhostMapper killGhostMapper;
+    public static BagMapper bagMapper;
+    public static AqBagMapper aqBagMapper;
+    public static SoulBoneMapper soulBoneMapper;
+    public static SoulAttributeMapper soulAttributeMapper;
+    public static HhpzMapper hhpzMapper;
+    public static TaskPointMapper taskPointMapper;
+
+    public static TaskPointMapper getTaskPointMapper() {
+        return taskPointMapper;
+    }
+
+    public static HhpzMapper getHhpzMapper() {
+        return hhpzMapper;
+    }
+
+    public static SoulBoneMapper getSoulBoneMapper() {
+        return soulBoneMapper;
+    }
+
+    public static SoulAttributeMapper getSoulAttributeMapper() {
+        return soulAttributeMapper;
+    }
+
+    public static AqBagMapper getAqBagMapper() {
+        return aqBagMapper;
+    }
+
+    public static BagMapper getBagMapper() {
+        return bagMapper;
+    }
 
     public static KillGhostMapper getKillGhostMapper() {
-        return normalMapper;
+        return killGhostMapper;
     }
 
     public static WarpMapper getWarpMapper() {
@@ -100,20 +121,15 @@ public class SpringBootResource {
                         Class c0 = declaredField.getType();
                         if (c0.isInterface()) {
                             declaredField.setAccessible(true);
-                            if (declaredField.get(null)!=null){continue;}
+                            if (declaredField.get(null) != null) {
+                                continue;
+                            }
                             Class<? extends BaseMapper> c1 = c0;
                             Object o0 = configuration.getBean(c1);
                             declaredField.set(null, o0);
                         }
                     }
                 }
-//                tradingRecordMapper = configuration.getBean(TradingRecordMapper.class);
-//                fatherMapper = configuration.getBean(FatherMapper.class);
-//                groupConfMapper = configuration.getBean(GroupConfMapper.class);
-//                scoreMapper = configuration.getBean(UScoreMapper.class);
-//                personInfoMapper = configuration.getBean(PersonInfoMapper.class);
-//                gInfoMapper = configuration.getBean(GInfoMapper.class);
-//                autoReplyMapper = configuration.getBean(AutoReplyMapper.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -140,45 +156,5 @@ public class SpringBootResource {
 
     public static void main(String[] args) {
         System.out.println(PUBLIC_IP);
-    }
-
-    public static void move0() {
-        File file = new File(DataBase.path + "/users/");
-        try {
-            for (File f : file.listFiles()) {
-                try {
-                    long q = Long.valueOf(f.getName());
-                    UserScore score = getAllInfo(q);
-                    getScoreMapper().insert(score);
-                    System.out.println("moved sc: " + q);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(f);
-                }
-            }
-            System.out.println("moved sc : all");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void move1() {
-        File file = new File(GameDataBase.path + "/dates/users/");
-        try {
-            for (File f : file.listFiles()) {
-                try {
-                    long q = Long.valueOf(f.getName());
-                    PersonInfo info = getInfo(q);
-                    getPersonInfoMapper().insert(info);
-                    System.out.println("moved pi: " + q);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(f);
-                }
-            }
-            System.out.println("moved pi : all");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

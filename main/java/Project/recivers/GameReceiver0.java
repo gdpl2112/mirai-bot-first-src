@@ -19,8 +19,6 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
-import java.util.List;
-
 import static Project.controllers.NormalController.NoticeController.lowst;
 
 /**

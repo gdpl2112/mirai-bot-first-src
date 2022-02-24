@@ -1,7 +1,9 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys.task;
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,7 +16,7 @@ import static Project.dataBases.task.TaskCreator.*;
 @Data
 @Accessors(chain = true)
 public class TaskPoint {
-
+    @TableId
     @TableField("`q`")
     private Long q = -1L;
 
@@ -33,14 +35,18 @@ public class TaskPoint {
     @TableField("`next_can`")
     private Long nextCan = 0L;
 
+    public static TaskPoint getInstanceFromFile(long q) {
+        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
+        return FileInitializeValue.getValue(d, new TaskPoint().setQ(q), true);
+    }
+
     public static TaskPoint getInstance(long q) {
         String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
         return FileInitializeValue.getValue(d, new TaskPoint().setQ(q), true);
     }
 
     public void apply() {
-        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
-        FileInitializeValue.putValues(d, this, true);
+        SpringBootResource.getTaskPointMapper().insert(this);
     }
 
     public TaskPoint setNormalIndex(Integer normalIndex) {

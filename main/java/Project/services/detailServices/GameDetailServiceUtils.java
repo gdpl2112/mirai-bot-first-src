@@ -30,7 +30,7 @@ public class GameDetailServiceUtils {
             if (!GameDataBase.exist(num.longValue())) {
                 return 1;
             }
-            return getInfo(num).getAtt();
+            return GameDataBase.getInfo(num).getAtt();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             if (ghostObj == null) {
@@ -52,7 +52,7 @@ public class GameDetailServiceUtils {
             if (!GameDataBase.exist(num.longValue())) {
                 return 0;
             }
-            return getInfo(num).getHj();
+            return GameDataBase.getInfo(num).getHj();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             if (ghostObj == null) {
@@ -72,10 +72,10 @@ public class GameDetailServiceUtils {
     public static BaseInfo getBaseInfoFromAny(Number who, Number o) {
         BaseInfo baseInfo = null;
         if (o.longValue() > 0) {
-            if (!GameDataBase.exist(o)) {
+            if (!GameDataBase.exist(o.longValue())) {
                 return null;
             }
-            baseInfo = getInfo(o.longValue());
+            baseInfo = GameDataBase.getInfo(o.longValue());
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             if (ghostObj == null) {
@@ -99,7 +99,7 @@ public class GameDetailServiceUtils {
             if (!GameDataBase.exist(q2.longValue())) {
                 return 0;
             }
-            return getInfo(q2).addHj(v.longValue()).apply().getHj();
+            return GameDataBase.getInfo(q2).addHj(v.longValue()).apply().getHj();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             if (ghostObj == null) {

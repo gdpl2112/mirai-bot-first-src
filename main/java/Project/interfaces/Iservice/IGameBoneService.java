@@ -1,20 +1,53 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.AttributeBone;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 
+import java.util.List;
 import java.util.Map;
 
-public interface IGameBoneService  {
+/**
+ * @author github-kloping
+ */
+public interface IGameBoneService {
+    /**
+     * get info for attr
+     *
+     * @param who
+     * @return
+     */
     String getInfoAttributes(Long who);
 
-    AttributeBone getAttribute(Long who);
+    /**
+     * get soul attr
+     *
+     * @param who
+     * @return
+     */
+    SoulAttribute getSoulAttribute(Long who);
 
-    void PutAttributeMap(Long who, Map<Integer, Map.Entry<String, Integer>> map);
+    /**
+     * get bones
+     *
+     * @param who
+     * @return
+     */
+    List<SoulBone> getSoulBones(Long who);
 
-    Map<Integer, Map.Entry<String, Integer>> getAttributeMap(Long who, boolean k);
+    /**
+     * parse a bone
+     * @param id
+     * @param qq
+     * @return
+     */
+    String parseBone(int id, long qq);
 
-    String parseBone(Integer id, Long who);
-
+    /**
+     * un bone
+     * @param id
+     * @param who
+     * @return
+     */
     String unInstallBone(Integer id, Long who);
 }

@@ -1,22 +1,18 @@
 package io.github.kloping.mirai0.unitls.Tools;
 
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameJoinDetailService;
-import io.github.kloping.file.FileUtils;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getHhs;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
 public class GameTool {
     /**
@@ -61,10 +57,10 @@ public class GameTool {
      * @return
      */
     public static boolean isJTop(Long who) {
-        long lev = getInfo(who).getLevel();
+        long lev = GameDataBase.getInfo(who).getLevel();
         lev++;
         boolean k1 = lev % 10 == 0;
-        boolean k2 = getInfo(who).getXp() >= getInfo(who).getXpL();
+        boolean k2 = GameDataBase.getInfo(who).getXp() >= GameDataBase.getInfo(who).getXpL();
         return k1 && k2;
     }
 
@@ -87,12 +83,13 @@ public class GameTool {
      */
     public static boolean isAlive(Long who) {
         GameDataBase.testMan(who);
-        long is = getInfo(who).getHp();
+        long is = GameDataBase.getInfo(who).getHp();
         return is > 0;
     }
 
     /**
      * 魂环加成
+     *
      * @param id
      * @return
      */
@@ -163,7 +160,7 @@ public class GameTool {
     }
 
     public static String getFhName(Long who) {
-        PersonInfo personInfo = getInfo(who);
+        PersonInfo personInfo = GameDataBase.getInfo(who);
         if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty())
             return "";
         if (personInfo.getLevel() < 100)
@@ -176,7 +173,7 @@ public class GameTool {
     }
 
     public static String getFhName(Long who, boolean tr) {
-        PersonInfo personInfo = getInfo(who);
+        PersonInfo personInfo = GameDataBase.getInfo(who);
         if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty())
             return who + "";
         if (personInfo.getLevel() < 100)
@@ -329,108 +326,116 @@ public class GameTool {
         return false;
     }
 
-    public static final File INDEX_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
+    /*
+        public static final File INDEX_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
 
-    public static void loadPh() {
-        if (INDEX_FILE.exists() && !FileUtils.getStringFromFile(INDEX_FILE.getAbsolutePath()).isEmpty()) {
-            loadPhIndexs();
-        } else {
-            for (File f1 : new File(GameDataBase.path + "/dates/users/").listFiles()) {
+        public static void loadPh() {
+            if (INDEX_FILE.exists() && !FileUtils.getStringFromFile(INDEX_FILE.getAbsolutePath()).isEmpty()) {
+                loadPhIndexs();
+            } else {
+                for (File f1 : new File(GameDataBase.path + "/dates/users/").listFiles()) {
+                    try {
+                        final Long id = Long.parseLong(f1.getName());
+                        if (id == -1L) {
+                            f1.delete();
+                            continue;
+                        }
+                        int l = GameDataBase.getInfoFromFile(id).getLevel();
+                        if (l < 10) {
+                            continue;
+                        } else {
+                            PHMAP.put(id.toString(), l);
+                            THREADS.execute(() -> {
+                                removeAllTag(id);
+                            });
+                            System.out.println("loaded-->" + f1);
+                        }
+                    } catch (Exception e) {
+                        System.err.println(f1.getPath());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println("load---end");
+            PH.clear();
+            PH.addAll(PHMAP.entrySet());
+            PHMAP.clear();
+            Collections.sort(PH, new Comparator<Map.Entry<String, Integer>>() {
+                @Override
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                    return o2.getValue() - o1.getValue();
+                }
+            });
+            flushIndexs();
+        }
+
+        public static void loadPhIndexs() {
+            String[] strings = getStringsFromFile(INDEX_FILE.getAbsolutePath());
+            for (String s2 : strings) {
                 try {
-                    final Long id = Long.parseLong(f1.getName());
-                    if (id == -1L) {
-                        f1.delete();
-                        continue;
-                    }
-                    int l = getInfo(id).getLevel();
-                    if (l < 10) {
-                        continue;
-                    } else {
-                        PHMAP.put(id.toString(), l);
-                        THREADS.execute(() -> {
-                            removeAllTag(id);
-                        });
-                        System.out.println("loaded-->" + f1);
-                    }
+                    String[] ss = s2.split(":");
+                    Long who = Long.parseLong(ss[0]);
+                    int level = Integer.valueOf(ss[1]);
+                    PHMAP.put(who.toString(), level);
+                    THREADS.execute(() -> {
+                        removeAllTag(who);
+                    });
                 } catch (Exception e) {
-                    System.err.println(f1.getPath());
+                    System.err.println(s2);
                     e.printStackTrace();
+                    continue;
                 }
             }
         }
-        System.out.println("load---end");
-        PH.clear();
-        PH.addAll(PHMAP.entrySet());
-        PHMAP.clear();
-        Collections.sort(PH, new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue() - o1.getValue();
-            }
-        });
-        flushIndexs();
-    }
 
-    public static void loadPhIndexs() {
-        String[] strings = getStringsFromFile(INDEX_FILE.getAbsolutePath());
-        for (String s2 : strings) {
+        public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
+            if (PH.size() == 0) loadPh();
+            if (num >= PH.size())
+                return PH;
+            List<Map.Entry<String, Integer>> ph1 = new LinkedList<>();
+            for (Map.Entry e : PH) {
+                if (ph1.size() == num)
+                    break;
+                else {
+                    ph1.add(e);
+                }
+            }
+            return ph1;
+        }
+
+        public static final List<Map.Entry<String, Integer>> PH = new LinkedList<>();
+        public static final Map<String, Integer> PHMAP = new ConcurrentHashMap<>();
+        public static int num = 199;
+
+        private static void flushIndexs() {
             try {
-                String[] ss = s2.split(":");
-                Long who = Long.parseLong(ss[0]);
-                int level = Integer.valueOf(ss[1]);
-                PHMAP.put(who.toString(), level);
-                THREADS.execute(() -> {
-                    removeAllTag(who);
-                });
+                PrintWriter pw = new PrintWriter(INDEX_FILE);
+                for (Map.Entry<String, Integer> entry : PH) {
+                    pw.println(entry.getKey() + ":" + entry.getValue());
+                }
+                pw.flush();
+                pw.close();
             } catch (Exception e) {
-                System.err.println(s2);
                 e.printStackTrace();
-                continue;
             }
         }
+
+        static {
+            loadPh();
+            ZERO_RUNS.add(() -> {
+                INDEX_FILE.delete();
+                loadPh();
+            });
+        }*/
+    public static List<Map.Entry<String, Integer>> phGet(int num) {
+        List<Map.Entry<String, Integer>> list = new LinkedList<>();
+        for (PersonInfo personInfo : SpringBootResource.getPersonInfoMapper().getOrderByLevel(num)) {
+            list.add(getEntry(personInfo.getName(), personInfo.getLevel()));
+        }
+        return list;
     }
 
     public static void removeAllTag(Number number) {
-        getInfo(number).setTag("").apply();
-    }
-
-    public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
-        if (PH.size() == 0) loadPh();
-        if (num >= PH.size())
-            return PH;
-        List<Map.Entry<String, Integer>> ph1 = new LinkedList<>();
-        for (Map.Entry e : PH) {
-            if (ph1.size() == num)
-                break;
-            else {
-                ph1.add(e);
-            }
-        }
-        return ph1;
-    }
-
-    public static final List<Map.Entry<String, Integer>> PH = new LinkedList<>();
-    public static final Map<String, Integer> PHMAP = new ConcurrentHashMap<>();
-    public static int num = 199;
-
-    private static void flushIndexs() {
-        try {
-            PrintWriter pw = new PrintWriter(INDEX_FILE);
-            for (Map.Entry<String, Integer> entry : PH) {
-                pw.println(entry.getKey() + ":" + entry.getValue());
-            }
-            pw.flush();
-            pw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    static {
-        loadPh();
-        ZERO_RUNS.add(() -> {
-            INDEX_FILE.delete();
-            loadPh();
-        });
+        GameDataBase.getInfo(number).setTag("").apply();
     }
 }

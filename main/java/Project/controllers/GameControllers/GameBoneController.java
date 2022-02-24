@@ -4,6 +4,7 @@ package Project.controllers.GameControllers;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.interfaces.Iservice.IGameBoneService;
+import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -48,23 +49,8 @@ public class GameBoneController {
         }
     }
 
-    @Action(value = "我的属性", otherName = "属性信息")
-    public String myAttribute(long qq, Group g) {
-        return gameBoneService.getInfoAttributes(qq);
-    }
-
-    @Action("我的魂骨")
-    public String myBones(long qq, Group g) {
-        Map<Integer, Map.Entry<String, Integer>> map = gameBoneService.getAttributeMap(qq, true);
-        StringBuilder sb = new StringBuilder();
-        for (Integer id : map.keySet()) {
-            sb.append(getNameById(id)).append(getImgById(id));
-        }
-        return sb.toString().isEmpty() ? "没有魂骨!" : sb.toString();
-    }
-
     @Action("魂骨菜单")
-    public String BoneMenu(long qq, Group g) {
+    public String boneMenu(long qq, Group g) {
         return getImageFromStrings(
                 "吸收魂骨 (魂骨名)",
                 "我的属性 #查看属性",
@@ -73,6 +59,22 @@ public class GameBoneController {
                 "=====>经验清零)",
                 "更多功能开发中..."
         );
+    }
+
+    @Action(value = "我的属性", otherName = "属性信息")
+    public String myAttribute(long qq, Group g) {
+        return gameBoneService.getInfoAttributes(qq);
+    }
+
+    @Action("我的魂骨")
+    public String myBones(long qq, Group g) {
+        List<SoulBone> list = gameBoneService.getSoulBones(qq);
+        StringBuilder sb = new StringBuilder();
+        for (SoulBone soulBone : list) {
+            Integer id = soulBone.getOid();
+            sb.append(getNameById(id)).append(getImgById(id));
+        }
+        return sb.toString().isEmpty() ? "没有魂骨!" : sb.toString();
     }
 
     @Action("吸收魂骨<.{1,}=>name>")

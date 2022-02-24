@@ -1,10 +1,11 @@
 package Project.services.detailServices;
 
 
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -205,28 +206,22 @@ public class GameWeaDetailService {
     }
 
     public void used(long who, int id) {
-        Map<Integer, Map.Entry<Integer, Integer>> maps = getBgsw(Long.valueOf(who));
-        for (Integer i : maps.keySet()) {
-            if (maps.get(i).getKey() == id) {
-                int c = maps.get(i).getValue();
-                if (c > 1) {
-                    removeFromAqBgs(who, id + ":" + c);
-                    c--;
-                    addToAqBgs(Long.valueOf(who), id + ":" + c);
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(who)) {
+            if (map.get("oid").intValue() == id) {
+                Integer num = map.get("num");
+                num--;
+                if (num > 0) {
+                    SpringBootResource.getAqBagMapper().update(num, 0, map.get("id"));
                 } else {
-                    removeFromAqBgs(who, id + ":" + c);
+                    SpringBootResource.getAqBagMapper().update(num, 1, map.get("id"));
                 }
-                return;
             }
         }
     }
 
     public boolean exitsO(int id, long who) {
-        Map<Integer, Map.Entry<Integer, Integer>> maps = getBgsw(who);
-        for (Integer i : maps.keySet()) {
-            if (maps.get(i).getKey() == id) {
-                return true;
-            }
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(who)) {
+            if (map.get("oid").intValue() == id) return true;
         }
         return false;
     }
