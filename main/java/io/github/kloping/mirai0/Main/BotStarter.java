@@ -54,15 +54,15 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         bot.login();
-        Switch.AllK = false;
+//        Switch.AllK = false;
         startedAfter();
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
         System.err.println("已关机");
-        TempStarter.main(args);
-        System.exit(0);
+//        TempStarter.main(args);
+//        System.exit(0);
     }
 
     private static void initBot() {
