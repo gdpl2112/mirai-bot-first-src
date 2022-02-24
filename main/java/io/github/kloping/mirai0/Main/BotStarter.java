@@ -1,12 +1,12 @@
 package io.github.kloping.mirai0.Main;
 
 import Project.aSpring.SpringStarter;
-import io.github.kloping.MySpringTool.StarterApplication;
 import Project.listeners.EmojiCompositeListenerHost;
+import Project.listeners.NbListener;
+import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
-import io.github.kloping.MySpringTool.annotations.CommentScan;
-import Project.listeners.NbListener;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -14,9 +14,8 @@ import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -55,11 +54,15 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         bot.login();
+        Switch.AllK = false;
         startedAfter();
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
+        System.err.println("已关机");
+        TempStarter.main(args);
+        System.exit(0);
     }
 
     private static void initBot() {
