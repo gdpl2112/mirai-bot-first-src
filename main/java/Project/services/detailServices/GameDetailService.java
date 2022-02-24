@@ -1,39 +1,36 @@
 package Project.services.detailServices;
 
-import Project.controllers.GameControllers.GameController;
-import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
+import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.controllers.GameControllers.GameController;
+import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
+import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.ac.entity.Ghost702;
 import Project.services.detailServices.roles.BeatenRoles;
 import Project.services.detailServices.roles.Role;
 import Project.services.detailServices.roles.RoleResponse;
 import Project.services.detailServices.roles.RoleState;
-import Project.interfaces.Iservice.IGameBoneService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.io.File;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalValue.*;
+import static Project.controllers.auto.TimerController.ZERO_RUNS;
+import static Project.dataBases.GameDataBase.putPerson;
+import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
@@ -51,19 +48,7 @@ public class GameDetailService {
             public void run() {
                 ZERO_RUNS.add(() -> {
                     GameController.deleteC.clear();
-                    File file = new File(GameDataBase.path + "/dates/users/");
-                    for (File f1 : file.listFiles()) {
-                        try {
-                            String endN = f1.getName();
-                            PersonInfo personInfo = getInfo(endN);
-                            if (isNeedUpdate(personInfo)) {
-                                putPerson(personInfo.cancelVertigo().setHelpC(0).setHelpToc(0)
-                                        .setBuyHelpC(0).setBuyHelpToC(0).setDied(false).setDowned(false));
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    SpringBootResource.getPersonInfoMapper().updateAll();
                 });
             }
         });

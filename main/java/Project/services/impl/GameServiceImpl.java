@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.broadcast.enums.ObjType;
 import Project.controllers.GameControllers.GameController;
 import Project.controllers.auto.ConfirmController;
@@ -14,19 +15,16 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
+import io.github.kloping.mirai0.Entitys.gameEntitys.*;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -675,13 +673,12 @@ public class GameServiceImpl implements IGameService {
         ConfirmController.regConfirm(id, new Object[]{
                 method, this, new Object[]{id}
         });
-
-        return "你确定需要转生吗,这将丢失所有数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
+        return "你确定需要转生吗,这将丢失所有信息数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
     }
 
     private String ReturnNow(Long id) {
         HIST_INFOS.remove(id);
-        boolean k1 = deleteDir(new File(GameDataBase.path + "/dates/users/" + id));
+        boolean k1 = SpringBootResource.getPersonInfoMapper().deleteById(id.longValue()) > 0;
         boolean k2 = SkillDataBase.remove(id);
         Warp warp = getWarp(id);
         if (warp.getMaster().longValue() != -1) {
@@ -690,6 +687,20 @@ public class GameServiceImpl implements IGameService {
         if (warp.getBindQ().longValue() != -1) {
             gameController.RemoveFusionNow(id.longValue());
         }
+        for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
+            SpringBootResource.getBagMapper().update(id0);
+        }
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
+            SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
+        }
+        for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
+            SpringBootResource.getSoulBoneMapper().delete(soulBone);
+        }
+        SpringBootResource.getgInfoMapper().deleteById(id);
+        for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
+            SpringBootResource.getHhpzMapper().update(integer);
+        }
+        SpringBootResource.getTaskPointMapper().deleteById(id);
         return k1 && k2 ? "转生成功" : "转生失败";
     }
 

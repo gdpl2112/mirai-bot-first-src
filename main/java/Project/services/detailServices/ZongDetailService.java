@@ -170,6 +170,8 @@ public class ZongDetailService {
                 zong.setPub(5);
                 putZongInfo(zong);
                 break;
+            default:
+                break;
         }
     }
 

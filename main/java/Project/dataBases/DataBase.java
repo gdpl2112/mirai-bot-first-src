@@ -11,7 +11,6 @@ import io.github.kloping.mirai0.Entitys.GroupConf;
 import io.github.kloping.mirai0.Entitys.UserScore;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -292,9 +291,6 @@ public class DataBase {
             addTimes_(1, who);
         } catch (Exception e) {
             e.printStackTrace();
-            String pathN = path + "/users/" + who;
-            File file = new File(pathN + "/infos");
-            file.delete();
         }
         return 1L;
     }

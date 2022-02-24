@@ -100,8 +100,6 @@ public class ScoreServiceImpl implements IScoreService {
         if (ls.getDay() == day) {
             return "签到失败,你今天已经签到过了!!";
         } else {
-//            DataBase.setDate(getToday(), who, "day");
-//            DataBase.update(1, who, "days");
             ls.setFz(0L);
             ls.setDay(Long.valueOf(getToday()));
             ls.setDays((long) (ls.getDays().intValue() + 1));

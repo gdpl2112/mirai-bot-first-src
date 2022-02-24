@@ -63,6 +63,15 @@ public interface BagMapper {
     List<Integer> selectAll(@Param("qid") Long qid);
 
     /**
+     * 获取 ids
+     *
+     * @param qid
+     * @return
+     */
+    @Select("SELECT `id` FROM `bag` WHERE `qid`=#{qid} and `state`=0")
+    List<Integer> selectAllIds(@Param("qid") Long qid);
+
+    /**
      * 更新玩家背包物品状态
      *
      * @param id
