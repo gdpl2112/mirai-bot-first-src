@@ -502,7 +502,6 @@ public class GameDataBase {
         } else {
             file = new File(path + "/dates/users/" + who + "/infos");
         }
-        testMan(who);
         try {
             PersonInfo personInfo;
             if (HIST_INFOS.containsKey(who)) {
