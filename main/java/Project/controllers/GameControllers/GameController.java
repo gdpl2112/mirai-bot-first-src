@@ -31,7 +31,7 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 @Controller
 public class GameController {
 
-    public static final float maxXp = 1.25f;
+    public static final float maxXp = 1.5f;
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");

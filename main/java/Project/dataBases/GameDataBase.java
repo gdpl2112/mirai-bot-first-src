@@ -4,6 +4,7 @@ package Project.dataBases;
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
@@ -490,7 +491,10 @@ public class GameDataBase {
      * @return
      */
     public static PersonInfo getInfo(Long who) {
-        return SpringBootResource.getPersonInfoMapper().selectById(who.toString());
+        QueryWrapper<PersonInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", who.toString());
+        PersonInfo info = SpringBootResource.getPersonInfoMapper().selectOne(queryWrapper);
+        return info;
     }
 
     public static PersonInfo getInfoFromFile(Long who) {

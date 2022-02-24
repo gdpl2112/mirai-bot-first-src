@@ -372,12 +372,6 @@ public class PersonInfo implements BaseInfo {
 
     public PersonInfo setXp(Long xp) {
         this.xp = xp;
-        if (Level >= 150) {
-            this.xp = 0L;
-        }
-        if (xp > xpL * maxXp) {
-            this.xp = (long) (xpL * maxXp);
-        }
         return this;
     }
 
@@ -481,8 +475,8 @@ public class PersonInfo implements BaseInfo {
         if (Level >= 150) {
             this.xp = 0L;
         }
-        if (xp > xpL * 1.5) {
-            this.xp = (long) (xpL * 1.5);
+        if (xp > xpL * maxXp) {
+            this.xp = (long) (xpL * maxXp);
         }
         return this;
     }
@@ -628,9 +622,6 @@ public class PersonInfo implements BaseInfo {
     }
 
     public PersonInfo setHelpC(Integer helpC) {
-        if (helpC > this.helpC) {
-            return this;
-        }
         this.helpC = helpC;
         return this;
     }
