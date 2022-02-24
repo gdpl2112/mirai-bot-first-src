@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import io.github.kloping.mirai0.Main.BotStarter;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -19,7 +20,9 @@ public class TestBootstrap {
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
         GameBoneServiceImpl bs = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GameBoneServiceImpl.class);
-        for (File file : new File(GameDataBase.path, "dates/users").listFiles()) {
+        File[] files = new File(GameDataBase.path, "dates/users").listFiles();
+        Arrays.sort(files);
+        for (File file : files) {
             Long qid = Long.valueOf(file.getName());
             try {
                 //person info
