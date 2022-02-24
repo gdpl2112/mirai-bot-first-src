@@ -463,7 +463,7 @@ public class GameDataBase {
         Map<Integer, Map.Entry<Integer, Integer>> maps = new LinkedHashMap<>();
         int i = 1;
         for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(who.longValue())) {
-            maps.put(i, getEntry(map.get("oid"), map.get("num")));
+            maps.put(i++, getEntry(map.get("oid"), map.get("num")));
         }
         return maps;
     }
