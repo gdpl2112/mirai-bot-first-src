@@ -26,7 +26,7 @@ public interface HhpzMapper {
      * @param qid
      * @return
      */
-    @Select("SELECT `oid` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time` DESC;")
+    @Select("SELECT `oid` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time`;")
     List<Integer> select(@Param("qid") Long qid);
 
     /**
@@ -51,6 +51,6 @@ public interface HhpzMapper {
      * @param qid
      * @return
      */
-    @Select("SELECT `id` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time` DESC;")
+    @Select("SELECT `id` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time`;")
     List<Integer> selectIds(@Param("qid") Long qid);
 }
