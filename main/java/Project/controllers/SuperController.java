@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -248,26 +249,16 @@ public class SuperController {
         return "ok";
     }
 
-    @Action("/moveUS")
+    @Action("/clearUserCache")
     public Object m4() {
-        for (File file : new File(DataBase.path + "/users/").listFiles()) {
-            try {
-                Long q = Long.valueOf(file.getName());
-                UserScore score = DataBase.getAllInfoFile(q);
-                score.setWho(q);
-                score.check();
-                SpringBootResource.getScoreMapper().insert(score);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            return HIST_U_SCORE.size()+" will clear";
+        } finally {
+            HIST_U_SCORE.clear();
         }
-        return "ok";
     }
 
-
 /*
-
-
     @Action("/moveKC")
     public Object m5() {
         KILLED_C.forEach((k, v) -> {

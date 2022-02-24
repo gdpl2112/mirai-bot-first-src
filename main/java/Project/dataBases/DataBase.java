@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getFatherMapper;
 import static Project.aSpring.SpringBootResource.getGroupConfMapper;
-import static io.github.kloping.mirai0.Main.Resource.superQ;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
@@ -31,6 +30,7 @@ public class DataBase {
     public DataBase(String mainPath) {
         try {
             path = mainPath + "/dates";
+             /*
             File file = new File(path + "/mainfist");
             if (!file.exists()) {
                 new File(path + "/mainfist/groups").mkdirs();
@@ -40,6 +40,7 @@ public class DataBase {
                 new File(path + "/mainfist/fathers").mkdirs();
                 new File(path + "/mainfist/fathers/" + superQ).createNewFile();
             }
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,11 +135,7 @@ public class DataBase {
         if (file.exists()) {
             return false;
         } else {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            testFile(file.getAbsolutePath());
         }
         return true;
     }
@@ -216,6 +213,14 @@ public class DataBase {
         return uScore;
     }
 
+    public static void putInfo(UserScore score) {
+        HIST_U_SCORE.put(score.getWho().longValue(), score);
+        long who = score.getWho().longValue();
+        UpdateWrapper<UserScore> q = new UpdateWrapper<>();
+        q.eq("who", who);
+        SpringBootResource.getScoreMapper().update(score, q);
+    }
+
     public static long[] getAllInfoOld(Long who) {
         try {
             System.out.println("查询 " + who + "的 信息");
@@ -250,14 +255,6 @@ public class DataBase {
         new File(pathN + "/" + who + ".days").delete();
         new File(pathN + "/" + who + ".fz").delete();
         new File(pathN + "/" + who + ".k").delete();
-    }
-
-    public static void putInfo(UserScore score) {
-        HIST_U_SCORE.put(score.getWho().longValue(), score);
-        long who = score.getWho().longValue();
-        UpdateWrapper<UserScore> q = new UpdateWrapper<>();
-        q.eq("who", who);
-        SpringBootResource.getScoreMapper().update(score, q);
     }
 
     public static long addScore(long l, Long who) {

@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys.task;
 
 import Project.dataBases.GameDataBase;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,11 +14,23 @@ import static Project.dataBases.task.TaskCreator.*;
 @Data
 @Accessors(chain = true)
 public class TaskPoint {
+
+    @TableField("`q`")
     private Long q = -1L;
+
+    @TableField("`prentice_index`")
     private Integer prenticeIndex = 0;
+
+    @TableField("`master_index`")
     private Integer masterIndex = 0;
+
+    @TableField("`normal_index`")
     private Integer normalIndex = 1000;
+
+    @TableField("`expert_index`")
     private Integer expertIndex = 0;
+
+    @TableField("`next_can`")
     private Long nextCan = 0L;
 
     public static TaskPoint getInstance(long q) {
