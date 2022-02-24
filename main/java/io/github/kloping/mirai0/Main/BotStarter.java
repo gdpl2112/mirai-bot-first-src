@@ -60,7 +60,6 @@ public class BotStarter {
         startRegisterListenerHost(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
-        System.err.println("已关机");
 //        TempStarter.main(args);
 //        System.exit(0);
     }

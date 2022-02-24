@@ -42,11 +42,14 @@ public class BotStarter2 {
         Resource.setterStarterApplication(BotStarter2.class);
         SpringStarter2.main(args);
         bot.login();
+        Switch.AllK = false;
         pluginLoad();
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         println("运行的线程=》" + Thread.activeCount());
+        TempStarter.main(args);
+        System.exit(0);
     }
 
     private static void startRegisterListenerHost(String[] args) {

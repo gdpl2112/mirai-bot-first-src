@@ -60,6 +60,7 @@ public class TempStarter {
                 //point
                 TaskPoint taskPoint = TaskPoint.getInstanceFromFile(qid);
                 taskPoint.apply();
+                System.out.println("qid => " + qid);
             } catch (Throwable e) {
                 e.printStackTrace();
                 System.err.println("failed for qq=>" + qid);
