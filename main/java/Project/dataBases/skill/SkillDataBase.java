@@ -49,6 +49,7 @@ public class SkillDataBase {
                             info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                             appendInfo(info);
                         } catch (Exception e) {
+                            e.printStackTrace();
                             System.err.println(file.getPath() + "读取和初始化失败");
                         }
                     }

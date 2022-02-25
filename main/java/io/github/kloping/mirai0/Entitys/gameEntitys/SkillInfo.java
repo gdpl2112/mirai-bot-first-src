@@ -37,7 +37,7 @@ public class SkillInfo {
     private Long mdTime = 1L;
 
     @TableField("`qq`")
-    private Number qq;
+    private Long qq;
 
     @TableField("`name`")
     private String name;

@@ -55,9 +55,9 @@ public class BotStarter {
         SpringStarter.main(args);
         bot.login();
 //        Switch.AllK = false;
-        startedAfter();
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
+        startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
 //        TempStarter.main(args);
