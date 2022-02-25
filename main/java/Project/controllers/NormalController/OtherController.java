@@ -34,25 +34,25 @@ public class OtherController {
         }
     }
 
-    private static final StringBuilder menuStr = new StringBuilder();
+    private static final StringBuilder MENU_STR = new StringBuilder();
 
     static {
-        menuStr.append("1.基本菜单").append("\r\n");
-        menuStr.append("2.暗器菜单").append("\r\n");
-        menuStr.append("3.魂骨菜单").append("\r\n");
-        menuStr.append("4.魂技菜单").append("\r\n");
-        menuStr.append("5.回话菜单").append("\r\n");
-        menuStr.append("6.宗门系统").append("\r\n");
-        menuStr.append("7.交易市场").append("\r\n");
-        menuStr.append("8.点歌系统").append("\r\n");
-        menuStr.append("9.娱乐功能").append("\r\n");
-        menuStr.append("-1.开始会话 #在线运行代码").append("\r\n");
-        menuStr.append("不用at我,直接说就行了哦");
+        MENU_STR.append("1.基本菜单").append("\r\n");
+        MENU_STR.append("2.暗器菜单").append("\r\n");
+        MENU_STR.append("3.魂骨菜单").append("\r\n");
+        MENU_STR.append("4.魂技菜单").append("\r\n");
+        MENU_STR.append("5.回话菜单").append("\r\n");
+        MENU_STR.append("6.宗门系统").append("\r\n");
+        MENU_STR.append("7.交易市场").append("\r\n");
+        MENU_STR.append("8.点歌系统").append("\r\n");
+        MENU_STR.append("9.娱乐功能").append("\r\n");
+        MENU_STR.append("-1.开始会话 #在线运行代码").append("\r\n");
+        MENU_STR.append("不用at我,直接说就行了哦");
     }
 
     @Action("菜单")
     public String menu() {
-        return menuStr.toString();
+        return MENU_STR.toString();
     }
 
     private static String[] BaseMenuStrings;

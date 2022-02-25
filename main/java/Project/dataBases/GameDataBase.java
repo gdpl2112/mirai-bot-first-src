@@ -618,7 +618,6 @@ public class GameDataBase {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
     }
 
     public static Warp getWarp(Number id) {

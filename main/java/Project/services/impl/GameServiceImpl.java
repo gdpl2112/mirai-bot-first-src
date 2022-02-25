@@ -666,7 +666,7 @@ public class GameServiceImpl implements IGameService {
     public String returnA(long id) {
         Method method = null;
         try {
-            method = this.getClass().getDeclaredMethod("ReturnNow", Long.class);
+            method = this.getClass().getDeclaredMethod("returnNow", Long.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -676,32 +676,85 @@ public class GameServiceImpl implements IGameService {
         return "你确定需要转生吗,这将丢失所有信息数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
     }
 
-    private String ReturnNow(Long id) {
+    private String returnNow(Long id) {
         HIST_INFOS.remove(id);
-        boolean k1 = SpringBootResource.getPersonInfoMapper().deleteById(id.longValue()) > 0;
-        boolean k2 = SkillDataBase.remove(id);
-        Warp warp = getWarp(id);
-        if (warp.getMaster().longValue() != -1) {
-            chuShiNow(id.longValue());
+        int i = 0;
+
+        try {
+            SpringBootResource.getPersonInfoMapper().deleteById(id.longValue());
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (warp.getBindQ().longValue() != -1) {
-            gameController.RemoveFusionNow(id.longValue());
+        try {
+            SkillDataBase.remove(id);
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
-            SpringBootResource.getBagMapper().update(id0);
+        Warp warp = null;
+        try {
+            warp = getWarp(id);
+            if (warp.getMaster().longValue() != -1) {
+                chuShiNow(id.longValue());
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
-            SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
+        try {
+            if (warp.getBindQ().longValue() != -1) {
+                gameController.RemoveFusionNow(id.longValue());
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
-            SpringBootResource.getSoulBoneMapper().delete(soulBone);
+        try {
+            for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
+                SpringBootResource.getBagMapper().update(id0);
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        SpringBootResource.getgInfoMapper().deleteById(id);
-        for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
-            SpringBootResource.getHhpzMapper().update(integer);
+        try {
+            for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
+                SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        SpringBootResource.getTaskPointMapper().deleteById(id);
-        return k1 && k2 ? "转生成功" : "转生失败";
+        try {
+            for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
+                SpringBootResource.getSoulBoneMapper().delete(soulBone);
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            SpringBootResource.getgInfoMapper().deleteById(id);
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
+                SpringBootResource.getHhpzMapper().update(integer);
+            }
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            SpringBootResource.getTaskPointMapper().deleteById(id);
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "转生完成\n已移除" + i + "项记录";
     }
 
     @AutoStand

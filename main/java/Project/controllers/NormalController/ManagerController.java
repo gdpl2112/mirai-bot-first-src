@@ -1,7 +1,6 @@
 package Project.controllers.NormalController;
 
 
-import Project.ResourceSet;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
@@ -13,7 +12,6 @@ import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -25,7 +23,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static Project.ResourceSet.FinalString.*;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -289,17 +286,5 @@ public class ManagerController {
     @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
     public String isay(@AllMess String str, Group group) {
         return str.substring(7);
-    }
-
-    @Action("eddScore<.+=>n>")
-    public String eddScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
-        if (qq.getId() == superQL) {
-            Long who = MessageTools.getAtFromString(messages);
-            if (who == -1) return ResourceSet.FinalString.ERR_TIPS;
-            messages = messages.replace(who.toString(), "");
-            long num = Long.parseLong(Tool.findNumberFromString(messages));
-            DataBase.addScore(-num, who);
-            return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(-num + "").append("积分").toString();
-        } else throw new NoRunException();
     }
 }

@@ -144,7 +144,7 @@ public class GameJoinDetailService {
             ghostObj.updateHp(-att, getInfo(who));
 
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
-            sb.append("\n你对 ").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害").append("\r\n");
+            sb.append("\n你对 ").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害").append("\n");
             boolean showY = false;
             if (ghostObj.getHp() > 0) {
                 showY = true;
@@ -172,7 +172,7 @@ public class GameJoinDetailService {
                 }
             }
             if (showY && show) {
-                sb.append("\n").append(WillTips(who, ghostObj, false));
+                sb.append("\n").append(willTips(who, ghostObj, false));
             }
             return sb.toString();
         } finally {
@@ -266,7 +266,7 @@ public class GameJoinDetailService {
                 sb.append("\n").append(gameService.info(who)).append("\n");
             }
             if (showY) {
-                sb.append("\n").append(WillTips(who, ghostObj, false));
+                sb.append("\n").append(willTips(who, ghostObj, false));
             }
             return sb.toString();
         } finally {
@@ -274,7 +274,7 @@ public class GameJoinDetailService {
         }
     }
 
-    public static String WillTips(Number qq, GhostObj ghostObj, boolean k) {
+    public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
         int id = ghostObj.getId();
         long v1 = getInfo(qq).getHj();
         long v2 = ghostObj.getHj();

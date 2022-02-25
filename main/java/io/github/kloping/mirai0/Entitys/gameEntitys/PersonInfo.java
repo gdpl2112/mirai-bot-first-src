@@ -126,7 +126,7 @@ public class PersonInfo implements BaseInfo {
     /**
      * 使用 物品 标志
      */
-    public String usinged = null;
+    public String usinged = "null";
     /**
      * 名字QQ
      */

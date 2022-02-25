@@ -13,9 +13,9 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.dataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
-import static Project.services.detailServices.GameJoinDetailService.WillTips;
+import static Project.dataBases.GameDataBase.*;
+import static Project.services.detailServices.GameJoinDetailService.willTips;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
@@ -139,7 +139,7 @@ public class JoinAcService {
             int id = ghostObj.getId();
             if (ghostObj.getL() > 3000L)
                 GhostBehavior.exRun(new GhostBehavior(who, group));
-            return WillTips(who, ghostObj, false);
+            return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
@@ -188,7 +188,7 @@ public class JoinAcService {
             int id = ghostObj.getId();
             if (ghostObj.getL() > 3000L)
                 GhostBehavior.exRun(new GhostBehavior(who, group));
-            return WillTips(who, ghostObj, false);
+            return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
@@ -226,13 +226,13 @@ public class JoinAcService {
             ghostObj = GhostObj.create(1000, 701, 705);
         } else if (r < MIN_MEET3) {
             ghostObj = GhostObj.create(100, 701, 705);
-        } else if (r < MIN_MEET3 + 25) {
+        } else if (r < MIN_MEET3 + 40) {
             GameDetailService.addHp(who, 3);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT0;
-        } else if (r < MIN_MEET3 + 50) {
+        } else if (r < MIN_MEET3 + 80) {
             GameDetailService.addHl(who, 4);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT1;
-        } else if (r < MIN_MEET3 + 75) {
+        } else if (r < MIN_MEET3 + 120) {
             GameDetailService.addHj(who, 5);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT2;
         } else {
@@ -246,7 +246,7 @@ public class JoinAcService {
             if (ghostObj.getL() > 3000L) {
                 GhostBehavior.exRun(GhostBehavior.create(who, group, ghostObj.getLevel()));
             }
-            return WillTips(who, ghostObj, false);
+            return willTips(who, ghostObj, false);
         }
         return ERR_TIPS;
     }

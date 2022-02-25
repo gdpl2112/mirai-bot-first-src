@@ -38,7 +38,7 @@ public class SkillDataBase {
 
     private void initMap() {
         Resource.START_AFTER.add(() -> {
-            List<SkillInfo> list =SpringBootResource.getSkillInfoMapper().selectAll();
+            List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
             for (SkillInfo info : list) {
                 info.setState(0);
                 info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
@@ -141,9 +141,11 @@ public class SkillDataBase {
         try {
             long qq = who.longValue();
             Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-            map.forEach((k, v) -> {
-                SpringBootResource.getSkillInfoMapper().deleteById(v.getUuid());
-            });
+            if (map != null) {
+                map.forEach((k, v) -> {
+                    SpringBootResource.getSkillInfoMapper().deleteById(v.getUuid());
+                });
+            }
             QQ_2_ST_2_MAP.remove(qq);
             return true;
         } catch (Exception e) {

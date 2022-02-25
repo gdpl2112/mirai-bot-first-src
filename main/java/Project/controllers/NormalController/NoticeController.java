@@ -47,8 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("2.26:每个武魂自带一点属性(也可能没有,新属性,详情见`我的属性`").append("\n");
-        UPDATE_LOG.append("2.25:修复了暗器显示的bug,修复转生").append("\n");
+        UPDATE_LOG.append("2.25:移除了精神力低于45时的额外受到伤害,每个武魂自带一点属性(也可能没有,新属性,详情见`我的属性`").append("\n");
+        UPDATE_LOG.append("2.24:修复了暗器显示的bug,修复转生").append("\n");
         UPDATE_LOG.append("2.21:停用每日的早,中,晚的问候,停用每日零点关闭提示").append("\n");
         UPDATE_LOG.append("2.20:修复转生后关系还在的bug,修复每天都刷新每周任务的bug").append("\n");
         UPDATE_LOG.append("2.19:尝试修复信息发不出去的问题,新功能emoji表情合成#发输入法中的两个emoji表情即可").append("\n");

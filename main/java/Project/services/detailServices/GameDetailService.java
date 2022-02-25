@@ -153,6 +153,7 @@ public class GameDetailService {
         PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====
+        sb.append(NEWLINE).append(SPLIT_LINE_0);
         if (info.containsTag(SkillDataBase.TAG_XX)) {
             String tag = info.getTag(SkillDataBase.TAG_XX);
             Integer p = Integer.valueOf(tag.replace(SkillDataBase.TAG_XX, ""));
@@ -161,7 +162,7 @@ public class GameDetailService {
                 v1 = 1;
             }
             info.addHp(v1);
-            sb.append("\n攻击者,由于吸血技能恢复了 " + v1 + "的生命值\n============");
+            sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
         }
         if (qq2.longValue() > 0) {
             PersonInfo info1 = GameDataBase.getInfo(qq2);
@@ -169,7 +170,8 @@ public class GameDetailService {
                 int b = info.getTagValue(TAG_SHE).intValue();
                 long v2 = percentTo(b, v);
                 putPerson(GameDataBase.getInfo(qq2.longValue()).addHp(-v2));
-                sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");
+                sb.append(NEWLINE).append(SPLIT_LINE_0);
+                sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
             }
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(qq.longValue());
@@ -179,7 +181,8 @@ public class GameDetailService {
                     int b = info.getTagValue(TAG_SHE).intValue();
                     long v2 = percentTo(b, v);
                     GameJoinDetailService.attGho(qq.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
-                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害\n=========");
+                    sb.append(NEWLINE).append(SPLIT_LINE_0);
+                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
                 }
             }
         }
@@ -220,7 +223,8 @@ public class GameDetailService {
             }
             baseInfo.addHj(-ov2);
             baseInfo.apply();
-            sb.append("对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失\n");
+            sb.append(NEWLINE).append(SPLIT_LINE_0);
+            sb.append("\n对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失");
             long nv2 = v2 - ov2;
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
@@ -230,8 +234,9 @@ public class GameDetailService {
                     int v = toPercent(nv2, baseInfo.getHpL());
                     v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                     long nv0 = percentTo(v, baseInfo.getHpL());
-                    sb.append("对其造成了").append(nv0).append("(").append(v).append("%)额外伤害\n");
-                    sb.append(beaten(q2, q, nv0)).append("\n");
+                    sb.append(NEWLINE).append(SPLIT_LINE_0);
+                    sb.append("\n对其造成了").append(nv0).append("(").append(v).append("%)额外伤害");
+                    sb.append(beaten(q2, q, nv0)).append(NEWLINE);
                 }
             }
             p1.apply();
