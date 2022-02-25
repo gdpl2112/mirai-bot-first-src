@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
@@ -9,6 +10,8 @@ import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.MySpringTool.annotations.Entity;
+
+import java.util.List;
 
 import static Project.dataBases.DataBase.*;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -96,7 +99,7 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public String sign(Long who) {
         UserScore ls = DataBase.getAllInfo(who);
-        long day = Long.parseLong(getToday());
+        int day = getTodayInt();
         if (ls.getDay() == day) {
             return "签到失败,你今天已经签到过了!!";
         } else {
@@ -105,20 +108,22 @@ public class ScoreServiceImpl implements IScoreService {
             ls.setDays((long) (ls.getDays().intValue() + 1));
             ls.setScore(ls.getScore() + 100);
             putInfo(ls);
+            SpringBootResource.getSingListMapper().insert(who.longValue(), day, System.currentTimeMillis());
             Object[] lines = regDay(who);
             String line = lines[0].toString();
             Integer st = Integer.valueOf(lines[1].toString());
-            if (line.isEmpty())
+            if (line.isEmpty()) {
                 return getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
-            else
+            } else {
                 return getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
                         + getImageFromFontString("第" + trans(st + 1) + "签")
                         + "\n" + line;
+            }
         }
     }
 
-    private static synchronized final Object[] regDay(Number l) {
-        int r = regToday(l);
+    private static final Object[] regDay(Number l) {
+        int r = SpringBootResource.getScoreMapper().selectCountByDay(getTodayInt());
         switch (r) {
             case 0:
                 addScore(100, l.longValue());
@@ -164,18 +169,19 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String todayList(Group group) {
-        String[] ss = getDayList();
+        List<Long> list = SpringBootResource.getSingListMapper().selectDay(getTodayInt());
         int n = 1;
         StringBuilder sb = new StringBuilder();
         sb.append("今日" + getToday() + "号:VV\r\n");
-        for (String s : ss) {
+        for (Long aLong : list) {
             String name = null;
             try {
-                name = MemberTools.getNameFromGroup(Long.parseLong(s.trim()), group);
+                name = MemberTools.getNameFromGroup(aLong, group);
             } catch (Exception e) {
-                name = s;
+                name = aLong.toString();
             }
             sb.append("第").append(trans(n++)).append(":\r\n=>").append(name).append("\r\n");
+
         }
         return sb.toString();
     }

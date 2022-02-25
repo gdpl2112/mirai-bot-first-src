@@ -510,6 +510,9 @@ public class Tool {
     public static String getToday() {
         return today == null ? (today = new SimpleDateFormat("dd").format(new Date())) : today;
     }
+    public static Integer getTodayInt() {
+        return Integer.valueOf(getToday());
+    }
 
     /**
      * 获取这个月
@@ -850,6 +853,7 @@ public class Tool {
             return defaultValue.toString();
         }
     }
+
     public static synchronized String getStringFromFile(String filename, Long defaultValue, Long defaultValue1) {
         testFile(filename);
         try {
@@ -861,12 +865,12 @@ public class Tool {
             String result = new String(bytes, "utf-8");
             fis.close();
             if (result.trim().isEmpty()) {
-                return defaultValue+":"+defaultValue1;
+                return defaultValue + ":" + defaultValue1;
             }
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return defaultValue+":"+defaultValue1;
+            return defaultValue + ":" + defaultValue1;
         }
     }
 
@@ -903,25 +907,6 @@ public class Tool {
         } catch (Exception e) {
             e.printStackTrace();
             return new String[]{"error"};
-        }
-    }
-
-    public static synchronized String[] getStringsFromFile(String filename, String chara) {
-        testFile(filename);
-        try {
-            System.gc();
-            File file = new File(filename);
-            file.createNewFile();
-            BufferedReader pw = new BufferedReader(new InputStreamReader(new FileInputStream(file), chara));
-            List<String> ls = new ArrayList<>();
-            String line = null;
-            while ((line = pw.readLine()) != null) {
-                ls.add(line);
-            }
-            return ls.toArray(new String[ls.size()]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new String[]{};
         }
     }
 
@@ -962,55 +947,11 @@ public class Tool {
 
 
     /**
-     * 获取今天的注册表
-     *
-     * @return
-     */
-    public static synchronized String[] getDayList() {
-        File file = new File(DataBase.path + "/History/", getToMon() + "day" + getToday());
-        String[] sss = getStringsFromFile(file.getPath(), "utf-8");
-        return sss;
-    }
-
-    /**
-     * 在今天注册
-     *
-     * @param qq
-     * @return
-     */
-    public static int regToday(Number qq) {
-        File file = new File(DataBase.path + "/History/", getToMon() + "day" + getToday());
-        String[] sss = getStringsFromFile(file.getPath(), "utf-8");
-        int end;
-        if ((end = Arrays.asList(sss).indexOf(qq.toString())) != -1)
-            return end;
-        else end = sss.length;
-
-        addStingInFile(qq.toString(), file.getPath(), "utf-8");
-
-        return end;
-    }
-
-    /**
      * 更新今天的日期
      */
-    public static void update_Today() {
+    public static void updateToday() {
         today = null;
         toMon = null;
-    }
-
-    /**
-     * 删除空目录
-     *
-     * @param dir 将要删除的目录路径
-     */
-    private static synchronized void doDeleteEmptyDir(String dir) {
-        boolean success = (new File(dir)).delete();
-        if (success) {
-            System.out.println("Successfully deleted empty directory: " + dir);
-        } else {
-            System.out.println("Failed to delete empty directory: " + dir);
-        }
     }
 
     /**
@@ -1032,7 +973,6 @@ public class Tool {
                 }
             }
         }
-        // 目录此时为空，可以删除
         return dir.delete();
     }
 

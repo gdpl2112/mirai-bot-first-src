@@ -66,7 +66,7 @@ public class GameDetailServiceUtils {
      * 获取基本信息
      *
      * @param who
-     * @param num
+     * @param o playerId
      * @return
      */
     public static BaseInfo getBaseInfoFromAny(Number who, Number o) {

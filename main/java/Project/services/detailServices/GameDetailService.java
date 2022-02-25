@@ -92,9 +92,6 @@ public class GameDetailService {
                 if (b > 80) {
                     ev = percentTo(10, oNow);
                     sb.append(NEWLINE).append(HJ_OVER_80_TIPS).append(NEWLINE).append(SPLIT_LINE_0);
-                } else if (b < 40) {
-                    ev = -percentTo(10, oNow);
-                    sb.append(NEWLINE).append(HJ_LOW_40_TIPS).append(NEWLINE).append(SPLIT_LINE_0);
                 } else if (b <= 1) {
                     ev = 0;
                 }
@@ -105,8 +102,7 @@ public class GameDetailService {
                 int sf = toPercent(oNow, p1.getHpL());
                 sf = sf > 80 ? 80 : sf < 1 ? 1 : sf;
                 long sv = percentTo(sf, p1.getHjL());
-                p1.addHj(-sv);
-                sb.append(String.format("\n消耗了%s精神力\n============", sv));
+                sb.append(onHjLose(qq.longValue(), qq2, sv));
             }
             //=====广播
             HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow,
@@ -118,7 +114,6 @@ public class GameDetailService {
             if (oNow > 0) {
                 p1.addHp(-oNow);
                 p1.apply();
-
                 if (p1.hp <= 0) {
                     PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
                             qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
@@ -226,7 +221,6 @@ public class GameDetailService {
             baseInfo.addHj(-ov2);
             baseInfo.apply();
             sb.append("对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失\n");
-
             long nv2 = v2 - ov2;
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
@@ -243,6 +237,25 @@ public class GameDetailService {
             p1.apply();
             return sb.toString().trim();
         }
+    }
+
+    /**
+     * @param qq  消耗方
+     * @param qq2 主动方
+     * @param v   值
+     * @return
+     */
+    public static String onHjLose(Number qq, Number qq2, Long v) {
+        SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(qq.longValue());
+        String s = NEWLINE + SPLIT_LINE_0 + "消耗了" + v + "点精神力";
+        if (proZ(soulAttribute.getHjChance())) {
+            Long v0 = percentTo(soulAttribute.getHjEffect(), v);
+            v = v -= v0;
+            s += ("恢复了" + v0 + "点精神力");
+        }
+        BaseInfo baseInfo = getBaseInfoFromAny(qq, qq);
+        baseInfo.addHj(-v);
+        return s;
     }
 
     public static String addHp(long q, int b) {

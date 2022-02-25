@@ -162,7 +162,7 @@ public class TestBootstrap {
         );
 //                "24:修罗神剑\n" +
         SpringBootResource.getSoulAttributeMapper().insert(new SoulAttribute()
-                .setWh(24).setHjEffect(4)
+                .setWh(24).setHjChance(4)
         );
 //                "25:青龙\n" +
         SpringBootResource.getSoulAttributeMapper().insert(new SoulAttribute()
@@ -186,7 +186,7 @@ public class TestBootstrap {
         );
 //                "30:魔神剑\n" +
         SpringBootResource.getSoulAttributeMapper().insert(new SoulAttribute()
-                .setWh(30).setHjEffect(4)
+                .setWh(30).setHjChance(4)
         );
 //                "31:暗金恐爪熊\n";
         SpringBootResource.getSoulAttributeMapper().insert(new SoulAttribute()

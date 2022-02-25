@@ -144,9 +144,9 @@ public class GameSkillServiceImpl implements ISkillService {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (infos.containsKey(st)) {
             SkillInfo info = infos.get(st);
-            if (info.getMd_time() >= System.currentTimeMillis()) {
-                return String.format(SKILL_INFO_WAIT_TIPS, getTimeTips(info.getMd_time()));
-            } else saveSkillInfo(info.setName(str).setMd_time(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
+            if (info.getMdTime() >= System.currentTimeMillis()) {
+                return String.format(SKILL_INFO_WAIT_TIPS, getTimeTips(info.getMdTime()));
+            } else saveSkillInfo(info.setName(str).setMdTime(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
             if (info.getName() != null && !info.getName().isEmpty()) {
                 info = infos.get(st);
                 return "您的第" + Tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();

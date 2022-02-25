@@ -36,6 +36,16 @@ public class SpringBootResource {
     public static SoulAttributeMapper soulAttributeMapper;
     public static HhpzMapper hhpzMapper;
     public static TaskPointMapper taskPointMapper;
+    public static SingListMapper singListMapper;
+    public static SkillInfoMapper skillInfoMapper;
+
+    public static SkillInfoMapper getSkillInfoMapper() {
+        return skillInfoMapper;
+    }
+
+    public static SingListMapper getSingListMapper() {
+        return singListMapper;
+    }
 
     public static TaskPointMapper getTaskPointMapper() {
         return taskPointMapper;

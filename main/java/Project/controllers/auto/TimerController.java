@@ -1,6 +1,5 @@
 package Project.controllers.auto;
 
-import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import com.alibaba.fastjson.JSONObject;
@@ -21,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.bot;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.update_Today;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 
 /**
  * @author github-kloping
@@ -46,7 +45,7 @@ public class TimerController {
 
     @Schedule("00:00:00")
     public static void onZero() {
-        update_Today();
+        updateToday();
         THREADS.execute(() -> {
             GameDataBase.HIST_INFOS.clear();
             DataBase.HIST_U_SCORE.clear();
@@ -87,7 +86,7 @@ public class TimerController {
 
     @Schedule("07:10:00")
     public static void onSix() {
-        update_Today();
+        updateToday();
         THREADS.execute(() -> {
             for (Group group : bot.getGroups()) {
                 if (!ControllerTool.canGroup(group.getId())) {
@@ -109,7 +108,7 @@ public class TimerController {
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
-        update_Today();
+        updateToday();
 //        THREADS.execute(() -> {
 //            for (Group group : bot.getGroups()) {
 //                if (!ControllerTool.canGroup(group.getId())) {
@@ -124,7 +123,7 @@ public class TimerController {
 
     @Schedule("17:50:00")
     public static void onNightSix() {
-        update_Today();
+        updateToday();
 //        THREADS.execute(() -> {
 //            for (Group group : bot.getGroups()) {
 //                if (!ControllerTool.canGroup(group.getId())) {

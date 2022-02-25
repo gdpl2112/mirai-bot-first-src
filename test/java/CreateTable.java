@@ -33,7 +33,7 @@ public class CreateTable {
         javaProperty2SqlColumnMap.put("String", "VARCHAR(255)");
     }
 
-    public static final Class c = SoulBone.class;
+    public static final Class c = SkillInfo.class;
 
     public static void main(String[] args) throws IOException {
         createTable(c);

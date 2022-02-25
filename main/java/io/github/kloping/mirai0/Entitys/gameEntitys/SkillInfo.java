@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,54 +11,43 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class SkillInfo {
-    /**
-     * 第几魂技
-     */
+    @TableField("`st`")
     private Integer st;
-    /**
-     * 魂环ID
-     */
+
+    @TableField("`id`")
     private Integer id;
-    /**
-     * 魂技ID
-     */
+
+    @TableField("`jid`")
     private Integer jid;
-    /**
-     * 获得百分比
-     */
+
+    @TableField("`add_percent`")
     private Integer addPercent;
-    /**
-     * 消耗百分比
-     */
+
+    @TableField("`use_percent`")
     private Integer usePercent;
-    /**
-     * 下次可可使用时间
-     */
+
+    @TableField("`time`")
     private Long time;
-    /**
-     * 一次冷却
-     */
+
+    @TableField("`time_l`")
     private Long timeL;
-    /**
-     * 修改冷却
-     */
-    private Long md_time = 1L;
-    /**
-     * 拥有者
-     */
+
+    @JSONField(name = "md_time")
+    @TableField("`md_time`")
+    private Long mdTime = 1L;
+
+    @TableField("`qq`")
     private Number qq;
-    /**
-     * 魂技名称
-     */
+
+    @TableField("`name`")
     private String name;
-    /**
-     * UUID
-     */
-    private String UUID;
-    /**
-     * 状态
-     */
-    private Integer state=1;
+
+    @TableField("`uuid`")
+    @JSONField(name = "uUID")
+    private String uuid;
+
+    @TableField("`state`")
+    private Integer state = 1;
 
     public SkillInfo() {
     }
