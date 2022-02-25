@@ -10,9 +10,7 @@ import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
 
-import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getLogTimeFormat;
 
 /**
  * qq
@@ -26,19 +24,17 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getLogTimeFormat;
  */
 public class BotS0 {
     public static void main(String[] args) {
-        setOnErrInFIle(getLogTimeFormat() + "err.log");
-        setOnOutInFIle(getLogTimeFormat() + "console.log");
-        BotConfiguration botConfiguration = new BotConfiguration();
-        BotConfiguration.MiraiProtocol protocol = BotConfiguration.MiraiProtocol.valueOf(args[2]);
-        botConfiguration.setProtocol(protocol == null ? BotConfiguration.MiraiProtocol.ANDROID_PAD : protocol);
-        BotConfiguration.HeartbeatStrategy hs = args.length >= 5 ? BotConfiguration.HeartbeatStrategy.valueOf(args[4]) : null;
-        botConfiguration.setHeartbeatStrategy(hs == null ? BotConfiguration.HeartbeatStrategy.STAT_HB : hs);
-        botConfiguration.setCacheDir(new File("./cache"));
-        botConfiguration.fileBasedDeviceInfo(args.length >= 4 ? args[3] : "./device.json");
-        Bot bot = BotFactory.INSTANCE.newBot(Long.parseLong(args[0]), args[1].trim(), botConfiguration);
-        bot.login();
-        StarterApplication.logger = new LoggerImpl();
-        bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
+//        setOnErrInFIle(getLogTimeFormat() + "err.log");
+//        setOnOutInFIle(getLogTimeFormat() + "console.log");
+//        BotConfiguration botConfiguration = new BotConfiguration();
+//        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_WATCH);
+//        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
+//        botConfiguration.setCacheDir(new File("./cache"));
+//        botConfiguration.fileBasedDeviceInfo( "./device.json");
+//        Bot bot = BotFactory.INSTANCE.newBot( , botConfiguration);
+//        bot.login();
+//        StarterApplication.logger = new LoggerImpl();
+//        bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+//        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 }
