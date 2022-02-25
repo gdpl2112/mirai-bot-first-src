@@ -46,7 +46,7 @@ public class TaskPoint {
     }
 
     public void apply() {
-        SpringBootResource.getTaskPointMapper().insert(this);
+        SpringBootResource.getTaskPointMapper().updateById(this);
     }
 
     public TaskPoint setNormalIndex(Integer normalIndex) {
