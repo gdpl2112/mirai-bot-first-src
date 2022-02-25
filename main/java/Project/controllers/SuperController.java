@@ -17,11 +17,13 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.DataBase.HIST_U_SCORE;
+import static Project.dataBases.GameDataBase.HIST_INFOS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -245,12 +247,14 @@ public class SuperController {
         return "ok";
     }
 
-    @Action("/clearUserCache")
+    @Action("/clearCache")
     public Object m4() {
         try {
-            return HIST_U_SCORE.size()+" will clear";
+            return HIST_U_SCORE.size() + " will clear\n" + HIST_INFOS.size() + " will clear";
         } finally {
             HIST_U_SCORE.clear();
+            HIST_INFOS.clear();
+            Tool.deleteDir(new File("./temp"));
         }
     }
 

@@ -1,6 +1,7 @@
 package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
@@ -28,35 +29,43 @@ public class SkillDataBase {
     public static String path;
 
     public SkillDataBase(String path) {
-        SkillDataBase.path = path + "/dates/games/skills";
-        File file = new File(SkillDataBase.path);
-        if (!file.exists())
-            file.mkdirs();
+//        SkillDataBase.path = path + "/dates/games/skills";
+//        File file = new File(SkillDataBase.path);
+//        if (!file.exists())
+//            file.mkdirs();
         initMap();
     }
 
     private void initMap() {
         Resource.START_AFTER.add(() -> {
-            Resource.Switch.AllK = false;
-            File[] files = new File(path).listFiles();
-            for (File files1 : files) {
-                if (files1.isDirectory()) {
-                    for (File file : files1.listFiles()) {
-                        try {
-                            String json = getStringFromFile(file.getPath(), "utf-8");
-                            SkillInfo info = JsonUtils.jsonStringToObject(json, SkillInfo.class);
-                            info.setState(0);
-                            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
-                            appendInfo(info);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.err.println(file.getPath() + "读取和初始化失败");
-                        }
-                    }
-                }
+            List<SkillInfo> list =SpringBootResource.getSkillInfoMapper().selectAll();
+            for (SkillInfo info : list) {
+                info.setState(0);
+                info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
+                appendInfo(info);
             }
-            System.exit(0);
         });
+//        Resource.START_AFTER.add(() -> {
+//            Resource.Switch.AllK = false;
+//            File[] files = new File(path).listFiles();
+//            for (File files1 : files) {
+//                if (files1.isDirectory()) {
+//                    for (File file : files1.listFiles()) {
+//                        try {
+//                            String json = getStringFromFile(file.getPath(), "utf-8");
+//                            SkillInfo info = JsonUtils.jsonStringToObject(json, SkillInfo.class);
+//                            info.setState(0);
+//                            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
+//                            appendInfo(info);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            System.err.println(file.getPath() + "读取和初始化失败");
+//                        }
+//                    }
+//                }
+//            }
+//            System.exit(0);
+//        });
     }
 
     public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
@@ -82,8 +91,20 @@ public class SkillDataBase {
      *
      * @param info
      */
-    public static final void saveSkillInfo(SkillInfo info) {
+    public static void saveSkillInfo(SkillInfo info) {
         appendInfo(info);
+//        String uuid = info.getQq() + "." + info.getSt();
+//        info.setUuid(uuid);
+//        File file = new File(path + "/" + info.getQq() + "/" + uuid);
+//        if (!file.exists())
+//            if (!file.getParentFile().exists())
+//                file.getParentFile().mkdirs();
+//        String json = JsonUtils.objectToJsonString(info);
+//        putStringInFile(json, file.getPath(), "utf-8");
+    }
+
+    public static void updateSkillInfo(SkillInfo info) {
+        SpringBootResource.getSkillInfoMapper().updateById(info);
 //        String uuid = info.getQq() + "." + info.getSt();
 //        info.setUuid(uuid);
 //        File file = new File(path + "/" + info.getQq() + "/" + uuid);
@@ -106,9 +127,8 @@ public class SkillDataBase {
             map = new ConcurrentHashMap<>();
         if (map.containsKey(info.getSt()))
             map.remove(info.getSt());
-        File file = new File(path + "/" + info.getQq() + "/" + info.getUuid());
-        file.delete();
         QQ_2_ST_2_MAP.put(qq, map);
+        SpringBootResource.getSkillInfoMapper().deleteById(info.getUuid());
     }
 
     /**
@@ -121,17 +141,10 @@ public class SkillDataBase {
         try {
             long qq = who.longValue();
             Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-            if (map == null)
-                map = new ConcurrentHashMap<>();
-            map.clear();
-            File file = new File(path + "/" + who);
-            if (!file.exists())
-                return true;
-            for (File file_ : file.listFiles()) {
-                file_.delete();
-            }
-            file.delete();
-            QQ_2_ST_2_MAP.put(qq, map);
+            map.forEach((k, v) -> {
+                SpringBootResource.getSkillInfoMapper().deleteById(v.getUuid());
+            });
+            QQ_2_ST_2_MAP.remove(qq);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,16 +158,14 @@ public class SkillDataBase {
      * @param info
      */
     private static final void appendInfo(SkillInfo info) {
-//        long qq = Long.valueOf(info.getQq() + "");
-//        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-//        if (map == null)
-//            map = new ConcurrentHashMap<>();
-//        map.put(info.getSt(), info);
-//        QQ_2_ST_2_MAP.put(qq, map);
-        SpringBootResource.getSkillInfoMapper().insert(info);
+        long qq = Long.valueOf(info.getQq() + "");
+        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
+        if (map == null)
+            map = new ConcurrentHashMap<>();
+        map.put(info.getSt(), info);
+        QQ_2_ST_2_MAP.put(qq, map);
     }
 
-    //============================================================================================================================
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
 
     /**

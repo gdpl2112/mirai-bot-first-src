@@ -491,6 +491,9 @@ public class GameDataBase {
      * @return
      */
     public static PersonInfo getInfo(Long who) {
+        if (HIST_INFOS.containsKey(who.longValue())) {
+            return HIST_INFOS.get(who.longValue());
+        }
         QueryWrapper<PersonInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", who.toString());
         PersonInfo info = SpringBootResource.getPersonInfoMapper().selectOne(queryWrapper);

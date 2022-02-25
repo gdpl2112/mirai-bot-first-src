@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.Entitys.gameEntitys;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -44,6 +45,7 @@ public class SkillInfo {
 
     @TableField("`uuid`")
     @JSONField(name = "uUID")
+    @TableId
     private String uuid;
 
     @TableField("`state`")

@@ -31,7 +31,7 @@ import static Project.services.detailServices.GameSkillDetailService.*;
 @Entity
 public class GameSkillServiceImpl implements ISkillService {
     @Override
-    public String InitSkill(long qq, Group group, Integer st) {
+    public String initSkill(long qq, Group group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
         if (is[0] == 0 || is.length < st) return ("你还没有获得对应的魂环");
         Map<Integer, SkillInfo> skinfo = getSkillInfo(qq);
@@ -80,8 +80,8 @@ public class GameSkillServiceImpl implements ISkillService {
                 .setUsePercent(getUserPercent(st, id2).intValue());
 
         SkillDataBase.saveSkillInfo(info);
-        int id_ = is[st - 1] + 100;
-        return getImgById(id_) + getIntro(id, id2, st, getInfo(qq).getWh());
+        int id0 = is[st - 1] + 100;
+        return getImgById(id0) + getIntro(id, id2, st, getInfo(qq).getWh());
     }
 
     private static String getIntro(Integer id, Integer jid, Integer st, int wh) {
@@ -146,7 +146,9 @@ public class GameSkillServiceImpl implements ISkillService {
             SkillInfo info = infos.get(st);
             if (info.getMdTime() >= System.currentTimeMillis()) {
                 return String.format(SKILL_INFO_WAIT_TIPS, getTimeTips(info.getMdTime()));
-            } else saveSkillInfo(info.setName(str).setMdTime(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
+            } else {
+                updateSkillInfo(info.setName(str).setMdTime(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
+            }
             if (info.getName() != null && !info.getName().isEmpty()) {
                 info = infos.get(st);
                 return "您的第" + Tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();

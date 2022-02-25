@@ -66,7 +66,7 @@ public class GameSkillController {
                 return ("错误!\r\n示例:激活魂技1");
             }
         }
-        return skillService.InitSkill(member.getId(), group, i);
+        return skillService.initSkill(member.getId(), group, i);
     }
 
     @Action(value = "第<.+=>str>", otherName = {"释放第<.+=>str>"})
