@@ -392,7 +392,6 @@ public class GameDataBase {
     }
 
     public static Integer[] getBgsFromFile(Long who) {
-        testMan(who);
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN + "/bgs");
         List<Integer> list = new ArrayList<>();
@@ -494,6 +493,7 @@ public class GameDataBase {
         if (HIST_INFOS.containsKey(who.longValue())) {
             return HIST_INFOS.get(who.longValue());
         }
+        testMan(who.longValue());
         QueryWrapper<PersonInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", who.toString());
         PersonInfo info = SpringBootResource.getPersonInfoMapper().selectOne(queryWrapper);
@@ -648,7 +648,6 @@ public class GameDataBase {
     }
 
     public static Integer[] getHhsFromFile(Long who) {
-        testMan(who);
         List<Integer> ls = new ArrayList<>();
         String pathN = path + "/dates/users/" + who;
         String[] sss = getStringsFromFile(pathN + "/hhpz");
