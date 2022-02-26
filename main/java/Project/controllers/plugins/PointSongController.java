@@ -1,4 +1,4 @@
-package Project.controllers.Plugins;
+package Project.controllers.plugins;
 
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.apiEntitys.Song;

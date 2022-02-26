@@ -17,8 +17,8 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  * @author github-kloping
  */
 @Controller
-public class ShoperController {
-    public ShoperController() {
+public class ShopController {
+    public ShopController() {
         println(this.getClass().getSimpleName() + "构建");
     }
 

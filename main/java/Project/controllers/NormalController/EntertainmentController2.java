@@ -51,7 +51,7 @@ public class EntertainmentController2 {
     public String getBottle() {
         PickupABottle pab = null;
         try {
-            pab = apiIyk0.pickupABottle(2);
+            pab = apiIyk0.pickupBottle(2);
             StringBuilder sb = new StringBuilder();
             sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
                     .append("\n的:").append(pab.getData().getUin())
@@ -71,7 +71,7 @@ public class EntertainmentController2 {
     public String setBottle(long q, Group group, @Param("str") String str) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
         try {
-            ThrowABottle throwABottle = apiIyk0.throwABottle(1,
+            ThrowABottle throwABottle = apiIyk0.throwBottle(1,
                     str, q, group.getId());
             return throwABottle.getData().getMsg();
         } catch (Exception e) {

@@ -1,5 +1,6 @@
-package Project.controllers.Plugins;
+package Project.controllers.plugins;
 
+import Project.interfaces.http_api.ApiIyk0;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.detailPlugin.SearchPic;
@@ -8,11 +9,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,29 +42,11 @@ public class PointPicController {
     @Action("发张<.+=>name>")
     public Object sendImg(@Param("name") String name, Group group) {
         if (isIlleg(name)) return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
-        return Tool.pathToImg(getImgFromName(name));
+        return Tool.pathToImg(apiIyk0.getImgFromName(name));
     }
 
-    private static final String SOUTUU0 = "https://api.iyk0.com/swt/?msg=";
-
-    public static final String getImgFromName(String name) {
-        try {
-            name = URLEncoder.encode(name);
-            String url = SOUTUU0 + name;
-            URL u = new URL(url);
-            BufferedReader br = new BufferedReader(new InputStreamReader(u.openStream()));
-            String end = "";
-            System.out.println(end = br.readLine());
-            if (end == null || end.isEmpty()) {
-                end = getImgFromName(name);
-            }
-            br.close();
-            return end;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
+    @AutoStand
+    ApiIyk0 apiIyk0;
 
     @AutoStand
     SearchPic searchPic;

@@ -29,7 +29,7 @@ import static Project.ResourceSet.FinalString.*;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
-import static Project.controllers.Plugins.PointSongController.sing;
+import static Project.controllers.plugins.PointSongController.sing;
 import static Project.dataBases.DataBase.canBackShow;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;

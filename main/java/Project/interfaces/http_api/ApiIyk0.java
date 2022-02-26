@@ -10,14 +10,44 @@ import io.github.kloping.MySpringTool.annotations.http.ParamName;
 /**
  * @author github-kloping
  */
-@HttpClient("https://api.iyk0.com/")
+@HttpClient("https://api.iyk0.com")
 public interface ApiIyk0 {
+    /**
+     * 降雨图
+     *
+     * @return
+     */
     @GetPath("jyu")
     Jyu getJyu();
 
+    /**
+     * 扔漂流瓶
+     *
+     * @param one
+     * @param msg
+     * @param uin
+     * @param group
+     * @return
+     */
     @GetPath("drift")
-    ThrowABottle throwABottle(@ParamName("type") Integer one, @ParamName("msg") String msg
+    ThrowABottle throwBottle(@ParamName("type") Integer one, @ParamName("msg") String msg
             , @ParamName("uin") Long uin, @ParamName("group") Object group);
+
+    /**
+     * 捡起漂流瓶
+     *
+     * @param two
+     * @return
+     */
     @GetPath("drift")
-    PickupABottle pickupABottle(@ParamName("type") Integer two);
+    PickupABottle pickupBottle(@ParamName("type") Integer two);
+
+    /**
+     * get image by name
+     *
+     * @param msg
+     * @return
+     */
+    @GetPath("swt")
+    String getImgFromName(@ParamName("msg") String msg);
 }

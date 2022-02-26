@@ -19,6 +19,7 @@ public interface MuXiaoGuo {
 
 
     /**
+     * get bk
      * @param type Baidu or Sogo
      * @param word
      * @return
