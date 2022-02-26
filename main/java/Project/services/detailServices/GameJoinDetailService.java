@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;

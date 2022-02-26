@@ -12,6 +12,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeYMdhms;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStringsOnTwoColumns;
 

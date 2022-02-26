@@ -1,0 +1,40 @@
+package Project.dataBases;
+
+import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author github.kloping
+ */
+@Entity
+public class SourceDataBase {
+    public SourceDataBase() {
+    }
+
+    private static final Map<Integer, File> ID2FILE = new HashMap<>();
+
+    private static synchronized void init() {
+        if (!ID2FILE.isEmpty())
+            return;
+        for (File file : new File("images/game").listFiles()) {
+            String fn = file.getName();
+            Integer id = Integer.valueOf(Tool.findNumberFromString(fn));
+            ID2FILE.put(id, file);
+        }
+    }
+
+    public static String getImgById(Integer id, Boolean k) {
+        if (ID2FILE.isEmpty())init();
+        if (ID2FILE.containsKey(id))
+            return k ? Tool.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) : ID2FILE.get(id.intValue()).getAbsolutePath();
+        else return null;
+    }
+
+    public static String getImgById(Integer id) {
+        return getImgById(id, true);
+    }
+}

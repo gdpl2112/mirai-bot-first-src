@@ -1,13 +1,13 @@
 package io.github.kloping.mirai0.unitls.drawers;
 
+import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import com.google.gson.internal.LinkedHashTreeMap;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,7 +21,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.dataBases.GameDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
@@ -123,14 +123,14 @@ public class Drawer {
         //==================================
         g.setFont(small1Font);
         y = y + 60;
-        g.drawImage(loadImage(getImgById(-1, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgById(2001, false)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + small1Font.getSize());
         g.setFont(smallFont);
         g.drawString(filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + smallFont.getSize());
         g.setFont(small1Font);
         //==================================
         y = y + 60;
-        g.drawImage(loadImage(getImgById(-2, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgById(2002, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + small1Font.getSize());
         g.setFont(smallFont);
         g.drawString(filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + smallFont.getSize());

@@ -18,6 +18,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;

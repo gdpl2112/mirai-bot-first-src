@@ -13,57 +13,59 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 
+import static Project.dataBases.SourceDataBase.getImgById;
+
 /**
  * @author github.kloping
  */
 public class TestBootstrap {
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
-        GameBoneServiceImpl bs = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GameBoneServiceImpl.class);
-        File[] files = new File(GameDataBase.path, "dates/users").listFiles();
-        Arrays.sort(files);
-        for (File file : files) {
-            Long qid = Long.valueOf(file.getName());
-            try {
-                //person info
-                PersonInfo personInfo = GameDataBase.getInfoFromFile(qid);
-                SpringBootResource.getPersonInfoMapper().insert(personInfo);
-                //bg
-                for (Integer bg : GameDataBase.getBgsFromFile(qid.longValue())) {
-                    SpringBootResource.getBagMapper().insert(bg, qid, System.currentTimeMillis());
-                }
-                //aq
-                Map<Integer, Map.Entry<Integer, Integer>> map = GameDataBase.getBgswFromFile(qid);
-                map.forEach((k, v) -> {
-                    SpringBootResource.getAqBagMapper().insert(v.getKey(), qid, v.getValue(), System.currentTimeMillis());
-                });
-                //bone
-                bs.getAttributeMap(qid, false).forEach((k, v) -> {
-                    SoulBone soulBone = new SoulBone();
-                    soulBone.setQid(qid.longValue());
-                    soulBone.setOid(k);
-                    soulBone.setType(SoulAttribute.MAP0.get(v.getKey()));
-                    soulBone.setValue(v.getValue());
-                    SpringBootResource.getSoulBoneMapper().insert(soulBone);
-                });
-                //hhpz
-                for (Integer oid : GameDataBase.getHhsFromFile(qid)) {
-                    if (oid > 0) {
-                        SpringBootResource.getHhpzMapper().insert(qid, oid, System.currentTimeMillis());
-                        System.err.println("insert " + oid);
-                    }
-                }
-                //warp
-                Warp warp = GameDataBase.getWarpFromFile(qid);
-                SpringBootResource.getWarpMapper().insert(warp);
-                //point
-                TaskPoint taskPoint = TaskPoint.getInstanceFromFile(qid);
-                taskPoint.apply();
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        }
-        sourceSAM();
+//        GameBoneServiceImpl bs = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(GameBoneServiceImpl.class);
+//        File[] files = new File(GameDataBase.path, "dates/users").listFiles();
+//        Arrays.sort(files);
+//        for (File file : files) {
+//            Long qid = Long.valueOf(file.getName());
+//            try {
+//                //person info
+//                PersonInfo personInfo = GameDataBase.getInfoFromFile(qid);
+//                SpringBootResource.getPersonInfoMapper().insert(personInfo);
+//                //bg
+//                for (Integer bg : GameDataBase.getBgsFromFile(qid.longValue())) {
+//                    SpringBootResource.getBagMapper().insert(bg, qid, System.currentTimeMillis());
+//                }
+//                //aq
+//                Map<Integer, Map.Entry<Integer, Integer>> map = GameDataBase.getBgswFromFile(qid);
+//                map.forEach((k, v) -> {
+//                    SpringBootResource.getAqBagMapper().insert(v.getKey(), qid, v.getValue(), System.currentTimeMillis());
+//                });
+//                //bone
+//                bs.getAttributeMap(qid, false).forEach((k, v) -> {
+//                    SoulBone soulBone = new SoulBone();
+//                    soulBone.setQid(qid.longValue());
+//                    soulBone.setOid(k);
+//                    soulBone.setType(SoulAttribute.MAP0.get(v.getKey()));
+//                    soulBone.setValue(v.getValue());
+//                    SpringBootResource.getSoulBoneMapper().insert(soulBone);
+//                });
+//                //hhpz
+//                for (Integer oid : GameDataBase.getHhsFromFile(qid)) {
+//                    if (oid > 0) {
+//                        SpringBootResource.getHhpzMapper().insert(qid, oid, System.currentTimeMillis());
+//                        System.err.println("insert " + oid);
+//                    }
+//                }
+//                //warp
+//                Warp warp = GameDataBase.getWarpFromFile(qid);
+//                SpringBootResource.getWarpMapper().insert(warp);
+//                //point
+//                TaskPoint taskPoint = TaskPoint.getInstanceFromFile(qid);
+//                taskPoint.apply();
+//            } catch (Throwable e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        sourceSAM();
         System.err.println("all is ok");
     }
 

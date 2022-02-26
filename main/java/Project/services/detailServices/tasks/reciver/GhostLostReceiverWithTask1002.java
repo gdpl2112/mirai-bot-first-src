@@ -8,8 +8,8 @@ import Project.services.detailServices.tasks.Task1002;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.dataBases.GameDataBase.addToBgs;
-import static Project.dataBases.GameDataBase.getImgById;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 
 /**

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.FinalFormat.*;

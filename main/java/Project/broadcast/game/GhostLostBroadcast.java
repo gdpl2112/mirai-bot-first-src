@@ -1,15 +1,12 @@
 package Project.broadcast.game;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
+import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import static Project.dataBases.GameDataBase.addToBgs;
-import static Project.dataBases.GameDataBase.getImgById;
 
 /**
  * @author github-kloping

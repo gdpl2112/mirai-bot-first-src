@@ -252,11 +252,11 @@ public class GameDetailService {
      */
     public static String onHjLose(Number qq, Number qq2, Long v) {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(qq.longValue());
-        String s = NEWLINE + SPLIT_LINE_0 + "消耗了" + v + "点精神力";
+        String s = NEWLINE + SPLIT_LINE_0 + "\n消耗了" + v + "点精神力";
         if (proZ(soulAttribute.getHjChance())) {
             Long v0 = percentTo(soulAttribute.getHjEffect(), v);
             v = v -= v0;
-            s += ("恢复了" + v0 + "点精神力");
+            s += ("\n恢复了" + v0 + "点精神力");
         }
         BaseInfo baseInfo = getBaseInfoFromAny(qq, qq);
         baseInfo.addHj(-v);

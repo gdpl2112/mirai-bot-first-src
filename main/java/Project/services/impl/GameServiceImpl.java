@@ -32,6 +32,7 @@ import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static Project.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
@@ -77,7 +78,7 @@ public class GameServiceImpl implements IGameService {
 
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    GameDataBase.getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(XL_WAIT_TIPS, getTimeTips(l));
         }
@@ -117,7 +118,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    GameDataBase.getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
 
         } else {
             return String.format(TXL_WAIT_TIPS, getTimeTips(l));
@@ -142,7 +143,7 @@ public class GameServiceImpl implements IGameService {
             str1.append("你的武魂:暂未获得").append("\r\n");
         else {
             str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
-            str1.append(GameDataBase.getImgById((int) n)).append("\r\n");
+            str1.append(getImgById((int) n)).append("\r\n");
         }
         return str1 + pathToImg(Drawer.drawInfoPng(is));
     }
@@ -291,7 +292,7 @@ public class GameServiceImpl implements IGameService {
             return "暂无魂环";
         } else {
             for (Integer i : iii) {
-                sb.append(GameDataBase.getImgById(i)).append("\r\n");
+                sb.append(getImgById(i)).append("\r\n");
             }
         }
         return sb.toString();
