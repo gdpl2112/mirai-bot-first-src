@@ -1,15 +1,15 @@
 package Project.services.impl;
 
 
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import Project.dataBases.GameDataBase;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import Project.broadcast.enums.ObjType;
+import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.*;
+import static Project.ResourceSet.FinalString.*;
+import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgById;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
@@ -50,7 +50,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             use.getClass().getMethod("before", long.class).invoke(use, who);
             Method method = use.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(use, who));
-            putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (15 * 1000)));
+            putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (2000)));
             return getPic(id) + str;
         } else {
             return "你的背包里没有" + getNameById(id);
@@ -86,7 +86,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (getNumForO(sss, getNameById(id)) >= num) {
             String str = new UseTool().UseObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
-                putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (15 * 1000 * num * 1.25f)));
+                putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)));
             return "批量使用" + getPic(id) + str;
         } else {
             return "你的背包里没有足够的" + getNameById(id);

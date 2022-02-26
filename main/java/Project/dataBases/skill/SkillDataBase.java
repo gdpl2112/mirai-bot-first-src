@@ -93,6 +93,7 @@ public class SkillDataBase {
      */
     public static void saveSkillInfo(SkillInfo info) {
         appendInfo(info);
+        SpringBootResource.getSkillInfoMapper().insert(info);
 //        String uuid = info.getQq() + "." + info.getSt();
 //        info.setUuid(uuid);
 //        File file = new File(path + "/" + info.getQq() + "/" + uuid);
@@ -159,7 +160,7 @@ public class SkillDataBase {
      *
      * @param info
      */
-    private static final void appendInfo(SkillInfo info) {
+    public static final void appendInfo(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
         Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
         if (map == null)

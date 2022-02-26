@@ -1623,7 +1623,7 @@ public class SkillExecute {
                 int id = getSkillInfo(who.longValue()).get(0).getId();
                 SkillInfo i1 = getSkillInfo(who.longValue()).get(0);
                 i1.setTime(System.currentTimeMillis() + 1000 * 60 * 30);
-                saveSkillInfo(i1);
+                updateSkillInfo(i1);
                 id -= 200;
                 b += id;
                 long v = percentTo(b, lon);
