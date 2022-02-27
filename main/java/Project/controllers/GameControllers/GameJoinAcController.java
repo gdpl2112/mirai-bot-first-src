@@ -19,7 +19,6 @@ import java.util.Map;
 import static Project.ResourceSet.FinalString.LIST_STR;
 import static Project.controllers.NormalController.ScoreController.longs;
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;

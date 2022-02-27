@@ -28,6 +28,6 @@ public interface PersonInfoMapper extends BaseMapper<PersonInfo> {
      *
      * @return
      */
-    @Update("UPDATE `person_info` SET `help_c`=0,`help_toc`=0,`buy_help_c`=0,`died`=0,`downed`=0,`buy_help_c`=0,`buy_help_to_c`=0")
+    @Update("UPDATE `person_info` SET `tag`='',`help_c`=0,`help_toc`=0,`buy_help_c`=0,`died`=0,`downed`=0,`buy_help_c`=0,`buy_help_to_c`=0")
     Integer updateAll();
 }

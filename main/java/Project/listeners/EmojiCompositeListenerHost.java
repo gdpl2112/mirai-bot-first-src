@@ -1,5 +1,6 @@
 package Project.listeners;
 
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -18,16 +19,9 @@ import java.util.Map;
 /**
  * @author github.kloping
  */
-public class EmojiCompositeListenerHost extends SimpleListenerHost {
-    public EmojiCompositeListenerHost() {
-        super();
-    }
-
-    @Override
-    public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        super.handleException(context, exception);
-    }
-
+@Entity
+public class EmojiCompositeListenerHost {
+    
     private static Character MIN_LOW_SURROGATE = '\uDC00';
 
     private static Character MIN_HIGH_SURROGATE = '\uD800';
@@ -44,7 +38,6 @@ public class EmojiCompositeListenerHost extends SimpleListenerHost {
     private static final String U0 = "https://www.gstatic.com/android/keyboard/emojikitchen/%s/u%s/u%s_u%s.png";
     String s0 = "\uD83C\uDF1A\uD83C\uDF1A";
 
-    @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         String mess = EventTools.getStringFromMessageChain(event.getMessage());
         if (mess.matches(P0)) {

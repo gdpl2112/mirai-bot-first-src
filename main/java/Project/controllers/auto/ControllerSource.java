@@ -1,5 +1,6 @@
 package Project.controllers.auto;
 
+import Project.listeners.EmojiCompositeListenerHost;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -25,6 +26,9 @@ public class ControllerSource {
 
     @AutoStand
     public DefaultKaptcha defaultKaptcha;
+
+    @AutoStand
+    public static EmojiCompositeListenerHost emojiCompositeListenerHost;
 
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',

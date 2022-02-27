@@ -3,19 +3,17 @@ package Project.controllers.NormalController;
 import Project.ResourceSet;
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
-import Project.detailPlugin.SearchSong;
 import Project.detailPlugin.WeatherGetter;
+import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.http_api.ApiIyk0;
 import Project.interfaces.http_api.ApiKit9;
-import Project.interfaces.Iservice.IOtherService;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
+import io.github.kloping.mirai0.Entitys.UserScore;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -25,11 +23,9 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.ResourceSet.FinalString.*;
-import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.NormalController.CustomController.QLIST;
 import static Project.controllers.NormalController.CustomController.builderAndAdd;
-import static Project.controllers.plugins.PointSongController.sing;
+import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.canBackShow;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
@@ -172,38 +168,6 @@ public class EntertainmentController {
         throw new NoRunException();
     }
 
-    @Action("\\[@me]<.{1,}=>str>")
-    public Object atMe(long qq, Group group, @Param("str") String str) {
-        if (str.startsWith(SPEAK_STR)) {
-            speak(str.substring(1), group);
-            return null;
-        } else if (str.startsWith(SING_STR)) {
-            sing(str.substring(1), group);
-            return null;
-        } else {
-            if (OPEN_STR.equals(str)) {
-                if (!DataBase.isFather(qq)) {
-                    return null;
-                }
-                return controller.open(group);
-            } else if (CLOSE_STR.equals(str)) {
-                if (!DataBase.isFather(qq)) {
-                    return null;
-                }
-                return controller.close(group);
-            } else if (DataBase.canSpeak(group.getId())) {
-                if (!Tool.isIlleg(str)) {
-                    String talk = otherService.talk(str);
-                    return talk;
-                }
-            }
-        }
-        throw new NoRunException();
-    }
-
-    @AutoStand
-    private ManagerController controller;
-
     @Action("语音")
     public String a1(Group group) {
         GroupConf conf = getConf(group.getId());
@@ -304,48 +268,6 @@ public class EntertainmentController {
             }
         }
         return sb.toString();
-    }
-
-    @AutoStand
-    private SearchSong searchSong;
-
-    @Action("QQ歌词<.+=>name>")
-    public Object mq(@Param("name") String name, Group group) {
-        try {
-            Songs songs = searchSong.qq(name);
-            String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "歌词获取失败";
-        }
-    }
-
-    @Action("酷狗歌词<.+=>name>")
-    public Object mk(@Param("name") String name, Group group) {
-        try {
-            Songs songs = searchSong.kugou(name);
-            String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "歌词获取失败";
-        }
-    }
-
-    @Action("网易歌词<.+=>name>")
-    public Object mw(@Param("name") String name, Group group) {
-        try {
-            Songs songs = searchSong.netEase(name);
-            String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "歌词获取失败";
-        }
     }
 
     @AutoStand

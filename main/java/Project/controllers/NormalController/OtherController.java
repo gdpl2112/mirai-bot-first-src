@@ -2,6 +2,7 @@ package Project.controllers.NormalController;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -11,7 +12,11 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
+import static Project.ResourceSet.FinalString.*;
+import static Project.ResourceSet.FinalString.CLOSE_STR;
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.plugins.PointSongController.sing;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
@@ -28,7 +33,10 @@ public class OtherController {
     IOtherService otherService;
 
     @Before
-    public void before(Group group) throws NoRunException {
+    public void before(@AllMess String mess, Group group) throws NoRunException {
+        if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
+            return;
+        }
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
@@ -223,6 +231,38 @@ public class OtherController {
     @Action("金魂币消费记录")
     public String m0(long q) {
         return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
+    }
+
+    @AutoStand
+    private ManagerController controller;
+
+    @Action("\\[@me]<.{1,}=>str>")
+    public Object atMe(long qq, Group group, @Param("str") String str) {
+        if (str.startsWith(SPEAK_STR)) {
+            speak(str.substring(1), group);
+            return null;
+        } else if (str.startsWith(SING_STR)) {
+            sing(str.substring(1), group);
+            return null;
+        } else {
+            if (OPEN_STR.equals(str)) {
+                if (!DataBase.isFather(qq)) {
+                    return null;
+                }
+                return controller.open(group);
+            } else if (CLOSE_STR.equals(str)) {
+                if (!DataBase.isFather(qq)) {
+                    return null;
+                }
+                return controller.close(group);
+            } else if (DataBase.canSpeak(group.getId())) {
+                if (!Tool.isIlleg(str)) {
+                    String talk = otherService.talk(str);
+                    return talk;
+                }
+            }
+        }
+        throw new NoRunException();
     }
 
     //    @Action("生成国旗渐变头像<.+=>par>")

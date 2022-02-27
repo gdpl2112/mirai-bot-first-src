@@ -56,7 +56,7 @@ public class CustomController {
     private static final long CD = 15 * 1000;
     private static long cd = -1;
 
-    public static final synchronized String action(long qq, String s, Group group) {
+    public static final String action(long qq, String s, Group group) {
         if (MAP.isEmpty()) {
             MAP = getAllAutoReply();
         }
@@ -84,7 +84,7 @@ public class CustomController {
         return null;
     }
 
-    private static synchronized void tryUpdateMap() {
+    private static void tryUpdateMap() {
         int size = getAllAutoReplyCount();
         if (size != MAP.size()) {
             MAP.clear();
@@ -240,7 +240,7 @@ public class CustomController {
         }
     }
 
-    public static synchronized boolean builderAndAdd(String str, long q) {
+    public static boolean builderAndAdd(String str, long q) {
         int i1 = str.indexOf("问");
         int i2 = str.indexOf("答");
         String k = str.substring(i1 + 1, i2);
@@ -255,7 +255,7 @@ public class CustomController {
         return true;
     }
 
-    public final static synchronized Map<String, Reply> getAllAutoReply() {
+    public final static Map<String, Reply> getAllAutoReply() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
         Map<String, Reply> map = new LinkedHashTreeMap<>();
@@ -267,13 +267,13 @@ public class CustomController {
         return map;
     }
 
-    public final static synchronized int getAllAutoReplyCount() {
+    public final static int getAllAutoReplyCount() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
         return getAutoReplyMapper().selectList(queryWrapper).size();
     }
 
-    public final static synchronized boolean deleteReply(Reply reply) {
+    public final static boolean deleteReply(Reply reply) {
         AutoReply autoReply = getAutoReplyMapper().selectById(reply.id);
         autoReply.setDeleteStat(1);
         UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
@@ -281,7 +281,7 @@ public class CustomController {
         return getAutoReplyMapper().update(autoReply, wrapper) > 0;
     }
 
-    public final static synchronized boolean addReply(Reply reply) {
+    public final static boolean addReply(Reply reply) {
         AutoReply autoReply = new AutoReply()
                 .setK(reply.key)
                 .setV(reply.content)

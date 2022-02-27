@@ -770,7 +770,7 @@ public class GameServiceImpl implements IGameService {
                     return "武魂种类相同,不能融合";
                 if (ConfirmController.Agreeing.contains(q2))
                     return "ta正在被处于同意/不同意";
-                Method method = this.getClass().getDeclaredMethod("FusionNow", Long.class, Long.class);
+                Method method = this.getClass().getDeclaredMethod("fusionNow", Long.class, Long.class);
                 Object[] objects = new Object[]{
                         method, this, new Object[]{q1, q2}
                 };
@@ -787,12 +787,12 @@ public class GameServiceImpl implements IGameService {
     private boolean sameTypeWh(Long q1, Long q2) {
         PersonInfo p1 = getInfo(q1);
         PersonInfo p2 = getInfo(q2);
-        if (p1.getWh() == 0 || p2.getWh() == 0) return false;
+        if (p1.getWh() <= 0 || p2.getWh() <= 0) return false;
         if (p1.getWhType().intValue() == 2 || p2.getWhType().intValue() == 2) return false;
-        return getInfo(q1).getWhType().longValue() == getInfo(q2).getWhType().longValue();
+        return p1.getWhType().intValue() == p2.getWhType().intValue();
     }
 
-    public Object FusionNow(Long q1, Long q2) {
+    public Object fusionNow(Long q1, Long q2) {
         Warp warp1 = getWarp(q1);
         Warp warp2 = getWarp(q2);
         if (warp1.getBindQ().longValue() != -1 || warp2.getBindQ().longValue() != -1) {

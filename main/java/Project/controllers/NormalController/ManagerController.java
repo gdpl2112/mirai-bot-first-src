@@ -98,13 +98,13 @@ public class ManagerController {
         throw new NoRunException();
     }
 
-    @Action(value = "开启", otherName = "说话")
+    @Action(value = OPEN_STR, otherName = "说话")
     public String open(io.github.kloping.mirai0.Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.openGroup(group.getId()) ? "已经开启" : "开启成功";
     }
 
-    @Action(value = "关闭", otherName = "闭嘴")
+    @Action(value = CLOSE_STR, otherName = "闭嘴")
     public String close(io.github.kloping.mirai0.Entitys.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.closeGroup(group.getId()) ? "关闭成功" : "已经关闭";

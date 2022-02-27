@@ -2,21 +2,20 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.interfaces.Iservice.IScoreService;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.UserScore;
-import Project.dataBases.DataBase;
-import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.List;
 
-import static Project.dataBases.DataBase.*;
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
+import static Project.dataBases.DataBase.*;
+import static Project.dataBases.GameDataBase.putPerson;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -125,16 +124,16 @@ public class ScoreServiceImpl implements IScoreService {
     private static final Object[] regDay(Number l) {
         int r = SpringBootResource.getScoreMapper().selectCountByDay(getTodayInt());
         switch (r) {
-            case 0:
+            case 1:
                 addScore(100, l.longValue());
                 return new Object[]{"额外获得100积分", r};
-            case 1:
+            case 2:
                 addScore(50, l.longValue());
                 return new Object[]{"额外获得50积分", r};
-            case 2:
+            case 3:
                 addScore(25, l.longValue());
                 return new Object[]{"额外获得25积分", r};
-            case 9:
+            case 10:
                 addScore(150, l.longValue());
                 return new Object[]{"额外获得150积分", r};
             default:

@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.Main.Handlers;
 
 import Project.broadcast.game.GroupMessageBroadcast;
 import Project.broadcast.normal.MessageBroadcast;
+import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.ControllerTool;
 import Project.controllers.NormalController.EntertainmentController;
 import Project.controllers.NormalController.SessionController;
@@ -93,6 +94,9 @@ public class MyHandler extends SimpleListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (ControllerTool.canGroup(group.getId())) {
+                ControllerSource.emojiCompositeListenerHost.onMessage(event);
+            }
             eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
         }
     }

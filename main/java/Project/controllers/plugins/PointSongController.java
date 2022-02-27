@@ -1,13 +1,13 @@
 package Project.controllers.plugins;
 
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Song;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
-import io.github.kloping.mirai0.Entitys.apiEntitys.reping163.Reping163;
 import Project.detailPlugin.SearchSong;
 import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Entitys.apiEntitys.Song;
+import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
+import io.github.kloping.mirai0.Entitys.apiEntitys.reping163.Reping163;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
@@ -135,6 +135,45 @@ public class PointSongController {
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
+        }
+    }
+
+    @Action("QQ歌词<.+=>name>")
+    public Object mq(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+        try {
+            Songs songs = searchSong.qq(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "歌词获取失败";
+        }
+    }
+
+    @Action("酷狗歌词<.+=>name>")
+    public Object mk(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+        try {
+            Songs songs = searchSong.kugou(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "歌词获取失败";
+        }
+    }
+
+    @Action("网易歌词<.+=>name>")
+    public Object mw(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+        try {
+            Songs songs = searchSong.netEase(name);
+            String lyric = songs.getData()[0].getLyric();
+            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "歌词获取失败";
         }
     }
 }
