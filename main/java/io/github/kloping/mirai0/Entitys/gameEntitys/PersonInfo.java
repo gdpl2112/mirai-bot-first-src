@@ -559,6 +559,22 @@ public class PersonInfo implements BaseInfo {
         }
     }
 
+    public PersonInfo addTag(String myTag, Number percent, Number max) {
+        if (this.myTag.contains(myTag)) {
+            Long v = getTagValue(myTag).longValue();
+            eddTag(myTag);
+            long v1 = percent.longValue() + v.longValue();
+            if (v1 >= max.longValue()) {
+                v1 = max.longValue();
+            }
+            this.myTag += myTag + v1 + ",";
+            return this;
+        } else {
+            this.myTag += myTag + percent + ",";
+            return this;
+        }
+    }
+
     public PersonInfo eddTag(String myTag, Number percent) {
         if (this.myTag.contains(myTag + percent + ",")) {
             this.myTag = this.myTag.replaceAll(myTag + percent + ",", "");

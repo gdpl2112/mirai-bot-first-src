@@ -84,6 +84,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (getInfo(q2).containsTag(TAG_TRUE)) {
