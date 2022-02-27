@@ -68,16 +68,17 @@ public class BeatenRoles {
                 sb.append(NEWLINE).append(SPLIT_LINE_0);
                 long v = GameSkillDetailService.getTagValue(q1, SkillDataBase.TAG_SHIELD).longValue();
                 if (v >= nv) {
+                    Long i = v - nv;
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);
-                    p1.addTag(SkillDataBase.TAG_SHIELD, v - nv);
+                    p1.addTag(SkillDataBase.TAG_SHIELD, i);
                     sb.append("\n此次伤害全部护盾抵挡");
+                    sb.append("\n护盾剩余:").append(i);
                     response.setNowV(0);
                 } else {
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);
                     response.setNowV(nv - v);
                     sb.append("\n部分伤害护盾抵挡,伤害剩余:").append(response.getNowV()).append(SPLIT_LINE_0);
                 }
-                sb.append("\n护盾剩余:").append(v);
                 return response;
             }
         }
