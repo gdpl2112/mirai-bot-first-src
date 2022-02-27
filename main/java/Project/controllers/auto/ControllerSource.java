@@ -1,5 +1,6 @@
 package Project.controllers.auto;
 
+import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -23,6 +24,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
 public class ControllerSource {
     @AutoStand
     public static ControllerSource INSTANCE;
+
+    @AutoStand
+    public static AiBaiduDetail aiBaiduDetail;
 
     @AutoStand
     public DefaultKaptcha defaultKaptcha;

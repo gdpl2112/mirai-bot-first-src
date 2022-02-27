@@ -1,6 +1,8 @@
 package io.github.kloping.mirai0.Main.ITools;
 
+import Project.detailPlugin.AiBaiduDetail;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -19,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromMessageChain;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
@@ -171,7 +174,7 @@ public class MessageTools {
 
     public static void speak(String line, io.github.kloping.mirai0.Entitys.Group group) {
         try {
-            MessageTools.sendVoiceMessageInGroup(String.format(BASE_VOICE_URL, URLEncoder.encode(line, "utf-8")), group.getId());
+            MessageTools.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -301,11 +304,42 @@ public class MessageTools {
         }
     }
 
+    public static void sendVoiceMessageInGroup(byte[] bytes, long id) {
+        try {
+            Group group = bot.getGroup(id);
+            group.sendMessage(createVoiceMessageInGroup(bytes, id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Message createVoiceMessageInGroup(String url, long id) {
         ExternalResource resource = null;
         try {
             Group group = bot.getGroup(id);
             byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
+            bytes = mp32amr(bytes);
+            resource = ExternalResource.create(bytes);
+            Audio audio = group.uploadAudio(resource);
+            return audio;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static Message createVoiceMessageInGroup(byte[] bytes, long id) {
+        ExternalResource resource = null;
+        try {
+            Group group = bot.getGroup(id);
             bytes = mp32amr(bytes);
             resource = ExternalResource.create(bytes);
             Audio audio = group.uploadAudio(resource);
@@ -369,7 +403,7 @@ public class MessageTools {
         return image;
     }
 
-    public static void sendMessageInGroupWithAt(String str, long gid, long qq){
+    public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;
             Group group = bot.getGroup(gid);
