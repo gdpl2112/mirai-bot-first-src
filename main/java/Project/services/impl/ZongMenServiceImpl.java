@@ -24,7 +24,7 @@ import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.FilterImg;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 @Entity
@@ -135,7 +135,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
         String path = ZongMenDataBase.path + "/" + getZongInfo(who).getId() + "/icon.png";
         io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
-        FilterImg(new File(path));
+        filterImg(new File(path));
         zong.setIcon(path).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return ZongInfo(who, group);

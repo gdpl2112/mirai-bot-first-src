@@ -145,7 +145,7 @@ public class GameServiceImpl implements IGameService {
             str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
             str1.append(getImgById((int) n)).append("\r\n");
         }
-        return str1 + pathToImg(Drawer.drawInfoPng(is));
+        return str1 + pathToImg(Drawer.drawInfo(is));
     }
 
     @Override
@@ -809,7 +809,7 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String detailInfo(long q) {
         GInfo gInfo = GInfo.getInstance(q);
-        return pathToImg(drawGInfopPng(gInfo));
+        return pathToImg(drawGInfo(gInfo));
     }
 
     public int st = 24;
@@ -845,7 +845,7 @@ public class GameServiceImpl implements IGameService {
         setWarp(warp1);
         setWarp(warp2);
         GInfo.getInstance(q).addMasterPoint(-st).apply();
-        return pathToImg(drawWarpPng(warp1));
+        return pathToImg(drawWarp(warp1));
     }
 
     @Override
@@ -871,7 +871,7 @@ public class GameServiceImpl implements IGameService {
         warp2.setPrentice(-1L);
         setWarp(warp1);
         setWarp(warp2);
-        return pathToImg(drawWarpPng(warp1));
+        return pathToImg(drawWarp(warp1));
     }
 
     @Override

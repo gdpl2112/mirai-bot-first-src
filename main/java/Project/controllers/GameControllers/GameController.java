@@ -23,7 +23,7 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarpPng;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -383,7 +383,7 @@ public class GameController {
     @Action("关系列表")
     public String warps(long q) {
         Warp warp = getWarp(q);
-        return pathToImg(drawWarpPng(warp));
+        return pathToImg(drawWarp(warp));
     }
 
     @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})

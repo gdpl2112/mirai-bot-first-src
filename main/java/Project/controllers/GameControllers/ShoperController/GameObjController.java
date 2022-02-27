@@ -80,7 +80,7 @@ public class GameObjController {
 
     @Action(value = "商城", otherName = {"商店", "商场"})
     public Object Shop(Group group) {
-        if (upShopPath.isEmpty()) upShopPath = getImageFromStrings(1, GameDataBase.getShop());
+        if (upShopPath.isEmpty()) upShopPath = getImageFromStrings(GameDataBase.getShop());
         return (upShopPath + "\r\n用=>出售=>来出售物品\r\n回收价为原价值的1/3但最高不会超过" + maxSle);
     }
 
