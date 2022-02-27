@@ -49,7 +49,7 @@ public class GameObjController {
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
-            if (num == null) {
+            if (num == null || num.intValue() == 1) {
                 sss = gameUseObiService.useObj(qq.getId(), id);
             } else {
                 sss = gameUseObiService.useObj(qq.getId(), id, num);
@@ -97,7 +97,7 @@ public class GameObjController {
             String shopName = what.trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
-            if (num == null)
+            if (num == null || num.intValue() == 1)
                 sss = gameUseObiService.buyObj(qq.getId(), id);
             else
                 sss = gameUseObiService.buyObj(qq.getId(), id, num);
@@ -126,7 +126,7 @@ public class GameObjController {
             }
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             String s;
-            if (num == null)
+            if (num == null || num.intValue() == 1)
                 s = gameUseObiService.ObjTo(qq.getId(), id, whos);
             else
                 s = gameUseObiService.ObjTo(qq.getId(), id, whos, num);
@@ -151,7 +151,7 @@ public class GameObjController {
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
             if (id == null) return "未知物品";
             String mess = "";
-            if (num == null) mess = gameUseObiService.SleObj(qq.getId(), id);
+            if (num == null || num.intValue() == 1) mess = gameUseObiService.SleObj(qq.getId(), id);
             else mess = gameUseObiService.SleObj(qq.getId(), id, num);
             return mess;
         } catch (Exception e) {

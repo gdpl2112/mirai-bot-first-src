@@ -484,20 +484,20 @@ public class SkillExecute {
         Skill skill = new Skill(info, who, new CopyOnWriteArrayList<>(nums), "临时护盾") {
             @Override
             public void before() {
-                v = getInfo(who).getHp();
                 int b = info.getAddPercent();
-                long v2 = percentTo(b, v);
+                t = b / 5;
+                long v2 = percentTo(b, getInfo(who).getHpL());
                 putPerson(getInfo(who).addTag(TAG_SHIELD, v2));
                 setTips("作用于 " + Tool.At(who.longValue()));
             }
 
-            long v;
+            long t;
 
             @Override
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(v * 1000);
+                    Thread.sleep(t * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

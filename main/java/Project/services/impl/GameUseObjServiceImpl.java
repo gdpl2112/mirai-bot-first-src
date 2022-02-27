@@ -50,7 +50,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             use.getClass().getMethod("before", long.class).invoke(use, who);
             Method method = use.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(use, who));
-            putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (2000)));
+            putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (1000)));
             return getPic(id) + str;
         } else {
             return "你的背包里没有" + getNameById(id);
@@ -138,7 +138,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long wl = l * num + (num * 15L);
         if (Ig >= wl) {
             GameDataBase.addToBgs(who, id, num, ObjType.buy);
-            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (12 * 1000 * num * 1.25f))
+            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f))
                     .addGold(-wl, new TradingRecord()
                             .setType1(TradingRecord.Type1.lost)
                             .setType0(TradingRecord.Type0.gold)
@@ -172,7 +172,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         long Ig = GameDataBase.getInfo(who).getGold();
         if (Ig >= l) {
             GameDataBase.addToBgs(who, id, ObjType.buy);
-            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 15 * 1000).addGold(-l
+            putPerson(getInfo(who).setGk1(System.currentTimeMillis() + 1000).addGold(-l
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.lost)
                             .setType0(TradingRecord.Type0.gold)
