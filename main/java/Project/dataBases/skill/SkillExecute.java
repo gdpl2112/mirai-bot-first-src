@@ -486,7 +486,6 @@ public class SkillExecute {
             public void before() {
                 v = getInfo(who).getHp();
                 int b = info.getAddPercent();
-                v = (long) (b / 5f);
                 long v2 = percentTo(b, v);
                 putPerson(getInfo(who).addTag(TAG_SHIELD, v2));
                 setTips("作用于 " + Tool.At(who.longValue()));
