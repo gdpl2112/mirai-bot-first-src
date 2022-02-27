@@ -4,9 +4,9 @@ package Project.services.detailServices;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
+import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
-import Project.interfaces.Iservice.IGameService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.objectToJsonString;
@@ -120,19 +120,20 @@ public class GameJoinDetailService {
     public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         if (ghostObj == null) {
-            return "没有遇到魂兽或 已过期,或已死亡";
+            return "\n没有遇到魂兽或 已过期,或已死亡";
         }
         try {
             String whos = "";
             boolean isHelp = false;
             StringBuilder sb = new StringBuilder();
+            sb.append(NEWLINE);
             if (ghostObj.getState() == GhostObj.HELPING) {
                 isHelp = true;
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
             if (IDXS.contains(ghostObj.getIDX())) {
-                return "该魂兽,正在被攻击中";
+                return "\n该魂兽,正在被攻击中";
             }
             IDXS.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
@@ -145,7 +146,7 @@ public class GameJoinDetailService {
             ghostObj.updateHp(-att, getInfo(who));
 
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
-            sb.append("\n你对 ").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害").append("\n");
+            sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害");
             boolean showY = false;
             if (ghostObj.getHp() > 0) {
                 showY = true;
@@ -155,7 +156,7 @@ public class GameJoinDetailService {
                     GameJoinDetailService.saveGhostObjIn(who, ghostObj);
                 }
             } else {
-                sb.append("\n").append(getNameById(ghostObj.getId())).append("被你打败了\n");
+                sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
                 sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
                 sb.append(willGetXp(ghostObj, who, isHelp));
                 ZongDetailService.onKilled(who, ghostObj.getXp());
@@ -173,7 +174,7 @@ public class GameJoinDetailService {
                 }
             }
             if (showY && show) {
-                sb.append("\n").append(willTips(who, ghostObj, false));
+                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
             }
             return sb.toString();
         } finally {
@@ -194,7 +195,7 @@ public class GameJoinDetailService {
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
             if (IDXS.contains(ghostObj.getIDX())) {
-                return "该魂兽,正在被攻击中";
+                return "\n该魂兽,正在被攻击中";
             }
             IDXS.add(ghostObj.getIDX());
 
@@ -205,17 +206,17 @@ public class GameJoinDetailService {
             long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
 
             StringBuilder sb = new StringBuilder();
-
+            sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {
-                sb.append("\n消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1));
-                sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害").append("\n");
+                sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
+                sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
                 ghostObj.updateHp(-at1, personInfo);
                 sb.append(GameDetailService.onAtt(who, -2, at1));
             } else {
-                sb.append("魂力不足,攻击失败").append("\n");
+                sb.append("魂力不足,攻击失败");
             }
-
-            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
+            sb.append(NEWLINE);
+            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
                     .append(GameDetailService.beaten(who, -2, at2));
 
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
@@ -233,7 +234,7 @@ public class GameJoinDetailService {
                     }
                 } else {
                     showI = true;
-                    sb.append("\n").append(getNameById(ghostObj.getId())).append("被你打败了\n");
+                    sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
                     sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
                     sb.append(willGetXp(ghostObj, who, isHelp));
                     ZongDetailService.onKilled(who, ghostObj.getXp());
@@ -251,8 +252,10 @@ public class GameJoinDetailService {
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
                 }
             } else {
-                sb.append("你被打败了!!!").append(SPLIT_LINE_0);
+                sb.append(NEWLINE);
+                sb.append("你被打败了!!!");
                 if (ghostObj.getHp() < 0) {
+                    sb.append(NEWLINE);
                     sb.append(getNameById(ghostObj.getId())).append("也失败了,但你无法获得魂环");
                 }
                 showY = true;
@@ -264,10 +267,10 @@ public class GameJoinDetailService {
                 GameJoinDetailService.saveGhostObjIn(who, null);
             }
             if (showI) {
-                sb.append("\n").append(gameService.info(who)).append("\n");
+                sb.append(NEWLINE).append(gameService.info(who));
             }
             if (showY) {
-                sb.append("\n").append(willTips(who, ghostObj, false));
+                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
             }
             return sb.toString();
         } finally {
@@ -416,7 +419,7 @@ public class GameJoinDetailService {
                     id = Integer.valueOf("15" + r1 + "3");
                 }
                 addToBgs(who, id, ObjType.got);
-                return "你获得了 " + getNameById(id) + getImgById(id);
+                return "\n你获得了 " + getNameById(id) + getImgById(id);
             }
         }
         return "";
@@ -426,7 +429,7 @@ public class GameJoinDetailService {
         int sid = getHhByGh(level);
         if (randHh(level)) {
             addToBgs(who, sid, ObjType.got);
-            return "你获得了" + getNameById(sid);
+            return "\n你获得了" + getNameById(sid);
         }
         return "";
     }
@@ -445,20 +448,20 @@ public class GameJoinDetailService {
             if (r == 1) {
                 if (level >= 3000) {
                     addToBgs(who, 1601, ObjType.got);
-                    return "你获得了一个" + getNameById(1601) + getImgById(1601);
+                    return "\n你获得了一个" + getNameById(1601) + getImgById(1601);
                 }
             } else if (r < 30) {
                 addToAqBgs(who, 1005, n);
-                return String.format("你获得了一个%s耐久的孔雀翎", n) + getImgById(1005);
+                return String.format("\n你获得了一个%s耐久的孔雀翎", n) + getImgById(1005);
             } else if (r < 75) {
                 addToAqBgs(who, 1004, n);
-                return String.format("你获得了一个%s耐久的子母追魂夺命胆", n) + getImgById(1004);
+                return String.format("\n你获得了一个%s耐久的子母追魂夺命胆", n) + getImgById(1004);
             } else if (r < 130) {
                 addToAqBgs(who, 1003, n);
-                return String.format("你获得了一个%s耐久的含沙射影", n) + getImgById(1003);
+                return String.format("\n你获得了一个%s耐久的含沙射影", n) + getImgById(1003);
             } else if (r < 160) {
                 addToAqBgs(who, 1002, n);
-                return String.format("你获得了一个%s耐久的龙须针", n) + getImgById(1002);
+                return String.format("\n你获得了一个%s耐久的龙须针", n) + getImgById(1002);
             }
         }
         return "";

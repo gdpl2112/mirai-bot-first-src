@@ -91,7 +91,7 @@ public class GameDetailService {
                 long ev = 0;
                 if (b > 80) {
                     ev = percentTo(10, oNow);
-                    sb.append(NEWLINE).append(HJ_OVER_80_TIPS).append(NEWLINE).append(SPLIT_LINE_0);
+                    sb.append(NEWLINE).append(HJ_OVER_80_TIPS);
                 } else if (b <= 1) {
                     ev = 0;
                 }
@@ -137,7 +137,7 @@ public class GameDetailService {
                 fn = attributeBone.getHlEffect();
             }
             oNow -= fn;
-            sb.append("\n得益于 魂骨 你恢复了" + fn + "魂力\n============");
+            sb.append("\n得益于 魂骨 你恢复了").append(fn).append("魂力");
         }
         personInfo.addHl(-oNow);
         putPerson(personInfo);
@@ -252,7 +252,7 @@ public class GameDetailService {
      */
     public static String onHjLose(Number qq, Number qq2, Long v) {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(qq.longValue());
-        String s = NEWLINE + SPLIT_LINE_0 + "\n消耗了" + v + "点精神力";
+        String s = NEWLINE + "\n消耗了" + v + "点精神力";
         if (proZ(soulAttribute.getHjChance())) {
             Long v0 = percentTo(soulAttribute.getHjEffect(), v);
             v = v -= v0;
