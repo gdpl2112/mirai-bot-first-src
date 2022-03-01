@@ -603,7 +603,10 @@ public class Drawer {
         encoder.setFrameRate(150);
         int base = 100;
         int width = 5 * base;
-        int height = (((int) ids.size() / 5) + 1) * base;
+        int hs = 1;
+        if (ids.size()>5){hs++;}
+        if (ids.size()>10){hs++;}
+        int height = hs * base;
         Map<Integer, Integer> st2tr = new HashMap<>();
         for (int i = 0; i < 9; i++) {
             BufferedImage bg = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
