@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 import Project.dataBases.GameDataBase;
+import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameWeaService;
 import Project.broadcast.enums.ObjType;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**
@@ -36,7 +37,7 @@ public class GameObjService implements IGameObjService {
             GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
             addToBgs(q, id, ObjType.got);
             return String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum
-                    , getNameById(needId), getImgById(id));
+                    , getNameById(needId), SourceDataBase.getImgPathById(id));
         } else return String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id));
     }
 

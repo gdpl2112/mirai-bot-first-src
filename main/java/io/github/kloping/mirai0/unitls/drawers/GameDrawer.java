@@ -47,6 +47,8 @@ public class GameDrawer {
                     g.drawImage(getImageByUrl2Size(new URL(position.getArg().toString()), 50, 50)
                             , x1, y1, null);
                     break;
+                default:
+                    break;
             }
         }
         g.dispose();

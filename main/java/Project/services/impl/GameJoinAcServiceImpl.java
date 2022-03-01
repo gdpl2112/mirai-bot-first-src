@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.ResourceSet.FinalFormat.*;
@@ -197,7 +198,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             }
             putPerson(getInfo(qq).addHj(-ev));
             sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
-            sb.append(getImgById(ghostObj.getId()))
+            sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
                     .append(getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),
@@ -208,7 +209,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                     ));
         } else {
             sb.append("探查成功,这消耗了你0%的精神力");
-            sb.append(getImgById(ghostObj.getId()))
+            sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
                     .append(getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),

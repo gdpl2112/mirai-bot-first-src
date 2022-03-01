@@ -1,5 +1,6 @@
 package Project.services.impl;
 
+import Project.dataBases.SourceDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
@@ -18,7 +19,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
@@ -82,7 +83,7 @@ public class GameSkillServiceImpl implements ISkillService {
 
         SkillDataBase.saveSkillInfo(info);
         int id0 = is[st - 1] + 100;
-        return getImgById(id0) + getIntro(id, id2, st, getInfo(qq).getWh());
+        return SourceDataBase.getImgPathById(id0) + getIntro(id, id2, st, getInfo(qq).getWh());
     }
 
     private static String getIntro(Integer id, Integer jid, Integer st, int wh) {
@@ -128,7 +129,7 @@ public class GameSkillServiceImpl implements ISkillService {
         info.setTime(System.currentTimeMillis() + info.getTimeL());
         updateSkillInfo(info);
         String tips = skill.getTips() + GameDetailService.consumedHl(qq, uv);
-        return getImgById(info.getId() + 100) +
+        return SourceDataBase.getImgPathById(info.getId() + 100) +
                 getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) +
                 "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);
     }

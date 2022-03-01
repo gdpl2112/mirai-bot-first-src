@@ -4,6 +4,7 @@ package Project.services.detailServices;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
+import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
@@ -23,7 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
@@ -284,7 +285,7 @@ public class GameJoinDetailService {
         long v2 = ghostObj.getHj();
         int bv = toPercent(v1, v2);
         if (bv >= 120) {
-            return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
+            return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
                     getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + ghostObj.getL(),
@@ -294,7 +295,7 @@ public class GameJoinDetailService {
                             "精神力:" + ghostObj.getHj()
                     );
         } else {
-            return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + getImgById(id) +
+            return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
                     getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
                             "等级:" + getLevelTips(ghostObj.getL()),
@@ -419,7 +420,7 @@ public class GameJoinDetailService {
                     id = Integer.valueOf("15" + r1 + "3");
                 }
                 addToBgs(who, id, ObjType.got);
-                return "\n你获得了 " + getNameById(id) + getImgById(id);
+                return "\n你获得了 " + getNameById(id) + SourceDataBase.getImgPathById(id);
             }
         }
         return "";
@@ -448,20 +449,20 @@ public class GameJoinDetailService {
             if (r == 1) {
                 if (level >= 3000) {
                     addToBgs(who, 1601, ObjType.got);
-                    return "\n你获得了一个" + getNameById(1601) + getImgById(1601);
+                    return "\n你获得了一个" + getNameById(1601) + SourceDataBase.getImgPathById(1601);
                 }
             } else if (r < 30) {
                 addToAqBgs(who, 1005, n);
-                return String.format("\n你获得了一个%s耐久的孔雀翎", n) + getImgById(1005);
+                return String.format("\n你获得了一个%s耐久的孔雀翎", n) + SourceDataBase.getImgPathById(1005);
             } else if (r < 75) {
                 addToAqBgs(who, 1004, n);
-                return String.format("\n你获得了一个%s耐久的子母追魂夺命胆", n) + getImgById(1004);
+                return String.format("\n你获得了一个%s耐久的子母追魂夺命胆", n) + SourceDataBase.getImgPathById(1004);
             } else if (r < 130) {
                 addToAqBgs(who, 1003, n);
-                return String.format("\n你获得了一个%s耐久的含沙射影", n) + getImgById(1003);
+                return String.format("\n你获得了一个%s耐久的含沙射影", n) + SourceDataBase.getImgPathById(1003);
             } else if (r < 160) {
                 addToAqBgs(who, 1002, n);
-                return String.format("\n你获得了一个%s耐久的龙须针", n) + getImgById(1002);
+                return String.format("\n你获得了一个%s耐久的龙须针", n) + SourceDataBase.getImgPathById(1002);
             }
         }
         return "";

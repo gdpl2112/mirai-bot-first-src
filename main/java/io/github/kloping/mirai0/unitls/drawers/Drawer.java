@@ -14,11 +14,12 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,11 +27,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImageById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
  * @author github-kloping
@@ -89,7 +93,7 @@ public class Drawer {
             g.fillRect(0, 0, width, height);
         } else {
             try {
-                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
+                image = (BufferedImage) image2Size(INFO_BASE, width, height);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -145,14 +149,14 @@ public class Drawer {
         //==================================
         g.setFont(SMALL_FONT15);
         y = y + 60;
-        g.drawImage(loadImage(getImgById(2001, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgPathById(2001, false)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT18);
         g.drawString(filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT18.getSize());
         g.setFont(SMALL_FONT15);
         //==================================
         y = y + 60;
-        g.drawImage(loadImage(getImgById(2002, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT18);
         g.drawString(filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + SMALL_FONT18.getSize());
@@ -590,9 +594,59 @@ public class Drawer {
         return saveTempImage(image).getPath();
     }
 
-    public static String drawHh() {
-        AnimatedGifEncoder animatedGifEncoder = new AnimatedGifEncoder();
+    public static String drawHh(Integer mid, List<Integer> ids) throws Exception {
+        File temp = new File("temp/", UUID.randomUUID() + ".gif");
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(temp.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(150);
+        int base = 100;
+        int width = 5 * base;
+        int height = (((int) ids.size() / 5) + 1) * base;
+        Map<Integer, Integer> st2tr = new HashMap<>();
+        for (int i = 0; i < 9; i++) {
+            BufferedImage bg = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+            Graphics g = bg.getGraphics();
+            g.setClip(0, 0, width, height);
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, width, height);
+            g.dispose();
+            int xi = 0, yi = 0;
+            for (int i1 = 0; i1 < ids.size(); i1++) {
+                BufferedImage hi = (BufferedImage) getImageById(ids.get(i1));
 
-        return null;
+                int w = base;
+                int h = w;
+
+                hi = (BufferedImage) image2Size(hi, w, h);
+
+
+                int r0 = 0;
+                if (st2tr.containsKey(i1)) {
+                    r0 = st2tr.get(i1);
+                } else {
+                    r0 = rand.nextInt(20) - 10;
+                    st2tr.put(i1, r0);
+                }
+                if (r0 > 0) {
+                    r0 += 10;
+                } else {
+                    r0 -= 10;
+                }
+                st2tr.put(i1, r0);
+                hi = (BufferedImage) rotateImage(hi, r0);
+                bg = putImage(bg, hi, base * xi, base * yi);
+
+                xi++;
+                if (xi == 5) {
+                    xi = 0;
+                    yi++;
+                }
+            }
+            encoder.addFrame(bg);
+        }
+        encoder.finish();
+        return temp.getAbsolutePath();
     }
 }

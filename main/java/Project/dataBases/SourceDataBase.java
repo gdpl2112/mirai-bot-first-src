@@ -3,6 +3,8 @@ package Project.dataBases;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +29,18 @@ public class SourceDataBase {
         }
     }
 
-    public static String getImgById(Integer id, Boolean k) {
-        if (ID2FILE.isEmpty())init();
+    public static String getImgPathById(Integer id, Boolean k) {
+        if (ID2FILE.isEmpty()) init();
         if (ID2FILE.containsKey(id))
             return k ? Tool.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) : ID2FILE.get(id.intValue()).getAbsolutePath();
         else return null;
     }
 
-    public static String getImgById(Integer id) {
-        return getImgById(id, true);
+    public static String getImgPathById(Integer id) {
+        return getImgPathById(id, true);
+    }
+
+    public static Image getImageById(Integer id) throws Exception {
+        return ImageIO.read(new File(getImgPathById(id,false)));
     }
 }

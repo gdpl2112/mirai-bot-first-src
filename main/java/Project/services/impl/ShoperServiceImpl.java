@@ -1,5 +1,6 @@
 package Project.services.impl;
 
+import Project.dataBases.SourceDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
@@ -12,7 +13,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.ResourceSet.FinalString.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeYMdhms;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
@@ -114,7 +115,7 @@ public class ShoperServiceImpl implements IShoperService {
             ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             StringBuilder sb = new StringBuilder();
             sb.append(getNameById(item.getItemId())).append("\r\n");
-            sb.append(getImgById(item.getItemId())).append("\r\n");
+            sb.append(SourceDataBase.getImgPathById(item.getItemId())).append("\r\n");
             sb.append("序号:").append(item.getId()).append("\r\n");
             sb.append("上架人:").append(item.getWho()).append("\r\n");
             sb.append("数量:").append(item.getNum()).append("\r\n");

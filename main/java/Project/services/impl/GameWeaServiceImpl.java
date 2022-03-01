@@ -1,5 +1,6 @@
 package Project.services.impl;
 
+import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.GameWeaDetailService;
 import Project.interfaces.Iservice.IGameWeaService;
 import Project.broadcast.enums.ObjType;
@@ -13,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -70,7 +71,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
             for (int i = 0; i < ns; i++) {
                 removeFromBgs(who, 1000, ObjType.use);
             }
-            return "制作成功" + getImgById(id) + "\r\n" + ID_2_INTRO_MAPS.get(id);
+            return "制作成功" + SourceDataBase.getImgPathById(id) + "\r\n" + ID_2_INTRO_MAPS.get(id);
         } else {
             return "\"" + getNameById(id) + "\"制作的暗器零件不足,需要" + ns + "个";
         }

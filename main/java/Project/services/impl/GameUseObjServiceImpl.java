@@ -3,6 +3,7 @@ package Project.services.impl;
 
 import Project.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -22,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -33,7 +34,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 public class GameUseObjServiceImpl implements IGameUseObjService {
 
     private String getPic(Integer id) {
-        return getImgById(id) + "\r\n";
+        return SourceDataBase.getImgPathById(id) + "\r\n";
     }
 
     private final UseTool use = new UseTool();

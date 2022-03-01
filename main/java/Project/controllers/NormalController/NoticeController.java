@@ -47,6 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.1:修复已知bug,优化显示'魂环配置'显示").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("2.27:修复已知bug,优化显示,护盾显示于血量之上").append("\n");
         UPDATE_LOG.append("2.25:移除了精神力低于45时的额外受到伤害,每个武魂自带一点属性(也可能没有,新属性,详情见`我的属性`").append("\n");
         UPDATE_LOG.append("2.24:修复了暗器显示的bug,修复转生").append("\n");

@@ -1,19 +1,8 @@
 import Project.aSpring.SpringBootResource;
-import Project.dataBases.GameDataBase;
-import Project.services.impl.GameBoneServiceImpl;
-import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import io.github.kloping.mirai0.Main.BotStarter;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Map;
-
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 
 /**
  * @author github.kloping

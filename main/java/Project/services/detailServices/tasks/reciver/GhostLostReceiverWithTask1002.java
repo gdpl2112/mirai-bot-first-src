@@ -1,5 +1,6 @@
 package Project.services.detailServices.tasks.reciver;
 
+import Project.dataBases.SourceDataBase;
 import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
@@ -9,7 +10,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 
 /**
@@ -31,7 +32,7 @@ public class GhostLostReceiverWithTask1002
             if (killType == task.getNeedType()) {
                 deleteTask(task);
                 int id = getRandObj1000();
-                MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + getImgById(id)
+                MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
                         , task.getFromG().longValue(), task.getHost());
                 addToBgs(who, id, ObjType.got);
                 GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {

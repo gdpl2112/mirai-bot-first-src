@@ -1,6 +1,7 @@
 package Project.controllers.GameControllers;
 
 
+import Project.dataBases.SourceDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import Project.interfaces.Iservice.IGameBoneService;
@@ -11,11 +12,10 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
+import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
@@ -73,7 +73,7 @@ public class GameBoneController {
         StringBuilder sb = new StringBuilder();
         for (SoulBone soulBone : list) {
             Integer id = soulBone.getOid();
-            sb.append(getNameById(id)).append(getImgById(id));
+            sb.append(getNameById(id)).append(SourceDataBase.getImgPathById(id));
         }
         return sb.toString().isEmpty() ? "没有魂骨!" : sb.toString();
     }

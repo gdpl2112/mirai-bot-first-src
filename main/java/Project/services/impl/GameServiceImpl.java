@@ -7,6 +7,7 @@ import Project.controllers.GameControllers.GameController;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.SourceDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
@@ -18,13 +19,11 @@ import io.github.kloping.mirai0.Entitys.TradingRecord;
 import io.github.kloping.mirai0.Entitys.gameEntitys.*;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,7 +31,6 @@ import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static Project.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgById;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
@@ -78,7 +76,7 @@ public class GameServiceImpl implements IGameService {
 
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(XL_WAIT_TIPS, getTimeTips(l));
         }
@@ -118,7 +116,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    getImgById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
 
         } else {
             return String.format(TXL_WAIT_TIPS, getTimeTips(l));
@@ -143,7 +141,7 @@ public class GameServiceImpl implements IGameService {
             str1.append("你的武魂:暂未获得").append("\r\n");
         else {
             str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
-            str1.append(getImgById((int) n)).append("\r\n");
+            str1.append(SourceDataBase.getImgPathById((int) n)).append("\r\n");
         }
         return str1 + pathToImg(Drawer.drawInfo(is));
     }
@@ -287,15 +285,17 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String showHh(Long who) {
         Integer[] iii = getHhs(who);
-        StringBuilder sb = new StringBuilder();
         if (iii[0] == 0) {
             return "暂无魂环";
         } else {
-            for (Integer i : iii) {
-                sb.append(getImgById(i)).append("\r\n");
+            try {
+                String f0 = drawHh(getInfo(who.longValue()).getWh(), Arrays.asList(iii));
+                return Tool.pathToImg(f0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "魂环画显示异常";
             }
         }
-        return sb.toString();
     }
 
     @Override
