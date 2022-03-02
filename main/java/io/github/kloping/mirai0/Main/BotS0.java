@@ -25,7 +25,7 @@ public class BotS0 {
         botConfiguration.fileBasedDeviceInfo("./devices/device.json");
         Resource.BotConf abot = Resource.get(1);
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
-        bot.login();
         bot.getEventChannel().registerListenerHost(new SaveHandler(args));
+        bot.login();
     }
 }
