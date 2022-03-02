@@ -2,7 +2,6 @@ package io.github.kloping.mirai0.Main;
 
 import Project.dataBases.*;
 import Project.dataBases.skill.SkillDataBase;
-import Project.detailPlugin.NetMain;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -54,12 +53,12 @@ public class Resource {
     public static final ExecutorService DEA_THREADS =
             new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
 
-    public static final String MY_MAME = "0号";
+    public static String MY_MAME;
 
     public static Bot bot;
 
-    public static String superQ = "3474006766";
-    public static Long superQL = Long.parseLong(superQ);
+    public static String superQ;
+    public static Long superQL;
     public static String datePath = "";
 
     public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
@@ -116,8 +115,6 @@ public class Resource {
         });
     }
 
-    private static int timeIndex = 60;
-
     public static ContextManager contextManager;
 
     protected static void setterStarterApplication(Class<?> cla) {
@@ -141,8 +138,11 @@ public class Resource {
         });
         StarterApplication.addConfFile("./conf/conf.txt");
         contextManager = StarterApplication.Setting.INSTANCE.getContextManager();
-        StarterApplication.logger.setLogLevel(1);
         StarterApplication.run(cla);
+        //load conf
+        superQL = contextManager.getContextEntity(Number.class, "superQL").longValue();
+        superQ = superQL.toString();
+        MY_MAME = contextManager.getContextEntity(String.class, "bot.myName");
     }
 
     public static void onReturnResult(Object o, Object[] objects) {
@@ -206,13 +206,13 @@ public class Resource {
         }
     }
 
-    public static final synchronized void onServerAddTimes() {
+    public static void onServerAddTimes() {
         DEA_THREADS.execute(RUNNABLE_BEFORE);
     }
 
-    private static final Runnable RUNNABLE_BEFORE = () -> {
+    private static Runnable RUNNABLE_BEFORE = () -> {
         try {
-            URL url = new URL(NetMain.ROOT_PATH + "/abo?id=" + bot.getId() + "&key=hrskloping");
+            URL url = new URL(contextManager.getContextEntity(String.class, "handled.url"));
             url.openStream();
         } catch (Exception e) {
             e.printStackTrace();

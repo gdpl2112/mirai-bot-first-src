@@ -33,7 +33,7 @@ public class BotStarter {
 
     private static BotConf abot = null;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         deleteDir(new File("./cache"));
@@ -42,8 +42,8 @@ public class BotStarter {
         System.out.println(test ? "=============测试=============" : "长运行....................");
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(
-//                test ? BotConfiguration.MiraiProtocol.ANDROID_PAD :
-                BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+                test ? BotConfiguration.MiraiProtocol.ANDROID_PAD :
+                        BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache1"));
         botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
@@ -53,14 +53,11 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         bot.login();
-//        Switch.AllK = false;
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
-//        TempStarter.main(args);
-//        System.exit(0);
     }
 
     private static void initBot() {

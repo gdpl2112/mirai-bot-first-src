@@ -1,7 +1,6 @@
 package io.github.kloping.mirai0.Main;
 
-import Project.aSpring.SpringStarter2;
-import Project.listeners.EmojiCompositeListenerHost;
+import Project.aSpring.SpringStarter;
 import Project.listeners.NbListener;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
@@ -25,11 +24,11 @@ public class BotStarter2 {
 
     private static BotConf abot;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         setOnErrInFIle(getLogTimeFormat() + "b2_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b2_console.log");
         deleteDir(new File("./cache2"));
-        abot = get(6);
+        abot = get(2);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
@@ -40,7 +39,7 @@ public class BotStarter2 {
         Resource.datePath = "./Libs2";
         Resource.init();
         Resource.setterStarterApplication(BotStarter2.class);
-        SpringStarter2.main(args);
+        SpringStarter.main(args);
         bot.login();
         pluginLoad();
         startRegisterListenerHost(args);

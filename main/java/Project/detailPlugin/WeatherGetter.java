@@ -14,8 +14,6 @@ import static Project.detailPlugin.NetMain.*;
  */
 @Entity
 public class WeatherGetter {
-    private final String AD1 = ROOT_PATH + getWeatherShort;
-    private final String AD2 = ROOT_PATH + getWeatherDetail;
 
     @AutoStand
     WeatherI weatherM;
