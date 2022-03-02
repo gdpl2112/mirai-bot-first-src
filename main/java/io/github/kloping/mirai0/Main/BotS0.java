@@ -23,7 +23,7 @@ public class BotS0 {
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache"));
         botConfiguration.fileBasedDeviceInfo("./devices/device.json");
-        Resource.BotConf abot = Resource.get(3);
+        Resource.BotConf abot = Resource.get(1);
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         bot.login();
         bot.getEventChannel().registerListenerHost(new SaveHandler(args));
