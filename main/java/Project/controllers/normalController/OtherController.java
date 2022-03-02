@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 
 import Project.aSpring.SpringBootResource;
@@ -145,6 +145,7 @@ public class OtherController {
 
     static {
         final StringBuilder m0 = new StringBuilder();
+        m0.append("开始成语接龙\n");
         m0.append("搜图 xx \n");
         m0.append("百度搜图 xx \n");
         m0.append("堆糖搜图 xx \n");

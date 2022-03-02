@@ -1,13 +1,12 @@
 package Project.services.detailServices;
 
-import io.github.kloping.judge.Judge;
 import io.github.kloping.map.MapUtils;
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,16 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author github-kloping
  */
 public abstract class Idiom {
-    private String path;
     private int maxFail = 5;
+    public static final Set<String> IDIOM_SET = new HashSet<>();
 
-    public Idiom(String path) {
-        this.path = path;
+    public Idiom() {
         init();
     }
 
     public Idiom(String path, int maxFail) {
-        this.path = path;
         this.maxFail = maxFail;
         init();
     }
@@ -39,46 +36,34 @@ public abstract class Idiom {
     }
 
     private void init() {
-        if (inited) return;
-        inited = true;
-        String[] strings = getStringsFromFile(path);
-        for (String s : strings) {
-            if (s.length() == 4)
-                MapUtils.append(idiom, s.charAt(0), s);
-        }
-        length = idiom.size();
-        list = new LinkedList<>(idiom.keySet());
-    }
-
-    /**
-     * 从文件中获取 字符数组 一行一个元素
-     *
-     * @param path
-     * @return strs
-     */
-    public static String[] getStringsFromFile(String path) {
-        try {
-            if (!Judge.isNotNull(path)) return null;
-            List<String> ls = new LinkedList<>();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "UTF-8"));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                ls.add(line);
+        if (!inited) {
+            try {
+                URL url = Idiom.class.getClassLoader().getResource("idiom.txt");
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    IDIOM_SET.add(line.trim());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            br.close();
-            return ls.toArray(new String[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            inited = true;
+            for (String s : IDIOM_SET) {
+                if (s.length() == 4) {
+                    MapUtils.append(idiom, s.charAt(0), s);
+                }
+            }
+            length = idiom.size();
+            list = new LinkedList<>(idiom.keySet());
         }
     }
 
     private String upWord = null;
     private String upPinYin = null;
-    public static final Random random = new Random();
+    public static final Random RANDOM = new Random();
 
     public String getRandom() {
-        int r = random.nextInt(length);
+        int r = RANDOM.nextInt(length);
         char c = list.get(r);
         upWord = idiom.get(c).get(0);
         upPinYin = getCharPinYinDontWithYinDiao(upWord.charAt(3));
@@ -86,6 +71,11 @@ public abstract class Idiom {
         return upWord;
     }
 
+    /**
+     * 游戏结束
+     *
+     * @param s
+     */
     public abstract void fail(String s);
 
     private Set<String> hist = new LinkedHashSet<>();
@@ -148,8 +138,9 @@ public abstract class Idiom {
     public static String getCharPinYinDontWithYinDiao(char c) {
         String s = getCharPinYin(c);
         for (char c1 : sets) {
-            if (s.contains(c1 + ""))
+            if (s.contains(c1 + "")) {
                 s = s.replace(c1 + "", "");
+            }
         }
         return s;
     }

@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
@@ -12,8 +12,6 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping

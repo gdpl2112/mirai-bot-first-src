@@ -107,7 +107,7 @@ public class ScoreServiceImpl implements IScoreService {
             ls.setDays((long) (ls.getDays().intValue() + 1));
             ls.setScore(ls.getScore() + 100);
             putInfo(ls);
-            SpringBootResource.getSingListMapper().insert(who.longValue(), day, System.currentTimeMillis());
+            SpringBootResource.getSingListMapper().insert(who.longValue(), getTodayDetialString(), System.currentTimeMillis());
             Object[] lines = regDay(who);
             String line = lines[0].toString();
             Integer st = Integer.valueOf(lines[1].toString());
@@ -115,14 +115,15 @@ public class ScoreServiceImpl implements IScoreService {
                 return getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
             } else {
                 return getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
-                        + getImageFromFontString("第" + trans(st + 1) + "签")
+                        + getImageFromFontString("第" + trans(st) + "签")
                         + "\n" + line;
             }
         }
     }
 
+
     private static final Object[] regDay(Number l) {
-        int r = SpringBootResource.getScoreMapper().selectCountByDay(getTodayInt());
+        int r = SpringBootResource.getSingListMapper().selectCountByDay(getTodayDetialString());
         switch (r) {
             case 1:
                 addScore(100, l.longValue());
@@ -168,7 +169,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String todayList(Group group) {
-        List<Long> list = SpringBootResource.getSingListMapper().selectDay(getTodayInt());
+        List<Long> list = SpringBootResource.getSingListMapper().selectDay(getTodayDetialString());
         int n = 1;
         StringBuilder sb = new StringBuilder();
         sb.append("今日" + getToday() + "号:VV\r\n");

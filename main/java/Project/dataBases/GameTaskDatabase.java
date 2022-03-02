@@ -29,7 +29,7 @@ public class GameTaskDatabase {
         init();
     }
 
-    public static final Map<Long, List<Task>> tasks = new ConcurrentHashMap<>();
+    public static final Map<Long, List<Task>> TASKS = new ConcurrentHashMap<>();
 
     private static void init() {
         try {
@@ -80,9 +80,9 @@ public class GameTaskDatabase {
 
     public static void deleteTask(Task task) {
         for (Long aLong : task.getTasker()) {
-            tasks.get(aLong.longValue()).remove(task);
+            TASKS.get(aLong.longValue()).remove(task);
         }
-        tasks.get(task.getHost()).remove(task);
+        TASKS.get(task.getHost()).remove(task);
         File file = new File(path, task.getUuid());
         file.delete();
     }
@@ -100,9 +100,9 @@ public class GameTaskDatabase {
         Receiver receiver = createTask(task);
         task.setReceiver(receiver);
         for (Long aLong : task.getTasker()) {
-            MapUtils.append(tasks, aLong.longValue(), task);
+            MapUtils.append(TASKS, aLong.longValue(), task);
         }
-        MapUtils.append(tasks, task.getHost().longValue(), task);
+        MapUtils.append(TASKS, task.getHost().longValue(), task);
         return receiver;
     }
 }

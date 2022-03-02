@@ -12,7 +12,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfoTemp;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
-import static Project.controllers.GameControllers.GameController.maxXp;
+import static Project.controllers.gameControllers.GameController.maxXp;
 import static Project.dataBases.GameDataBase.getInfo;
 
 /**

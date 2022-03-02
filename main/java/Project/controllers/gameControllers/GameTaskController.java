@@ -1,11 +1,10 @@
-package Project.controllers.GameControllers;
+package Project.controllers.gameControllers;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import Project.dataBases.GameTaskDatabase;
 import Project.services.detailServices.TaskDetailService;
 import Project.interfaces.Iservice.IGameTaskService;
@@ -15,8 +14,6 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
@@ -71,7 +68,7 @@ public class GameTaskController {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         try {
-            for (Task task : GameTaskDatabase.tasks.get(q)) {
+            for (Task task : GameTaskDatabase.TASKS.get(q)) {
                 sb.append(i++).append(".").append(TaskDetailService.getIntro(task));
                 sb.append("\r\n\t  主:").append(task.getHost()).append("\r\n");
             }

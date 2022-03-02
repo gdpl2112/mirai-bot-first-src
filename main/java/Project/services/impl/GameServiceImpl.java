@@ -3,7 +3,7 @@ package Project.services.impl;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.enums.ObjType;
-import Project.controllers.GameControllers.GameController;
+import Project.controllers.gameControllers.GameController;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;

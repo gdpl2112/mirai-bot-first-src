@@ -1,4 +1,4 @@
-package Project.controllers.GameControllers.ShoperController;
+package Project.controllers.gameControllers.shoperController;
 
 
 import io.github.kloping.mirai0.Entitys.Group;
@@ -11,7 +11,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.controllers.NormalController.ScoreController.longs;
+import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.println;

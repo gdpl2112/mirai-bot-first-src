@@ -1,4 +1,4 @@
-package Project.controllers.GameControllers;
+package Project.controllers.gameControllers;
 
 
 import Project.aSpring.SpringBootResource;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.ResourceSet.FinalString.LIST_STR;
-import static Project.controllers.NormalController.ScoreController.longs;
+import static Project.controllers.normalController.ScoreController.longs;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;

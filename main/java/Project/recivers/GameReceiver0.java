@@ -1,7 +1,7 @@
 package Project.recivers;
 
 import Project.broadcast.normal.MemberJoinedBroadcast;
-import Project.controllers.NormalController.EntertainmentController3;
+import Project.controllers.normalController.EntertainmentController3;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.TradingRecord;
@@ -19,7 +19,7 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
-import static Project.controllers.NormalController.NoticeController.lowst;
+import static Project.controllers.normalController.NoticeController.lowst;
 
 /**
  * @author github-kloping

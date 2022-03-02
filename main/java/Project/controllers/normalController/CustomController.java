@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import Project.ResourceSet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

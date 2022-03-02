@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;

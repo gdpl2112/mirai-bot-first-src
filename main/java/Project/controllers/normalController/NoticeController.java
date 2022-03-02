@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.2:修复签到/签榜bug").append("\n");
         UPDATE_LOG.append("3.1:修复已知bug,优化显示'魂环配置'显示").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("2.27:修复已知bug,优化显示,护盾显示于血量之上").append("\n");

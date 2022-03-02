@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 
 import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
-import static Project.controllers.GameControllers.ZongmenContrller.ZongMenController.COB_CD;
+import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;

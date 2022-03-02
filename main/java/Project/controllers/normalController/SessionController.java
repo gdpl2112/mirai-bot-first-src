@@ -1,12 +1,12 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import Project.detailPlugin.RunAll;
-import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeContent;
-import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeEntity;
-import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeResponse;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeContent;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeEntity;
+import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeResponse;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.At;
@@ -63,6 +63,7 @@ public class SessionController {
             "文件内容追加<Text>\n" +
             "执行时输入<Text>\n" +
             "开始执行\n" +
+            "结束会话\n" +
             "==============\n" +
             "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
 
@@ -85,14 +86,15 @@ public class SessionController {
             return "执行时输入:\n" + q2CodeRunInput.get(q);
         } else if (m1.startsWith("开始执行")) {
             return run(q, group);
-        } else return null;
-        //return "未知命令:" + idiom.m1 + "\nUnknown Command:" + idiom.m1;
+        } else {
+            return "未知命令:" + m1 + "\nUnknown Command:" + m1;
+        }
     }
 
 
     @Action("开始会话")
     public String m1(long q) {
-        return InTheSession.add(q) ? "开始会话" : "您已经在会话";
+        return InTheSession.add(q) ? "开始会话\n说出\"help\"显示更多" : "您已经在会话";
     }
 
     public String run(long q, Group group) {

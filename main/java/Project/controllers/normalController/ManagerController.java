@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 
 import Project.controllers.auto.ConfirmController;

@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static Project.controllers.GameControllers.GameH2LController.check;
+import static Project.controllers.gameControllers.GameH2LController.check;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
@@ -212,8 +212,11 @@ public class Resource {
 
     private static Runnable RUNNABLE_BEFORE = () -> {
         try {
-            URL url = new URL(contextManager.getContextEntity(String.class, "handled.url"));
-            url.openStream();
+            String u0 = contextManager.getContextEntity(String.class, "handled.url");
+            if (u0 != null && !u0.trim().isEmpty()) {
+                URL url = new URL(u0);
+                url.openStream();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -238,10 +241,6 @@ public class Resource {
 
     public static void println(String line) {
         System.out.println("==========================" + line + "===================================");
-    }
-
-    public static void println(String line, boolean error) {
-        System.err.println("==========================" + line + "===================================");
     }
 
     public static class Switch {

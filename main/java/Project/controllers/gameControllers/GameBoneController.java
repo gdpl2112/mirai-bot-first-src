@@ -1,4 +1,4 @@
-package Project.controllers.GameControllers;
+package Project.controllers.gameControllers;
 
 
 import Project.dataBases.SourceDataBase;

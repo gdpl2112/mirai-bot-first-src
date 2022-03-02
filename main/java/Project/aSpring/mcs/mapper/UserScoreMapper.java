@@ -20,11 +20,4 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
     @Update("UPDATE `user_score` SET `fz`=0")
     Integer updateAll();
 
-    /**
-     * 查询今日签到的人数
-     * @param day
-     * @return
-     */
-    @Select("SELECT count(*) FROM user_score WHERE day=#{day}")
-    Integer selectCountByDay(@Param("day") Integer day);
 }

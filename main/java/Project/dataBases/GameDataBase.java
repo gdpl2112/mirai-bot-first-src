@@ -34,20 +34,6 @@ public class GameDataBase {
     public static final Map<Integer, Integer> WH_2_TYPE = new ConcurrentHashMap<>();
 
     public GameDataBase(String mainPath) {
-        try {
-            path = mainPath + "/dates/games";
-            File file = new File(path);
-            if (!file.exists()) {
-                new File(path + "/dates/users").mkdirs();
-                new File(path + "/dates/system").mkdirs();
-                new File(path + "/mainfist").mkdirs();
-                new File(path + "/mainfist/ids").createNewFile();
-                new File(path + "/mainfist/intros").createNewFile();
-                new File(path + "/mainfist/shop").createNewFile();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         intiObj();
     }
 

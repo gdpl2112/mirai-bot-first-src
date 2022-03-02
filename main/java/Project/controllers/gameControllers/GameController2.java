@@ -1,4 +1,4 @@
-package Project.controllers.GameControllers;
+package Project.controllers.gameControllers;
 
 
 import io.github.kloping.mirai0.Entitys.Group;

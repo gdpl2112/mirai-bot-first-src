@@ -4,7 +4,7 @@ import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
-import Project.controllers.GameControllers.GameController;
+import Project.controllers.gameControllers.GameController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameBoneService;

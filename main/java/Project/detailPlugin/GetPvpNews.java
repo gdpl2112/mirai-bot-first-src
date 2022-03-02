@@ -31,7 +31,7 @@ import static io.github.kloping.mirai0.Main.Resource.bot;
 public class GetPvpNews {
 
     @AutoStand
-    GetPvpQQ getPvpQQ;
+    private GetPvpQQ getPvpQQ;
 
     public Response0 m1() {
         String urlStr = UrlUtils.getStringFromHttpUrl("https://game.gtimg.cn/images/yxzj/web201706/js/newsindex.js");

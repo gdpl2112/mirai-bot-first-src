@@ -21,7 +21,7 @@ public interface SingListMapper {
      * @return
      */
     @Insert("INSERT INTO `signlist` (`qid`, `day`, `time`) VALUES (#{qid}, #{day}, #{time});")
-    Integer insert(@Param("qid") Long qid, @Param("day") Integer day, @Param("time") Long time);
+    Integer insert(@Param("qid") Long qid, @Param("day") String day, @Param("time") Long time);
 
     /**
      * select day
@@ -30,5 +30,15 @@ public interface SingListMapper {
      * @return
      */
     @Select("SELECT `qid` FROM `signlist` WHERE `day`=#{day} ORDER BY `time`")
-    List<Long> selectDay(@Param("day") Integer day);
+    List<Long> selectDay(@Param("day") String day);
+
+
+    /**
+     * 查询今日签到的人数
+     *
+     * @param day
+     * @return
+     */
+    @Select("SELECT count(*) FROM `signlist` WHERE day=#{day}")
+    Integer selectCountByDay(@Param("day") String day);
 }

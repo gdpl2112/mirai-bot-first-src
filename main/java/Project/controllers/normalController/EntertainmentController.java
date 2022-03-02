@@ -1,4 +1,4 @@
-package Project.controllers.NormalController;
+package Project.controllers.normalController;
 
 import Project.ResourceSet;
 import Project.broadcast.PicBroadcast;
@@ -23,8 +23,8 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.controllers.NormalController.CustomController.QLIST;
-import static Project.controllers.NormalController.CustomController.builderAndAdd;
+import static Project.controllers.normalController.CustomController.QLIST;
+import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.canBackShow;
 import static Project.dataBases.DataBase.getConf;
@@ -193,7 +193,7 @@ public class EntertainmentController {
         if (longIdiomMap.containsKey(group.getId())) {
             return "游戏已经开始了哦~";
         }
-        Idiom idiom = new Idiom(DataBase.path + "/idiom.txt") {
+        Idiom idiom = new Idiom() {
             @Override
             public void fail(String s) {
                 longIdiomMap.remove(group.getId());

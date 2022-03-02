@@ -1,4 +1,4 @@
-package Project.controllers.GameControllers.ZongmenContrller;
+package Project.controllers.gameControllers.zongmenContrller;
 
 
 import io.github.kloping.mirai0.Entitys.Group;
@@ -9,7 +9,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.controllers.NormalController.ScoreController.longs;
+import static Project.controllers.normalController.ScoreController.longs;
 import static Project.ResourceSet.FinalString.NOT_FOUND_AT;
 import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static io.github.kloping.mirai0.Main.Resource.println;

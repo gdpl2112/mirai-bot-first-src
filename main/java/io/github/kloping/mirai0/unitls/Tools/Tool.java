@@ -1,7 +1,6 @@
 package io.github.kloping.mirai0.unitls.Tools;
 
 
-import Project.dataBases.DataBase;
 import io.github.kloping.io.ReadUtils;
 
 import java.io.*;
@@ -15,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import static Project.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
+import static io.github.kloping.date.DateUtils.*;
 import static io.github.kloping.mirai0.Main.Resource.contextManager;
 
 public class Tool {
@@ -510,8 +510,13 @@ public class Tool {
     public static String getToday() {
         return today == null ? (today = new SimpleDateFormat("dd").format(new Date())) : today;
     }
+
     public static Integer getTodayInt() {
         return Integer.valueOf(getToday());
+    }
+
+    public static String getTodayDetialString() {
+        return getYear() + "-" + getMonth() + "-" + getDay();
     }
 
     /**
