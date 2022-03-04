@@ -44,6 +44,7 @@ public class BotStarter2 {
         pluginLoad();
         startRegisterListenerHost(args);
         startedAfter();
+        Temp.main(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         println("运行的线程=》" + Thread.activeCount());
     }

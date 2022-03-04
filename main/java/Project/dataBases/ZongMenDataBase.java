@@ -3,7 +3,10 @@ package Project.dataBases;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,6 +14,8 @@ import java.util.Map;
 import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.putStringInFile;
 
 /**
  * @author github-kloping
@@ -20,7 +25,12 @@ public class ZongMenDataBase {
     public static Map<Long, Integer> qq2id = new HashMap<>();
 
     public ZongMenDataBase(String mainPath) {
-        Resource.START_AFTER.add(() -> {
+        path = mainPath + "/dates/games/dates/system/ZongMens";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        Resource.START_AFTER.add(()->{
             initMap();
         });
     }
@@ -28,7 +38,7 @@ public class ZongMenDataBase {
     private void initMap() {
         for (Zong zong : getZongMapper().selectAll()) {
             for (Number number : zong.getMember()) {
-                qq2id.put(number.longValue(), zong.getId());
+                qq2id.put(number.longValue(),zong.getId());
             }
         }
 //        File[] files = new File(path).listFiles((f) -> f.isDirectory());
