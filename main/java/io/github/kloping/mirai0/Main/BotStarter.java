@@ -56,7 +56,6 @@ public class BotStarter {
         setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         startedAfter();
-        Temp.main(args);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
     }
