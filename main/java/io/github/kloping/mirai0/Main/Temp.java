@@ -8,8 +8,7 @@ import java.io.File;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
-import static Project.dataBases.ZongMenDataBase.getZonInfo;
-import static Project.dataBases.ZongMenDataBase.getZongInfo;
+import static Project.dataBases.ZongMenDataBase.*;
 
 /**
  * @author github.kloping
@@ -20,7 +19,7 @@ public class Temp {
         File[] files = new File(ZongMenDataBase.path).listFiles();
         for (File file1 : files) {
             if (file1.isDirectory()) {
-                Zong zong = getZongInfo(Integer.valueOf(file1.getName()));
+                Zong zong = getZongInfoFromFile(Integer.valueOf(file1.getName()));
                 for (Number number : zong.getMember()) {
                     Zon zon = getZonInfo(number.longValue());
                     if (zon == null || zon.getQq() == null) {

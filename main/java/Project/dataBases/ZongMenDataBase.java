@@ -84,14 +84,21 @@ public class ZongMenDataBase {
         return getZongInfo(qq2id.get(qq));
     }
 
+    public static Zong getZongInfoFromFile(Integer id) {
+        try {
+            File file = new File(path + "/" + id + "/main.json");
+            String line = getStringFromFile(file.getPath());
+            Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
+            System.out.println(zong);
+            return zong;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static Zong getZongInfo(Integer id) {
         try {
             return getZongMapper().selectById(id);
-//            File file = new File(path + "/" + id + "/main.json");
-//            String line = getStringFromFile(file.getPath());
-//            Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
-//            System.out.println(zong);
-//            return zong;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
