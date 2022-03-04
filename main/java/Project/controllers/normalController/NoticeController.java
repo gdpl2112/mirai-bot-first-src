@@ -8,8 +8,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.controllers.auto.ControllerTool.opened;
 import static Project.ResourceSet.FinalValue.*;
+import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.4: 欢迎访问官网 http://kloping.top,http://kloping.life 修复了商城无法显示的问题").append("\n");
         UPDATE_LOG.append("3.2:修复签到/签榜bug").append("\n");
         UPDATE_LOG.append("3.1:修复已知bug,优化显示'魂环配置'显示").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");

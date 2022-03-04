@@ -10,6 +10,8 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
+import java.io.File;
+
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
@@ -79,8 +81,9 @@ public class GameObjController {
     private String upShopPath = "";
 
     @Action(value = "商城", otherName = {"商店", "商场"})
-    public Object Shop(Group group) {
-        if (upShopPath.isEmpty()) upShopPath = getImageFromStrings(GameDataBase.getShop());
+    public Object shop(Group group) {
+        if (upShopPath.isEmpty() || !new File(upShopPath).exists())
+            upShopPath = getImageFromStrings(GameDataBase.getShop());
         return (upShopPath + "\r\n用=>出售=>来出售物品\r\n回收价为原价值的1/3但最高不会超过" + maxSle);
     }
 
