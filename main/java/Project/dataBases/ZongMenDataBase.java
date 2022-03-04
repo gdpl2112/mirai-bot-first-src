@@ -108,11 +108,18 @@ public class ZongMenDataBase {
     public static Zon getZonInfo(Long qq) {
         try {
             return getZonMapper().selectById(qq);
-//            Integer id = qq2id.get(qq);
-//            File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
-//            String line = getStringFromFile(file.getPath());
-//            Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
-//            return zon;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static Zon getZonInfoFrom(Long qq) {
+        try {
+            Integer id = qq2id.get(qq);
+            File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
+            String line = getStringFromFile(file.getPath());
+            Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
+            return zon;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
