@@ -21,7 +21,7 @@ public class Temp {
             if (file1.isDirectory()) {
                 Zong zong = getZongInfoFromFile(Integer.valueOf(file1.getName()));
                 for (Number number : zong.getMember()) {
-                    Zon zon = getZonInfo(number.longValue());
+                    Zon zon = getZonInfoFromFile(number.longValue());
                     if (zon == null || zon.getQq() == null) {
                         System.err.println(zong.getId());
                     } else {

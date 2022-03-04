@@ -113,7 +113,7 @@ public class ZongMenDataBase {
             return null;
         }
     }
-    public static Zon getZonInfoFrom(Long qq) {
+    public static Zon getZonInfoFromFile(Long qq) {
         try {
             Integer id = qq2id.get(qq);
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
