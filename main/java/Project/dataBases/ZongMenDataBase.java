@@ -6,7 +6,6 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,7 +14,6 @@ import static Project.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.putStringInFile;
 
 /**
  * @author github-kloping
@@ -30,24 +28,28 @@ public class ZongMenDataBase {
         if (!file.exists()) {
             file.mkdirs();
         }
-        Resource.START_AFTER.add(()->{
+        Resource.START_AFTER.add(() -> {
             initMap();
         });
     }
 
     private void initMap() {
-        for (Zong zong : getZongMapper().selectAll()) {
-            for (Number number : zong.getMember()) {
-                qq2id.put(number.longValue(),zong.getId());
+        File[] files = new File(path).listFiles((f) -> f.isDirectory());
+        for (File file : files) {
+            Integer id = Integer.valueOf(file.getName());
+            for (Number r : getZongInfoFromFile(id).getMember()) {
+                qq2id.put(r.longValue(), id);
             }
         }
-//        File[] files = new File(path).listFiles((f) -> f.isDirectory());
-//        for (File file : files) {
-//            Integer id = Integer.valueOf(file.getName());
-//            for (Number r : getZongInfo(id).getMember()) {
-//                qq2id.put(r.longValue(), id);
-//            }
-//        }
+        try{
+            for (Zong zong : getZongMapper().selectAll()) {
+                for (Number number : zong.getMember()) {
+                    qq2id.put(number.longValue(), zong.getId());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static boolean createNewZong(Long qq, String name) {
@@ -96,6 +98,7 @@ public class ZongMenDataBase {
             return null;
         }
     }
+
     public static Zong getZongInfo(Integer id) {
         try {
             return getZongMapper().selectById(id);
@@ -113,6 +116,7 @@ public class ZongMenDataBase {
             return null;
         }
     }
+
     public static Zon getZonInfoFromFile(Long qq) {
         try {
             Integer id = qq2id.get(qq);
