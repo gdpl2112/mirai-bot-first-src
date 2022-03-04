@@ -34,13 +34,13 @@ public class ZongMenDataBase {
     }
 
     private void initMap() {
-        File[] files = new File(path).listFiles((f) -> f.isDirectory());
-        for (File file : files) {
-            Integer id = Integer.valueOf(file.getName());
-            for (Number r : getZongInfoFromFile(id).getMember()) {
-                qq2id.put(r.longValue(), id);
-            }
-        }
+//        File[] files = new File(path).listFiles((f) -> f.isDirectory());
+//        for (File file : files) {
+//            Integer id = Integer.valueOf(file.getName());
+//            for (Number r : getZongInfoFromFile(id).getMember()) {
+//                qq2id.put(r.longValue(), id);
+//            }
+//        }
         try{
             for (Zong zong : getZongMapper().selectAll()) {
                 for (Number number : zong.getMember()) {
