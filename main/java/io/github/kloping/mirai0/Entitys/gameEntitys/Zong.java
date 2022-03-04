@@ -1,12 +1,17 @@
 package io.github.kloping.mirai0.Entitys.gameEntitys;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
+
+import static Project.aSpring.SpringBootResource.getZonMapper;
 
 /**
  * @author github-kloping
@@ -25,6 +30,7 @@ public class Zong implements Serializable {
     /**
      * 宗门Id
      */
+    @TableId
     private Integer id;
 
     /**
@@ -35,7 +41,7 @@ public class Zong implements Serializable {
     /**
      * 总嗯宗主
      */
-    private Number main;
+    private Long main;
 
     /**
      * 宗门人数
@@ -50,11 +56,13 @@ public class Zong implements Serializable {
     /**
      * 成员列表
      */
+    @TableField(exist = false)
     private Set<Number> member;
 
     /**
      * 长老列表
      */
+    @TableField(exist = false)
     private Set<Number> elder;
 
     /**
@@ -103,10 +111,26 @@ public class Zong implements Serializable {
     private Integer pub = 0;
 
     public Integer getMembers() {
-        return member.size();
+        return getMember().size();
     }
 
     public Integer getElders() {
-        return elder.size();
+        return getElder().size();
+    }
+
+    public Set<Number> getMember() {
+        Set<Number> set = new HashSet<>();
+        for (Zon zon : getZonMapper().selectByZongId(getId().intValue())) {
+            set.add(zon.getQq());
+        }
+        return set;
+    }
+
+    public Set<Number> getElder() {
+        Set<Number> set = new HashSet<>();
+        for (Zon zon : getZonMapper().selectEldersByZongId(getId().intValue())) {
+            set.add(zon.getQq());
+        }
+        return set;
     }
 }

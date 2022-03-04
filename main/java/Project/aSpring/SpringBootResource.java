@@ -38,6 +38,16 @@ public class SpringBootResource {
     public static TaskPointMapper taskPointMapper;
     public static SingListMapper singListMapper;
     public static SkillInfoMapper skillInfoMapper;
+    public static ZongMapper zongMapper;
+    public static ZonMapper zonMapper;
+
+    public static ZongMapper getZongMapper() {
+        return zongMapper;
+    }
+
+    public static ZonMapper getZonMapper() {
+        return zonMapper;
+    }
 
     public static SkillInfoMapper getSkillInfoMapper() {
         return skillInfoMapper;

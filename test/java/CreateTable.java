@@ -34,7 +34,7 @@ public class CreateTable {
         javaProperty2SqlColumnMap.put("String", "VARCHAR(255)");
     }
 
-    public static final Class c = Zong.class;
+    public static final Class c = Zon.class;
 
     public static void main(String[] args) throws IOException {
         createTable(c);
@@ -72,7 +72,7 @@ public class CreateTable {
         boolean firstId = true;
         File file = null;
         for (Field f : fields) {
-            if (ClassUtils.isStatic(f))continue;
+            if (ClassUtils.isStatic(f)) continue;
             column = f.getName();
             column = filterName(column);
             param = f.getType().getSimpleName();

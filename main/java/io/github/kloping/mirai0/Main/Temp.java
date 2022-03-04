@@ -1,7 +1,8 @@
+package io.github.kloping.mirai0.Main;
+
 import Project.dataBases.ZongMenDataBase;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
-import io.github.kloping.mirai0.Main.BotStarter;
 
 import java.io.File;
 
@@ -13,9 +14,9 @@ import static Project.dataBases.ZongMenDataBase.getZongInfo;
 /**
  * @author github.kloping
  */
-public class TestBootstrap {
-    public static void main(String[] args) throws Throwable {
-        BotStarter.main(args);
+public class Temp {
+    public static void main(String[] args) {
+        Resource.Switch.AllK=false;
         File[] files = new File(ZongMenDataBase.path).listFiles();
         for (File file1 : files) {
             if (file1.isDirectory()) {
@@ -37,6 +38,6 @@ public class TestBootstrap {
                 continue;
             }
         }
-        System.err.println("all is ok");
+        System.exit(0);
     }
 }
