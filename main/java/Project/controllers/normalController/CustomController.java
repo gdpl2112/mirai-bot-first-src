@@ -1,11 +1,13 @@
 package Project.controllers.normalController;
 
 import Project.ResourceSet;
+import Project.broadcast.normal.MessageBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.eEntitys.AutoReply;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -19,15 +21,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
+import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
-import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
-import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * @author github-kloping
@@ -36,6 +39,12 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 public class CustomController {
     public CustomController() {
         println(this.getClass().getSimpleName() + "构建");
+        MessageBroadcast.INSTANCE.add(new MessageBroadcast.MessageReceiver() {
+            @Override
+            public void onReceive(long qid, long gid, String context) {
+                action(qid, context, Group.get(gid));
+            }
+        });
     }
 
     @Before
@@ -67,7 +76,7 @@ public class CustomController {
             }
             if (cd > System.currentTimeMillis()) return null;
             if (MAP.containsKey(s)) {
-                Reply reply = MAP.get(s);
+                Reply reply = getRandT(MAP.get(s));
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.content.startsWith("at")) {
                     reply.content = reply.content.replaceFirst("at", "");
@@ -89,8 +98,6 @@ public class CustomController {
         if (size != MAP.size()) {
             MAP.clear();
             MAP.putAll(getAllAutoReply());
-            collections.clear();
-            collections.addAll(MAP.values());
         }
     }
 
@@ -105,9 +112,8 @@ public class CustomController {
         return LINE;
     }
 
-    public static Map<String, Reply> MAP = new HashMap<>();
+    public static Map<String, List<Reply>> MAP = new HashMap<>();
     public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
-    public static List<Reply> collections = new CopyOnWriteArrayList<>();
 
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
@@ -129,8 +135,8 @@ public class CustomController {
                     public void run() {
                         try {
                             Thread.sleep(60 * 1000);
-                            if (MAP.containsKey(q1)) {
-                                MAP.remove(q1);
+                            if (QLIST.containsKey(q1)) {
+                                QLIST.remove(q1);
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -139,10 +145,11 @@ public class CustomController {
                 });
                 return "已添加到处理队列\r\n请在1分钟内完成内容填充\r\n发送emoji\\图片\\表情即可";
             } else {
-                if (builderAndAdd(str, qq))
+                if (builderAndAdd(str, qq)) {
                     return "OK";
-                else
+                } else {
                     return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
+                }
             }
         } else {
             return "添加问_答_";
@@ -171,72 +178,26 @@ public class CustomController {
     @Action("查询词<.+=>name>")
     public String select(@Param("name") String name) {
         if (MAP.containsKey(name)) {
-            Reply reply = MAP.get(name);
-            return String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.key, reply.content, Tool.getTimeYMdhms(reply.time), reply.who);
+            StringBuilder sb = new StringBuilder();
+            for (Reply reply : MAP.get(name)) {
+                sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.key, reply.content, Tool.getTimeYMdhms(reply.time), reply.who));
+            }
+            return sb.toString();
         } else {
             return "未查询到该词";
-        }
-    }
-
-    @Action("查询id<.+=>id>")
-    public String selectById(@Param("id") String ids, Group group) {
-        if (collections.isEmpty()) {
-            collections.clear();
-            collections.addAll(MAP.values());
-        }
-        int id = 0;
-        try {
-            id = Integer.parseInt(ids);
-        } catch (NumberFormatException e) {
-            return "Id应为一个正整数";
-        }
-        if (collections.size() > id) {
-            Reply reply = collections.get(id);
-            return String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.key, reply.content, Tool.getTimeYMdhms(reply.time), reply.who);
-        } else {
-            return "未查询到该ID";
         }
     }
 
     @Action("删除词<.+=>name>")
     public String delete(@Param("name") String name) {
         if (MAP.containsKey(name)) {
-            Reply reply = MAP.get(name);
+            Reply reply = MAP.get(name).get(0);
             if (deleteReply(reply)) {
-                MAP.clear();
-                MAP.putAll(getAllAutoReply());
-                collections.clear();
-                collections.addAll(MAP.values());
+                MAP.get(name).remove(reply);
                 return "删除成功";
             } else return "删除失败";
         } else {
             return "未查询到该词";
-        }
-    }
-
-    @Action("删除id<.+=>id>")
-    public String deleteById(@Param("id") String ids, Group group) {
-        if (collections.isEmpty()) {
-            collections.clear();
-            collections.addAll(MAP.values());
-        }
-        int id = 0;
-        try {
-            id = Integer.parseInt(ids);
-        } catch (NumberFormatException e) {
-            return "Id应为一个正整数";
-        }
-        if (collections.size() > id) {
-            Reply reply = collections.get(id);
-            if (deleteReply(reply)) {
-                MAP.clear();
-                MAP.putAll(getAllAutoReply());
-                collections.clear();
-                collections.addAll(MAP.values());
-                return "删除成功";
-            } else return "删除失败";
-        } else {
-            return "未查询到该ID";
         }
     }
 
@@ -248,21 +209,18 @@ public class CustomController {
         Reply reply = new Reply(q, v, System.currentTimeMillis(), k);
         if (MAP.containsKey(k)) return false;
         if (!addReply(reply)) return false;
-        MAP.clear();
-        MAP.putAll(getAllAutoReply());
-        collections.clear();
-        collections.addAll(MAP.values());
+        MapUtils.append(MAP, k, reply);
         return true;
     }
 
-    public final static Map<String, Reply> getAllAutoReply() {
+    public final static Map<String, List<Reply>> getAllAutoReply() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
-        Map<String, Reply> map = new LinkedHashTreeMap<>();
+        Map<String, List<Reply>> map = new LinkedHashTreeMap<>();
         for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
             Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
             reply.id = autoReply.getId();
-            map.put(autoReply.getK(), reply);
+            MapUtils.append(map, reply.key, reply);
         }
         return map;
     }

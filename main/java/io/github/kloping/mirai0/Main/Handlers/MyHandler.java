@@ -149,9 +149,11 @@ public class MyHandler extends SimpleListenerHost {
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
             if (CD < System.currentTimeMillis()) {
                 if (upMessage != null && upMessage.equals(text)) {
-                    Nudge nudge = member.nudge();
-                    nudge.sendTo(group);
-                    group.sendMessage(message);
+                    try {
+                        Nudge nudge = member.nudge();
+                        nudge.sendTo(group);
+                        group.sendMessage(message);
+                    } catch (Exception e) {}
                     CD = System.currentTimeMillis() + REPEAT_CD;
                     upMessage = null;
                 } else {

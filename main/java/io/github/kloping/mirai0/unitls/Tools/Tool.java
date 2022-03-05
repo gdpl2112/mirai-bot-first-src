@@ -1053,6 +1053,10 @@ public class Tool {
         return ts[rand.nextInt(ts.length)];
     }
 
+    public static final <T> T getRandT(List<T> ts) {
+        return ts.get(rand.nextInt(ts.size()));
+    }
+
     /**
      * 计算百分比
      *
