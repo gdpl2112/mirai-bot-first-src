@@ -121,9 +121,9 @@ public class SuperController {
         }
         UP_AKS.put(qq.getId(), q2.longValue());
         if (DataBase.isFather(q2.longValue())) {
-            return IS_ADMINISTRATOR_TIPS[Tool.rand.nextInt(IS_ADMINISTRATOR_TIPS.length)];
+            return IS_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IS_ADMINISTRATOR_TIPS.length)];
         } else {
-            return IST_ADMINISTRATOR_TIPS[Tool.rand.nextInt(IST_ADMINISTRATOR_TIPS.length)];
+            return IST_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IST_ADMINISTRATOR_TIPS.length)];
         }
     }
 

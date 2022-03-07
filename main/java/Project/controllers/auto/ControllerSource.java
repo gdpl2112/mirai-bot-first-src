@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * this is a utils for static class
@@ -43,7 +43,7 @@ public class ControllerSource {
     public static String getCode() {
         char[] chars = new char[4];
         for (int i = 0; i < chars.length; i++) {
-            chars[i] = cs[rand.nextInt(cs.length)];
+            chars[i] = cs[RANDOM.nextInt(cs.length)];
         }
         String caps = new String(chars);
         return caps;

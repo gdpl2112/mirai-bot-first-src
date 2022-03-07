@@ -54,7 +54,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
-            int tr = rand.nextInt(6) + 9;
+            int tr = RANDOM.nextInt(6) + 9;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
             long xr = mx / c;
@@ -91,7 +91,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
-            int tr = rand.nextInt(9) + 6;
+            int tr = RANDOM.nextInt(9) + 6;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
             long xr = mx / c;
@@ -227,7 +227,7 @@ public class GameServiceImpl implements IGameService {
         if (level < 2) {
             return LEVEL2_AWAKENING_WH_TIPS;
         }
-        int r = rand.nextInt(31) + 1;
+        int r = RANDOM.nextInt(31) + 1;
         putPerson(is.setWh(r));
         return AWAKENING_WH_SUCCEED;
     }
@@ -468,7 +468,7 @@ public class GameServiceImpl implements IGameService {
         if ((id >= 204 && level < 10) || (id >= 205 && level < 50) || (id >= 206 && level < 70)) {
             return false;
         }
-        int r1 = rand.nextInt(10);
+        int r1 = RANDOM.nextInt(10);
 
         PersonInfo personInfo = getInfo(who);
         if (personInfo.getLevel() > 10) r1--;

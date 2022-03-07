@@ -178,7 +178,7 @@ public class EntertainmentController {
     @Action(value = "掷骰子", otherName = "摇骰子")
     public String rand(Group group) {
         StringBuilder builder = new StringBuilder();
-        int r = Tool.rand.nextInt(6);
+        int r = Tool.RANDOM.nextInt(6);
         String str = datePath + "/GameFile/Rt_";
         str += r;
         str += ".jpg";

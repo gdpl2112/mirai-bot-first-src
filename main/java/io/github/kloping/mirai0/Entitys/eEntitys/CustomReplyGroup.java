@@ -74,7 +74,7 @@ public class CustomReplyGroup {
                 indexs.add(value);
             }
         }
-        int r = Tool.rand.nextInt(weight);
+        int r = Tool.RANDOM.nextInt(weight);
         return indexs.get(r);
     }
 }

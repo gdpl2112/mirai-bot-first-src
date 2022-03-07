@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -28,6 +28,6 @@ public interface PersonInfoMapper extends BaseMapper<PersonInfo> {
      *
      * @return
      */
-    @Update("UPDATE `person_info` SET `tag`='',`help_c`=0,`help_toc`=0,`buy_help_c`=0,`died`=0,`downed`=0,`buy_help_c`=0,`buy_help_to_c`=0")
+    @Update("UPDATE `person_info` SET `my_tag`='',`help_c`=0,`help_toc`=0,`buy_help_c`=0,`died`=0,`downed`=0,`buy_help_c`=0,`buy_help_to_c`=0")
     Integer updateAll();
 }

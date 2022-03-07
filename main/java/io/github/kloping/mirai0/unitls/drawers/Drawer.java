@@ -33,7 +33,7 @@ import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
@@ -322,7 +322,7 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.rand.nextInt(COLORS.length)]);
+            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
             g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
         }
         g.setColor(BORDER_COLOR);
@@ -353,7 +353,7 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.rand.nextInt(COLORS.length)]);
+            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
             g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
         }
         g.setColor(BORDER_COLOR);
@@ -394,7 +394,7 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.rand.nextInt(COLORS.length)]);
+            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
             if (k) {
                 g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
             } else {
@@ -486,9 +486,9 @@ public class Drawer {
         g.drawString("※====☆=?==★===?====$==*=※===※====☆=?==★===?====$==*=※===", 15, 25);
         for (int i = 0; i < ss.length; i++) {
             if (i % 2 == 0) {
-                g.setColor(COLORS[Tool.rand.nextInt(COLORS.length)]);
+                g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
                 g.drawString(filterBigNum(ss[i]), 15, 60 + (i) * 20);
-                g.setColor(COLORS[Tool.rand.nextInt(COLORS.length)]);
+                g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
                 if (ss.length > i + 1)
                     g.drawString(filterBigNum(ss[i + 1]), width / 2, 60 + (i) * 20);
             }
@@ -629,7 +629,7 @@ public class Drawer {
                 if (st2tr.containsKey(i1)) {
                     r0 = st2tr.get(i1);
                 } else {
-                    r0 = rand.nextInt(20) - 10;
+                    r0 = RANDOM.nextInt(20) - 10;
                     st2tr.put(i1, r0);
                 }
                 if (r0 > 0) {

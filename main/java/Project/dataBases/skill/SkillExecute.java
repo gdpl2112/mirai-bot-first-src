@@ -15,7 +15,7 @@ import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameDetailServiceUtils.*;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github-kloping
@@ -602,7 +602,7 @@ public class SkillExecute {
                     setTips("未选择");
                     return;
                 }
-                int r = rand.nextInt(20) - 10;
+                int r = RANDOM.nextInt(20) - 10;
                 if (nums[0].longValue() < 0) {
                     GhostObj ghostObj = getGhostObjFrom(who.longValue());
                     if (ghostObj == null) {

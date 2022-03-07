@@ -79,7 +79,7 @@ public class ScoreServiceImpl implements IScoreService {
         if (lI > 60) {
             if (lY > 60) {
                 if (fI < 12) {
-                    long l = rand.nextInt(20) + 40;
+                    long l = RANDOM.nextInt(20) + 40;
                     addScore(l, who);
                     addScore(-l, whos);
                     DataBase.addFz(1, who);
@@ -146,8 +146,8 @@ public class ScoreServiceImpl implements IScoreService {
     public String workLong(Long who) {
         setK(who, getK(who));
         if (getK(who) <= System.currentTimeMillis()) {
-            int tr = rand.nextInt(26) + 12;
-            int nr = rand.nextInt(45) + 25;
+            int tr = RANDOM.nextInt(26) + 12;
+            int nr = RANDOM.nextInt(45) + 25;
             int s = tr * 5;
             addScore(s, who);
             putPerson(GameDataBase.getInfo(who).addGold((long) nr

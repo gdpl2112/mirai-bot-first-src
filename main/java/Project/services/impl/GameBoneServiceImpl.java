@@ -19,7 +19,7 @@ import java.util.Map;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -102,7 +102,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
             return "已经吸收过 相同部位的魂骨了";
         }
         GameDataBase.removeFromBgs(qq, id, ObjType.use);
-        int r1 = rand.nextInt(7);
+        int r1 = RANDOM.nextInt(7);
         switch (r1) {
             case 0:
                 nu = i * 3;

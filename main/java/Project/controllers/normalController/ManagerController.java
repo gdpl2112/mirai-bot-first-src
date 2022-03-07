@@ -171,7 +171,7 @@ public class ManagerController {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
             return new StringBuilder().append("谁?").toString();
-        return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[Tool.rand.nextInt(sss.length - 1)]).toString();
+        return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[Tool.RANDOM.nextInt(sss.length - 1)]).toString();
     }
 
     @Action(value = "踢.{1,}", otherName = "T.{1,}")

@@ -52,7 +52,7 @@ public class GameSkillServiceImpl implements ISkillService {
         Integer id = is[st - 1];
         Integer id2;
         while (true) {
-            id2 = Tool.rand.nextInt(21);
+            id2 = Tool.RANDOM.nextInt(21);
             boolean k = false;
             for (SkillInfo i : skinfo.values()) {
                 if (i.getJid().intValue() == id2.intValue()) {

@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.Entitys;
 
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 
 public enum Mora {
@@ -25,7 +25,7 @@ public enum Mora {
     }
 
     public static Mora getRc() {
-        int i = rand.nextInt(3);
+        int i = RANDOM.nextInt(3);
         switch (i) {
             case 0:
                 return a;
@@ -43,7 +43,7 @@ public enum Mora {
      * @return
      */
     public static Mora getRc(int r, int r2, Mora mora) {
-        int i = rand.nextInt(100) + 1;
+        int i = RANDOM.nextInt(100) + 1;
         if (i >= 90)
             System.out.print("");
         if (i < r) {

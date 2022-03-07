@@ -11,7 +11,7 @@ import java.net.URL;
 
 import static Project.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
@@ -145,7 +145,7 @@ public class ImageDrawer {
         if (oImage.getHeight() != oImage.getWidth()) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         oImage = roundImage(oImage, 9999);
         oImage = (BufferedImage) image2Size(oImage, 150, 150);
-        oImage = (BufferedImage) rotateImage(oImage, rand.nextInt(160) + 60);
+        oImage = (BufferedImage) rotateImage(oImage, RANDOM.nextInt(160) + 60);
         BufferedImage bgImage = ImageIO.read(file);
         bgImage = (BufferedImage) image2Size(bgImage, 512, 512);
         BufferedImage image = putImage(bgImage, oImage, 10, 175);

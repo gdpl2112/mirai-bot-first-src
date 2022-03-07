@@ -6,6 +6,7 @@ import io.github.kloping.io.ReadUtils;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -300,7 +301,7 @@ public class Tool {
         return entry;
     }
 
-    public static Random rand = new Random();
+    public static final Random RANDOM = new SecureRandom();
 
     /**
      * 获取图片格式头像
@@ -537,7 +538,7 @@ public class Tool {
      */
     public static long randA(int from, int end) {
         int t1 = from, t2 = end;
-        return Long.valueOf(rand.nextInt(t2 - t1) + t1);
+        return Long.valueOf(RANDOM.nextInt(t2 - t1) + t1);
     }
 
     private static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
@@ -1050,11 +1051,11 @@ public class Tool {
     }
 
     public static final <T> T getRandT(T... ts) {
-        return ts[rand.nextInt(ts.length)];
+        return ts[RANDOM.nextInt(ts.length)];
     }
 
     public static final <T> T getRandT(List<T> ts) {
-        return ts.get(rand.nextInt(ts.size()));
+        return ts.get(RANDOM.nextInt(ts.size()));
     }
 
     /**

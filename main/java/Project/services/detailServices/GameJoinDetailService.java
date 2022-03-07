@@ -29,7 +29,7 @@ import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.objectToJsonString;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.rand;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -51,7 +51,7 @@ public class GameJoinDetailService {
             JoinBroadcast.INSTANCE.broadcast(who, id);
             return join.join(id, who, group);
         } finally {
-            int r = Tool.rand.nextInt(8) + 10;
+            int r = Tool.RANDOM.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
         }
     }
@@ -98,7 +98,7 @@ public class GameJoinDetailService {
             GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
-            if (Tool.rand.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
+            if (Tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
                     >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
@@ -383,11 +383,11 @@ public class GameJoinDetailService {
      */
     public static boolean randHh(int level) {
         if (level > 100 * 10000) {
-            return Tool.rand.nextInt(100) < 38;
+            return Tool.RANDOM.nextInt(100) < 38;
         } else if (level > 10 * 10000) {
-            return Tool.rand.nextInt(100) < 54;
+            return Tool.RANDOM.nextInt(100) < 54;
         }
-        return Tool.rand.nextInt(100) < 75;
+        return Tool.RANDOM.nextInt(100) < 75;
     }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
@@ -410,7 +410,7 @@ public class GameJoinDetailService {
     private static String willGetBone(int level, long who) {
         if (randHh(level)) {
             Integer id = 0;
-            int r1 = Tool.rand.nextInt(5) + 1;
+            int r1 = Tool.RANDOM.nextInt(5) + 1;
             if (level > 5000) {
                 if (level < 20000) {
                     id = Integer.valueOf("15" + r1 + "1");
@@ -436,7 +436,7 @@ public class GameJoinDetailService {
     }
 
     private static String willGetLr(int level, long who) {
-        int r = rand.nextInt(100);
+        int r = RANDOM.nextInt(100);
         if (r > 75) {
 
         } else if (r > 50) {
@@ -444,8 +444,8 @@ public class GameJoinDetailService {
         } else if (r > 25) {
             return willGetBone(level, who);
         } else {
-            r = rand.nextInt(300);
-            int n = rand.nextInt(4) + 1;
+            r = RANDOM.nextInt(300);
+            int n = RANDOM.nextInt(4) + 1;
             if (r == 1) {
                 if (level >= 3000) {
                     addToBgs(who, 1601, ObjType.got);
