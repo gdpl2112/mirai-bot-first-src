@@ -70,9 +70,9 @@ public class GameTool {
      * @param who
      * @return
      */
-    public static boolean HasHh(Long who) {
+    public static boolean hasHh(Long who) {
         GameDataBase.testMan(who);
-        return GameDataBase.getHhs(who)[0] != 0;
+        return getHhs(who).length > 0;
     }
 
     /**
@@ -288,7 +288,7 @@ public class GameTool {
      */
     public static final float getAllHHBL(Long who) {
         float bl = 1;
-        if (HasHh(who)) {
+        if (hasHh(who)) {
             for (int i : getHhs(who)) {
                 bl += getAHBl(i);
             }

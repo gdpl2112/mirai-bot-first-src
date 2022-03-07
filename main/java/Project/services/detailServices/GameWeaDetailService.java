@@ -69,7 +69,7 @@ public class GameWeaDetailService {
     public String use1001(List<String> lps, long who) {
         if (lps.size() == 1) {
             long ar = (long) (500 + (getInfo(who).getAtt() * 0.9f));
-            PersonInfo info_ = getInfo(who);
+            PersonInfo pInfo = getInfo(who);
             ar = ar > 10000 ? 10000 : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
@@ -77,7 +77,7 @@ public class GameWeaDetailService {
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
-                String end = AttPer(who, whos, ar);
+                String end = attPer(who, whos, ar);
                 return end;
             }
         } else {
@@ -178,7 +178,7 @@ public class GameWeaDetailService {
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
-                String end = AttPer(who, whos, ar);
+                String end = attPer(who, whos, ar);
                 return end;
             }
         } else {
@@ -215,6 +215,7 @@ public class GameWeaDetailService {
                 } else {
                     SpringBootResource.getAqBagMapper().update(num, 1, map.get("id"));
                 }
+                break;
             }
         }
     }
@@ -238,8 +239,8 @@ public class GameWeaDetailService {
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");
             } else {
-                String end = AttPer(who, Long.parseLong(whos), ar);
-                if (end.equals(NoH))
+                String end = attPer(who, Long.parseLong(whos), ar);
+                if (end.equals(NO_H))
                     used = false;
                 sb.append(end).append("\r\n").append("======================\r\n");
             }
@@ -247,12 +248,12 @@ public class GameWeaDetailService {
         return new Object[]{sb.toString(), used};
     }
 
-    private static final String NoH = "ta已经没有状态无需攻击";
+    private static final String NO_H = "ta已经没有状态无需攻击";
 
-    public String AttPer(long who, long whos, long ar) {
+    public String attPer(long who, long whos, long ar) {
         StringBuilder sb = new StringBuilder();
         if (!isAlive(Long.valueOf(whos))) {
-            return NoH;
+            return NO_H;
         }
         long hps = getInfo(whos).getHp();
 
@@ -262,8 +263,8 @@ public class GameWeaDetailService {
             sb.append(GameDetailService.beaten(whos, who, ar));
 
         if (!isAlive(Long.valueOf(whos))) {
-            int L = (int) randLong(250, 0.7f, 1.0f);
-            putPerson(getInfo(who).addGold((long) L
+            int l = (int) randLong(250, 0.7f, 1.0f);
+            putPerson(getInfo(who).addGold((long) l
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)
                             .setType0(TradingRecord.Type0.gold)
@@ -271,9 +272,9 @@ public class GameWeaDetailService {
                             .setMain(who)
                             .setFrom(who)
                             .setDesc("击败" + whos)
-                            .setMany(L)
+                            .setMany(l)
             ));
-            return "你对ta 造成了:" + ar + "点伤害" + sb + "\r\nta已经无状态,你从他身上摸到" + L + "个金魂币";
+            return "你对ta 造成了:" + ar + "点伤害" + sb + "\r\nta已经无状态,你从他身上摸到" + l + "个金魂币";
         } else {
             return "你对ta 造成了:" + ar + "点伤害" + sb;
         }

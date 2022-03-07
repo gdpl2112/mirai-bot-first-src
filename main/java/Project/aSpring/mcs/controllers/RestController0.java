@@ -1,13 +1,15 @@
 package Project.aSpring.mcs.controllers;
 
-import io.github.kloping.mirai0.Entitys.TradingRecord;
 import Project.controllers.auto.ControllerSource;
 import Project.dataBases.OtherDatabase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +63,19 @@ public class RestController0 {
         }
     }
 
+    @Value("${auth.pwd:123456}")
+    String pwd0;
+
+    @GetMapping("authorization0")
+    public String authorization0(
+            @RequestParam("pwd") String pwd,
+            @RequestParam("qid") Long qid) {
+        if (pwd.equals(pwd0)) {
+            String code0 = getCode();
+            MessageTools.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
+            return code0;
+        } else return "-1";
+    }
 
     @GetMapping("AuthCap0")
     public String authCap0(@RequestParam("canId") String canId
@@ -74,5 +89,10 @@ public class RestController0 {
             return JSON.toJSONString(records);
         }
         return "err";
+    }
+
+    @GetMapping("getName")
+    public String name(@RequestParam("qid") Long qid) {
+        return MemberTools.getName(qid);
     }
 }
