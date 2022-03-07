@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.6:修复了暗器问题").append("\n");
         UPDATE_LOG.append("3.5:修复了不回复的问题").append("\n");
         UPDATE_LOG.append("3.4: 欢迎访问官网\nhttp://kloping.top\nhttp://kloping.life\n修复了商城无法显示的问题").append("\n");
         UPDATE_LOG.append("3.2:修复签到/签榜bug").append("\n");
