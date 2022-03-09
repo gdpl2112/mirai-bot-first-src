@@ -1,6 +1,7 @@
 package Project.aSpring;
 
 import Project.aSpring.mcs.mapper.*;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.clasz.ClassUtils;
 import org.jsoup.Jsoup;
@@ -162,11 +163,11 @@ public class SpringBootResource {
 
     public static String getPublicIp() {
         try {
-            Document document = Jsoup.connect("https://2021.ip138.com/")
+            Document document = Jsoup.connect("https://api.vvhan.com/api/getIpInfo")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62")
                     .ignoreContentType(true)
                     .get();
-            String ip = document.getElementsByTag("a").get(0).text();
+            String ip = JSON.parseObject(document.body().text()).getString("ip");
             return ip;
         } catch (IOException e) {
             e.printStackTrace();

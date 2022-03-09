@@ -1,13 +1,16 @@
 package Project.detailPlugin;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.Entitys.Curfew;
 import io.github.kloping.mirai0.Main.Resource;
-import lombok.SneakyThrows;
 
 import java.io.File;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 宵禁调度器
@@ -16,8 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  */
 @Entity
-public class CurfewScheduler extends TimerTask {
+public class CurfewScheduler extends TimerTask implements Runnable {
     public static final Map<Long, Curfew> CURFEW_MAP = new ConcurrentHashMap<>();
+    private int index = 0;
 
     @Override
     public void run() {
@@ -47,7 +51,7 @@ public class CurfewScheduler extends TimerTask {
     }
 
     public CurfewScheduler() {
-        new Timer().schedule(this, 16000, 60000);
+        FrameUtils.SERVICE.scheduleAtFixedRate(this, 20, 60, TimeUnit.SECONDS);
         notify0();
     }
 

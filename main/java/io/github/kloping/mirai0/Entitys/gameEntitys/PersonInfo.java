@@ -582,6 +582,18 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    public PersonInfo eddTag(Number v1, String myTag) {
+        Number v0 = getTagValue(myTag);
+        if (v0.longValue() > v1.longValue()) {
+            eddTag(myTag, v0);
+            v0 = v0.longValue() - v1.longValue();
+            addTag(myTag, v0);
+        } else {
+            eddTag(myTag);
+        }
+        return this;
+    }
+
     public PersonInfo eddTag(String myTag) {
         if (this.myTag.contains(myTag)) {
             String t1 = this.myTag;

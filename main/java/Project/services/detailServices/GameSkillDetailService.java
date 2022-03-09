@@ -1,19 +1,15 @@
 package Project.services.detailServices;
 
+import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.broadcast.game.HpChangeBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
+import io.github.kloping.date.FrameUtils;
+import io.github.kloping.mirai0.Entitys.gameEntitys.*;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.getInfo;
@@ -136,7 +132,7 @@ public class GameSkillDetailService {
             case 14:
                 return String.format("令指定一个人无法躲避下次的攻击");
             case 15:
-                return String.format("为自己增加一个最大生命值的%s%%的永久护盾(直到被打掉为止)", getAddP(jid, id));
+                return String.format("为自己增加一个最大生命值的%s%%的永久护盾", getAddP(jid, id));
             case 16:
                 return String.format("为自己增加一个最大生命值的%s%%的临时护盾持续时间%s秒,##永久护盾和临时护盾不能叠加", getAddP(jid, id), getAddP(jid, id) / 5);
             case 17:
@@ -517,5 +513,64 @@ public class GameSkillDetailService {
             }
         }
         return ls.toArray(new Long[0]);
+    }
+
+    private static List<TagPack> tagPacks = new LinkedList<>();
+
+    static {
+        FrameUtils.add(() -> {
+            Iterator<TagPack> iterator = tagPacks.listIterator();
+            while (iterator.hasNext()) {
+                TagPack tagP = iterator.next();
+                if (!tagP.getEffected()) {
+                    tagP.effect();
+                } else if (tagP.over()) {
+                    tagP.loseEffect();
+                    iterator.remove();
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加护盾
+     *
+     * @param q 谁
+     * @param v 值
+     * @param t 时长 最大 30*60*1000
+     */
+    public static void addShield(long q, Long v, Long t) {
+        ShieldPack shieldPack = new ShieldPack();
+        shieldPack.setQ(q).setValue(v).setEffected(false);
+        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + t);
+        tagPacks.add(shieldPack);
+    }
+
+    /**
+     * 添加护盾
+     *
+     * @param q
+     * @param v
+     */
+    public static void addShield(long q, Long v) {
+        ShieldPack shieldPack = new ShieldPack();
+        shieldPack.setQ(q).setValue(v).setEffected(false);
+        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + 30 * 60 * 1000);
+        tagPacks.add(shieldPack);
+    }
+
+    /**
+     * 添加护盾
+     *
+     * @param q    谁
+     * @param v    值
+     * @param maxV 最大值
+     * @param t    时长 最大 30*60*1000
+     */
+    public static void addShield(long q, Long v, Long maxV, Long t) {
+        ShieldPack shieldPack = new ShieldPack();
+        shieldPack.setQ(q).setValue(v).setEffected(false);
+        shieldPack.setMax(maxV).setTime(System.currentTimeMillis() + t);
+        tagPacks.add(shieldPack);
     }
 }
