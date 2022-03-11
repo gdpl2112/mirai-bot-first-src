@@ -1,6 +1,7 @@
 package Project.services.detailServices.ac;
 
 import Project.broadcast.enums.ObjType;
+import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
@@ -196,7 +197,7 @@ public class JoinAcService {
     public static final String[] TIPS0 = {
             "你去落日森林,欣赏了风景<Face:335>",
             "你从花开<Face:64>看到了花落<Face:63>",
-            "你去落日森林捡到了一片落叶\uD83C\uDF42"
+            "你去落日森林,溜达了一圈<Face:185>",
     };
 
     private static final int MAX_RAND3 = 300;
@@ -226,15 +227,18 @@ public class JoinAcService {
             ghostObj = GhostObj.create(1000, 701, 705);
         } else if (r < MIN_MEET3) {
             ghostObj = GhostObj.create(100, 701, 705);
-        } else if (r < MIN_MEET3 + 40) {
+        } else if (r < MIN_MEET3 + 20) {
             GameDetailService.addHp(who, 3);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT0;
-        } else if (r < MIN_MEET3 + 80) {
+        } else if (r < MIN_MEET3 + 40) {
             GameDetailService.addHl(who, 4);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT1;
-        } else if (r < MIN_MEET3 + 120) {
+        } else if (r < MIN_MEET3 + 60) {
             GameDetailService.addHj(who, 5);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT2;
+        } else if (r < MIN_MEET3 + 100) {
+            GameDataBase.addToBgs(who, 114, ObjType.got);
+            return "<Pic:./images/ac2.png>.\n你去落日森林捡到了一片落叶碎片\uD83C\uDF42已存入背包";
         } else {
             return "<Pic:./images/ac2.png>.\n" + Tool.getRandT(TIPS0);
         }

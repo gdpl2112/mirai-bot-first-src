@@ -108,6 +108,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(111, "融合戒指");
         ID_2_NAME_MAPS.put(112, "精神神石");
         ID_2_NAME_MAPS.put(113, "遗忘药水");
+        ID_2_NAME_MAPS.put(114, "落叶碎片");
+        ID_2_NAME_MAPS.put(115, "落日花瓣");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
@@ -201,6 +203,8 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(111, "融合戒指,用于与ta人融合武魂,以激活双修");
         ID_2_INTRO_MAPS.put(112, "精神神石,增加最大精神力");
         ID_2_INTRO_MAPS.put(113, "遗忘药水,用来忘掉某些事");
+        ID_2_INTRO_MAPS.put(114, "落日碎片,用于合成落日花瓣");
+        ID_2_INTRO_MAPS.put(115, "落日花瓣,下次进落日森林一定遇到魂兽");
 
         ID_2_INTRO_MAPS.put(1000, "暗器零件,用于制作暗器;");
         ID_2_INTRO_MAPS.put(1001, "暗器,诸葛神弩,单体伤害,造成 500+攻击x0.9的伤害,需要选择某(所有暗器,不消耗魂力)");

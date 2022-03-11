@@ -55,5 +55,6 @@ public class GameObjService implements IGameObjService {
         needNums.put(1603, getEntry(1602, 4));
         needNums.put(1604, getEntry(1603, 4));
         needNums.put(1605, getEntry(1604, 5));
+        needNums.put(115, getEntry(114, 8));
     }
 }

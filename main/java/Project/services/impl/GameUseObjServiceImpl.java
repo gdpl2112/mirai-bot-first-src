@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -85,7 +84,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (num <= 0 || num > 50)
             return NUM_TOO_MUCH;
         if (getNumForO(sss, getNameById(id)) >= num) {
-            String str = new UseTool().UseObjNum(who, id, num);
+            String str = new UseTool().useObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)));
             return "批量使用" + getPic(id) + str;
@@ -201,7 +200,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             personInfo = getInfo(who);
         }
 
-        public String UseObjNum(Long who, Integer id, Integer num) {
+        public String useObjNum(Long who, Integer id, Integer num) {
             PersonInfo personInfo = getInfo(who);
             long l = 0;
             switch (id) {
@@ -383,6 +382,17 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             putPerson(getInfo(who).addHj(l).addHjL(l));
             remove(112, who);
             return "增加了" + l + "点最大精神力";
+        }
+
+        public String use115(long who) {
+            Integer nr = personInfo.getNextR2();
+            if (nr != -2) {
+                remove(115, who);
+                putPerson(personInfo.setNextR2(-2));
+                return "使用成功!!";
+            } else {
+                return "使用失败,另一个正在使用..";
+            }
         }
 
         public String use1000(long who) {

@@ -47,7 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("3.11:永久护盾最长时间30分钟").append("\n");
+        UPDATE_LOG.append("3.11:更新了代码,新物品:落叶碎片,落日花瓣 详情请见说明").append("\n");
         UPDATE_LOG.append("3.9:永久护盾最长时间30分钟").append("\n");
         UPDATE_LOG.append("3.6:修复了暗器问题").append("\n");
         UPDATE_LOG.append("3.5:修复了不回复的问题").append("\n");
