@@ -1,31 +1,32 @@
 package Project.services.impl;
 
+import Project.broadcast.enums.ObjType;
+import Project.broadcast.game.SkillUseBroadcast;
+import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
+import Project.dataBases.skill.SkillDataBase;
+import Project.interfaces.Iservice.ISkillService;
+import Project.services.detailServices.GameDetailService;
+import Project.skill.SkillFactory;
+import Project.skill.SkillTemplate;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
-import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.GameDetailService;
-import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import Project.broadcast.game.SkillUseBroadcast;
-import Project.broadcast.enums.ObjType;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.util.Map;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.ResourceSet.FinalString.*;
 import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
 import static Project.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
+import static Project.ResourceSet.FinalString.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.removeFromBgs;
+import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
 /**
  * @author github-kloping
@@ -88,14 +89,12 @@ public class GameSkillServiceImpl implements ISkillService {
 
     private static String getIntro(Integer id, Integer jid, Integer st, int wh) {
         try {
-            SkillIntro intro = new SkillIntro();
-            intro.setId(id);
-            intro.setJid(jid);
-            intro.setSt(st);
-            intro.setHasTime(getDuration(jid).longValue());
-            intro.setTypes(getTypesFromJid0(jid));
-            intro.setWh(wh);
-            return intro.getContent();
+            SkillTemplate sk = SkillFactory.factory(jid);
+            sk.setId(id);
+            sk.setSt(st);
+            sk.setHasTime(getDuration(jid).longValue());
+            sk.setWh(wh);
+            return sk.getContent();
         } catch (Exception e) {
             e.printStackTrace();
             return "魂技介绍获取异常";

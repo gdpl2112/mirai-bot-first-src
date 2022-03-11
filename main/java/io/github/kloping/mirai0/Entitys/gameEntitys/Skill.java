@@ -28,6 +28,9 @@ public abstract class Skill implements Runnable {
         this.name = name;
     }
 
+    /**
+     * run before
+     */
     public abstract void before();
 
     public void setGroup(Group group) {

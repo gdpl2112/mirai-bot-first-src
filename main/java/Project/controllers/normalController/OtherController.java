@@ -102,7 +102,7 @@ public class OtherController {
         baseMenuStr.append("融合武魂 <At>  # 需要融合戒指\n");
         baseMenuStr.append("魂兽击杀排行\n");
         baseMenuStr.append("关系列表\n");
-        baseMenuStr.append("收徒 <At>\n");
+        baseMenuStr.append("收徒<At>\n");
         baseMenuStr.append("出师\n");
         baseMenuStr.append("====");
         baseMenuStr.append("魂环吸收限制");

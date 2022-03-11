@@ -1,6 +1,7 @@
 package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
+import Project.skill.SkillFactory;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
@@ -179,17 +180,12 @@ public class SkillDataBase {
      */
     public static Skill get(Number qq, SkillInfo info, Number[] numbers) {
         try {
-            Method method = SkillExecute.class
-                    .getDeclaredMethod("create" + info.getJid(), SkillInfo.class, Number.class, Number[].class);
-            method.setAccessible(true);
-            Skill skill = (Skill) method.invoke(null, info, qq, numbers);
-            return skill;
+            return SkillFactory.factory(info.getJid()).create(info, qq, numbers);
         } catch (Exception e) {
             return null;
         }
     }
 
-    //===============================================================================================
     public static final int t4 = 60000 * 2;
     public static final int t5 = 60000 * 2;
     public static final int t6 = 60000 * 2;

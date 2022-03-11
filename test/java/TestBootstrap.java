@@ -16,27 +16,6 @@ import static Project.dataBases.ZongMenDataBase.getZongInfo;
 public class TestBootstrap {
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
-        File[] files = new File(ZongMenDataBase.path).listFiles();
-        for (File file1 : files) {
-            if (file1.isDirectory()) {
-                Zong zong = getZongInfo(Integer.valueOf(file1.getName()));
-                for (Number number : zong.getMember()) {
-                    Zon zon = getZonInfo(number.longValue());
-                    if (zon == null || zon.getQq() == null) {
-                        System.err.println(zong.getId());
-                    } else {
-                        try {
-                            getZonMapper().insert(zon);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                getZongMapper().insert(zong);
-            } else {
-                continue;
-            }
-        }
         System.err.println("all is ok");
     }
 }
