@@ -384,7 +384,6 @@ public class MessageTools {
         return bytes;
     }
 
-
     public static void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
         Group group = bot.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);

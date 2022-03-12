@@ -1,19 +1,20 @@
 package Project.services.detailServices;
 
 import Project.dataBases.GameDataBase;
+import Project.dataBases.ZongMenDataBase;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
-import Project.dataBases.ZongMenDataBase;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.MySpringTool.annotations.Entity;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.aSpring.SpringBootResource.getZonMapper;
+import static Project.aSpring.SpringBootResource.getZongMapper;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 
@@ -184,27 +185,25 @@ public class ZongDetailService {
                     long z = z1.longValue();
                     qq2id.remove(z);
                 }
-                File file = new File(path + "/" + zong.getId());
-                for (File f1 : file.listFiles()) {
-                    f1.delete();
+                for (Number number : zong.getMember()) {
+                    getZonMapper().deleteById(number.longValue());
                 }
-                file.delete();
+                getZongMapper().deleteById(zong.getId());
                 GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 30).apply();
                 return true;
             } else if (zon.getLevel() == 1) {
                 zong.getElder().remove(who);
                 zong.getMember().remove(who);
                 qq2id.remove(who);
-                File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");
+                getZonMapper().deleteById(who);
                 putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
-                putZongInfo(zong);
-                return file.delete() & putZongInfo(zong);
+                return putZongInfo(zong);
             } else if (zon.getLevel() == 0) {
                 qq2id.remove(who);
                 zong.getMember().remove(who);
-                putZongInfo(zong);
-                File file = new File(path + "/" + zong.getId() + "/" + zon.getQq() + ".json");
-                return file.delete() & putZongInfo(zong);
+                getZonMapper().deleteById(who);
+                putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
+                return putZongInfo(zong);
             }
             return true;
         } catch (Exception e) {

@@ -34,30 +34,26 @@ public class ZongMenDataBase {
     }
 
     private void initMap() {
-//        File[] files = new File(path).listFiles((f) -> f.isDirectory());
-//        for (File file : files) {
-//            Integer id = Integer.valueOf(file.getName());
-//            for (Number r : getZongInfoFromFile(id).getMember()) {
-//                qq2id.put(r.longValue(), id);
-//            }
-//        }
-        try{
+        try {
             for (Zong zong : getZongMapper().selectAll()) {
                 for (Number number : zong.getMember()) {
                     qq2id.put(number.longValue(), zong.getId());
+                    idx = idx >= zong.getId() ? idx : zong.getId() + 1;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static int idx = 0;
 
     public static boolean createNewZong(Long qq, String name) {
         try {
             if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
                 return false;
             Zong zong = new Zong();
-            Integer id = Integer.valueOf(qq2id.get(0L) + "");
+            Integer id = Integer.valueOf(idx);
             zong.setId(id)
                     .setName(name)
                     .setLevel(1)
@@ -73,8 +69,7 @@ public class ZongMenDataBase {
             zong.getMember().add(qq);
             getZongMapper().insert(zong);
             getZonMapper().insert(zon);
-            qq2id.put(qq, id++);
-            qq2id.put(0L, id);
+            qq2id.put(qq, id);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
