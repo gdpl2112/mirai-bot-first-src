@@ -7,6 +7,7 @@ public final class ResourceSet {
     public static final class FinalString {
         public static final String JUMP_STR_0 = "$";
         public static final String ERR_TIPS = "错误";
+        public static final String OK_TIPS = "成功";
         public static final String IS_ILLEGAL_TIPS_1 = "存在敏感字节";
         public static final String STR_TOO_MUCH_LEN = "该组字符过长";
         public static final String ADD_TO_AUTO_REPLY_ERROR = "添加失败,可能因为不支持该字符,或已存在";

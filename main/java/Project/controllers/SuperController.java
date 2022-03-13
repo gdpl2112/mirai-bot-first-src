@@ -22,9 +22,10 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.ResourceSet.FinalString.*;
+import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.GameDataBase.HIST_INFOS;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
@@ -258,58 +259,26 @@ public class SuperController {
         }
     }
 
-/*
-    @Action("/moveKC")
-    public Object m5() {
-        KILLED_C.forEach((k, v) -> {
-            getKillGhostMapper().insert(v, k.longValue());
-        });
-        return "ok";
-    }
-
-    @Action("/moveFathers")
-    public Object m0() {
-        for (File file : new File(path + "/mainfist/fathers/").listFiles()) {
-            Long qid = Long.parseLong(file.getName().trim());
-            DataBase.addFather(qid);
+    @Action("/添加物品<.+=>str>")
+    public Object add0(@Param("str") String str) {
+        Long who = MessageTools.getAtFromString(str);
+        if (who == -1) {
+            return NOT_FOUND_AT;
         }
-        return "moved";
-    }
-
-    @Action("/moveGroupConf")
-    public Object m1() {
-        for (File file : new File(path + "/mainfist/groups/").listFiles()) {
-            String s = file.getName();
-            Long id = Long.parseLong(s.substring(0, s.length() - 5).trim());
-            GroupConf conf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
-            DataBase.getConf(id);
-            DataBase.setConf(conf);
+        str = str.replace(who.toString(), "");
+        String what = str.trim().replaceAll(",", "").replaceAll("个", "");
+        Integer num = null;
+        try {
+            num = Integer.valueOf(Tool.findNumberFromString(what));
+            what = what.replaceFirst(num + "", "");
+        } catch (Exception e) {
+            num = null;
         }
-        return "moved";
-    }
-
-    @Action("/moveTR")
-    public Object m2() {
-        for (File file : new File(OtherDatabase.lib).listFiles()) {
-            String n0 = file.getName();
-            Long qid = Long.valueOf(n0);
-            for (TradingRecord tradingRecord : OtherDatabase.getListF(qid.longValue())) {
-                getTradingRecordMapper().insert(tradingRecord);
-            }
+        Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
+        if (id == null) return ERR_TIPS;
+        for (Integer integer = 0; integer < num; integer++) {
+            getBagMapper().insertWithDesc(id, who.longValue(), System.currentTimeMillis(), "补偿添加");
         }
-        return "01";
+        return OK_TIPS;
     }
-
-    @Action("/moveSI")
-    public Object m3() {
-        File[] files = new File(ShopDataBase.path).listFiles();
-        for (File file : files) {
-            String js = Tool.getStringFromFile(file.getPath(), "utf-8");
-            ShopItem item = JsonUtils.jsonStringToObject(js, ShopItem.class);
-            getShopItemMapper().insert(item);
-            ITEM_MAP.put(item.getId(), item);
-        }
-        return "1";
-    }*/
-
 }
