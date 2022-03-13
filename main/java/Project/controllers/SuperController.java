@@ -265,7 +265,7 @@ public class SuperController {
         if (who == -1) {
             return NOT_FOUND_AT;
         }
-        str = str.replace(who.toString(), "");
+        str = str.replace("[@" + who.toString() + "]", "");
         String what = str.trim().replaceAll(",", "").replaceAll("个", "");
         Integer num = null;
         try {
