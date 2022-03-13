@@ -124,7 +124,6 @@ public class JoinAcService {
                                 .setType0(TradingRecord.Type0.gold)
                                 .setType1(TradingRecord.Type1.add)
                 ));
-
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
             } else if (Tool.RANDOM.nextInt(1000) == 0) {
                 int id = 111;
@@ -178,8 +177,6 @@ public class JoinAcService {
                 addToBgs(who, 112, ObjType.got);
                 return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
             }
-            int r1 = Tool.RANDOM.nextInt(3);
-            ghostObj.setId(601 + r1);
         } else {
             return "你去极北之地 ,只捡到了个寂寞。。" + Tool.toFaceMes(String.valueOf(271));
         }

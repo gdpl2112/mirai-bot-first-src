@@ -16,11 +16,11 @@ public interface IGameUseObjService   {
 
     String buyObj(Long who, int id, Integer num);
 
-    String SleObj(Long who, int id);
+    String sleObj(Long who, int id);
 
-    String SleObj(Long who, int id, Integer num);
+    String sleObj(Long who, int id, Integer num);
 
-    String ObjTo(Long who, int id, Long whos);
+    String objTo(Long who, int id, Long whos);
 
-    String ObjTo(Long who, int id, Long whos, Integer num);
+    String objTo(Long who, int id, Long whos, Integer num);
 }

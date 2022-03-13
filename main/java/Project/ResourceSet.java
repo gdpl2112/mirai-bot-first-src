@@ -69,6 +69,8 @@ public final class ResourceSet {
         public static final String NOT_MANAGER = "权限不足#不是管理";
         public static final String PERMISSION_DENIED = "权限不足";
         public static final String HTTPS_PRE = "https:";
+        public static final String TRANSFER_TOO_MUCH = "转让物品一次不要超过20个";
+        public static final String SLE_TOO_MUCH = "出售物品一次不要超过20个";
 
         public static final String MONTH = "月";
         public static final String DAY = "天";
@@ -136,5 +138,13 @@ public final class ResourceSet {
          * 最大批量抢劫次数
          */
         public static final int MAX_ROBBERY_TIMES = 12;
+        /**
+         * 转让最大数量
+         */
+        public static final int TRANSFER_ONE_MAX = 20;
+        /**
+         * 一次出售数量
+         */
+        public static final int SLE_ONE_MAX = 20;
     }
 }

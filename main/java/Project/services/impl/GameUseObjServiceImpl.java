@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.ResourceSet.FinalFormat.*;
 import static Project.ResourceSet.FinalString.*;
+import static Project.ResourceSet.FinalValue.SLE_ONE_MAX;
+import static Project.ResourceSet.FinalValue.TRANSFER_ONE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
@@ -427,7 +429,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public static int maxSle = 2000;
 
     @Override
-    public String SleObj(Long who, int id) {
+    public String sleObj(Long who, int id) {
         try {
             List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
             if (id == 206 || id == 207)
@@ -460,13 +462,15 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     }
 
     @Override
-    public String SleObj(Long who, int id, Integer num) {
+    public String sleObj(Long who, int id, Integer num) {
+        if (num >= SLE_ONE_MAX) {
+            return SLE_TOO_MUCH;
+        }
         if (contiansBgsNum(who, id, num)) {
             if (id == 206 || id == 207)
                 return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             removeFromBgs(who, id, num, ObjType.sell);
             long l;
-
             if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
             else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
             else return "商城中为发现此物品";
@@ -485,22 +489,27 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
             ));
             return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
-        } else
+        } else {
             return "你的背包里 没有足够的 " + getNameById(id);
+        }
     }
 
     @Override
-    public String ObjTo(Long who, int id, Long whos, Integer num) {
+    public String objTo(Long who, int id, Long whos, Integer num) {
+        if (num >= TRANSFER_ONE_MAX) {
+            return TRANSFER_TOO_MUCH;
+        }
         if (contiansBgsNum(who, id, num)) {
             GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
             GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);
             return "批量 转让 完成";
-        } else
+        } else {
             return "你的背包里 没有足够的 " + getNameById(id);
+        }
     }
 
     @Override
-    public String ObjTo(Long who, int id, Long whos) {
+    public String objTo(Long who, int id, Long whos) {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (bgids.contains(id)) {
             GameDataBase.removeFromBgs(who, id, ObjType.transLost);

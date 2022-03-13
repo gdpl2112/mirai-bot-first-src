@@ -1,6 +1,5 @@
 package Project.services.detailServices.ac.entity;
 
-import Project.ResourceSet;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -10,7 +9,6 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.Set;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.ResourceSet.FinalString.NEWLINE;
 
 /**
@@ -40,7 +38,7 @@ public class Ghost701 extends GhostWithGroup {
                         long v = Ghost701.this.getHpL() / 100;
                         v = v <= 0 ? 1 : v;
                         MessageTools.sendMessageInGroupWithAt(
-                                getName() + "对你造成" + v + "伤害" + ResourceSet.FinalString.SPLIT_LINE_0 + NEWLINE
+                                getName() + "对你造成" + v + "伤害" + NEWLINE
                                         + GameDetailService.beaten(baseInfo.getId(), -1, v),
                                 group.getId(), baseInfo.getId().longValue()
                         );

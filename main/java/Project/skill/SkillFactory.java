@@ -18,7 +18,7 @@ public class SkillFactory {
     static {
         PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
         try {
-            for (Class<?> aClass : scanner.scan("Project.skill")) {
+            for (Class<?> aClass : scanner.scan(SkillFactory.class.getPackage().getName())) {
                 if (aClass==SkillTemplate.class)continue;
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     String nStr = aClass.getSimpleName();

@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.13:限制了物品一次物品 转让/出售 的数量#避免bug").append("\n");
         UPDATE_LOG.append("3.12:修复了创建宗门失败的bug").append("\n");
         UPDATE_LOG.append("3.11:更新了代码,新物品:落叶碎片,落日花瓣 详情请见说明").append("\n");
         UPDATE_LOG.append("3.9:永久护盾最长时间30分钟").append("\n");

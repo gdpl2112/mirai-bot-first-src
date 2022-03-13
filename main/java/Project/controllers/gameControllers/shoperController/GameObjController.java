@@ -1,22 +1,22 @@
 package Project.controllers.gameControllers.shoperController;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameUseObjService;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -112,7 +112,7 @@ public class GameObjController {
     }
 
     @Action(value = "物品转让<.{1,}=>name>", otherName = {"转让物品<.{1,}=>name>", "转让<.{1,}=>name>"})
-    public String Transfer(User qq, @Param("name") String name, @AllMess String message) {
+    public String transfer(User qq, @Param("name") String name, @AllMess String message) {
         try {
             if (longs.contains(qq.getId())) return "Can't";
             long whos = MessageTools.getAtFromString(message);
@@ -130,9 +130,9 @@ public class GameObjController {
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             String s;
             if (num == null || num.intValue() == 1)
-                s = gameUseObiService.ObjTo(qq.getId(), id, whos);
+                s = gameUseObiService.objTo(qq.getId(), id, whos);
             else
-                s = gameUseObiService.ObjTo(qq.getId(), id, whos, num);
+                s = gameUseObiService.objTo(qq.getId(), id, whos, num);
             return s;
         } catch (Exception e) {
             return "未找到相关物品";
@@ -141,7 +141,7 @@ public class GameObjController {
 
 
     @Action("出售<.{1,}=>name>")
-    public Object Sle(User qq, @Param("name") String name, Group group) {
+    public Object sle(User qq, @Param("name") String name, Group group) {
         try {
             String what = name.trim().replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
@@ -154,8 +154,8 @@ public class GameObjController {
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
             if (id == null) return "未知物品";
             String mess = "";
-            if (num == null || num.intValue() == 1) mess = gameUseObiService.SleObj(qq.getId(), id);
-            else mess = gameUseObiService.SleObj(qq.getId(), id, num);
+            if (num == null || num.intValue() == 1) mess = gameUseObiService.sleObj(qq.getId(), id);
+            else mess = gameUseObiService.sleObj(qq.getId(), id, num);
             return mess;
         } catch (Exception e) {
             e.printStackTrace();
