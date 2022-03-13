@@ -22,7 +22,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
  * @author github-kloping
  */
 public class GameDataBase {
-    public static String path;
+    public static String path = "./data";
 
     public static final Map<Integer, String> ID_2_NAME_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID_2_INTRO_MAPS = new ConcurrentHashMap<>();
