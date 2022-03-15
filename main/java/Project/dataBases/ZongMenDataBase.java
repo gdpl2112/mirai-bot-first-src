@@ -171,6 +171,7 @@ public class ZongMenDataBase {
                 .setXper(0)
                 .setLevel(0)
                 .setId(zong.getId());
+        qq2id.put(qq, zong.getId());
         return putZonInfo(zon);
     }
 
