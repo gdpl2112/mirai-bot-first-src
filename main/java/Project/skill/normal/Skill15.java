@@ -18,9 +18,7 @@ import Project.services.detailServices.GameBoneDetailService;
  * @author github.kloping
  */
 public class Skill15 extends SkillTemplate {
-    @Override
-    public void before() {
-    }
+    
 
     public Skill15() {
         super(15);

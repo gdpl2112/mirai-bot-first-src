@@ -153,7 +153,8 @@ public class MyHandler extends SimpleListenerHost {
                         Nudge nudge = member.nudge();
                         nudge.sendTo(group);
                         group.sendMessage(message);
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                     CD = System.currentTimeMillis() + REPEAT_CD;
                     upMessage = null;
                 } else {

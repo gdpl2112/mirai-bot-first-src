@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.15:修复了已知bug").append("\n");
         UPDATE_LOG.append("3.15:暗器菜单的更新,修复了任务的bug").append("\n");
         UPDATE_LOG.append("3.13:限制了物品一次物品 转让/出售 的数量#避免bug").append("\n");
         UPDATE_LOG.append("3.12:修复了创建宗门失败的bug").append("\n");

@@ -63,7 +63,7 @@ public class ZongMenController {
 
     @Action("宗门信息")
     public String info(User qq, Group group) {
-        return zongMenService.ZongInfo(qq.getId(), group);
+        return zongMenService.zongInfo(qq.getId(), group);
     }
 
     @Action("宗门列表")

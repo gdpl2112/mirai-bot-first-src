@@ -14,15 +14,19 @@ import java.util.Map;
  */
 public class SkillFactory {
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP = new HashMap<>();
+    public static int normalSkillNum = 0;
 
     static {
         PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
         try {
             for (Class<?> aClass : scanner.scan(SkillFactory.class.getPackage().getName())) {
-                if (aClass==SkillTemplate.class)continue;
+                if (aClass == SkillTemplate.class) continue;
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     String nStr = aClass.getSimpleName();
                     Integer jid = Integer.valueOf(Tool.findNumberFromString(nStr));
+                    if (jid < 70) {
+                        normalSkillNum++;
+                    }
                     CLASS_MAP.put(jid, (Class<SkillTemplate>) aClass);
                 }
             }

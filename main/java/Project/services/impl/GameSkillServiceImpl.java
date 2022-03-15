@@ -26,6 +26,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.skill.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
 /**
@@ -53,7 +54,7 @@ public class GameSkillServiceImpl implements ISkillService {
         Integer id = is[st - 1];
         Integer id2;
         while (true) {
-            id2 = Tool.RANDOM.nextInt(21);
+            id2 = Tool.RANDOM.nextInt(normalSkillNum);
             boolean k = false;
             for (SkillInfo i : skinfo.values()) {
                 if (i.getJid().intValue() == id2.intValue()) {

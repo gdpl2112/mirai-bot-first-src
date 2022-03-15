@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import static Project.dataBases.GameDataBase.getWarp;
-import static Project.dataBases.GameDataBase.setWarp;
 
 /**
  * @author github-kloping
@@ -34,7 +33,7 @@ public class Warp {
     }
 
     public static Warp getInstance(long q) {
-        return SpringBootResource.getWarpMapper().selectById(q);
+        return getWarp(q);
     }
 
     public static Warp getInstanceFromFile(long q) {

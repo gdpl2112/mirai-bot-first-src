@@ -17,7 +17,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
 @Accessors(chain = true)
 @Getter
 @Setter
-public abstract class SkillTemplate extends Skill {
+public abstract class SkillTemplate {
     private final Integer jid;
 
     private Integer id;

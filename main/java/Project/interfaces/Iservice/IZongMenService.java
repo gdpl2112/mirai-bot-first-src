@@ -6,11 +6,11 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
 public interface IZongMenService {
     String create(String name, Long who, Group group);
 
-    String ZongInfo(Long qq, Group group);
+    String zongInfo(Long qq, Group group);
 
-    String ZongInfo(Zong zong, Group group);
+    String zongInfo(Zong zong, Group group);
 
-    String ZongInfo(Integer id, Group group);
+    String zongInfo(Integer id, Group group);
 
     String List(Group group);
 

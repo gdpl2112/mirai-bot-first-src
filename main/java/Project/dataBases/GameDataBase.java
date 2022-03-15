@@ -611,7 +611,12 @@ public class GameDataBase {
     }
 
     public static Warp getWarp(Number id) {
-        return SpringBootResource.getWarpMapper().selectById(id.longValue());
+        Warp warp = SpringBootResource.getWarpMapper().selectById(id.longValue());
+        if (warp == null) {
+            warp = new Warp().setId(id.toString());
+            SpringBootResource.getWarpMapper().insert(warp);
+        }
+        return warp;
     }
 
     public static Warp getWarpFromFile(Number id) {

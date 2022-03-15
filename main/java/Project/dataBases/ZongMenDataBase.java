@@ -48,12 +48,16 @@ public class ZongMenDataBase {
 
     private static int idx = 0;
 
+    public static int getIdx() {
+        return idx++;
+    }
+
     public static boolean createNewZong(Long qq, String name) {
         try {
             if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
                 return false;
             Zong zong = new Zong();
-            Integer id = Integer.valueOf(idx);
+            Integer id = Integer.valueOf(getIdx());
             zong.setId(id)
                     .setName(name)
                     .setLevel(1)

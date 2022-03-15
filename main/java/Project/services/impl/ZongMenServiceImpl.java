@@ -80,20 +80,20 @@ public class ZongMenServiceImpl implements IZongMenService {
                 .setMany(450)
         ));
         putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
-        return ZongInfo(who, group);
+        return zongInfo(who, group);
     }
 
     @Override
-    public String ZongInfo(Long qq, Group group) {
+    public String zongInfo(Long qq, Group group) {
         if (qq2id.containsKey(qq)) {
             Integer id = Integer.valueOf(qq2id.get(qq) + "");
-            return ZongInfo(id, group);
+            return zongInfo(id, group);
         } else
             return ("你没有加入任何宗门");
     }
 
     @Override
-    public String ZongInfo(Zong zong, Group group) {
+    public String zongInfo(Zong zong, Group group) {
         StringBuilder sb = new StringBuilder();
         String icon = zong.getIcon();
         sb.append("宗门名称:").append(zong.getName()).append("\r\n");
@@ -113,9 +113,9 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String ZongInfo(Integer id, Group group) {
+    public String zongInfo(Integer id, Group group) {
         Zong zong = getZongInfo(id);
-        return ZongInfo(zong, group);
+        return zongInfo(zong, group);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         filterImg(new File(path));
         zong.setIcon(path).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
-        return ZongInfo(who, group);
+        return zongInfo(who, group);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
         zong.setName(name).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
-        return ZongInfo(who, group);
+        return zongInfo(who, group);
     }
 
     @Override
@@ -370,7 +370,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setMaxP(14);
                     zong.setXpMax(1000L);
                     putZongInfo(zong);
-                    return ZongInfo(id, g);
+                    return zongInfo(id, g);
                 case 2:
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(3);
@@ -378,7 +378,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setMaxP(18);
                     zong.setXpMax(4800L);
                     putZongInfo(zong);
-                    return ZongInfo(id, g);
+                    return zongInfo(id, g);
                 case 3:
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(4);
@@ -386,7 +386,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setMaxP(22);
                     zong.setXpMax(8200L);
                     putZongInfo(zong);
-                    return ZongInfo(id, g);
+                    return zongInfo(id, g);
                 case 4:
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(5);
@@ -394,7 +394,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setMaxP(25);
                     zong.setXpMax(12500L);
                     putZongInfo(zong);
-                    return ZongInfo(id, g);
+                    return zongInfo(id, g);
                 case 5:
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(6);
@@ -402,7 +402,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setMaxP(29);
                     zong.setXpMax(54500L);
                     putZongInfo(zong);
-                    return ZongInfo(id, g);
+                    return zongInfo(id, g);
                 case 6:
                     return ("宗门最大等级");
 
