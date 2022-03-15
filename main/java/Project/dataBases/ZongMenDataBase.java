@@ -145,7 +145,11 @@ public class ZongMenDataBase {
     }
 
     public static boolean putZonInfo(Zon zon) {
-        return getZonMapper().updateById(zon) > 0;
+        if (getZonMapper().updateById(zon) > 0) {
+            return true;
+        } else {
+            return getZonMapper().insert(zon) > 0;
+        }
 //        try {
 //            File file = new File(path + "/" + zon.getId() + "/" + zon.getQq() + ".json");
 //            file.getParentFile().mkdirs();
