@@ -49,7 +49,7 @@ public class ZongMenDataBase {
     private static int idx = 0;
 
     public static int getIdx() {
-        return idx++;
+        return ++idx;
     }
 
     public static boolean createNewZong(Long qq, String name) {
