@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 public class GameWeaDetailService {
     private final static Class CLA = GameWeaDetailService.class;
     public static final List<String> AQS = new ArrayList<>();
+    public static final Map<Integer, Long> MAX_DAMAGE = new HashMap<>();
 
     public GameWeaDetailService() {
         if (AQS.isEmpty()) {
@@ -32,6 +34,16 @@ public class GameWeaDetailService {
                     AQS.add(getNameById(id));
             }
         }
+    }
+
+    static {
+        MAX_DAMAGE.put(1001, 10000L);
+        MAX_DAMAGE.put(1002, 20000L);
+        MAX_DAMAGE.put(1003, 80000L);
+        MAX_DAMAGE.put(1004, 500000L);
+        MAX_DAMAGE.put(1005, 1000000L);
+        MAX_DAMAGE.put(1006, 2500000L);
+        MAX_DAMAGE.put(1007, 3000000L);
     }
 
     private synchronized void initAqs() {
@@ -70,7 +82,8 @@ public class GameWeaDetailService {
         if (lps.size() == 1) {
             long ar = (long) (500 + (getInfo(who).getAtt() * 0.9f));
             PersonInfo pInfo = getInfo(who);
-            ar = ar > 10000 ? 10000 : ar;
+            int sid = 1001;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
                 String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
@@ -94,7 +107,8 @@ public class GameWeaDetailService {
         int num = lps.size();
         if (num < 4 && num > 0) {
             long ar = getInfo(who).getLevel() * 1000;
-            ar = ar > 20000 ? 20000 : ar;
+            int sid = 1002;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
             String sb = (String) os[0];
             boolean used = (boolean) os[1];
@@ -114,7 +128,8 @@ public class GameWeaDetailService {
         int num = lps.size();
         if (num < 3 && num > 0) {
             long ar = (long) (getInfo(who).getAtt() * 0.6f);
-            ar = ar > 80000 ? 80000 : ar;
+            int sid = 1003;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
             String sb = (String) os[0];
             boolean used = (boolean) os[1];
@@ -134,7 +149,8 @@ public class GameWeaDetailService {
         int num = lps.size();
         if (num < 5 && num > 0) {
             long ar = (long) (1500 + getInfo(who).getAtt() * 0.45f);
-            ar = ar > 500000 ? 500000 : ar;
+            int sid = 1004;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
             String sb = (String) os[0];
             boolean used = (boolean) os[1];
@@ -153,7 +169,8 @@ public class GameWeaDetailService {
         int num = lps.size();
         if (num < 4 && num > 0) {
             long ar = (long) (getInfo(who).getAtt() * 0.65f);
-            ar = ar > 1000000 ? 1000000 : ar;
+            int sid = 1005;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
             String sb = (String) os[0];
             boolean used = (boolean) os[1];
@@ -171,7 +188,8 @@ public class GameWeaDetailService {
     public String use1006(List<String> lps, long who) {
         if (lps.size() == 1) {
             long ar = (long) (3000 + (getInfo(who).getAtt() * 2.8f));
-            ar = ar > 2500000 ? 2500000 : ar;
+            int sid = 1006;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
                 String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
@@ -195,7 +213,8 @@ public class GameWeaDetailService {
         int num = lps.size();
         if (num < 4 && num > 0) {
             long ar = (long) (4500 + getInfo(who).getAtt() * 0.72f + getInfo(who).getLevel() * 10);
-            ar = ar > 3000000 ? 3000000 : ar;
+            int sid = 1007;
+            ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
             String sb = (String) os[0];
             boolean used = (boolean) os[1];

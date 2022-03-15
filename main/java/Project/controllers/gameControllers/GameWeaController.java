@@ -30,25 +30,25 @@ public class GameWeaController {
     }
 
     @Action("使用暗器<.{0,}=>name>")
-    public String UseWea(@Param("name") String name, Group group, User qq) {
+    public String useWea(@Param("name") String name, Group group, User qq) {
         String sss = gameWeaService.useAq(name, qq.getId());
         return sss;
     }
 
     @Action("暗器背包")
-    public String AqBgs(User qq, Group group) {
+    public String aqBgs(User qq, Group group) {
         String str = gameWeaService.aqBgs(qq.getId());
         return str;
     }
 
     @Action("暗器制作表")
-    public String ListAq(User qq, Group group) {
+    public String listAq(User qq, Group group) {
         String str = gameWeaService.aqList();
         return str;
     }
 
     @Action("暗器菜单")
-    public String AqMenu(Group group, User qq) {
+    public String aqMenu(Group group, User qq) {
         String str = gameWeaService.aqMeun();
         return str;
     }

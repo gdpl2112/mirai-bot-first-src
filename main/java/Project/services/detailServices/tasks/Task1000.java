@@ -11,6 +11,7 @@ import static Project.dataBases.GameTaskDatabase.cd_0;
 
 /**
  * 周任务0
+ *
  * @author github-kloping
  */
 public class Task1000 extends Task {
@@ -21,9 +22,9 @@ public class Task1000 extends Task {
             if (m1.get(1))
                 if (m1.containsKey(2))
                     if (m1.get(2))
-//                            if (m1.containsKey(3))
-//                                if (m1.get(3))
-                        return true;
+                        if (m1.containsKey(3))
+                            if (m1.get(3))
+                                return true;
         return false;
     }
 

@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgPathById;
+import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -85,6 +86,10 @@ public class GameWeaServiceImpl implements IGameWeaService {
         MENU += "\n暗器背包";
         MENU += "\n制作暗器<暗器名>";
         MENU += "\n暗器制作表";
+        MENU += "\n##最大伤害";
+        MAX_DAMAGE.forEach((k, v) -> {
+            MENU += ("\n\t" + getNameById(k) + "=>" + v);
+        });
     }
 
     @Override

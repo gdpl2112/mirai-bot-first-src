@@ -41,8 +41,12 @@ public class TaskPoint {
     }
 
     public static TaskPoint getInstance(long q) {
-        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
-        return FileInitializeValue.getValue(d, new TaskPoint().setQ(q), true);
+        TaskPoint taskPoint = SpringBootResource.getTaskPointMapper().selectById(q);
+        if (taskPoint == null) {
+            taskPoint = new TaskPoint().setQ(q);
+            SpringBootResource.getTaskPointMapper().insert(taskPoint);
+        }
+        return taskPoint;
     }
 
     public void apply() {
