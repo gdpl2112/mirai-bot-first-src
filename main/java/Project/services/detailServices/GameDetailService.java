@@ -54,10 +54,6 @@ public class GameDetailService {
         });
     }
 
-    private static boolean isNeedUpdate(PersonInfo info) {
-        return info.isVertigo() || info.getBuyHelpC() > 0 || info.getHelpToc() > 0 || info.getHelpC() > 0 || info.getHelpToc() > 0 || info.isDied() || info.isDowned();
-    }
-
     /**
      * 当被打了
      *

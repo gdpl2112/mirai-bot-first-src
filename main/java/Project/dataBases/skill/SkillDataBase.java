@@ -2,15 +2,11 @@ package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
 import Project.skill.SkillFactory;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
 import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
-import java.io.File;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +15,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.services.detailServices.GameSkillDetailService.getUserPercent;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.putStringInFile;
 
 /**
  * @author github-kloping
@@ -260,7 +254,11 @@ public class SkillDataBase {
     /**
      * 下次免疫伤害
      */
-    public static final String TAG_XUAN_YU_S = "h";
+    public static final String TAG_XUAN_YU_S = "i";
+    /**
+     * 免伤
+     */
+    public static final String TAG_DAMAGE_REDUCTION = "j";
 
     /**
      * 计算百分比

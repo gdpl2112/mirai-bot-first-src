@@ -165,7 +165,8 @@ public class GameSkillController {
     }
 
     private static String m1 = "新.\n" +
-            "\t1.控制型技能,眩晕\n";
+            "\t1.特殊性,增益型,技能,令自身增加n%的免伤\n" +
+            "\t2.控制型技能,眩晕\n";
 
     @Action("魂技更新列表")
     public String m1() {

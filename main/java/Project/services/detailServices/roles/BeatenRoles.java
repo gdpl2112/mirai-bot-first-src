@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
 
 import static Project.ResourceSet.FinalString.NEWLINE;
-import static Project.ResourceSet.FinalString.SPLIT_LINE_0;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
@@ -26,6 +25,20 @@ public class BeatenRoles {
     private static final String CANT_HIDE_ARG_KEY = "cant hide";
     private static final String TRUE_HIT_ARG_KEY = "true att";
     public static final String THIS_DANGER_OVER_FLAG = "$";
+
+    public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
+            int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
+            int lose = 100 - r;
+            nv = percentTo(lose, nv);
+            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+            response.setNowV(nv);
+            sb.append(NEWLINE);
+            sb.append("伤害免疫").append(r).append("%");
+            return response;
+        }
+        return null;
+    };
 
     public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
@@ -96,6 +109,9 @@ public class BeatenRoles {
         return response;
     };
 
+    /**
+     * 特殊闪避
+     */
     public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
             if (proZ(gameBoneService.getSoulAttribute(q1.longValue()).getHideChance())) {
@@ -116,6 +132,9 @@ public class BeatenRoles {
         return response;
     };
 
+    /**
+     * 以下免疫到此
+     */
     public static final Role TAG_XYS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(TAG_XUAN_YU_S)) {
             putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
@@ -156,6 +175,6 @@ public class BeatenRoles {
 
     public static final Role[] RS = new Role[]{
             XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
-            HG_HIDE, TAG_TURE, TAG_SHIELD, HG_HF, TAG_FJ
+            HG_HIDE, TAG_TURE, TAG_SHIELD, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION
     };
 }

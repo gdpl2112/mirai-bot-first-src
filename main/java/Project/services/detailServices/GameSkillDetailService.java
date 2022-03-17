@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
 
 /**
  * @author github-kloping
@@ -45,6 +45,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(18, 40);
         BASE_PERCENT_MAP.put(19, 40);
         BASE_PERCENT_MAP.put(20, 1);
+        BASE_PERCENT_MAP.put(21, 7);
         //=
         BASE_PERCENT_MAP.put(71, 42);
         BASE_PERCENT_MAP.put(72, 58);
@@ -275,6 +276,10 @@ public class GameSkillDetailService {
                 }
             }
         });
+    }
+
+    public static void addTagPack(TagPack tagPack) {
+        tagPacks.add(tagPack);
     }
 
     /**

@@ -71,6 +71,8 @@ public class GameReceiver0 {
                     case transLost:
                         GInfo.getInstance(who).addLostc(num).apply();
                         break;
+                    default:
+                        break;
                 }
             }
         });
@@ -84,6 +86,7 @@ public class GameReceiver0 {
                     case att:
                         lost(who);
                         break;
+                    default:
                 }
                 GInfo.getInstance(who).addDiedc().apply();
             }
