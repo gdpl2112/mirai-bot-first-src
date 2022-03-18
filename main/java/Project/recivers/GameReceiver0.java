@@ -24,7 +24,6 @@ import static Project.controllers.normalController.NoticeController.lowst;
 /**
  * @author github-kloping
  */
-@Entity
 public class GameReceiver0 {
     public GameReceiver0() {
         init();
@@ -82,6 +81,8 @@ public class GameReceiver0 {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
             @Override
             public void onReceive(long who, long from, type type) {
+                StarterApplication.logger.log(String.format("%s,lost, from %s by %s",
+                        who, from, type.name()));
                 switch (type) {
                     case att:
                         lost(who);

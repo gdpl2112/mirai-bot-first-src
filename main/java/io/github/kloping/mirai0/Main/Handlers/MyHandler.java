@@ -8,8 +8,10 @@ import Project.controllers.normalController.EntertainmentController;
 import Project.controllers.normalController.SessionController;
 import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.Resource;
+import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Contact;
@@ -25,6 +27,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -97,6 +100,11 @@ public class MyHandler extends SimpleListenerHost {
                 ControllerSource.emojiCompositeListenerHost.onMessage(event);
             }
             eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
+            if (INSTANCE.getActionManager().mather(text) == null) {
+                if (Client.INSTANCE.getGid() == event.getGroup().getId() && Client.CHContext != null) {
+                    Client.CHContext.writeAndFlush(Unpooled.copiedBuffer(event.getSender().getNameCard() + ": " + text, StandardCharsets.UTF_8));
+                }
+            }
         }
     }
 

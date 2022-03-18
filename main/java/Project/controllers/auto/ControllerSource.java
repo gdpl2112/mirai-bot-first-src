@@ -2,6 +2,7 @@ package Project.controllers.auto;
 
 import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
+import Project.recivers.GameReceiver0;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -33,6 +34,8 @@ public class ControllerSource {
 
     @AutoStand
     public static EmojiCompositeListenerHost emojiCompositeListenerHost;
+
+    public static GameReceiver0 receiver0 = new GameReceiver0();
 
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',

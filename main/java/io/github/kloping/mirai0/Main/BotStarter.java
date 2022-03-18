@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.Main;
 
+import Project.aSpring.SpringBootResource;
 import Project.aSpring.SpringStarter;
 import Project.listeners.NbListener;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -7,11 +8,10 @@ import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
+import io.github.kloping.mirai0.Main.ITools.Client;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
-import net.mamoe.mirai.utils.DeviceInfo;
-import net.mamoe.mirai.utils.DeviceInfoManager;
 
 import java.io.File;
 
@@ -60,6 +60,11 @@ public class BotStarter {
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
+        new Client(
+                SpringBootResource.getEnvironment().getProperty("mc.ip"),
+                SpringBootResource.getEnvironment().getProperty("mc.port"),
+                SpringBootResource.getEnvironment().getProperty("mc.gid")
+        );
     }
 
     private static void initBot() {
