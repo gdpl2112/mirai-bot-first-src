@@ -21,7 +21,7 @@ public interface WeatherI {
      * @param address
      * @return
      */
-    @GetPath("/api/shortWeather")
+    @GetPath("/api/get/shortWeather")
     WeatherM weatherM(@ParamName("address") String address);
 
     /**
@@ -30,6 +30,6 @@ public interface WeatherI {
      * @param address
      * @return
      */
-    @GetPath("/api/weather")
+    @GetPath("/api/get/weather")
     WeatherDetail weatherDetail(@ParamName("address") String address);
 }
