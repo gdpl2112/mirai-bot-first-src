@@ -24,10 +24,6 @@ public class SkillDataBase {
     public static String path;
 
     public SkillDataBase(String path) {
-//        SkillDataBase.path = path + "/dates/games/skills";
-//        File file = new File(SkillDataBase.path);
-//        if (!file.exists())
-//            file.mkdirs();
         initMap();
     }
 
@@ -40,27 +36,6 @@ public class SkillDataBase {
                 appendInfo(info);
             }
         });
-//        Resource.START_AFTER.add(() -> {
-//            Resource.Switch.AllK = false;
-//            File[] files = new File(path).listFiles();
-//            for (File files1 : files) {
-//                if (files1.isDirectory()) {
-//                    for (File file : files1.listFiles()) {
-//                        try {
-//                            String json = getStringFromFile(file.getPath(), "utf-8");
-//                            SkillInfo info = JsonUtils.jsonStringToObject(json, SkillInfo.class);
-//                            info.setState(0);
-//                            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
-//                            appendInfo(info);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            System.err.println(file.getPath() + "读取和初始化失败");
-//                        }
-//                    }
-//                }
-//            }
-//            System.exit(0);
-//        });
     }
 
     public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
