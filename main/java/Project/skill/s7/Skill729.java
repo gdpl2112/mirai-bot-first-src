@@ -41,8 +41,8 @@ public class Skill729 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.getAtt();
                 int b = info.getAddPercent();
-                int id = getSkillInfo(who.longValue()).get(1).getId();
-                SkillInfo i1 = getSkillInfo(who.longValue()).get(0);
+                SkillInfo i1 = getSkillInfo(who.longValue()).get(1);
+                int id = i1.getId();
                 i1.setTime(System.currentTimeMillis() + 1000 * 60 * 30);
                 updateSkillInfo(i1);
                 id -= 200;
