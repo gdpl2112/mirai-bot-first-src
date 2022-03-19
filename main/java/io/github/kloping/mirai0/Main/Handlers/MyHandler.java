@@ -10,6 +10,7 @@ import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
@@ -102,7 +103,7 @@ public class MyHandler extends SimpleListenerHost {
             eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
             if (INSTANCE.getActionManager().mather(text) == null) {
                 if (Client.CHContext != null && Client.INSTANCE.getGid() == event.getGroup().getId()) {
-                    Client.CHContext.writeAndFlush(Unpooled.copiedBuffer(event.getSender().getNameCard() + ": " + text, StandardCharsets.UTF_8));
+                    Client.CHContext.writeAndFlush(Unpooled.copiedBuffer(MemberTools.getNameFromGroup(id, eGroup) + ": " + text, StandardCharsets.UTF_8));
                 }
             }
         }
