@@ -19,6 +19,7 @@ public class Client extends Thread {
     private String ip;
     private int port;
     private long gid;
+    private boolean reconnect = false;
 
     public Client(String ip, int port, long gid) {
         this.ip = ip;
@@ -28,10 +29,37 @@ public class Client extends Thread {
         INSTANCE = this;
     }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setGid(long gid) {
+        this.gid = gid;
+    }
+
+    public void setReconnect(boolean reconnect) {
+        this.reconnect = reconnect;
+    }
+
+    public boolean isReconnect() {
+        return reconnect;
+    }
+
     public static ChannelHandlerContext CHContext = null;
 
     public Client(String property, String property1, String property2) {
         this(property, Integer.parseInt(property1), Integer.parseInt(property2));
+    }
+
+    public Client(String property, String property1, String property2, String property3) {
+        this(property, Integer.parseInt(property1), Integer.parseInt(property2));
+        if (property3 != null) {
+            setReconnect(Boolean.valueOf(property3));
+        }
     }
 
     public String getIp() {
@@ -46,11 +74,12 @@ public class Client extends Thread {
         return gid;
     }
 
+    private EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private Bootstrap b = new Bootstrap();
+
     @Override
     public void run() {
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            Bootstrap b = new Bootstrap();
             b.group(workerGroup);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.SO_KEEPALIVE, true);
@@ -88,8 +117,17 @@ public class Client extends Thread {
                     }).option(ChannelOption.SO_KEEPALIVE, true)
                     .option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(65535));
             f = b.connect(ip, port).sync();
-            f.channel().closeFuture().sync();
         } catch (Exception e) {
+            e.printStackTrace();
+            if (reconnect) {
+                run();
+            }
+        } finally {
+            try {
+                f.channel().closeFuture().sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

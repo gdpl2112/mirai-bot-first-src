@@ -101,7 +101,7 @@ public class MyHandler extends SimpleListenerHost {
             }
             eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
             if (INSTANCE.getActionManager().mather(text) == null) {
-                if (Client.INSTANCE.getGid() == event.getGroup().getId() && Client.CHContext != null) {
+                if (Client.CHContext != null && Client.INSTANCE.getGid() == event.getGroup().getId()) {
                     Client.CHContext.writeAndFlush(Unpooled.copiedBuffer(event.getSender().getNameCard() + ": " + text, StandardCharsets.UTF_8));
                 }
             }
