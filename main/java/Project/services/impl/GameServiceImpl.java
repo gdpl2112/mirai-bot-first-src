@@ -285,7 +285,7 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String showHh(Long who) {
         Integer[] iii = getHhs(who);
-        if (iii[0] == 0) {
+        if (iii.length <= 0) {
             return "暂无魂环";
         } else {
             try {
