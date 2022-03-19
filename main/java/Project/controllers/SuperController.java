@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.Entitys.Curfew;
 import io.github.kloping.mirai0.Entitys.Group;
 import io.github.kloping.mirai0.Entitys.User;
 import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
@@ -57,10 +58,10 @@ public class SuperController {
     @AutoStand
     private ZongMenServiceImpl zons;
 
-    @Action("/test")
-    public String o2(User qq, Group group) {
-        String tips = "===>";
-        return tips;
+    @Action("/c-ms")
+    public String o2() {
+        THREADS.submit(Client.INSTANCE);
+        return "trying";
     }
 
     @Action("/execute.+")

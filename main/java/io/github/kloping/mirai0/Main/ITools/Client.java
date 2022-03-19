@@ -10,10 +10,12 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.nio.charset.StandardCharsets;
 
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
+
 /**
  * @author github.kloping
  */
-public class Client extends Thread {
+public class Client implements Runnable {
     public static ChannelFuture f;
     public static Client INSTANCE = null;
     private String ip;
@@ -25,8 +27,8 @@ public class Client extends Thread {
         this.ip = ip;
         this.port = port;
         this.gid = gid;
-        start();
         INSTANCE = this;
+        THREADS.submit(this);
     }
 
     public void setIp(String ip) {
@@ -119,9 +121,6 @@ public class Client extends Thread {
             f = b.connect(ip, port).sync();
         } catch (Exception e) {
             e.printStackTrace();
-            if (reconnect) {
-                run();
-            }
         } finally {
             try {
                 f.channel().closeFuture().sync();
