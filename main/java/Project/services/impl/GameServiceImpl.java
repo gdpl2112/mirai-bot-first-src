@@ -743,7 +743,7 @@ public class GameServiceImpl implements IGameService {
         }
         try {
             for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
-                SpringBootResource.getHhpzMapper().update(integer);
+                SpringBootResource.getHhpzMapper().delete(integer);
             }
             i++;
         } catch (Exception e) {

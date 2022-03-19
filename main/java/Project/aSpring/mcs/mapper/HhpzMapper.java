@@ -30,15 +30,17 @@ public interface HhpzMapper {
     List<Integer> select(@Param("qid") Long qid);
 
     /**
-     * update state
+     * delete
+     *
      * @param id
      * @return
      */
-    @Update("UPDATE `hhpz` SET `state`=1 WHERE `id`=#{id}")
-    Integer update(@Param("id") Integer id);
+    @Update("DELETE FROM `hhpz` WHERE `id`=#{id}")
+    Integer delete(@Param("id") Integer id);
 
     /**
      * update oid
+     *
      * @param id
      * @param oid
      * @return
@@ -48,6 +50,7 @@ public interface HhpzMapper {
 
     /**
      * select ids
+     *
      * @param qid
      * @return
      */
