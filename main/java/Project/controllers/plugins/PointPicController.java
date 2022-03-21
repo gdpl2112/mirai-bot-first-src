@@ -1,10 +1,10 @@
 package Project.controllers.plugins;
 
 import Project.interfaces.http_api.ApiIyk0;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import Project.detailPlugin.SearchPic;
-import Project.ResourceSet;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -31,7 +31,7 @@ public class PointPicController {
     }
 
     @Before
-    public void before(io.github.kloping.mirai0.Entitys.Group group) throws NoRunException {
+    public void before(io.github.kloping.mirai0.commons.Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }

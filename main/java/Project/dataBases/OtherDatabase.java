@@ -1,7 +1,7 @@
 package Project.dataBases;
 
 import Project.aSpring.SpringBootResource;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
+import io.github.kloping.mirai0.commons.TradingRecord;
 
 import java.io.File;
 import java.util.List;

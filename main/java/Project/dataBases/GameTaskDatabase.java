@@ -1,8 +1,8 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.commons.task.Task;
 import Project.dataBases.task.TaskCreator;
-import Project.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.file.FileUtils;

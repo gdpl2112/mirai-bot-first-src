@@ -1,9 +1,9 @@
 package Project.controllers.normalController;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.UserScore;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.UserScore;
+import io.github.kloping.mirai0.commons.User;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;
@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.ResourceSet.FinalFormat.CANT_BIGGER;
-import static Project.ResourceSet.FinalString.*;
-import static Project.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;

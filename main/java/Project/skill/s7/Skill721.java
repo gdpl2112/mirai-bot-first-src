@@ -1,18 +1,17 @@
 package Project.skill.s7;
 
 import Project.skill.SkillTemplate;
-import io.github.kloping.mirai0.Entitys.gameEntitys.*;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.gameEntitys.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameJoinDetailService.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+
 import Project.services.detailServices.GameBoneDetailService;
 /**
  * @author github.kloping

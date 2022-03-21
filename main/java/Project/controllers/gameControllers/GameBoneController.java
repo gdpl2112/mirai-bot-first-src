@@ -2,10 +2,10 @@ package Project.controllers.gameControllers;
 
 
 import Project.dataBases.SourceDataBase;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import Project.interfaces.Iservice.IGameBoneService;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

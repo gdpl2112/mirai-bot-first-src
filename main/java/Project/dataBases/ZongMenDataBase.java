@@ -1,7 +1,7 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static Project.ResourceSet.FinalString.NULL_LOW_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;

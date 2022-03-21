@@ -1,11 +1,11 @@
 package Project.services.detailServices.tasks.reciver;
 
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.TaskDetailService;
 import Project.services.detailServices.tasks.Task1001;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.dataBases.GameDataBase.addToBgs;

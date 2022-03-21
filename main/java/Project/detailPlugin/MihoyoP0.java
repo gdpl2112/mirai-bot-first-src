@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import Project.interfaces.http_api.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -13,8 +13,8 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static Project.ResourceSet.FinalString.IMG_TAG_STR;
-import static Project.ResourceSet.FinalString.VIDEO_TAG_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.VIDEO_TAG_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.unicodeToCn;
 

@@ -1,8 +1,8 @@
 package io.github.kloping.mirai0.Main;
 
 import Project.dataBases.ZongMenDataBase;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 
 import java.io.File;
 

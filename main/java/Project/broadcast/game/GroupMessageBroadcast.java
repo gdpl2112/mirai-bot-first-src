@@ -1,9 +1,7 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import Project.broadcast.Receiver;
-
-import java.lang.reflect.Method;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
 /**
  * @author github-kloping

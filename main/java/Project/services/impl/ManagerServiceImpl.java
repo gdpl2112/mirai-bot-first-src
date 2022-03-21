@@ -18,8 +18,8 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 
 import java.util.List;
 
-import static Project.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
 
 /**

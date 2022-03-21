@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main.ITools;
 
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.User;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 
@@ -27,7 +27,7 @@ public class MemberTools {
         return User.get(q);
     }
 
-    public static synchronized String getNameFromGroup(long id, io.github.kloping.mirai0.Entitys.Group group) {
+    public static synchronized String getNameFromGroup(long id, io.github.kloping.mirai0.commons.Group group) {
         String name = "";
         try {
             Group group1 = bot.getGroup(group.getId());

@@ -1,7 +1,7 @@
 package Project.services.detailServices.tasks;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
+import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.commons.task.TaskPoint;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.dataBases.GameTaskDatabase.CD1;

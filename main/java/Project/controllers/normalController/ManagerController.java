@@ -8,8 +8,8 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -99,13 +99,13 @@ public class ManagerController {
     }
 
     @Action(value = OPEN_STR, otherName = "说话")
-    public String open(io.github.kloping.mirai0.Entitys.Group group) {
+    public String open(io.github.kloping.mirai0.commons.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.openGroup(group.getId()) ? "已经开启" : "开启成功";
     }
 
     @Action(value = CLOSE_STR, otherName = "闭嘴")
-    public String close(io.github.kloping.mirai0.Entitys.Group group) {
+    public String close(io.github.kloping.mirai0.commons.Group group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.closeGroup(group.getId()) ? "关闭成功" : "已经关闭";
     }
@@ -202,10 +202,7 @@ public class ManagerController {
         } else {
             try {
                 Method method = this.getClass().getDeclaredMethod("kickNum", Number[].class, Group.class);
-                Object[] objects = new Object[]{
-                        method, this, new Object[]{numbers, gr}
-                };
-                ConfirmController.regConfirm(q, objects);
+                ConfirmController.regConfirm(q, method, this, new Object[]{numbers, gr});
                 return "批量踢,请确认";
             } catch (Exception e) {
                 e.printStackTrace();

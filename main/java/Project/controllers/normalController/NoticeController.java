@@ -5,10 +5,10 @@ import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.ResourceSet.FinalValue.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.21:重构了代码").append("\n");
         UPDATE_LOG.append("3.17:见魂技更新列表").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("3.15:修复了已知bug").append("\n");

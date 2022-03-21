@@ -1,6 +1,6 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQqCom.Response0;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;

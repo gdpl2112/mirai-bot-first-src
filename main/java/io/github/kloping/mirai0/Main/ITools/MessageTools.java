@@ -1,8 +1,6 @@
 package io.github.kloping.mirai0.Main.ITools;
 
-import Project.detailPlugin.AiBaiduDetail;
 import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -15,7 +13,6 @@ import net.mamoe.mirai.utils.ExternalResource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -172,7 +169,7 @@ public class MessageTools {
 
     public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
 
-    public static void speak(String line, io.github.kloping.mirai0.Entitys.Group group) {
+    public static void speak(String line, io.github.kloping.mirai0.commons.Group group) {
         try {
             MessageTools.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
         } catch (Exception e) {

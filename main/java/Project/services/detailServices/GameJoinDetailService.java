@@ -1,7 +1,7 @@
 package Project.services.detailServices;
 
 
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.dataBases.SourceDataBase;
@@ -12,9 +12,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
@@ -94,7 +94,7 @@ public class GameJoinDetailService {
             GameJoinDetailService.saveGhostObjIn(who, null);
             GhostObj ghostObj1 = null;
             ghostObj1 = GameJoinDetailService.getGhostObjFrom(who);
-            ghostObj1.setState(GhostObj.NotNeed);
+            ghostObj1.setState(GhostObj.NOT_NEED);
             GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
@@ -262,7 +262,7 @@ public class GameJoinDetailService {
                 showY = true;
                 showI = true;
                 if (isHelp) {
-                    ghostObj.setState(GhostObj.NotNeed);
+                    ghostObj.setState(GhostObj.NOT_NEED);
                     GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
                 }
                 GameJoinDetailService.saveGhostObjIn(who, null);

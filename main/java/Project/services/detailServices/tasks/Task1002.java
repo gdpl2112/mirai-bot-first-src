@@ -1,6 +1,6 @@
 package Project.services.detailServices.tasks;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.commons.task.Task;
 import Project.broadcast.game.GhostLostBroadcast;
 
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;

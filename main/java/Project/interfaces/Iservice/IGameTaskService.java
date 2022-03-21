@@ -1,6 +1,6 @@
 package Project.interfaces.Iservice;
 
-import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.commons.Group;
 
 public interface IGameTaskService {
     String m1(long q, Group group);

@@ -1,8 +1,8 @@
 package Project.controllers.gameControllers.zongmenContrller;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -10,8 +10,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
-import static Project.ResourceSet.FinalString.NOT_FOUND_AT;
-import static Project.ResourceSet.FinalString.NULL_LOW_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
 import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**

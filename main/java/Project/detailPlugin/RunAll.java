@@ -1,7 +1,7 @@
 package Project.detailPlugin;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeEntity;
-import io.github.kloping.mirai0.Entitys.apiEntitys.runcode.CodeResponse;
+import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeEntity;
+import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeResponse;
 import Project.interfaces.http_api.RunCode;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

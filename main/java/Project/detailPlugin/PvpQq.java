@@ -3,11 +3,11 @@ package Project.detailPlugin;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.Data;
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.PvpQQH0;
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQVoice.PvpQQVoice;
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQVoice.Yy_4e;
-import io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQVoice.Yylb_34;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.PvpQQH0;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.PvpQQVoice;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yylb_34;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.ResourceSet.FinalString.HTTPS_PRE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.HTTPS_PRE;
 
 
 /**
@@ -44,7 +44,7 @@ public class PvpQq {
     }
 
     public static final Map<String, Yy_4e[]> NAME2VOICE = new ConcurrentHashMap<>();
-    public static final Map<String, io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.Data> NAME2DATA = new ConcurrentHashMap<>();
+    public static final Map<String, io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data> NAME2DATA = new ConcurrentHashMap<>();
     public static final Map<String, Integer> NAME2ID = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
 
@@ -130,7 +130,7 @@ public class PvpQq {
         }
     }
 
-    public io.github.kloping.mirai0.Entitys.apiEntitys.pvpQQH0.Data getD(String name) {
+    public io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data getD(String name) {
         if (NAME2DATA.isEmpty()) {
             m0();
         }

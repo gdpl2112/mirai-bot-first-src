@@ -1,13 +1,12 @@
 package Project.detailPlugin;
 
 import com.alibaba.fastjson.JSON;
-import io.github.kloping.mirai0.Entitys.apiEntitys.ShiTu.Response;
+import io.github.kloping.mirai0.commons.apiEntitys.ShiTu.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.print.Doc;
 import java.io.IOException;
 
 /**

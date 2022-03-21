@@ -3,13 +3,13 @@ package Project.services.detailServices.ac.entity;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.mirai0.Entitys.apiEntitys.RunnableWithOver;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.Set;
 
-import static Project.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping

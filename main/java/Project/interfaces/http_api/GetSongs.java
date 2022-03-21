@@ -1,6 +1,6 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
+import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 import Project.detailPlugin.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;

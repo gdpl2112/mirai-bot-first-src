@@ -4,8 +4,8 @@ package io.github.kloping.mirai0.unitls.Tools;
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameJoinDetailService;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
 
 import java.util.LinkedList;
 import java.util.List;

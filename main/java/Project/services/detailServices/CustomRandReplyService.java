@@ -1,7 +1,7 @@
 package Project.services.detailServices;
 
-import io.github.kloping.mirai0.Entitys.eEntitys.CustomElement;
-import io.github.kloping.mirai0.Entitys.eEntitys.CustomReplyGroup;
+import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
+import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 import Project.broadcast.normal.MessageBroadcast;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;

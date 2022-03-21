@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.Zong;
 
 public interface IZongMenService {
     String create(String name, Long who, Group group);

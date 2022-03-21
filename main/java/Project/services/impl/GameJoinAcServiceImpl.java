@@ -6,8 +6,8 @@ import Project.services.detailServices.GameJoinDetailService;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.GhostObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
-import static Project.ResourceSet.FinalFormat.*;
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
@@ -117,14 +117,14 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                     return String.format(ONE_DAY_ONLY_HELP, MAX_HELP_C);
                 } else {
                     switch (ghostObj.getState()) {
-                        case GhostObj.NotNeed:
-                            ghostObj.setState(GhostObj.NeedAndNo);
+                        case GhostObj.NOT_NEED:
+                            ghostObj.setState(GhostObj.NEED_AND_NO);
                             saveGhostObjIn(who, ghostObj);
                             putPerson(getInfo(who).addHelpC());
                             return REQUEST_HELP_SUCCEED;
-                        case GhostObj.NeedAndNo:
+                        case GhostObj.NEED_AND_NO:
                             return YOU_REQUEST_HELPING;
-                        case GhostObj.NeedAndY:
+                        case GhostObj.NEED_AND_YES:
                             return HELPED;
                         default:
                             return ERR_TIPS;
@@ -150,19 +150,19 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                     return DAY_ONLY_HELP_TIPS;
                 } else {
                     switch (ghostObj1.getState()) {
-                        case GhostObj.NotNeed:
+                        case GhostObj.NOT_NEED:
                             return NOT_NEED_HELP;
-                        case GhostObj.NeedAndNo:
+                        case GhostObj.NEED_AND_NO:
                             saveGhostObjIn(who, null);
                             ghostObj = GhostObj.createHelp(String.valueOf(whos));
                             ghostObj.setState(GhostObj.HELPING);
                             saveGhostObjIn(who, ghostObj);
-                            ghostObj1.setState(GhostObj.NeedAndY);
+                            ghostObj1.setState(GhostObj.NEED_AND_YES);
                             ghostObj1.setWith(who);
                             saveGhostObjIn(whos, ghostObj1);
                             putPerson(getInfo(who).addHelpToC());
                             return HELP_SUCCEED;
-                        case GhostObj.NeedAndY:
+                        case GhostObj.NEED_AND_YES:
                             return HELPED;
                         default:
                             return ERR_TIPS;

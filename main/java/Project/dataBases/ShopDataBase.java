@@ -1,7 +1,7 @@
 package Project.dataBases;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import io.github.kloping.mirai0.Entitys.gameEntitys.ShopItem;
+import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.Main.Resource;
 
 import java.util.Map;

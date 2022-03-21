@@ -1,13 +1,13 @@
 package Project.services.detailServices;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import Project.dataBases.GameDataBase;
 import Project.broadcast.game.GhostLostBroadcast;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.ResourceSet.FinalString.*;
-import static Project.ResourceSet.FinalFormat.ATTACK_TIPS0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATTACK_TIPS0;
 import static Project.services.detailServices.GameDetailService.beaten;
 import static Project.services.detailServices.GameDetailService.onAtt;
 import static Project.services.detailServices.GameJoinDetailService.attGho;

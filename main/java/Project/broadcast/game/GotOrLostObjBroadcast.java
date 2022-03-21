@@ -1,8 +1,8 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import Project.broadcast.Receiver;
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 
 import java.lang.reflect.Method;
 

@@ -1,6 +1,6 @@
 package Project.controllers.normalController;
 
-import Project.ResourceSet;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import Project.broadcast.normal.MessageBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -8,8 +8,8 @@ import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.eEntitys.AutoReply;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -19,10 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.ResourceSet.FinalString.CUSTOM_MENU_STR;
-import static Project.ResourceSet.FinalString.NO_PERMISSION_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CUSTOM_MENU_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;

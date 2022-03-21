@@ -4,8 +4,8 @@ package Project.services.detailServices;
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.PersonInfo;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

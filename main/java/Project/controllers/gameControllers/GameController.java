@@ -1,10 +1,10 @@
 package Project.controllers.gameControllers;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
@@ -359,13 +359,9 @@ public class GameController {
 
     @Action("解除武魂融合")
     public String RemoveFusion(User qq) {
-        if (ConfirmController.Confirming.contains(qq.getId())) return "请先完成当前选项";
         try {
             Method method = this.getClass().getDeclaredMethod("RemoveFusionNow", Long.class);
-            Object[] Strings = new Object[]{
-                    method, this, new Object[]{qq.getId()}
-            };
-            ConfirmController.regConfirm(qq.getId(), Strings);
+            ConfirmController.regConfirm(qq.getId(),method, this, new Object[]{qq.getId()});
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (Exception e) {
             return "解除异常";

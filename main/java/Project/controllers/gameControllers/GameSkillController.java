@@ -1,9 +1,9 @@
 package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;

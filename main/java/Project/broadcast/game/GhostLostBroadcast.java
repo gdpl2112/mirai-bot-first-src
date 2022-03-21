@@ -1,8 +1,8 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import Project.broadcast.Receiver;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.GhostObj;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;

@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.Father;
-import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.UserScore;
+import io.github.kloping.mirai0.commons.Father;
+import io.github.kloping.mirai0.commons.GroupConf;
+import io.github.kloping.mirai0.commons.UserScore;
 
 import java.io.File;
 import java.util.Arrays;

@@ -1,12 +1,10 @@
 package Project.detailPlugin;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherDetail;
-import io.github.kloping.mirai0.Entitys.apiEntitys.WeatherM;
+import io.github.kloping.mirai0.commons.apiEntitys.WeatherDetail;
+import io.github.kloping.mirai0.commons.apiEntitys.WeatherM;
 import Project.interfaces.http_api.WeatherI;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-
-import static Project.detailPlugin.NetMain.*;
 
 
 /**

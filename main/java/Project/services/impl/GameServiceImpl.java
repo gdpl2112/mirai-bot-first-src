@@ -2,9 +2,9 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.broadcast.enums.ObjType;
-import Project.controllers.gameControllers.GameController;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.controllers.auto.ConfirmController;
+import Project.controllers.gameControllers.GameController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -14,22 +14,28 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.*;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.GInfo;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.gameEntitys.*;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
-import static Project.ResourceSet.FinalFormat.XL_WAIT_TIPS;
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
@@ -320,18 +326,15 @@ public class GameServiceImpl implements IGameService {
                 Long id1 = Long.valueOf(ZongMenDataBase.qq2id.get(who));
                 Long id2 = Long.valueOf(ZongMenDataBase.qq2id.get(whos));
                 if (id1.equals(id2)) {
-                    if (ConfirmController.Confirming.contains(who)) return "请先完成当前选项";
-                    else {
-                        try {
-                            Method method = this.getClass().getDeclaredMethod("AttWhosNow", Long.class, Long.class, Group.class, Integer.class);
-                            ConfirmController.regConfirm(who, new Object[]{
-                                    method, this, new Object[]{who, whos, group, 2}
-                            });
-                            return "即将攻击 宗门内成员 \r\n你确定要攻击ta吗？这将减少你的10点贡献点\r\n请在30秒内回复 确定/确认/取消";
-                        } catch (NoSuchMethodException e) {
-                            e.printStackTrace();
-                            return "攻击异常";
-                        }
+                    try {
+                        Method method = this.getClass().getDeclaredMethod("AttWhosNow", Long.class, Long.class, Group.class, Integer.class);
+                        ConfirmController.regConfirm(who,
+                                method, this, new Object[]{who, whos, group, 2}
+                        );
+                        return "即将攻击 宗门内成员 \r\n你确定要攻击ta吗？这将减少你的10点贡献点\r\n请在30秒内回复 确定/确认/取消";
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                        return "攻击异常";
                     }
                 }
             } else {
@@ -643,12 +646,9 @@ public class GameServiceImpl implements IGameService {
             try {
                 if (personInfo.getMk1() > System.currentTimeMillis())
                     return "修改称号 冷却中..." + getTimeDDHHMM(personInfo.getMk1());
-                if (ConfirmController.Confirming.contains(who))
-                    return "请先完成 当前选项";
                 Method method = this.getClass().getDeclaredMethod("makeName", Long.class, String.class, Group.class);
-                ConfirmController.regConfirm(who, new Object[]{
-                        method, this, new Object[]{who, name, group}
-                });
+                ConfirmController.regConfirm(who,
+                        method, this, new Object[]{who, name, group});
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -671,9 +671,7 @@ public class GameServiceImpl implements IGameService {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-        ConfirmController.regConfirm(id, new Object[]{
-                method, this, new Object[]{id}
-        });
+        ConfirmController.regConfirm(id, method, this, new Object[]{id});
         return "你确定需要转生吗,这将丢失所有信息数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
     }
 
@@ -768,13 +766,8 @@ public class GameServiceImpl implements IGameService {
                 if (q1.longValue() == q2.longValue()) return "Cant Do this";
                 if (sameTypeWh(q1, q2))
                     return "武魂种类相同,不能融合";
-                if (ConfirmController.Agreeing.contains(q2))
-                    return "ta正在被处于同意/不同意";
                 Method method = this.getClass().getDeclaredMethod("fusionNow", Long.class, Long.class);
-                Object[] objects = new Object[]{
-                        method, this, new Object[]{q1, q2}
-                };
-                ConfirmController.regAgree(q2, objects);
+                ConfirmController.regAgree(q2, method, this, q1, q2);
                 return MemberTools.getNameFromGroup(q2, group) + "\r\n请在30秒内回复\r\n同意/不同意";
             } catch (Exception e) {
                 e.printStackTrace();
@@ -826,10 +819,7 @@ public class GameServiceImpl implements IGameService {
         if (gInfo.getMasterPoint() < st)
             return "名师点不足:需要=>" + st + "\n现在:" + gInfo.getMasterPoint();
         try {
-            ConfirmController.regAgree(q2, new Object[]{
-                    this.getClass().getDeclaredMethod("shouTuNow", long.class, long.class),
-                    this, new Object[]{q, q2}
-            });
+            ConfirmController.regAgree(q2, this.getClass().getDeclaredMethod("shouTuNow", long.class, long.class), this, q, q2);
             return "收徒ing...\n\'" + MemberTools.getName(q2) + "\'请在30秒内回复同意/不同意";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -853,10 +843,10 @@ public class GameServiceImpl implements IGameService {
         if (getWarp(q).getMaster().longValue() == -1)
             return "您没有师傅";
         try {
-            ConfirmController.regConfirm(q, new Object[]{
+            ConfirmController.regConfirm(q,
                     this.getClass().getDeclaredMethod("chuShiNow", long.class),
                     this, new Object[]{q}
-            });
+            );
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

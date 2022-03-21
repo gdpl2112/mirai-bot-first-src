@@ -5,17 +5,15 @@ import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baidu.AiRequest;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baidu.AiResponse;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.apiEntitys.baidu.AiRequest;
+import io.github.kloping.mirai0.commons.apiEntitys.baidu.AiResponse;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author github-kloping

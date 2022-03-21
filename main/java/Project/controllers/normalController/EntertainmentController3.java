@@ -3,15 +3,14 @@ package Project.controllers.normalController;
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
 import Project.interfaces.http_api.IBaiduShitu;
-import Project.interfaces.http_api.Qxu66;
 import Project.interfaces.http_api.WeiJieYue;
 import Project.interfaces.http_api.old.JuiLi;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.BaiduShitu;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.BaiduShituResponse;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.BaiduShitu;
+import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.BaiduShituResponse;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
@@ -25,7 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static Project.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
 import static io.github.kloping.mirai0.Main.Resource.bot;
@@ -306,10 +305,10 @@ public class EntertainmentController3 {
         i = i1 == null ? i : i1;
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
         BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
-        Iterator<io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
+        Iterator<io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
         List<String> list = new LinkedList();
         while (iterator.hasNext() && list.size() <= i) {
-            io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.List e = iterator.next();
+            io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.List e = iterator.next();
             try {
                 String title = getTitle(e.getFromUrl());
                 list.add(Tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());

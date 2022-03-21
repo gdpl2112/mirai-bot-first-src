@@ -3,11 +3,11 @@ package io.github.kloping.mirai0.unitls.drawers;
 import Project.dataBases.skill.SkillDataBase;
 import com.google.gson.internal.LinkedHashTreeMap;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.commons.GInfo;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 

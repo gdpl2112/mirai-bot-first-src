@@ -1,7 +1,7 @@
 package Project.dataBases.task;
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
-import Project.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.tasks.Task1000;
 import Project.services.detailServices.tasks.Task1001;

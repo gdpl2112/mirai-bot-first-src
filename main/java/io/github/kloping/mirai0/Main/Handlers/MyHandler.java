@@ -27,6 +27,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -56,11 +57,11 @@ public class MyHandler extends SimpleListenerHost {
         exception.printStackTrace();
     }
 
-    private static final Map<Long, io.github.kloping.mirai0.Entitys.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
+    private static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
 
     static {
         Resource.START_AFTER.add(() -> {
-            io.github.kloping.mirai0.Entitys.User.create(bot.getId()
+            io.github.kloping.mirai0.commons.User.create(bot.getId()
                     , bot.getGroups().stream().iterator().next().getId()
                     , bot.getNick(), bot.getNick());
         });
@@ -76,15 +77,15 @@ public class MyHandler extends SimpleListenerHost {
             return;
         }
         String text = null;
-        io.github.kloping.mirai0.Entitys.Group eGroup = null;
+        io.github.kloping.mirai0.commons.Group eGroup = null;
         Group group = null;
         long id = -1;
         try {
             id = event.getSender().getId();
             boolean inS = SessionController.INSTANCE.contains(id);
             group = event.getGroup();
-            eGroup = io.github.kloping.mirai0.Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
-            io.github.kloping.mirai0.Entitys.User eUser = io.github.kloping.mirai0.Entitys.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
+            eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
+            io.github.kloping.mirai0.commons.User eUser = io.github.kloping.mirai0.commons.User.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
             text = EventTools.getStringFromGroupMessageEvent(event, !inS, id);
             if (!inS) {
                 if (ControllerTool.canGroup(group.getId())) {
@@ -118,7 +119,7 @@ public class MyHandler extends SimpleListenerHost {
             return;
         }
         String text = null;
-        io.github.kloping.mirai0.Entitys.Group eGroup = null;
+        io.github.kloping.mirai0.commons.Group eGroup = null;
         Group group = null;
         MessageChain chain = null;
         long id = -1;
@@ -126,8 +127,8 @@ public class MyHandler extends SimpleListenerHost {
             chain = event.getMessage();
             id = event.getSender().getId();
             group = getCg(id);
-            eGroup = io.github.kloping.mirai0.Entitys.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
-            io.github.kloping.mirai0.Entitys.User eUser = getUser(id);
+            eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
+            io.github.kloping.mirai0.commons.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
             if (INSTANCE.getActionManager().mather(text) != null) {
                 StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
@@ -152,7 +153,7 @@ public class MyHandler extends SimpleListenerHost {
     public static final long REPEAT_CD = 10 * 1000;
     public static long CD = 10 * 1000;
 
-    private static void eveEnd(String text, long id, io.github.kloping.mirai0.Entitys.Group eGroup, Group group, Member member, MessageChain message) {
+    private static void eveEnd(String text, long id, io.github.kloping.mirai0.commons.Group eGroup, Group group, Member member, MessageChain message) {
         DAE_THREADS.execute(() -> {
             DataBase.addTimes(1, id);
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());

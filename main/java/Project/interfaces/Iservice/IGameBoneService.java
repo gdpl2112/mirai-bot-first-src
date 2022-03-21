@@ -1,11 +1,10 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author github-kloping

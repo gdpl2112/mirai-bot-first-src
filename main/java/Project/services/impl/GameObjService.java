@@ -4,7 +4,7 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameWeaService;
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 

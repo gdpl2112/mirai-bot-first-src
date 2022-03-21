@@ -1,7 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
 import Project.services.detailServices.GameDetailService;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;

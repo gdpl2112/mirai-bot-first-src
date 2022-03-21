@@ -1,7 +1,7 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import io.github.kloping.mirai0.Entitys.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;

@@ -2,15 +2,15 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.GameBoneDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 
 import java.util.LinkedHashMap;
 import java.util.List;

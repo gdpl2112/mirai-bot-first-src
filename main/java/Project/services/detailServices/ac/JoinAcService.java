@@ -1,6 +1,6 @@
 package Project.services.detailServices.ac;
 
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameDetailService;
@@ -8,13 +8,13 @@ import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.willTips;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;

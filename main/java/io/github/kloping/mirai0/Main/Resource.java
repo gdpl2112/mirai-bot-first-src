@@ -7,8 +7,8 @@ import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
@@ -120,7 +120,7 @@ public class Resource {
     protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(30 * 1000L);
-        StarterApplication.setAccessTypes(Long.class, io.github.kloping.mirai0.Entitys.User.class, Group.class, Integer.class);
+        StarterApplication.setAccessTypes(Long.class, io.github.kloping.mirai0.commons.User.class, Group.class, Integer.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
@@ -181,7 +181,7 @@ public class Resource {
             }
             //====
         } else {
-            Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((io.github.kloping.mirai0.Entitys.User) objects[3]).getId());
+            Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((io.github.kloping.mirai0.commons.User) objects[3]).getId());
             if (o == null) {
                 return;
             }

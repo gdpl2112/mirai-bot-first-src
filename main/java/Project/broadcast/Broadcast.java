@@ -1,5 +1,6 @@
 package Project.broadcast;
 
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.object.ObjectUtils;
 
 import java.lang.reflect.InvocationTargetException;

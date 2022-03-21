@@ -2,7 +2,7 @@ package Project.detailPlugin;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
-import io.github.kloping.mirai0.Entitys.Curfew;
+import io.github.kloping.mirai0.commons.Curfew;
 import io.github.kloping.mirai0.Main.Resource;
 
 import java.io.File;

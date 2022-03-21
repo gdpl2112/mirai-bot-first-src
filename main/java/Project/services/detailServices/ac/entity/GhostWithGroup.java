@@ -1,7 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 /**

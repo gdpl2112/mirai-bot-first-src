@@ -1,6 +1,6 @@
 package Project.controllers.normalController;
 
-import Project.ResourceSet;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
 import Project.detailPlugin.WeatherGetter;
@@ -10,10 +10,10 @@ import Project.interfaces.http_api.ApiKit9;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.GroupConf;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.UserScore;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.GroupConf;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;

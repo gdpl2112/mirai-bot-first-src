@@ -1,9 +1,9 @@
 package Project.services.impl;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.commons.task.TaskPoint;
 import Project.dataBases.GameTaskDatabase;
 import Project.services.detailServices.TaskDetailService;
 import Project.interfaces.Iservice.IGameTaskService;

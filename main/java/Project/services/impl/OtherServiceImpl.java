@@ -1,8 +1,8 @@
 package Project.services.impl;
 
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.Mora;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.Mora;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;

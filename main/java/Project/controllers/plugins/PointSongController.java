@@ -4,10 +4,10 @@ import Project.detailPlugin.SearchSong;
 import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Song;
-import io.github.kloping.mirai0.Entitys.apiEntitys.Songs;
-import io.github.kloping.mirai0.Entitys.apiEntitys.reping163.Reping163;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.apiEntitys.Song;
+import io.github.kloping.mirai0.commons.apiEntitys.Songs;
+import io.github.kloping.mirai0.commons.apiEntitys.reping163.Reping163;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
@@ -27,13 +27,13 @@ public class PointSongController {
     }
 
     @Before
-    public void before(io.github.kloping.mirai0.Entitys.Group group) throws NoRunException {
+    public void before(io.github.kloping.mirai0.commons.Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
     }
 
-    public static void sing(String name, io.github.kloping.mirai0.Entitys.Group group) {
+    public static void sing(String name, io.github.kloping.mirai0.commons.Group group) {
         Songs songs = searchSong.kugou(name);
         MessageTools.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
     }
@@ -50,7 +50,7 @@ public class PointSongController {
     MuXiaoGuo muXiaoGuo;
 
     @Action("QQ点歌<.+=>name>")
-    public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.Entitys.Group gro) {
+    public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.qq(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -66,7 +66,7 @@ public class PointSongController {
     }
 
     @Action("酷狗点歌<.+=>name>")
-    public void pointSongKugou(@Param("name") String name, User qq, io.github.kloping.mirai0.Entitys.Group gro) {
+    public void pointSongKugou(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.kugou(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -82,7 +82,7 @@ public class PointSongController {
     }
 
     @Action("网易点歌<.+=>name>")
-    public void pointSongNetEase(@Param("name") String name, User qq, io.github.kloping.mirai0.Entitys.Group gro) {
+    public void pointSongNetEase(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.netEase(name);
         Group group = bot.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -111,7 +111,7 @@ public class PointSongController {
 
 
     @Action("网易云热评")
-    public String reping163(io.github.kloping.mirai0.Entitys.Group gro) {
+    public String reping163(io.github.kloping.mirai0.commons.Group gro) {
         try {
             Reping163 reping163 = muXiaoGuo.reping();
             StringBuilder sb = new StringBuilder();
@@ -139,7 +139,7 @@ public class PointSongController {
     }
 
     @Action("QQ歌词<.+=>name>")
-    public Object mq(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+    public Object mq(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
         try {
             Songs songs = searchSong.qq(name);
             String lyric = songs.getData()[0].getLyric();
@@ -152,7 +152,7 @@ public class PointSongController {
     }
 
     @Action("酷狗歌词<.+=>name>")
-    public Object mk(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+    public Object mk(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
         try {
             Songs songs = searchSong.kugou(name);
             String lyric = songs.getData()[0].getLyric();
@@ -165,7 +165,7 @@ public class PointSongController {
     }
 
     @Action("网易歌词<.+=>name>")
-    public Object mw(@Param("name") String name, io.github.kloping.mirai0.Entitys.Group group) {
+    public Object mw(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
         try {
             Songs songs = searchSong.netEase(name);
             String lyric = songs.getData()[0].getLyric();

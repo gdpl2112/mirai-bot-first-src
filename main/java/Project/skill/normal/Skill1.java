@@ -1,9 +1,9 @@
 package Project.skill.normal;
 
 import Project.skill.SkillTemplate;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillIntro;
+import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;

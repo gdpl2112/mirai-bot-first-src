@@ -1,6 +1,6 @@
 package Project.services.impl;
 
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.SkillUseBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -10,18 +10,18 @@ import Project.services.detailServices.GameDetailService;
 import Project.skill.SkillFactory;
 import Project.skill.SkillTemplate;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 
-import static Project.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
-import static Project.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
-import static Project.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.SKILL_INFO_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.USE_SKILL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;

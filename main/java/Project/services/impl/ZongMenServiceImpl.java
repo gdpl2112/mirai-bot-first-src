@@ -6,20 +6,19 @@ import Project.dataBases.ZongMenDataBase;
 import Project.interfaces.Iservice.IZongMenService;
 import Project.services.detailServices.ZongDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zon;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Zong;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
-import static Project.ResourceSet.FinalString.NULL_LOW_STR;
-import static Project.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
@@ -41,7 +40,6 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String create(String name, Long who, Group group) {
         if (isIlleg(name)) return "存在敏感字符";
         if (name.length() > 4) return "名字过长最大4个长度";
-        if (ConfirmController.Confirming.contains(who)) return "请先完成 当前选项 尝试 '取消'";
         long t1 = -1;
         if ((t1 = isJkOk(who)) > 0) return "宗门活动冷却中...==>" + getTimeDDHHMM(t1);
         //=================
@@ -55,10 +53,10 @@ public class ZongMenServiceImpl implements IZongMenService {
         try {
             Method method = this.getClass().getDeclaredMethod("createNow", Long.class, String.class, Group.class);
             method.setAccessible(true);
-            ConfirmController.regConfirm(who, new Object[]{
+            ConfirmController.regConfirm(who,
                     method, this, new Object[]{
-                    who, name, group}
-            });
+                            who, name, group}
+            );
             return "确定要创建宗门 ' " + name + " ' 吗,\r\n这将花费450金魂币\r\n请在30秒内回复(确定/确认/取消)";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -155,14 +153,10 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("仅宗主和长老有权限邀请成员");
         try {
             Method method = this.getClass().getDeclaredMethod("join", Long.class, Long.class, Group.class);
-            if (ConfirmController.Agreeing.contains(qq))
-                return ("ta正在被邀请中...");
             if (zong.getMembers() >= zong.getMaxP()) {
                 return ("宗门已满");
             }
-            ConfirmController.regAgree(qq, new Object[]{
-                    method, this, new Object[]{who, qq, group}
-            });
+            ConfirmController.regAgree(qq, method, this, who, qq, group);
             return new StringBuilder().append("邀请成功\r\n").append(MemberTools.getNameFromGroup(qq, group)).append("请在30秒内回复同意/不同意").toString();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -417,13 +411,11 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String quite(long id) {
         if (!qq2id.containsKey(id))
             return ("你没有加入任何宗门");
-        if (ConfirmController.Confirming.contains(id)) return ("请先完成 当前选项 尝试 '取消'");
         Zon zon = getZonInfo(id);
         try {
             Method method = this.getClass().getDeclaredMethod("quiteNow", Long.class);
-            ConfirmController.regConfirm(id, new Object[]{
-                    method, this, new Object[]{new Long(id)}
-            });
+            ConfirmController.regConfirm(id,
+                    method, this, new Object[]{Long.valueOf(id)});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return ("退出异常");
@@ -450,8 +442,6 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String QuiteOne(long id, long who) {
         if (!qq2id.containsKey(id))
             return "你没有加入任何宗门";
-        if (ConfirmController.Confirming.contains(id))
-            return "请先完成 当前选项 尝试 '取消'";
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
         if (zon.getLevel() != 2)
@@ -460,9 +450,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "不可以移除宗主或长老";
         try {
             Method method = this.getClass().getDeclaredMethod("quiteNow", Long.class);
-            ConfirmController.regConfirm(id, new Object[]{
-                    method, this, new Object[]{who}
-            });
+            ConfirmController.regConfirm(id, method, this, new Object[]{who});
             return "确定要移除 ta 么? ";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

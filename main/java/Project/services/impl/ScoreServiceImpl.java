@@ -6,14 +6,14 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.TradingRecord;
-import io.github.kloping.mirai0.Entitys.UserScore;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 
 import java.util.List;
 
-import static Project.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static Project.dataBases.DataBase.*;
 import static Project.dataBases.GameDataBase.putPerson;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;

@@ -3,8 +3,8 @@ package Project.dataBases.skill;
 import Project.aSpring.SpringBootResource;
 import Project.skill.SkillFactory;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Skill;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.Main.Resource;
 
 import java.util.ArrayList;

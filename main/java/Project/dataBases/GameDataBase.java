@@ -2,12 +2,12 @@ package Project.dataBases;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Entitys.gameEntitys.PersonInfo;
-import io.github.kloping.mirai0.Entitys.gameEntitys.Warp;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.*;

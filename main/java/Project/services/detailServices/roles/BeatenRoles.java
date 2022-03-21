@@ -4,11 +4,11 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.GameSkillDetailService;
-import io.github.kloping.mirai0.Entitys.gameEntitys.GhostObj;
-import io.github.kloping.mirai0.Entitys.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Entitys.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
-import static Project.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;

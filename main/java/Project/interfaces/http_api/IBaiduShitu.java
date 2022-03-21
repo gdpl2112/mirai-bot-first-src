@@ -1,8 +1,8 @@
 package Project.interfaces.http_api;
 
 import io.github.kloping.MySpringTool.annotations.http.*;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.BaiduShitu;
-import io.github.kloping.mirai0.Entitys.apiEntitys.baiduShitu.response.BaiduShituResponse;
+import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.BaiduShitu;
+import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.BaiduShituResponse;
 
 import java.util.Map;
 

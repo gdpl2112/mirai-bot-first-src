@@ -1,9 +1,9 @@
 package Project.controllers.normalController;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.eEntitys.CustomElement;
-import io.github.kloping.mirai0.Entitys.eEntitys.CustomReplyGroup;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
+import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 import Project.broadcast.PicBroadcast;
 import Project.services.detailServices.CustomRandReplyService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;

@@ -1,15 +1,14 @@
 package Project.controllers.auto;
 
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
+import io.github.kloping.mirai0.commons.invokes.MethodCanCall;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -24,42 +23,42 @@ public class ConfirmController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    public static List<Long> Confirming = new LinkedList<>();
-    public static Map<Long, Object[]> ConfirmMap = new ConcurrentHashMap<>();
+    public static final int CONFIRMING = 0;
+    public static final int AGREEING = 0;
 
-    public static List<Long> Agreeing = new LinkedList<>();
-    public static Map<Long, Object[]> AgreeMap = new ConcurrentHashMap<>();
+    public static Map<Long, MethodCanCall> ConfirmMap = new ConcurrentHashMap<>();
 
-    /**
-     * 提交确认
-     *
-     * @param who
-     * @param objects [0] Method [1]This [3...] par
-     */
-    public static void regConfirm(Long who, Object[] objects) {
-        Confirming.add(who);
-        ConfirmMap.put(who, objects);
-        startTime(who, 1);
+    public static Map<Long, MethodCanCall> AgreeMap = new ConcurrentHashMap<>();
+
+    public static void regConfirm(Long who, Method method, Object o, Object... args) {
+        MethodCanCall canCall = new MethodCanCall().setMethod(method).setObjThis(o).setArgs(args);
+        ConfirmMap.put(who, canCall);
+        startTime(who, CONFIRMING);
     }
 
     /**
      * 提交同意
      *
-     * @param who
-     * @param objects [0] Method [1]This [3...] par
+     * @param who    唯一QQ
+     * @param method method
+     * @param o      method this object
+     * @param args   args
      */
-    public static void regAgree(Long who, Object[] objects) {
-        Agreeing.add(who);
-        AgreeMap.put(who, objects);
-        startTime(who, 2);
+    public static void regAgree(Long who, Method method, Object o, Object... args) {
+        MethodCanCall canCall = new MethodCanCall().setMethod(method).setObjThis(o).setArgs(args);
+        AgreeMap.put(who, canCall);
+        startTime(who, AGREEING);
     }
-
 
     private static final ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(25, 25, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(25));
 
     private static void startTime(Long who, int type1) {
+        startTime(who, type1, 40);
+    }
+
+    private static void startTime(Long who, int type1, Integer wait) {
         THREAD_POOL_EXECUTOR.execute(new Runnable() {
-            private int t = 30;
+            private int t = wait.intValue();
             private Long id = who;
             private int type = type1;
 
@@ -69,16 +68,15 @@ public class ConfirmController {
                     Thread.sleep(1000);
                     t--;
                     boolean k =
-                            (Confirming.contains(id) && ConfirmMap.containsKey(id)) || (AgreeMap.containsKey(id) && Agreeing.contains(id));
+                            (ConfirmMap.keySet().contains(id) && ConfirmMap.containsKey(id)) ||
+                                    (AgreeMap.containsKey(id) && AgreeMap.keySet().contains(id));
                     if (k) {
                         if (t > 0) {
                             run();
                         } else {
-                            if (type == 1) {
-                                Confirming.remove(id);
+                            if (type == CONFIRMING) {
                                 ConfirmMap.remove(id);
-                            } else if (type == 2) {
-                                Agreeing.remove(id);
+                            } else if (type == AGREEING) {
                                 AgreeMap.remove(id);
                             }
                         }
@@ -92,16 +90,12 @@ public class ConfirmController {
 
     @Action(value = "确定", otherName = "确认")
     public Object confirm(User qq, Group group) throws NoRunException {
-        if (Confirming.contains(qq.getId())) {
-            Object[] objects = ConfirmMap.get(qq.getId());
-            Method method = (Method) objects[0];
-            method.setAccessible(true);
-            Object[] pars = (Object[]) objects[2];
+        if (ConfirmMap.keySet().contains(qq.getId())) {
+            MethodCanCall mcc = ConfirmMap.get(qq.getId());
             Object result = null;
             try {
-                result = method.invoke(objects[1], pars).toString();
+                result = mcc.invoke();
                 Long id = qq.getId();
-                Confirming.remove(id);
                 ConfirmMap.remove(id);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -116,9 +110,8 @@ public class ConfirmController {
 
     @Action("取消")
     public Object cancel(User qq, Group group) throws NoRunException {
-        if (Confirming.contains(qq.getId())) {
+        if (ConfirmMap.keySet().contains(qq.getId())) {
             Long id = qq.getId();
-            Confirming.remove(id);
             ConfirmMap.remove(id);
             return ("已取消");
         }
@@ -127,16 +120,13 @@ public class ConfirmController {
 
     @Action("同意")
     public Object agree(User qq, Group group) throws NoRunException {
-        if (Agreeing.contains(qq.getId())) {
-            Object[] objects = AgreeMap.get(qq.getId());
-            Method method = (Method) objects[0];
-            Object[] pars = (Object[]) objects[2];
+        if (AgreeMap.keySet().contains(qq.getId())) {
+            MethodCanCall mcc = ConfirmMap.get(qq.getId());
             Object result = null;
             try {
-                result = method.invoke(objects[1], pars).toString();
+                result = mcc.invoke();
                 Long id = qq.getId();
-                Agreeing.remove(id);
-                AgreeMap.remove(id);
+                ConfirmMap.remove(id);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -150,9 +140,8 @@ public class ConfirmController {
 
     @Action("不同意")
     public String noAgree(User qq, Group group) throws NoRunException {
-        if (Agreeing.contains(qq.getId())) {
+        if (AgreeMap.keySet().contains(qq.getId())) {
             Long id = qq.getId();
-            Agreeing.remove(id);
             AgreeMap.remove(id);
             return ("已拒绝");
         } else {

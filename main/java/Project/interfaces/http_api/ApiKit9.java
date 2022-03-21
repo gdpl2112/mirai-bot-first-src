@@ -4,8 +4,8 @@ import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import io.github.kloping.mirai0.Entitys.apiEntitys.qqGroupInfo.QQGroupInfo;
-import io.github.kloping.mirai0.Entitys.apiEntitys.qqMemberInfo.QQMemberInfo;
+import io.github.kloping.mirai0.commons.apiEntitys.qqGroupInfo.QQGroupInfo;
+import io.github.kloping.mirai0.commons.apiEntitys.qqMemberInfo.QQMemberInfo;
 
 /**
  * @author github kloping

@@ -2,9 +2,9 @@ package Project.controllers.gameControllers;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
-import io.github.kloping.mirai0.Entitys.Group;
-import io.github.kloping.mirai0.Entitys.User;
-import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.task.Task;
 import Project.dataBases.GameTaskDatabase;
 import Project.services.detailServices.TaskDetailService;
 import Project.interfaces.Iservice.IGameTaskService;

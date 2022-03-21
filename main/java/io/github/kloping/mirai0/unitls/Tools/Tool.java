@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import static Project.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.date.DateUtils.*;
 import static io.github.kloping.mirai0.Main.Resource.contextManager;
 

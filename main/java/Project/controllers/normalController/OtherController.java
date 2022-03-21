@@ -6,14 +6,14 @@ import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Entitys.Group;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
-import static Project.ResourceSet.FinalString.*;
-import static Project.ResourceSet.FinalString.CLOSE_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
