@@ -7,7 +7,8 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.dataBases.GameTaskDatabase.cd_0;
+import static Project.dataBases.GameTaskDatabase.CD1;
+
 
 /**
  * 周任务0
@@ -39,7 +40,7 @@ public class Task1000 extends Task {
     @Override
     public void over() {
         TaskPoint.getInstance(getHost().longValue())
-                .setNextCan(System.currentTimeMillis() + (cd_0))
+                .setNextCan(System.currentTimeMillis() + (CD1))
                 .addNormalIndex(-1).apply();
 
         MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());

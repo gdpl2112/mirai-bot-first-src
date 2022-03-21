@@ -62,7 +62,7 @@ public class GameDetailService {
      * @param o   这么多  血量
      * @return
      */
-    public static String beaten(Number qq, Number qq2, final long o) {
+    public static String beaten(Number qq, Number qq2, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
         synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
@@ -112,11 +112,15 @@ public class GameDetailService {
                 p1.apply();
                 if (p1.hp <= 0) {
                     PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
-                            qq2.longValue(), PlayerLostBroadcast.PlayerLostReceiver.type.att);
+                            qq2.longValue(), type);
                 }
             }
             return sb.toString();
         }
+    }
+
+    public static String beaten(Number qq, Number qq2, final long o) {
+        return beaten(qq, qq2, o, PlayerLostBroadcast.PlayerLostReceiver.LostType.att);
     }
 
     public static String consumedHl(long who, final long o) {
@@ -258,6 +262,8 @@ public class GameDetailService {
         baseInfo.addHj(-v);
         return s;
     }
+
+
 
     public static String addHp(long q, int b) {
         Long l = GameDataBase.getInfo(q).getHpL();

@@ -166,7 +166,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
                 SpringBootResource.getSoulBoneMapper().delete(soulBone);
                 addToBgs(who, id, ObjType.un);
                 GameDataBase.putPerson(getInfo(who).setHp(0L).setHl(0L).setXp(0L));
-                PlayerLostBroadcast.INSTANCE.broadcast(who, who, PlayerLostBroadcast.PlayerLostReceiver.type.un);
+                PlayerLostBroadcast.INSTANCE.broadcast(who, who, PlayerLostBroadcast.PlayerLostReceiver.LostType.un);
                 return "卸掉成功 状态全无";
             }
         }

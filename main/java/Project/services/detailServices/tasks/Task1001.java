@@ -4,7 +4,7 @@ import io.github.kloping.mirai0.Entitys.gameEntitys.task.Task;
 import io.github.kloping.mirai0.Entitys.gameEntitys.task.TaskPoint;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
-import static Project.dataBases.GameTaskDatabase.cd_0;
+import static Project.dataBases.GameTaskDatabase.CD1;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
@@ -28,7 +28,7 @@ public class Task1001 extends Task {
     @Override
     public void over() {
         TaskPoint.getInstance(getHost().longValue())
-                .setNextCan(System.currentTimeMillis() + (cd_0))
+                .setNextCan(System.currentTimeMillis() + (CD1))
                 .addNormalIndex(-1).apply();
 
         MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());

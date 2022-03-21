@@ -122,6 +122,9 @@ public class Client implements Runnable {
     @Override
     public void run() {
         try {
+            if (f.channel().isOpen()) {
+                f.channel().closeFuture().sync();
+            }
             f = b.connect(ip, port).sync();
             System.out.println("connected");
         } catch (Exception e) {

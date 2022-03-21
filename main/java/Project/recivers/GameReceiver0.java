@@ -16,7 +16,6 @@ import Project.broadcast.game.RecordBroadcast;
 import Project.broadcast.enums.ObjType;
 import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.controllers.normalController.NoticeController.lowst;
@@ -80,16 +79,19 @@ public class GameReceiver0 {
     private static void init2() {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
             @Override
-            public void onReceive(long who, long from, type type) {
+            public void onReceive(long who, long from, LostType type) {
                 StarterApplication.logger.log(String.format("%s,lost, from %s by %s",
                         who, from, type.name()));
                 switch (type) {
                     case att:
                         lost(who);
+                        GInfo.getInstance(who).addDiedc().apply();
+                        break;
+                    case un:
+                        GInfo.getInstance(who).addDiedc().apply();
                         break;
                     default:
                 }
-                GInfo.getInstance(who).addDiedc().apply();
             }
 
             public void lost(long who) {

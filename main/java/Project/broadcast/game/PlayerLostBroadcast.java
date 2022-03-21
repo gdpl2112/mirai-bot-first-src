@@ -3,8 +3,9 @@ package Project.broadcast.game;
 import Project.broadcast.Broadcast;
 import Project.broadcast.Receiver;
 
-import java.lang.reflect.Method;
-
+/**
+ * @author github-kloping
+ */
 public class PlayerLostBroadcast extends Broadcast {
     public static final PlayerLostBroadcast INSTANCE = new PlayerLostBroadcast();
 
@@ -12,7 +13,7 @@ public class PlayerLostBroadcast extends Broadcast {
         super("PlayerLostBroadcast");
     }
 
-    public void broadcast(long who, long from, PlayerLostReceiver.type type) {
+    public void broadcast(long who, long from, PlayerLostReceiver.LostType type) {
         for (Receiver receiver : receivers) {
             if (receiver instanceof PlayerLostBroadcast.PlayerLostReceiver)
                 ((PlayerLostBroadcast.PlayerLostReceiver) receiver).onReceive(who, from, type);
@@ -27,10 +28,17 @@ public class PlayerLostBroadcast extends Broadcast {
     }
 
     public static interface PlayerLostReceiver extends Receiver {
-        public static enum type {
-            att,un
+        public static enum LostType {
+            att, un, fake
         }
 
-        void onReceive(long who, long from, type type);
+        /**
+         * receive
+         *
+         * @param who
+         * @param from
+         * @param type
+         */
+        void onReceive(long who, long from, LostType type);
     }
 }

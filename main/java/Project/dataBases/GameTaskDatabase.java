@@ -49,8 +49,8 @@ public class GameTaskDatabase {
         }
     }
 
-    public static final long cd_ = 24 * 60 * 60 * 1000;
-    public static final long cd_0 = 30 * 60 * 1000;
+    public static final long CD0 = 24 * 60 * 60 * 1000;
+    public static final long CD1 = 30 * 60 * 1000;
 
     public static Receiver createTask(Task task) {
         saveActivity(task.getHost());

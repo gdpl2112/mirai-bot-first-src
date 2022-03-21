@@ -43,9 +43,7 @@ public class BotStarter {
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
         BotConfiguration botConfiguration = new BotConfiguration();
-        botConfiguration.setProtocol(
-                test ? BotConfiguration.MiraiProtocol.ANDROID_PAD :
-                        BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache1"));
         botConfiguration.fileBasedDeviceInfo("./devices/device1.json");

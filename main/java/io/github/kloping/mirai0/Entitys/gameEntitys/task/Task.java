@@ -53,11 +53,11 @@ public class Task {
     public void over() {
         for (Long aLong : getTasker()) {
             TaskPoint.getInstance(aLong.longValue())
-                    .setNextCan(System.currentTimeMillis() + (cd_ * 2)).apply();
+                    .setNextCan(System.currentTimeMillis() + (CD0 * 2)).apply();
         }
 
         TaskPoint.getInstance(getHost().longValue())
-                .setNextCan(System.currentTimeMillis() + (cd_ * 2))
+                .setNextCan(System.currentTimeMillis() + (CD0 * 2))
                 .addPrenticeIndex(-1).apply();
 
         MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
