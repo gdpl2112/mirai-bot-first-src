@@ -43,10 +43,10 @@ public class Drawer {
     private static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
     private static final Font SMALL_FONT18 = new Font("宋体", Font.BOLD, 28);
     private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
-    private static Color xpColor = fromStrToARGB("FFB9FFB9");
-    private static Color hpColor = fromStrToARGB("FF5Dff5D");
-    private static Color hlColor = fromStrToARGB("FFFFB946");
-    private static Color hjColor = fromStrToARGB("FF8b8bFF");
+    private static Color xpColor = fromStrGetArgb("FFB9FFB9");
+    private static Color hpColor = fromStrGetArgb("FF5Dff5D");
+    private static Color hlColor = fromStrGetArgb("FFFFB946");
+    private static Color hjColor = fromStrGetArgb("FF8b8bFF");
     private static Color levelColor = new Color(255, 0, 136);
     private static Color shieldColor = new Color(239, 239, 239, 200);
 
@@ -292,7 +292,7 @@ public class Drawer {
         }
     }
 
-    public static Color fromStrToARGB(String str) {
+    public static Color fromStrGetArgb(String str) {
         String str1 = str.substring(0, 2);
         String str2 = str.substring(2, 4);
         String str3 = str.substring(4, 6);
@@ -604,8 +604,12 @@ public class Drawer {
         int base = 100;
         int width = 5 * base;
         int hs = 1;
-        if (ids.size()>5){hs++;}
-        if (ids.size()>10){hs++;}
+        if (ids.size() > 5) {
+            hs++;
+        }
+        if (ids.size() > 10) {
+            hs++;
+        }
         int height = hs * base;
         Map<Integer, Integer> st2tr = new HashMap<>();
         for (int i = 0; i < 9; i++) {

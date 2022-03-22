@@ -1,12 +1,13 @@
 package io.github.kloping.mirai0.commons;
 
 
-import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static Project.dataBases.GameDataBase.getInfo;
 
 /**
  * @author github-kloping
@@ -18,6 +19,21 @@ public abstract class Skill implements Runnable {
     private String name = null;
     private String tips = "";
     private Group group = null;
+    private Object[] args = null;
+
+    public Object[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object... args) {
+        this.args = args;
+    }
+
+    private PersonInfo personInfo = null;
+
+    public PersonInfo getPersonInfo() {
+        return personInfo == null ? personInfo = getInfo(qq.longValue()) : personInfo;
+    }
 
     public Skill() {
     }

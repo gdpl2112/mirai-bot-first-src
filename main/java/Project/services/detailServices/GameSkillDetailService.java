@@ -4,15 +4,17 @@ import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.date.FrameUtils;
-import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.ShieldPack;
-import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
+import io.github.kloping.object.ObjectUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -326,5 +328,46 @@ public class GameSkillDetailService {
         shieldPack.setQ(q).setValue(v).setEffected(false);
         shieldPack.setMax(maxV).setTime(System.currentTimeMillis() + t);
         tagPacks.add(shieldPack);
+    }
+
+    /**
+     * 从 {@link Skill#getArgs()} 中获取指定类型的参数
+     *
+     * @param skill
+     * @param cla
+     * @param <T>
+     * @return
+     */
+    public static <T> T getArgFromSkillArgs(Skill skill, Class<T> cla) {
+        T t = null;
+        Object[] os = skill.getArgs();
+        if (os != null) {
+            for (Object o : os) {
+                if (o == null) continue;
+                try {
+                    if (ObjectUtils.isBaseOrPack(cla)) {
+                        Class c0 = ObjectUtils.baseToPack(cla);
+                        Method method = c0.getDeclaredMethod("valueOf", String.class);
+                        method.setAccessible(true);
+                        t = (T) method.invoke(null, o.toString());
+                        break;
+                    } else if (ObjectUtils.isSuperOrInterface(o.getClass(), cla)) {
+                        t = (T) o;
+                        break;
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+        }
+        return t;
+    }
+
+    public static <T> T getArgFromSkillArgs(Skill skill, Class<T> cla, T defaultValue) {
+        T t = getArgFromSkillArgs(skill, cla);
+        if (t == null) {
+            return defaultValue;
+        }
+        return t;
     }
 }

@@ -63,4 +63,5 @@ public abstract class SkillTemplate {
         sb.append("内容:").append(getIntro());
         return sb.toString();
     }
+
 }

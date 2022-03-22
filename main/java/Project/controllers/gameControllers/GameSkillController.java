@@ -75,8 +75,21 @@ public class GameSkillController {
             str = str.replace("魂技", "");
             String s1 = Tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
+
             str = str.replace(Tool.trans(st) + "", "");
-            return String.valueOf(skillService.useSkill(qq.getId(), st, getAllAt(str), str, group));
+            Set<Number> numbers = new HashSet<>();
+            while (true) {
+                if (str.contains("#")) {
+                    str = str.replaceAll("\\#", "");
+                    numbers.add(-2);
+                }
+                Long l1 = MessageTools.getAtFromString(str);
+                str = str.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "\\]", "");
+                if (l1 == -1) break;
+                else numbers.add(l1);
+            }
+            Number[] ats = numbers.toArray(new Number[0]);
+            return String.valueOf(skillService.useSkill(qq.getId(), st, ats, str, group));
         } else {
             throw new NoRunException();
         }
@@ -147,21 +160,6 @@ public class GameSkillController {
     @Action("魂技菜单")
     public String menu() {
         return menu;
-    }
-
-    private static Number[] getAllAt(String allMess) {
-        Set<Number> numbers = new HashSet<>();
-        while (true) {
-            if (allMess.contains("#")) {
-                allMess = allMess.replaceAll("\\#", "");
-                numbers.add(-2);
-            }
-            Long l1 = MessageTools.getAtFromString(allMess);
-            allMess = allMess.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "\\]", "");
-            if (l1 == -1) break;
-            else numbers.add(l1);
-        }
-        return numbers.toArray(new Number[0]);
     }
 
     private static String m1 = "新.\n" +
