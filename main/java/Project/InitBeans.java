@@ -8,6 +8,7 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.ktor.util.collections.ConcurrentSet;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
 

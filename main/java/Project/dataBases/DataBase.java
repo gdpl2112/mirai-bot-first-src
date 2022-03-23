@@ -132,7 +132,7 @@ public class DataBase {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return father.getPermission().equals(ALL) || father.getPermission().equals(gid);
+            return father.getPermission().equals(ALL) || father.hasPermission(gid.longValue());
         }
         return new File(path + "/mainfist/fathers/" + who).exists();
     }
@@ -143,7 +143,10 @@ public class DataBase {
 
     public static boolean addFather(Long who, String perm) {
         if (getFatherMapper() != null) {
-            Father father = new Father();
+            Father father;
+            if ((father = getFatherMapper().selectById(who)) == null) {
+                father = new Father();
+            }
             father.setId(who.longValue());
             father.setPermission(perm);
             return getFatherMapper().insert(father) > 0;
