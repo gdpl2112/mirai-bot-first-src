@@ -57,13 +57,6 @@ public class Client implements Runnable {
         this(property, Integer.parseInt(property1), Integer.parseInt(property2));
     }
 
-    public Client(String property, String property1, String property2, String property3) {
-        this(property, Integer.parseInt(property1), Integer.parseInt(property2));
-        if (property3 != null) {
-            setReconnect(Boolean.valueOf(property3));
-        }
-    }
-
     public String getIp() {
         return ip;
     }

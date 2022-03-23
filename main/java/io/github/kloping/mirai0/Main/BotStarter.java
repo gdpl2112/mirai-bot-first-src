@@ -61,8 +61,7 @@ public class BotStarter {
         new Client(
                 SpringBootResource.getEnvironment().getProperty("mc.ip"),
                 SpringBootResource.getEnvironment().getProperty("mc.port"),
-                SpringBootResource.getEnvironment().getProperty("mc.gid"),
-                SpringBootResource.getEnvironment().getProperty("mc.reconnect")
+                SpringBootResource.getEnvironment().getProperty("mc.gid")
         );
     }
 
