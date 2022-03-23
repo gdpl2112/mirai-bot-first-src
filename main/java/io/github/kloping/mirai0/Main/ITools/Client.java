@@ -7,11 +7,10 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import lombok.SneakyThrows;
 
 import java.nio.charset.StandardCharsets;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github.kloping
@@ -129,16 +128,7 @@ public class Client implements Runnable {
             System.out.println("connected");
         } catch (Exception e) {
             e.printStackTrace();
+            bot.getFriend(superQL).sendMessage(e.getMessage());
         }
-    }
-
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @SneakyThrows
-            @Override
-            public void run() {
-                f.channel().closeFuture().sync();
-            }
-        });
     }
 }
