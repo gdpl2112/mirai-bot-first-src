@@ -8,12 +8,12 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
@@ -22,9 +22,10 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -43,9 +44,13 @@ public class ManagerController {
         if (qq.getId() == Long.parseLong(superQ)) {
             println("超级权限执行...");
             return;
-        } else if (!DataBase.isFather(qq.getId())) {
-            throw new NoRunException("无权限");
+        } else if (DataBase.isFather(qq.getId(), group.getId())) {
+            return;
+        } else if (mess.contains("通过")) {
+            if (bot.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0)
+                return;
         }
+        throw new NoRunException("无权限");
     }
 
     @Action("跳过验证.+")
@@ -122,25 +127,6 @@ public class ManagerController {
         return "关闭完成";
     }
 
-    @Action("添加管理.{1,}")
-    public String addFather(@AllMess String message, User qq) throws NoRunException {
-        if (qq.getId() != superQL)
-            throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
-        if (who == -1)
-            return "添加谁?";
-        return managerService.addFather(qq.getId(), who);
-    }
-
-    @Action("移除管理.{1,}")
-    public String removeFather(@AllMess String message, User qq) throws NoRunException {
-        if (qq.getId() != superQL)
-            throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
-        if (who == -1)
-            return "移除谁?";
-        return managerService.removeFather(qq.getId(), who);
-    }
 
     @Action("开启闪照破解")
     public String openFlash(Group group) {

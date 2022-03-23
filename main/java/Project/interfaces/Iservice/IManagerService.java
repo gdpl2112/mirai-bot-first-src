@@ -17,6 +17,15 @@ public interface IManagerService   {
     String addFather(long father,long who);
 
     /**
+     *
+     * @param father
+     * @param who
+     * @param perm
+     * @return
+     */
+    String addFather(long father,long who,String perm);
+
+    /**
      * 移除管理
      *
      * @param father

@@ -4,6 +4,7 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
+import Project.interfaces.Iservice.IManagerService;
 import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -12,10 +13,7 @@ import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.commons.Curfew;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
@@ -28,6 +26,7 @@ import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.GameDataBase.HIST_INFOS;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
 
@@ -104,7 +103,7 @@ public class SuperController {
         return "不可用";
     }
 
-    private static final Map<Long, Long> UP_AKS = new ConcurrentHashMap<>();
+  /*  private static final Map<Long, Long> UP_AKS = new ConcurrentHashMap<>();
     public static final String[] IS_ADMINISTRATOR_TIPS = new String[]
             {"应该是", "是的", "是吧", "是", "你猜", "yeah", "is", "1"};
     public static final String[] IST_ADMINISTRATOR_TIPS = new String[]
@@ -170,7 +169,7 @@ public class SuperController {
             return getRandString(NDD_FATHER_TIPS);
         }
     }
-
+*/
     @Action("关机")
     public String k0() {
         Switch.AllK = false;
@@ -281,5 +280,34 @@ public class SuperController {
             getBagMapper().insertWithDesc(id, who.longValue(), System.currentTimeMillis(), "补偿添加");
         }
         return OK_TIPS;
+    }
+
+    @AutoStand
+    IManagerService managerService;
+
+    @Action("添加管理.{1,}")
+    public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
+        if (qq.getId() != superQL)
+            throw new NoRunException();
+        long who = MessageTools.getAtFromString(message);
+        if (who == -1)
+            return "添加谁?";
+        String perm = message.replace(String.format(AT_FORMAT, who), "");
+        perm = perm.replace("添加管理", "");
+        if (perm.equals(Father.ALL)) {
+            return managerService.addFather(qq.getId(), who);
+        } else {
+            return managerService.addFather(qq.getId(), who, Long.toString(group.getId()));
+        }
+    }
+
+    @Action("移除管理.{1,}")
+    public String removeFather(@AllMess String message, User qq) throws NoRunException {
+        if (qq.getId() != superQL)
+            throw new NoRunException();
+        long who = MessageTools.getAtFromString(message);
+        if (who == -1)
+            return "移除谁?";
+        return managerService.removeFather(qq.getId(), who);
     }
 }

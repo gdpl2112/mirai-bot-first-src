@@ -13,8 +13,8 @@ import static Project.services.detailServices.GameSkillDetailService.getArgFromS
 /**
  * @author github.kloping
  */
-public class Skill22 extends SkillTemplate {
-    public Skill22() {
+public class Skill122 extends SkillTemplate {
+    public Skill122() {
         super(21);
     }
 

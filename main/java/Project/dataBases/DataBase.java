@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getFatherMapper;
 import static Project.aSpring.SpringBootResource.getGroupConfMapper;
+import static io.github.kloping.mirai0.commons.Father.ALL;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
@@ -118,16 +119,33 @@ public class DataBase {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return father != null;
+            return father.getPermission().equals(ALL);
+        }
+        return new File(path + "/mainfist/fathers/" + who).exists();
+    }
+
+    public static boolean isFather(Long who, Long gid) {
+        if (getFatherMapper() != null) {
+            Father father = null;
+            try {
+                father = getFatherMapper().selectById(who);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return father.getPermission().equals(ALL) || father.getPermission().equals(gid);
         }
         return new File(path + "/mainfist/fathers/" + who).exists();
     }
 
     public static boolean addFather(Long who) {
+        return addFather(who, ALL);
+    }
+
+    public static boolean addFather(Long who, String perm) {
         if (getFatherMapper() != null) {
             Father father = new Father();
             father.setId(who.longValue());
-            father.setPermission("all");
+            father.setPermission(perm);
             return getFatherMapper().insert(father) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);

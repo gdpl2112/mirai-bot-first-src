@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.Father;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
@@ -29,8 +30,13 @@ import static io.github.kloping.mirai0.Main.Resource.superQL;
 public class ManagerServiceImpl implements IManagerService {
     @Override
     public String addFather(long father, long who) {
+        return addFather(father, who, Father.ALL);
+    }
+
+    @Override
+    public String addFather(long father, long who, String perm) {
         if (father == superQL) {
-            if (DataBase.addFather(Long.valueOf(who))) {
+            if (DataBase.addFather(Long.valueOf(who), perm)) {
                 return "添加完成";
             } else {
                 return "他本来就是";
