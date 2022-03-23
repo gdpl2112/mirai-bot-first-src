@@ -56,5 +56,4 @@ public class SaveHandler extends SimpleListenerHost {
     public void onMessage(@NotNull StrangerMessageSyncEvent event) throws Exception {
         AllMessage.factory(event).save();
     }
-
 }
