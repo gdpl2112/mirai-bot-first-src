@@ -17,6 +17,15 @@ import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.getImageB
  * @author github-kloping
  */
 public class GameDrawer {
+    public static String drawerMap0(GameMap map) {
+        try {
+            return drawerMap(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String drawerMap(GameMap map) throws IOException {
         int wc = map.getWidth();
         int hc = map.getHeight();

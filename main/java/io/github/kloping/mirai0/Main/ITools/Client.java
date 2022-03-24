@@ -10,6 +10,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.nio.charset.StandardCharsets;
 
+import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
@@ -121,7 +122,8 @@ public class Client implements Runnable {
             System.out.println("connected");
         } catch (Exception e) {
             e.printStackTrace();
-            bot.getFriend(superQL).sendMessage(e.getMessage());
+            if (!test)
+                bot.getFriend(superQL).sendMessage(e.getMessage());
         }
     }
 }

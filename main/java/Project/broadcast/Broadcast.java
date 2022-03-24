@@ -11,6 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author github-kloping
+ */
 public abstract class Broadcast {
     protected String id;
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
@@ -24,13 +27,14 @@ public abstract class Broadcast {
         cls2Broadcast.put(this.getClass(), this);
         id2Broadcasts.put(id, this);
         for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
-            if (declaredMethod.getName().equals("broadcast"))
-                if (declaredMethod.getParameterCount() >= 1)
+            if ("broadcast".equals(declaredMethod.getName())) {
+                if (declaredMethod.getParameterCount() >= 1) {
                     if (declaredMethod.getParameterTypes()[0] != Object[].class) {
                         method = declaredMethod;
                         break;
                     }
-
+                }
+            }
         }
     }
 
@@ -64,5 +68,9 @@ public abstract class Broadcast {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected void setId(String id) {
+        this.id = id;
     }
 }

@@ -15,7 +15,7 @@ import static Project.services.detailServices.GameSkillDetailService.getArgFromS
  */
 public class Skill122 extends SkillTemplate {
     public Skill122() {
-        super(21);
+        super(22);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Skill122 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("令自身向前移动指定距离,最大5格", getAddP(getJid(), getId()));
+        return String.format("令自身向前或向后移动指定距离,最大5格,未在挑战中时有%s%%几率闪避", getAddP(getJid(), getId()));
     }
 
     @Override

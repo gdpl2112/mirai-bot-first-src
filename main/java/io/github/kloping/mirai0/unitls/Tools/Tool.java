@@ -950,6 +950,9 @@ public class Tool {
     public static String pathToImg(String path) {
         return "<Pic:" + path + ">";
     }
+    public static String pathToImg0(String path) {
+        return "&"+pathToImg(path);
+    }
 
 
     /**

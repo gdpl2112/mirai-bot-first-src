@@ -4,6 +4,9 @@ import io.github.kloping.mirai0.commons.task.Task;
 import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
+/**
+ * @author github-kloping
+ */
 public class GameTaskBroadcast extends Broadcast {
     public GameTaskBroadcast() {
         super("GameTaskBroadcast");
