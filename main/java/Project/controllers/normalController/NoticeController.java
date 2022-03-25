@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.25:调整猜拳赢的概率(增加),新魂技见魂技更新列表").append("\n");
         UPDATE_LOG.append("3.21:重构了代码").append("\n");
         UPDATE_LOG.append("3.17:见魂技更新列表").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");

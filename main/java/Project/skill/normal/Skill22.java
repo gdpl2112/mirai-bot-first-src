@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
@@ -9,12 +10,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getArgFromSkillArgs;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
 
 /**
  * @author github.kloping
  */
-public class Skill122 extends SkillTemplate {
-    public Skill122() {
+public class Skill22 extends SkillTemplate {
+    public Skill22() {
         super(22);
     }
 
@@ -23,9 +26,11 @@ public class Skill122 extends SkillTemplate {
         return new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.Add};
     }
 
+    private static int LOWEST = 30;
+
     @Override
     public String getIntro() {
-        return String.format("令自身向前或向后移动指定距离,最大5格,未在挑战中时有%s%%几率闪避", getAddP(getJid(), getId()));
+        return String.format("血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾", LOWEST, getAddP(getJid(), getId()));
     }
 
     @Override
@@ -38,9 +43,13 @@ public class Skill122 extends SkillTemplate {
 
             @Override
             public void run() {
-                Integer i0 = getArgFromSkillArgs(this, Integer.class, 1);
-                i0 = i0 > 5 ? 5 : i0;
-
+                int ad = info.getAddPercent();
+                int b = toPercent(getPersonInfo().getHp(), getPersonInfo().getHpL());
+                if (b <= LOWEST) {
+                    GameSkillDetailService.addHp(who, who.longValue(), ad);
+                } else {
+                    GameSkillDetailService.addShield(who.longValue(), percentTo(ad, getPersonInfo().getHp()));
+                }
             }
         };
     }

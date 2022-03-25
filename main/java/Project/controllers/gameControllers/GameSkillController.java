@@ -1,20 +1,19 @@
 package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
+import Project.interfaces.Iservice.ISkillService;
+import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -163,8 +162,9 @@ public class GameSkillController {
     }
 
     private static String m1 = "新.\n" +
-            "\t1.特殊性,增益型,技能,令自身增加n%的免伤\n" +
-            "\t2.控制型技能,眩晕\n";
+            "\t1.特殊,增益型技能;血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾\n" +
+            "\t2.特殊,增益型技能;令自身增加n%的免伤\n" +
+            "\t3.控制型技能,眩晕\n";
 
     @Action("魂技更新列表")
     public String m1() {
