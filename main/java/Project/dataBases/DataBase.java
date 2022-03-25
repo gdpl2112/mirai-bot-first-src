@@ -146,10 +146,13 @@ public class DataBase {
             Father father;
             if ((father = getFatherMapper().selectById(who)) == null) {
                 father = new Father();
+                father.setId(who.longValue());
+                father.addPermission(Long.parseLong(perm));
+                return getFatherMapper().insert(father) > 0;
             }
             father.setId(who.longValue());
             father.addPermission(Long.parseLong(perm));
-            return getFatherMapper().insert(father) > 0;
+            return getFatherMapper().updateById(father) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);
         if (file.exists()) {
