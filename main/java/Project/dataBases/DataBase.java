@@ -148,7 +148,7 @@ public class DataBase {
                 father = new Father();
             }
             father.setId(who.longValue());
-            father.setPermission(perm);
+            father.addPermission(Long.parseLong(perm));
             return getFatherMapper().insert(father) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);
