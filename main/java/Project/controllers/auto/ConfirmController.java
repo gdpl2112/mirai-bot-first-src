@@ -121,12 +121,12 @@ public class ConfirmController {
     @Action("同意")
     public Object agree(User qq, Group group) throws NoRunException {
         if (AgreeMap.keySet().contains(qq.getId())) {
-            MethodCanCall mcc = ConfirmMap.get(qq.getId());
+            MethodCanCall mcc = AgreeMap.get(qq.getId());
             Object result = null;
             try {
                 result = mcc.invoke();
                 Long id = qq.getId();
-                ConfirmMap.remove(id);
+                AgreeMap.remove(id);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
