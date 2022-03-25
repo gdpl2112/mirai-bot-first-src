@@ -67,7 +67,7 @@ public class GameJoinAcController {
 
     @Action("选择<.{1,}=>name>")
     public Object com2(Group group, @Param("name") String name, User qq) {
-        return gameJoinAcService.startAtt(qq.getId(), name);
+        return gameJoinAcService.startSelect(qq.getId(), name);
     }
 
     @Action("请求支援")

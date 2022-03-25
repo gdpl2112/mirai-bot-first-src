@@ -80,7 +80,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     }
 
     @Override
-    public Object startAtt(long who, String select) {
+    public Object startSelect(long who, String select) {
         String what = select.trim();
         what = what.replace("选择", "").trim();
         int i = decideMaps.indexOf(what);

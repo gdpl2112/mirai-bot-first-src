@@ -21,6 +21,7 @@ public class ChallengeSide {
     private int x, y;
     private String side;
     private String icon;
+    private int maxMove = 2;
     private boolean operation = false;
 
     public String getIcon() {

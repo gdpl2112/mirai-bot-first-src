@@ -12,7 +12,7 @@ public interface IGameJoinAcService  {
 
     String join(long who, String name, Group group);
 
-    Object startAtt(long who,String select);
+    Object startSelect(long who, String select);
 
     String getHelp(long who);
 

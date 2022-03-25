@@ -7,9 +7,9 @@ import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.initialize.FileInitializeValue;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -26,7 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static Project.controllers.gameControllers.GameH2LController.check;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
@@ -133,7 +132,6 @@ public class Resource {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
                 onServerAddTimes();
-                check(objects);
             }
         });
         StarterApplication.addConfFile("./conf/conf.txt");

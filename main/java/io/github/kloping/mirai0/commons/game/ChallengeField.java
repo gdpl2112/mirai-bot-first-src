@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
+import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
 import lombok.EqualsAndHashCode;
@@ -34,6 +36,7 @@ public class ChallengeField {
     private int id;
     private long gid;
     private String now = RED_SIDE;
+    private int step = 0;
     private Map<Long, ChallengeSide> redSide = new HashMap<>();
     private Map<Long, ChallengeSide> blueSide = new HashMap<>();
     private int w = 10;
@@ -44,7 +47,7 @@ public class ChallengeField {
         GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder()
                 .setWidth(w).setHeight(h);
         for (ChallengeSide challengeSide : redSide.values()) {
-            builder.append(challengeSide.getX(), challengeSide.getY(),challengeSide.getIcon()
+            builder.append(challengeSide.getX(), challengeSide.getY(), challengeSide.getIcon()
                     , MapPosition.Type.p);
         }
         for (ChallengeSide challengeSide : blueSide.values()) {
@@ -64,12 +67,20 @@ public class ChallengeField {
     }
 
     public void operation(long id) {
-        getChallengeSide(id).setOperation(true);
+        step++;
         testRound();
     }
 
     private void testRound() {
-
+        if (RED_SIDE.equals(now) && step >= redSide.values().size()) {
+            step = 0;
+            broadcastStepped();
+            now = BLUE_SIDE;
+        } else if (BLUE_SIDE.equals(now) && step >= blueSide.values().size()) {
+            step = 0;
+            broadcastStepped();
+            now = RED_SIDE;
+        }
     }
 
     public ChallengeSide getChallengeSide(long id) {
@@ -79,5 +90,38 @@ public class ChallengeField {
             return blueSide.get(id);
         }
         return null;
+    }
+
+    public void flush() {
+        for (ChallengeSide side : redSide.values()) {
+            if (isCycle()) {
+                side.setX(side.getX() > getW() ? 0 : side.getX());
+                side.setX(side.getX() < 0 ? getW() : side.getX());
+                side.setY(side.getY() > getH() ? 0 : side.getY());
+                side.setY(side.getY() < 0 ? getH() : side.getY());
+            } else {
+                side.setX(side.getX() > getW() ? 0 : side.getX());
+                side.setX(side.getX() < 0 ? getW() : side.getX());
+                side.setY(side.getY() > getH() ? 0 : side.getY());
+                side.setY(side.getY() < 0 ? getH() : side.getY());
+            }
+        }
+        for (ChallengeSide side : blueSide.values()) {
+            if (isCycle()) {
+                side.setX(side.getX() > getW() ? 0 : side.getX());
+                side.setX(side.getX() < 0 ? getW() : side.getX());
+                side.setY(side.getY() > getH() ? 0 : side.getY());
+                side.setY(side.getY() < 0 ? getH() : side.getY());
+            } else {
+                side.setX(side.getX() > getW() ? 0 : side.getX());
+                side.setX(side.getX() < 0 ? getW() : side.getX());
+                side.setY(side.getY() > getH() ? 0 : side.getY());
+                side.setY(side.getY() < 0 ? getH() : side.getY());
+            }
+        }
+    }
+
+    private void broadcastStepped() {
+        ChallengeSteppedBroadcast.INSTANCE.broadcast(this, Group.get(gid), now);
     }
 }

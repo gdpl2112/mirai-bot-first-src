@@ -6,21 +6,14 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.game.ChallengeField;
-import io.github.kloping.mirai0.commons.game.ChallengeSide;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
+import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_PARTICIPATION_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.WAITING_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.EveListStartWith;
 
 /**
@@ -47,6 +40,9 @@ public class ChallengeController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+        if (!test) {
+            throw new NoRunException("未开放");
+        }
         if (!opened(group.getId(), this.getClass())) {
             throw new NoRunException("未开启");
         }
@@ -63,12 +59,21 @@ public class ChallengeController {
 
     @Action("人机挑战")
     private Object o1(User user, Group group) {
-        return service.startWithBot(user.getId(),group.getId());
+        return service.startWithBot(user.getId(), group.getId());
     }
 
     @Action("移动<.+=>str>")
     private Object o2(@Param("str") String str, Group group, User user) {
-       return service.moveOnChallenge(user.getId(),str);
+        return service.moveOnChallenge(user.getId(), str);
+    }
+
+    /**
+     * 选择攻击的拦截
+     *
+     * @return
+     */
+    public Object o3(long qid) {
+        return "";
     }
 
     @Action("挑战说明")

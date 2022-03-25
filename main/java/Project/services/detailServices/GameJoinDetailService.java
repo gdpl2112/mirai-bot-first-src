@@ -1,6 +1,7 @@
 package Project.services.detailServices;
 
 
+import Project.controllers.gameControllers.ChallengeController;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
@@ -74,12 +75,18 @@ public class GameJoinDetailService {
         return (T) ghostObj;
     }
 
+    @AutoStand
+    ChallengeController challengeController;
+
     public Object select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
         switch (id) {
             case 0:
-                String m1 = att(who, ghostObj);
-                return m1;
+                if (ChallengeDetailService.challengeFieldMap.containsKey(who)) {
+                    return challengeController.o3(who);
+                } else {
+                    return att(who, ghostObj);
+                }
             case 1:
                 return taoPao(ghostObj, who);
             default:

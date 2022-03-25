@@ -1,14 +1,14 @@
 package Project.services.impl;
 
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.Mora;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.Mora;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -17,10 +17,13 @@ import java.net.URL;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.isFather;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class OtherServiceImpl implements IOtherService {
-
 
     @Override
     public String mora(Long who, String what) {
@@ -36,7 +39,7 @@ public class OtherServiceImpl implements IOtherService {
             return "积分最小值:5";
         if (l1 > 1500)
             return "积分最大值:1500";
-        Mora i = Mora.getRc(38, 10, mora1);
+        Mora i = Mora.getRc(48, 10, mora1);
         int p = mora1.Reff(i);
         if (p == 0) {
             return "平局 我出的是" + i.getValue();
@@ -63,7 +66,7 @@ public class OtherServiceImpl implements IOtherService {
             String result = new String(bytes1, "utf-8").trim();
             result = filter(result);
             if (Tool.isIllegSend(result)) {
-                return ".....";
+                return ERR_TIPS;
             }
             return result.trim();
         } catch (Exception e) {
