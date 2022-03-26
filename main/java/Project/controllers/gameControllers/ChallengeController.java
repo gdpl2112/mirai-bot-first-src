@@ -22,14 +22,12 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.EveListStartWith;
 @Controller
 public class ChallengeController {
     private static final Object INTRO = "挑战说明:\n" +
-            "1.挑战采用回合制地图式游戏\n" +
+            "1.挑战时所有魂技冷却为缩短60倍\n" +
             "2.在挑战中死亡不会清除经验/降级\n" +
             "3.挑战胜利获得一星,失败扣除一星最底0星\n" +
             "4.排行中显示按星数量排行\n" +
             "5.挑战中时不可购买物品,不可被转让\n" +
-            "6.挑战中时可以使用一次暗器\n" +
-            "7.挑战中时所有攻击存在范围(特殊除外,普通攻击为周围一圈\n" +
-            "8.挑战最大回合20回合(之后可能调整\n" +
+            "6.挑战中时攻击值减半\n" +
             "9.";
 
     public ChallengeController() {
@@ -61,12 +59,7 @@ public class ChallengeController {
     private Object o1(User user, Group group) {
         return service.startWithBot(user.getId(), group.getId());
     }
-
-    @Action("移动<.+=>str>")
-    private Object o2(@Param("str") String str, Group group, User user) {
-        return service.moveOnChallenge(user.getId(), str);
-    }
-
+    
     /**
      * 选择攻击的拦截
      *

@@ -77,7 +77,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                 .setDesc("创建宗门")
                 .setMany(450)
         ));
-        putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
+        GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12).apply();
         return zongInfo(who, group);
     }
 

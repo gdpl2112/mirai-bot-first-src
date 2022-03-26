@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.getArgFromSkillArgs;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
 
@@ -30,7 +29,7 @@ public class Skill22 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾", LOWEST, getAddP(getJid(), getId()));
+        return String.format("血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾", LOWEST, getAddP(getJid(), getId()), getAddP(getJid(), getId()));
     }
 
     @Override

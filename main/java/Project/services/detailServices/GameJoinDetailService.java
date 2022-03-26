@@ -82,11 +82,7 @@ public class GameJoinDetailService {
         PersonInfo personInfo = getInfo(who);
         switch (id) {
             case 0:
-                if (ChallengeDetailService.challengeFieldMap.containsKey(who)) {
-                    return challengeController.o3(who);
-                } else {
-                    return att(who, ghostObj);
-                }
+                return att(who, ghostObj);
             case 1:
                 return taoPao(ghostObj, who);
             default:
