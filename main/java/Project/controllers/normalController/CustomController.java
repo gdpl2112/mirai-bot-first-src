@@ -1,6 +1,5 @@
 package Project.controllers.normalController;
 
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import Project.broadcast.normal.MessageBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -8,10 +7,11 @@ import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CUSTOM_MENU_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;
@@ -29,6 +27,8 @@ import static Project.dataBases.DataBase.isFather;
 import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CUSTOM_MENU_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NO_PERMISSION_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
@@ -36,6 +36,18 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
  */
 @Controller
 public class CustomController {
+    public static final String LINE = "1.添加 问_答_..(用*号代表占位符)\r\n" +
+            "2.查询词 _...\r\n" +
+            "3.查询id _...\r\n" +
+            "4.删除词 _...\r\n" +
+            "5.删除id _...";
+    private static final int FINAL_INDEX = 10;
+    private static final long CD = 15 * 1000;
+    public static Map<String, List<Reply>> MAP = new HashMap<>();
+    public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
+    private static int index = 1;
+    private static long cd = -1;
+
     public CustomController() {
         println(this.getClass().getSimpleName() + "构建");
         MessageBroadcast.INSTANCE.add(new MessageBroadcast.MessageReceiver() {
@@ -45,24 +57,6 @@ public class CustomController {
             }
         });
     }
-
-    @Before
-    public void before(Group group, long qq, @AllMess String s) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
-        }
-        if (s.equals(CUSTOM_MENU_STR)) {
-            return;
-        }
-        if (!isFather(qq)) {
-            throw new NoRunException(NO_PERMISSION_STR);
-        }
-    }
-
-    private static final int FINAL_INDEX = 10;
-    private static int index = 1;
-    private static final long CD = 15 * 1000;
-    private static long cd = -1;
 
     public static final String action(long qq, String s, Group group) {
         if (MAP.isEmpty()) {
@@ -100,19 +94,71 @@ public class CustomController {
         }
     }
 
-    public static final String LINE = "1.添加 问_答_..(用*号代表占位符)\r\n" +
-            "2.查询词 _...\r\n" +
-            "3.查询id _...\r\n" +
-            "4.删除词 _...\r\n" +
-            "5.删除id _...";
+    public static boolean builderAndAdd(String str, long q) {
+        int i1 = str.indexOf("问");
+        int i2 = str.indexOf("答");
+        String k = str.substring(i1 + 1, i2);
+        String v = str.substring(i2 + 1, str.length());
+        Reply reply = new Reply(q, v, System.currentTimeMillis(), k);
+        if (MAP.containsKey(k)) return false;
+        if (!addReply(reply)) return false;
+        MapUtils.append(MAP, k, reply);
+        return true;
+    }
+
+    public final static Map<String, List<Reply>> getAllAutoReply() {
+        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("delete_stat", 0);
+        Map<String, List<Reply>> map = new LinkedHashTreeMap<>();
+        for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
+            Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
+            reply.id = autoReply.getId();
+            MapUtils.append(map, reply.key, reply);
+        }
+        return map;
+    }
+
+    public final static int getAllAutoReplyCount() {
+        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("delete_stat", 0);
+        return getAutoReplyMapper().selectList(queryWrapper).size();
+    }
+
+    public final static boolean deleteReply(Reply reply) {
+        AutoReply autoReply = getAutoReplyMapper().selectById(reply.id);
+        autoReply.setDeleteStat(1);
+        UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
+        wrapper.eq("id", reply.id);
+        return getAutoReplyMapper().update(autoReply, wrapper) > 0;
+    }
+
+    public final static boolean addReply(Reply reply) {
+        AutoReply autoReply = new AutoReply()
+                .setK(reply.key)
+                .setV(reply.content)
+                .setDeleteStat(0)
+                .setWho(String.valueOf(reply.who))
+                .setTime(String.valueOf(reply.time));
+        return getAutoReplyMapper().insert(autoReply) > 0;
+    }
+
+    @Before
+    public void before(Group group, long qq, @AllMess String s) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
+        if (s.equals(CUSTOM_MENU_STR)) {
+            return;
+        }
+        if (!isFather(qq)) {
+            throw new NoRunException(NO_PERMISSION_STR);
+        }
+    }
 
     @Action("回话菜单")
     public String menu() {
         return LINE;
     }
-
-    public static Map<String, List<Reply>> MAP = new HashMap<>();
-    public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
 
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
@@ -200,60 +246,19 @@ public class CustomController {
         }
     }
 
-    public static boolean builderAndAdd(String str, long q) {
-        int i1 = str.indexOf("问");
-        int i2 = str.indexOf("答");
-        String k = str.substring(i1 + 1, i2);
-        String v = str.substring(i2 + 1, str.length());
-        Reply reply = new Reply(q, v, System.currentTimeMillis(), k);
-        if (MAP.containsKey(k)) return false;
-        if (!addReply(reply)) return false;
-        MapUtils.append(MAP, k, reply);
-        return true;
-    }
-
-    public final static Map<String, List<Reply>> getAllAutoReply() {
-        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("delete_stat", 0);
-        Map<String, List<Reply>> map = new LinkedHashTreeMap<>();
-        for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
-            Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
-            reply.id = autoReply.getId();
-            MapUtils.append(map, reply.key, reply);
-        }
-        return map;
-    }
-
-    public final static int getAllAutoReplyCount() {
-        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("delete_stat", 0);
-        return getAutoReplyMapper().selectList(queryWrapper).size();
-    }
-
-    public final static boolean deleteReply(Reply reply) {
-        AutoReply autoReply = getAutoReplyMapper().selectById(reply.id);
-        autoReply.setDeleteStat(1);
-        UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
-        wrapper.eq("id", reply.id);
-        return getAutoReplyMapper().update(autoReply, wrapper) > 0;
-    }
-
-    public final static boolean addReply(Reply reply) {
-        AutoReply autoReply = new AutoReply()
-                .setK(reply.key)
-                .setV(reply.content)
-                .setDeleteStat(0)
-                .setWho(String.valueOf(reply.who))
-                .setTime(String.valueOf(reply.time));
-        return getAutoReplyMapper().insert(autoReply) > 0;
-    }
-
     public final static class Reply {
         private Long who;
         private String content;
         private Long time;
         private String key;
         private Integer id;
+
+        public Reply(Long who, String content, Long time, String key) {
+            this.who = who;
+            this.content = content;
+            this.time = time;
+            this.key = key;
+        }
 
         @Override
         public String toString() {
@@ -263,13 +268,6 @@ public class CustomController {
                     ", time=" + time +
                     ", key='" + key + '\'' +
                     '}';
-        }
-
-        public Reply(Long who, String content, Long time, String key) {
-            this.who = who;
-            this.content = content;
-            this.time = time;
-            this.key = key;
         }
     }
 }

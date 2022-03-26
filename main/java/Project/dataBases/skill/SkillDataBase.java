@@ -3,9 +3,9 @@ package Project.dataBases.skill;
 import Project.aSpring.SpringBootResource;
 import Project.skill.SkillFactory;
 import io.github.kloping.map.MapUtils;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.Main.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +21,92 @@ import static Project.services.detailServices.GameSkillDetailService.getUserPerc
  */
 public class SkillDataBase {
 
+    public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
+    public static final int t4 = 60000 * 2;
+    public static final int t5 = 60000 * 2;
+    public static final int t6 = 60000 * 2;
+    public static final int t9 = 60000 * 2;
+    public static final int t10 = 60000 * 2;
+    public static final int t11 = 60000 * 2;
+    public static final int t12 = 60000 * 2;
+    public static final int t14 = 60000 * 2;
+    public static final int t72 = 60000 * 2;
+    public static final int t73 = 60000 * 2;
+    public static final int t74 = 60000;
+    public static final int t75 = 1000 * 15;
+    public static final int t75C = 6;
+    public static final int t77 = 60000 * 2;
+    public static final int t78 = 60000 * 2;
+    public static final int t79C = 6;
+    public static final int t79 = 1000 * 15;
+    public static final int t711 = 60000 * 2;
+    public static final int t712 = 60000 * 2;
+    public static final int t713 = 60000 * 2;
+    public static final int t714 = 60000 * 2;
+    public static final int t716 = 60000 * 2;
+    public static final int t717 = 60000 * 2;
+    public static final int t718 = 60000 * 2;
+    public static final int t719 = 60000 * 2;
+    public static final int t720 = 60000 * 2;
+    public static final int t721 = 60000 * 2;
+    public static final int t722 = 60000 * 2;
+    public static final int t723 = 60000 * 2;
+    public static final int t724 = 60000 * 2;
+    public static final int t725 = 60000 * 2;
+    public static final int t726 = 60000 * 2;
+    public static final int t727 = 60000 * 2;
+    public static final int t728 = 60000 * 2;
+    public static final int t729 = 60000 * 2;
+    public static final int t730 = 60000 * 2;
+    public static final int t731 = 60000 * 2;
+    /**
+     * 吸血
+     */
+    public static final String TAG_XX = "a";
+    /**
+     * 反甲
+     */
+    public static final String TAG_FJ = "b";
+    /**
+     * 名刀
+     */
+    public static final String TAG_MS = "c";
+    /**
+     * 无敌
+     */
+    public static final String TAG_WD = "d";
+    /**
+     * 不能躲避
+     */
+    public static final String TAG_CANT_HIDE = "e";
+    /**
+     * 护盾
+     */
+    public static final String TAG_SHIELD = "f";
+    /**
+     * 真伤
+     */
+    public static final String TAG_TRUE = "g";
+    /**
+     * 护盾额外
+     */
+    public static final String TAG_SHE = "h";
+    /**
+     * 下次免疫伤害
+     */
+    public static final String TAG_XUAN_YU_S = "i";
+    /**
+     * 免伤
+     */
+    public static final String TAG_DAMAGE_REDUCTION = "j";
+    public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
     public static String path;
 
+    //==========
+    public static ExecutorService threads = Executors.newFixedThreadPool(50);
     public SkillDataBase(String path) {
         initMap();
     }
-
-    private void initMap() {
-        Resource.START_AFTER.add(() -> {
-            List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
-            for (SkillInfo info : list) {
-                info.setState(0);
-                info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
-                appendInfo(info);
-            }
-        });
-    }
-
-    public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
 
     public static final Map<Integer, SkillInfo> getSkillInfo(Long qq) {
         if (!QQ_2_ST_2_MAP.containsKey(qq)) return new ConcurrentHashMap<>();
@@ -139,8 +207,6 @@ public class SkillDataBase {
         QQ_2_ST_2_MAP.put(qq, map);
     }
 
-    public static ExecutorService threads = Executors.newFixedThreadPool(50);
-
     /**
      * 业务端需要完成 判断 魂力 是否 足够 以及 选择器的数量是否合法
      *
@@ -154,86 +220,6 @@ public class SkillDataBase {
             return null;
         }
     }
-
-    public static final int t4 = 60000 * 2;
-    public static final int t5 = 60000 * 2;
-    public static final int t6 = 60000 * 2;
-    public static final int t9 = 60000 * 2;
-    public static final int t10 = 60000 * 2;
-    public static final int t11 = 60000 * 2;
-    public static final int t12 = 60000 * 2;
-    public static final int t14 = 60000 * 2;
-    public static final int t72 = 60000 * 2;
-    public static final int t73 = 60000 * 2;
-    public static final int t74 = 60000;
-    public static final int t75 = 1000 * 15;
-    public static final int t75C = 6;
-    public static final int t77 = 60000 * 2;
-    public static final int t78 = 60000 * 2;
-    public static final int t79C = 6;
-    public static final int t79 = 1000 * 15;
-    public static final int t711 = 60000 * 2;
-    public static final int t712 = 60000 * 2;
-    public static final int t713 = 60000 * 2;
-    public static final int t714 = 60000 * 2;
-    public static final int t716 = 60000 * 2;
-    public static final int t717 = 60000 * 2;
-    public static final int t718 = 60000 * 2;
-    public static final int t719 = 60000 * 2;
-    public static final int t720 = 60000 * 2;
-    public static final int t721 = 60000 * 2;
-    public static final int t722 = 60000 * 2;
-    public static final int t723 = 60000 * 2;
-    public static final int t724 = 60000 * 2;
-    public static final int t725 = 60000 * 2;
-    public static final int t726 = 60000 * 2;
-    public static final int t727 = 60000 * 2;
-    public static final int t728 = 60000 * 2;
-    public static final int t729 = 60000 * 2;
-    public static final int t730 = 60000 * 2;
-    public static final int t731 = 60000 * 2;
-
-    //==========
-    /**
-     * 吸血
-     */
-    public static final String TAG_XX = "a";
-    /**
-     * 反甲
-     */
-    public static final String TAG_FJ = "b";
-    /**
-     * 名刀
-     */
-    public static final String TAG_MS = "c";
-    /**
-     * 无敌
-     */
-    public static final String TAG_WD = "d";
-    /**
-     * 不能躲避
-     */
-    public static final String TAG_CANT_HIDE = "e";
-    /**
-     * 护盾
-     */
-    public static final String TAG_SHIELD = "f";
-    /**
-     * 真伤
-     */
-    public static final String TAG_TRUE = "g";
-    /**
-     * 护盾额外
-     */
-    public static final String TAG_SHE = "h";
-    /**
-     * 下次免疫伤害
-     */
-    public static final String TAG_XUAN_YU_S = "i";
-    /**
-     * 免伤
-     */
-    public static final String TAG_DAMAGE_REDUCTION = "j";
 
     /**
      * 计算百分比
@@ -268,7 +254,20 @@ public class SkillDataBase {
         return v3;
     }
 
-    public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
+    public static void addAttHasTime(long who, HasTimeAdder adder) {
+        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
+    }
+
+    private void initMap() {
+        Resource.START_AFTER.add(() -> {
+            List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
+            for (SkillInfo info : list) {
+                info.setState(0);
+                info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
+                appendInfo(info);
+            }
+        });
+    }
 
     public static class HasTimeAdder {
         private long toTime;
@@ -296,9 +295,5 @@ public class SkillDataBase {
         public Number getValue() {
             return value;
         }
-    }
-
-    public static void addAttHasTime(long who, HasTimeAdder adder) {
-        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
     }
 }

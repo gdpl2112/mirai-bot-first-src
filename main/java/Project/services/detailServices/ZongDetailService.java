@@ -3,10 +3,10 @@ package Project.services.detailServices;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
-import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +25,19 @@ import static Project.dataBases.ZongMenDataBase.*;
 public class ZongDetailService {
 
     private static ExecutorService threads = Executors.newFixedThreadPool(10);
+
+    static {
+        Resource.START_AFTER.add(() -> {
+            ZERO_RUNS.add(() -> {
+                File[] files = new File(ZongMenDataBase.path).listFiles();
+                for (File file : files) {
+                    if (file.getName().startsWith("t")) continue;
+                    Zong zong = getZongInfo(Integer.valueOf(file.getName()));
+                    ZongDetailService.update(zong);
+                }
+            });
+        });
+    }
 
     public static void onKilled(Long who, Long xp) {
         threads.execute(() -> {
@@ -106,19 +119,6 @@ public class ZongDetailService {
                     }
                 }
             }
-        });
-    }
-
-    static {
-        Resource.START_AFTER.add(() -> {
-            ZERO_RUNS.add(() -> {
-                File[] files = new File(ZongMenDataBase.path).listFiles();
-                for (File file : files) {
-                    if (file.getName().startsWith("t")) continue;
-                    Zong zong = getZongInfo(Integer.valueOf(file.getName()));
-                    ZongDetailService.update(zong);
-                }
-            });
         });
     }
 

@@ -1,14 +1,14 @@
 package Project.controllers.normalController;
 
+import Project.broadcast.PicBroadcast;
+import Project.services.detailServices.CustomRandReplyService;
+import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
 import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
-import Project.broadcast.PicBroadcast;
-import Project.services.detailServices.CustomRandReplyService;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Controller
 public class CustomRandController {
+
+    private final Map<Long, CustomReplyGroup> rands = new ConcurrentHashMap<>();
+    private final Map<Long, PicBroadcast.PicReceiver> recs = new ConcurrentHashMap<>();
+    @AutoStand
+    CustomRandReplyService service;
 
     @Before
     public void before(User qq) throws NoRunException {
@@ -31,9 +36,6 @@ public class CustomRandController {
         }
     */
     }
-
-    private final Map<Long, CustomReplyGroup> rands = new ConcurrentHashMap<>();
-    private final Map<Long, PicBroadcast.PicReceiver> recs = new ConcurrentHashMap<>();
 
     @Action("/createRand")
     public Object create(Group group, User user) {
@@ -88,9 +90,6 @@ public class CustomRandController {
         PicBroadcast.INSTANCE.remove(recs.get(user.getId()));
         return "ended";
     }
-
-    @AutoStand
-    CustomRandReplyService service;
 
     @Action("/applyRand")
     public Object apply(User user) {

@@ -1,17 +1,17 @@
 package Project.controllers.gameControllers;
 
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.Warp;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.Warp;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,27 +21,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
+import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
+import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
-import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
-import static io.github.kloping.mirai0.Main.Resource.println;
 
 @Controller
 public class GameController {
 
     public static final float maxXp = 1.5f;
-
-    public GameController() {
-        println(this.getClass().getSimpleName() + "构建");
-        START_AFTER.add(() -> HIST_INFOS.clear());
-    }
-
-    @AutoStand
-    IGameService gameService;
-
+    public static final Map<Long, Integer> deleteC = new ConcurrentHashMap<>();
     private static List<String> listFx = new ArrayList<>();
+    private static String com13 = "";
 
     static {
         listFx.add("购买金魂币");
@@ -53,178 +47,6 @@ public class GameController {
         listFx.add("称号");
         listFx.add("转生");
     }
-
-    @Before
-    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
-        }
-        if (getInfo(qq.getId()).getHp() <= 0) {
-            if (EveListStartWith(listFx, mess) == -1) {
-                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
-                throw new NoRunException("无状态");
-            }
-        }
-    }
-
-    @Action("修炼")
-    public String Xl(User qq, Group group) {
-        String str = gameService.xl(qq.getId());
-        return str;
-    }
-
-    @Action("信息")
-    public String info(User qq, Group group) {
-        String str = gameService.info(qq.getId());
-        return str;
-    }
-
-    @Action("升级")
-    public String newLevel(User qq, Group group) {
-        String str = gameService.upUp(qq.getId());
-        return str;
-    }
-
-    @Action(value = "觉醒", otherName = {"武魂觉醒", "觉醒武魂"})
-    public String openEye(User qq, Group group) {
-        String str = gameService.openEyeWh(qq.getId());
-        return str;
-    }
-
-    public static final Map<Long, Integer> deleteC = new ConcurrentHashMap<>();
-
-    @Action("转生")
-    public String delete(User qq) {
-        try {
-            if (deleteC.containsKey(qq.getId()))
-                if (deleteC.get(qq.getId()) >= 3)
-                    return "一天仅可转生三次";
-            return gameService.returnA(qq.getId());
-        } finally {
-            if (deleteC.containsKey(qq.getId()))
-                deleteC.put(qq.getId(), deleteC.get(qq.getId()) + 1);
-            else deleteC.put(qq.getId(), 1);
-        }
-    }
-
-    @Action(value = "背包", otherName = "我的背包")
-    public String bgs(User qq, Group group) {
-        String str = getImageFromStrings(gameService.getBags(qq.getId()));
-        return str;
-    }
-
-    @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
-    public String BuyGold(User qq, @Param("num") String num, Group group) {
-        try {
-            Long nu = Long.valueOf(num);
-            String str = gameService.buyGold(qq.getId(), nu);
-            return str;
-        } catch (NumberFormatException e) {
-            return "买多少呢";
-        }
-    }
-
-    @Action(value = "魂环配置", otherName = {"我的魂环"})
-    public String showHh(User qq, String num, Group group) {
-        String str = gameService.showHh(qq.getId());
-        return str;
-    }
-
-    @Action("吸收魂环<.{0,}=>name>")
-    public String joinHh(User qq, @Param("name") String name, Group group) {
-        try {
-            Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
-            String sss = gameService.parseHh(qq.getId(), id);
-            return sss;
-        } catch (Exception e) {
-            return "系统未找到:" + name;
-        }
-    }
-
-    @Action("攻击.+")
-    public String AttWho(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.getAtFromString(chain);
-        if (who == -1)
-            return ("谁?");
-        long at = getInfo(qq.getId()).getAk1();
-        if (at > System.currentTimeMillis())
-            return ("攻击冷却中..=>" + getTimeHHMM(at));
-        if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
-        String sss = gameService.attWhos(qq.getId(), who, group);
-        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30).apply();
-        return sss;
-    }
-
-    @Action("侦查.+")
-    public String Look(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.getAtFromString(chain);
-        if (who == -1)
-            return ("谁?");
-        if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
-        PersonInfo I = getInfo(qq.getId());
-        PersonInfo Y = getInfo(who);
-        if (I.getLevel() >= Y.getLevel()) {
-            putPerson(getInfo(qq.getId()).addHl(-10L));
-            //GameDetailService.UseHl(who, -10);
-            StringBuilder m1 = new StringBuilder();
-            m1.append("侦查成功,消耗十点魂力\n");
-            m1.append(MemberTools.getNameFromGroup(who, group));
-            m1.append("的信息\n");
-            String sss = gameService.info(who);
-            m1.append(sss);
-            return m1.toString();
-        } else {
-            return ("对方魂力等级比你高,无法侦查");
-        }
-    }
-
-    @Action("换积分<\\d{1,}=>num>")
-    public String getScore(@Param("num") String num, User qq, Group group) {
-        String ll = findNumberFromString(num);
-        if (ll == null || ll.isEmpty()) return ("给个数值");
-        long l = Long.parseLong(ll);
-        String sss = gameService.getScoreFromGold(qq.getId(), l);
-        return sss;
-    }
-
-    @Action("等级排行<\\d{1,}=>num>")
-    public String pH(@Param("num") String num) {
-        int n;
-        String ll = findNumberFromString(num);
-        if (ll == null || ll.isEmpty()) {
-            n = 10;
-        } else {
-            n = Integer.parseInt(ll);
-        }
-        StringBuilder sb = new StringBuilder();
-        int r = 1;
-        for (Map.Entry<String, Integer> entry : phGet(n)) {
-            String sn = getFhName(Long.valueOf(entry.getKey()));
-            sb.append("第" + (r++)).append(":QQ:")
-                    .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>\r\n\t")
-                    .append(entry.getValue())
-                    .append("级\r\n");
-        }
-        return sb.toString();
-    }
-
-    @Action("等级排行")
-    public String pH10() {
-        StringBuilder sb = new StringBuilder();
-        int r = 1;
-        for (Map.Entry<String, Integer> entry : phGet(10)) {
-            String sn = getFhName(Long.valueOf(entry.getKey()));
-            sb.append("第" + (r++)).append(":QQ:")
-                    .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>")
-                    .append(entry.getValue())
-                    .append("级\r\n");
-        }
-        return getImageFromStrings(false, sb.toString().split("\r\n"));
-    }
-
-    private static String com13 = "";
 
     static {
         StringBuilder sb = new StringBuilder();
@@ -290,13 +112,188 @@ public class GameController {
         com13 = sb.toString();
     }
 
+    @AutoStand
+    IGameService gameService;
+    @AutoStand
+    private GameBoneController gameBoneController;
+
+    public GameController() {
+        println(this.getClass().getSimpleName() + "构建");
+        START_AFTER.add(() -> HIST_INFOS.clear());
+    }
+
+    @Before
+    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
+        if (getInfo(qq.getId()).getHp() <= 0) {
+            if (EveListStartWith(listFx, mess) == -1) {
+                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+                throw new NoRunException("无状态");
+            }
+        }
+    }
+
+    @Action("修炼")
+    public String Xl(User qq, Group group) {
+        String str = gameService.xl(qq.getId());
+        return str;
+    }
+
+    @Action("信息")
+    public String info(User qq, Group group) {
+        String str = gameService.info(qq.getId());
+        return str;
+    }
+
+    @Action("升级")
+    public String newLevel(User qq, Group group) {
+        String str = gameService.upUp(qq.getId());
+        return str;
+    }
+
+    @Action(value = "觉醒", otherName = {"武魂觉醒", "觉醒武魂"})
+    public String openEye(User qq, Group group) {
+        String str = gameService.openEyeWh(qq.getId());
+        return str;
+    }
+
+    @Action("转生")
+    public String delete(User qq) {
+        try {
+            if (deleteC.containsKey(qq.getId()))
+                if (deleteC.get(qq.getId()) >= 3)
+                    return "一天仅可转生三次";
+            return gameService.returnA(qq.getId());
+        } finally {
+            if (deleteC.containsKey(qq.getId()))
+                deleteC.put(qq.getId(), deleteC.get(qq.getId()) + 1);
+            else deleteC.put(qq.getId(), 1);
+        }
+    }
+
+    @Action(value = "背包", otherName = "我的背包")
+    public String bgs(User qq, Group group) {
+        String str = getImageFromStrings(gameService.getBags(qq.getId()));
+        return str;
+    }
+
+    @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
+    public String BuyGold(User qq, @Param("num") String num, Group group) {
+        try {
+            Long nu = Long.valueOf(num);
+            String str = gameService.buyGold(qq.getId(), nu);
+            return str;
+        } catch (NumberFormatException e) {
+            return "买多少呢";
+        }
+    }
+
+    @Action(value = "魂环配置", otherName = {"我的魂环"})
+    public String showHh(User qq, String num, Group group) {
+        String str = gameService.showHh(qq.getId());
+        return str;
+    }
+
+    @Action("吸收魂环<.{0,}=>name>")
+    public String joinHh(User qq, @Param("name") String name, Group group) {
+        try {
+            Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
+            String sss = gameService.parseHh(qq.getId(), id);
+            return sss;
+        } catch (Exception e) {
+            return "系统未找到:" + name;
+        }
+    }
+
+    @Action("攻击.+")
+    public String AttWho(User qq, @AllMess String chain, Group group) {
+        long who = MessageTools.getAtFromString(chain);
+        if (who == -1)
+            return ("谁?");
+        long at = getInfo(qq.getId()).getAk1();
+        if (at > System.currentTimeMillis())
+            return ("攻击冷却中..=>" + getTimeHHMM(at));
+        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
+        String sss = gameService.attWhos(qq.getId(), who, group);
+        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30).apply();
+        return sss;
+    }
+
+    @Action("侦查.+")
+    public String Look(User qq, @AllMess String chain, Group group) {
+        long who = MessageTools.getAtFromString(chain);
+        if (who == -1)
+            return ("谁?");
+        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
+        PersonInfo I = getInfo(qq.getId());
+        PersonInfo Y = getInfo(who);
+        if (I.getLevel() >= Y.getLevel()) {
+            putPerson(getInfo(qq.getId()).addHl(-10L));
+            //GameDetailService.UseHl(who, -10);
+            StringBuilder m1 = new StringBuilder();
+            m1.append("侦查成功,消耗十点魂力\n");
+            m1.append(MemberTools.getNameFromGroup(who, group));
+            m1.append("的信息\n");
+            String sss = gameService.info(who);
+            m1.append(sss);
+            return m1.toString();
+        } else {
+            return ("对方魂力等级比你高,无法侦查");
+        }
+    }
+
+    @Action("换积分<\\d{1,}=>num>")
+    public String getScore(@Param("num") String num, User qq, Group group) {
+        String ll = findNumberFromString(num);
+        if (ll == null || ll.isEmpty()) return ("给个数值");
+        long l = Long.parseLong(ll);
+        String sss = gameService.getScoreFromGold(qq.getId(), l);
+        return sss;
+    }
+
+    @Action("等级排行<\\d{1,}=>num>")
+    public String pH(@Param("num") String num) {
+        int n;
+        String ll = findNumberFromString(num);
+        if (ll == null || ll.isEmpty()) {
+            n = 10;
+        } else {
+            n = Integer.parseInt(ll);
+        }
+        StringBuilder sb = new StringBuilder();
+        int r = 1;
+        for (Map.Entry<String, Integer> entry : phGet(n)) {
+            String sn = getFhName(Long.valueOf(entry.getKey()));
+            sb.append("第" + (r++)).append(":QQ:")
+                    .append(sn.isEmpty() ? entry.getKey() : sn)
+                    .append("==>\r\n\t")
+                    .append(entry.getValue())
+                    .append("级\r\n");
+        }
+        return sb.toString();
+    }
+
+    @Action("等级排行")
+    public String pH10() {
+        StringBuilder sb = new StringBuilder();
+        int r = 1;
+        for (Map.Entry<String, Integer> entry : phGet(10)) {
+            String sn = getFhName(Long.valueOf(entry.getKey()));
+            sb.append("第" + (r++)).append(":QQ:")
+                    .append(sn.isEmpty() ? entry.getKey() : sn)
+                    .append("==>")
+                    .append(entry.getValue())
+                    .append("级\r\n");
+        }
+        return getImageFromStrings(false, sb.toString().split("\r\n"));
+    }
+
     @Action("称号")
     public String com13() {
         return com13;
     }
-
-    @AutoStand
-    private GameBoneController gameBoneController;
 
     @Action("吸收<.{0,}=>str>")
     public String Xsh(@AllMess String message, Group group, @Param("str") String str, User qq) {
@@ -361,7 +358,7 @@ public class GameController {
     public String RemoveFusion(User qq) {
         try {
             Method method = this.getClass().getDeclaredMethod("RemoveFusionNow", Long.class);
-            ConfirmController.regConfirm(qq.getId(),method, this, new Object[]{qq.getId()});
+            ConfirmController.regConfirm(qq.getId(), method, this, new Object[]{qq.getId()});
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (Exception e) {
             return "解除异常";

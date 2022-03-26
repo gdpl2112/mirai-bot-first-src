@@ -11,13 +11,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version 1.0
  */
 public class MemberJoinedBroadcast extends Broadcast {
+    public static final MemberJoinedBroadcast INSTANCE = new MemberJoinedBroadcast();
+    private List<MemberJoinedReceiver> receiver = new CopyOnWriteArrayList<>();
+
     public MemberJoinedBroadcast() {
         super("MemberJoinedBroadcast");
     }
-
-    public static final MemberJoinedBroadcast INSTANCE = new MemberJoinedBroadcast();
-
-    private List<MemberJoinedReceiver> receiver = new CopyOnWriteArrayList<>();
 
     @Override
     public boolean add(Receiver receiver) {

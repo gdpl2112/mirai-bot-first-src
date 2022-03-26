@@ -1,18 +1,18 @@
 package Project.controllers.gameControllers.zongmenContrller;
 
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.interfaces.Iservice.IZongMenService;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
+import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
-import static io.github.kloping.mirai0.Main.Resource.println;
 
 /**
  * @author github-kloping
@@ -20,20 +20,7 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 @Controller
 public class ZongMenController {
 
-    public ZongMenController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
-    @AutoStand
-    IZongMenService zongMenService;
-
-    @Before
-    public void before(Group group) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
-        }
-    }
-
+    public static final int COB_CD = 6;
     private static final String MENU = "1.创建宗门(名称)\n" +
             "2.宗门信息\n" +
             "3.宗门列表     #列出所有宗门\n" +
@@ -47,6 +34,36 @@ public class ZongMenController {
             "11.取消长老(@)\n" +
             "12.移除成员(@)\n" +
             "宗门的作用请见'宗门作用'";
+    private static String line2 = "";
+
+    static {
+        StringBuilder sb = new StringBuilder();
+        sb.append("一.宗门等级作用").append("\r\n\t")
+                .append("1级,宗主每天能免费救援一名宗门内成员(即无状态时救援变有状态)").append("\r\n\t")
+                .append("2级,宗主和长老都可救援").append("\r\n\t")
+                .append("3级,经验共享,当宗门内成员猎杀魂兽获得经验时所有成员获得部分经验加成(随等级而每人加成不一样)").append("\r\n\t")
+                .append("4级,经验共享加成增加").append("\r\n\t")
+                .append("5级,宗门内所有成员每天共享5次救援机会").append("\r\n\t")
+                .append("6级,宗门内所有长老及宗主每天多一次\"(请求)支援\"的次数,27人数").append("\r\n\t")
+        ;
+        sb.append("二.如何增加宗门经验").append("\r\n\t")
+                .append("每" + COB_CD + "个小时成员可使用‘宗门贡献’来贡献与等级相同的贡献点消耗同点金魂币").append("\r\n");
+        line2 = sb.toString();
+    }
+
+    @AutoStand
+    IZongMenService zongMenService;
+
+    public ZongMenController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
+
+    @Before
+    public void before(Group group) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
+    }
 
     @Action("宗门系统")
     public String menu() {
@@ -95,25 +112,6 @@ public class ZongMenController {
     @Action("宗门人数")
     public String listPer(User qq, Group group) {
         return zongMenService.listPer(qq.getId(), group);
-    }
-
-    private static String line2 = "";
-
-    public static final int COB_CD = 6;
-
-    static {
-        StringBuilder sb = new StringBuilder();
-        sb.append("一.宗门等级作用").append("\r\n\t")
-                .append("1级,宗主每天能免费救援一名宗门内成员(即无状态时救援变有状态)").append("\r\n\t")
-                .append("2级,宗主和长老都可救援").append("\r\n\t")
-                .append("3级,经验共享,当宗门内成员猎杀魂兽获得经验时所有成员获得部分经验加成(随等级而每人加成不一样)").append("\r\n\t")
-                .append("4级,经验共享加成增加").append("\r\n\t")
-                .append("5级,宗门内所有成员每天共享5次救援机会").append("\r\n\t")
-                .append("6级,宗门内所有长老及宗主每天多一次\"(请求)支援\"的次数,27人数").append("\r\n\t")
-        ;
-        sb.append("二.如何增加宗门经验").append("\r\n\t")
-                .append("每" + COB_CD + "个小时成员可使用‘宗门贡献’来贡献与等级相同的贡献点消耗同点金魂币").append("\r\n");
-        line2 = sb.toString();
     }
 
     @Action("宗门作用")

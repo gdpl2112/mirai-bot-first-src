@@ -14,11 +14,47 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.date.DateUtils.*;
 import static io.github.kloping.mirai0.Main.Resource.contextManager;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
+    public static final String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    public static final Random RANDOM = new SecureRandom();
+    public static final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    /**
+     * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
+     */
+    private static final String singlePattern = "[0-9|a-f|A-F]";
+    private static final String pattern = singlePattern + singlePattern +
+            singlePattern + singlePattern;
+    private static final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
+    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+    private static final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+    private static final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+    private static final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
+    private static final BigDecimal b2 = new BigDecimal(100000000L);
+    private static final BigDecimal be = new BigDecimal(1000000000000L);
+    private static final BigDecimal bw = new BigDecimal(10000000000000000L);
+    private static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
+    private static final SimpleDateFormat DDHHmmss = new SimpleDateFormat("dd日HH:mm:ss");
+    private static final Map<Character, Integer> char2int = new ConcurrentHashMap<>();
+    private static final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
+    private static final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+    private static final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
+    private static String today = null;
+    private static String toMon = null;
+    private static String[] illegalSends = null;
+
+    static {
+        int i = 1;
+        for (char c : new Character[]{'一', '二', '三', '四', '五', '六', '七', '八', '九', '十'}) {
+            int2char.put(i, c);
+            char2int.put(c, i);
+            i++;
+        }
+    }
+
     public static String[] print(Process exec) throws IOException {
         try {
             exec.waitFor();
@@ -48,14 +84,6 @@ public class Tool {
         }
         return v;
     }
-
-    /**
-     * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
-     */
-    private static final String singlePattern = "[0-9|a-f|A-F]";
-    private static final String pattern = singlePattern + singlePattern +
-            singlePattern + singlePattern;
-
 
     /**
      * 把 \\u 开头的单字转成汉字，如 \\u6B65 ->　步
@@ -182,8 +210,6 @@ public class Tool {
         }
     }
 
-    public static final String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-
     /**
      * 获取当前日期是星期几
      *
@@ -200,16 +226,9 @@ public class Tool {
         return weekDays[w];
     }
 
-    private static final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
-
     public static String getLogTimeFormat() {
         return "./logs" + dfn.format(new Date());
     }
-
-    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-    private static final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-    private static final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
-    private static final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
 
     /**
      * 获取格式时间 yyy年....ss秒
@@ -300,8 +319,6 @@ public class Tool {
         };
         return entry;
     }
-
-    public static final Random RANDOM = new SecureRandom();
 
     /**
      * 获取图片格式头像
@@ -424,10 +441,6 @@ public class Tool {
         return list.toArray(new BigInteger[0]);
     }
 
-    private static final BigDecimal b2 = new BigDecimal(100000000L);
-    private static final BigDecimal be = new BigDecimal(1000000000000L);
-    private static final BigDecimal bw = new BigDecimal(10000000000000000L);
-
     /**
      * 大数字转为 WE (万亿) 单位
      *
@@ -500,9 +513,6 @@ public class Tool {
         return s + "w";
     }
 
-    private static String today = null;
-    private static String toMon = null;
-
     /**
      * 获取今天
      *
@@ -541,9 +551,6 @@ public class Tool {
         return Long.valueOf(RANDOM.nextInt(t2 - t1) + t1);
     }
 
-    private static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
-    private static final SimpleDateFormat DDHHmmss = new SimpleDateFormat("dd日HH:mm:ss");
-
     /**
      * 获取 格式时间 hh时mm分ss秒
      *
@@ -571,7 +578,6 @@ public class Tool {
             return (v / 1000) + "秒";
         }
     }
-
 
     /**
      * 获取 格式时间 dd日hh时mm分ss秒
@@ -644,18 +650,6 @@ public class Tool {
         }
     }
 
-    private static final Map<Character, Integer> char2int = new ConcurrentHashMap<>();
-    private static final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
-
-    static {
-        int i = 1;
-        for (char c : new Character[]{'一', '二', '三', '四', '五', '六', '七', '八', '九', '十'}) {
-            int2char.put(i, c);
-            char2int.put(c, i);
-            i++;
-        }
-    }
-
     /**
      * 从字符串中获取 中文数字
      *
@@ -677,8 +671,6 @@ public class Tool {
         }
         return sb.toString();
     }
-
-    private static final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
 
     /**
      * 阿拉伯转中文
@@ -717,9 +709,6 @@ public class Tool {
         }
         return builder.toString();
     }
-
-    public static final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
-    private static final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
 
     /**
      * 中文数字转阿拉伯
@@ -915,6 +904,7 @@ public class Tool {
             return new String[]{"error"};
         }
     }
+    //end IO 相关操作
 
     public static synchronized boolean putStringInFile(String str, String filename) {
         testFile(filename);
@@ -929,7 +919,6 @@ public class Tool {
             return false;
         }
     }
-    //end IO 相关操作
 
     /**
      * 获取格式face
@@ -950,10 +939,10 @@ public class Tool {
     public static String pathToImg(String path) {
         return "<Pic:" + path + ">";
     }
-    public static String pathToImg0(String path) {
-        return "&"+pathToImg(path);
-    }
 
+    public static String pathToImg0(String path) {
+        return "&" + pathToImg(path);
+    }
 
     /**
      * 更新今天的日期
@@ -1012,8 +1001,6 @@ public class Tool {
     public static String[] getIllegal() {
         return contextManager.getContextEntity(String.class, "Illegal.txt").trim().split("\\s+");
     }
-
-    private static String[] illegalSends = null;
 
     public static String[] getIllegalSend() {
         return illegalSends == null ?

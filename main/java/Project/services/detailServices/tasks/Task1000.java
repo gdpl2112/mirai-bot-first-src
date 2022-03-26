@@ -1,8 +1,8 @@
 package Project.services.detailServices.tasks;
 
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

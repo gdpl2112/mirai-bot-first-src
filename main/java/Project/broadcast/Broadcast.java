@@ -15,11 +15,11 @@ import java.util.concurrent.Executors;
  * @author github-kloping
  */
 public abstract class Broadcast {
-    protected String id;
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
     public static final Map<Class<? extends Broadcast>, Broadcast> cls2Broadcast = new ConcurrentHashMap<>();
     public static final Map<String, Broadcast> id2Broadcasts = new ConcurrentHashMap<>();
     public static final LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();
+    protected String id;
     private Method method;
 
     public Broadcast(String id) {
@@ -36,18 +36,6 @@ public abstract class Broadcast {
                 }
             }
         }
-    }
-
-    public boolean add(Receiver receiver) {
-        return receivers.add(receiver);
-    }
-
-    public boolean remove(Receiver receiver) {
-        return receivers.remove(receiver);
-    }
-
-    protected final void broadcast(Object... objects) {
-        ifIsRunElseJump(this, method, objects);
     }
 
     public static void ifIsRunElseJump(Object INSTANCE, Method method, Object[] objects) {
@@ -68,6 +56,18 @@ public abstract class Broadcast {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean add(Receiver receiver) {
+        return receivers.add(receiver);
+    }
+
+    public boolean remove(Receiver receiver) {
+        return receivers.remove(receiver);
+    }
+
+    protected final void broadcast(Object... objects) {
+        ifIsRunElseJump(this, method, objects);
     }
 
     protected void setId(String id) {

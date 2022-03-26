@@ -1,11 +1,11 @@
 package Project.controllers.auto;
 
-import io.github.kloping.mirai0.commons.invokes.MethodCanCall;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.invokes.MethodCanCall;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,16 +19,16 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class ConfirmController {
-    public ConfirmController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
     public static final int CONFIRMING = 0;
     public static final int AGREEING = 0;
-
+    private static final ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(25, 25, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(25));
     public static Map<Long, MethodCanCall> ConfirmMap = new ConcurrentHashMap<>();
 
     public static Map<Long, MethodCanCall> AgreeMap = new ConcurrentHashMap<>();
+
+    public ConfirmController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
 
     public static void regConfirm(Long who, Method method, Object o, Object... args) {
         MethodCanCall canCall = new MethodCanCall().setMethod(method).setObjThis(o).setArgs(args);
@@ -49,8 +49,6 @@ public class ConfirmController {
         AgreeMap.put(who, canCall);
         startTime(who, AGREEING);
     }
-
-    private static final ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(25, 25, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(25));
 
     private static void startTime(Long who, int type1) {
         startTime(who, type1, 40);

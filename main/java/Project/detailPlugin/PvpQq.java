@@ -31,6 +31,13 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Entity
 public class PvpQq {
+    public static final Map<String, Yy_4e[]> NAME2VOICE = new ConcurrentHashMap<>();
+    public static final Map<String, io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data> NAME2DATA = new ConcurrentHashMap<>();
+    public static final Map<String, Integer> NAME2ID = new ConcurrentHashMap<>();
+    public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
+    @AutoStand
+    Project.interfaces.http_api.PvpQq pvpQq;
+
     public static String c1(String arg) {
         int i1 = arg.indexOf("(");
         int i2 = arg.lastIndexOf(")");
@@ -42,11 +49,6 @@ public class PvpQq {
         int i2 = arg.lastIndexOf(")");
         return arg.substring(i1 + 1, i2).replaceAll("故事站-英雄列表-", "");
     }
-
-    public static final Map<String, Yy_4e[]> NAME2VOICE = new ConcurrentHashMap<>();
-    public static final Map<String, io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data> NAME2DATA = new ConcurrentHashMap<>();
-    public static final Map<String, Integer> NAME2ID = new ConcurrentHashMap<>();
-    public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
 
     public Object getSkinPic(String arg) {
         List list = new LinkedList();
@@ -86,9 +88,6 @@ public class PvpQq {
         }
         return "获取失败";
     }
-
-    @AutoStand
-    Project.interfaces.http_api.PvpQq pvpQq;
 
     public void m1() {
         PvpQQH0 g = pvpQq.get1("createHeroList");

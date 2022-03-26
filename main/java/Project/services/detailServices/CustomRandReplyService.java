@@ -1,12 +1,12 @@
 package Project.services.detailServices;
 
-import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
-import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 import Project.broadcast.normal.MessageBroadcast;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
+import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 import io.github.kloping.serialize.HMLObject;
 
 import java.io.File;
@@ -19,14 +19,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Entity
 public class CustomRandReplyService {
+    public static List<CustomReplyGroup> customReplyGroups = new CopyOnWriteArrayList<>();
     private static String path;
+    private static Integer ID = 0;
 
     public CustomRandReplyService() {
         path = new File(Resource.datePath, "customRandReply").getAbsolutePath();
         init();
     }
-
-    public static List<CustomReplyGroup> customReplyGroups = new CopyOnWriteArrayList<>();
 
     private void init() {
         if (new File(path).exists()) {
@@ -62,8 +62,6 @@ public class CustomRandReplyService {
             }
         });
     }
-
-    private static Integer ID = 0;
 
     public boolean save(CustomReplyGroup group) {
         if (group == null) {

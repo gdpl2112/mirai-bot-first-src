@@ -25,6 +25,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
  */
 public class DataBase {
 
+    public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
     public static String path = ".";
 
     public DataBase(String mainPath) {
@@ -181,8 +182,6 @@ public class DataBase {
     public static boolean exists(Long who) {
         return SpringBootResource.getScoreMapper().selectById(who.longValue()) != null;
     }
-
-    public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
 
     public static UserScore getAllInfo(Long who) {
         if (!exists(who)) {

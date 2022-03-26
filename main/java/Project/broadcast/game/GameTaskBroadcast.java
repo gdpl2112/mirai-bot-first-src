@@ -1,18 +1,18 @@
 package Project.broadcast.game;
 
-import io.github.kloping.mirai0.commons.task.Task;
 import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.task.Task;
 
 /**
  * @author github-kloping
  */
 public class GameTaskBroadcast extends Broadcast {
+    public static final GameTaskBroadcast INSTANCE = new GameTaskBroadcast();
+
     public GameTaskBroadcast() {
         super("GameTaskBroadcast");
     }
-
-    public static final GameTaskBroadcast INSTANCE = new GameTaskBroadcast();
 
     public void broadcast(long who, int taskId, GameTaskReceiver.Type type, Task task) {
         for (Receiver receiver : receivers) {
@@ -29,10 +29,10 @@ public class GameTaskBroadcast extends Broadcast {
     }
 
     public static interface GameTaskReceiver extends Receiver {
+        void onReceive(long who, int taskId, Type type, Task task);
+
         public static enum Type {
             join, finish, lost
         }
-
-        void onReceive(long who, int taskId, Type type, Task task);
     }
 }

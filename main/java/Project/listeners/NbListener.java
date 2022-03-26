@@ -26,8 +26,15 @@ import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromGroup
  */
 @Entity
 public class NbListener extends SimpleListenerHost {
-    private long guessCd = System.currentTimeMillis();
+    private static final Map<String, String> HEADER = new HashMap<>();
 
+    static {
+        HEADER.put("content-type", "application/json");
+    }
+
+    @AutoStand
+    Magiconch magiconch;
+    private long guessCd = System.currentTimeMillis();
     public NbListener() {
     }
 
@@ -35,15 +42,6 @@ public class NbListener extends SimpleListenerHost {
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
         super.handleException(context, exception);
     }
-
-    @AutoStand
-    Magiconch magiconch;
-    private static final Map<String, String> HEADER = new HashMap<>();
-
-    static {
-        HEADER.put("content-type", "application/json");
-    }
-
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {

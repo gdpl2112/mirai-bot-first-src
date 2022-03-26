@@ -6,21 +6,22 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.LIST_STR;
-import static Project.controllers.normalController.ScoreController.longs;
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.normalController.ScoreController.longs;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.LIST_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -28,18 +29,18 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Controller
 public class GameJoinAcController {
-    public GameJoinAcController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
     private static List<String> listFx = new ArrayList<>();
-
-    @AutoStand
-    IGameJoinAcService gameJoinAcService;
 
     static {
         listFx.add("探查");
         listFx.add("魂兽击杀排行");
+    }
+
+    @AutoStand
+    IGameJoinAcService gameJoinAcService;
+
+    public GameJoinAcController() {
+        println(this.getClass().getSimpleName() + "构建");
     }
 
     @Before
@@ -85,7 +86,7 @@ public class GameJoinAcController {
             return "支援谁？";
         } else {
             if (!GameDataBase.exist(whos)) {
-                return "该玩家尚未注册";
+                return PLAYER_NOT_REGISTERED;
             }
             return gameJoinAcService.helpTo(qq.getId(), whos);
         }

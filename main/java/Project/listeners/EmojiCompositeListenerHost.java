@@ -4,9 +4,6 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.event.EventHandler;
-import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,92 +18,17 @@ import java.util.Map;
  */
 @Entity
 public class EmojiCompositeListenerHost {
-    
-    private static Character MIN_LOW_SURROGATE = '\uDC00';
 
-    private static Character MIN_HIGH_SURROGATE = '\uD800';
-
-    private static int MIN_SUPPLEMENTARY_CODE_POINT = 0x010000;
-
-    private static int MAX_CODE_POINT = 0X10FFFF;
-
+    public static final Map<Integer, String> DATA_MAPPING = new HashMap<>();
     private static final String P0 = "[\\uD83C\\uDC00-\\uD83E\\uDE4F]{2}";
-
     /**
      * https://www.gstatic.com/android/keyboard/emojikitchen/20201001/u1f601/u1f601_u1f60c.png
      */
     private static final String U0 = "https://www.gstatic.com/android/keyboard/emojikitchen/%s/u%s/u%s_u%s.png";
-    String s0 = "\uD83C\uDF1A\uD83C\uDF1A";
-
-    public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        String mess = EventTools.getStringFromMessageChain(event.getMessage());
-        if (mess.matches(P0)) {
-            try {
-                String[] ss = mess.split("");
-                String s1 = ss[0] + ss[1];
-                String s2 = ss[2] + ss[3];
-                String e1 = toEmoji(s1);
-                String e2 = toEmoji(s2);
-                String date = "20201001";
-                Integer i1 = toEmojiValue(s1);
-                Integer i2 = toEmojiValue(s2);
-                if (DATA_MAPPING.containsKey(i1.intValue())) {
-                    date = DATA_MAPPING.get(i1.intValue());
-                } else if (DATA_MAPPING.containsKey(i2.intValue())) {
-                    date = DATA_MAPPING.get(i2.intValue());
-                }
-                String url0;
-                url0 = String.format(U0, date, e1, e1, e2);
-                if (!checkUrl(url0)) {
-                    String e0 = e1;
-                    e1 = e2;
-                    e2 = e0;
-                    url0 = String.format(U0, date, e1, e1, e2);
-                }
-                if (!checkUrl(url0)) {
-                    MessageTools.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
-                } else {
-                    MessageTools.sendMessageInGroupWithAt(Tool.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
-                }
-            } catch (Exception e) {
-                MessageTools.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());
-            }
-        }
-    }
-
-    public static boolean checkUrl(String u0) {
-        try {
-            URL url = new URL(u0);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.getInputStream();
-            return 200 == connection.getResponseCode();
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    public static String toEmoji(String s1) {
-        char c0 = s1.charAt(0);
-        char c1 = s1.charAt(1);
-        Integer e0 = c0 - (MIN_HIGH_SURROGATE - (MIN_SUPPLEMENTARY_CODE_POINT >> 10));
-        e0 = e0 << 10;
-        Integer e1 = c1 - MIN_LOW_SURROGATE;
-        Integer e = e0 + e1;
-        String s = Integer.toString(e, 16);
-        return s;
-    }
-
-    public static Integer toEmojiValue(String s1) {
-        char c0 = s1.charAt(0);
-        char c1 = s1.charAt(1);
-        Integer e0 = c0 - (MIN_HIGH_SURROGATE - (MIN_SUPPLEMENTARY_CODE_POINT >> 10));
-        e0 = e0 << 10;
-        Integer e1 = c1 - MIN_LOW_SURROGATE;
-        Integer e = e0 + e1;
-        return e;
-    }
-
-    public static final Map<Integer, String> DATA_MAPPING = new HashMap<>();
+    private static Character MIN_LOW_SURROGATE = '\uDC00';
+    private static Character MIN_HIGH_SURROGATE = '\uD800';
+    private static int MIN_SUPPLEMENTARY_CODE_POINT = 0x010000;
+    private static int MAX_CODE_POINT = 0X10FFFF;
 
     static {
         DATA_MAPPING.put(128516, "20201001");
@@ -319,5 +241,75 @@ public class EmojiCompositeListenerHost {
         DATA_MAPPING.put(127827, "20210831");
         DATA_MAPPING.put(127819, "20210521");
         DATA_MAPPING.put(127818, "20211115");
+    }
+
+    String s0 = "\uD83C\uDF1A\uD83C\uDF1A";
+
+    public static boolean checkUrl(String u0) {
+        try {
+            URL url = new URL(u0);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.getInputStream();
+            return 200 == connection.getResponseCode();
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static String toEmoji(String s1) {
+        char c0 = s1.charAt(0);
+        char c1 = s1.charAt(1);
+        Integer e0 = c0 - (MIN_HIGH_SURROGATE - (MIN_SUPPLEMENTARY_CODE_POINT >> 10));
+        e0 = e0 << 10;
+        Integer e1 = c1 - MIN_LOW_SURROGATE;
+        Integer e = e0 + e1;
+        String s = Integer.toString(e, 16);
+        return s;
+    }
+
+    public static Integer toEmojiValue(String s1) {
+        char c0 = s1.charAt(0);
+        char c1 = s1.charAt(1);
+        Integer e0 = c0 - (MIN_HIGH_SURROGATE - (MIN_SUPPLEMENTARY_CODE_POINT >> 10));
+        e0 = e0 << 10;
+        Integer e1 = c1 - MIN_LOW_SURROGATE;
+        Integer e = e0 + e1;
+        return e;
+    }
+
+    public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
+        String mess = EventTools.getStringFromMessageChain(event.getMessage());
+        if (mess.matches(P0)) {
+            try {
+                String[] ss = mess.split("");
+                String s1 = ss[0] + ss[1];
+                String s2 = ss[2] + ss[3];
+                String e1 = toEmoji(s1);
+                String e2 = toEmoji(s2);
+                String date = "20201001";
+                Integer i1 = toEmojiValue(s1);
+                Integer i2 = toEmojiValue(s2);
+                if (DATA_MAPPING.containsKey(i1.intValue())) {
+                    date = DATA_MAPPING.get(i1.intValue());
+                } else if (DATA_MAPPING.containsKey(i2.intValue())) {
+                    date = DATA_MAPPING.get(i2.intValue());
+                }
+                String url0;
+                url0 = String.format(U0, date, e1, e1, e2);
+                if (!checkUrl(url0)) {
+                    String e0 = e1;
+                    e1 = e2;
+                    e2 = e0;
+                    url0 = String.format(U0, date, e1, e1, e2);
+                }
+                if (!checkUrl(url0)) {
+                    MessageTools.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
+                } else {
+                    MessageTools.sendMessageInGroupWithAt(Tool.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
+                }
+            } catch (Exception e) {
+                MessageTools.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());
+            }
+        }
     }
 }

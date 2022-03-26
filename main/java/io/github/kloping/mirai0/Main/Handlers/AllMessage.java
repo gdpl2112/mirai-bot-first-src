@@ -29,15 +29,6 @@ public class AllMessage {
     private String content;
     private Integer recalled = 0;
 
-    public void save() {
-        if (content == null || content.isEmpty()) {
-            return;
-        }
-        DEA_THREADS.submit(() -> {
-            SaverSpringStarter.saveMapper.insert(this);
-        });
-    }
-
     public static AllMessage factory(MessagePostSendEvent event) {
         OnlineMessageSource.Outgoing messageSource = event.getReceipt().getSource();
         if (messageSource instanceof OnlineMessageSource.Outgoing.ToGroup) {
@@ -190,6 +181,15 @@ public class AllMessage {
             }
         }
         return sb.toString();
+    }
+
+    public void save() {
+        if (content == null || content.isEmpty()) {
+            return;
+        }
+        DEA_THREADS.submit(() -> {
+            SaverSpringStarter.saveMapper.insert(this);
+        });
     }
 
     public int getIntTime() {

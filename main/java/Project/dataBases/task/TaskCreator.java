@@ -1,7 +1,5 @@
 package Project.dataBases.task;
 
-import io.github.kloping.mirai0.commons.task.Task;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.tasks.Task1000;
 import Project.services.detailServices.tasks.Task1001;
@@ -10,6 +8,8 @@ import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask0;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1000;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1001;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1002;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.task.Task;
 
 import java.lang.reflect.Method;
 
@@ -25,6 +25,7 @@ public class TaskCreator {
     public static final int MIN_PRENTICE_INDEX = 0;
     public static final int MAX_INDEX = 1003;
     public static final int MIN_INDEX = 1000;
+    public static final Integer[] T_1000_OBJS = new Integer[]{201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 1000};
 
     public static <T extends Task> T getTask(int id) {
         if (id == 0) {
@@ -56,8 +57,6 @@ public class TaskCreator {
         GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostReceiverWithTask0(taskN));
         return receiver;
     }
-
-    public static final Integer[] T_1000_OBJS = new Integer[]{201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 1000};
 
     public static int getRandObj1000() {
         return getRandT(T_1000_OBJS);

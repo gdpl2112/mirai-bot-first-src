@@ -1,13 +1,13 @@
 package Project.controllers.plugins;
 
-import Project.interfaces.http_api.ApiIyk0;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.detailPlugin.SearchPic;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.interfaces.http_api.ApiIyk0;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +18,35 @@ import java.util.regex.Pattern;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.isIlleg;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.isIlleg;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class PointPicController {
+    public static final Map<Long, String[]> PIC_HISTORY = new ConcurrentHashMap<>();
+    public static final Pattern PATTERN = Pattern.compile("http[a-zA-Z0-9/:.]*");
+    @AutoStand
+    ApiIyk0 apiIyk0;
+    @AutoStand
+    SearchPic searchPic;
+
     public PointPicController() {
         println(this.getClass().getSimpleName() + "构建");
+    }
+
+    private static String getUrl(String url) {
+        try {
+            Matcher matcher = PATTERN.matcher(url);
+            if (matcher.find()) {
+                url = matcher.group().trim();
+            }
+        } catch (Exception e) {
+
+        }
+        return url.trim();
     }
 
     @Before
@@ -37,19 +56,11 @@ public class PointPicController {
         }
     }
 
-    public static final Map<Long, String[]> PIC_HISTORY = new ConcurrentHashMap<>();
-
     @Action("发张<.+=>name>")
     public Object sendImg(@Param("name") String name, Group group) {
         if (isIlleg(name)) return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         return Tool.pathToImg(apiIyk0.getImgFromName(name));
     }
-
-    @AutoStand
-    ApiIyk0 apiIyk0;
-
-    @AutoStand
-    SearchPic searchPic;
 
     @Action("百度搜图<.+=>name>")
     public String searchPic(@Param("name") String name, User user) {
@@ -147,20 +158,6 @@ public class PointPicController {
             e.printStackTrace();
             return String.format("一共搜索到了:%s个结果\r\n用:发第(n1,n2)个", strings.length);
         }
-    }
-
-    public static final Pattern PATTERN = Pattern.compile("http[a-zA-Z0-9/:.]*");
-
-    private static String getUrl(String url) {
-        try {
-            Matcher matcher = PATTERN.matcher(url);
-            if (matcher.find()) {
-                url = matcher.group().trim();
-            }
-        } catch (Exception e) {
-
-        }
-        return url.trim();
     }
 
     @Action("解析快手图片<.+=>str>")

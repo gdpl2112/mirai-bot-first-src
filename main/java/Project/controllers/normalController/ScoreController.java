@@ -27,16 +27,16 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
  */
 @Controller
 public class ScoreController {
-    public ScoreController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
     public static final List<Long> CLOSED = new CopyOnWriteArrayList<>();
-
+    public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L}));
     @AutoStand
     IOtherService otherService;
     @AutoStand
     IScoreService scoreService;
+
+    public ScoreController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
 
     @Before
     public void before(Group group) throws NoRunException {
@@ -99,8 +99,6 @@ public class ScoreController {
         }
     }
 
-    public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L}));
-
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
     public String robbery(User qq, @AllMess String str) {
         try {
@@ -148,7 +146,7 @@ public class ScoreController {
     public String showScore(User qq, @AllMess String mess) {
         try {
             long who = getAtFromString(mess);
-            if (!DataBase.exists(who)) return "该玩家尚未注册";
+            if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UserScore ls = DataBase.getAllInfo(who);
             return "ta的积分剩余:" + ls.getScore();
         } catch (NumberFormatException e) {

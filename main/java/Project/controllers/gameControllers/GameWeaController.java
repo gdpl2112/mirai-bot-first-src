@@ -1,11 +1,11 @@
 package Project.controllers.gameControllers;
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -15,12 +15,12 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class GameWeaController {
+    @AutoStand
+    IGameWeaService gameWeaService;
+
     public GameWeaController() {
         println(this.getClass().getSimpleName() + "构建");
     }
-
-    @AutoStand
-    IGameWeaService gameWeaService;
 
     @Before
     public void before(Group group, User qq) throws NoRunException {

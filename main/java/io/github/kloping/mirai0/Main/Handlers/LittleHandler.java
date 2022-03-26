@@ -39,15 +39,13 @@ public class LittleHandler extends SimpleListenerHost {
 
     public static final String WANT_TITLE = "我要头衔";
     public static final String ILLEGAL = "敏感字节!";
-    public static String TOK = "设置头衔完成";
     public static final String PRE = "/";
     public static final String PRE0 = "#";
+    public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
+    public static String TOK = "设置头衔完成";
     public static ActionManagerImpl am = null;
     public static ContextManager contextManager;
-
     public static File file = new File("./superQList.txt");
-
-    public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
 
     static {
         ClassManager classManager;
@@ -88,6 +86,10 @@ public class LittleHandler extends SimpleListenerHost {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isSuperQ(long q) {
+        return SUPER_LIST.contains(q);
     }
 
     @Override
@@ -145,10 +147,6 @@ public class LittleHandler extends SimpleListenerHost {
                 }
             }
         }
-    }
-
-    public static boolean isSuperQ(long q) {
-        return SUPER_LIST.contains(q);
     }
 
     @Action("setAdmin.+")

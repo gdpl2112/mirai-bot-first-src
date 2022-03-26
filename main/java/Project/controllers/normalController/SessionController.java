@@ -26,11 +26,39 @@ import java.util.concurrent.Executors;
 @Controller
 public class SessionController {
 
+    public static final Map<String, String> SUPPORTED_LANGUAGE = new ConcurrentHashMap<>();
+    private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
     @AutoStand
     public static SessionController INSTANCE;
-
+    public final List<Long> InTheSession = new CopyOnWriteArrayList<>();
+    public final Map<Long, String> q2Filename = new ConcurrentHashMap<>();
+    public final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
+    public final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
+    private final String HELP_STR = "已知命令:\n" +
+            "创建文件<FileName>\n" +
+            "\t#仅可创建c,py,java 文件\n" +
+            "\t例如:创建文件Main.java\n" +
+            "文件内容<Text>\n" +
+            "文件内容追加<Text>\n" +
+            "执行时输入<Text>\n" +
+            "开始执行\n" +
+            "结束会话\n" +
+            "==============\n" +
+            "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
     @AutoStand
     private RunAll runAll;
+
+    {
+        SUPPORTED_LANGUAGE.put("java", "java");
+        SUPPORTED_LANGUAGE.put("c", "c");
+        SUPPORTED_LANGUAGE.put("py", "python");
+        SUPPORTED_LANGUAGE.put("cpp", "cpp");
+        SUPPORTED_LANGUAGE.put("kt", "kotlin");
+        SUPPORTED_LANGUAGE.put("go", "go");
+        SUPPORTED_LANGUAGE.put("sh", "bash");
+        SUPPORTED_LANGUAGE.put("lua", "lua");
+        SUPPORTED_LANGUAGE.put("js", "javascript");
+    }
 
     public boolean contains(long id) {
         return InTheSession.contains(id);
@@ -46,26 +74,6 @@ public class SessionController {
             }
         }
     }
-
-    public final List<Long> InTheSession = new CopyOnWriteArrayList<>();
-
-    public final Map<Long, String> q2Filename = new ConcurrentHashMap<>();
-
-    public final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
-
-    public final Map<Long, String> q2CodeRunInput = new ConcurrentHashMap<>();
-
-    private final String HELP_STR = "已知命令:\n" +
-            "创建文件<FileName>\n" +
-            "\t#仅可创建c,py,java 文件\n" +
-            "\t例如:创建文件Main.java\n" +
-            "文件内容<Text>\n" +
-            "文件内容追加<Text>\n" +
-            "执行时输入<Text>\n" +
-            "开始执行\n" +
-            "结束会话\n" +
-            "==============\n" +
-            "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
 
     public String i(String m1, long q, Group group) {
         if (m1.startsWith("帮助") || m1.startsWith("help")) {
@@ -90,7 +98,6 @@ public class SessionController {
             return "未知命令:" + m1 + "\nUnknown Command:" + m1;
         }
     }
-
 
     @Action("开始会话")
     public String m1(long q) {
@@ -132,22 +139,6 @@ public class SessionController {
             });
         }
     }
-
-    public static final Map<String, String> SUPPORTED_LANGUAGE = new ConcurrentHashMap<>();
-
-    {
-        SUPPORTED_LANGUAGE.put("java", "java");
-        SUPPORTED_LANGUAGE.put("c", "c");
-        SUPPORTED_LANGUAGE.put("py", "python");
-        SUPPORTED_LANGUAGE.put("cpp", "cpp");
-        SUPPORTED_LANGUAGE.put("kt", "kotlin");
-        SUPPORTED_LANGUAGE.put("go", "go");
-        SUPPORTED_LANGUAGE.put("sh", "bash");
-        SUPPORTED_LANGUAGE.put("lua", "lua");
-        SUPPORTED_LANGUAGE.put("js", "javascript");
-    }
-
-    private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
 
     public String createFile(String fileName, long q) {
         if (!(fileName.indexOf(".") > 0 && SUPPORTED_LANGUAGE.containsKey(fileName.substring(fileName.indexOf(".") + 1))))

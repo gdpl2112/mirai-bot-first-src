@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class SkillFactory {
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP = new HashMap<>();
+    private static final Map<Integer, SkillTemplate> SKILL_MAP = new HashMap<>();
     public static int normalSkillNum = 0;
 
     static {
@@ -36,8 +37,6 @@ public class SkillFactory {
             e.printStackTrace();
         }
     }
-
-    private static final Map<Integer, SkillTemplate> SKILL_MAP = new HashMap<>();
 
     public static SkillTemplate factory(int jid) {
         if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);

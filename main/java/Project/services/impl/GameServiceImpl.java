@@ -2,7 +2,6 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.DataBase;
@@ -14,14 +13,12 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.GInfo;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
@@ -33,14 +30,14 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
@@ -50,6 +47,11 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
  */
 @Entity
 public class GameServiceImpl implements IGameService {
+
+    public static final ExecutorService threads = Executors.newFixedThreadPool(10);
+    public int st = 24;
+    @AutoStand
+    GameController gameController;
 
     @Override
     public String xl(Long who) {
@@ -343,8 +345,6 @@ public class GameServiceImpl implements IGameService {
         }
         return AttWhosNow(who, whos, group, 0);
     }
-
-    public static final ExecutorService threads = Executors.newFixedThreadPool(10);
 
     public String AttWhosNow(Long p1, Long p2, Group g1, Integer v) {
         threads.execute(new Runnable() {
@@ -756,9 +756,6 @@ public class GameServiceImpl implements IGameService {
         return "转生完成\n已移除" + i + "项记录";
     }
 
-    @AutoStand
-    GameController gameController;
-
     @Override
     public String fusion(Long q1, Long q2, Group group) {
         if (containsInBg(111, q1)) {
@@ -804,8 +801,6 @@ public class GameServiceImpl implements IGameService {
         GInfo gInfo = GInfo.getInstance(q);
         return pathToImg(drawGInfo(gInfo));
     }
-
-    public int st = 24;
 
     @Override
     public String shouTu(long q, long q2) {

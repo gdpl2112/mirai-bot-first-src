@@ -3,20 +3,22 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.putPerson;
+import static Project.dataBases.skill.SkillDataBase.TAG_MS;
+import static Project.services.detailServices.GameSkillDetailService.WhTypes;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill10 extends SkillTemplate {
-    
+
 
     public Skill10() {
         super(10);
@@ -24,17 +26,17 @@ public class Skill10 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  WhTypes.T6;
+        return WhTypes.T6;
     }
 
     @Override
     public String getIntro() {
-        return  String.format("在接下来的来%s秒内,免疫一次死亡", getAddP(getJid(), getId()));
+        return String.format("在接下来的来%s秒内,免疫一次死亡", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "免死") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "免死") {
             @Override
             public void before() {
                 putPerson(getInfo(who).addTag(TAG_MS, 0));

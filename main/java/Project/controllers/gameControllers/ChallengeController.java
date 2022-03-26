@@ -29,12 +29,14 @@ public class ChallengeController {
             "5.挑战中时不可购买物品,不可被转让\n" +
             "6.挑战中时攻击值减半\n" +
             "9.";
+    private static List<String> listFx = new ArrayList<>();
+
+    @AutoStand
+    IChallengeService service;
 
     public ChallengeController() {
         println(this.getClass().getSimpleName() + "构建");
     }
-
-    private static List<String> listFx = new ArrayList<>();
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
@@ -52,14 +54,11 @@ public class ChallengeController {
         }
     }
 
-    @AutoStand
-    IChallengeService service;
-
     @Action("人机挑战")
     private Object o1(User user, Group group) {
         return service.startWithBot(user.getId(), group.getId());
     }
-    
+
     /**
      * 选择攻击的拦截
      *

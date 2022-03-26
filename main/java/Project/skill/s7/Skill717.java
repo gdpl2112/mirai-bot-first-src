@@ -4,19 +4,20 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addShield;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill717 extends SkillTemplate {
-    
+
 
     public Skill717() {
         super(717);

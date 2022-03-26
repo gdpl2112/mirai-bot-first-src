@@ -1,9 +1,9 @@
 package Project.detailPlugin;
 
-import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 import Project.interfaces.http_api.GetSongs;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 
 
 /**

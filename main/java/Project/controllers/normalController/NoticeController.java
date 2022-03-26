@@ -8,26 +8,15 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class NoticeController {
-    public NoticeController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
-    @Before
-    public void before(Group group) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
-        }
-    }
-
     private static final String HJ_INTRO = "精神力有什么用:\r\n\t" +
             "   1.精神力高于80%时格挡10%的伤害,同时消耗精神力\r\n\t" +
             "   2.精神力低于45%时额外受到10%的伤害\r\n\t" +
@@ -36,13 +25,19 @@ public class NoticeController {
             "   4.可使用 精神攻击@某 随机发射 12~20%(可指定) 的最大精神力的值 对目标造成同等值的精神损失 最大造成 " + MAX_SA_LOSE_HJ_B + "%的精神力" +
             "若目标不足及承受发射的精神力 则将额外造成 剩余可作用的精神力的值的" + HJ_LOSE_1_X +
             "倍的伤害最大造成目标" + MAX_SA_LOSE_HP_B + "%的最大生命值,魂兽不受其最大生命值限制";
-
-    @Action("精神力作用")
-    public Object more1() {
-        return HJ_INTRO;
-    }
-
     private static final StringBuilder UPDATE_LOG = new StringBuilder();
+    private static final String MORA_STR_2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
+            "   9级不能吸收万年及以上\n\t" +
+            "   49级不能吸收十万年及以上\n\t" +
+            "   69级不能吸收百万年及以上\n\t";
+    private static final String STRING = "每个人 今日首次 无状态时(血量为0)>清空经验,\n" +
+            "再次 无状态时 下降一级,\n" +
+            "之后都 清空经验\n" +
+            "===============\n" +
+            "每日最多下降一级\n" +
+            "整10级(10,20...)时不会下降等级\n" +
+            "请保证自己的血量健康";
+    public static int lowst = 5;
     private static String[] UPDATE_LOGS;
 
     static {
@@ -168,10 +163,21 @@ public class NoticeController {
         UPDATE_LOGS = UPDATE_LOG.toString().split("\\[nextPage]\\n");
     }
 
-    private static final String MORA_STR_2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
-            "   9级不能吸收万年及以上\n\t" +
-            "   49级不能吸收十万年及以上\n\t" +
-            "   69级不能吸收百万年及以上\n\t";
+    public NoticeController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
+
+    @Before
+    public void before(Group group) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
+    }
+
+    @Action("精神力作用")
+    public Object more1() {
+        return HJ_INTRO;
+    }
 
     @Action("更新日志.*?")
     public String updateLog(@AllMess String m) {
@@ -186,20 +192,10 @@ public class NoticeController {
         return MORA_STR_2;
     }
 
-    private static final String STRING = "每个人 今日首次 无状态时(血量为0)>清空经验,\n" +
-            "再次 无状态时 下降一级,\n" +
-            "之后都 清空经验\n" +
-            "===============\n" +
-            "每日最多下降一级\n" +
-            "整10级(10,20...)时不会下降等级\n" +
-            "请保证自己的血量健康";
-
     @Action("新机制")
     public String m1() {
         return STRING;
     }
-
-    public static int lowst = 5;
 
     @Action(value = "怎么获得名师点", otherName = {"名师点.+"})
     public String m2() {

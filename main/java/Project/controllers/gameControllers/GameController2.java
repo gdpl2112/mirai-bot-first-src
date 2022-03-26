@@ -1,14 +1,14 @@
 package Project.controllers.gameControllers;
 
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import static Project.controllers.auto.ControllerTool.opened;
@@ -19,10 +19,14 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class GameController2 {
+    @AutoStand
+    IGameService service;
+    @AutoStand
+    IGameObjService gameObjService;
+
     public GameController2() {
         println(this.getClass().getSimpleName() + "构建");
     }
-
 
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
@@ -30,9 +34,6 @@ public class GameController2 {
             throw new NoRunException("未开启");
         }
     }
-
-    @AutoStand
-    IGameService service;
 
     @Action(value = "详细信息", otherName = {"详情信息"})
     public String m1(long q) {
@@ -61,9 +62,6 @@ public class GameController2 {
         }
         throw new NoRunException();
     }
-
-    @AutoStand
-    IGameObjService gameObjService;
 
     @Action("合成<.+=>name>")
     public String m1(@Param("name") String name, long q) {

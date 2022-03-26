@@ -118,6 +118,7 @@ public class Zong implements Serializable {
     public Integer getElders() {
         return getElder().size();
     }
+
     public Set<Number> getMember() {
         Set<Number> set = new HashSet<>();
         for (Zon zon : getZonMapper().selectByZongId(getId().intValue())) {

@@ -3,20 +3,19 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
-
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill20 extends SkillTemplate {
-    
+
 
     public Skill20() {
         super(20);
@@ -24,17 +23,17 @@ public class Skill20 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.Control};
+        return new SkillIntro.Type[]{SkillIntro.Type.Control};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("控制型技能,指定敌人,2秒后 对其 眩晕 %s 秒 其值受攻击者和被攻击者的精神力影响", getAddP(getJid(), getId()));
+        return String.format("控制型技能,指定敌人,2秒后 对其 眩晕 %s 秒 其值受攻击者和被攻击者的精神力影响", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "眩晕技") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "眩晕技") {
             BaseInfo b2 = null;
 
             float t = 0L;

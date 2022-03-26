@@ -185,5 +185,5 @@ public interface IGameService {
      * @param q2
      * @return
      */
-    String attByHj(long q, long q2,int br);
+    String attByHj(long q, long q2, int br);
 }

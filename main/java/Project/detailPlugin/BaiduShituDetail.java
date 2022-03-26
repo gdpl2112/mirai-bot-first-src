@@ -16,6 +16,12 @@ import java.util.Map;
 @Entity
 public class BaiduShituDetail {
     public static final Map<String, String> HEADERS = new HashMap<>();
+    private static final Map<String, String> HEADER0 = new HashMap<>();
+    public static String dataStr = null;
+    @AutoStand
+    static IBaiduShitu baiduShitu;
+    @AutoStand
+    static BaiduShitu0 baiduShitu0;
 
     static {
         HEADERS.put("host", "graph.baidu.com");
@@ -32,14 +38,6 @@ public class BaiduShituDetail {
         HEADERS.put("accept-language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7");
     }
 
-    @AutoStand
-    static IBaiduShitu baiduShitu;
-
-    @AutoStand
-    static BaiduShitu0 baiduShitu0;
-
-    public static String dataStr = null;
-
     public static BaiduShitu get(String imageUrl) {
         if (dataStr == null) {
             initDataStr();
@@ -54,8 +52,6 @@ public class BaiduShituDetail {
         }
         return shitu;
     }
-
-    private static final Map<String, String> HEADER0 = new HashMap<>();
 
     private static void initDataStr() {
         HEADER0.put("host", "miao.baidu.com");

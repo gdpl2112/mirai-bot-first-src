@@ -28,10 +28,6 @@ public class PlayerLostBroadcast extends Broadcast {
     }
 
     public static interface PlayerLostReceiver extends Receiver {
-        public static enum LostType {
-            att, un, fake
-        }
-
         /**
          * receive
          *
@@ -40,5 +36,9 @@ public class PlayerLostBroadcast extends Broadcast {
          * @param type
          */
         void onReceive(long who, long from, LostType type);
+
+        public static enum LostType {
+            att, un, fake
+        }
     }
 }

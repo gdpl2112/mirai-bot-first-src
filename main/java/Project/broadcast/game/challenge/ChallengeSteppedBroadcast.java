@@ -4,7 +4,6 @@ import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
-import io.github.kloping.mirai0.commons.task.Task;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,17 +12,15 @@ import java.util.List;
  * @author github.kloping
  */
 public class ChallengeSteppedBroadcast extends Broadcast {
+    public static final ChallengeSteppedBroadcast INSTANCE = new ChallengeSteppedBroadcast();
+    private List<ChallengeSteppedReceiver> receivers = new LinkedList<>();
     public ChallengeSteppedBroadcast() {
         super("challengeStepped");
     }
 
-    public static final ChallengeSteppedBroadcast INSTANCE = new ChallengeSteppedBroadcast();
-    private List<ChallengeSteppedReceiver> receivers = new LinkedList<>();
-
-
     public void broadcast(ChallengeField field, Group group, String side) {
         for (ChallengeSteppedReceiver receiver : receivers) {
-            receiver.onReceive(field,side);
+            receiver.onReceive(field, side);
         }
     }
 

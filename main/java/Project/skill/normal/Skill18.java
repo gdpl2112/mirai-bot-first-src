@@ -5,21 +5,22 @@ import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameJoinDetailService.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill18 extends SkillTemplate {
-    
+
 
     public Skill18() {
         super(18);
@@ -27,17 +28,17 @@ public class Skill18 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.Special};
+        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.Special};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%%时加成为攻击x%s%%", getAddP(getJid(), getId()));
+        return String.format("攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%%时加成为攻击x%s%%", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "斩杀技") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "斩杀技") {
             @Override
             public void before() {
                 if (nums.length == 0) {

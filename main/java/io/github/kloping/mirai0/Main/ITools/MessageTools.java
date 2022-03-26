@@ -27,6 +27,16 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
  * @author github-kloping
  */
 public class MessageTools {
+    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
+    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
+    private static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
+    private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
+    private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
+    private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
+    private static final Map<Integer, Face> faces = new ConcurrentHashMap<>();
+    private static final Map<Long, At> ats = new ConcurrentHashMap<>();
+    private static final Map<String, Image> HIST_IMAGES = new ConcurrentHashMap<>();
+
     public static long getAtFromString(String message) {
         int start = message.indexOf("[@");
         int end = message.indexOf("]");
@@ -45,12 +55,6 @@ public class MessageTools {
         MessageChain message = builder.build();
         return message;
     }
-
-    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
-    private static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
-    private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
-    private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
-    private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
 
     private static List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
         List<Object> lls = aStart(sb);
@@ -83,8 +87,6 @@ public class MessageTools {
         return lls;
     }
 
-    private static final Map<Integer, Face> faces = new ConcurrentHashMap<>();
-
     private static Face getFace(int parseInt) {
         if (faces.containsKey(parseInt)) {
             return faces.get(parseInt);
@@ -95,8 +97,6 @@ public class MessageTools {
         }
     }
 
-    private static final Map<Long, At> ats = new ConcurrentHashMap<>();
-
     public static At getAt(long id) {
         if (ats.containsKey(id)) {
             return ats.get(id);
@@ -106,7 +106,6 @@ public class MessageTools {
             return at;
         }
     }
-
 
     public static List<Object> aStart(String line) {
         List<String> list = new ArrayList<>();
@@ -167,8 +166,6 @@ public class MessageTools {
         }
     }
 
-    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
-
     public static void speak(String line, io.github.kloping.mirai0.commons.Group group) {
         try {
             MessageTools.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
@@ -190,8 +187,6 @@ public class MessageTools {
             return -1;
         }
     }
-
-    private static final Map<String, Image> HIST_IMAGES = new ConcurrentHashMap<>();
 
     public static Image createImage(Contact group, String path) {
         Image image = null;

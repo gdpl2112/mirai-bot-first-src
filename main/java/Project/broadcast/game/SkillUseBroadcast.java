@@ -1,11 +1,15 @@
 package Project.broadcast.game;
 
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 public class SkillUseBroadcast extends Broadcast {
     public static final SkillUseBroadcast INSTANCE = new SkillUseBroadcast();
+
+    public SkillUseBroadcast() {
+        super("SkillUseBroadcast");
+    }
 
     public void broadcast(long who, int jid, int st, SkillInfo info) {
         for (Receiver receiver : receivers) {
@@ -19,10 +23,6 @@ public class SkillUseBroadcast extends Broadcast {
         if (receiver instanceof SkillUseReceiver)
             return super.add(receiver);
         return false;
-    }
-
-    public SkillUseBroadcast() {
-        super("SkillUseBroadcast");
     }
 
     public interface SkillUseReceiver extends Receiver {

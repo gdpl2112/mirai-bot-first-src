@@ -12,14 +12,6 @@ import static Project.dataBases.skill.SkillDataBase.TAG_TRUE;
 public class Ghost702 extends GhostWithGroup {
     private Long shield = null;
 
-    public Long getShield() {
-        return shield;
-    }
-
-    public void setShield(Long shield) {
-        this.shield = shield;
-    }
-
     public Ghost702() {
     }
 
@@ -33,6 +25,14 @@ public class Ghost702 extends GhostWithGroup {
 
     public Ghost702(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
         super(hp, att, xp, idMin, idMax, l, rand, bl);
+    }
+
+    public Long getShield() {
+        return shield;
+    }
+
+    public void setShield(Long shield) {
+        this.shield = shield;
     }
 
     @Override

@@ -1,22 +1,17 @@
 package Project.recivers;
 
+import Project.broadcast.game.*;
 import Project.broadcast.normal.MemberJoinedBroadcast;
 import Project.controllers.normalController.EntertainmentController3;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.GInfo;
-import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.task.Task;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
-import Project.broadcast.game.RecordBroadcast;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import Project.broadcast.game.*;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.task.Task;
 
 import static Project.controllers.normalController.NoticeController.lowst;
 
@@ -24,6 +19,9 @@ import static Project.controllers.normalController.NoticeController.lowst;
  * @author github-kloping
  */
 public class GameReceiver0 {
+    @AutoStand
+    static EntertainmentController3 entertainmentController3;
+
     public GameReceiver0() {
         init();
         init1();
@@ -151,9 +149,6 @@ public class GameReceiver0 {
             }
         });
     }
-
-    @AutoStand
-    static EntertainmentController3 entertainmentController3;
 
     /**
      * 注册新人加群

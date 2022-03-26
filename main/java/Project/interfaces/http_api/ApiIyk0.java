@@ -1,11 +1,11 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.Jyu;
-import io.github.kloping.mirai0.commons.apiEntitys.colb.PickupABottle;
-import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.Jyu;
+import io.github.kloping.mirai0.commons.apiEntitys.colb.PickupABottle;
+import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
 
 /**
  * @author github-kloping

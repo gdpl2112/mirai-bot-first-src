@@ -5,22 +5,22 @@ import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameJoinDetailService.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github.kloping
  */
 public class Skill19 extends SkillTemplate {
-    
+
 
     public Skill19() {
         super(19);
@@ -28,17 +28,19 @@ public class Skill19 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.NLonTime};
+        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.NLonTime};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(getJid(), getId()));
+        return String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓄力1") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓄力1") {
+            private int b;
+
             @Override
             public void before() {
                 if (nums.length == 0) {
@@ -57,8 +59,6 @@ public class Skill19 extends SkillTemplate {
                 b = info.getAddPercent() + r;
                 setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).getAtt())));
             }
-
-            private int b;
 
             @Override
             public void run() {

@@ -1,8 +1,8 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -13,9 +13,15 @@ import java.util.Set;
  */
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
+    private static int index = 0;
+    public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
 
     public GhostLostBroadcast() {
         super("GhostLostBroadcast");
+    }
+
+    public static synchronized int getSerId() {
+        return index++;
     }
 
     public void broadcast(long who, GhostObj ghostObj, KillType type) {
@@ -25,8 +31,6 @@ public class GhostLostBroadcast extends Broadcast {
         }
         threads.submit(this::after);
     }
-
-    public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
 
     @Override
     public boolean add(Receiver receiver) {
@@ -43,12 +47,6 @@ public class GhostLostBroadcast extends Broadcast {
             runnableIterator.next().run();
             runnableIterator.remove();
         }
-    }
-
-    private static int index = 0;
-
-    public static synchronized int getSerId() {
-        return index++;
     }
 
     public static enum KillType {

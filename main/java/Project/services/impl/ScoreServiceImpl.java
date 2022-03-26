@@ -6,16 +6,16 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.UserScore;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
 
 import java.util.List;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static Project.dataBases.DataBase.*;
 import static Project.dataBases.GameDataBase.putPerson;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -25,6 +25,26 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class ScoreServiceImpl implements IScoreService {
+
+    private static final Object[] regDay(Number l) {
+        int r = SpringBootResource.getSingListMapper().selectCountByDay(getTodayDetialString());
+        switch (r) {
+            case 1:
+                addScore(100, l.longValue());
+                return new Object[]{"额外获得100积分", r};
+            case 2:
+                addScore(50, l.longValue());
+                return new Object[]{"额外获得50积分", r};
+            case 3:
+                addScore(25, l.longValue());
+                return new Object[]{"额外获得25积分", r};
+            case 10:
+                addScore(150, l.longValue());
+                return new Object[]{"额外获得150积分", r};
+            default:
+                return new Object[]{"", r};
+        }
+    }
 
     @Override
     public String selectInfo(Long who) {
@@ -118,27 +138,6 @@ public class ScoreServiceImpl implements IScoreService {
                         + getImageFromFontString("第" + trans(st) + "签")
                         + "\n" + line;
             }
-        }
-    }
-
-
-    private static final Object[] regDay(Number l) {
-        int r = SpringBootResource.getSingListMapper().selectCountByDay(getTodayDetialString());
-        switch (r) {
-            case 1:
-                addScore(100, l.longValue());
-                return new Object[]{"额外获得100积分", r};
-            case 2:
-                addScore(50, l.longValue());
-                return new Object[]{"额外获得50积分", r};
-            case 3:
-                addScore(25, l.longValue());
-                return new Object[]{"额外获得25积分", r};
-            case 10:
-                addScore(150, l.longValue());
-                return new Object[]{"额外获得150积分", r};
-            default:
-                return new Object[]{"", r};
         }
     }
 

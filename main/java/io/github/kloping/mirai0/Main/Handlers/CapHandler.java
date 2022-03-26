@@ -26,6 +26,7 @@ public class CapHandler {
     public static final Map<Long, Group> CAP_2 = new ConcurrentHashMap<>();
     public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
     private static final Number MAX_WAIT = 300;
+    private static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
     public static void join(long qid, Group group) {
         if (DataBase.needCap(group.getId())) {
@@ -44,8 +45,6 @@ public class CapHandler {
             CAP_T.put(qid, MAX_WAIT.intValue());
         }
     }
-
-    private static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
     private static void startTimer(long qid) {
         THREADS.execute(new Runnable() {

@@ -2,13 +2,13 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.GameBoneDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 
@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -27,6 +26,15 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
+    private static boolean hasSamePart(List<SoulBone> list, Integer id) {
+        for (SoulBone soulBone : list) {
+            String s1 = soulBone.getOid().toString().substring(0, 3);
+            String s2 = id.toString().substring(0, 3);
+            if (s1.trim().equals(s2.trim())) return true;
+        }
+        return false;
+    }
+
     @Override
     public String getInfoAttributes(Long who) {
         SoulAttribute attributeBone = getSoulAttribute(who);
@@ -171,15 +179,6 @@ public class GameBoneServiceImpl implements IGameBoneService {
             }
         }
         return "你没有 对应的魂骨";
-    }
-
-    private static boolean hasSamePart(List<SoulBone> list, Integer id) {
-        for (SoulBone soulBone : list) {
-            String s1 = soulBone.getOid().toString().substring(0, 3);
-            String s2 = id.toString().substring(0, 3);
-            if (s1.trim().equals(s2.trim())) return true;
-        }
-        return false;
     }
 
 /*

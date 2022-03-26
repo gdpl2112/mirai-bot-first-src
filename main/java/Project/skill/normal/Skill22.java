@@ -16,6 +16,8 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
  * @author github.kloping
  */
 public class Skill22 extends SkillTemplate {
+    private static int LOWEST = 30;
+
     public Skill22() {
         super(22);
     }
@@ -24,8 +26,6 @@ public class Skill22 extends SkillTemplate {
     public SkillIntro.Type[] getTypes() {
         return new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.Add};
     }
-
-    private static int LOWEST = 30;
 
     @Override
     public String getIntro() {

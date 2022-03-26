@@ -6,6 +6,7 @@ package Project.interfaces.Iservice;
 public interface IChallengeService {
     /**
      * 人机挑战
+     *
      * @param qid
      * @param gid
      * @return
@@ -14,6 +15,7 @@ public interface IChallengeService {
 
     /**
      * 移动
+     *
      * @param id
      * @param str
      * @return

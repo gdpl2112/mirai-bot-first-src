@@ -24,7 +24,6 @@ import java.util.Set;
 
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
@@ -32,12 +31,24 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class ManagerController {
+    private final static String[] sss = {"你好啊!", "嘿,老Baby", "在吗 ", "吃了没"};
+    @AutoStand
+    IManagerService managerService;
+
     public ManagerController() {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    @AutoStand
-    IManagerService managerService;
+    private static Number[] getAllAt(String allMess) {
+        Set<Number> numbers = new HashSet<>();
+        while (true) {
+            Long l1 = MessageTools.getAtFromString(allMess);
+            allMess = allMess.replaceFirst("\\[@" + l1 + "\\]", "");
+            if (l1 == -1) break;
+            else numbers.add(l1);
+        }
+        return numbers.toArray(new Number[0]);
+    }
 
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
@@ -127,7 +138,6 @@ public class ManagerController {
         return "关闭完成";
     }
 
-
     @Action("开启闪照破解")
     public String openFlash(Group group) {
         return DataBase.openShow(group.getId()) ? "开启闪照破解成功" : "已经开启闪照破解";
@@ -149,8 +159,6 @@ public class ManagerController {
         DataBase.setSpeak(group.getId(), false);
         return "不想聊了";
     }
-
-    private final static String[] sss = {"你好啊!", "嘿,老Baby", "在吗 ", "吃了没"};
 
     @Action(value = "与ta互动.{1,}", otherName = {"与他互动.{1,}", "与她互动.{1,}"})
     public String talkWith(User qq, @AllMess String chain) {
@@ -213,17 +221,6 @@ public class ManagerController {
             e.printStackTrace();
             return "异常执行";
         }
-    }
-
-    private static Number[] getAllAt(String allMess) {
-        Set<Number> numbers = new HashSet<>();
-        while (true) {
-            Long l1 = MessageTools.getAtFromString(allMess);
-            allMess = allMess.replaceFirst("\\[@" + l1 + "\\]", "");
-            if (l1 == -1) break;
-            else numbers.add(l1);
-        }
-        return numbers.toArray(new Number[0]);
     }
 
     @Action("禁言<.{1,}=>str>")

@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.commons.Group;
 public interface ISkillService {
     /**
      * init skill
+     *
      * @param qq
      * @param group
      * @param st
@@ -18,6 +19,7 @@ public interface ISkillService {
 
     /**
      * use skill
+     *
      * @param qq
      * @param st
      * @param allAt
@@ -29,6 +31,7 @@ public interface ISkillService {
 
     /**
      * set Skill Name
+     *
      * @param qq
      * @param st
      * @param str
@@ -38,6 +41,7 @@ public interface ISkillService {
 
     /**
      * get Intro
+     *
      * @param id
      * @param st
      * @param str
@@ -47,6 +51,7 @@ public interface ISkillService {
 
     /**
      * forget skill
+     *
      * @param qq
      * @param st
      * @return

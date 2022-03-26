@@ -1,6 +1,5 @@
 package Project.services.detailServices.ac;
 
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameDetailService;
@@ -8,15 +7,16 @@ import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.willTips;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
@@ -26,6 +26,16 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
  */
 @Entity
 public class JoinAcService {
+    public static final int MIN_MEED = 60;
+    public static final String[] TIPS0 = {
+            "你去落日森林,欣赏了风景<Face:335>",
+            "你从花开<Face:64>看到了花落<Face:63>",
+            "你去落日森林,溜达了一圈<Face:185>",
+    };
+    private static final int MUST_MEED = 70;
+    private static final int MAX_RAND_2 = 150;
+    private static final int MAX_RAND3 = 300;
+    private static final int MIN_MEET3 = 50;
     @AutoStand
     GameJoinDetailService gameJoinDetailService;
 
@@ -144,10 +154,6 @@ public class JoinAcService {
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
 
-    public static final int MIN_MEED = 60;
-    private static final int MUST_MEED = 70;
-    private static final int MAX_RAND_2 = 150;
-
     public String join1(long who, Group group) {
         int r = 0;
         r = getInfo(who).getNextR2();
@@ -190,15 +196,6 @@ public class JoinAcService {
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
     }
-
-    public static final String[] TIPS0 = {
-            "你去落日森林,欣赏了风景<Face:335>",
-            "你从花开<Face:64>看到了花落<Face:63>",
-            "你去落日森林,溜达了一圈<Face:185>",
-    };
-
-    private static final int MAX_RAND3 = 300;
-    private static final int MIN_MEET3 = 50;
 
     public String join2(long who, Group group) {
         int r = getInfo(who).getNextR3();

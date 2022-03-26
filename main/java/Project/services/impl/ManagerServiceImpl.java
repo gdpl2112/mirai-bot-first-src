@@ -19,15 +19,17 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 
 import java.util.List;
 
+import static io.github.kloping.mirai0.Main.Resource.superQL;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.Main.Resource.superQL;
 
 /**
  * @author github-kloping
  */
 @Entity
 public class ManagerServiceImpl implements IManagerService {
+    public static final String[] TIME_UNIT = new String[]{SECONDS, MINUTE, HOUR, DAY, MONTH};
+
     @Override
     public String addFather(long father, long who) {
         return addFather(father, who, Father.ALL);
@@ -58,8 +60,6 @@ public class ManagerServiceImpl implements IManagerService {
             return "你无权限";
         }
     }
-
-    public static final String[] TIME_UNIT = new String[]{SECONDS, MINUTE, HOUR, DAY, MONTH};
 
     @Override
     public String notSpeak(Member who, String what, Group group) {

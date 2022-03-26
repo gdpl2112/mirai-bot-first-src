@@ -5,17 +5,20 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -23,12 +26,13 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Controller
 public class GameObjController {
+    @AutoStand
+    IGameUseObjService gameUseObiService;
+    private String upShopPath = "";
+
     public GameObjController() {
         println(this.getClass().getSimpleName() + "构建");
     }
-
-    @AutoStand
-    IGameUseObjService gameUseObiService;
 
     @Before
     public void before(Group group, User qq) throws NoRunException {
@@ -44,7 +48,7 @@ public class GameObjController {
             Integer num = null;
             try {
                 num = Integer.valueOf(Tool.findNumberFromString(what));
-                what = what.replace(num + "", "");
+                what = what.replace(num.toString(), "");
             } catch (Exception e) {
 
             }
@@ -69,16 +73,14 @@ public class GameObjController {
             what = what.replace("说明", "");
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what.trim());
             if (id == null) {
-                return "未找到相关物品";
+                return NOT_FOUND_ABOUT_OBJ;
             }
             return gameUseObiService.getIntro(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return "未发现相关物";
+            return NOT_FOUND_ABOUT_OBJ;
         }
     }
-
-    private String upShopPath = "";
 
     @Action(value = "商城", otherName = {"商店", "商场"})
     public Object shop(Group group) {
@@ -107,19 +109,20 @@ public class GameObjController {
             return sss;
         } catch (Exception e) {
             e.printStackTrace();
-            return "未找到相关物品";
+            return NOT_FOUND_ABOUT_OBJ;
         }
     }
 
     @Action(value = "物品转让<.{1,}=>name>", otherName = {"转让物品<.{1,}=>name>", "转让<.{1,}=>name>"})
     public String transfer(User qq, @Param("name") String name, @AllMess String message) {
         try {
-            if (longs.contains(qq.getId())) return "Can't";
+            if (longs.contains(qq.getId())) return ERR_TIPS;
             long whos = MessageTools.getAtFromString(message);
             if (whos == -1)
-                return "转给谁?";
-            if (!GameDataBase.exist(whos)) return "该玩家尚未注册";
-            name = name.replace("[@" + whos + "]", "").replace("[@me]", "");
+                return NOT_FOUND_AT;
+            if (!GameDataBase.exist(whos)) return PLAYER_NOT_REGISTERED;
+            if (challengeDetailService.isTemping(qq.getId())) return ILLEGAL_OPERATION;
+            name = name.replace(String.format(AT_FORMAT, whos), "").replace("[@me]", "");
             Integer num = null;
             try {
                 num = Integer.valueOf(Tool.findNumberFromString(name));
@@ -135,7 +138,7 @@ public class GameObjController {
                 s = gameUseObiService.objTo(qq.getId(), id, whos, num);
             return s;
         } catch (Exception e) {
-            return "未找到相关物品";
+            return ERR_TIPS;
         }
     }
 
@@ -152,14 +155,14 @@ public class GameObjController {
                 num = null;
             }
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
-            if (id == null) return "未知物品";
+            if (id == null) return NOT_FOUND_ABOUT_OBJ;
             String mess = "";
             if (num == null || num.intValue() == 1) mess = gameUseObiService.sleObj(qq.getId(), id);
             else mess = gameUseObiService.sleObj(qq.getId(), id, num);
             return mess;
         } catch (Exception e) {
             e.printStackTrace();
-            return "未找到相关物品";
+            return NOT_FOUND_ABOUT_OBJ;
         }
     }
 }

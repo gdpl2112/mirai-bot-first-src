@@ -9,6 +9,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author github.kloping
  */
 public class GameBoneDetailService {
+    public static final Map<Long, Map<Type, Number>> TEMP_ATTR = new ConcurrentHashMap<>();
+
+    public static void addForAttr(long q, Number v, Type type) {
+        Number oldV = 0;
+        if (TEMP_ATTR.containsKey(q)) {
+            if (TEMP_ATTR.get(q).containsKey(type)) {
+                oldV = TEMP_ATTR.get(q).get(type);
+            }
+        }
+        Number nv = v.intValue() + oldV.intValue();
+        if (nv.intValue() != 0) {
+            MapUtils.append(TEMP_ATTR, q, type, nv);
+        } else {
+            TEMP_ATTR.get(q).remove(type);
+        }
+    }
+
     public static enum Type {
         /**
          * 闪避率
@@ -46,23 +63,6 @@ public class GameBoneDetailService {
 
         public String getValue() {
             return value;
-        }
-    }
-
-    public static final Map<Long, Map<Type, Number>> TEMP_ATTR = new ConcurrentHashMap<>();
-
-    public static void addForAttr(long q, Number v, Type type) {
-        Number oldV = 0;
-        if (TEMP_ATTR.containsKey(q)) {
-            if (TEMP_ATTR.get(q).containsKey(type)) {
-                oldV = TEMP_ATTR.get(q).get(type);
-            }
-        }
-        Number nv = v.intValue() + oldV.intValue();
-        if (nv.intValue() != 0) {
-            MapUtils.append(TEMP_ATTR, q, type, nv);
-        } else {
-            TEMP_ATTR.get(q).remove(type);
         }
     }
 }

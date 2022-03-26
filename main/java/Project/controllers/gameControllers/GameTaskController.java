@@ -2,22 +2,21 @@ package Project.controllers.gameControllers;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.GameTaskDatabase;
+import Project.interfaces.Iservice.IGameTaskService;
+import Project.services.detailServices.TaskDetailService;
+import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.task.Task;
-import Project.dataBases.GameTaskDatabase;
-import Project.services.detailServices.TaskDetailService;
-import Project.interfaces.Iservice.IGameTaskService;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Date;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
 
@@ -26,6 +25,17 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
  */
 @Controller
 public class GameTaskController {
+    static {
+        MORNING_RUNNABLE.add(() -> {
+            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
+                SpringBootResource.getTaskPointMapper().updateAll();
+            }
+        });
+    }
+
+    @AutoStand
+    IGameTaskService gameTaskService;
+
     public GameTaskController() {
         println(this.getClass().getSimpleName() + "构建");
     }
@@ -40,17 +50,6 @@ public class GameTaskController {
             throw new NoRunException("无状态");
         }
     }
-
-    static {
-        MORNING_RUNNABLE.add(() -> {
-            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
-                SpringBootResource.getTaskPointMapper().updateAll();
-            }
-        });
-    }
-
-    @AutoStand
-    IGameTaskService gameTaskService;
 
     @Action("接徒弟任务")
     public Object m1(long q, Group group) {

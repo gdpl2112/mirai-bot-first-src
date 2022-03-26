@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**

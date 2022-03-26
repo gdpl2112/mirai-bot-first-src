@@ -4,11 +4,11 @@ import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
 public class JoinBroadcast extends Broadcast {
+    public static final JoinBroadcast INSTANCE = new JoinBroadcast();
+
     public JoinBroadcast() {
         super("JsonBroadcast");
     }
-
-    public static final JoinBroadcast INSTANCE = new JoinBroadcast();
 
     public void broadcast(long who, int type) {
         for (Receiver receiver : receivers) {

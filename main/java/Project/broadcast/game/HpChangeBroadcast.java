@@ -27,7 +27,9 @@ public class HpChangeBroadcast extends Broadcast {
         }
     }
 
-    public interface HpChangeReceiver extends Receiver{
+    public interface HpChangeReceiver extends Receiver {
+        void onReceive(long who, long hpFrom, long hpTo, long value, long from, type type);
+
         public static enum type {
             //人
             fromQ,
@@ -36,7 +38,5 @@ public class HpChangeBroadcast extends Broadcast {
             //其他
             fromOther
         }
-
-        void onReceive(long who, long hpFrom, long hpTo, long value, long from, type type);
     }
 }

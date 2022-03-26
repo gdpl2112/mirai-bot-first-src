@@ -23,14 +23,12 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class GameSkillController {
-    public GameSkillController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
     private static List<String> listFx = new ArrayList<>();
-
-    @AutoStand
-    ISkillService skillService;
+    private static String menu;
+    private static String m1 = "新.\n" +
+            "\t1.特殊,增益型技能;血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾\n" +
+            "\t2.特殊,增益型技能;令自身增加n%的免伤\n" +
+            "\t3.控制型技能,眩晕\n";
 
     static {
         listFx.add("我的第");
@@ -38,6 +36,30 @@ public class GameSkillController {
         listFx.add("魂技菜单");
         listFx.add("魂技更新");
         listFx.add("我的魂技");
+    }
+
+    static {
+        menu = "魂技释放时,若需要选择 且 没选择 则魂技释放且无效果,请知悉\n选择器为 @xx 或 # 代表当前魂兽" +
+                "1.激活魂技\r\n\t" +
+                "  示例:激活魂技1\n" +
+                "2.第(几)魂技(名字) ##释放魂技#没名字则忽略\r\n\t" +
+                "  示例:第一魂技\n" +
+                "3.魂技取名第(几)魂技(名字)\r\n\t" +
+                "  示例:魂技起名第一魂技缠绕\r\n" +
+                "4.我的第(几)魂技\r\n\t" +
+                "  示例:我的第一魂技#获取介绍\n" +
+                "5.忘掉第(几)魂技\r\n\t" +
+                "  示例:忘掉第一魂技#需要遗忘药水"
+                + "\n6.我的魂技"
+                + "\n7.魂技更新列表"
+        ;
+    }
+
+    @AutoStand
+    ISkillService skillService;
+
+    public GameSkillController() {
+        println(this.getClass().getSimpleName() + "构建");
     }
 
     @Before
@@ -137,34 +159,10 @@ public class GameSkillController {
         }
     }
 
-    private static String menu;
-
-    static {
-        menu = "魂技释放时,若需要选择 且 没选择 则魂技释放且无效果,请知悉\n选择器为 @xx 或 # 代表当前魂兽" +
-                "1.激活魂技\r\n\t" +
-                "  示例:激活魂技1\n" +
-                "2.第(几)魂技(名字) ##释放魂技#没名字则忽略\r\n\t" +
-                "  示例:第一魂技\n" +
-                "3.魂技取名第(几)魂技(名字)\r\n\t" +
-                "  示例:魂技起名第一魂技缠绕\r\n" +
-                "4.我的第(几)魂技\r\n\t" +
-                "  示例:我的第一魂技#获取介绍\n" +
-                "5.忘掉第(几)魂技\r\n\t" +
-                "  示例:忘掉第一魂技#需要遗忘药水"
-                + "\n6.我的魂技"
-                + "\n7.魂技更新列表"
-        ;
-    }
-
     @Action("魂技菜单")
     public String menu() {
         return menu;
     }
-
-    private static String m1 = "新.\n" +
-            "\t1.特殊,增益型技能;血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾\n" +
-            "\t2.特殊,增益型技能;令自身增加n%的免伤\n" +
-            "\t3.控制型技能,眩晕\n";
 
     @Action("魂技更新列表")
     public String m1() {

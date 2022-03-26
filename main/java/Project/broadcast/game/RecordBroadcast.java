@@ -1,7 +1,7 @@
 package Project.broadcast.game;
 
-import io.github.kloping.mirai0.commons.TradingRecord;
 import Project.broadcast.Broadcast;
+import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
 import java.util.LinkedHashSet;
@@ -10,13 +10,12 @@ import java.util.LinkedHashSet;
  * @author github-kloping
  */
 public class RecordBroadcast extends Broadcast {
+    public static final RecordBroadcast INSTANCE = new RecordBroadcast();
+    public final LinkedHashSet<RecordReceiver> receivers = new LinkedHashSet<>();
+
     public RecordBroadcast() {
         super("RecordBroadcast");
     }
-
-    public static final RecordBroadcast INSTANCE = new RecordBroadcast();
-
-    public final LinkedHashSet<RecordReceiver> receivers = new LinkedHashSet<>();
 
     @Override
     public boolean add(Receiver receiver) {

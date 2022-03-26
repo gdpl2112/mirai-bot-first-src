@@ -57,6 +57,29 @@ public class GInfo {
      */
     private int star = 0;
 
+    public static GInfo getInstance(long qid) {
+        if (getgInfoMapper() != null) {
+            GInfo gInfo = getgInfoMapper().selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
+            if (gInfo != null) {
+                return gInfo;
+            }
+            return new GInfo().setQid(qid);
+        } else {
+            File file = new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml");
+            String s1 = FileUtils.getStringFromFile(file.getAbsolutePath());
+            if (s1 == null || s1.trim().isEmpty()) {
+                return new GInfo().setQid(qid).apply();
+            } else {
+                try {
+                    return (GInfo) HMLObject.parseObject(s1).toJavaObject();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    return new GInfo().setQid(qid).apply();
+                }
+            }
+        }
+    }
+
     public GInfo addQid() {
         this.qid++;
         return this;
@@ -159,29 +182,6 @@ public class GInfo {
             }
             StarterApplication.logger.waring(String.format("update for %s ", this.toString()));
             return this;
-        }
-    }
-
-    public static GInfo getInstance(long qid) {
-        if (getgInfoMapper() != null) {
-            GInfo gInfo = getgInfoMapper().selectOne(new QueryWrapper<GInfo>().eq("qid", qid));
-            if (gInfo != null) {
-                return gInfo;
-            }
-            return new GInfo().setQid(qid);
-        } else {
-            File file = new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml");
-            String s1 = FileUtils.getStringFromFile(file.getAbsolutePath());
-            if (s1 == null || s1.trim().isEmpty()) {
-                return new GInfo().setQid(qid).apply();
-            } else {
-                try {
-                    return (GInfo) HMLObject.parseObject(s1).toJavaObject();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                    return new GInfo().setQid(qid).apply();
-                }
-            }
         }
     }
 }

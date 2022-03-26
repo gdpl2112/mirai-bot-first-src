@@ -1,8 +1,8 @@
 package Project.dataBases;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,21 +13,14 @@ import static Project.aSpring.SpringBootResource.getShopItemMapper;
  * @author github-kloping
  */
 public class ShopDataBase {
+    public static final Map<Integer, ShopItem> ITEM_MAP = new ConcurrentHashMap<>();
     public static String path;
     private static Integer anID = 0;
-    public static final Map<Integer, ShopItem> ITEM_MAP = new ConcurrentHashMap<>();
 
     public ShopDataBase(String mainPath) {
         Resource.START_AFTER.add(() -> {
             initList();
         });
-    }
-
-    public void initList() {
-        for (ShopItem item : getShopItemMapper().all()) {
-            ITEM_MAP.put(item.getId(), item);
-            anID = anID < item.getId() ? item.getId() : anID;
-        }
     }
 
     public static synchronized Integer saveItem(ShopItem item) {
@@ -47,5 +40,12 @@ public class ShopDataBase {
 
     private static Integer getId() {
         return ++anID;
+    }
+
+    public void initList() {
+        for (ShopItem item : getShopItemMapper().all()) {
+            ITEM_MAP.put(item.getId(), item);
+            anID = anID < item.getId() ? item.getId() : anID;
+        }
     }
 }

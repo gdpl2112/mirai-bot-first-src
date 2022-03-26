@@ -4,11 +4,11 @@ import Project.detailPlugin.SearchSong;
 import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.Song;
 import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 import io.github.kloping.mirai0.commons.apiEntitys.reping163.Reping163;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
@@ -22,8 +22,30 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class PointSongController {
+    private static final StringBuilder SB = new StringBuilder();
+    @AutoStand
+    static SearchSong searchSong;
+
+    static {
+        SB.append("1，QQ点歌 歌名").append("\r\n");
+        SB.append("2，酷狗点歌 歌名").append("\r\n");
+        SB.append("3，网易点歌 歌名").append("\r\n");
+        SB.append("4，网易云热评 ").append("\r\n");
+        SB.append("5，QQ歌词 歌名").append("\r\n");
+        SB.append("6，酷狗歌词 歌名").append("\r\n");
+        SB.append("7，网易歌词 歌名").append("\r\n");
+    }
+
+    @AutoStand
+    MuXiaoGuo muXiaoGuo;
+
     public PointSongController() {
         println(this.getClass().getSimpleName() + "构建");
+    }
+
+    public static void sing(String name, io.github.kloping.mirai0.commons.Group group) {
+        Songs songs = searchSong.kugou(name);
+        MessageTools.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
     }
 
     @Before
@@ -33,21 +55,10 @@ public class PointSongController {
         }
     }
 
-    public static void sing(String name, io.github.kloping.mirai0.commons.Group group) {
-        Songs songs = searchSong.kugou(name);
-        MessageTools.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
-    }
-
     @Action("点歌系统")
     public String menu() {
         return SB.toString();
     }
-
-    @AutoStand
-    static SearchSong searchSong;
-
-    @AutoStand
-    MuXiaoGuo muXiaoGuo;
 
     @Action("QQ点歌<.+=>name>")
     public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
@@ -96,19 +107,6 @@ public class PointSongController {
             e.printStackTrace();
         }
     }
-
-    private static final StringBuilder SB = new StringBuilder();
-
-    static {
-        SB.append("1，QQ点歌 歌名").append("\r\n");
-        SB.append("2，酷狗点歌 歌名").append("\r\n");
-        SB.append("3，网易点歌 歌名").append("\r\n");
-        SB.append("4，网易云热评 ").append("\r\n");
-        SB.append("5，QQ歌词 歌名").append("\r\n");
-        SB.append("6，酷狗歌词 歌名").append("\r\n");
-        SB.append("7，网易歌词 歌名").append("\r\n");
-    }
-
 
     @Action("网易云热评")
     public String reping163(io.github.kloping.mirai0.commons.Group gro) {

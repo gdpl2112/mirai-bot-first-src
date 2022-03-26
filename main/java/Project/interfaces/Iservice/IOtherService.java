@@ -26,6 +26,7 @@ public interface IOtherService {
      * 2传话
      */
     String trans2(String str, Group group, Long qq);
+
     /**
      * 传话
      */

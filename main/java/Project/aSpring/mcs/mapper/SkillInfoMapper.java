@@ -14,6 +14,7 @@ import java.util.List;
 public interface SkillInfoMapper extends BaseMapper<SkillInfo> {
     /**
      * select *
+     *
      * @return
      */
     @Select("SELECT * FROM `skill_info`")

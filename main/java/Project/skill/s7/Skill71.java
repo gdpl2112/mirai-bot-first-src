@@ -3,14 +3,15 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.nearest;
 
 /**
  * @author github.kloping
@@ -23,17 +24,17 @@ public class Skill71 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
+        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("释放雷霆之力,对指定2个敌人造成%s%%攻击的伤害,10秒后在造成30%的伤害,10秒后造成10%的伤害", getAddP(getJid(), getId()));
+        return String.format("释放雷霆之力,对指定2个敌人造成%s%%攻击的伤害,10秒后在造成30%的伤害,10秒后造成10%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙武魂真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙武魂真身") {
             @Override
             public void before() {
                 StringBuilder sb = new StringBuilder();

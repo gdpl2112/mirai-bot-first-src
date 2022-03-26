@@ -27,8 +27,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
  */
 @Controller
 public class TimerController {
-    private static int ts = 10;
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
+    public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
+    private static int ts = 10;
 
     public static void appendOneDay(MessageChainBuilder builder, Group group) {
         try {
@@ -81,8 +82,6 @@ public class TimerController {
             }
         }
     }
-
-    public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
 
     @Schedule("07:10:00")
     public static void onSix() {

@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-public interface IGameWeaService  {
+public interface IGameWeaService {
     String useAq(String what, Long who);
 
     String aqBgs(Long who);

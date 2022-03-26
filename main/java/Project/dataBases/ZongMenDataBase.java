@@ -1,8 +1,8 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
-import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 
 import java.io.File;
@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
 
 /**
@@ -21,6 +21,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
 public class ZongMenDataBase {
     public static String path;
     public static Map<Long, Integer> qq2id = new HashMap<>();
+    private static int idx = 0;
 
     public ZongMenDataBase(String mainPath) {
         path = mainPath + "/dates/games/dates/system/ZongMens";
@@ -32,21 +33,6 @@ public class ZongMenDataBase {
             initMap();
         });
     }
-
-    private void initMap() {
-        try {
-            for (Zong zong : getZongMapper().selectAll()) {
-                for (Number number : zong.getMember()) {
-                    qq2id.put(number.longValue(), zong.getId());
-                    idx = idx >= zong.getId() ? idx : zong.getId() + 1;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static int idx = 0;
 
     public static int getIdx() {
         return ++idx;
@@ -189,6 +175,19 @@ public class ZongMenDataBase {
             sb.append(zong.getId()).append(":").append(zong.getName()).append("\r\n");
         }
         return sb.toString().split("\\s+");
+    }
+
+    private void initMap() {
+        try {
+            for (Zong zong : getZongMapper().selectAll()) {
+                for (Number number : zong.getMember()) {
+                    qq2id.put(number.longValue(), zong.getId());
+                    idx = idx >= zong.getId() ? idx : zong.getId() + 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

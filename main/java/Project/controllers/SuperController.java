@@ -12,14 +12,11 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
@@ -28,18 +25,35 @@ import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandString;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class SuperController {
+    public long tempSuperL = -1;
+    @AutoStand
+    IGameService gameService;
+    @AutoStand
+    IManagerService managerService;
+    @AutoStand
+    private ZongMenServiceImpl zons;
+
     public SuperController() {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    public long tempSuperL = -1;
+    public static String[] getTime(String mess) {
+        String[] ss = mess.split("-");
+        try {
+            Curfew.FORMAT.parse(ss[0]);
+            Curfew.FORMAT.parse(ss[1]);
+            return ss;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
@@ -53,9 +67,6 @@ public class SuperController {
             throw new NoRunException("can`t do this");
         }
     }
-
-    @AutoStand
-    private ZongMenServiceImpl zons;
 
     @Action("/c-ms")
     public String o2() {
@@ -103,73 +114,73 @@ public class SuperController {
         return "不可用";
     }
 
-  /*  private static final Map<Long, Long> UP_AKS = new ConcurrentHashMap<>();
-    public static final String[] IS_ADMINISTRATOR_TIPS = new String[]
-            {"应该是", "是的", "是吧", "是", "你猜", "yeah", "is", "1"};
-    public static final String[] IST_ADMINISTRATOR_TIPS = new String[]
-            {"你觉得呢", "不是", "?你猜", "问我呢?", "no", "222", "你确定?", "-1"};
+    /*  private static final Map<Long, Long> UP_AKS = new ConcurrentHashMap<>();
+      public static final String[] IS_ADMINISTRATOR_TIPS = new String[]
+              {"应该是", "是的", "是吧", "是", "你猜", "yeah", "is", "1"};
+      public static final String[] IST_ADMINISTRATOR_TIPS = new String[]
+              {"你觉得呢", "不是", "?你猜", "问我呢?", "no", "222", "你确定?", "-1"};
 
-    @Action(value = "ta是管理<.+=>par>", otherName = {"他是管理<.+=>par>", "她是管理<.+=>par>"})
-    public Object isIAdministrator(@Param("par") String par, User qq) {
-        Number q2 = null;
-        try {
-            q2 = Long.valueOf(Tool.findNumberFromString(par));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        if (q2 == null || q2.longValue() == -1) {
-            return "谁?";
-        }
-        UP_AKS.put(qq.getId(), q2.longValue());
-        if (DataBase.isFather(q2.longValue())) {
-            return IS_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IS_ADMINISTRATOR_TIPS.length)];
-        } else {
-            return IST_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IST_ADMINISTRATOR_TIPS.length)];
-        }
-    }
+      @Action(value = "ta是管理<.+=>par>", otherName = {"他是管理<.+=>par>", "她是管理<.+=>par>"})
+      public Object isIAdministrator(@Param("par") String par, User qq) {
+          Number q2 = null;
+          try {
+              q2 = Long.valueOf(Tool.findNumberFromString(par));
+          } catch (NumberFormatException e) {
+              e.printStackTrace();
+          }
+          if (q2 == null || q2.longValue() == -1) {
+              return "谁?";
+          }
+          UP_AKS.put(qq.getId(), q2.longValue());
+          if (DataBase.isFather(q2.longValue())) {
+              return IS_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IS_ADMINISTRATOR_TIPS.length)];
+          } else {
+              return IST_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IST_ADMINISTRATOR_TIPS.length)];
+          }
+      }
 
-    public static final String[] ADD_FATHER_TIPS = new String[]
-            {"好的", "听你的", "OK", "嗯嗯", "真好"};
-    public static final String[] NDD_FATHER_TIPS = new String[]
-            {"不要", "为啥", "凭什么", "阿巴巴", "就不"};
+      public static final String[] ADD_FATHER_TIPS = new String[]
+              {"好的", "听你的", "OK", "嗯嗯", "真好"};
+      public static final String[] NDD_FATHER_TIPS = new String[]
+              {"不要", "为啥", "凭什么", "阿巴巴", "就不"};
 
-    @Action("现在是了")
-    public Object isAdministratorNow(User qq) {
-        Long q2 = UP_AKS.get(qq.getId());
-        if (q2 == null || q2 == 0) {
-            return "是什么?";
-        }
-        if (DataBase.isFather(q2)) {
-            return "ta本来就是好吧...";
-        }
-        if (qq.getId() == Resource.superQL) {
-            DataBase.addFather(q2);
-            return getRandString(ADD_FATHER_TIPS);
-        } else {
-            return getRandString(NDD_FATHER_TIPS);
-        }
-    }
+      @Action("现在是了")
+      public Object isAdministratorNow(User qq) {
+          Long q2 = UP_AKS.get(qq.getId());
+          if (q2 == null || q2 == 0) {
+              return "是什么?";
+          }
+          if (DataBase.isFather(q2)) {
+              return "ta本来就是好吧...";
+          }
+          if (qq.getId() == Resource.superQL) {
+              DataBase.addFather(q2);
+              return getRandString(ADD_FATHER_TIPS);
+          } else {
+              return getRandString(NDD_FATHER_TIPS);
+          }
+      }
 
-    public static final String[] EDD_FATHER_TIPS =
-            new String[]{"好的", "收到", "OK", "完成", "弄好了"};
+      public static final String[] EDD_FATHER_TIPS =
+              new String[]{"好的", "收到", "OK", "完成", "弄好了"};
 
-    @Action("现在不是了")
-    public Object istAdministratorNow(User qq) {
-        Long q2 = UP_AKS.get(qq.getId());
-        if (q2 == null || q2 == 0) {
-            return "不是什么?";
-        }
-        if (!DataBase.isFather(q2)) {
-            return "ta本来就不是好吧...";
-        }
-        if (qq.getId() == Resource.superQL) {
-            DataBase.removeFather(q2);
-            return getRandString(EDD_FATHER_TIPS);
-        } else {
-            return getRandString(NDD_FATHER_TIPS);
-        }
-    }
-*/
+      @Action("现在不是了")
+      public Object istAdministratorNow(User qq) {
+          Long q2 = UP_AKS.get(qq.getId());
+          if (q2 == null || q2 == 0) {
+              return "不是什么?";
+          }
+          if (!DataBase.isFather(q2)) {
+              return "ta本来就不是好吧...";
+          }
+          if (qq.getId() == Resource.superQL) {
+              DataBase.removeFather(q2);
+              return getRandString(EDD_FATHER_TIPS);
+          } else {
+              return getRandString(NDD_FATHER_TIPS);
+          }
+      }
+  */
     @Action("关机")
     public String k0() {
         Switch.AllK = false;
@@ -182,15 +193,12 @@ public class SuperController {
         return "已开机..";
     }
 
-    @AutoStand
-    IGameService gameService;
-
     @Action("超级侦查<.+=>name>")
     public String select(User qq, @AllMess String chain, Group group) {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
             return ("谁?");
-        if (!GameDataBase.exist(who)) return ("该玩家尚未注册");
+        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = GameDataBase.getInfo(qq.getId());
         PersonInfo Y = GameDataBase.getInfo(who);
         StringBuilder m1 = new StringBuilder();
@@ -215,18 +223,6 @@ public class SuperController {
             CurfewScheduler.update(curfew);
         }
         return "ok";
-    }
-
-    public static String[] getTime(String mess) {
-        String[] ss = mess.split("-");
-        try {
-            Curfew.FORMAT.parse(ss[0]);
-            Curfew.FORMAT.parse(ss[1]);
-            return ss;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Action("新增宵禁<.+=>str>")
@@ -281,9 +277,6 @@ public class SuperController {
         }
         return OK_TIPS;
     }
-
-    @AutoStand
-    IManagerService managerService;
 
     @Action("添加管理.{1,}")
     public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {

@@ -1,16 +1,15 @@
 package Project.services.detailServices.tasks.reciver;
 
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.TaskDetailService;
 import Project.services.detailServices.tasks.Task1001;
-import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
-import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 
 /**

@@ -2,12 +2,12 @@ package Project.services.impl;
 
 
 import Project.dataBases.SourceDataBase;
-import Project.services.detailServices.GameJoinDetailService;
 import Project.interfaces.Iservice.IGameJoinAcService;
+import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -31,11 +30,13 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class GameJoinAcServiceImpl implements IGameJoinAcService {
+    public static final Integer MAX_HELP_C = 5;
+    public static final Integer MAX_HELP_TO_C = 3;
     public static List<String> maps = new ArrayList<>();
     public static Map<String, String> dimMaps = new ConcurrentHashMap<>();
     public static List<String> decideMaps = new ArrayList<>();
-    public static final Integer MAX_HELP_C = 5;
-    public static final Integer MAX_HELP_TO_C = 3;
+    @AutoStand
+    static GameJoinDetailService service;
 
     static {
         maps.add("星斗森林");
@@ -50,10 +51,6 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         decideMaps.add("攻击");
         decideMaps.add("逃跑");
     }
-
-
-    @AutoStand
-    static GameJoinDetailService service;
 
     @Override
     public String[] list() {

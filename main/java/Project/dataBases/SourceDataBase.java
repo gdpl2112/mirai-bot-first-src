@@ -14,10 +14,10 @@ import java.util.Map;
  */
 @Entity
 public class SourceDataBase {
+    private static final Map<Integer, File> ID2FILE = new HashMap<>();
+
     public SourceDataBase() {
     }
-
-    private static final Map<Integer, File> ID2FILE = new HashMap<>();
 
     private static synchronized void init() {
         if (!ID2FILE.isEmpty())
@@ -41,6 +41,6 @@ public class SourceDataBase {
     }
 
     public static Image getImageById(Integer id) throws Exception {
-        return ImageIO.read(new File(getImgPathById(id,false)));
+        return ImageIO.read(new File(getImgPathById(id, false)));
     }
 }

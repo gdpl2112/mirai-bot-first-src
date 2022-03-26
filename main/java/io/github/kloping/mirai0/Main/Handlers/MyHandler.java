@@ -27,7 +27,6 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -44,6 +43,21 @@ import static io.github.kloping.mirai0.Main.Resource.bot;
  * @author github-kloping
  */
 public class MyHandler extends SimpleListenerHost {
+    public static final long REPEAT_CD = 10 * 1000;
+    private static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
+    private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
+    public static String upMessage = null;
+    public static long CD = 10 * 1000;
+    public static MemberJoinRequestEvent joinRequestEvent;
+
+    static {
+        Resource.START_AFTER.add(() -> {
+            io.github.kloping.mirai0.commons.User.create(bot.getId()
+                    , bot.getGroups().stream().iterator().next().getId()
+                    , bot.getNick(), bot.getNick());
+        });
+    }
+
     public MyHandler() {
         super();
     }
@@ -52,19 +66,30 @@ public class MyHandler extends SimpleListenerHost {
         super(coroutineContext);
     }
 
+    private static void eveEnd(String text, long id, io.github.kloping.mirai0.commons.Group eGroup, Group group, Member member, MessageChain message) {
+        DAE_THREADS.execute(() -> {
+            DataBase.addTimes(1, id);
+            GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
+            if (CD < System.currentTimeMillis()) {
+                if (upMessage != null && upMessage.equals(text)) {
+                    try {
+                        Nudge nudge = member.nudge();
+                        nudge.sendTo(group);
+                        group.sendMessage(message);
+                    } catch (Exception e) {
+                    }
+                    CD = System.currentTimeMillis() + REPEAT_CD;
+                    upMessage = null;
+                } else {
+                    upMessage = text;
+                }
+            }
+        });
+    }
+
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
         exception.printStackTrace();
-    }
-
-    private static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
-
-    static {
-        Resource.START_AFTER.add(() -> {
-            io.github.kloping.mirai0.commons.User.create(bot.getId()
-                    , bot.getGroups().stream().iterator().next().getId()
-                    , bot.getNick(), bot.getNick());
-        });
     }
 
     @EventHandler
@@ -148,35 +173,6 @@ public class MyHandler extends SimpleListenerHost {
         }
         return null;
     }
-
-    public static String upMessage = null;
-    public static final long REPEAT_CD = 10 * 1000;
-    public static long CD = 10 * 1000;
-
-    private static void eveEnd(String text, long id, io.github.kloping.mirai0.commons.Group eGroup, Group group, Member member, MessageChain message) {
-        DAE_THREADS.execute(() -> {
-            DataBase.addTimes(1, id);
-            GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
-            if (CD < System.currentTimeMillis()) {
-                if (upMessage != null && upMessage.equals(text)) {
-                    try {
-                        Nudge nudge = member.nudge();
-                        nudge.sendTo(group);
-                        group.sendMessage(message);
-                    } catch (Exception e) {
-                    }
-                    CD = System.currentTimeMillis() + REPEAT_CD;
-                    upMessage = null;
-                } else {
-                    upMessage = text;
-                }
-            }
-        });
-    }
-
-    private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
-
-    public static MemberJoinRequestEvent joinRequestEvent;
 
     @EventHandler
     public void onMemberRequest(@NotNull MemberJoinRequestEvent event) {

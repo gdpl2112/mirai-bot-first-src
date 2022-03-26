@@ -36,6 +36,7 @@ public interface IGameBoneService {
 
     /**
      * parse a bone
+     *
      * @param id
      * @param qq
      * @return
@@ -44,6 +45,7 @@ public interface IGameBoneService {
 
     /**
      * un bone
+     *
      * @param id
      * @param who
      * @return

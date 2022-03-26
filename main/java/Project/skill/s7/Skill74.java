@@ -3,20 +3,23 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameDetailServiceUtils.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.putPerson;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.dataBases.skill.SkillDataBase.t74;
+import static Project.services.detailServices.GameDetailServiceUtils.getAttFromAny;
+import static Project.services.detailServices.GameSkillDetailService.eddAttAny;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill74 extends SkillTemplate {
-    
+
 
     public Skill74() {
         super(74);
@@ -24,17 +27,19 @@ public class Skill74 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.Att, SkillIntro.Type.OneTime};
+        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.Att, SkillIntro.Type.OneTime};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("释放噬魂真身,吸取敌人%s%%的攻击力,恢复 吸取值得一半 的生命值", getAddP(getJid(), getId()));
+        return String.format("释放噬魂真身,吸取敌人%s%%的攻击力,恢复 吸取值得一半 的生命值", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "噬魂蛛皇真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "噬魂蛛皇真身") {
+            long v;
+
             @Override
             public void before() {
                 if (nums.length == 0) {
@@ -49,8 +54,6 @@ public class Skill74 extends SkillTemplate {
                 eddAttAny(who, nums[0], v);
                 putPerson(getInfo(who).addHp(v / 2));
             }
-
-            long v;
 
             @Override
             public void run() {

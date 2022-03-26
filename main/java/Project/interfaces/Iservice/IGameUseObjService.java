@@ -1,10 +1,9 @@
 package Project.interfaces.Iservice;
 
 
-
 import java.lang.reflect.InvocationTargetException;
 
-public interface IGameUseObjService   {
+public interface IGameUseObjService {
 
     String getIntro(int id);
 

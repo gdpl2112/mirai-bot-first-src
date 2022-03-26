@@ -7,11 +7,11 @@ import Project.interfaces.http_api.WeiJieYue;
 import Project.interfaces.http_api.old.JuiLi;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.BaiduShitu;
 import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.BaiduShituResponse;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
@@ -24,17 +24,45 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class EntertainmentController3 {
+    public static final File EMPTY_FILE = new File("./images/gunc/empty200.png");
+    public static final File DIRT_FILE = new File("./images/gunc/dirt.png");
+    private static final String XML_STR0 = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n" +
+            "<msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"[超级大图片表情]\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\"\n" +
+            "     multiMsgFlag=\"0\">\n" +
+            "    <item layout=\"0\" advertiser_id=\"0\" aid=\"0\">\n" +
+            "        <image uuid=\"%s\" md5=\"%s\"\n" +
+            "               minWidth=\"%s\" minHeight=\"%s\" maxWidth=\"%s\" maxHeight=\"%s\"/>\n" +
+            "    </item>\n" +
+            "    <source name=\"\" icon=\"\" action=\"\" appid=\"-1\"/>\n" +
+            "</msg>";
+    private static final String COM_PRE = "-";
+    public static File[] filesTui = new File("./images/tui").listFiles();
+    public static File[] filesWq = new File("./images/wq").listFiles();
+    public static File fileDiu = new File("./images/diu/diu.png");
+
+    static {
+        Arrays.sort(filesWq);
+        Arrays.sort(filesTui);
+    }
+
+    @AutoStand
+    WeiJieYue weiJieYue;
+    @AutoStand
+    JuiLi api0;
+    @AutoStand
+    IBaiduShitu iBaiduShitu;
+
     public EntertainmentController3() {
         println(this.getClass().getSimpleName() + "构建");
     }
@@ -71,12 +99,6 @@ public class EntertainmentController3 {
                 .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
         return Tool.pathToImg(GameDrawer.drawerMap(builder.build()));
     }
-
-    @AutoStand
-    WeiJieYue weiJieYue;
-
-    @AutoStand
-    JuiLi api0;
 
     @Action("/爬.+")
     public Object o1(@AllMess String m, Group group, long q1) {
@@ -122,15 +144,6 @@ public class EntertainmentController3 {
         byte[] bytes = api0.jupaizi(msg);
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
-    }
-
-    public static File[] filesTui = new File("./images/tui").listFiles();
-    public static File[] filesWq = new File("./images/wq").listFiles();
-    public static File fileDiu = new File("./images/diu/diu.png");
-
-    static {
-        Arrays.sort(filesWq);
-        Arrays.sort(filesTui);
     }
 
     @Action("/推.*")
@@ -202,9 +215,6 @@ public class EntertainmentController3 {
         }
     }
 
-    public static final File EMPTY_FILE = new File("./images/gunc/empty200.png");
-    public static final File DIRT_FILE = new File("./images/gunc/dirt.png");
-
     @Action("/滚草.*")
     public String gunC(@AllMess String m) {
         long q = MessageTools.getAtFromString(m);
@@ -227,18 +237,6 @@ public class EntertainmentController3 {
             return "error:for\n" + e.getMessage();
         }
     }
-
-    private static final String XML_STR0 = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n" +
-            "<msg serviceID=\"5\" templateID=\"1\" action=\"\" brief=\"[超级大图片表情]\" sourceMsgId=\"0\" url=\"\" flag=\"0\" adverSign=\"0\"\n" +
-            "     multiMsgFlag=\"0\">\n" +
-            "    <item layout=\"0\" advertiser_id=\"0\" aid=\"0\">\n" +
-            "        <image uuid=\"%s\" md5=\"%s\"\n" +
-            "               minWidth=\"%s\" minHeight=\"%s\" maxWidth=\"%s\" maxHeight=\"%s\"/>\n" +
-            "    </item>\n" +
-            "    <source name=\"\" icon=\"\" action=\"\" appid=\"-1\"/>\n" +
-            "</msg>";
-
-    private static final String COM_PRE = "-";
 
     @Action("变大.*+")
     public void m0(@AllMess String mess, Group group, long qId) {
@@ -280,9 +278,6 @@ public class EntertainmentController3 {
             }
         });
     }
-
-    @AutoStand
-    IBaiduShitu iBaiduShitu;
 
     @Action("/搜图.+")
     public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {

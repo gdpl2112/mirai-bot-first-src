@@ -19,57 +19,11 @@ import static io.github.kloping.mirai0.Main.Resource.*;
 public class Client implements Runnable {
     public static ChannelFuture f;
     public static Client INSTANCE = null;
+    public static ChannelHandlerContext CHContext = null;
     private String ip;
     private int port;
     private long gid;
     private boolean reconnect = false;
-
-    public Client(String ip, int port, long gid) {
-        this.ip = ip;
-        this.port = port;
-        this.gid = gid;
-        INSTANCE = this;
-        THREADS.submit(this);
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void setGid(long gid) {
-        this.gid = gid;
-    }
-
-    public void setReconnect(boolean reconnect) {
-        this.reconnect = reconnect;
-    }
-
-    public boolean isReconnect() {
-        return reconnect;
-    }
-
-    public static ChannelHandlerContext CHContext = null;
-
-    public Client(String property, String property1, String property2) {
-        this(property, Integer.parseInt(property1), Integer.parseInt(property2));
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public long getGid() {
-        return gid;
-    }
-
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
     private Bootstrap b = new Bootstrap();
 
@@ -110,6 +64,50 @@ public class Client implements Runnable {
                     }
                 }).option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(65535));
+    }
+
+    public Client(String ip, int port, long gid) {
+        this.ip = ip;
+        this.port = port;
+        this.gid = gid;
+        INSTANCE = this;
+        THREADS.submit(this);
+    }
+
+    public Client(String property, String property1, String property2) {
+        this(property, Integer.parseInt(property1), Integer.parseInt(property2));
+    }
+
+    public boolean isReconnect() {
+        return reconnect;
+    }
+
+    public void setReconnect(boolean reconnect) {
+        this.reconnect = reconnect;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public long getGid() {
+        return gid;
+    }
+
+    public void setGid(long gid) {
+        this.gid = gid;
     }
 
     @Override

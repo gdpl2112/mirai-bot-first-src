@@ -32,30 +32,35 @@ import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
  * @author github-kloping
  */
 public class Drawer {
+    public static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
     private static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
     private static final Font SMALL_FONT18 = new Font("宋体", Font.BOLD, 28);
     private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
+    private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashTreeMap<>();
+    private static final Color[] COLORS = new Color[]{
+            Color.BLUE, Color.RED, Color.cyan, Color.ORANGE,
+            Color.green, Color.getHSBColor(1, 1, 1), Color.RED, Color.DARK_GRAY, Color.black
+    };
+    private static final Font FONT30 = new Font("宋体", Font.BOLD, 30);
+    private static final Font FONT140 = new Font("宋体", Font.HANGING_BASELINE, 40);
+    private static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
+    private static final Font SMALL_FONT40 = new Font("宋体", Font.BOLD, 40);
+    public static Color BORDER_COLOR = Color.BLACK;
+    public static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static Color xpColor = fromStrGetArgb("FFB9FFB9");
     private static Color hpColor = fromStrGetArgb("FF5Dff5D");
     private static Color hlColor = fromStrGetArgb("FFFFB946");
     private static Color hjColor = fromStrGetArgb("FF8b8bFF");
     private static Color levelColor = new Color(255, 0, 136);
     private static Color shieldColor = new Color(239, 239, 239, 200);
-
-    private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashTreeMap<>();
-
-    public static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
-
-    public static Color BORDER_COLOR = Color.BLACK;
-    public static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static BufferedImage INFO_BASE = null;
 
     static {
@@ -407,15 +412,6 @@ public class Drawer {
         return saveTempImage(image).getPath();
     }
 
-    private static final Color[] COLORS = new Color[]{
-            Color.BLUE, Color.RED, Color.cyan, Color.ORANGE,
-            Color.green, Color.getHSBColor(1, 1, 1), Color.RED, Color.DARK_GRAY, Color.black
-    };
-    private static final Font FONT30 = new Font("宋体", Font.BOLD, 30);
-    private static final Font FONT140 = new Font("宋体", Font.HANGING_BASELINE, 40);
-
-    private static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
-
     public static String createFont(String str) {
         int width = 500;
         int height = 100;
@@ -522,8 +518,6 @@ public class Drawer {
     public static String getImageFromStringsOnTwoColumns(String... strings) {
         return Tool.pathToImg(drawStringOnTwoColumns(strings));
     }
-
-    private static final Font SMALL_FONT40 = new Font("宋体", Font.BOLD, 40);
 
     private static Image[] getImages(String[] urls) {
         Image[] images = new Image[urls.length];

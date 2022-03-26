@@ -2,12 +2,12 @@ package Project.dataBases;
 
 
 import Project.aSpring.SpringBootResource;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.*;
@@ -16,14 +16,13 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
  */
 public class GameDataBase {
-    public static String path = "./data";
-
     public static final Map<Integer, String> ID_2_NAME_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID_2_INTRO_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, String> NAME_2_INTRO_MAPS = new ConcurrentHashMap<>();
@@ -32,6 +31,8 @@ public class GameDataBase {
     public static final Map<Integer, Integer> ID_2_WEA_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> ID_2_WEA_O_NUM_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> WH_2_TYPE = new ConcurrentHashMap<>();
+    public static final Map<Long, PersonInfo> HIST_INFOS = new ConcurrentHashMap<>();
+    public static String path = "./data";
 
     public GameDataBase(String mainPath) {
         intiObj();
@@ -364,11 +365,11 @@ public class GameDataBase {
             regPerson(new PersonInfo().setName(String.valueOf(who)));
     }
 
+    //=========================================
+
     public static boolean exist(Long who) {
         return SpringBootResource.getPersonInfoMapper().selectById(who.toString()) != null;
     }
-
-    //=========================================
 
     /**
      * 获取背包
@@ -480,6 +481,9 @@ public class GameDataBase {
      * @return
      */
     public static PersonInfo getInfo(Long who) {
+        if (challengeDetailService.isTemping(who.longValue())) {
+            return challengeDetailService.getTempInfo(who.longValue());
+        }
         if (HIST_INFOS.containsKey(who.longValue())) {
             return HIST_INFOS.get(who.longValue());
         }
@@ -527,8 +531,6 @@ public class GameDataBase {
         return getInfo(Long.parseLong(who));
     }
 
-    public static final Map<Long, PersonInfo> HIST_INFOS = new ConcurrentHashMap<>();
-
     private final static <T extends Object> T parseObj(T obj, String line) {
         try {
             String[] lines = null;
@@ -573,17 +575,13 @@ public class GameDataBase {
      * @param personInfo
      */
     public static void putPerson(PersonInfo personInfo) {
+        if (challengeDetailService.isTemping(personInfo.getId().longValue())) {
+            challengeDetailService.setTempInfo(personInfo.getId().intValue(), personInfo);
+            return;
+        }
         testMan(Long.valueOf(personInfo.getName()));
         HIST_INFOS.put(Long.parseLong(personInfo.getName()), personInfo);
         SpringBootResource.getPersonInfoMapper().updateById(personInfo);
-//        if (new File(path + "/dates/users/" + personInfo.getName() + "/infos_temp").exists()) {
-//            personInfo.setTemp(true);
-//            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos_temp",
-//                    "utf-8");
-//        } else {
-//            Tool.putStringInFile(personInfo.toString(), path + "/dates/users/" + personInfo.getName() + "/infos",
-//                    "utf-8");
-//        }
     }
 
     /**
@@ -593,21 +591,6 @@ public class GameDataBase {
      */
     public static void regPerson(PersonInfo personInfo) {
         SpringBootResource.getPersonInfoMapper().insert(personInfo);
-//        try {
-//            String pathN = path + "/dates/users/" + personInfo.getName();
-//            File file = new File(path + "/dates/users/" + personInfo.getName() + "/infos");
-//            file.getParentFile().mkdirs();
-//            file.createNewFile();
-//            Tool.putStringInFile(personInfo.toString(), file.getPath(), "utf-8");
-//            new File(pathN + "/bgs").createNewFile();
-//            new File(pathN + "/Aqbgs").createNewFile();
-//            new File(pathN + "/hhpz").createNewFile();
-//            new File(pathN + "/decide").createNewFile();
-//            new File(pathN + "/AttributeBone").createNewFile();
-//            FileInitializeValue.putValues(pathN + "/warp", new Warp().setId(personInfo.getName()));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public static Warp getWarp(Number id) {

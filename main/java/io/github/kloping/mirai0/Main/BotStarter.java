@@ -25,6 +25,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 public class BotStarter {
 
     public static boolean test = false;
+    private static BotConf abot = null;
 
     static {
         try {
@@ -32,8 +33,6 @@ public class BotStarter {
         } catch (Exception e) {
         }
     }
-
-    private static BotConf abot = null;
 
     public static void main(String[] args) throws Exception {
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");

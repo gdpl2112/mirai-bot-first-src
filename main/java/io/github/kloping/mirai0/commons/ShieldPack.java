@@ -15,12 +15,11 @@ import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
 @Getter
 @Setter
 public class ShieldPack extends TagPack {
+    private Long time;
+    private Long max;
     public ShieldPack() {
         super(TAG_SHIELD);
     }
-
-    private Long time;
-    private Long max;
 
     @Override
     public void effect() {

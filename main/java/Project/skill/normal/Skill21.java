@@ -3,8 +3,8 @@ package Project.skill.normal;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,35 +34,6 @@ public class Skill21 extends SkillTemplate {
         return String.format("令自身增加%s%%的免伤", getAddP(getJid(), getId()));
     }
 
-    @Accessors(chain = true)
-    @Getter
-    @Setter
-    public static class DamageReductionPack extends TagPack {
-
-        public DamageReductionPack() {
-            super(TAG_DAMAGE_REDUCTION);
-        }
-
-        private Long time = System.currentTimeMillis() + 2 * 60 * 1000L;
-        private Long max = 90L;
-
-        @Override
-        public void effect() {
-            setEffected(true);
-            getInfo(getQ().longValue()).addTag(getTAG(), getValue(), getMax()).apply();
-        }
-
-        @Override
-        public boolean over() {
-            return System.currentTimeMillis() > getTime().longValue();
-        }
-
-        @Override
-        public void loseEffect() {
-            getInfo(getQ().longValue()).eddTag(getValue(), getTAG()).apply();
-        }
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "免伤") {
@@ -80,5 +51,34 @@ public class Skill21 extends SkillTemplate {
                 GameSkillDetailService.addTagPack(pack);
             }
         };
+    }
+
+    @Accessors(chain = true)
+    @Getter
+    @Setter
+    public static class DamageReductionPack extends TagPack {
+
+        private Long time = System.currentTimeMillis() + 2 * 60 * 1000L;
+        private Long max = 90L;
+
+        public DamageReductionPack() {
+            super(TAG_DAMAGE_REDUCTION);
+        }
+
+        @Override
+        public void effect() {
+            setEffected(true);
+            getInfo(getQ().longValue()).addTag(getTAG(), getValue(), getMax()).apply();
+        }
+
+        @Override
+        public boolean over() {
+            return System.currentTimeMillis() > getTime().longValue();
+        }
+
+        @Override
+        public void loseEffect() {
+            getInfo(getQ().longValue()).eddTag(getValue(), getTAG()).apply();
+        }
     }
 }

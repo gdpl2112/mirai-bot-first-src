@@ -1,11 +1,11 @@
 package io.github.kloping.mirai0.commons.task;
 
-import Project.dataBases.GameTaskDatabase;
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.dataBases.GameTaskDatabase;
 import com.alibaba.fastjson.annotation.JSONField;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.initialize.FileInitializeValue;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,8 +21,15 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
 @Data
 @Accessors(chain = true)
 public class Task {
-    public static enum Type {
-        week, prentice, normal
+    public static final List<Runnable> taskRunnable = new LinkedList<>();
+
+    static {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                taskRunnable.forEach(r -> THREADS.submit(r));
+            }
+        }, 15 * 1000, 10 * 60 * 1000);
     }
 
     private Set<Long> tasker = new LinkedHashSet<>();
@@ -33,7 +40,6 @@ public class Task {
     private Integer taskId = -1;
     private Integer state = -1;
     private String uuid = "";
-
     @JSONField(serialize = false, deserialize = false)
     private Receiver receiver;
     @JSONField(serialize = false, deserialize = false)
@@ -79,14 +85,7 @@ public class Task {
         FileInitializeValue.putValues(file.getAbsolutePath(), this, true);
     }
 
-    public static final List<Runnable> taskRunnable = new LinkedList<>();
-
-    static {
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                taskRunnable.forEach(r -> THREADS.submit(r));
-            }
-        }, 15 * 1000, 10 * 60 * 1000);
+    public static enum Type {
+        week, prentice, normal
     }
 }

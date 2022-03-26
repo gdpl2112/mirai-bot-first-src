@@ -1,8 +1,8 @@
 package Project.skill;
 
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

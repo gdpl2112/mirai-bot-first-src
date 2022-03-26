@@ -4,8 +4,8 @@ package Project.services.detailServices;
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.TradingRecord;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -23,18 +23,10 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
  */
 @Entity
 public class GameWeaDetailService {
-    private final static Class CLA = GameWeaDetailService.class;
     public static final List<String> AQS = new ArrayList<>();
     public static final Map<Integer, Long> MAX_DAMAGE = new HashMap<>();
-
-    public GameWeaDetailService() {
-        if (AQS.isEmpty()) {
-            for (int id : ID_2_NAME_MAPS.keySet()) {
-                if (id > 1000 && id < 1200)
-                    AQS.add(getNameById(id));
-            }
-        }
-    }
+    private final static Class CLA = GameWeaDetailService.class;
+    private static final String NO_H = "ta已经没有状态无需攻击";
 
     static {
         MAX_DAMAGE.put(1001, 10000L);
@@ -44,6 +36,15 @@ public class GameWeaDetailService {
         MAX_DAMAGE.put(1005, 1000000L);
         MAX_DAMAGE.put(1006, 2500000L);
         MAX_DAMAGE.put(1007, 3000000L);
+    }
+
+    public GameWeaDetailService() {
+        if (AQS.isEmpty()) {
+            for (int id : ID_2_NAME_MAPS.keySet()) {
+                if (id > 1000 && id < 1200)
+                    AQS.add(getNameById(id));
+            }
+        }
     }
 
     private synchronized void initAqs() {
@@ -118,7 +119,6 @@ public class GameWeaDetailService {
         }
     }
 
-
     /**
      * 含沙射影
      *
@@ -138,7 +138,6 @@ public class GameWeaDetailService {
             return "选择器,过多或过少";
         }
     }
-
 
     /**
      * 字母追魂夺命胆
@@ -266,8 +265,6 @@ public class GameWeaDetailService {
         }
         return new Object[]{sb.toString(), used};
     }
-
-    private static final String NO_H = "ta已经没有状态无需攻击";
 
     public String attPer(long who, long whos, long ar) {
         StringBuilder sb = new StringBuilder();

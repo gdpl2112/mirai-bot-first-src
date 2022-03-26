@@ -4,20 +4,19 @@ import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.object.ObjectUtils;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
@@ -29,6 +28,7 @@ import static Project.dataBases.skill.SkillDataBase.percentTo;
 public class GameSkillDetailService {
 
     private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
+    private static List<TagPack> tagPacks = new LinkedList<>();
 
     static {
         BASE_PERCENT_MAP.put(0, 10);
@@ -85,6 +85,20 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(731, 40);
     }
 
+    static {
+        FrameUtils.add(() -> {
+            Iterator<TagPack> iterator = tagPacks.listIterator();
+            while (iterator.hasNext()) {
+                TagPack tagP = iterator.next();
+                if (!tagP.getEffected()) {
+                    tagP.effect();
+                } else if (tagP.over()) {
+                    tagP.loseEffect();
+                    iterator.remove();
+                }
+            }
+        });
+    }
 
     /**
      * 获取魂技基础加成
@@ -117,18 +131,6 @@ public class GameSkillDetailService {
         }
         return -1;
     }
-
-    public static final class WhTypes {
-        public static final SkillIntro.Type[] T0 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T1 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T4 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T5 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
-        public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
-
-    }
-
 
     /**
      * 获取魂技冷却时间
@@ -268,23 +270,6 @@ public class GameSkillDetailService {
         return ls.toArray(new Long[0]);
     }
 
-    private static List<TagPack> tagPacks = new LinkedList<>();
-
-    static {
-        FrameUtils.add(() -> {
-            Iterator<TagPack> iterator = tagPacks.listIterator();
-            while (iterator.hasNext()) {
-                TagPack tagP = iterator.next();
-                if (!tagP.getEffected()) {
-                    tagP.effect();
-                } else if (tagP.over()) {
-                    tagP.loseEffect();
-                    iterator.remove();
-                }
-            }
-        });
-    }
-
     public static void addTagPack(TagPack tagPack) {
         tagPacks.add(tagPack);
     }
@@ -312,7 +297,7 @@ public class GameSkillDetailService {
     public static void addShield(long q, Long v) {
         ShieldPack shieldPack = new ShieldPack();
         shieldPack.setQ(q).setValue(v).setEffected(false);
-        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + 30 * 60 * 1000);
+        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + 60 * 60 * 1000);
         tagPacks.add(shieldPack);
     }
 
@@ -370,5 +355,24 @@ public class GameSkillDetailService {
             return defaultValue;
         }
         return t;
+    }
+
+    public static long getCooling(Long qq, SkillInfo info) {
+        if (challengeDetailService.isTemping(qq.longValue())) {
+            return System.currentTimeMillis() + info.getTimeL() / 60L;
+        } else {
+            return System.currentTimeMillis() + info.getTimeL();
+        }
+    }
+
+    public static final class WhTypes {
+        public static final SkillIntro.Type[] T0 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T1 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T4 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.HasTime};
+        public static final SkillIntro.Type[] T5 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.HasTime};
+        public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
+        public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
+
     }
 }

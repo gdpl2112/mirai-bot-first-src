@@ -1,13 +1,13 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.commons.task.Task;
 import Project.dataBases.task.TaskCreator;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.map.MapUtils;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.task.Task;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,14 +22,15 @@ import static Project.dataBases.task.TaskCreator.getTask;
  * @author github-kloping
  */
 public class GameTaskDatabase {
+    public static final Map<Long, List<Task>> TASKS = new ConcurrentHashMap<>();
+    public static final long CD0 = 24 * 60 * 60 * 1000;
+    public static final long CD1 = 30 * 60 * 1000;
     public static String path;
 
     public GameTaskDatabase(String mainPath) {
         path = mainPath + "/dates/games/tasks";
         init();
     }
-
-    public static final Map<Long, List<Task>> TASKS = new ConcurrentHashMap<>();
 
     private static void init() {
         try {
@@ -48,9 +49,6 @@ public class GameTaskDatabase {
             e.printStackTrace();
         }
     }
-
-    public static final long CD0 = 24 * 60 * 60 * 1000;
-    public static final long CD1 = 30 * 60 * 1000;
 
     public static Receiver createTask(Task task) {
         saveActivity(task.getHost());

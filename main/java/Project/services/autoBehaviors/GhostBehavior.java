@@ -2,17 +2,17 @@ package Project.services.autoBehaviors;
 
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.GameDetailService;
-import Project.services.detailServices.GameJoinDetailService;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.interfaces.Iservice.IGameService;
+import Project.services.detailServices.GameDetailService;
+import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
@@ -34,17 +33,22 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 public class GhostBehavior implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
     public static Map<Long, GhostBehavior> ls = new HashMap<>();
+    @AutoStand
+    static IGameBoneService gameBoneService;
+    @AutoStand
+    static IGameService gameService;
     private Group group;
     private Long qq;
+    private GhostObj ghostObj;
+    private Integer level;
 
     public GhostBehavior() {
     }
 
-    @AutoStand
-    static IGameBoneService gameBoneService;
-
-    @AutoStand
-    static IGameService gameService;
+    public GhostBehavior(Long qq, Group group) {
+        this.qq = qq;
+        this.group = group;
+    }
 
     public static void exRun(GhostBehavior ghostBehavior) {
         ls.put(ghostBehavior.qq, ghostBehavior);
@@ -67,14 +71,41 @@ public class GhostBehavior implements Runnable {
         };
     }
 
-    public GhostBehavior(Long qq, Group group) {
-        this.qq = qq;
-        this.group = group;
+    private static boolean needSay(int time) {
+        return (time == 1 || time == 3 | time == 8 || time == 10 || time == 15 || time == 20 || time == 25);
     }
 
-    private GhostObj ghostObj;
+    public static final synchronized int[] getFindTime(Integer level) {
+        if (level <= 10000) return new int[]{14, 18};
+        else if (level <= 30000) return new int[]{12, 14};
+        else if (level <= 100000) return new int[]{8, 12};
+        else if (level <= 500000) return new int[]{6, 8};
+        else if (level <= 1000000) return new int[]{6, 8};
+        else if (level <= 5000000) return new int[]{6, 8};
+        else if (level <= 10000000) return new int[]{6, 8};
+        return new int[]{6, 8};
+    }
 
-    private Integer level;
+    public static final synchronized int[] getReadyTime(Integer level) {
+        if (level <= 5000) return new int[]{25, 27};
+        else if (level < 200000) return new int[]{21, 25};
+        else if (level < 1000000) return new int[]{21, 24};
+        else if (level < 2000000) return new int[]{18, 23};
+        else if (level < 5000000) return new int[]{18, 22};
+        else if (level < 9000000) return new int[]{18, 21};
+        else return new int[]{16, 18};
+    }
+
+    public static final synchronized int[] getLockTime(Integer level) {
+        if (level <= 10000) return new int[]{10, 15};
+        else if (level <= 30000) return new int[]{10, 13};
+        else if (level <= 100000) return new int[]{9, 10};
+        else if (level <= 500000) return new int[]{6, 9};
+        else if (level <= 1000000) return new int[]{5, 6};
+        else if (level <= 5000000) return new int[]{4, 5};
+        else if (level <= 10000000) return new int[]{2, 4};
+        return new int[]{9999, 9999};
+    }
 
     @Override
     public void run() {
@@ -111,7 +142,6 @@ public class GhostBehavior implements Runnable {
             e.printStackTrace();
         }
     }
-
 
     private boolean startAtt(boolean lock) throws InterruptedException {
         long lostAtt = percentTo(12, ghostObj.getAtt());
@@ -195,10 +225,6 @@ public class GhostBehavior implements Runnable {
         }
     }
 
-    private static boolean needSay(int time) {
-        return (time == 1 || time == 3 | time == 8 || time == 10 || time == 15 || time == 20 || time == 25);
-    }
-
     public void onDestroy(boolean is) {
         if (is) {
             putPerson(GameDataBase.getInfo(qq).eddTag(SkillDataBase.TAG_CANT_HIDE, 0));
@@ -252,38 +278,6 @@ public class GhostBehavior implements Runnable {
             if (level <= 8000000) return 1.5;
             return 2;
         }
-    }
-
-    public static final synchronized int[] getFindTime(Integer level) {
-        if (level <= 10000) return new int[]{14, 18};
-        else if (level <= 30000) return new int[]{12, 14};
-        else if (level <= 100000) return new int[]{8, 12};
-        else if (level <= 500000) return new int[]{6, 8};
-        else if (level <= 1000000) return new int[]{6, 8};
-        else if (level <= 5000000) return new int[]{6, 8};
-        else if (level <= 10000000) return new int[]{6, 8};
-        return new int[]{6, 8};
-    }
-
-    public static final synchronized int[] getReadyTime(Integer level) {
-        if (level <= 5000) return new int[]{25, 27};
-        else if (level < 200000) return new int[]{21, 25};
-        else if (level < 1000000) return new int[]{21, 24};
-        else if (level < 2000000) return new int[]{18, 23};
-        else if (level < 5000000) return new int[]{18, 22};
-        else if (level < 9000000) return new int[]{18, 21};
-        else return new int[]{16, 18};
-    }
-
-    public static final synchronized int[] getLockTime(Integer level) {
-        if (level <= 10000) return new int[]{10, 15};
-        else if (level <= 30000) return new int[]{10, 13};
-        else if (level <= 100000) return new int[]{9, 10};
-        else if (level <= 500000) return new int[]{6, 9};
-        else if (level <= 1000000) return new int[]{5, 6};
-        else if (level <= 5000000) return new int[]{4, 5};
-        else if (level <= 10000000) return new int[]{2, 4};
-        return new int[]{9999, 9999};
     }
 
     private void send(String str) {

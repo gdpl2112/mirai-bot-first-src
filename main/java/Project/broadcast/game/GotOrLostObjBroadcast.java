@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 public class GotOrLostObjBroadcast extends Broadcast {
     public static final GotOrLostObjBroadcast INSTANCE = new GotOrLostObjBroadcast();
+    private static Method method;
 
     public GotOrLostObjBroadcast() {
         super("GotOrLostObjBroadcast");
@@ -26,8 +27,6 @@ public class GotOrLostObjBroadcast extends Broadcast {
             return super.add(receiver);
         return false;
     }
-
-    private static Method method;
 
     public static interface GotOrLostReceiver extends Receiver {
         void onReceive(long who, int id, int num, ObjType type);

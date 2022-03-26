@@ -1,11 +1,11 @@
 package Project.services.impl;
 
 import Project.dataBases.SourceDataBase;
-import Project.services.detailServices.GameWeaDetailService;
 import Project.interfaces.Iservice.IGameWeaService;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.services.detailServices.GameWeaDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -24,8 +23,31 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Entity
 public class GameWeaServiceImpl implements IGameWeaService {
 
+    private static final Pattern PATTERN = Pattern.compile("(\\[\\@.+\\]|#)");
     @AutoStand
     public static GameWeaDetailService gameWeaDetailService;
+    public static String MENU = "";
+
+    static {
+        MENU += "\n#选择器(#为当前魂兽))";
+        MENU += "\n使用暗器<暗器名><选择器>";
+        MENU += "\n暗器背包";
+        MENU += "\n制作暗器<暗器名>";
+        MENU += "\n暗器制作表";
+        MENU += "\n##最大伤害";
+        MAX_DAMAGE.forEach((k, v) -> {
+            MENU += ("\n\t" + getNameById(k) + "=>" + v);
+        });
+    }
+
+    public static List<String> getLps(String ss) {
+        List<String> list = new ArrayList<>();
+        Matcher matcher = PATTERN.matcher(ss);
+        while (matcher.find()) {
+            list.add(matcher.group().trim());
+        }
+        return list;
+    }
 
     @Override
     public String useAq(String str, Long who) {
@@ -37,17 +59,6 @@ public class GameWeaServiceImpl implements IGameWeaService {
             list.add(s1.replace("[@", "").replace("]", ""));
         }
         return gameWeaDetailService.useAq(list, who, str.trim());
-    }
-
-    private static final Pattern PATTERN = Pattern.compile("(\\[\\@.+\\]|#)");
-
-    public static List<String> getLps(String ss) {
-        List<String> list = new ArrayList<>();
-        Matcher matcher = PATTERN.matcher(ss);
-        while (matcher.find()) {
-            list.add(matcher.group().trim());
-        }
-        return list;
     }
 
     @Override
@@ -76,20 +87,6 @@ public class GameWeaServiceImpl implements IGameWeaService {
         } else {
             return "\"" + getNameById(id) + "\"制作的暗器零件不足,需要" + ns + "个";
         }
-    }
-
-    public static String MENU = "";
-
-    static {
-        MENU += "\n#选择器(#为当前魂兽))";
-        MENU += "\n使用暗器<暗器名><选择器>";
-        MENU += "\n暗器背包";
-        MENU += "\n制作暗器<暗器名>";
-        MENU += "\n暗器制作表";
-        MENU += "\n##最大伤害";
-        MAX_DAMAGE.forEach((k, v) -> {
-            MENU += ("\n\t" + getNameById(k) + "=>" + v);
-        });
     }
 
     @Override

@@ -6,43 +6,27 @@ import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github kloping
  */
 @Controller
 public class OtherController {
-    public OtherController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
-    @AutoStand
-    IOtherService otherService;
-
-    @Before
-    public void before(@AllMess String mess, Group group) throws NoRunException {
-        if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
-            return;
-        }
-        if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
-        }
-    }
-
     private static final StringBuilder MENU_STR = new StringBuilder();
+    public static String[] E_MENUS = null;
+    private static String[] BaseMenuStrings;
 
     static {
         MENU_STR.append("1.基本菜单").append("\r\n");
@@ -57,13 +41,6 @@ public class OtherController {
         MENU_STR.append("-1.开始会话 #在线运行代码").append("\r\n");
         MENU_STR.append("不用at我,直接说就行了哦");
     }
-
-    @Action("菜单")
-    public String menu() {
-        return MENU_STR.toString();
-    }
-
-    private static String[] BaseMenuStrings;
 
     static {
         final StringBuilder baseMenuStr = new StringBuilder();
@@ -141,8 +118,6 @@ public class OtherController {
         BaseMenuStrings = baseMenuString.split("====");
     }
 
-    public static String[] E_MENUS = null;
-
     static {
         final StringBuilder m0 = new StringBuilder();
         m0.append("开始成语接龙\n");
@@ -177,6 +152,37 @@ public class OtherController {
         m0.append("QQ群信息<qq>");
         m0.append("/搜图<图片>");
         E_MENUS = m0.toString().split("====");
+    }
+
+    @AutoStand
+    IOtherService otherService;
+    @AutoStand
+    private ManagerController controller;
+
+    public OtherController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
+
+    public static String getPermission(long le) {
+        if (le == 0) return "群员";
+        if (le == 1) return "管理员";
+        if (le == 2) return "群主";
+        return "未知";
+    }
+
+    @Before
+    public void before(@AllMess String mess, Group group) throws NoRunException {
+        if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
+            return;
+        }
+        if (!opened(group.getId(), this.getClass())) {
+            throw new NoRunException("未开启");
+        }
+    }
+
+    @Action("菜单")
+    public String menu() {
+        return MENU_STR.toString();
     }
 
     @Action("娱乐功能.*?")
@@ -222,20 +228,10 @@ public class OtherController {
         return sb.toString();
     }
 
-    public static String getPermission(long le) {
-        if (le == 0) return "群员";
-        if (le == 1) return "管理员";
-        if (le == 2) return "群主";
-        return "未知";
-    }
-
     @Action("金魂币消费记录")
     public String m0(long q) {
         return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
     }
-
-    @AutoStand
-    private ManagerController controller;
 
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, Group group, @Param("str") String str) {

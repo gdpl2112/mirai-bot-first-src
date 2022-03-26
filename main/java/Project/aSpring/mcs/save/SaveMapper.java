@@ -1,6 +1,5 @@
 package Project.aSpring.mcs.save;
 
-import Project.detailPlugin.All;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import org.apache.ibatis.annotations.Param;

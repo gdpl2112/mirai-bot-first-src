@@ -4,19 +4,20 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.exist;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
 public class Skill78 extends SkillTemplate {
-    
+
 
     public Skill78() {
         super(78);
@@ -24,17 +25,17 @@ public class Skill78 extends SkillTemplate {
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return  new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.HasTime, SkillIntro.Type.Edd};
+        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.HasTime, SkillIntro.Type.Edd};
     }
 
     @Override
     public String getIntro() {
-        return  String.format("释放邪火凤凰真身,增加(%s + 魂力剩余百分比的一半)%% 的攻击力", getAddP(getJid(), getId()));
+        return String.format("释放邪火凤凰真身,增加(%s + 魂力剩余百分比的一半)%% 的攻击力", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return  new Skill(info, who, new CopyOnWriteArrayList<>(nums), "邪火凤凰真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "邪火凤凰真身") {
             @Override
             public void before() {
                 Long q = who.longValue();

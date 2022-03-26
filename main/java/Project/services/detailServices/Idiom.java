@@ -14,8 +14,28 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author github-kloping
  */
 public abstract class Idiom {
-    private int maxFail = 5;
     public static final Set<String> IDIOM_SET = new HashSet<>();
+    public static final Random RANDOM = new Random();
+    private static final Set<Character> sets = new LinkedHashSet<>();
+    private static boolean inited = false;
+    private static Map<Character, List<String>> idiom = new ConcurrentHashMap<>();
+    private static int length = -1;
+    private static List<Character> list;
+
+    static {
+        sets.add('0');
+        sets.add('1');
+        sets.add('2');
+        sets.add('3');
+        sets.add('4');
+        sets.add('5');
+    }
+
+    private int maxFail = 5;
+    private String upWord = null;
+    private String upPinYin = null;
+    private Set<String> hist = new LinkedHashSet<>();
+    private int f1 = 0;
 
     public Idiom() {
         init();
@@ -26,10 +46,30 @@ public abstract class Idiom {
         init();
     }
 
-    private static boolean inited = false;
-    private static Map<Character, List<String>> idiom = new ConcurrentHashMap<>();
-    private static int length = -1;
-    private static List<Character> list;
+    /**
+     * 对单个字进行转换
+     *
+     * @param pinYinStr 需转换的汉字字符串
+     * @return 拼音字符串数组
+     */
+    public static String getCharPinYin(char pinYinStr) {
+        String[] pinyin = null;
+        pinyin = PinyinHelper.toHanyuPinyinStringArray(pinYinStr);
+        if (pinyin == null) {
+            return null;
+        }
+        return pinyin[0];
+    }
+
+    public static String getCharPinYinDontWithYinDiao(char c) {
+        String s = getCharPinYin(c);
+        for (char c1 : sets) {
+            if (s.contains(c1 + "")) {
+                s = s.replace(c1 + "", "");
+            }
+        }
+        return s;
+    }
 
     public List<String> sys(char c) {
         return idiom.get(c);
@@ -58,10 +98,6 @@ public abstract class Idiom {
         }
     }
 
-    private String upWord = null;
-    private String upPinYin = null;
-    public static final Random RANDOM = new Random();
-
     public String getRandom() {
         int r = RANDOM.nextInt(length);
         char c = list.get(r);
@@ -77,9 +113,6 @@ public abstract class Idiom {
      * @param s
      */
     public abstract void fail(String s);
-
-    private Set<String> hist = new LinkedHashSet<>();
-    private int f1 = 0;
 
     public String meet(String s) {
         if (s == null) return null;
@@ -107,42 +140,6 @@ public abstract class Idiom {
         if (++f1 >= maxFail)
             fail(upWord);
         return "-2";
-    }
-
-    /**
-     * 对单个字进行转换
-     *
-     * @param pinYinStr 需转换的汉字字符串
-     * @return 拼音字符串数组
-     */
-    public static String getCharPinYin(char pinYinStr) {
-        String[] pinyin = null;
-        pinyin = PinyinHelper.toHanyuPinyinStringArray(pinYinStr);
-        if (pinyin == null) {
-            return null;
-        }
-        return pinyin[0];
-    }
-
-    private static final Set<Character> sets = new LinkedHashSet<>();
-
-    static {
-        sets.add('0');
-        sets.add('1');
-        sets.add('2');
-        sets.add('3');
-        sets.add('4');
-        sets.add('5');
-    }
-
-    public static String getCharPinYinDontWithYinDiao(char c) {
-        String s = getCharPinYin(c);
-        for (char c1 : sets) {
-            if (s.contains(c1 + "")) {
-                s = s.replace(c1 + "", "");
-            }
-        }
-        return s;
     }
 
     public String getUpWord() {

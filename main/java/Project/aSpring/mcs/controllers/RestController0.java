@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.TradingRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,13 +25,15 @@ import static Project.controllers.auto.ControllerSource.getCode;
 @RestController
 @Entity
 public class RestController0 {
-    private static final Map<String, String> UCAP = new ConcurrentHashMap<>();
     public static final Set<String> CANS = new LinkedHashSet<>();
     public static final Map<String, String> CAPING = new ConcurrentHashMap<>();
+    private static final Map<String, String> UCAP = new ConcurrentHashMap<>();
     private static final Map<String, Integer> CAPING_ERR = new ConcurrentHashMap<>();
 
     @AutoStand
     static ControllerSource controllerSource;
+    @Value("${auth.pwd:123456}")
+    String pwd0;
 
     @GetMapping("getCap")
     public String getCap() {
@@ -62,9 +64,6 @@ public class RestController0 {
             return "err";
         }
     }
-
-    @Value("${auth.pwd:123456}")
-    String pwd0;
 
     @GetMapping("authorization0")
     public String authorization0(

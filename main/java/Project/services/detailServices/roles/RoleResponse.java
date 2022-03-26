@@ -9,8 +9,8 @@ import java.util.Map;
  * @author github-kloping
  */
 public class RoleResponse {
-    private RoleState state = RoleState.CONTINUE;
     private final long oV;
+    private RoleState state = RoleState.CONTINUE;
     private long nowV;
     private Number q1;
     private Number q2;
@@ -66,12 +66,12 @@ public class RoleResponse {
         return oV;
     }
 
-    public void setNowV(long nowV) {
-        this.nowV = nowV;
-    }
-
     public long getNowV() {
         return nowV;
+    }
+
+    public void setNowV(long nowV) {
+        this.nowV = nowV;
     }
 
     public Number getQ1() {

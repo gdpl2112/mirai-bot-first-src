@@ -1,10 +1,9 @@
 package Project.services.detailServices;
 
 
-import Project.controllers.gameControllers.ChallengeController;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
+import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
@@ -13,9 +12,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.List;
@@ -23,10 +23,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.objectToJsonString;
@@ -40,77 +39,14 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Entity
 public class GameJoinDetailService {
 
+    public static final List<Integer> IDXS = new CopyOnWriteArrayList<>();
+    public static final Map<Long, GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
     @AutoStand
     IGameService gameService;
-
     @AutoStand
     JoinAcService join;
-
-    public String run(int id, long who, Group group) {
-        try {
-            //广播
-            JoinBroadcast.INSTANCE.broadcast(who, id);
-            return join.join(id, who, group);
-        } finally {
-            int r = Tool.RANDOM.nextInt(8) + 10;
-            putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
-        }
-    }
-
-    /**
-     * @param who
-     * @param idType 5 星斗 6 极北
-     * @return
-     */
-    public <T extends GhostObj> T summonFor(String who, int idMin, int idMax) {
-        PersonInfo personInfo = getInfo(who);
-        float bl = getAllHHBL(Long.valueOf(who));
-        GhostObj ghostObj = GhostObj.create(
-                (long) (personInfo.getAtt() * bl),
-                personInfo.getHpL(),
-                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel())),
-                idMin, idMax,
-                -1,
-                true, bl);
-        return (T) ghostObj;
-    }
-
     @AutoStand
     ChallengeController challengeController;
-
-    public Object select(int id, GhostObj ghostObj, long who) {
-        PersonInfo personInfo = getInfo(who);
-        switch (id) {
-            case 0:
-                return att(who, ghostObj);
-            case 1:
-                return taoPao(ghostObj, who);
-            default:
-                break;
-        }
-        return "未知选择";
-    }
-
-    private String taoPao(GhostObj ghostObj, long who) {
-        if (ghostObj.getState() == GhostObj.HELPING) {
-            String whos = ghostObj.getForWhoStr();
-            GameJoinDetailService.saveGhostObjIn(who, null);
-            GhostObj ghostObj1 = null;
-            ghostObj1 = GameJoinDetailService.getGhostObjFrom(who);
-            ghostObj1.setState(GhostObj.NOT_NEED);
-            GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
-        } else {
-            PersonInfo personInfo = getInfo(who);
-            if (Tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
-                    >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
-                return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
-            }
-            GameJoinDetailService.saveGhostObjIn(who, null);
-        }
-        return "逃跑完成";
-    }
-
-    public static final List<Integer> IDXS = new CopyOnWriteArrayList<>();
 
     /**
      * 攻击一个魂兽
@@ -186,102 +122,6 @@ public class GameJoinDetailService {
         }
     }
 
-    private String att(long who, GhostObj ghostObj) {
-        if (getInfo(who).getJak1() > System.currentTimeMillis()) {
-            return "攻击冷却中...";
-        }
-        try {
-            putPerson(getInfo(who).setJak1(System.currentTimeMillis() + 2000));
-            boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
-            String whos = "";
-            if (isHelp) {
-                whos = ghostObj.getForWhoStr();
-                ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
-            }
-            if (IDXS.contains(ghostObj.getIDX())) {
-                return "\n该魂兽,正在被攻击中";
-            }
-            IDXS.add(ghostObj.getIDX());
-
-            PersonInfo personInfo = getInfo(who);
-
-            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
-            long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
-            long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
-
-            StringBuilder sb = new StringBuilder();
-            sb.append(NEWLINE);
-            if (personInfo.getHl() > hl1) {
-                sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
-                sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
-                ghostObj.updateHp(-at1, personInfo);
-                sb.append(GameDetailService.onAtt(who, -2, at1));
-            } else {
-                sb.append("魂力不足,攻击失败");
-            }
-            sb.append(NEWLINE);
-            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
-                    .append(GameDetailService.beaten(who, -2, at2));
-
-            ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
-
-            boolean showI = true;
-            boolean showY = false;
-            if (isAlive(who)) {
-                if (ghostObj.getHp() > 0) {
-                    showY = true;
-                    showI = true;
-                    if (isHelp) {
-                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
-                    } else {
-                        GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-                    }
-                } else {
-                    showI = true;
-                    sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
-                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
-                    sb.append(willGetXp(ghostObj, who, isHelp));
-                    ZongDetailService.onKilled(who, ghostObj.getXp());
-                    if (isHelp) {
-                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
-                        GameJoinDetailService.saveGhostObjIn(who, null);
-                    } else {
-                        GameJoinDetailService.saveGhostObjIn(who, null);
-                    }
-                }
-                //广播
-                if (!isHelp) {
-                    GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
-                } else {
-                    GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
-                }
-            } else {
-                sb.append(NEWLINE);
-                sb.append("你被打败了!!!");
-                if (ghostObj.getHp() < 0) {
-                    sb.append(NEWLINE);
-                    sb.append(getNameById(ghostObj.getId())).append("也失败了,但你无法获得魂环");
-                }
-                showY = true;
-                showI = true;
-                if (isHelp) {
-                    ghostObj.setState(GhostObj.NOT_NEED);
-                    GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
-                }
-                GameJoinDetailService.saveGhostObjIn(who, null);
-            }
-            if (showI) {
-                sb.append(NEWLINE).append(gameService.info(who));
-            }
-            if (showY) {
-                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
-            }
-            return sb.toString();
-        } finally {
-            IDXS.remove((Object) ghostObj.getIDX());
-        }
-    }
-
     public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
         int id = ghostObj.getId();
         long v1 = getInfo(qq).getHj();
@@ -319,8 +159,6 @@ public class GameJoinDetailService {
         if (v < 10000000) return "五百万年以上级别";
         return "未知级别";
     }
-
-    public static final Map<Long, GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
 
     public static GhostObj getGhostObjFrom(long qq) {
         if (GHOST_TEMP.containsKey(qq)) {
@@ -469,5 +307,162 @@ public class GameJoinDetailService {
             }
         }
         return "";
+    }
+
+    public String run(int id, long who, Group group) {
+        try {
+            //广播
+            JoinBroadcast.INSTANCE.broadcast(who, id);
+            return join.join(id, who, group);
+        } finally {
+            int r = Tool.RANDOM.nextInt(8) + 10;
+            putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
+        }
+    }
+
+    /**
+     * @param who
+     * @param idType 5 星斗 6 极北
+     * @return
+     */
+    public <T extends GhostObj> T summonFor(String who, int idMin, int idMax) {
+        PersonInfo personInfo = getInfo(who);
+        float bl = getAllHHBL(Long.valueOf(who));
+        GhostObj ghostObj = GhostObj.create(
+                (long) (personInfo.getAtt() * bl),
+                personInfo.getHpL(),
+                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel())),
+                idMin, idMax,
+                -1,
+                true, bl);
+        return (T) ghostObj;
+    }
+
+    public Object select(int id, GhostObj ghostObj, long who) {
+        PersonInfo personInfo = getInfo(who);
+        switch (id) {
+            case 0:
+                return att(who, ghostObj);
+            case 1:
+                return taoPao(ghostObj, who);
+            default:
+                break;
+        }
+        return "未知选择";
+    }
+
+    private String taoPao(GhostObj ghostObj, long who) {
+        if (ghostObj.getState() == GhostObj.HELPING) {
+            String whos = ghostObj.getForWhoStr();
+            GameJoinDetailService.saveGhostObjIn(who, null);
+            GhostObj ghostObj1 = null;
+            ghostObj1 = GameJoinDetailService.getGhostObjFrom(who);
+            ghostObj1.setState(GhostObj.NOT_NEED);
+            GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
+        } else {
+            PersonInfo personInfo = getInfo(who);
+            if (Tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
+                    >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
+                return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
+            }
+            GameJoinDetailService.saveGhostObjIn(who, null);
+        }
+        return "逃跑完成";
+    }
+
+    private String att(long who, GhostObj ghostObj) {
+        if (getInfo(who).getJak1() > System.currentTimeMillis()) {
+            return "攻击冷却中...";
+        }
+        try {
+            putPerson(getInfo(who).setJak1(System.currentTimeMillis() + 2000));
+            boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
+            String whos = "";
+            if (isHelp) {
+                whos = ghostObj.getForWhoStr();
+                ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
+            }
+            if (IDXS.contains(ghostObj.getIDX())) {
+                return "\n该魂兽,正在被攻击中";
+            }
+            IDXS.add(ghostObj.getIDX());
+
+            PersonInfo personInfo = getInfo(who);
+
+            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
+            long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
+            long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(NEWLINE);
+            if (personInfo.getHl() > hl1) {
+                sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
+                sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
+                ghostObj.updateHp(-at1, personInfo);
+                sb.append(GameDetailService.onAtt(who, -2, at1));
+            } else {
+                sb.append("魂力不足,攻击失败");
+            }
+            sb.append(NEWLINE);
+            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
+                    .append(GameDetailService.beaten(who, -2, at2));
+
+            ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
+
+            boolean showI = true;
+            boolean showY = false;
+            if (isAlive(who)) {
+                if (ghostObj.getHp() > 0) {
+                    showY = true;
+                    showI = true;
+                    if (isHelp) {
+                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
+                    } else {
+                        GameJoinDetailService.saveGhostObjIn(who, ghostObj);
+                    }
+                } else {
+                    showI = true;
+                    sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
+                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                    sb.append(willGetXp(ghostObj, who, isHelp));
+                    ZongDetailService.onKilled(who, ghostObj.getXp());
+                    if (isHelp) {
+                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
+                        GameJoinDetailService.saveGhostObjIn(who, null);
+                    } else {
+                        GameJoinDetailService.saveGhostObjIn(who, null);
+                    }
+                }
+                //广播
+                if (!isHelp) {
+                    GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
+                } else {
+                    GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
+                }
+            } else {
+                sb.append(NEWLINE);
+                sb.append("你被打败了!!!");
+                if (ghostObj.getHp() < 0) {
+                    sb.append(NEWLINE);
+                    sb.append(getNameById(ghostObj.getId())).append("也失败了,但你无法获得魂环");
+                }
+                showY = true;
+                showI = true;
+                if (isHelp) {
+                    ghostObj.setState(GhostObj.NOT_NEED);
+                    GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
+                }
+                GameJoinDetailService.saveGhostObjIn(who, null);
+            }
+            if (showI) {
+                sb.append(NEWLINE).append(gameService.info(who));
+            }
+            if (showY) {
+                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
+            }
+            return sb.toString();
+        } finally {
+            IDXS.remove((Object) ghostObj.getIDX());
+        }
     }
 }

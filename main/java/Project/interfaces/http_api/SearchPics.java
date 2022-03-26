@@ -1,10 +1,10 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.mirai0.commons.apiEntitys.PicData;
 import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.mirai0.commons.apiEntitys.PicData;
 
 import static Project.detailPlugin.NetMain.ROOT_PATH;
 

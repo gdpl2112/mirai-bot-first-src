@@ -6,7 +6,7 @@ import io.github.kloping.mirai0.commons.Group;
 /**
  * @author github-kloping
  */
-public interface IGameJoinAcService  {
+public interface IGameJoinAcService {
 
     String[] list();
 

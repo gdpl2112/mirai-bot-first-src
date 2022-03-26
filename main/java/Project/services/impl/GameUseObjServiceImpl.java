@@ -1,14 +1,14 @@
 package Project.services.impl;
 
 
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.SLE_ONE_MAX;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.TRANSFER_ONE_MAX;
-import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -34,11 +34,47 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 @Entity
 public class GameUseObjServiceImpl implements IGameUseObjService {
 
-    private String getPic(Integer id) {
-        return SourceDataBase.getImgPathById(id) + "\r\n";
+    /**
+     * 仅可出售
+     */
+    public static final Map<Integer, Number> ONLY_SLE = new ConcurrentHashMap<>();
+    private static final int MAX_HELP = 3;
+    private static final int MAX_HELP_TO = 3;
+    public static int maxSle = 2000;
+
+    static {
+        //魂骨系列
+        ONLY_SLE.put(1512, 1002);
+        ONLY_SLE.put(1522, 1002);
+        ONLY_SLE.put(1532, 1002);
+        ONLY_SLE.put(1542, 1002);
+        ONLY_SLE.put(1552, 1002);
+        //升级券
+        ONLY_SLE.put(1601, 420);
+        ONLY_SLE.put(1602, 520);
+        ONLY_SLE.put(1603, 620);
+        ONLY_SLE.put(1604, 720);
     }
 
     private final UseTool use = new UseTool();
+    private final IGameService gameService = new GameServiceImpl();
+
+    public static Integer getNumForO(String[] sss, String s1) {
+        for (String str : sss) {
+            if (str.startsWith(s1)) {
+                if (str.contains("x")) {
+                    return Integer.valueOf(str.split("x")[1]);
+                } else {
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private String getPic(Integer id) {
+        return SourceDataBase.getImgPathById(id) + "\r\n";
+    }
 
     @Override
     public String useObj(Long who, int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -58,8 +94,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             return "你的背包里没有" + getNameById(id);
         }
     }
-
-    private final IGameService gameService = new GameServiceImpl();
 
     @Override
     public String useObj(Long who, int id, int num) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -94,22 +128,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             return "你的背包里没有足够的" + getNameById(id);
         }
     }
-
-    public static Integer getNumForO(String[] sss, String s1) {
-        for (String str : sss) {
-            if (str.startsWith(s1)) {
-                if (str.contains("x")) {
-                    return Integer.valueOf(str.split("x")[1]);
-                } else {
-                    return 1;
-                }
-            }
-        }
-        return 0;
-    }
-
-    private static final int MAX_HELP = 3;
-    private static final int MAX_HELP_TO = 3;
 
     @Override
     public String buyObj(Long who, int id, Integer num) {
@@ -190,13 +208,103 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
     }
 
+    @Override
+    public String sleObj(Long who, int id) {
+        try {
+            List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
+            if (id == 206 || id == 207)
+                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
+            if (bgids.contains(id)) {
+                long l = 0;
+                if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
+                else if (ONLY_SLE.containsKey(id)) l = ONLY_SLE.get(id).longValue() / 3;
+                else return "商城中为发现此物品";
+                GameDataBase.removeFromBgs(who, id, ObjType.sell);
+                l = l > maxSle ? maxSle : l;
+                putPerson(getInfo(who).addGold(l, new TradingRecord()
+                        .setType1(TradingRecord.Type1.add)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setTo(-1L)
+                        .setMain(who)
+                        .setFrom(who)
+                        .setDesc("出售\"" + getNameById(id) + "\"")
+                        .setMany(l)
+                ));
+                return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
+            } else {
+                return "你的背包里没有" + getNameById(id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "出售 异常 ";
+        }
+    }
+
+    @Override
+    public String sleObj(Long who, int id, Integer num) {
+        if (num > SLE_ONE_MAX) {
+            return SLE_TOO_MUCH;
+        }
+        if (contiansBgsNum(who, id, num)) {
+            if (id == 206 || id == 207)
+                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
+            removeFromBgs(who, id, num, ObjType.sell);
+            long l;
+            if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
+            else if (ONLY_SLE.containsKey(id)) l = ONLY_SLE.get(id).longValue() / 3;
+            else return "商城中为发现此物品";
+
+            l = l > maxSle ? maxSle : l;
+            l *= num;
+            putPerson(getInfo(who).addGold(l
+                    , new TradingRecord()
+                            .setType1(TradingRecord.Type1.add)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1L)
+                            .setMain(who)
+                            .setFrom(who)
+                            .setDesc("出售" + num + "个\"" + getNameById(id) + "\"")
+                            .setMany(l)
+            ));
+            return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
+        } else {
+            return "你的背包里 没有足够的 " + getNameById(id);
+        }
+    }
+
+    @Override
+    public String objTo(Long who, int id, Long whos, Integer num) {
+        if (num > TRANSFER_ONE_MAX) {
+            return TRANSFER_TOO_MUCH;
+        }
+        if (contiansBgsNum(who, id, num)) {
+            GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
+            GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);
+            return "批量 转让 完成";
+        } else {
+            return "你的背包里 没有足够的 " + getNameById(id);
+        }
+    }
+
+    @Override
+    public String objTo(Long who, int id, Long whos) {
+        List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
+        if (bgids.contains(id)) {
+            GameDataBase.removeFromBgs(who, id, ObjType.transLost);
+            GameDataBase.addToBgs(Long.valueOf(whos), id, ObjType.transGot);
+            return "转让完成";
+        } else {
+            return "你的背包里没有" + getNameById(id);
+        }
+    }
+
     public class UseTool {
+
+        public PersonInfo personInfo;
 
         public void remove(int id, long who) {
             GameDataBase.removeFromBgs(who, id, ObjType.use);
         }
-
-        public PersonInfo personInfo;
 
         public void before(long who) {
             personInfo = getInfo(who);
@@ -424,119 +532,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         public String use1605(long who) {
             return use160x(who);
         }
-    }
-
-    public static int maxSle = 2000;
-
-    @Override
-    public String sleObj(Long who, int id) {
-        try {
-            List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
-            if (id == 206 || id == 207)
-                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
-            if (bgids.contains(id)) {
-                long l = 0;
-                if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
-                else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
-                else return "商城中为发现此物品";
-
-                GameDataBase.removeFromBgs(who, id, ObjType.sell);
-                l = l > maxSle ? maxSle : l;
-                putPerson(getInfo(who).addGold(l, new TradingRecord()
-                        .setType1(TradingRecord.Type1.add)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setTo(-1L)
-                        .setMain(who)
-                        .setFrom(who)
-                        .setDesc("出售\"" + getNameById(id) + "\"")
-                        .setMany(l)
-                ));
-                return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
-            } else {
-                return "你的背包里没有" + getNameById(id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "出售 异常 ";
-        }
-    }
-
-    @Override
-    public String sleObj(Long who, int id, Integer num) {
-        if (num >= SLE_ONE_MAX) {
-            return SLE_TOO_MUCH;
-        }
-        if (contiansBgsNum(who, id, num)) {
-            if (id == 206 || id == 207)
-                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
-            removeFromBgs(who, id, num, ObjType.sell);
-            long l;
-            if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
-            else if (onlySle.containsKey(id)) l = onlySle.get(id).longValue() / 3;
-            else return "商城中为发现此物品";
-
-            l = l > maxSle ? maxSle : l;
-            l *= num;
-            putPerson(getInfo(who).addGold(l
-                    , new TradingRecord()
-                            .setType1(TradingRecord.Type1.add)
-                            .setType0(TradingRecord.Type0.gold)
-                            .setTo(-1L)
-                            .setMain(who)
-                            .setFrom(who)
-                            .setDesc("出售" + num + "个\"" + getNameById(id) + "\"")
-                            .setMany(l)
-
-            ));
-            return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
-        } else {
-            return "你的背包里 没有足够的 " + getNameById(id);
-        }
-    }
-
-    @Override
-    public String objTo(Long who, int id, Long whos, Integer num) {
-        if (num >= TRANSFER_ONE_MAX) {
-            return TRANSFER_TOO_MUCH;
-        }
-        if (contiansBgsNum(who, id, num)) {
-            GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
-            GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);
-            return "批量 转让 完成";
-        } else {
-            return "你的背包里 没有足够的 " + getNameById(id);
-        }
-    }
-
-    @Override
-    public String objTo(Long who, int id, Long whos) {
-        List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
-        if (bgids.contains(id)) {
-            GameDataBase.removeFromBgs(who, id, ObjType.transLost);
-            GameDataBase.addToBgs(Long.valueOf(whos), id, ObjType.transGot);
-            return "转让完成";
-        } else {
-            return "你的背包里没有" + getNameById(id);
-        }
-    }
-
-    /**
-     * 仅可出售
-     */
-    public static final Map<Integer, Number> onlySle = new ConcurrentHashMap<>();
-
-    static {
-        //魂骨系列
-        onlySle.put(1512, 1002);
-        onlySle.put(1522, 1002);
-        onlySle.put(1532, 1002);
-        onlySle.put(1542, 1002);
-        onlySle.put(1552, 1002);
-        //升级券
-        onlySle.put(1601, 420);
-        onlySle.put(1602, 520);
-        onlySle.put(1603, 620);
-        onlySle.put(1604, 720);
     }
 }
 

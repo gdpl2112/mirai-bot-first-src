@@ -6,21 +6,21 @@ import Project.dataBases.ZongMenDataBase;
 import Project.interfaces.Iservice.IZongMenService;
 import Project.services.detailServices.ZongDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
-import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
@@ -146,7 +146,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (qq2id.containsKey(qq))
             return ("ta已经加入宗门");
         if (!GameDataBase.exist(qq))
-            return ("该玩家尚未注册");
+            return (PLAYER_NOT_REGISTERED);
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
         if (zon.getLevel() < 1)
@@ -316,7 +316,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (!qq2id.containsKey(who))
             return "ta没有加入任何宗门";
         if (!GameDataBase.exist(who))
-            return "该玩家尚未注册";
+            return PLAYER_NOT_REGISTERED;
         Long l1 = Long.valueOf(qq2id.get(who) + "");
         Long l2 = Long.valueOf(qq2id.get(who) + "");
         if (l1 != l2)

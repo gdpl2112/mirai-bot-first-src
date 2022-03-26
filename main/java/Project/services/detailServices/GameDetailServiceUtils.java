@@ -1,16 +1,17 @@
 package Project.services.detailServices;
 
+import Project.broadcast.game.GhostLostBroadcast;
+import Project.broadcast.game.PlayerLostBroadcast;
+import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
-import Project.dataBases.GameDataBase;
-import Project.broadcast.game.GhostLostBroadcast;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATTACK_TIPS0;
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.services.detailServices.GameDetailService.beaten;
 import static Project.services.detailServices.GameDetailService.onAtt;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATTACK_TIPS0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -66,7 +67,7 @@ public class GameDetailServiceUtils {
      * 获取基本信息
      *
      * @param who
-     * @param o playerId
+     * @param o   playerId
      * @return
      */
     public static BaseInfo getBaseInfoFromAny(Number who, Number o) {
@@ -132,5 +133,11 @@ public class GameDetailServiceUtils {
                 sb.append(onAtt(who2, who, v));
             }
         }
+    }
+
+    private static PlayerLostBroadcast.PlayerLostReceiver.LostType getLostType(long q1) {
+        return challengeDetailService.isTemping(q1) ?
+                PlayerLostBroadcast.PlayerLostReceiver.LostType.fake :
+                PlayerLostBroadcast.PlayerLostReceiver.LostType.att;
     }
 }

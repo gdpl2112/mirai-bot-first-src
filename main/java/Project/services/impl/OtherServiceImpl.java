@@ -25,6 +25,19 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 @Entity
 public class OtherServiceImpl implements IOtherService {
 
+    private static String BasicUrl = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
+
+    private static String filter(String result) {
+        int start = result.indexOf(":\"");
+        result = result.replaceAll("\\{", "<");
+        result = result.replaceAll("\\}", ">");
+        result = result.replaceAll("f", "F");
+        result = result.substring(start + 2, result.lastIndexOf("\""));
+        result = result.replaceAll("菲菲", Resource.MY_MAME);
+        result = result.replaceAll("<br>", "\r\n");
+        return result.trim();
+    }
+
     @Override
     public String mora(Long who, String what) {
         long li = DataBase.getAllInfo(who).getScore();
@@ -53,8 +66,6 @@ public class OtherServiceImpl implements IOtherService {
         return "猜拳异常";
     }
 
-    private static String BasicUrl = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
-
     @Override
     public String talk(String str) {
         try {
@@ -72,17 +83,6 @@ public class OtherServiceImpl implements IOtherService {
         } catch (Exception e) {
             return "";
         }
-    }
-
-    private static String filter(String result) {
-        int start = result.indexOf(":\"");
-        result = result.replaceAll("\\{", "<");
-        result = result.replaceAll("\\}", ">");
-        result = result.replaceAll("f", "F");
-        result = result.substring(start + 2, result.lastIndexOf("\""));
-        result = result.replaceAll("菲菲", Resource.MY_MAME);
-        result = result.replaceAll("<br>", "\r\n");
-        return result.trim();
     }
 
     @Override

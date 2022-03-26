@@ -1,6 +1,5 @@
 package Project.controllers.normalController;
 
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
 import Project.detailPlugin.WeatherGetter;
@@ -10,12 +9,13 @@ import Project.interfaces.http_api.ApiKit9;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.GroupConf;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.UserScore;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -23,9 +23,9 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
-import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.canBackShow;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
@@ -38,6 +38,23 @@ import static io.github.kloping.mirai0.Main.Resource.*;
  */
 @Controller
 public class EntertainmentController {
+    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
+    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
+    @AutoStand
+    public static IOtherService otherService;
+    public static int maxFail = 5;
+    /**
+     * 成语接龙消耗积分
+     */
+    private static int eveS1 = 2;
+    @AutoStand
+    public WeatherGetter weatherGetter;
+    public Map<Long, Idiom> longIdiomMap = new ConcurrentHashMap<>();
+    @AutoStand
+    private ApiIyk0 apiIyk0;
+    @AutoStand
+    private ApiKit9 apiKit9;
+
     public EntertainmentController() {
         println(this.getClass().getSimpleName() + "构建");
     }
@@ -79,12 +96,6 @@ public class EntertainmentController {
         }
     }
 
-    @AutoStand
-    public static IOtherService otherService;
-
-    @AutoStand
-    public WeatherGetter weatherGetter;
-
     @Action("短时预报<.+=>address>")
     public String m2(@Param("address") String address) {
         return weatherGetter.get(address);
@@ -105,16 +116,10 @@ public class EntertainmentController {
         return line;
     }
 
-    @AutoStand
-    private ApiIyk0 apiIyk0;
-
     @Action("全国降水量")
     public String lowWater() {
         return Tool.pathToImg(apiIyk0.getJyu().getImg());
     }
-
-    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
-    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
 
     @Action("卫星云图")
     public void mn(Group g) {
@@ -185,9 +190,6 @@ public class EntertainmentController {
         return Tool.pathToImg(str);
     }
 
-    public static int maxFail = 5;
-    public Map<Long, Idiom> longIdiomMap = new ConcurrentHashMap<>();
-
     @Action("开始成语接龙")
     public String s1(Group group) {
         if (longIdiomMap.containsKey(group.getId())) {
@@ -202,11 +204,6 @@ public class EntertainmentController {
         longIdiomMap.put(group.getId(), idiom);
         return "游戏开始:\n当前成语: " + idiom.getRandom() + "\n命令:我接xxxx";
     }
-
-    /**
-     * 成语接龙消耗积分
-     */
-    private static int eveS1 = 2;
 
     @Action("我接<.+=>str>")
     public String s2(@Param("str") String str, Group group, User user) {
@@ -269,9 +266,6 @@ public class EntertainmentController {
         }
         return sb.toString();
     }
-
-    @AutoStand
-    private ApiKit9 apiKit9;
 
     @Action("QQ信息.*?")
     public Object info(@AllMess String mess, long q) {

@@ -179,6 +179,10 @@ public class PersonInfo implements BaseInfo {
         return temp;
     }
 
+    public void setTemp(Boolean temp) {
+        this.temp = temp;
+    }
+
     public Integer getWinC() {
         return winC;
     }
@@ -186,10 +190,6 @@ public class PersonInfo implements BaseInfo {
     public PersonInfo addWinc(Integer num) {
         winC++;
         return this;
-    }
-
-    public void setTemp(Boolean temp) {
-        this.temp = temp;
     }
 
     @Override
@@ -490,13 +490,13 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    public String getSname() {
+        return Sname;
+    }
+
     public PersonInfo setSname(String sname) {
         Sname = sname;
         return this;
-    }
-
-    public String getSname() {
-        return Sname;
     }
 
     public Long getJk1() {
@@ -724,14 +724,14 @@ public class PersonInfo implements BaseInfo {
         return hjL;
     }
 
-    @Override
-    public Number getId() {
-        return Long.parseLong(name);
-    }
-
     public PersonInfo setHjL(Long hjL) {
         this.hjL = hjL;
         return this;
+    }
+
+    @Override
+    public Number getId() {
+        return Long.parseLong(name);
     }
 
     @Override
@@ -758,6 +758,11 @@ public class PersonInfo implements BaseInfo {
         return whType;
     }
 
+    public PersonInfo setWhType(Integer whType) {
+        this.whType = whType;
+        return this;
+    }
+
     @Override
     public boolean isVertigo() {
         return BaseInfoTemp.isVertigo(getId().longValue());
@@ -772,11 +777,6 @@ public class PersonInfo implements BaseInfo {
     @Override
     public PersonInfo letVertigo(long t) {
         BaseInfoTemp.letVertigo(getId().longValue(), t);
-        return this;
-    }
-
-    public PersonInfo setWhType(Integer whType) {
-        this.whType = whType;
         return this;
     }
 

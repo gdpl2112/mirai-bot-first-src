@@ -33,6 +33,55 @@ import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
  * @author github-kloping
  */
 public class Resource {
+    public static final ExecutorService THREADS =
+            Executors.newFixedThreadPool(20);
+    public static final ExecutorService DEA_THREADS =
+            new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
+    public static final List<Runnable> START_AFTER = new CopyOnWriteArrayList<>();
+    public static String MY_MAME;
+
+    public static Bot bot;
+
+    public static String superQ;
+    public static Long superQL;
+    public static String datePath = "";
+
+    public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
+
+    public static BotConf qq = null;
+    public static DataBase dataBase = null;
+    public static GameDataBase gameDataBase = null;
+    public static ZongMenDataBase zmDataBase = null;
+    public static ShopDataBase shopDataBase = null;
+    public static SkillDataBase skillDataBase = null;
+    public static GameTaskDatabase gameTaskDatabase = null;
+    public static OtherDatabase otherDatabase = null;
+    public static ContextManager contextManager;
+    private static Runnable RUNNABLE_BEFORE = () -> {
+        try {
+            String u0 = contextManager.getContextEntity(String.class, "handled.url");
+            if (u0 != null && !u0.trim().isEmpty()) {
+                URL url = new URL(u0);
+                url.openStream();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    };
+
+    static {
+        ZERO_RUNS.add(() -> {
+            for (File file : new File("./temp").listFiles()) {
+                if (file.isFile()) {
+                    file.delete();
+                } else {
+                    continue;
+                }
+                System.out.println("==================删除=>" + file.getName() + "========>");
+            }
+        });
+    }
+
     public static void pluginLoad() {
         PrintStream out = System.out;
         PrintStream err = System.err;
@@ -46,23 +95,6 @@ public class Resource {
         System.setOut(out);
         System.setErr(err);
     }
-
-    public static final ExecutorService THREADS =
-            Executors.newFixedThreadPool(20);
-    public static final ExecutorService DEA_THREADS =
-            new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
-
-    public static String MY_MAME;
-
-    public static Bot bot;
-
-    public static String superQ;
-    public static Long superQL;
-    public static String datePath = "";
-
-    public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
-
-    public static BotConf qq = null;
 
     public static BotConf get(int i) {
         switch (i) {
@@ -83,14 +115,6 @@ public class Resource {
         }
     }
 
-    public static DataBase dataBase = null;
-    public static GameDataBase gameDataBase = null;
-    public static ZongMenDataBase zmDataBase = null;
-    public static ShopDataBase shopDataBase = null;
-    public static SkillDataBase skillDataBase = null;
-    public static GameTaskDatabase gameTaskDatabase = null;
-    public static OtherDatabase otherDatabase = null;
-
     public static void init() {
         dataBase = new DataBase(datePath);
         gameDataBase = new GameDataBase(datePath);
@@ -100,21 +124,6 @@ public class Resource {
         gameTaskDatabase = new GameTaskDatabase(datePath);
         otherDatabase = new OtherDatabase(datePath);
     }
-
-    static {
-        ZERO_RUNS.add(() -> {
-            for (File file : new File("./temp").listFiles()) {
-                if (file.isFile()) {
-                    file.delete();
-                } else {
-                    continue;
-                }
-                System.out.println("==================删除=>" + file.getName() + "========>");
-            }
-        });
-    }
-
-    public static ContextManager contextManager;
 
     protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
@@ -208,20 +217,6 @@ public class Resource {
         DEA_THREADS.execute(RUNNABLE_BEFORE);
     }
 
-    private static Runnable RUNNABLE_BEFORE = () -> {
-        try {
-            String u0 = contextManager.getContextEntity(String.class, "handled.url");
-            if (u0 != null && !u0.trim().isEmpty()) {
-                URL url = new URL(u0);
-                url.openStream();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    };
-
-    public static final List<Runnable> START_AFTER = new CopyOnWriteArrayList<>();
-
     public static void startedAfter() {
         THREADS.execute(new Runnable() {
             @Override
@@ -259,12 +254,12 @@ public class Resource {
             return qq;
         }
 
-        public String getPassWord() {
-            return passWord;
-        }
-
         public void setQq(long qq) {
             this.qq = qq;
+        }
+
+        public String getPassWord() {
+            return passWord;
         }
 
         public void setPassWord(String passWord) {

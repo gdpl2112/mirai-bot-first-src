@@ -24,20 +24,20 @@ public class Warp {
     private Long master = -1L;
     private Long prentice = -1L;
 
-    public Warp setId(String id) {
-        try {
-            this.id = Long.parseLong(id.trim());
-        } catch (Exception e) {
-        }
-        return this;
-    }
-
     public static Warp getInstance(long q) {
         return getWarp(q);
     }
 
     public static Warp getInstanceFromFile(long q) {
         return getWarp(q);
+    }
+
+    public Warp setId(String id) {
+        try {
+            this.id = Long.parseLong(id.trim());
+        } catch (Exception e) {
+        }
+        return this;
     }
 
     public void apply() {

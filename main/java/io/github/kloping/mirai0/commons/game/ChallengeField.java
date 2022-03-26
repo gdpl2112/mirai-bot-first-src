@@ -24,6 +24,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 @EqualsAndHashCode
 public class ChallengeField {
     public static final Map<Character, Map.Entry<Integer, Integer>> MOVE_CHAR = new HashMap<>();
+    public static final String RED_SIDE = "RED", BLUE_SIDE = "BLUE";
 
     static {
         MOVE_CHAR.put('上', getEntry(0, -1));
@@ -32,7 +33,6 @@ public class ChallengeField {
         MOVE_CHAR.put('右', getEntry(1, 0));
     }
 
-    public static final String RED_SIDE = "RED", BLUE_SIDE = "BLUE";
     private int id;
     private long gid;
     private String now = RED_SIDE;

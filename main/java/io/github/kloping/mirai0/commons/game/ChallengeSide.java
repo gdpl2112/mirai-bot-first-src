@@ -1,13 +1,9 @@
 package io.github.kloping.mirai0.commons.game;
 
-import io.github.kloping.MySpringTool.annotations.Action;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author github.kloping

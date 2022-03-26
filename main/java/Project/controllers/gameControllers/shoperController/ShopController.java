@@ -1,13 +1,13 @@
 package Project.controllers.gameControllers.shoperController;
 
 
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IShoperService;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
@@ -18,12 +18,33 @@ import static io.github.kloping.mirai0.Main.Resource.println;
  */
 @Controller
 public class ShopController {
+    @AutoStand
+    IShoperService shoperService;
+
     public ShopController() {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    @AutoStand
-    IShoperService shoperService;
+    private static Long[] getNumAndPrice(String str) {
+        try {
+            String[] ss = str.split("个");
+            if (ss.length > 1) {
+                String numStr = Tool.findNumberFromString(ss[0]);
+                if (!numStr.isEmpty()) {
+                    Long num = Long.valueOf(numStr + "");
+                    str = str.replaceFirst(numStr, "");
+                    String priceStr = Tool.findNumberFromString(str);
+                    if (!priceStr.isEmpty()) {
+                        Long price = Long.valueOf(priceStr);
+                        return new Long[]{num, price};
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Before
     public void before(io.github.kloping.mirai0.commons.Group group, io.github.kloping.mirai0.commons.User qq) throws NoRunException {
@@ -52,27 +73,6 @@ public class ShopController {
         if (id == null)
             return "未发现相关物品";
         return shoperService.upItem(qq.getId(), id, ll[0], ll[1]);
-    }
-
-    private static Long[] getNumAndPrice(String str) {
-        try {
-            String[] ss = str.split("个");
-            if (ss.length > 1) {
-                String numStr = Tool.findNumberFromString(ss[0]);
-                if (!numStr.isEmpty()) {
-                    Long num = Long.valueOf(numStr + "");
-                    str = str.replaceFirst(numStr, "");
-                    String priceStr = Tool.findNumberFromString(str);
-                    if (!priceStr.isEmpty()) {
-                        Long price = Long.valueOf(priceStr);
-                        return new Long[]{num, price};
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Action("市场下架<\\d+=>num>")

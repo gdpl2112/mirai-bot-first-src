@@ -2,32 +2,27 @@ package Project.controllers.gameControllers;
 
 
 import Project.dataBases.SourceDataBase;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
 import Project.interfaces.Iservice.IGameBoneService;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.SourceDataBase.getImgPathById;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class GameBoneController {
-    public GameBoneController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
     private static List<String> listFx = new ArrayList<>();
 
     static {
@@ -37,6 +32,10 @@ public class GameBoneController {
 
     @AutoStand
     IGameBoneService gameBoneService;
+
+    public GameBoneController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
 
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {

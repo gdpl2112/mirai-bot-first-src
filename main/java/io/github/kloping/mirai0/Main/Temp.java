@@ -8,14 +8,15 @@ import java.io.File;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
-import static Project.dataBases.ZongMenDataBase.*;
+import static Project.dataBases.ZongMenDataBase.getZonInfoFromFile;
+import static Project.dataBases.ZongMenDataBase.getZongInfoFromFile;
 
 /**
  * @author github.kloping
  */
 public class Temp {
     public static void main(String[] args) {
-        Resource.Switch.AllK=false;
+        Resource.Switch.AllK = false;
         File[] files = new File(ZongMenDataBase.path).listFiles();
         for (File file1 : files) {
             if (file1.isDirectory()) {

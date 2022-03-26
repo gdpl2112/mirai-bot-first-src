@@ -1,8 +1,8 @@
 package Project.services.detailServices.tasks;
 
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import static Project.dataBases.GameTaskDatabase.CD1;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
@@ -13,16 +13,16 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
  * @author github-kloping
  */
 public class Task1001 extends Task {
-    public int needId;
     public static Integer[] ids = {501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512,
             513, 514, 515, 516, 517, 518, 519, 520, 601, 602, 603};
-
-    public int getNeedId() {
-        return needId;
-    }
+    public int needId;
 
     public Task1001() {
         this.needId = getRandT(ids);
+    }
+
+    public int getNeedId() {
+        return needId;
     }
 
     @Override

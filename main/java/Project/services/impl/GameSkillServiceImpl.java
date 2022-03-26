@@ -33,6 +33,25 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
  */
 @Entity
 public class GameSkillServiceImpl implements ISkillService {
+    private static String getIntro(Integer id, Integer jid, Integer st, int wh) {
+        try {
+            SkillTemplate sk = SkillFactory.factory(jid);
+            sk.setId(id);
+            sk.setSt(st);
+            sk.setHasTime(getDuration(jid).longValue());
+            sk.setWh(wh);
+            return sk.getContent();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERR_TIPS;
+        }
+    }
+
+    private static void execute(Skill skill) throws Exception {
+        SkillDataBase.threads.execute(skill);
+        Thread.sleep(200);
+    }
+
     @Override
     public String initSkill(long qq, Group group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
@@ -87,20 +106,6 @@ public class GameSkillServiceImpl implements ISkillService {
         return SourceDataBase.getImgPathById(id0) + getIntro(id, id2, st, getInfo(qq).getWh());
     }
 
-    private static String getIntro(Integer id, Integer jid, Integer st, int wh) {
-        try {
-            SkillTemplate sk = SkillFactory.factory(jid);
-            sk.setId(id);
-            sk.setSt(st);
-            sk.setHasTime(getDuration(jid).longValue());
-            sk.setWh(wh);
-            return sk.getContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ERR_TIPS;
-        }
-    }
-
     @Override
     public String useSkill(long qq, Integer st, Number[] allAt, String arg, Group group) {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
@@ -126,17 +131,12 @@ public class GameSkillServiceImpl implements ISkillService {
             return ERR_TIPS;
         }
         long uv = percentTo(info.getUsePercent(), personInfo.getHll());
-        info.setTime(System.currentTimeMillis() + info.getTimeL());
+        info.setTime(getCooling(qq, info));
         updateSkillInfo(info);
         String tips = skill.getTips() + GameDetailService.consumedHl(qq, uv);
         return SourceDataBase.getImgPathById(info.getId() + 100) +
                 getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) +
                 "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);
-    }
-
-    private static void execute(Skill skill) throws Exception {
-        SkillDataBase.threads.execute(skill);
-        Thread.sleep(200);
     }
 
     @Override
