@@ -221,33 +221,33 @@ public class EntertainmentController {
             case "-1":
                 sb.append("必须是4个字的成语哦\n");
                 sb.append("扣除1积分");
-                score.setScore(score.getScore() - 1);
+                score.addScore(-1);
                 DataBase.putInfo(score);
                 break;
             case "-2":
                 sb.append("\"").append(str);
                 sb.append("\"好像不是一个成语呢\n");
                 sb.append("扣除").append(eveS1).append("积分");
-                score.setScore(score.getScore() - eveS1);
+                score.addScore(-eveS1);
                 DataBase.putInfo(score);
                 break;
             case "-3":
                 sb.append("音节好像不对哦\n");
                 sb.append("扣除").append(eveS1).append("积分");
-                score.setScore(score.getScore() - eveS1);
+                score.addScore(-eveS1);
                 DataBase.putInfo(score);
                 break;
             case "-4":
                 sb.append("这个词已经用过了哦\n");
                 sb.append("扣除").append(eveS1).append("积分");
-                score.setScore(score.getScore() - eveS1);
+                score.addScore(-eveS1);
                 DataBase.putInfo(score);
                 break;
             default:
                 sb.append(s);
                 sb.append("接上了\n");
                 sb.append("获得").append(eveS1 * 2).append("积分");
-                score.setScore(score.getScore() + eveS1 * 2);
+                score.addScore(eveS1 * 2);
                 DataBase.putInfo(score);
                 break;
         }

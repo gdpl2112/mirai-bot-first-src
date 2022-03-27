@@ -79,6 +79,8 @@ public class MessageTools {
                     case "Audio":
                         builder.append(createVoiceMessageInGroup(s2, contact.getId()));
                         break;
+                    default:
+                        break;
                 }
             } else {
                 builder.append(str.trim());

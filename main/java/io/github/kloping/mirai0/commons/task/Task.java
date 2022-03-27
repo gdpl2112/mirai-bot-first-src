@@ -14,6 +14,7 @@ import java.util.*;
 
 import static Project.dataBases.GameTaskDatabase.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.TASK_OVER_TIME;
 
 /**
  * @author github-kloping
@@ -66,7 +67,7 @@ public class Task {
                 .setNextCan(System.currentTimeMillis() + (CD0 * 2))
                 .addPrenticeIndex(-1).apply();
 
-        MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+        MessageTools.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());
         destroy();
     }
 

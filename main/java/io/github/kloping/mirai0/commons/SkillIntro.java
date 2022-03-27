@@ -25,8 +25,7 @@ public class SkillIntro {
         Att("攻击型"),
         Shd("护盾型"),
         heT("辅助型"),
-        NLonTime("蓄力型"),
-        ;
+        NLonTime("蓄力型");
         private String content;
 
         Type(String content) {

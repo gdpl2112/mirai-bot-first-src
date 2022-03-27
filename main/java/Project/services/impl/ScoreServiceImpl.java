@@ -125,7 +125,7 @@ public class ScoreServiceImpl implements IScoreService {
             ls.setFz(0L);
             ls.setDay(Long.valueOf(getToday()));
             ls.setDays((long) (ls.getDays().intValue() + 1));
-            ls.setScore(ls.getScore() + 100);
+            ls.addScore(100);
             putInfo(ls);
             SpringBootResource.getSingListMapper().insert(who.longValue(), getTodayDetialString(), System.currentTimeMillis());
             Object[] lines = regDay(who);

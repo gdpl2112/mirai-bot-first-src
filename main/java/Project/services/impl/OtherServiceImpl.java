@@ -52,7 +52,7 @@ public class OtherServiceImpl implements IOtherService {
             return "积分最小值:5";
         if (l1 > 1500)
             return "积分最大值:1500";
-        Mora i = Mora.getRc(48, 10, mora1);
+        Mora i = Mora.getRc(42, 5, mora1);
         int p = mora1.Reff(i);
         if (p == 0) {
             return "平局 我出的是" + i.getValue();

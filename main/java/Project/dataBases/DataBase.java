@@ -281,7 +281,7 @@ public class DataBase {
 
     public static long addScore(long l, Long who) {
         UserScore score = getAllInfo(who);
-        score.setScore(score.getScore() + l);
+        score.addScore(l);
         putInfo(score);
         return score.getScore();
     }
