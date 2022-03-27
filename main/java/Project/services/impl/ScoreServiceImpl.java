@@ -15,7 +15,9 @@ import java.util.List;
 
 import static Project.dataBases.DataBase.*;
 import static Project.dataBases.GameDataBase.putPerson;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.WORK_LONG_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -102,6 +104,8 @@ public class ScoreServiceImpl implements IScoreService {
                     long l = RANDOM.nextInt(20) + 40;
                     addScore(l, who);
                     addScore(-l, whos);
+                    putInfo(getAllInfo(who).record(l));
+                    putInfo(getAllInfo(whos).record(-l));
                     DataBase.addFz(1, who);
                     return "成功抢劫了" + l + "积分!\n增加1指数";
                 } else {
@@ -156,9 +160,10 @@ public class ScoreServiceImpl implements IScoreService {
                             .setTo(-1)
                             .setMain(who)
                             .setFrom(who)
-                            .setDesc("打工")
+                            .setDesc(WORK_LONG_STR)
                             .setMany(nr)
             ));
+            putInfo(getAllInfo(who).record(s));
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");
         } else {
@@ -180,8 +185,13 @@ public class ScoreServiceImpl implements IScoreService {
                 name = aLong.toString();
             }
             sb.append("第").append(trans(n++)).append(":\r\n=>").append(name).append("\r\n");
-
         }
         return sb.toString();
+    }
+
+    @Override
+    public String earnings(long id) {
+        UserScore score = getAllInfo(id);
+        return String.format(EARNINGS_TIPS_FORMAT, score.getEarnings(), score.getDebuffs());
     }
 }

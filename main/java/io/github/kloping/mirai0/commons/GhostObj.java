@@ -90,6 +90,7 @@ public class GhostObj implements Serializable, BaseInfo {
 
     public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
         this.hp = randFloatByte1(hp);
+        this.maxHp = this.hp;
         this.att = randFloatByte1(att);
         this.xp = randFloatByte1(xp);
         this.id = randA(idMin, idMax);
@@ -102,7 +103,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        if (idMax > 700) {
+        if (idMin > 700) {
             int id = (int) randA(idMin, idMax);
             switch (id) {
                 case 701:
@@ -128,7 +129,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
-        if (idMax > 700) {
+        if (idMin > 700) {
             int id = (int) randA(idMin, idMax);
             switch (id) {
                 case 701:

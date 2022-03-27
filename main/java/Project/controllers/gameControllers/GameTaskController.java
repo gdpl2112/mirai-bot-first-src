@@ -29,6 +29,7 @@ public class GameTaskController {
         MORNING_RUNNABLE.add(() -> {
             if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
                 SpringBootResource.getTaskPointMapper().updateAll();
+                SpringBootResource.getScoreMapper().updateEarnings();
             }
         });
     }

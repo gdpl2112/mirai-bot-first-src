@@ -74,7 +74,7 @@ public class JoinAcService {
         GhostObj ghostObj = isUse107(String.valueOf(who));
         boolean need = true;
         if (ghostObj != null) {
-            if (ghostObj.getHp() == -1) {
+            if (ghostObj.getHp() <= 0) {
                 r = Tool.RANDOM.nextInt(31);
             } else {
                 if (ghostObj.getHp() > 1) {
@@ -146,7 +146,6 @@ public class JoinAcService {
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-            int id = ghostObj.getId();
             if (ghostObj.getL() > 3000L)
                 GhostBehavior.exRun(new GhostBehavior(who, group));
             return willTips(who, ghostObj, false);

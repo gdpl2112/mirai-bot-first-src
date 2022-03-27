@@ -9,6 +9,7 @@ import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.commons.Father;
 import io.github.kloping.mirai0.commons.GroupConf;
 import io.github.kloping.mirai0.commons.UserScore;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.io.File;
 import java.util.Arrays;
@@ -277,6 +278,11 @@ public class DataBase {
         new File(pathN + "/" + who + ".days").delete();
         new File(pathN + "/" + who + ".fz").delete();
         new File(pathN + "/" + who + ".k").delete();
+    }
+
+    public static boolean isMaxEarnings(long who) {
+        UserScore score = getAllInfo(who);
+        return score.getEarnings() - score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
     }
 
     public static long addScore(long l, Long who) {

@@ -154,7 +154,7 @@ public class ScoreController {
         }
     }
 
-    @Action("打工")
+    @Action(WORK_LONG_STR)
     public String aJob(User qq, Group group) {
         return scoreService.workLong(qq.getId());
     }
@@ -172,5 +172,10 @@ public class ScoreController {
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();
         }
+    }
+
+    @Action(value = "我的收益", otherName = {"收益详情", "积分收益"})
+    public String earnings(User user) {
+        return scoreService.earnings(user.getId());
     }
 }

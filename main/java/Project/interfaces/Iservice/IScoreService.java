@@ -23,4 +23,6 @@ public interface IScoreService {
     String workLong(Long who);
 
     String todayList(Group group);
+
+    String earnings(long id);
 }
