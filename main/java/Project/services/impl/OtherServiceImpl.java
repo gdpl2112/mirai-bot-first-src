@@ -66,7 +66,7 @@ public class OtherServiceImpl implements IOtherService {
             return "你输了 我出的是" + i.getValue() + "\n你输掉了:" + l1 + "积分";
         } else if (p == 1) {
             long l = DataBase.addScore(l1, Long.valueOf(who));
-            putInfo(getAllInfo(who).record(l));
+            putInfo(getAllInfo(who).record(l1));
             return "你赢了 我出的是" + i.getValue() + "\n你获得了:" + l1 + "积分";
         }
         return "猜拳异常";
