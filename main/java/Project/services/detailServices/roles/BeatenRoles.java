@@ -62,6 +62,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_MS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {

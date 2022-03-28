@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -90,10 +91,12 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             Method method = use.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(use, who));
             putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (1000)));
-            if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
-                return CHALLENGE_USED;
-            } else {
-                ChallengeDetailService.USED.put(who, true);
+            if (challengeDetailService.isTemping(who)){
+                if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
+                    return CHALLENGE_USED;
+                } else {
+                    ChallengeDetailService.USED.put(who, true);
+                }
             }
             return getPic(id) + str;
         } else {
