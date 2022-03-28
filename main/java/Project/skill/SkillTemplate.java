@@ -59,7 +59,7 @@ public abstract class SkillTemplate {
         sb.append("冷却时间:").append(getCoolTime(getId(), getJid(), getWh(), getSt())).append("分钟").append("\r\n");
         sb.append("魂力消耗:").append(getUserPercent(getSt(), getJid())).append("%\r\n");
         if (getHasTime() > 0)
-            sb.append("持续时间:").append(String.format("%s分钟", ((double) getHasTime() / 60000f))).append("\r\n");
+            sb.append("持续时间:").append(String.format("%s分钟", ((double) (getHasTime() / 60000f)))).append("\r\n");
         sb.append("内容:").append(getIntro());
         return sb.toString();
     }

@@ -37,8 +37,8 @@ public class SkillDataBase {
     public static final int t75C = 6;
     public static final int t77 = 60000 * 2;
     public static final int t78 = 60000 * 2;
+    public static final int t79 = 60000 * 2;
     public static final int t79C = 6;
-    public static final int t79 = 1000 * 15;
     public static final int t711 = 60000 * 2;
     public static final int t712 = 60000 * 2;
     public static final int t713 = 60000 * 2;
@@ -104,6 +104,7 @@ public class SkillDataBase {
 
     //==========
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
+
     public SkillDataBase(String path) {
         initMap();
     }
