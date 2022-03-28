@@ -19,6 +19,8 @@ import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.MAX_EARNINGS_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_P;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_WIN;
 
 /**
  * @author github-kloping
@@ -56,7 +58,7 @@ public class OtherServiceImpl implements IOtherService {
         if (DataBase.isMaxEarnings(who)) {
             return MAX_EARNINGS_TIPS;
         }
-        Mora i = Mora.getRc(44, 5, mora1);
+        Mora i = Mora.getRc(MORA_WIN, MORA_P, mora1);
         int p = mora1.Reff(i);
         if (p == 0) {
             return "平局 我出的是" + i.getValue();

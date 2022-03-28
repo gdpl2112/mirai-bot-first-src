@@ -1,9 +1,9 @@
 package Project.dataBases.task;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.services.detailServices.tasks.Task1000;
-import Project.services.detailServices.tasks.Task1001;
 import Project.services.detailServices.tasks.Task1002;
+import Project.services.detailServices.tasks.Task1001;
+import Project.services.detailServices.tasks.Task1000;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask0;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1000;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1001;
@@ -31,11 +31,11 @@ public class TaskCreator {
         if (id == 0) {
             return (T) new Task();
         } else if (id == 1000) {
-            return (T) new Task1000();
+            return (T) new Task1002();
         } else if (id == 1001) {
             return (T) new Task1001();
         } else if (id == 1002) {
-            return (T) new Task1002();
+            return (T) new Task1000();
         }
         return null;
     }
@@ -63,10 +63,10 @@ public class TaskCreator {
     }
 
     public static Receiver task1000(Task task) {
-        if (!(task instanceof Task1000)) return null;
+        if (!(task instanceof Task1002)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1000((Task1000) task));
+                = new GhostLostReceiverWithTask1000((Task1002) task));
         return receiver;
     }
 
@@ -79,10 +79,10 @@ public class TaskCreator {
     }
 
     public static synchronized Receiver task1002(Task task) {
-        if (!(task instanceof Task1002)) return null;
+        if (!(task instanceof Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1002((Task1002) task));
+                = new GhostLostReceiverWithTask1002((Task1000) task));
         return receiver;
     }
 

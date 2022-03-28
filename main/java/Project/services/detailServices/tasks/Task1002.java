@@ -1,26 +1,49 @@
 package Project.services.detailServices.tasks;
 
-import Project.broadcast.game.GhostLostBroadcast;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.commons.task.TaskPoint;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static Project.dataBases.GameTaskDatabase.CD1;
+
 
 /**
+ * 周任务0
+ *
  * @author github-kloping
- * @version 1.0
  */
 public class Task1002 extends Task {
-    private GhostLostBroadcast.KillType needType;
+    public Map<Integer, Boolean> m1 = new ConcurrentHashMap<>();
 
-    public Task1002() {
-        this.needType = getRandT(GhostLostBroadcast.KillType.values());
+    public boolean isFinish() {
+        if (m1.containsKey(1))
+            if (m1.get(1))
+                if (m1.containsKey(2))
+                    if (m1.get(2))
+                        if (m1.containsKey(3))
+                            if (m1.get(3))
+                                return true;
+        return false;
     }
 
-    public GhostLostBroadcast.KillType getNeedType() {
-        return needType;
+    public Map<Integer, Boolean> getM1() {
+        return m1;
     }
 
-    public void setNeedType(GhostLostBroadcast.KillType needType) {
-        this.needType = needType;
+    public void setM1(Map<Integer, Boolean> m1) {
+        this.m1 = m1;
+    }
+
+    @Override
+    public void over() {
+        TaskPoint.getInstance(getHost().longValue())
+                .setNextCan(System.currentTimeMillis() + (CD1))
+                .addNormalIndex(-1).apply();
+
+        MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+        destroy();
     }
 }
