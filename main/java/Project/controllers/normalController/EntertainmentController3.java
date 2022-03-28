@@ -142,7 +142,6 @@ public class EntertainmentController3 {
             msg = "请指定内容哦~";
         }
         byte[] bytes = api0.jupaizi(msg);
-        System.out.println(new String(bytes));
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }

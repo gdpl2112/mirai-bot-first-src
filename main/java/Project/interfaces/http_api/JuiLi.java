@@ -28,7 +28,6 @@ public interface JuiLi {
      * @return
      */
     @GetPath("pa_img.php")
-    @CookieFrom("this")
     byte[] paImg(@ParamName("qq") Long qq,
                  @DefaultValue("0") @ParamName("id") Integer id);
 }
