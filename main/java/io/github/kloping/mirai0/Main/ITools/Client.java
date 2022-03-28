@@ -1,6 +1,5 @@
 package io.github.kloping.mirai0.Main.ITools;
 
-import io.github.kloping.mirai0.Main.Resource;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -41,7 +40,7 @@ public class Client implements Runnable {
                                 CHContext = ctx;
                                 ByteBuf buf = (ByteBuf) msg;
                                 String dataStr = buf.toString(StandardCharsets.UTF_8);
-                                Resource.bot.getGroup(gid).sendMessage("mc server: " + dataStr);
+                                MessageTools.sendMessageInGroup("mc server: " + dataStr, gid);
                             }
 
                             @Override
