@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.services.detailServices.GameJoinDetailService;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
@@ -76,13 +78,15 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         return service.run(id, who, group);
     }
 
+    @AutoStand
+    ChallengeController controller;
+
     @Override
     public Object startSelect(long who, String select) {
         String what = select.trim();
         what = what.replace("选择", "").trim();
         int i = decideMaps.indexOf(what);
         if (i == -1) return NOT_FOUND_SELECT;
-        if (!isATrue(who)) return NOT_IN_SELECT;
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getTime() > System.currentTimeMillis()) {
@@ -91,6 +95,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                 saveGhostObjIn(who, null);
                 return "已超过七分钟,超时无效!";
             }
+        } else if (challengeDetailService.isTemping(who)) {
+            return controller.o3(who);
         }
         return NOT_IN_SELECT;
     }

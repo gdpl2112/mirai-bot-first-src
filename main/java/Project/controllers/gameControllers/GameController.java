@@ -19,11 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_CD;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
@@ -161,6 +164,9 @@ public class GameController {
 
     @Action("转生")
     public String delete(User qq) {
+        if (challengeDetailService.isTemping(qq.getId())) {
+            return CHALLENGE_ING;
+        }
         try {
             if (deleteC.containsKey(qq.getId()))
                 if (deleteC.get(qq.getId()) >= 3)
@@ -181,6 +187,9 @@ public class GameController {
 
     @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
     public String BuyGold(User qq, @Param("num") String num, Group group) {
+        if (challengeDetailService.isTemping(qq.getId())) {
+            return CHALLENGE_ING;
+        }
         try {
             Long nu = Long.valueOf(num);
             String str = gameService.buyGold(qq.getId(), nu);
@@ -216,8 +225,8 @@ public class GameController {
         if (at > System.currentTimeMillis())
             return ("攻击冷却中..=>" + getTimeHHMM(at));
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
-        String sss = gameService.attWhos(qq.getId(), who, group);
-        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + 1000 * 30).apply();
+        String sss = gameService.att(qq.getId(), who, group);
+        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + ATT_CD).apply();
         return sss;
     }
 

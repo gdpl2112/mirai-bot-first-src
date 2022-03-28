@@ -50,7 +50,6 @@ public class GameObjController {
                 num = Integer.valueOf(Tool.findNumberFromString(what));
                 what = what.replace(num.toString(), "");
             } catch (Exception e) {
-
             }
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
@@ -58,6 +57,9 @@ public class GameObjController {
             if (num == null || num.intValue() == 1) {
                 sss = gameUseObiService.useObj(qq.getId(), id);
             } else {
+                if (challengeDetailService.isTemping(qq.getId())) {
+                    return CHALLENGE_ING;
+                }
                 sss = gameUseObiService.useObj(qq.getId(), id, num);
             }
             return sss;
@@ -132,10 +134,14 @@ public class GameObjController {
             }
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             String s;
-            if (num == null || num.intValue() == 1)
+            if (challengeDetailService.isTemping(whos)) {
+                return CHALLENGE_ING;
+            }
+            if (num == null || num.intValue() == 1) {
                 s = gameUseObiService.objTo(qq.getId(), id, whos);
-            else
+            } else {
                 s = gameUseObiService.objTo(qq.getId(), id, whos, num);
+            }
             return s;
         } catch (Exception e) {
             return ERR_TIPS;
@@ -146,6 +152,9 @@ public class GameObjController {
     @Action("出售<.{1,}=>name>")
     public Object sle(User qq, @Param("name") String name, Group group) {
         try {
+            if (challengeDetailService.isTemping(qq.getId())) {
+                return CHALLENGE_ING;
+            }
             String what = name.trim().replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {

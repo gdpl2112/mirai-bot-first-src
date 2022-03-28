@@ -37,12 +37,12 @@ public class Skill731 extends SkillTemplate {
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "暗金恐爪熊") {
-            private long v_;
+            private long v;
 
             @Override
             public void before() {
                 PersonInfo pInfo = getInfo(who);
-                v_ = percentTo(info.getAddPercent(), pInfo.getAtt());
+                v = percentTo(info.getAddPercent(), pInfo.getAtt());
                 long v = percentTo(info.getAddPercent(), pInfo.getHpL());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t731, who.longValue(), v));
                 addShield(who.longValue(), v, (long) t731);

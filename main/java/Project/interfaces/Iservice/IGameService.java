@@ -97,7 +97,7 @@ public interface IGameService {
      * @param group
      * @return
      */
-    String attWhos(Long who, Long whos, Group group);
+    String att(Long who, Long whos, Group group);
 
     /**
      * 换积分

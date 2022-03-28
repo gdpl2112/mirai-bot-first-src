@@ -267,21 +267,21 @@ public class GameDetailService {
         Long l = GameDataBase.getInfo(q).getHpL();
         Long v = percentTo(b, l);
         GameDataBase.getInfo(q).addHp(v).apply();
-        return String.format(ADDHP_TIPS, v);
+        return String.format(ADD_HP_TIPS, v);
     }
 
     public static String addHl(long q, int b) {
         Long l = GameDataBase.getInfo(q).getHll();
         Long v = percentTo(b, l);
         GameDataBase.getInfo(q).addHl(v).apply();
-        return String.format(ADDHL_TIPS, v);
+        return String.format(ADD_HL_TIPS, v);
     }
 
     public static String addHj(long q, int b) {
         Long l = GameDataBase.getInfo(q).getHjL();
         Long v = percentTo(b, l);
         GameDataBase.getInfo(q).addHj(v).apply();
-        return String.format(ADDHJ_TIPS, v);
+        return String.format(ADD_HJ_TIPS, v);
     }
 }
 

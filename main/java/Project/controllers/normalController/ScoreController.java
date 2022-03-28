@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -156,6 +157,9 @@ public class ScoreController {
 
     @Action(WORK_LONG_STR)
     public String aJob(User qq, Group group) {
+        if (challengeDetailService.isTemping(qq.getId())) {
+            return CHALLENGE_ING;
+        }
         return scoreService.workLong(qq.getId());
     }
 

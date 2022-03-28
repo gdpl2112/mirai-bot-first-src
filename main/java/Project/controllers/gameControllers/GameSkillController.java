@@ -96,7 +96,6 @@ public class GameSkillController {
             str = str.replace("魂技", "");
             String s1 = Tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-
             str = str.replace(Tool.trans(st) + "", "");
             Set<Number> numbers = new HashSet<>();
             while (true) {

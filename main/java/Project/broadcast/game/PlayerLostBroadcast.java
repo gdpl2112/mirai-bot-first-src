@@ -3,6 +3,8 @@ package Project.broadcast.game;
 import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
+import java.util.Iterator;
+
 /**
  * @author github-kloping
  */
@@ -14,16 +16,24 @@ public class PlayerLostBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, long from, PlayerLostReceiver.LostType type) {
-        for (Receiver receiver : receivers) {
-            if (receiver instanceof PlayerLostBroadcast.PlayerLostReceiver)
-                ((PlayerLostBroadcast.PlayerLostReceiver) receiver).onReceive(who, from, type);
+        Iterator<Receiver> receiverIterator = receivers.iterator();
+        while (receiverIterator.hasNext()) {
+            Receiver receiver = receiverIterator.next();
+            if (receiver instanceof PlayerLostBroadcast.PlayerLostReceiver) {
+                ((PlayerLostReceiver) receiver).onReceive(who, from, type);
+            } else if (receiver instanceof OncePlayerLostReceiver) {
+                if (((OncePlayerLostReceiver) receiver).onReceive(who, from)) {
+                    receiverIterator.remove();
+                }
+            }
         }
     }
 
     @Override
     public boolean add(Receiver receiver) {
-        if (receiver instanceof PlayerLostBroadcast.PlayerLostReceiver)
+        if (receiver instanceof PlayerLostReceiver || receiver instanceof OncePlayerLostReceiver) {
             return super.add(receiver);
+        }
         return false;
     }
 
@@ -40,5 +50,16 @@ public class PlayerLostBroadcast extends Broadcast {
         public static enum LostType {
             att, un, fake
         }
+    }
+
+    public static interface OncePlayerLostReceiver extends Receiver {
+        /**
+         * receive0
+         *
+         * @param who
+         * @param from
+         * @return remove will if true
+         */
+        boolean onReceive(long who, long from);
     }
 }

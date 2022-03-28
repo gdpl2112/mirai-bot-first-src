@@ -5,6 +5,7 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
+import Project.services.detailServices.ChallengeDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
@@ -89,6 +90,11 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             Method method = use.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(use, who));
             putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (1000)));
+            if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
+                return CHALLENGE_USED;
+            } else {
+                ChallengeDetailService.USED.put(who, true);
+            }
             return getPic(id) + str;
         } else {
             return "你的背包里没有" + getNameById(id);

@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_USED;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 
@@ -67,6 +68,11 @@ public class GameWeaDetailService {
             Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
             used(who, id);
+            if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
+                return CHALLENGE_USED;
+            } else {
+                ChallengeDetailService.USED.put(who, true);
+            }
             return mes;
         } catch (Exception e) {
             e.printStackTrace();

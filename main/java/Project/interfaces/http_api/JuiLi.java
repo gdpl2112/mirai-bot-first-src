@@ -1,9 +1,6 @@
-package Project.interfaces.http_api.old;
+package Project.interfaces.http_api;
 
-import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
-import io.github.kloping.MySpringTool.annotations.http.GetPath;
-import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.MySpringTool.annotations.http.*;
 
 /**
  * @author github kloping
@@ -19,6 +16,7 @@ public interface JuiLi {
      * @return
      */
     @GetPath("xiaoren_jupai.php")
+    @CookieFrom("this")
     byte[] jupaizi(@ParamName("msg") String msg);
 
     /**
@@ -30,6 +28,7 @@ public interface JuiLi {
      * @return
      */
     @GetPath("pa_img.php")
+    @CookieFrom("this")
     byte[] paImg(@ParamName("qq") Long qq,
                  @DefaultValue("0") @ParamName("id") Integer id);
 }

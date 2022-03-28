@@ -4,7 +4,7 @@ import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
 import Project.interfaces.http_api.IBaiduShitu;
 import Project.interfaces.http_api.WeiJieYue;
-import Project.interfaces.http_api.old.JuiLi;
+import Project.interfaces.http_api.JuiLi;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -142,6 +142,7 @@ public class EntertainmentController3 {
             msg = "请指定内容哦~";
         }
         byte[] bytes = api0.jupaizi(msg);
+        System.out.println(new String(bytes));
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }

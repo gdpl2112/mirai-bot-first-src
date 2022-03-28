@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
@@ -38,6 +39,7 @@ import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_PRE_CD;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
@@ -308,6 +310,9 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String parseHh(Long who, int id) {
+        if (challengeDetailService.isTemping(who)) {
+            return CHALLENGE_ING;
+        }
         try {
             List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
             if (bgids.contains(id)) {
@@ -322,16 +327,19 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public String attWhos(Long who, Long whos, Group group) {
-        if (ZongMenDataBase.qq2id.containsKey(whos)) {
+    public String att(Long who, Long q2, Group group) {
+        if (challengeDetailService.isTemping(q2)) {
+            return CHALLENGE_ING;
+        }
+        if (ZongMenDataBase.qq2id.containsKey(q2)) {
             if (ZongMenDataBase.qq2id.containsKey(who)) {
                 Long id1 = Long.valueOf(ZongMenDataBase.qq2id.get(who));
-                Long id2 = Long.valueOf(ZongMenDataBase.qq2id.get(whos));
+                Long id2 = Long.valueOf(ZongMenDataBase.qq2id.get(q2));
                 if (id1.equals(id2)) {
                     try {
-                        Method method = this.getClass().getDeclaredMethod("AttWhosNow", Long.class, Long.class, Group.class, Integer.class);
+                        Method method = this.getClass().getDeclaredMethod("attNow", Long.class, Long.class, Group.class, Integer.class);
                         ConfirmController.regConfirm(who,
-                                method, this, new Object[]{who, whos, group, 2}
+                                method, this, new Object[]{who, q2, group, 2}
                         );
                         return "即将攻击 宗门内成员 \r\n你确定要攻击ta吗？这将减少你的10点贡献点\r\n请在30秒内回复 确定/确认/取消";
                     } catch (NoSuchMethodException e) {
@@ -340,24 +348,24 @@ public class GameServiceImpl implements IGameService {
                     }
                 }
             } else {
-                return AttWhosNow(who, whos, group, 1);
+                return attNow(who, q2, group, 1);
             }
         }
-        return AttWhosNow(who, whos, group, 0);
+        return attNow(who, q2, group, 0);
     }
 
-    public String AttWhosNow(Long p1, Long p2, Group g1, Integer v) {
+    public String attNow(Long p1, Long p2, Group g1, Integer v) {
         threads.execute(new Runnable() {
             private Group group = g1;
             private String tips;
             private long who = p1;
-            private long whos = p2;
+            private long q2 = p2;
             private int i = v;
 
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(ATT_PRE_CD);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -368,7 +376,7 @@ public class GameServiceImpl implements IGameService {
                 }
                 tips = "\n";
                 PersonInfo iper = getInfo(who);
-                PersonInfo yper = getInfo(whos);
+                PersonInfo yper = getInfo(q2);
                 if (iper.getHp() > 10) {
                     if (yper.getHp() > 0) {
                         long l = randLong(iper.getHll(), 0.2f, 0.3f);
@@ -377,12 +385,12 @@ public class GameServiceImpl implements IGameService {
                             if (i == 1)
                                 l1 *= 0.9f;
                             tips += GameDetailService.consumedHl(who, l);
-                            tips += GameDetailService.beaten(whos, who, l1);
+                            tips += GameDetailService.beaten(q2, who, l1);
                             if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
-                                tips += GameDetailService.onAtt(who, whos, l1);
+                                tips += GameDetailService.onAtt(who, q2, l1);
                             }
-                            if (getInfo(whos).getHp() > 0) {
-                                tips = "\n你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
+                            if (getInfo(q2).getHp() > 0) {
+                                tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                             } else {
                                 long lg = randLong(240, 0.6f, 0.9f);
                                 putPerson(getInfo(who).addGold(lg,
@@ -392,11 +400,11 @@ public class GameServiceImpl implements IGameService {
                                                 .setTo(-1)
                                                 .setMain(who)
                                                 .setFrom(who)
-                                                .setDesc("击败" + whos)
+                                                .setDesc("击败" + q2)
                                                 .setMany(lg)
 
                                 ));
-                                tips = "\n你对'" + getNameFromGroup(whos, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
                             }
                         } else {
                             tips = "魂力不足,攻击失败";

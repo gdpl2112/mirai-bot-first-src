@@ -11,7 +11,7 @@ public interface IChallengeService {
      * @param gid
      * @return
      */
-    Object startWithBot(long qid, long gid);
+    Object createChallenge(long qid, long gid);
 
     /**
      * 移动
@@ -20,5 +20,5 @@ public interface IChallengeService {
      * @param str
      * @return
      */
-    Object moveOnChallenge(long id, String str);
+    Object joinChallenge(long id, long str);
 }
