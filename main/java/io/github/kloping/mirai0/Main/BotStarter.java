@@ -27,21 +27,16 @@ public class BotStarter {
     public static boolean test = false;
     private static BotConf abot = null;
 
-    static {
-        try {
-            test = System.getenv().containsKey("USERDOMAIN_ROAMINGPROFILE");
-        } catch (Exception e) {
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
+        setterStarterApplication(BotStarter.class);
         deleteDir(new File("./cache"));
         deleteDir(new File("./cache1"));
+        Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
+        test = t0 == null ? false : t0;
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
-        setterStarterApplication(BotStarter.class);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
