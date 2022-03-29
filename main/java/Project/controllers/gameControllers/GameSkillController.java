@@ -25,7 +25,7 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 public class GameSkillController {
     private static List<String> listFx = new ArrayList<>();
     private static String menu;
-    private static String m1 = "新.\n" +
+    private static String m1 = "调整:\n令指定一个人魂力减少,自身当前魂力的n%的魂力的值\n新.\n" +
             "\t1.特殊,增益型技能;血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾\n" +
             "\t2.特殊,增益型技能;令自身增加n%的免伤\n" +
             "\t3.控制型技能,眩晕\n";

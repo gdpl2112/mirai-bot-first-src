@@ -31,7 +31,7 @@ public class Skill13 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("令指定一个人魂力减少,自身当前魂力的%s%%", getAddP(getJid(), getId()));
+        return String.format("令指定一个人魂力减少,自身当前魂力的%s%%的魂力的值", getAddP(getJid(), getId()));
     }
 
     @Override
