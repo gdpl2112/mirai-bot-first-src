@@ -66,13 +66,14 @@ public class BeatenRoles {
     public static final Role TAG_MS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
-                putPerson(p1.eddTag(SkillDataBase.TAG_MS, 0));
+                putPerson(p1.eddTag(SkillDataBase.TAG_MS));
                 sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("被攻击者,由于使用了免死类魂技,免疫此次 死亡");
                 return new RoleResponse(STOP, ov, 0, q1, q2);
             }
         }
         return null;
-    };    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
+    };
+    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
             sb.append(NEWLINE);
             Integer p = p1.getTagValue(SkillDataBase.TAG_FJ).intValue();
@@ -162,7 +163,6 @@ public class BeatenRoles {
         }
         return response;
     };
-
 
 
     public static final Role[] RS = new Role[]{
