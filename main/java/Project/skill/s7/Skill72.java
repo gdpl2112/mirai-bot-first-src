@@ -10,8 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -43,18 +42,12 @@ public class Skill72 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t72, who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(t72);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setTips("武魂真身失效");
             }
         };
     }

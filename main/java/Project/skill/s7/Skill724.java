@@ -12,6 +12,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -30,7 +31,7 @@ public class Skill724 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("修罗神剑,令自身变真实伤害一分钟,增加%s%%的攻击,并恢复%s%%的魂力", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 3);
+        return String.format("修罗神剑,令自身变真实伤害,增加%s%%的攻击,并恢复%s%%的魂力", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 3);
     }
 
     @Override
@@ -39,19 +40,19 @@ public class Skill724 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo pInfo = getInfo(q);
+                Long lon = pInfo.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
-                info_.addHl(percentTo(info.getAddPercent() / 3, info_.getHll()));
-                putPerson(info_.addTag(TAG_TRUE, 1));
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t724, who.longValue(), v));
+                pInfo.addHl(percentTo(info.getAddPercent() / 3, pInfo.getHll()));
+                putPerson(pInfo.addTag(TAG_TRUE, 1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
 
             @Override
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t724);
+                    Thread.sleep(getDuration(getJid()));
                     putPerson(getInfo(who).eddTag(TAG_TRUE, 1));
                 } catch (Exception e) {
                     e.printStackTrace();

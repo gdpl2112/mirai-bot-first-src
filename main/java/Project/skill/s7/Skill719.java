@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
@@ -27,7 +26,7 @@ public class Skill719 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蓝银草,释放蓝银草,每%s秒恢复%s%%的生命值", (t719 / 1000), getAddP(getJid(), getId()));
+        return String.format("蓝银草,释放蓝银草,每10秒恢复%s%%的生命值", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -45,11 +44,11 @@ public class Skill719 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    if (c++ > t79C) {
+                    if (c++ > 12) {
                         setTips("武魂真身失效");
                         return;
                     }
-                    Thread.sleep(t79);
+                    Thread.sleep(10000);
                     eve();
                 } catch (Exception e) {
                     e.printStackTrace();

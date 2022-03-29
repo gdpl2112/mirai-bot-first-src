@@ -11,9 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_TRUE;
-import static Project.dataBases.skill.SkillDataBase.t11;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.oneNearest;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -51,7 +49,7 @@ public class Skill11 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t11);
+                    Thread.sleep(getDuration(getJid()));
                     putPerson(getInfo(q).eddTag(TAG_TRUE, 1));
                 } catch (Exception e) {
                     e.printStackTrace();

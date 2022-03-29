@@ -64,4 +64,31 @@ public abstract class SkillTemplate {
         return sb.toString();
     }
 
+    public Integer getJid() {
+        return jid;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getSt() {
+        return st;
+    }
+
+    public SkillIntro.Type[] getTypes() {
+        return types;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getHasTime() {
+        return hasTime;
+    }
+
+    public Integer getWh() {
+        return wh;
+    }
 }

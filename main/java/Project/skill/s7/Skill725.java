@@ -12,6 +12,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -41,20 +42,20 @@ public class Skill725 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo pInfo = getInfo(q);
+                Long lon = pInfo.getAtt();
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
-                info_.addTag(TAG_FJ, b / 3);
-                putPerson(info_);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t725, who.longValue(), v1));
+                pInfo.addTag(TAG_FJ, b / 3);
+                putPerson(pInfo);
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
             }
 
             @Override
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t725);
+                    Thread.sleep(getDuration(getJid()));
                     putPerson(getInfo(who).eddTag(TAG_FJ));
                 } catch (InterruptedException e) {
                     e.printStackTrace();

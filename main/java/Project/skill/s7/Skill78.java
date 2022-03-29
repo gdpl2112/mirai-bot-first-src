@@ -12,6 +12,7 @@ import static Project.dataBases.GameDataBase.exist;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -47,7 +48,7 @@ public class Skill78 extends SkillTemplate {
                 int n2 = n / 2;
                 int a = info.getAddPercent() + n2;
                 long v = percentTo(a, info1.getHll());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t78, who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 setTips("剩余" + n + "% 的魂力,增加" + a + "%的攻击力");
             }
         };

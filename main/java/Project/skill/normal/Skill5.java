@@ -44,11 +44,11 @@ public class Skill5 extends SkillTemplate {
                     if (!exist(q)) {
                         continue;
                     }
-                    PersonInfo info_ = getInfo(q);
-                    Long lon = info_.getAtt();
+                    PersonInfo pInfo = getInfo(q);
+                    Long lon = pInfo.getAtt();
                     long v = percentTo(info.getAddPercent(), lon);
-                    v = v > info_.getAtt() ? info_.getAtt() : v;
-                    addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t5, q.longValue(), v));
+                    v = v > pInfo.getAtt() ? pInfo.getAtt() : v;
+                    addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v));
                     setTips("作用于 " + Tool.At(q));
                 }
             }

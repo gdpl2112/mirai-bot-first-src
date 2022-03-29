@@ -11,8 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -44,7 +43,7 @@ public class Skill73 extends SkillTemplate {
             public void before() {
                 PersonInfo info1 = getInfo(who);
                 long v = percentTo(info.getAddPercent(), info1.getAtt());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t73, who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 eve();
             }
 
@@ -53,7 +52,7 @@ public class Skill73 extends SkillTemplate {
                 super.run();
                 try {
                     Thread.sleep(100000);
-                    if (c++ > t73 / 100000) {
+                    if (c++ > 12) {
                         eve();
                         run();
                     } else {

@@ -8,10 +8,10 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -30,7 +30,7 @@ public class Skill75 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("强大的蓝银皇,增加%s%%的攻击力,拥有强大的生命力,每%s秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, (t75 / 1000), getAddP(getJid(), getId()));
+        return String.format("强大的蓝银皇,增加%s%%的攻击力,拥有强大的生命力,每10秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, getAddP(getJid(), getId()));
     }
 
     @Override
@@ -42,11 +42,8 @@ public class Skill75 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                if (!exist(q)) {
-                    return;
-                }
                 long v = percentTo(info.getAddPercent() * 4, getInfo(q).getAtt());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t75, who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 eve();
             }
 
@@ -54,11 +51,11 @@ public class Skill75 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    if (c++ > t75C) {
+                    if (c++ >= 12) {
                         setTips("武魂真身失效");
                         return;
                     }
-                    Thread.sleep(t75);
+                    Thread.sleep(10000L);
                     eve();
                     run();
                 } catch (Exception e) {

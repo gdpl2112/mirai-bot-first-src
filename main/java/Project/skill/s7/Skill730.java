@@ -13,6 +13,7 @@ import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameDetailServiceUtils.getHjFromAny;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -31,7 +32,7 @@ public class Skill730 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("魔神剑,令自身变真实伤害一分钟,增加%s%%的攻击,且神魔一体,窃取某的精神力,为自己恢复状态", getAddP(getJid(), getId()));
+        return String.format("魔神剑,令自身变真实伤害,增加%s%%的攻击,且神魔一体,窃取某的精神力,为自己恢复状态", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class Skill730 extends SkillTemplate {
                 long v = getHjFromAny(who, nums[0].longValue());
                 PersonInfo in = getInfo(who);
                 long vv = percentTo(info.getAddPercent(), in.getAtt());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t730, who.longValue(), vv));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), vv));
                 int b = toPercent(v, in.getHjL());
                 b = b > 15 ? 15 : b <= 2 ? 3 : b;
                 long v1 = percentTo(b, in.getHpL());

@@ -24,43 +24,7 @@ import static Project.services.detailServices.GameSkillDetailService.getUserPerc
 public class SkillDataBase {
 
     public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
-    public static final int t4 = 60000 * 2;
-    public static final int t5 = 60000 * 2;
-    public static final int t6 = 60000 * 2;
-    public static final int t9 = 60000 * 2;
-    public static final int t10 = 60000 * 2;
-    public static final int t11 = 60000 * 2;
-    public static final int t12 = 60000 * 2;
-    public static final int t14 = 60000 * 2;
-    public static final int t72 = 60000 * 2;
-    public static final int t73 = 60000 * 2;
-    public static final int t74 = 60000;
-    public static final int t75 = 1000 * 15;
-    public static final int t75C = 6;
-    public static final int t77 = 60000 * 2;
-    public static final int t78 = 60000 * 2;
-    public static final int t79 = 60000 * 2;
-    public static final int t79C = 6;
-    public static final int t711 = 60000 * 2;
-    public static final int t712 = 60000 * 2;
-    public static final int t713 = 60000 * 2;
-    public static final int t714 = 60000 * 2;
-    public static final int t716 = 60000 * 2;
-    public static final int t717 = 60000 * 2;
-    public static final int t718 = 60000 * 2;
-    public static final int t719 = 60000 * 2;
-    public static final int t720 = 60000 * 2;
-    public static final int t721 = 60000 * 2;
-    public static final int t722 = 60000 * 2;
-    public static final int t723 = 60000 * 2;
-    public static final int t724 = 60000 * 2;
-    public static final int t725 = 60000 * 2;
-    public static final int t726 = 60000 * 2;
-    public static final int t727 = 60000 * 2;
-    public static final int t728 = 60000 * 2;
-    public static final int t729 = 60000 * 2;
-    public static final int t730 = 60000 * 2;
-    public static final int t731 = 60000 * 2;
+
     /**
      * 吸血
      */
@@ -135,26 +99,10 @@ public class SkillDataBase {
     public static void saveSkillInfo(SkillInfo info) {
         appendInfo(info);
         SpringBootResource.getSkillInfoMapper().insert(info);
-//        String uuid = info.getQq() + "." + info.getSt();
-//        info.setUuid(uuid);
-//        File file = new File(path + "/" + info.getQq() + "/" + uuid);
-//        if (!file.exists())
-//            if (!file.getParentFile().exists())
-//                file.getParentFile().mkdirs();
-//        String json = JsonUtils.objectToJsonString(info);
-//        putStringInFile(json, file.getPath(), "utf-8");
     }
 
     public static void updateSkillInfo(SkillInfo info) {
         SpringBootResource.getSkillInfoMapper().updateById(info);
-//        String uuid = info.getQq() + "." + info.getSt();
-//        info.setUuid(uuid);
-//        File file = new File(path + "/" + info.getQq() + "/" + uuid);
-//        if (!file.exists())
-//            if (!file.getParentFile().exists())
-//                file.getParentFile().mkdirs();
-//        String json = JsonUtils.objectToJsonString(info);
-//        putStringInFile(json, file.getPath(), "utf-8");
     }
 
     /**

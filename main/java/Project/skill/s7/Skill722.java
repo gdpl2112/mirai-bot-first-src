@@ -12,6 +12,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -41,18 +42,18 @@ public class Skill722 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                PersonInfo pInfo = getInfo(q);
+                Long lon = pInfo.getAtt();
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
-                long v2 = percentTo(b / 2, info_.getHpL());
-                long v3 = percentTo(b / 2, info_.getHll());
-                long v4 = percentTo(b / 2, info_.getHjL());
-                info_.addHp(v2);
-                info_.addHl(v3);
-                info_.addHj(v4);
-                putPerson(info_);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t722, who.longValue(), v1));
+                long v2 = percentTo(b / 2, pInfo.getHpL());
+                long v3 = percentTo(b / 2, pInfo.getHll());
+                long v4 = percentTo(b / 2, pInfo.getHjL());
+                pInfo.addHp(v2);
+                pInfo.addHl(v3);
+                pInfo.addHj(v4);
+                putPerson(pInfo);
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
             }
         };
     }

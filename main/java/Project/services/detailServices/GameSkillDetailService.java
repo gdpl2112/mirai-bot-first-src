@@ -2,7 +2,6 @@ package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.commons.*;
@@ -11,7 +10,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.object.ObjectUtils;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -125,13 +123,44 @@ public class GameSkillDetailService {
         return (long) (getBasePercent(jid) * GameTool.getAHBl_(id));
     }
 
-    public static Number getDuration(int jid) {
-        try {
-            Field field = SkillDataBase.class.getDeclaredField("t" + jid);
-            return (Number) field.get(null);
-        } catch (Exception e) {
+    public static final Map<Integer, Long> JID2TIME = new HashMap<>();
+
+    static {
+        long twoMinutes = 120000;
+        for (int i = 0; i <= 22; i++) {
+            JID2TIME.put(i, twoMinutes);
         }
-        return -1;
+        for (int i = 71; i <= 79; i++) {
+            JID2TIME.put(i, twoMinutes);
+        }
+        for (int i = 710; i <= 731; i++) {
+            JID2TIME.put(i, twoMinutes);
+        }
+
+        JID2TIME.remove(0);
+        JID2TIME.remove(1);
+        JID2TIME.remove(2);
+        JID2TIME.remove(3);
+        JID2TIME.remove(8);
+        JID2TIME.remove(10);
+        JID2TIME.remove(13);
+        JID2TIME.remove(14);
+        JID2TIME.remove(15);
+        JID2TIME.remove(16);
+        JID2TIME.remove(17);
+        JID2TIME.remove(18);
+        JID2TIME.remove(19);
+        JID2TIME.remove(20);
+        JID2TIME.remove(21);
+        JID2TIME.remove(22);
+        JID2TIME.remove(71);
+        JID2TIME.remove(74);
+        JID2TIME.remove(76);
+        JID2TIME.remove(710);
+    }
+
+    public static Long getDuration(int jid) {
+        return JID2TIME.containsKey(jid) ? JID2TIME.get(jid) : 0;
     }
 
     /**

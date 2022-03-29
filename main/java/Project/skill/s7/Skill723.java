@@ -12,6 +12,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -49,7 +50,7 @@ public class Skill723 extends SkillTemplate {
                 pInfo.addHj(v4);
                 pInfo.addTag(TAG_XX, b / 5);
                 putPerson(pInfo);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t723, who.longValue(), v1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() +getDuration(getJid()), who.longValue(), v1));
             }
         };
     }

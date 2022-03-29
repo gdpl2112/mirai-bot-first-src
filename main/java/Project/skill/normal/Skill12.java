@@ -9,9 +9,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.skill.SkillDataBase.t12;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.oneNearest;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -51,7 +49,7 @@ public class Skill12 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t12);
+                    Thread.sleep(getDuration(getJid()));
                     GameBoneDetailService.addForAttr(q, -v, GameBoneDetailService.Type.HIDE_PRO);
                 } catch (Exception e) {
                     e.printStackTrace();

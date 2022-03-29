@@ -11,9 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_FJ;
-import static Project.dataBases.skill.SkillDataBase.t6;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -48,7 +46,7 @@ public class Skill7 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t6);
+                    Thread.sleep(getDuration(getJid()));
                     putPerson(getInfo(who).eddTag(TAG_FJ, info.getAddPercent()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();

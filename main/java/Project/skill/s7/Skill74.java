@@ -10,10 +10,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static Project.dataBases.skill.SkillDataBase.t74;
 import static Project.services.detailServices.GameDetailServiceUtils.getAttFromAny;
-import static Project.services.detailServices.GameSkillDetailService.eddAttAny;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -59,7 +57,7 @@ public class Skill74 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t74);
+                    Thread.sleep(getDuration(getJid()));
                     eddAttAny(who, nums[0], -v);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

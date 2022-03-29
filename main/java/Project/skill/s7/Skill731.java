@@ -11,8 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.addShield;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -44,20 +43,14 @@ public class Skill731 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(who);
                 v = percentTo(info.getAddPercent(), pInfo.getAtt());
                 long v = percentTo(info.getAddPercent(), pInfo.getHpL());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t731, who.longValue(), v));
-                addShield(who.longValue(), v, (long) t731);
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addShield(who.longValue(), v, getDuration(getJid()));
                 putPerson(pInfo);
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(t731);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setTips("武魂真身失效");
             }
         };
     }

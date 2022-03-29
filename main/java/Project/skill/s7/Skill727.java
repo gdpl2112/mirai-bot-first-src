@@ -11,8 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -44,7 +43,7 @@ public class Skill727 extends SkillTemplate {
                 Long lon = info_.getAtt();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t727, who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
         };
     }

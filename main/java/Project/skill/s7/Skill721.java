@@ -12,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -46,7 +47,7 @@ public class Skill721 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.getAtt();
                 v2 = percentTo(info.getAddPercent(), lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t721, who.longValue(), v2));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v2));
                 q1 = Long.valueOf(who + "");
                 v = Long.valueOf(info.getAddPercent());
                 GameBoneDetailService.addForAttr(q1, v, GameBoneDetailService.Type.HIDE_PRO);
@@ -56,7 +57,7 @@ public class Skill721 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(t721);
+                    Thread.sleep(getDuration(getJid()));
                     GameBoneDetailService.addForAttr(q1, -v, GameBoneDetailService.Type.HIDE_PRO);
                 } catch (Exception e) {
                     e.printStackTrace();
