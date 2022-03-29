@@ -31,7 +31,7 @@ public class Skill13 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("令指定一个人魂力减少%s%%", getAddP(getJid(), getId()));
+        return String.format("令指定一个人魂力减少,自身当前魂力的%s%%", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -43,12 +43,12 @@ public class Skill13 extends SkillTemplate {
                     setTips("该玩家未注册");
                     return;
                 }
-                PersonInfo pi = getInfo(nums[0]);
-                long m = pi.getHll();
+                PersonInfo p2 = getInfo(nums[0]);
+                PersonInfo p1 = getPersonInfo();
+                long m = p1.getHl();
                 long v = percentTo(info.getAddPercent(), m);
-                v = v > pi.getHll() ? pi.getHll() : v;
-                pi.addHl(-v);
-                putPerson(pi);
+                p2.addHl(-v);
+                putPerson(p2);
                 setTips("令" + Tool.At(nums[0].longValue()) + "魂力减少");
             }
         };

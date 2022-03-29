@@ -30,7 +30,7 @@ public class Skill75 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("强大的蓝银皇,增加%s的攻击力,拥有强大的生命力,每%s秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, (t75 / 1000), getAddP(getJid(), getId()));
+        return String.format("强大的蓝银皇,增加%s%%的攻击力,拥有强大的生命力,每%s秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, (t75 / 1000), getAddP(getJid(), getId()));
     }
 
     @Override
@@ -45,11 +45,8 @@ public class Skill75 extends SkillTemplate {
                 if (!exist(q)) {
                     return;
                 }
-                PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
-                long v = percentTo(info.getAddPercent() * 4, lon);
+                long v = percentTo(info.getAddPercent() * 4, getInfo(q).getAtt());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + t75, who.longValue(), v));
-                putPerson(pInfo);
                 eve();
             }
 
@@ -70,8 +67,8 @@ public class Skill75 extends SkillTemplate {
             }
 
             public void eve() {
-                PersonInfo info_ = getInfo(who);
-                long v = percentTo(info.getAddPercent(), info_.getHp());
+                PersonInfo pInfo = getInfo(who);
+                long v = percentTo(info.getAddPercent(), pInfo.getHp());
                 putPerson(getInfo(who).addHp(v));
             }
         };
