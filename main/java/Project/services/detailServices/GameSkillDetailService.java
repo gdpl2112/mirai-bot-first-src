@@ -375,6 +375,5 @@ public class GameSkillDetailService {
         public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
         public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
         public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
-
     }
 }

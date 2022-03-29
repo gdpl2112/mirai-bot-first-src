@@ -23,6 +23,7 @@ public class NormalTagPack extends TagPack {
     @Override
     public void effect() {
         getInfo(getQ()).addTag(getTAG(), getValue()).apply();
+        setEffected(true);
     }
 
     @Override
