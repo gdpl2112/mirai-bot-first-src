@@ -41,8 +41,10 @@ public class BotStarter {
         deleteDir(new File("./cache1"));
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
+        setterStarterApplication(BotStarter.class);
         BotConfiguration botConfiguration = new BotConfiguration();
-        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
+                StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache1"));
         botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
@@ -52,7 +54,6 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         bot.login();
-        setterStarterApplication(BotStarter.class);
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
