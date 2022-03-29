@@ -6,6 +6,7 @@ import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.services.detailServices.GameSkillDetailService.getBasePercent;
 import static Project.services.detailServices.GameSkillDetailService.getUserPercent;
 
 /**
@@ -264,6 +266,7 @@ public class SkillDataBase {
             List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
             for (SkillInfo info : list) {
                 info.setState(0);
+                info.setAddPercent((int) (getBasePercent(info.getJid()) * GameTool.getAHBl_(info.getId())));
                 info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                 appendInfo(info);
             }
