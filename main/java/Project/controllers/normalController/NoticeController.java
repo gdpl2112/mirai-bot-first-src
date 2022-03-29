@@ -174,7 +174,7 @@ public class NoticeController {
     @Before
     public void before(Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 

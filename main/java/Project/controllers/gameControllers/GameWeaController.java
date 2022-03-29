@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.commons.User;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -25,7 +26,7 @@ public class GameWeaController {
     @Before
     public void before(Group group, User qq) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 

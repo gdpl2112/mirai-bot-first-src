@@ -35,6 +35,7 @@ public class NbListener extends SimpleListenerHost {
     @AutoStand
     Magiconch magiconch;
     private long guessCd = System.currentTimeMillis();
+
     public NbListener() {
     }
 

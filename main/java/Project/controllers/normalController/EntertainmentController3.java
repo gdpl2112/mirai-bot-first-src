@@ -3,8 +3,8 @@ package Project.controllers.normalController;
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
 import Project.interfaces.http_api.IBaiduShitu;
-import Project.interfaces.http_api.WeiJieYue;
 import Project.interfaces.http_api.JuiLi;
+import Project.interfaces.http_api.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -29,6 +29,7 @@ import static Project.detailPlugin.All.getTitle;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -70,7 +71,7 @@ public class EntertainmentController3 {
     @Before
     public void before(Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 

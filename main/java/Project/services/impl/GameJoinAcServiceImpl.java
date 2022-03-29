@@ -54,6 +54,9 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         decideMaps.add("逃跑");
     }
 
+    @AutoStand
+    ChallengeController controller;
+
     @Override
     public String[] list() {
         return maps.toArray(new String[maps.size()]);
@@ -77,9 +80,6 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         if (id < 0) return String.format(NOT_FOUND_SEE, what, LIST_STR);
         return service.run(id, who, group);
     }
-
-    @AutoStand
-    ChallengeController controller;
 
     @Override
     public Object startSelect(long who, String select) {

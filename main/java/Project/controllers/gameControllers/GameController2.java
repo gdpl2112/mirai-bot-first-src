@@ -13,6 +13,7 @@ import io.github.kloping.number.NumberUtils;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -31,7 +32,7 @@ public class GameController2 {
     @Before
     public void before(User qq, Group group, @AllMess String str) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 

@@ -35,6 +35,9 @@ public class ChallengeServiceImpl implements IChallengeService {
         });
     }
 
+    @AutoStand
+    IGameService service;
+
     private void testWill(long qid) throws NoRunException {
         if (A2R.containsKey(qid)) {
             throw new NoRunException("不要重复参赛哦.");
@@ -57,9 +60,6 @@ public class ChallengeServiceImpl implements IChallengeService {
         WILL_GO.put(qid, gid);
         return CREATE_CHALLENGE_OK;
     }
-
-    @AutoStand
-    IGameService service;
 
     @Override
     public Object joinChallenge(long q1, long q2) {

@@ -17,8 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.DataBase.isFather;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ALL_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.isIlleg;
 
 /**
@@ -52,7 +53,7 @@ public class PointPicController {
     @Before
     public void before(io.github.kloping.mirai0.commons.Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 
@@ -114,9 +115,9 @@ public class PointPicController {
     public Object sendSt(@Param("str") String str, Group group, User user) {
         str = str.replaceAll("个|张", "");
         if (!PIC_HISTORY.containsKey(user.getId())) {
-            return "您还没有进行相关";
+            return ResourceSet.FinalString.ILLEGAL_OPERATION;
         }
-        if ("全部".equals(str) && isFather(user.getId())) {
+        if (ALL_STR.equals(str)) {
             String[] ss = PIC_HISTORY.get(user.getId());
             Object[] objects = new Object[ss.length];
             for (int n = 0; n < ss.length; n++) {

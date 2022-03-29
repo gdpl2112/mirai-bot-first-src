@@ -73,6 +73,22 @@ public class BeatenRoles {
         }
         return null;
     };
+    public static final Role TAG_WD = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_WD)) {
+            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
+        } else {
+            return null;
+        }
+    };
+    public static final Role XG_VERTIGO = (sb, q1, q2, ov, nv, p1, args) -> {
+        BaseInfo p2 = getBaseInfoFromAny(q1, q2);
+        if (p2.isVertigo()) {
+            sb.append(NEWLINE).append("攻击者处于眩晕状态,攻击无效");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
+        }
+        return null;
+    };
     public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
             sb.append(NEWLINE);
@@ -90,22 +106,6 @@ public class BeatenRoles {
         }
         return null;
     };
-    public static final Role TAG_WD = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_WD)) {
-            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
-            return new RoleResponse(STOP, ov, 0, q1, q2);
-        } else {
-            return null;
-        }
-    };
-    public static final Role XG_VERTIGO = (sb, q1, q2, ov, nv, p1, args) -> {
-        BaseInfo p2 = getBaseInfoFromAny(q1, q2);
-        if (p2.isVertigo()) {
-            sb.append(NEWLINE).append("攻击者处于眩晕状态,攻击无效");
-            return new RoleResponse(STOP, ov, 0, q1, q2);
-        }
-        return null;
-    };
     private static final String CANT_HIDE_ARG_KEY = "cant hide";
     /**
      * 特殊闪避
@@ -119,7 +119,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_CANT_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (p1.containsTag(SkillDataBase.TAG_CANT_HIDE)) {

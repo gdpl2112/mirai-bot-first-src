@@ -91,7 +91,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             Method method = use.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(use, who));
             putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (1000)));
-            if (challengeDetailService.isTemping(who)){
+            if (challengeDetailService.isTemping(who)) {
                 if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
                     return CHALLENGE_USED;
                 } else {

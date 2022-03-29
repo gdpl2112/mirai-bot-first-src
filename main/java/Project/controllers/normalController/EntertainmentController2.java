@@ -26,6 +26,7 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 
@@ -61,7 +62,7 @@ public class EntertainmentController2 {
     @Before
     public void before(Group group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 

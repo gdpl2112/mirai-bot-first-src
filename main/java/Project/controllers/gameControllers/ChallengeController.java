@@ -18,6 +18,7 @@ import static Project.services.detailServices.ChallengeDetailService.WILL_GO;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.EveListStartWith;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeHHMM;
 
@@ -55,7 +56,7 @@ public class ChallengeController {
             throw new NoRunException("未开放");
         }
         if (!opened(group.getId(), this.getClass())) {
-            throw new NoRunException("未开启");
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (EveListStartWith(listFx, mess) == -1) {

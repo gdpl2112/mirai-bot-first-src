@@ -14,6 +14,7 @@ import java.util.List;
 public class ChallengeSteppedBroadcast extends Broadcast {
     public static final ChallengeSteppedBroadcast INSTANCE = new ChallengeSteppedBroadcast();
     private List<ChallengeSteppedReceiver> receivers = new LinkedList<>();
+
     public ChallengeSteppedBroadcast() {
         super("challengeStepped");
     }

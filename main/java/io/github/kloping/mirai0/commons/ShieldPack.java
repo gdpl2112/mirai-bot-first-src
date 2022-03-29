@@ -17,6 +17,7 @@ import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
 public class ShieldPack extends TagPack {
     private Long time;
     private Long max;
+
     public ShieldPack() {
         super(TAG_SHIELD);
     }

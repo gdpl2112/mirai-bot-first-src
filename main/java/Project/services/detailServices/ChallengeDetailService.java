@@ -16,6 +16,7 @@ public class ChallengeDetailService {
     public static final Map<Long, PersonInfo> TEMP_PERSON_INFOS = new HashMap<>();
     public static final Map<Long, Boolean> USED = new HashMap<>();
     public static final Map<Long, Receiver> RECEIVER_MAP = new HashMap<>();
+    public static final Map<Long, Long> WILL_GO = new HashMap<>();
 
     public boolean isTemping(long q) {
         return TEMP_PERSON_INFOS.containsKey(q);
@@ -28,6 +29,4 @@ public class ChallengeDetailService {
     public PersonInfo setTempInfo(long q, PersonInfo personInfo) {
         return TEMP_PERSON_INFOS.put(q, personInfo);
     }
-
-    public static final Map<Long, Long> WILL_GO = new HashMap<>();
 }

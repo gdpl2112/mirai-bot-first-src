@@ -9,8 +9,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import java.util.Set;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-
 /**
  * @author github-kloping
  * @version 1.0

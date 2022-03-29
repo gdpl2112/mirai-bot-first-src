@@ -1,7 +1,7 @@
 package Project.services.detailServices;
 
-import Project.services.detailServices.tasks.Task1001;
 import Project.services.detailServices.tasks.Task1000;
+import Project.services.detailServices.tasks.Task1001;
 import io.github.kloping.mirai0.commons.task.Task;
 
 import java.lang.reflect.Method;

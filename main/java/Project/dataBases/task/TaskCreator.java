@@ -1,9 +1,9 @@
 package Project.dataBases.task;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.services.detailServices.tasks.Task1002;
-import Project.services.detailServices.tasks.Task1001;
 import Project.services.detailServices.tasks.Task1000;
+import Project.services.detailServices.tasks.Task1001;
+import Project.services.detailServices.tasks.Task1002;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask0;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1000;
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1001;

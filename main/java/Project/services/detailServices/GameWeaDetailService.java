@@ -69,7 +69,7 @@ public class GameWeaDetailService {
             Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
             used(who, id);
-            if (challengeDetailService.isTemping(who)){
+            if (challengeDetailService.isTemping(who)) {
                 if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
                     return CHALLENGE_USED;
                 } else {
