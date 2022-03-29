@@ -40,6 +40,11 @@ public class SpringBootResource {
     public static SkillInfoMapper skillInfoMapper;
     public static ZongMapper zongMapper;
     public static ZonMapper zonMapper;
+    public static UpupMapper upupMapper;
+
+    public static UpupMapper getUpupMapper() {
+        return upupMapper;
+    }
 
     public static ZongMapper getZongMapper() {
         return zongMapper;

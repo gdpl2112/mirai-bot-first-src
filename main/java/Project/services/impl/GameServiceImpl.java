@@ -188,6 +188,9 @@ public class GameServiceImpl implements IGameService {
         PersonInfo personInfo = getInfo(who);
 
         int L = personInfo.getLevel();
+        if (SpringBootResource.getUpupMapper().select(who, L) != null) {
+            return "在该等级升级过\r\n不增加属性";
+        }
         long xpl = getAArtt(L) * 10;
         personInfo.addXpL(xpl);
 
@@ -216,12 +219,13 @@ public class GameServiceImpl implements IGameService {
                 .setDesc("升级")
                 .setMany(50L)
         );
+
         if (L == 1) {
             sb.append("\r\n请觉醒武魂后再进行修炼(觉醒)");
         }
 
         sb.append("\r\n当前等级:").append(personInfo.getLevel());
-
+        SpringBootResource.getUpupMapper().insert(who, L);
         putPerson(personInfo);
 
         return sb.toString();
