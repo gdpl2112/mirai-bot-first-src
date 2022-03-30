@@ -39,6 +39,12 @@ public class Skill8021 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "昊天锤第八魂技") {
             @Override
             public void before() {
+
+            }
+
+            @Override
+            public void run() {
+                super.run();
                 if (nums.length <= 0) {
                     setTips(NOT_SELECT_STR);
                     return;
@@ -50,12 +56,9 @@ public class Skill8021 extends SkillTemplate {
                 if (b >= 90) {
                     v = percentTo(108, v);
                 }
+                sb.append("将造成").append(v).append("伤害");
                 attGhostOrMan(sb, who, nums[0].longValue(), v);
-            }
-
-            @Override
-            public void run() {
-                super.run();
+                setTips(sb.toString());
             }
         };
     }
