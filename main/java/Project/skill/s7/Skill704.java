@@ -1,16 +1,20 @@
 package Project.skill.s7;
 
+import Project.dataBases.skill.SkillDataBase;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.getAttFromAny;
+import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
@@ -48,8 +52,15 @@ public class Skill704 extends SkillTemplate {
                     setTips("该玩家未注册");
                     return;
                 }
+                long id = nums[0].longValue();
                 v = percentTo(info.getAddPercent(), v1);
-                eddAttAny(who, nums[0], v);
+                if (nums[0].longValue() > 0) {
+                    addAttHasTime(id, new SkillDataBase.HasTimeAdder(System.currentTimeMillis() + getDuration(getJid())
+                            , id, -v));
+                } else {
+                    BaseInfo baseInfo = getBaseInfoFromAny(who, id);
+                    baseInfo.setAtt(baseInfo.getAtt() - v).apply();
+                }
                 putPerson(getInfo(who).addHp(v / 2));
             }
 

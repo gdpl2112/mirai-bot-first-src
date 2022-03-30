@@ -276,6 +276,7 @@ public class PersonInfo implements BaseInfo {
         return at1;
     }
 
+    @Override
     public PersonInfo setAtt(Long att) {
         this.att = att;
         return this;

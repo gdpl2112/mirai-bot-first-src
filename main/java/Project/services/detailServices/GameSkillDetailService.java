@@ -55,7 +55,7 @@ public class GameSkillDetailService {
         //=
         BASE_PERCENT_MAP.put(701, 42);
         BASE_PERCENT_MAP.put(702, 58);
-        BASE_PERCENT_MAP.put(703, 5);
+        BASE_PERCENT_MAP.put(703, 24);
         BASE_PERCENT_MAP.put(704, 7);
         BASE_PERCENT_MAP.put(705, 5);
         BASE_PERCENT_MAP.put(706, 3);
@@ -87,6 +87,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8010, 20);
         BASE_PERCENT_MAP.put(8011, 10);
         BASE_PERCENT_MAP.put(8021, 50);
+        BASE_PERCENT_MAP.put(8030, 40);
+        BASE_PERCENT_MAP.put(8031, 40);
     }
 
     static {
@@ -422,7 +424,17 @@ public class GameSkillDetailService {
      * @param eve
      */
     public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid) {
-        if (q1==q2){return;}
+        if (q1 == q2) {
+            return;
+        }
         new AsynchronousAttack(n, q1, q2, value, eve, gid).start();
     }
+
+    public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid, String format) {
+        if (q1 == q2) {
+            return;
+        }
+        new AsynchronousAttack(n, q1, q2, value, eve, gid).setFormatStr(format).start();
+    }
+
 }

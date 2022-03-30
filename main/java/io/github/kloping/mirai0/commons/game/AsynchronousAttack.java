@@ -35,9 +35,16 @@ public class AsynchronousAttack implements Runnable {
         if (i++ >= n) {
             future.cancel(true);
         } else {
-            String s0 = "受到" + value + "点雷电伤害\n" + GameDetailService.beaten(q1, q2, value);
+            String s0 = sFormat == null ? "" : String.format(sFormat, value) + GameDetailService.beaten(q1, q2, value);
             MessageTools.sendMessageInGroup(s0, gid);
         }
+    }
+
+    private String sFormat;
+
+    public AsynchronousAttack setFormatStr(String s) {
+        this.sFormat = s;
+        return this;
     }
 
     public void start() {

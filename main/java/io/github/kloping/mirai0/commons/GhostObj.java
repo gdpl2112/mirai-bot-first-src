@@ -300,6 +300,7 @@ public class GhostObj implements Serializable, BaseInfo {
         return att;
     }
 
+    @Override
     public GhostObj setAtt(Long att) {
         this.att = att;
         return this;

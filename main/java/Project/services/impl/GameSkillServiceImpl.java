@@ -72,7 +72,7 @@ public class GameSkillServiceImpl implements ISkillService {
         Integer id = is[st - 1];
         Integer id2 = null;
         if (st > 7) {
-            if (test) {
+            if (test && st == 8) {
                 id2 = factory8id(getInfo(qq).getWh());
             } else {
                 return ("更多魂技开发中...");
