@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.30:修复了吸收魂环不加属性的bug").append("\n");
         UPDATE_LOG.append("3.29:每个等级第一次升级时增加属性").append("\n");
         UPDATE_LOG.append("3.29:调整魂技,见魂技更新列表,修复已知bug").append("\n");
         UPDATE_LOG.append("3.28:修复了成语接龙的问题,修复七杀剑武魂真身的bug,周任务的调整,修复免死魂技无效的bug").append("\n");
