@@ -24,6 +24,7 @@ import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 import static Project.skill.SkillFactory.normalSkillNum;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
@@ -88,7 +89,7 @@ public class GameSkillServiceImpl implements ISkillService {
         }
 
         if (st == 7) {
-            id2 = Integer.valueOf(7 + "" + getInfo(qq).getWh());
+            id2 = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
         }
 
         SkillInfo info = new SkillInfo()

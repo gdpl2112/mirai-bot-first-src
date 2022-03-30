@@ -16,11 +16,11 @@ import static Project.services.detailServices.GameSkillDetailService.*;
 /**
  * @author github.kloping
  */
-public class Skill75 extends SkillTemplate {
+public class Skill703 extends SkillTemplate {
 
 
-    public Skill75() {
-        super(75);
+    public Skill703() {
+        super(703);
     }
 
     @Override
@@ -30,19 +30,19 @@ public class Skill75 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("强大的蓝银皇,增加%s%%的攻击力,拥有强大的生命力,每10秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, getAddP(getJid(), getId()));
+        return String.format("释放天使真身,每10秒恢复5%%的魂力,增加%s%%的攻击力", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝银皇真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "天使真身") {
 
-            private int c = 1;
+            private Integer c = 1;
 
             @Override
             public void before() {
-                Long q = who.longValue();
-                long v = percentTo(info.getAddPercent() * 4, getInfo(q).getAtt());
+                PersonInfo info1 = getInfo(who);
+                long v = percentTo(info.getAddPercent(), info1.getAtt());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 eve();
             }
@@ -51,22 +51,26 @@ public class Skill75 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    if (c++ >= 12) {
-                        setTips("武魂真身失效");
-                        return;
+                    Thread.sleep(100000);
+                    if (c++ > 12) {
+                        eve();
+                        run();
+                    } else {
+                        over();
                     }
-                    Thread.sleep(10000L);
-                    eve();
-                    run();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            public void eve() {
-                PersonInfo pInfo = getInfo(who);
-                long v = percentTo(info.getAddPercent(), pInfo.getHp());
-                putPerson(getInfo(who).addHp(v));
+            private void over() {
+                setTips("武魂真身失效");
+            }
+
+            private void eve() {
+                PersonInfo info1 = getInfo(who);
+                Long v1 = percentTo(5, info1.getHll());
+                putPerson(getInfo(who).addHl(v1));
             }
         };
     }

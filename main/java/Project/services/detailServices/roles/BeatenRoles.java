@@ -1,12 +1,17 @@
 package Project.services.detailServices.roles;
 
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.GameSkillDetailService;
+import Project.services.detailServices.ac.entity.Ghost702;
 import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+
+import java.util.Map;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
@@ -129,7 +134,7 @@ public class BeatenRoles {
         return response;
     };
     private static final String TRUE_HIT_ARG_KEY = "true att";
-    public static final Role TAG_SHIELD = (sb, q1, q2, ov, nv, p1, args) -> {
+    public static final Role TAG_SHIELD_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
             if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString()) == true) {
                 RoleResponse response = new RoleResponse(ov, nv, q1, q2);
@@ -166,6 +171,56 @@ public class BeatenRoles {
 
     public static final Role[] RS = new Role[]{
             XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
-            HG_HIDE, TAG_TURE, TAG_SHIELD, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION
+            HG_HIDE, TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION
+    };
+
+
+    public static final Role TAG_XX = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (p1.containsTag(SkillDataBase.TAG_XX)) {
+                int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
+                long v1 = percentTo(p, ov);
+                if (v1 < 1) {
+                    v1 = 1;
+                }
+                p1.addHp(v1);
+                sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
+            }
+            return null;
+        }
+    };
+
+    public static final Role TAG_SHE_ROLE = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (q2.longValue() > 0) {
+                PersonInfo info1 = GameDataBase.getInfo(q2);
+                if (p1.containsTag(TAG_SHE) && p1.containsTag(TAG_SHIELD)) {
+                    int b = p1.getTagValue(TAG_SHE).intValue();
+                    long v2 = percentTo(b, ov);
+                    putPerson(GameDataBase.getInfo(q2.longValue()).addHp(-v2));
+                    sb.append(NEWLINE);
+                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                }
+            } else {
+                GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
+                if (ghostObj instanceof Ghost702) {
+                    Ghost702 ghost702 = (Ghost702) ghostObj;
+                    if (ghost702.getShield() >= 0) {
+                        int b = p1.getTagValue(TAG_SHE).intValue();
+                        long v2 = percentTo(b, ov);
+                        GameJoinDetailService.attGho(q1.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
+                        sb.append(NEWLINE);
+                        sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                    }
+                }
+            }
+            return null;
+        }
+    };
+
+    public static final Role[] ATT_RS = new Role[]{
+            TAG_XX, TAG_SHE_ROLE
     };
 }

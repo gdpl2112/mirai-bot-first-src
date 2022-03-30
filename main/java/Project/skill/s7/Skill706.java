@@ -15,11 +15,11 @@ import static Project.services.detailServices.GameSkillDetailService.getAddP;
 /**
  * @author github.kloping
  */
-public class Skill76 extends SkillTemplate {
+public class Skill706 extends SkillTemplate {
 
 
-    public Skill76() {
-        super(76);
+    public Skill706() {
+        super(706);
     }
 
     @Override

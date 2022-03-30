@@ -30,12 +30,12 @@ public class GameSkillDetailService {
 
     static {
         BASE_PERCENT_MAP.put(0, 10);
-        BASE_PERCENT_MAP.put(1, 4);
+        BASE_PERCENT_MAP.put(1, 6);
         BASE_PERCENT_MAP.put(2, 10);
-        BASE_PERCENT_MAP.put(3, 4);
+        BASE_PERCENT_MAP.put(3, 5);
         BASE_PERCENT_MAP.put(4, 10);
-        BASE_PERCENT_MAP.put(5, 4);
-        BASE_PERCENT_MAP.put(6, 5);
+        BASE_PERCENT_MAP.put(5, 6);
+        BASE_PERCENT_MAP.put(6, 7);
         BASE_PERCENT_MAP.put(7, 5);
         BASE_PERCENT_MAP.put(8, 35);
         BASE_PERCENT_MAP.put(9, 4);
@@ -52,15 +52,15 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(21, 7);
         BASE_PERCENT_MAP.put(22, 16);
         //=
-        BASE_PERCENT_MAP.put(71, 42);
-        BASE_PERCENT_MAP.put(72, 58);
-        BASE_PERCENT_MAP.put(73, 5);
-        BASE_PERCENT_MAP.put(74, 7);
-        BASE_PERCENT_MAP.put(75, 5);
-        BASE_PERCENT_MAP.put(76, 3);
-        BASE_PERCENT_MAP.put(77, 52);
-        BASE_PERCENT_MAP.put(78, 42);
-        BASE_PERCENT_MAP.put(79, 43);
+        BASE_PERCENT_MAP.put(701, 42);
+        BASE_PERCENT_MAP.put(702, 58);
+        BASE_PERCENT_MAP.put(703, 5);
+        BASE_PERCENT_MAP.put(704, 7);
+        BASE_PERCENT_MAP.put(705, 5);
+        BASE_PERCENT_MAP.put(706, 3);
+        BASE_PERCENT_MAP.put(707, 52);
+        BASE_PERCENT_MAP.put(708, 42);
+        BASE_PERCENT_MAP.put(709, 43);
         BASE_PERCENT_MAP.put(710, 43);
         BASE_PERCENT_MAP.put(711, 50);
         BASE_PERCENT_MAP.put(712, 51);
@@ -130,10 +130,8 @@ public class GameSkillDetailService {
         for (int i = 0; i <= 22; i++) {
             JID2TIME.put(i, twoMinutes);
         }
-        for (int i = 71; i <= 79; i++) {
-            JID2TIME.put(i, twoMinutes);
-        }
-        for (int i = 710; i <= 731; i++) {
+
+        for (int i = 701; i <= 731; i++) {
             JID2TIME.put(i, twoMinutes);
         }
 
@@ -153,9 +151,9 @@ public class GameSkillDetailService {
         JID2TIME.remove(20);
         JID2TIME.remove(21);
         JID2TIME.remove(22);
-        JID2TIME.remove(71);
-        JID2TIME.remove(74);
-        JID2TIME.remove(76);
+        JID2TIME.remove(701);
+        JID2TIME.remove(704);
+        JID2TIME.remove(706);
         JID2TIME.remove(710);
     }
 

@@ -6,9 +6,7 @@ import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
-import Project.services.detailServices.ac.entity.Ghost702;
 import Project.services.detailServices.roles.BeatenRoles;
 import Project.services.detailServices.roles.Role;
 import Project.services.detailServices.roles.RoleResponse;
@@ -27,7 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -101,18 +100,15 @@ public class GameDetailService {
                 sb.append(onHjLose(qq.longValue(), qq2, sv));
             }
             //=====广播
-            HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow,
-                    oNow, qq2.longValue()
-                    , qq2.longValue() > 0 ?
+            HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(),
+                    p1.getHp() - oNow, oNow, qq2.longValue(), qq2.longValue() > 0 ?
                             HpChangeBroadcast.HpChangeReceiver.type.fromQ :
-                            HpChangeBroadcast.HpChangeReceiver.type.fromG
-            );
+                            HpChangeBroadcast.HpChangeReceiver.type.fromG);
             if (oNow > 0) {
                 p1.addHp(-oNow);
                 p1.apply();
                 if (p1.hp <= 0) {
-                    PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(),
-                            qq2.longValue(), type);
+                    PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(), qq2.longValue(), type);
                 }
             }
             return sb.toString();
@@ -149,45 +145,32 @@ public class GameDetailService {
         return n >= i;
     }
 
+    /**
+     * @param qq  攻击者
+     * @param qq2 被攻击者
+     * @param v
+     * @return
+     */
     public static String onAtt(Number qq, Number qq2, Long v) {
         PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====
-        sb.append(NEWLINE).append(SPLIT_LINE_0);
-        if (info.containsTag(SkillDataBase.TAG_XX)) {
-            String tag = info.getTag(SkillDataBase.TAG_XX);
-            Integer p = Integer.valueOf(tag.replace(SkillDataBase.TAG_XX, ""));
-            long v1 = percentTo(p, v);
-            if (v1 < 1) {
-                v1 = 1;
-            }
-            info.addHp(v1);
-            sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
-        }
-        if (qq2.longValue() > 0) {
-            PersonInfo info1 = GameDataBase.getInfo(qq2);
-            if (info.containsTag(TAG_SHE) && info.containsTag(TAG_SHIELD)) {
-                int b = info.getTagValue(TAG_SHE).intValue();
-                long v2 = percentTo(b, v);
-                putPerson(GameDataBase.getInfo(qq2.longValue()).addHp(-v2));
-                sb.append(NEWLINE).append(SPLIT_LINE_0);
-                sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
-            }
-        } else {
-            GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(qq.longValue());
-            if (ghostObj instanceof Ghost702) {
-                Ghost702 ghost702 = (Ghost702) ghostObj;
-                if (ghost702.getShield() >= 0) {
-                    int b = info.getTagValue(TAG_SHE).intValue();
-                    long v2 = percentTo(b, v);
-                    GameJoinDetailService.attGho(qq.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
-                    sb.append(NEWLINE).append(SPLIT_LINE_0);
-                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+        sb.append(NEWLINE);
+        long oNow = v;
+        Map<String, Object> maps = new ConcurrentHashMap<>();
+        for (Role r : BeatenRoles.ATT_RS) {
+            RoleResponse response = r.call(sb, qq, qq2, v, oNow, info, maps);
+            if (response != null) {
+                oNow = response.getNowV();
+                if (!response.getArgs().isEmpty()) {
+                    maps.putAll(response.getArgs());
+                }
+                if (response.getState() == RoleState.STOP) {
+                    break;
                 }
             }
         }
-        putPerson(info);
-        return "";
+        return sb.toString();
     }
 
     /**
@@ -223,7 +206,7 @@ public class GameDetailService {
             }
             baseInfo.addHj(-ov2);
             baseInfo.apply();
-            sb.append(NEWLINE).append(SPLIT_LINE_0);
+            sb.append(NEWLINE);
             sb.append("\n对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失");
             long nv2 = v2 - ov2;
             if (nv2 > 0) {
@@ -234,7 +217,7 @@ public class GameDetailService {
                     int v = toPercent(nv2, baseInfo.getHpL());
                     v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                     long nv0 = percentTo(v, baseInfo.getHpL());
-                    sb.append(NEWLINE).append(SPLIT_LINE_0);
+                    sb.append(NEWLINE);
                     sb.append("\n对其造成了").append(nv0).append("(").append(v).append("%)额外伤害");
                     sb.append(beaten(q2, q, nv0)).append(NEWLINE);
                 }

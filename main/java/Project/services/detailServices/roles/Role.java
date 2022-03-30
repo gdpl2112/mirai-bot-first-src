@@ -12,13 +12,13 @@ public interface Role {
     /**
      * 作用 or de buff
      *
-     * @param sb
-     * @param q1
-     * @param q2
-     * @param ov
-     * @param nv
-     * @param p1
-     * @param args
+     * @param sb   tips
+     * @param q1   主动
+     * @param q2   被动
+     * @param ov   原有伤害
+     * @param nv   现有伤害
+     * @param p1   p1
+     * @param args args
      * @return
      */
     RoleResponse call(StringBuilder sb, Number q1, Number q2, final long ov, long nv, PersonInfo p1, Map<String, Object> args);

@@ -9,8 +9,14 @@ import java.util.Map;
  * @author github-kloping
  */
 public class RoleResponse {
+    /**
+     * 原有伤害
+     */
     private final long oV;
     private RoleState state = RoleState.CONTINUE;
+    /**
+     * 现有伤害
+     */
     private long nowV;
     private Number q1;
     private Number q2;
