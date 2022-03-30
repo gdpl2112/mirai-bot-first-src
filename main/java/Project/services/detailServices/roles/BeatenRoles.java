@@ -20,6 +20,7 @@ import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
@@ -220,7 +221,19 @@ public class BeatenRoles {
         }
     };
 
+    public static final Role TAG_LIGHT_ATT_RS = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (p1.containsTag(TAG_LIGHT_ATT)) {
+                Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
+                long v = percentTo(b, ov);
+                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()));
+            }
+            return null;
+        }
+    };
+
     public static final Role[] ATT_RS = new Role[]{
-            TAG_XX, TAG_SHE_ROLE
+            TAG_XX, TAG_SHE_ROLE, TAG_LIGHT_ATT_RS
     };
 }

@@ -4,6 +4,9 @@ import io.github.kloping.mirai0.commons.User;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.github.kloping.mirai0.Main.Resource.bot;
 
 /**
@@ -56,4 +59,11 @@ public class MemberTools {
         }
         return id + "";
     }
+
+    public static final Map<Long, Long> RECENT_SPEECHES = new HashMap<>();
+
+    public static long getRecentSpeeches(long qid) {
+        return RECENT_SPEECHES.get(qid);
+    }
+
 }

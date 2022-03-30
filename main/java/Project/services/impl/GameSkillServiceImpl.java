@@ -23,7 +23,9 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.skill.SkillFactory.factory8id;
 import static Project.skill.SkillFactory.normalSkillNum;
+import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -66,30 +68,33 @@ public class GameSkillServiceImpl implements ISkillService {
                     return ("请先激活前一个魂技");
                 }
             }
-            if (st > 7) {
-                return ("更多魂技开发中...");
-            }
         }
         Integer id = is[st - 1];
-        Integer id2;
-        while (true) {
-            id2 = Tool.RANDOM.nextInt(normalSkillNum);
-            boolean k = false;
-            for (SkillInfo i : skinfo.values()) {
-                if (i.getJid().intValue() == id2.intValue()) {
-                    k = true;
+        Integer id2 = null;
+        if (st > 7) {
+            if (test) {
+                id2 = factory8id(getInfo(qq).getWh());
+            } else {
+                return ("更多魂技开发中...");
+            }
+        } else if (st == 7) {
+            id2 = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
+        } else {
+            while (true) {
+                id2 = Tool.RANDOM.nextInt(normalSkillNum);
+                boolean k = false;
+                for (SkillInfo i : skinfo.values()) {
+                    if (i.getJid().intValue() == id2.intValue()) {
+                        k = true;
+                        break;
+                    }
+                }
+                if (k) {
+                    continue;
+                } else {
                     break;
                 }
             }
-            if (k) {
-                continue;
-            } else {
-                break;
-            }
-        }
-
-        if (st == 7) {
-            id2 = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
         }
 
         SkillInfo info = new SkillInfo()

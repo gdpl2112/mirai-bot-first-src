@@ -65,6 +65,11 @@ public class SkillDataBase {
      * 免伤
      */
     public static final String TAG_DAMAGE_REDUCTION = "j";
+    /**
+     * 雷电攻击
+     */
+    public static final String TAG_LIGHT_ATT = "k";
+
     public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
     public static String path;
 

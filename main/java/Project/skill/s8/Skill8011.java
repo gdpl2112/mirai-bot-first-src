@@ -12,33 +12,27 @@ import static Project.services.detailServices.GameSkillDetailService.getAddP;
 /**
  * @author github.kloping
  */
-public class Skill801 extends SkillTemplate {
+public class Skill8011 extends SkillTemplate {
 
-    public Skill801() {
-        super(801);
+    public Skill8011() {
+        super(8011);
     }
 
     @Override
     public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
+        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
     }
 
     @Override
     public String getIntro() {
-        return String.format("", getAddP(getJid(), getId()));
+        return String.format("%s%%11", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙武魂真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙第八魂技") {
             @Override
             public void before() {
-
-            }
-
-            @Override
-            public void run() {
-                super.run();
 
             }
         };

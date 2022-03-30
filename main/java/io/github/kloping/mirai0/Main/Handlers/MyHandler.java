@@ -123,6 +123,7 @@ public class MyHandler extends SimpleListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            MemberTools.RECENT_SPEECHES.put(id, group.getId());
             if (ControllerTool.canGroup(group.getId())) {
                 ControllerSource.emojiCompositeListenerHost.onMessage(event);
             }

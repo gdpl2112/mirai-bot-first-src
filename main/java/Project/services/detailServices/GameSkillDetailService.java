@@ -5,6 +5,7 @@ import Project.dataBases.GameDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -83,6 +84,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(729, 54);
         BASE_PERCENT_MAP.put(730, 40);
         BASE_PERCENT_MAP.put(731, 40);
+        BASE_PERCENT_MAP.put(801, 20);
     }
 
     static {
@@ -132,6 +134,10 @@ public class GameSkillDetailService {
         }
 
         for (int i = 701; i <= 731; i++) {
+            JID2TIME.put(i, twoMinutes);
+        }
+
+        for (int i = 0; i <= 831; i++) {
             JID2TIME.put(i, twoMinutes);
         }
 
@@ -402,5 +408,18 @@ public class GameSkillDetailService {
         public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
         public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
         public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
+    }
+
+    /**
+     * 异步 攻击
+     *
+     * @param n
+     * @param q1
+     * @param q2
+     * @param value
+     * @param eve
+     */
+    public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid) {
+        new AsynchronousAttack(n, q1, q2, value, eve, gid).start();
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
@@ -53,6 +54,9 @@ public class SkillFactory {
     }
 
     public static SkillTemplate factory(int jid) {
+        if (jid >= 800) {
+            return factory8(jid);
+        }
         if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);
         try {
             SkillTemplate st = CLASS_MAP.get(jid).newInstance();
@@ -65,15 +69,19 @@ public class SkillFactory {
         return SKILL_MAP.get(jid);
     }
 
-    public static SkillTemplate factory8(int wh) {
+    public static Integer factory8id(int wh) {
         List<Integer> list = new ArrayList<>();
-        String wh0 = Integer.toString(wh);
+        String wh0 = 8 + toStr(2, wh);
         CLASS_MAP2.forEach((k, v) -> {
             if (k.toString().startsWith(wh0)) {
                 list.add(k);
             }
         });
         Integer jid = getRandT(list);
+        return jid;
+    }
+
+    public static SkillTemplate factory8(int jid) {
         if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);
         try {
             SkillTemplate st = CLASS_MAP2.get(jid).newInstance();
