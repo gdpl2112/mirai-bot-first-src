@@ -84,7 +84,9 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(729, 54);
         BASE_PERCENT_MAP.put(730, 40);
         BASE_PERCENT_MAP.put(731, 40);
-        BASE_PERCENT_MAP.put(801, 20);
+        BASE_PERCENT_MAP.put(8010, 20);
+        BASE_PERCENT_MAP.put(8011, 10);
+        BASE_PERCENT_MAP.put(8021, 50);
     }
 
     static {
@@ -137,7 +139,7 @@ public class GameSkillDetailService {
             JID2TIME.put(i, twoMinutes);
         }
 
-        for (int i = 0; i <= 831; i++) {
+        for (int i = 8000; i <= 8315; i++) {
             JID2TIME.put(i, twoMinutes);
         }
 
@@ -414,12 +416,13 @@ public class GameSkillDetailService {
      * 异步 攻击
      *
      * @param n
-     * @param q1
-     * @param q2
+     * @param q1    被攻击者
+     * @param q2    攻击者
      * @param value
      * @param eve
      */
     public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid) {
+        if (q1==q2){return;}
         new AsynchronousAttack(n, q1, q2, value, eve, gid).start();
     }
 }

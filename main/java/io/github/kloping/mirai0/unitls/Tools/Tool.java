@@ -1061,7 +1061,7 @@ public class Tool {
             return (long) (f * (v.intValue()));
         }
         double d = v.longValue();
-        d /= 100;
+        d /= 100f;
         d *= b;
         long v1 = (long) d;
         return v1;

@@ -1,6 +1,7 @@
 package Project.skill;
 
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
@@ -18,6 +19,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 /**
  * @author github.kloping
  */
+@Entity
 public class SkillFactory {
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP = new HashMap<>();
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP2 = new HashMap<>();

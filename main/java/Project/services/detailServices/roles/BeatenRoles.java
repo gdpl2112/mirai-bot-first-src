@@ -29,6 +29,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 public class BeatenRoles {
     public static final String THIS_DANGER_OVER_FLAG = "$";
+
     public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
             int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
@@ -42,6 +43,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role HG_HF = (sb, q1, q2, ov, nv, p1, args) -> {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(q1.longValue());
         if (proZ(soulAttribute.getHpChance())) {
@@ -68,7 +70,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_MS = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
@@ -169,10 +170,18 @@ public class BeatenRoles {
         return response;
     };
 
+    public static final Role TAG_LIGHT_F_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(TAG_LIGHT_F)) {
+            Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
+            long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
+            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()));
+        }
+        return null;
+    };
 
     public static final Role[] RS = new Role[]{
             XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
-            HG_HIDE, TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION
+            HG_HIDE, TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_LIGHT_F_ROLE
     };
 
 

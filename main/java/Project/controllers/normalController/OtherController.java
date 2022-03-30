@@ -106,6 +106,7 @@ public class OtherController {
         baseMenuStr.append("猜拳<石头/剪刀/布><value>\n");
         baseMenuStr.append("抢劫<At>\n");
         baseMenuStr.append("我的发言\n");
+        baseMenuStr.append("我的收益\n");
         baseMenuStr.append("====");
         baseMenuStr.append("#管理相关 #需要权限\n");
         baseMenuStr.append("禁言(@xx)(值)(单位,秒,分..)\n");

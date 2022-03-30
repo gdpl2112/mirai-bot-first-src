@@ -20,6 +20,7 @@ import java.text.ParseException;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
+import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.HIST_INFOS;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -108,79 +109,16 @@ public class SuperController {
         return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
     }
 
-    @Action("全体加积分.{1,}")
+    @Action("加积分.{1,}")
     public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
         long num = Long.parseLong(Tool.findNumberFromString(messages));
-        return "不可用";
+        HIST_U_SCORE.forEach((k, v) -> {
+            v.addScore(num);
+            putInfo(v);
+        });
+        return "完成!!";
     }
 
-    /*  private static final Map<Long, Long> UP_AKS = new ConcurrentHashMap<>();
-      public static final String[] IS_ADMINISTRATOR_TIPS = new String[]
-              {"应该是", "是的", "是吧", "是", "你猜", "yeah", "is", "1"};
-      public static final String[] IST_ADMINISTRATOR_TIPS = new String[]
-              {"你觉得呢", "不是", "?你猜", "问我呢?", "no", "222", "你确定?", "-1"};
-
-      @Action(value = "ta是管理<.+=>par>", otherName = {"他是管理<.+=>par>", "她是管理<.+=>par>"})
-      public Object isIAdministrator(@Param("par") String par, User qq) {
-          Number q2 = null;
-          try {
-              q2 = Long.valueOf(Tool.findNumberFromString(par));
-          } catch (NumberFormatException e) {
-              e.printStackTrace();
-          }
-          if (q2 == null || q2.longValue() == -1) {
-              return "谁?";
-          }
-          UP_AKS.put(qq.getId(), q2.longValue());
-          if (DataBase.isFather(q2.longValue())) {
-              return IS_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IS_ADMINISTRATOR_TIPS.length)];
-          } else {
-              return IST_ADMINISTRATOR_TIPS[Tool.RANDOM.nextInt(IST_ADMINISTRATOR_TIPS.length)];
-          }
-      }
-
-      public static final String[] ADD_FATHER_TIPS = new String[]
-              {"好的", "听你的", "OK", "嗯嗯", "真好"};
-      public static final String[] NDD_FATHER_TIPS = new String[]
-              {"不要", "为啥", "凭什么", "阿巴巴", "就不"};
-
-      @Action("现在是了")
-      public Object isAdministratorNow(User qq) {
-          Long q2 = UP_AKS.get(qq.getId());
-          if (q2 == null || q2 == 0) {
-              return "是什么?";
-          }
-          if (DataBase.isFather(q2)) {
-              return "ta本来就是好吧...";
-          }
-          if (qq.getId() == Resource.superQL) {
-              DataBase.addFather(q2);
-              return getRandString(ADD_FATHER_TIPS);
-          } else {
-              return getRandString(NDD_FATHER_TIPS);
-          }
-      }
-
-      public static final String[] EDD_FATHER_TIPS =
-              new String[]{"好的", "收到", "OK", "完成", "弄好了"};
-
-      @Action("现在不是了")
-      public Object istAdministratorNow(User qq) {
-          Long q2 = UP_AKS.get(qq.getId());
-          if (q2 == null || q2 == 0) {
-              return "不是什么?";
-          }
-          if (!DataBase.isFather(q2)) {
-              return "ta本来就不是好吧...";
-          }
-          if (qq.getId() == Resource.superQL) {
-              DataBase.removeFather(q2);
-              return getRandString(EDD_FATHER_TIPS);
-          } else {
-              return getRandString(NDD_FATHER_TIPS);
-          }
-      }
-  */
     @Action("关机")
     public String k0() {
         Switch.AllK = false;

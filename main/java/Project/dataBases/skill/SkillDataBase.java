@@ -69,11 +69,15 @@ public class SkillDataBase {
      * 雷电攻击
      */
     public static final String TAG_LIGHT_ATT = "k";
+    /**
+     * 雷电反甲
+     */
+    public static final String TAG_LIGHT_F = "l";
 
     public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
+
     public static String path;
 
-    //==========
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
 
     public SkillDataBase(String path) {

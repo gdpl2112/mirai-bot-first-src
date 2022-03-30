@@ -44,11 +44,6 @@ public class Skill702 extends SkillTemplate {
                 long v = percentTo(info.getAddPercent(), lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
-
-            @Override
-            public void run() {
-                super.run();
-            }
         };
     }
 }

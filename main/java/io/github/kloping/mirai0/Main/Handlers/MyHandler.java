@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
+import static io.github.kloping.mirai0.Main.Handlers.CapHandler.CAP_2;
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.join;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.bot;
@@ -95,8 +96,9 @@ public class MyHandler extends SimpleListenerHost {
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (CapHandler.CAPING.containsKey(event.getSender().getId())) {
-            CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
-            return;
+            if (CAP_2.get(event.getSender().getId()).getId() == event.getGroup().getId()) {
+                CapHandler.cap(event.getSender().getId(), EventTools.getStringFromGroupMessageEvent(event, true));
+            }
         }
         if (event.getSender() instanceof AnonymousMember) {
             return;
