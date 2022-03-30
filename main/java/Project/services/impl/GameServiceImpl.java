@@ -459,12 +459,13 @@ public class GameServiceImpl implements IGameService {
                 if (randHh(id, who, personInfo.getLevel())) {
                     GameDataBase.removeFromBgs(who, id, ObjType.use);
                     GameDataBase.addHh(who, id);
-                    String str = upTrue(who) + "\r\n" + upTrue(who);
+                    putPerson(getInfo(who).addLevel(1).setXp(0L));
+                    String str = upTrue(who);
                     if (id <= 202) {
-                        putPerson(getInfo(who).addLevel(1).setXp(0L));
                         return "吸收成功!!提升一级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
                     } else {
-                        putPerson(getInfo(who).addLevel(2).setXp(0L));
+                        putPerson(getInfo(who).addLevel(1).setXp(0L));
+                        str += "\n" + upTrue(who);
                         return "吸收成功!!提升两级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
                     }
                 } else {
