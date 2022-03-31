@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("3.31:修复了转生后升级不加属性的bug,在转生一次即可").append("\n");
         UPDATE_LOG.append("3.30:修复了吸收魂环不加属性的bug").append("\n");
         UPDATE_LOG.append("3.29:每个等级第一次升级时增加属性").append("\n");
         UPDATE_LOG.append("3.29:调整魂技,见魂技更新列表,修复已知bug").append("\n");

@@ -766,6 +766,13 @@ public class GameServiceImpl implements IGameService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            SpringBootResource.getUpupMapper().deleteByQq(id);
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "转生完成\n已移除" + i + "项记录";
     }
 
