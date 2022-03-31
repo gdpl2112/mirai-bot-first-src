@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
@@ -27,32 +26,29 @@ public class SkillFactory {
     public static int normalSkillNum = 0;
 
     static {
-        THREADS.submit(() -> {
-            PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
-            try {
-                for (Class<?> aClass : scanner.scan(SkillFactory.class.getPackage().getName())) {
-                    if (aClass == SkillTemplate.class) continue;
-                    if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
-                        Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;
-
-                        String nStr = aClass.getSimpleName();
-                        Integer jid = Integer.valueOf(Tool.findNumberFromString(nStr));
-                        if (jid < 70) {
-                            normalSkillNum++;
-                        }
-                        if (jid >= 800) {
-                            CLASS_MAP2.put(jid, c0);
-                        } else {
-                            CLASS_MAP.put(jid, c0);
-                        }
+        PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
+        try {
+            for (Class<?> aClass : scanner.scan(SkillFactory.class.getPackage().getName())) {
+                if (aClass == SkillTemplate.class) continue;
+                if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
+                    Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;
+                    String nStr = aClass.getSimpleName();
+                    Integer jid = Integer.valueOf(Tool.findNumberFromString(nStr));
+                    if (jid < 70) {
+                        normalSkillNum++;
+                    }
+                    if (jid >= 800) {
+                        CLASS_MAP2.put(jid, c0);
+                    } else {
+                        CLASS_MAP.put(jid, c0);
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static SkillTemplate factory(int jid) {

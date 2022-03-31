@@ -134,7 +134,7 @@ public class DataBase {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return father.getPermission().equals(ALL) || father.hasPermission(gid.longValue());
+            return father != null && (father.getPermission().equals(ALL) || father.hasPermission(gid.longValue()));
         }
         return new File(path + "/mainfist/fathers/" + who).exists();
     }
