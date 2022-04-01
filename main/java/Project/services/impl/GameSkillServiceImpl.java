@@ -14,10 +14,12 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
@@ -28,6 +30,7 @@ import static Project.skill.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -51,8 +54,8 @@ public class GameSkillServiceImpl implements ISkillService {
     }
 
     private static void execute(Skill skill) throws Exception {
-        SkillDataBase.threads.execute(skill);
-        Thread.sleep(200);
+        Future future = SkillDataBase.threads.submit(skill);
+        BaseInfoTemp.append(skill.getPersonInfo().getId().longValue(), future);
     }
 
     @Override
@@ -121,6 +124,7 @@ public class GameSkillServiceImpl implements ISkillService {
         if (System.currentTimeMillis() < info.getTime())
             return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
+        if (personInfo.isVertigo()) return VERTIGO_ING;
         long v = personInfo.getHll();
         long v1 = personInfo.getHl();
         Integer b = toPercent(v1, v);

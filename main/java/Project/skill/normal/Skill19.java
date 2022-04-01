@@ -14,6 +14,7 @@ import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
@@ -65,14 +66,14 @@ public class Skill19 extends SkillTemplate {
                 super.run();
                 try {
                     Thread.sleep(5000);
+                    long att = getInfo(who).getAtt();
+                    long v = percentTo(b, att);
+                    StringBuilder sb = new StringBuilder();
+                    attGhostOrMan(sb, who, nums[0], v);
+                    setTips(sb.toString());
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    setTips(ATTACK_BREAK);
                 }
-                long att = getInfo(who).getAtt();
-                long v = percentTo(b, att);
-                StringBuilder sb = new StringBuilder();
-                attGhostOrMan(sb, who, nums[0], v);
-                setTips(sb.toString());
             }
         };
     }

@@ -19,6 +19,7 @@ import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
@@ -38,6 +40,7 @@ import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_PRE_CD;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -359,7 +362,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     public String attNow(Long p1, Long p2, Group g1, Integer v) {
-        threads.execute(new Runnable() {
+        Future future = threads.submit(new Runnable() {
             private Group group = g1;
             private String tips;
             private long who = p1;
@@ -370,62 +373,63 @@ public class GameServiceImpl implements IGameService {
             public void run() {
                 try {
                     Thread.sleep(ATT_PRE_CD);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (i == 2) {
-                    Zon zon = getZonInfo(who);
-                    zon.setXper(zon.getXper() - 10);
-                    putZonInfo(zon);
-                }
-                tips = "\n";
-                PersonInfo iper = getInfo(who);
-                PersonInfo yper = getInfo(q2);
-                if (iper.getHp() > 10) {
-                    if (yper.getHp() > 0) {
-                        long l = randLong(iper.getHll(), 0.2f, 0.3f);
-                        if (iper.getHl() >= l) {
-                            long l1 = randLong(iper.getAtt(), 0.2f, 0.25f);
-                            if (i == 1)
-                                l1 *= 0.9f;
-                            tips += GameDetailService.consumedHl(who, l);
-                            tips += GameDetailService.beaten(q2, who, l1);
-                            if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
-                                tips += GameDetailService.onAtt(who, q2, l1);
-                            }
-                            if (getInfo(q2).getHp() > 0) {
-                                tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
-                            } else {
-                                long lg = randLong(240, 0.6f, 0.9f);
-                                putPerson(getInfo(who).addGold(lg,
-                                        new TradingRecord()
-                                                .setType1(TradingRecord.Type1.add)
-                                                .setType0(TradingRecord.Type0.gold)
-                                                .setTo(-1)
-                                                .setMain(who)
-                                                .setFrom(who)
-                                                .setDesc("击败" + q2)
-                                                .setMany(lg)
+                    if (i == 2) {
+                        Zon zon = getZonInfo(who);
+                        zon.setXper(zon.getXper() - 10);
+                        putZonInfo(zon);
+                    }
+                    tips = "\n";
+                    PersonInfo iper = getInfo(who);
+                    PersonInfo yper = getInfo(q2);
+                    if (iper.getHp() > 10) {
+                        if (yper.getHp() > 0) {
+                            long l = randLong(iper.getHll(), 0.2f, 0.3f);
+                            if (iper.getHl() >= l) {
+                                long l1 = randLong(iper.getAtt(), 0.2f, 0.25f);
+                                if (i == 1)
+                                    l1 *= 0.9f;
+                                tips += GameDetailService.consumedHl(who, l);
+                                tips += GameDetailService.beaten(q2, who, l1);
+                                if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
+                                    tips += GameDetailService.onAtt(who, q2, l1);
+                                }
+                                if (getInfo(q2).getHp() > 0) {
+                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
+                                } else {
+                                    long lg = randLong(240, 0.6f, 0.9f);
+                                    putPerson(getInfo(who).addGold(lg,
+                                            new TradingRecord()
+                                                    .setType1(TradingRecord.Type1.add)
+                                                    .setType0(TradingRecord.Type0.gold)
+                                                    .setTo(-1)
+                                                    .setMain(who)
+                                                    .setFrom(who)
+                                                    .setDesc("击败" + q2)
+                                                    .setMany(lg)
 
-                                ));
-                                tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                    ));
+                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                }
+                            } else {
+                                tips = "魂力不足,攻击失败";
                             }
                         } else {
-                            tips = "魂力不足,攻击失败";
+                            tips = "ta已无状态";
                         }
                     } else {
-                        tips = "ta已无状态";
+                        tips = "血量不足,无法攻击";
                     }
-                } else {
-                    tips = "血量不足,无法攻击";
+                    send(tips);
+                } catch (InterruptedException e) {
+                    send(ATTACK_BREAK);
                 }
-                send(tips);
             }
 
             private void send(String line) {
-                MessageTools.sendMessageInGroup(At(who) + "\r\n" + tips, group.getId());
+                MessageTools.sendMessageInGroup(At(who) + "\r\n" + line, group.getId());
             }
         });
+        BaseInfoTemp.append(p1, future);
         return "准备攻击中...";
     }
 
