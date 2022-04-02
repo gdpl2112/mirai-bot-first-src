@@ -1,11 +1,13 @@
 package Project.controllers.gameControllers;
 
 
+import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -72,5 +74,32 @@ public class GameController2 {
         } catch (Exception e) {
             return "未找到相关物品";
         }
+    }
+
+    @AutoStand
+    GameController c0;
+
+    @AutoStand
+    ScoreController c1;
+
+    @AutoStand
+    GameJoinAcController c2;
+
+    @Action("双修打工进入.*+")
+    public Object o1(User user, Group group, @AllMess String s0) {
+        MessageTools.sendMessageInGroup(c0.Xl2(user, group), group.getId());
+        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
+        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        return "OK!";
+    }
+
+    @Action("修炼打工进入.*+")
+    public Object o2(User user, Group group, @AllMess String s0) {
+        MessageTools.sendMessageInGroup(c0.Xl(user, group), group.getId());
+        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
+        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        return "OK!";
     }
 }

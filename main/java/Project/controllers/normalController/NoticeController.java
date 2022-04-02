@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.2: 人性功能( 双修打工进入**").append("\n");
         UPDATE_LOG.append("4.1: 优化眩晕机制").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("3.31:修复了转生后升级不加属性的bug,在转生一次即可").append("\n");
