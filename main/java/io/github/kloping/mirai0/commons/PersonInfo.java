@@ -182,16 +182,18 @@ public class PersonInfo implements BaseInfo {
         return bg;
     }
 
-    public void setBg(boolean bg) {
+    public PersonInfo setBg(boolean bg) {
         this.bg = bg;
+        return this;
     }
 
     public Long getBgk() {
         return bgk;
     }
 
-    public void setBgk(Long bgk) {
+    public PersonInfo setBgk(Long bgk) {
         this.bgk = bgk;
+        return this;
     }
 
     public Boolean getTemp() {

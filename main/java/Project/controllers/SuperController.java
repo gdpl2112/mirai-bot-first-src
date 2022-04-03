@@ -22,6 +22,7 @@ import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.HIST_INFOS;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
@@ -240,5 +241,13 @@ public class SuperController {
         if (who == -1)
             return "移除谁?";
         return managerService.removeFather(qq.getId(), who);
+    }
+
+    @Action("/跳过闭关冷却.+")
+    public String o1(@AllMess String l) {
+        long who = MessageTools.getAtFromString(l);
+        if (who == -1) return ERR_TIPS;
+        getInfo(who).setBgk(0L).apply();
+        return "OK";
     }
 }

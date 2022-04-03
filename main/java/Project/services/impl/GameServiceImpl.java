@@ -394,7 +394,7 @@ public class GameServiceImpl implements IGameService {
                                     tips += GameDetailService.onAtt(who, q2, l1);
                                 }
                                 if (getInfo(q2).getHp() > 0) {
-                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
+                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力\n" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                                 } else {
                                     long lg = randLong(240, 0.6f, 0.9f);
                                     putPerson(getInfo(who).addGold(lg,
@@ -408,7 +408,7 @@ public class GameServiceImpl implements IGameService {
                                                     .setMany(lg)
 
                                     ));
-                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力\n" + tips + "\r\n你获得了" + lg + "个金魂币";
                                 }
                             } else {
                                 tips = "魂力不足,攻击失败";

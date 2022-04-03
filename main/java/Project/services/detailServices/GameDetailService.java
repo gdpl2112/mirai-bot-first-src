@@ -64,7 +64,7 @@ public class GameDetailService {
      * @return
      */
     public static String beaten(Number qq, Number qq2, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
-        if (getInfo(qq2).isBg()){return PLAYER_BG_TIPS;}
+        if (getInfo(qq).isBg()){return PLAYER_BG_TIPS;}
         synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
