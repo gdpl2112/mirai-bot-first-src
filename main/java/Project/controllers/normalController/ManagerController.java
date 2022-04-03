@@ -1,6 +1,7 @@
 package Project.controllers.normalController;
 
 
+import Project.aSpring.SaverSpringStarter;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
@@ -8,6 +9,7 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -17,6 +19,9 @@ import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.PlainText;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -25,6 +30,7 @@ import java.util.Set;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 
 /**
  * @author github-kloping
@@ -67,7 +73,7 @@ public class ManagerController {
     @Action("跳过验证.+")
     public String o3(@AllMess String mess) {
         try {
-            String numStr = Tool.findNumberFromString(mess);
+            String numStr = findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
             CapHandler.ok(qid);
             return null;
@@ -80,7 +86,7 @@ public class ManagerController {
     @Action("跳过进入冷却.+")
     public String oo1(@AllMess String mess) {
         try {
-            String numStr = Tool.findNumberFromString(mess);
+            String numStr = findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
             GameDataBase.getInfo(qid).setK2(-1L).apply();
             return "ok";
@@ -266,5 +272,25 @@ public class ManagerController {
     @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
     public String isay(@AllMess String str, Group group) {
         return str.substring(7);
+    }
+
+    @Action("/get.+")
+    public Object o0(@AllMess String str, Group group) {
+        long q0 = getAtFromString(str);
+        if (q0 < 0) {
+            return ERR_TIPS;
+        }
+        int n = Integer.parseInt(findNumberFromString(str.replace(Long.toString(q0), "")));
+        for (AllMessage allMessage : SaverSpringStarter.saveMapper.selectMessage(group.getId(), q0, n)) {
+            String s0 = allMessage.getContent();
+            Message message;
+            try {
+                message = MessageChain.deserializeFromJsonString(s0);
+            } catch (Exception e) {
+                message = new PlainText(s0);
+            }
+            MessageTools.sendMessageInGroup(message, group.getId());
+        }
+        return "OK";
     }
 }

@@ -14,9 +14,11 @@ import io.github.kloping.number.NumberUtils;
 import java.util.*;
 
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -73,6 +75,9 @@ public class GameSkillController {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
+        } if (getInfo(qq.getId()).isBg()) {
+            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            throw new NoRunException(BG_TIPS);
         }
     }
 

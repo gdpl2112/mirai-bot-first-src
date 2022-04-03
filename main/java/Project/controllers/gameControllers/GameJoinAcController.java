@@ -18,8 +18,10 @@ import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.LIST_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -54,6 +56,9 @@ public class GameJoinAcController {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();
             }
+        } if (getInfo(qq.getId()).isBg()) {
+            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            throw new NoRunException(BG_TIPS);
         }
     }
 

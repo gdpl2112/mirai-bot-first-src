@@ -24,11 +24,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.PLAYER_BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 
@@ -62,6 +64,7 @@ public class GameDetailService {
      * @return
      */
     public static String beaten(Number qq, Number qq2, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
+        if (getInfo(qq2).isBg()){return PLAYER_BG_TIPS;}
         synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
@@ -152,6 +155,7 @@ public class GameDetailService {
      * @return
      */
     public static String onAtt(Number qq, Number qq2, Long v) {
+        if (getInfo(qq2).isBg()){return PLAYER_BG_TIPS;}
         PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====

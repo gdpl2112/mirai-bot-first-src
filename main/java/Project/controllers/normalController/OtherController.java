@@ -47,6 +47,7 @@ public class OtherController {
         final StringBuilder baseMenuStr = new StringBuilder();
         baseMenuStr.append("修炼\n");
         baseMenuStr.append("信息\n");
+        baseMenuStr.append("闭关/取消闭关\n");
         baseMenuStr.append("详细信息 #查看信息\n");
         baseMenuStr.append("升级 #经验足够时\n");
         baseMenuStr.append("觉醒 #2级时用来觉醒武魂\n");

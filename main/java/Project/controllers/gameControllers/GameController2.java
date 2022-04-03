@@ -1,6 +1,7 @@
 package Project.controllers.gameControllers;
 
 
+import Project.controllers.auto.ConfirmController;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
@@ -9,13 +10,20 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
+import java.lang.reflect.Method;
+
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
 /**
  * @author github-kloping
@@ -90,16 +98,54 @@ public class GameController2 {
         MessageTools.sendMessageInGroup(c0.Xl2(user, group), group.getId());
         MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
         String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
-        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
-        return "OK!";
+        return c2.com1(group, name, user);
     }
 
     @Action("修炼打工进入.*+")
     public Object o2(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroup(c0.Xl(user, group), group.getId());
-        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        MessageTools.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
+        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
-        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
-        return "OK!";
+        return c2.com1(group, name, user);
+    }
+
+    @Action("闭关")
+    public Object o3(User user) throws NoSuchMethodException {
+        Method m0 = this.getClass().getDeclaredMethod("bg", Long.class);
+        ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
+        return "确认闭关吗?\n闭关后不可做任何事,取消闭关后即可\n一小时后可取消";
+    }
+
+    private Object bg(Long q) {
+        PersonInfo p0 = getInfo(q);
+        if (System.currentTimeMillis() < p0.getBgk()) {
+            return String.format(XL_WAIT_TIPS, getTimeTips(p0.getBgk()));
+        }
+        p0.setBg(true);
+        p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
+        p0.apply();
+        return "闭关完成!";
+    }
+
+    private Object unBg(Long q) {
+        PersonInfo p0 = getInfo(q);
+        if (System.currentTimeMillis() < p0.getBgk()) {
+            return String.format(XL_WAIT_TIPS, getTimeTips(p0.getBgk()));
+        }
+        p0.setBg(false);
+        p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
+        p0.apply();
+        return "取消闭关完成";
+    }
+
+    @Action("取消闭关")
+    public Object o4(User user) throws NoSuchMethodException {
+        if (getInfo(user.getId()).isBg()) {
+            Method m0 = this.getClass().getDeclaredMethod("unBg", Long.class);
+            ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
+            return "确认取消闭关吗?\n一小时后可再次闭关";
+        } else {
+            return "没有在闭关";
+        }
     }
 }

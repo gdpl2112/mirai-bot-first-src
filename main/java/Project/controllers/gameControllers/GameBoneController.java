@@ -5,6 +5,7 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
@@ -16,6 +17,7 @@ import java.util.List;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -47,6 +49,10 @@ public class GameBoneController {
             if (Tool.EveListStartWith(listFx, str) == -1) {
                 throw new NoRunException();
             }
+        }
+        if (getInfo(qq.getId()).isBg()) {
+            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            throw new NoRunException(BG_TIPS);
         }
     }
 

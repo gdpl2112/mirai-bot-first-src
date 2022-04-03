@@ -24,6 +24,7 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_CD;
@@ -137,6 +138,10 @@ public class GameController {
                 throw new NoRunException("无状态");
             }
         }
+        if (getInfo(qq.getId()).isBg()) {
+            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            throw new NoRunException(BG_TIPS);
+        }
     }
 
     @Action("修炼")
@@ -241,7 +246,6 @@ public class GameController {
         PersonInfo Y = getInfo(who);
         if (I.getLevel() >= Y.getLevel()) {
             putPerson(getInfo(qq.getId()).addHl(-10L));
-            //GameDetailService.UseHl(who, -10);
             StringBuilder m1 = new StringBuilder();
             m1.append("侦查成功,消耗十点魂力\n");
             m1.append(MemberTools.getNameFromGroup(who, group));

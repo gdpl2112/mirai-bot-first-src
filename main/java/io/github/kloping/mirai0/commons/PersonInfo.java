@@ -175,6 +175,25 @@ public class PersonInfo implements BaseInfo {
      */
     private Integer winC = 0;
 
+    private boolean bg = false;
+    private Long bgk = 0L;
+
+    public boolean isBg() {
+        return bg;
+    }
+
+    public void setBg(boolean bg) {
+        this.bg = bg;
+    }
+
+    public Long getBgk() {
+        return bgk;
+    }
+
+    public void setBgk(Long bgk) {
+        this.bgk = bgk;
+    }
+
     public Boolean getTemp() {
         return temp;
     }

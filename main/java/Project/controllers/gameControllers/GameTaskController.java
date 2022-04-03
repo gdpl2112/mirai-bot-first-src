@@ -17,7 +17,9 @@ import java.util.Date;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
 
@@ -50,6 +52,9 @@ public class GameTaskController {
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
             MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");
+        } if (getInfo(qq.getId()).isBg()) {
+            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            throw new NoRunException(BG_TIPS);
         }
     }
 
