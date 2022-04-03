@@ -9,6 +9,7 @@ import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
@@ -20,9 +21,12 @@ import java.lang.reflect.Method;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
 /**
@@ -120,6 +124,12 @@ public class GameController2 {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
             return String.format(XL_WAIT_TIPS, getTimeTips(p0.getBgk()));
+        }
+        GhostObj ghostObj = getGhostObjFrom(q);
+        if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
+            if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
+                return IN_SELECT;
+            }
         }
         p0.setBg(true);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
