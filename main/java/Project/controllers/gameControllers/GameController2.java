@@ -23,7 +23,7 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
@@ -123,7 +123,7 @@ public class GameController2 {
     private Object bg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(XL_WAIT_TIPS, getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, getTimeTips(p0.getBgk()));
         }
         GhostObj ghostObj = getGhostObjFrom(q);
         if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
@@ -140,7 +140,7 @@ public class GameController2 {
     private Object unBg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(XL_WAIT_TIPS, getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, getTimeTips(p0.getBgk()));
         }
         p0.setBg(false);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
