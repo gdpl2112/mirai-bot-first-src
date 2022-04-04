@@ -28,7 +28,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
     public static GameWeaDetailService gameWeaDetailService;
     public static String MENU = "";
 
-    static {
+    private static void init() {
         MENU += "\n#选择器(#为当前魂兽))";
         MENU += "\n使用暗器<暗器名><选择器>";
         MENU += "\n暗器背包";
@@ -91,6 +91,8 @@ public class GameWeaServiceImpl implements IGameWeaService {
 
     @Override
     public String aqMeun() {
+        if (MENU == null || MENU.isEmpty())
+            init();
         return MENU.trim();
     }
 

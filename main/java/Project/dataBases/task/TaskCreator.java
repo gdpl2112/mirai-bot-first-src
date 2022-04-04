@@ -31,11 +31,11 @@ public class TaskCreator {
         if (id == 0) {
             return (T) new Task();
         } else if (id == 1000) {
-            return (T) new Task1002();
+            return (T) new Task1000();
         } else if (id == 1001) {
             return (T) new Task1001();
         } else if (id == 1002) {
-            return (T) new Task1000();
+            return (T) new Task1002();
         }
         return null;
     }

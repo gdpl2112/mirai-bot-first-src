@@ -99,8 +99,8 @@ public class GameController2 {
 
     @Action("双修打工进入.*+")
     public Object o1(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroup(c0.Xl2(user, group), group.getId());
-        MessageTools.sendMessageInGroup(c1.aJob(user, group), group.getId());
+        MessageTools.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
+        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
     }
