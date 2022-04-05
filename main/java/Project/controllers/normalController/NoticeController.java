@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.5: 修复已知bug,优化回复").append("\n");
         UPDATE_LOG.append("4.4: 修复已知bug").append("\n");
         UPDATE_LOG.append("4.3: 修复已知bug,新功能闭关/取消闭关,闭关后不可被攻击和行动").append("\n");
         UPDATE_LOG.append("4.2: 人性功能( 双修打工进入**").append("\n");

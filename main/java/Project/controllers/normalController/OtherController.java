@@ -246,12 +246,12 @@ public class OtherController {
             return null;
         } else {
             if (OPEN_STR.equals(str)) {
-                if (!DataBase.isFather(qq)) {
+                if (!DataBase.isFather(qq, group.getId())) {
                     return null;
                 }
                 return controller.open(group);
             } else if (CLOSE_STR.equals(str)) {
-                if (!DataBase.isFather(qq)) {
+                if (!DataBase.isFather(qq, group.getId())) {
                     return null;
                 }
                 return controller.close(group);

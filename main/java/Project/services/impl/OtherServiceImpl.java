@@ -95,7 +95,7 @@ public class OtherServiceImpl implements IOtherService {
 
     @Override
     public String trans2(String str, Group group, Long qq) {
-        if (!isFather(qq)) {
+        if (!isFather(qq, group.getId())) {
             throw new NoRunException();
         }
         try {

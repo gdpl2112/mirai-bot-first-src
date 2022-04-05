@@ -99,7 +99,7 @@ public class ManagerController {
     @Action("通过")
     public Object ace(User user, Group group) {
         Member qq = Resource.bot.getGroup(group.getId()).get(user.getId());
-        if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId()))
+        if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
             if (MyHandler.joinRequestEvent != null) {
                 MyHandler.joinRequestEvent.accept();
                 MyHandler.joinRequestEvent = null;
@@ -111,7 +111,7 @@ public class ManagerController {
     @Action("不通过")
     public Object rej(User user, Group group) {
         Member qq = Resource.bot.getGroup(group.getId()).get(user.getId());
-        if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId()))
+        if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
             if (MyHandler.joinRequestEvent != null) {
                 MyHandler.joinRequestEvent.reject();
                 MyHandler.joinRequestEvent = null;

@@ -5,6 +5,7 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.controllers.gameControllers.GameController;
+import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.roles.BeatenRoles;
@@ -49,6 +50,8 @@ public class GameDetailService {
             public void run() {
                 ZERO_RUNS.add(() -> {
                     GameController.deleteC.clear();
+                    GameDataBase.HIST_INFOS.clear();
+                    DataBase.HIST_U_SCORE.clear();
                     SpringBootResource.getPersonInfoMapper().updateAll();
                 });
             }
@@ -64,7 +67,9 @@ public class GameDetailService {
      * @return
      */
     public static String beaten(Number qq, Number qq2, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
-        if (getInfo(qq).isBg()){return PLAYER_BG_TIPS;}
+        if (getInfo(qq).isBg()) {
+            return PLAYER_BG_TIPS;
+        }
         synchronized (qq2) {
             long oNow = o;
             StringBuilder sb = new StringBuilder();
@@ -155,7 +160,9 @@ public class GameDetailService {
      * @return
      */
     public static String onAtt(Number qq, Number qq2, Long v) {
-        if (getInfo(qq2).isBg()){return PLAYER_BG_TIPS;}
+        if (getInfo(qq2).isBg()) {
+            return PLAYER_BG_TIPS;
+        }
         PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
         //=====

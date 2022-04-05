@@ -27,8 +27,7 @@ import static Project.dataBases.DataBase.isFather;
 import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CUSTOM_MENU_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NO_PERMISSION_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
@@ -43,8 +42,8 @@ public class CustomController {
             "4.删除词 _...\r\n" +
             "5.删除id _...";
     private static final int FINAL_INDEX = 10;
-    private static final long CD = 15 * 1000;
-    public static Map<String, List<Reply>> MAP = new HashMap<>();
+    private static final long CD = 5 * 1000;
+    public static Map<String, List<AutoReply>> MAP = new HashMap<>();
     public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
     private static int index = 1;
     private static long cd = -1;
@@ -70,16 +69,16 @@ public class CustomController {
             }
             if (cd > System.currentTimeMillis()) return null;
             if (MAP.containsKey(s)) {
-                Reply reply = getRandT(MAP.get(s));
+                AutoReply reply = getRandT(MAP.get(s));
                 MessageChainBuilder builder = new MessageChainBuilder();
-                if (reply.content.startsWith("at")) {
-                    reply.content = reply.content.replaceFirst("at", "");
-                    MessageTools.sendMessageInGroupWithAt(reply.content, group.getId(), qq);
+                if (reply.getV().startsWith("at")) {
+                    String content = reply.getV().replaceFirst("at", "");
+                    MessageTools.sendMessageInGroupWithAt(reply.getV(), group.getId(), qq);
                 } else {
-                    MessageTools.sendMessageInGroup(reply.content, group.getId());
+                    MessageTools.sendMessageInGroup(reply.getV(), group.getId());
                 }
                 cd = System.currentTimeMillis() + CD;
-                return reply.content;
+                return reply.getV();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,21 +99,19 @@ public class CustomController {
         int i2 = str.indexOf("答");
         String k = str.substring(i1 + 1, i2);
         String v = str.substring(i2 + 1, str.length());
-        Reply reply = new Reply(q, v, System.currentTimeMillis(), k);
-        if (MAP.containsKey(k)) return false;
+        AutoReply reply = new AutoReply();
+        reply.setWho(Long.toString(q)).setV(v).setTime(String.valueOf(System.currentTimeMillis())).setK(k);
         if (!addReply(reply)) return false;
         MapUtils.append(MAP, k, reply);
         return true;
     }
 
-    public final static Map<String, List<Reply>> getAllAutoReply() {
+    public final static Map<String, List<AutoReply>> getAllAutoReply() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
-        Map<String, List<Reply>> map = new LinkedHashTreeMap<>();
+        Map<String, List<AutoReply>> map = new LinkedHashTreeMap<>();
         for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
-            Reply reply = new Reply(autoReply.getId().longValue(), autoReply.getV(), Long.parseLong(autoReply.getTime()), autoReply.getK());
-            reply.id = autoReply.getId();
-            MapUtils.append(map, reply.key, reply);
+            MapUtils.append(map, autoReply.getK(), autoReply);
         }
         return map;
     }
@@ -125,21 +122,15 @@ public class CustomController {
         return getAutoReplyMapper().selectList(queryWrapper).size();
     }
 
-    public final static boolean deleteReply(Reply reply) {
-        AutoReply autoReply = getAutoReplyMapper().selectById(reply.id);
+    public final static boolean deleteReply(AutoReply reply) {
+        AutoReply autoReply = getAutoReplyMapper().selectById(reply.getId());
         autoReply.setDeleteStat(1);
         UpdateWrapper<AutoReply> wrapper = new UpdateWrapper<>();
-        wrapper.eq("id", reply.id);
+        wrapper.eq("id", reply.getId());
         return getAutoReplyMapper().update(autoReply, wrapper) > 0;
     }
 
-    public final static boolean addReply(Reply reply) {
-        AutoReply autoReply = new AutoReply()
-                .setK(reply.key)
-                .setV(reply.content)
-                .setDeleteStat(0)
-                .setWho(String.valueOf(reply.who))
-                .setTime(String.valueOf(reply.time));
+    public final static boolean addReply(AutoReply autoReply) {
         return getAutoReplyMapper().insert(autoReply) > 0;
     }
 
@@ -151,7 +142,7 @@ public class CustomController {
         if (s.equals(CUSTOM_MENU_STR)) {
             return;
         }
-        if (!isFather(qq)) {
+        if (!isFather(qq, group.getId())) {
             throw new NoRunException(NO_PERMISSION_STR);
         }
     }
@@ -225,8 +216,9 @@ public class CustomController {
     public String select(@Param("name") String name) {
         if (MAP.containsKey(name)) {
             StringBuilder sb = new StringBuilder();
-            for (Reply reply : MAP.get(name)) {
-                sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.key, reply.content, Tool.getTimeYMdhms(reply.time), reply.who));
+            for (AutoReply reply : MAP.get(name)) {
+                sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.getK(), reply.getV(),
+                        Tool.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
             }
             return sb.toString();
         } else {
@@ -237,38 +229,13 @@ public class CustomController {
     @Action("删除词<.+=>name>")
     public String delete(@Param("name") String name) {
         if (MAP.containsKey(name)) {
-            Reply reply = MAP.get(name).get(0);
+            AutoReply reply = MAP.get(name).get(0);
             if (deleteReply(reply)) {
                 MAP.get(name).remove(reply);
                 return "删除成功";
             } else return "删除失败";
         } else {
             return "未查询到该词";
-        }
-    }
-
-    public final static class Reply {
-        private Long who;
-        private String content;
-        private Long time;
-        private String key;
-        private Integer id;
-
-        public Reply(Long who, String content, Long time, String key) {
-            this.who = who;
-            this.content = content;
-            this.time = time;
-            this.key = key;
-        }
-
-        @Override
-        public String toString() {
-            return "Reply{" +
-                    "who=" + who +
-                    ", content='" + content + '\'' +
-                    ", time=" + time +
-                    ", key='" + key + '\'' +
-                    '}';
         }
     }
 }

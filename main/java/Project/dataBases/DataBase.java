@@ -113,18 +113,18 @@ public class DataBase {
         return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);
     }
 
-    public static boolean isFather(Long who) {
-        if (getFatherMapper() != null) {
-            Father father = null;
-            try {
-                father = getFatherMapper().selectById(who);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return father.getPermission().equals(ALL);
-        }
-        return new File(path + "/mainfist/fathers/" + who).exists();
-    }
+//    public static boolean isFather(Long who) {
+//        if (getFatherMapper() != null) {
+//            Father father = null;
+//            try {
+//                father = getFatherMapper().selectById(who);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return father.getPermission().equals(ALL);
+//        }
+//        return new File(path + "/mainfist/fathers/" + who).exists();
+//    }
 
     public static boolean isFather(Long who, Long gid) {
         if (getFatherMapper() != null) {
