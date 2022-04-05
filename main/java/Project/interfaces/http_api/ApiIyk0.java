@@ -5,6 +5,7 @@ import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.Jyu;
+import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.colb.PickupABottle;
 import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
 
@@ -13,6 +14,15 @@ import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
  */
 @HttpClient("https://api.iyk0.com")
 public interface ApiIyk0 {
+    /**
+     * 最新疫情
+     *
+     * @param address
+     * @return
+     */
+    @GetPath("yq")
+    YiQing yq(@ParamName("msg") String address);
+
     /**
      * 随机头像
      *

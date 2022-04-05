@@ -11,6 +11,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.baiKe.BaiKe;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
@@ -24,8 +25,8 @@ import net.mamoe.mirai.message.data.Message;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
@@ -107,7 +108,7 @@ public class EntertainmentController2 {
             return Tool.pathToImg(jo.getString("img"));
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取失败";
+            return GET_FAILED;
         }
     }
 
@@ -118,7 +119,7 @@ public class EntertainmentController2 {
             return Tool.pathToImg(jo.getString("img"));
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取失败";
+            return GET_FAILED;
         }
     }
 
@@ -129,7 +130,7 @@ public class EntertainmentController2 {
             return Tool.pathToImg(jo.getString("img"));
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取失败";
+            return GET_FAILED;
         }
     }
 
@@ -137,10 +138,10 @@ public class EntertainmentController2 {
     public String sjtx3() {
         try {
             JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[3]);
-            return Tool.pathToImg(jo.getString("img1")) + "\n" +Tool.pathToImg(jo.getString("img2"));
+            return Tool.pathToImg(jo.getString("img1")) + "\n" + Tool.pathToImg(jo.getString("img2"));
         } catch (Exception e) {
             e.printStackTrace();
-            return "获取失败";
+            return GET_FAILED;
         }
     }
 
@@ -260,5 +261,31 @@ public class EntertainmentController2 {
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         Pcblzlby_c6 pcblzlby_c6 = pvpSkin.getPcblzlby_c6()[i];
         return pvpQq.getSkinPic("https:" + pcblzlby_c6.getPcblzlbyxqydz_c4());
+    }
+
+    @Action("疫情<.+=>name>")
+    public String yq0(@Param("name") String address) {
+        YiQing qing = apiIyk0.yq(address);
+        if (qing == null) {
+            return ERR_TIPS;
+        }
+        // "目前确诊": "1792",
+        //    "死亡人数": "9",
+        //    "治愈人数": "1723",
+        //    "新增确诊": "11",
+        //    "现存确诊": "60",
+        //    "现存无症状": "463",
+        StringBuilder sb = new StringBuilder()
+                .append("地区:").append(qing.get查询地区()).append(NEWLINE)
+                .append("时间:").append(qing.getTime()).append(NEWLINE)
+                .append("新增确诊:").append(qing.get新增确诊()).append(NEWLINE)
+                .append("目前确诊:").append(qing.get目前确诊()).append(NEWLINE)
+                .append("现存确诊:").append(qing.get现存确诊()).append(NEWLINE)
+                .append("现存无症状:").append(qing.get现存无症状()).append(NEWLINE)
+                .append("治愈人数:").append(qing.get治愈人数()).append(NEWLINE)
+                .append("死亡人数:").append(qing.get死亡人数()).append(NEWLINE)
+                ;
+
+        return sb.toString();
     }
 }
