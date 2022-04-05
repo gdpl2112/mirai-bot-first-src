@@ -6,6 +6,7 @@ import Project.detailPlugin.PvpQq;
 import Project.interfaces.http_api.ApiIyk0;
 import Project.interfaces.http_api.GetPvpQQ;
 import Project.interfaces.http_api.MuXiaoGuo;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -97,10 +98,46 @@ public class EntertainmentController2 {
 //        }
     }
 
+    private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
+
     @Action("随机头像")
-    public String sjtx() {
+    public String sjtx0() {
         try {
-            return Tool.pathToImg(muXiaoGuo.getSjtx("pc").getData().getImgurl());
+            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[2]);
+            return Tool.pathToImg(jo.getString("img"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
+
+    @Action("随机男头像")
+    public String sjtx1() {
+        try {
+            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[1]);
+            return Tool.pathToImg(jo.getString("img"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
+
+    @Action("随机女头像")
+    public String sjtx2() {
+        try {
+            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[0]);
+            return Tool.pathToImg(jo.getString("img"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "获取失败";
+        }
+    }
+
+    @Action("随机情侣头像")
+    public String sjtx3() {
+        try {
+            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[3]);
+            return Tool.pathToImg(jo.getString("img1")) + "\n" +Tool.pathToImg(jo.getString("img2"));
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";

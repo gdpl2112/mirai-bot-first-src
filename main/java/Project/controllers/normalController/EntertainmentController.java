@@ -26,8 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
-import static Project.dataBases.DataBase.canBackShow;
-import static Project.dataBases.DataBase.getConf;
+import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
@@ -101,18 +100,18 @@ public class EntertainmentController {
         return weatherGetter.get(address);
     }
 
+    @Action("天气预报.+")
+    public String weather1(@AllMess String mess, Group group) {
+        String line = otherService.talk(mess);
+        return line;
+    }
+
     @Action("天气<.+=>name>")
     public String weather0(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
         if (getConf(group.getId()).getVoiceK()) {
             speak(line, group);
         }
-        return line;
-    }
-
-    @Action("天气预报.+")
-    public String weather1(@AllMess String mess, Group group) {
-        String line = otherService.talk(mess);
         return line;
     }
 
@@ -176,7 +175,8 @@ public class EntertainmentController {
     @Action("语音")
     public String a1(Group group) {
         GroupConf conf = getConf(group.getId());
-        conf.setVoiceK(!conf.getVoiceK());
+        conf.setVoiceK(conf.getVoiceK() ? false : true);
+        setConf(conf);
         return conf.getVoiceK() ? "当前开启" : "当前关闭";
     }
 

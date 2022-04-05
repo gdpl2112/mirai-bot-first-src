@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.5: 新增随机头像功能,见\"娱乐功能\"").append("\n");
         UPDATE_LOG.append("4.5: 修复已知bug,优化回复,修复举牌子,暂时关闭扔瓶子/捡瓶子 功能").append("\n");
         UPDATE_LOG.append("4.4: 修复已知bug").append("\n");
         UPDATE_LOG.append("4.3: 修复已知bug,新功能闭关/取消闭关,闭关后不可被攻击和行动").append("\n");

@@ -1,5 +1,6 @@
 package Project.interfaces.http_api;
 
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
@@ -12,6 +13,15 @@ import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
  */
 @HttpClient("https://api.iyk0.com")
 public interface ApiIyk0 {
+    /**
+     * 随机头像
+     *
+     * @param msg
+     * @return
+     */
+    @GetPath("sjtx")
+    JSONObject sjtx(@ParamName("msg") String msg);
+
     /**
      * 降雨图
      *
