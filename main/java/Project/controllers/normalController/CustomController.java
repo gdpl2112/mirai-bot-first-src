@@ -73,7 +73,7 @@ public class CustomController {
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.getV().startsWith("at")) {
                     String content = reply.getV().replaceFirst("at", "");
-                    MessageTools.sendMessageInGroupWithAt(reply.getV(), group.getId(), qq);
+                    MessageTools.sendMessageInGroupWithAt(content, group.getId(), qq);
                 } else {
                     MessageTools.sendMessageInGroup(reply.getV(), group.getId());
                 }

@@ -55,6 +55,15 @@ public class Tool {
         }
     }
 
+    private static final String BASE64 = "base64,";
+
+    public static byte[] getBase64Date(String base64) {
+        int i = base64.indexOf(BASE64);
+        String base64Str = base64.substring(i + BASE64.length());
+        byte[] bytes = Base64.getDecoder().decode(base64Str);
+        return bytes;
+    }
+
     public static String[] print(Process exec) throws IOException {
         try {
             exec.waitFor();

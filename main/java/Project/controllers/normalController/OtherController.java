@@ -149,11 +149,11 @@ public class OtherController {
         m0.append("/举牌子<Text>\n");
         m0.append("/赞<At>\n");
         m0.append("====");
-        m0.append("解析快手图片<url>");
-        m0.append("解析抖音图片<url>");
-        m0.append("QQ信息<qq>");
-        m0.append("QQ群信息<qq>");
-        m0.append("/搜图<图片>");
+        m0.append("解析快手图片<url>\n");
+        m0.append("解析抖音图片<url>\n");
+        m0.append("QQ信息<qq>\n");
+        m0.append("QQ群信息<qq>\n");
+        m0.append("/搜图<图片>\n");
         E_MENUS = m0.toString().split("====");
     }
 

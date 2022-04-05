@@ -2,6 +2,7 @@ package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
+import Project.interfaces.http_api.Atoolbox;
 import Project.interfaces.http_api.IBaiduShitu;
 import Project.interfaces.http_api.JuiLi;
 import Project.interfaces.http_api.WeiJieYue;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.Map.Entry;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
@@ -30,6 +32,7 @@ import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**
  * @author github-kloping
@@ -59,8 +62,13 @@ public class EntertainmentController3 {
 
     @AutoStand
     WeiJieYue weiJieYue;
+
     @AutoStand
     JuiLi api0;
+
+    @AutoStand
+    Atoolbox atoolbox;
+
     @AutoStand
     IBaiduShitu iBaiduShitu;
 
@@ -142,7 +150,10 @@ public class EntertainmentController3 {
         if (msg == null || msg.trim().isEmpty()) {
             msg = "请指定内容哦~";
         }
-        byte[] bytes = api0.jupaizi(msg);
+        Entry<String, String> e0 = getEntry("c", msg);
+        Entry<String, Boolean> e1 = getEntry("t", true);
+        Entry<String, String> e2 = getEntry("b", "#000000");
+        byte[] bytes = Tool.getBase64Date(atoolbox.s0(e0, e1, e2));
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }

@@ -11,13 +11,12 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.apiEntitys.baiKe.BaiKe;
-import io.github.kloping.mirai0.commons.apiEntitys.colb.PickupABottle;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
-import io.github.kloping.mirai0.commons.apiEntitys.thb.ThrowABottle;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Message;
 
@@ -68,33 +67,34 @@ public class EntertainmentController2 {
 
     @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
     public String getBottle() {
-        PickupABottle pab = null;
-        try {
-            pab = apiIyk0.pickupBottle(2);
-            StringBuilder sb = new StringBuilder();
-            sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
-                    .append("\n的:").append(pab.getData().getUin())
-                    .append("\n在:").append(pab.getData().getTime())
-                    .append("\n写的:").append(pab.getData().getMsg());
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "没捡到瓶子...";
-        }
+        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
+//        PickupABottle pab = null;
+//        try {
+//            pab = apiIyk0.pickupBottle(2);
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
+//                    .append("\n的:").append(pab.getData().getUin())
+//                    .append("\n在:").append(pab.getData().getTime())
+//                    .append("\n写的:").append(pab.getData().getMsg());
+//            return sb.toString();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "没捡到瓶子...";
+//        }
     }
 
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
     public String setBottle(long q, Group group, @Param("str") String str) {
-        if (str == null || str.trim().isEmpty()) return "请携带内容~";
-        try {
-            ThrowABottle throwABottle = apiIyk0.throwBottle(1,
-                    str, q, group.getId());
-            return throwABottle.getData().getMsg();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
-        }
-
+        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
+//        if (str == null || str.trim().isEmpty()) return "请携带内容~";
+//        try {
+//            ThrowABottle throwABottle = apiIyk0.throwBottle(1,
+//                    str, q, group.getId());
+//            return throwABottle.getData().getMsg();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
+//        }
     }
 
     @Action("随机头像")
