@@ -282,7 +282,7 @@ public class DataBase {
 
     public static boolean isMaxEarnings(long who) {
         UserScore score = getAllInfo(who);
-        return score.getEarnings() - score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
+        return score.getEarnings() + score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
     }
 
     public static long addScore(long l, Long who) {

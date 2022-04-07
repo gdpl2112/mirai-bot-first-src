@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.8: 更新").append("\n");
         UPDATE_LOG.append("4.5: 新增随机头像功能,见\"娱乐功能\",新功能 疫情<地区>").append("\n");
         UPDATE_LOG.append("4.5: 修复已知bug,优化回复,修复举牌子,暂时关闭扔瓶子/捡瓶子 功能").append("\n");
         UPDATE_LOG.append("4.4: 修复已知bug").append("\n");
