@@ -79,7 +79,7 @@ public class OtherController1 {
         StringBuilder sb = new StringBuilder();
         Data data = questionData.getData()[0];
         sb.append("题目:\n");
-        sb.append(data.getQuestion());
+        sb.append(data.getQuestion()).append(NEWLINE);
         if (isNotEmpty(data.getMediaContent()))
             sb.append(pathToImg(data.getMediaContent())).append("\n");
         sb.append("选项:\n");
@@ -129,7 +129,7 @@ public class OtherController1 {
             if (!k) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("说明: ").append(data.getExplain()).append(NEWLINE);
-                sb.append("解析: ").append(data.getConciseExplain()).append(NEWLINE);
+                sb.append("").append(data.getConciseExplain()).append(NEWLINE);
                 sb.append("提示: ").append(data.getKnackDetail()).append(NEWLINE);
                 sb.append("正确答案: ").append(toAnswer(data.getAnswer().intValue()));
                 MessageTools.sendMessageInGroup(sb.toString(), gid);
