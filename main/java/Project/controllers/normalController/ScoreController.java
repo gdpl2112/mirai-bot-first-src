@@ -1,11 +1,13 @@
 package Project.controllers.normalController;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.UserScore;
@@ -23,6 +25,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 
 /**
  * @author github-kloping
@@ -177,6 +180,43 @@ public class ScoreController {
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();
         }
+    }
+
+    @Action("发言排行.+?")
+    public String ph(@AllMess String s, Group group) {
+        Integer s0 = getInteagerFromStr(s);
+        s0 = s0 == null ? 10 : s0;
+        s0 = s0 > 50 ? 50 : s0;
+        List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
+        StringBuilder sb = new StringBuilder();
+        int na = 0;
+        for (UserScore score : list) {
+            ++na;
+            Long qid = score.getWho();
+            Integer num = score.getSTimes().intValue();
+            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+                    .append("=>").append("累计发言了").append(num).append("次\n");
+        }
+        return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+    }
+
+    @Action("今日发言排行.+?")
+    public String ph0(@AllMess String s, Group group) {
+        Integer s0 = getInteagerFromStr(s);
+        s0 = s0 == null ? 10 : s0;
+        s0 = s0 > 50 ? 50 : s0;
+        SpringBootResource.getScoreMapper().toDay(s0);
+        List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
+        StringBuilder sb = new StringBuilder();
+        int na = 0;
+        for (UserScore score : list) {
+            ++na;
+            Long qid = score.getWho();
+            Integer num = score.getSTimes().intValue();
+            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+                    .append("=>").append("今日发言了").append(num).append("次\n");
+        }
+        return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
 
     @Action(value = "我的收益", otherName = {"收益详情", "积分收益"})
