@@ -34,10 +34,11 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      * to day
      *
      * @param num
+     * @param d
      * @return
      */
-    @Select("select * from user_score order by times desc limit #{num};")
-    List<UserScore> toDay(@Param("num") Integer num);
+    @Select("select * from user_score where times_day=#{d} order by times desc limit #{num};")
+    List<UserScore> toDay(@Param("d") Integer d, @Param("num") Integer num);
 
     /**
      * ph

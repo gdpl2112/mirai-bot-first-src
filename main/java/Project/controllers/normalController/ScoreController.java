@@ -24,8 +24,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -205,7 +204,7 @@ public class ScoreController {
         Integer s0 = getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
-        SpringBootResource.getScoreMapper().toDay(s0);
+        SpringBootResource.getScoreMapper().toDay(s0, getTodayInt());
         List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
         StringBuilder sb = new StringBuilder();
         int na = 0;
