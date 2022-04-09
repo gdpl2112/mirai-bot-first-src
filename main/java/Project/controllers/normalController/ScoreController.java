@@ -212,7 +212,7 @@ public class ScoreController {
         for (UserScore score : list) {
             ++na;
             Long qid = score.getWho();
-            Integer num = score.getTimesDay().intValue();
+            Integer num = score.getTimes().intValue();
             sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
                     .append("=>").append("今日发言了").append(num).append("次\n");
         }
