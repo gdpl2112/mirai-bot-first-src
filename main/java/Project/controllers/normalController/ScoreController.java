@@ -182,7 +182,7 @@ public class ScoreController {
         }
     }
 
-    @Action("发言排行.+?")
+    @Action("发言排行.?")
     public String ph(@AllMess String s, Group group) {
         Integer s0 = getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
@@ -200,7 +200,7 @@ public class ScoreController {
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
 
-    @Action("今日发言排行.+?")
+    @Action("今日发言排行.?")
     public String ph0(@AllMess String s, Group group) {
         Integer s0 = getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
