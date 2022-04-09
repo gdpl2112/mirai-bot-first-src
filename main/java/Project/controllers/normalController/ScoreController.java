@@ -204,8 +204,7 @@ public class ScoreController {
         Integer s0 = getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
-        SpringBootResource.getScoreMapper().toDay(s0, getTodayInt());
-        List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
+        List<UserScore> list =  SpringBootResource.getScoreMapper().toDay(s0, getTodayInt());
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (UserScore score : list) {
