@@ -10,6 +10,7 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
 import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromMessageChain;
 import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getBase64Data;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
 
 /**
@@ -199,6 +201,8 @@ public class MessageTools {
                 image = Contact.uploadImage(group, new URL(path).openStream());
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
+            } else if (path.contains("base64,")) {
+                image = Contact.uploadImage(group, new ByteArrayInputStream(getBase64Data(path)));
             } else {
                 image = Contact.uploadImage(group, new File(path));
             }

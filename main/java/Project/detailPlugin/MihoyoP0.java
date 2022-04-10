@@ -26,7 +26,7 @@ public class MihoyoP0 {
     @AutoStand
     Mihoyo mihoyo;
 
-    public String c0(Document arg) {
+    public static String c0(Document arg) {
         return getJsonFromYs(arg);
     }
 
@@ -89,7 +89,7 @@ public class MihoyoP0 {
         return false;
     }
 
-    public String getJsonFromYs(Document doc) {
+    public static String getJsonFromYs(Document doc) {
         Element element = doc.body().getElementsByTag("script").get(0);
         final String oStr = element.toString();
         int i1 = oStr.lastIndexOf("(");

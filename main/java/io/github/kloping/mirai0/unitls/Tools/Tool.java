@@ -57,7 +57,7 @@ public class Tool {
 
     private static final String BASE64 = "base64,";
 
-    public static byte[] getBase64Date(String base64) {
+    public static byte[] getBase64Data(String base64) {
         int i = base64.indexOf(BASE64);
         String base64Str = base64.substring(i + BASE64.length());
         byte[] bytes = Base64.getDecoder().decode(base64Str);
@@ -390,7 +390,7 @@ public class Tool {
         String ss = "";
         if (str != null) {
             for (int i = 0; i < str.length(); i++) {
-                int c = str.codePointAt(i);// charAt(i);
+                int c = str.codePointAt(i);
                 if (c >= '0' && c <= '9') {
                     ss += (char) c;
                 }

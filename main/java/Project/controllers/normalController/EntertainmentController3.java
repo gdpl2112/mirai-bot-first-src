@@ -153,7 +153,7 @@ public class EntertainmentController3 {
         Entry<String, String> e0 = getEntry("c", msg);
         Entry<String, Boolean> e1 = getEntry("t", true);
         Entry<String, String> e2 = getEntry("b", "#000000");
-        byte[] bytes = Tool.getBase64Date(atoolbox.s0(e0, e1, e2));
+        byte[] bytes = Tool.getBase64Data(atoolbox.s0(e0, e1, e2));
         MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
