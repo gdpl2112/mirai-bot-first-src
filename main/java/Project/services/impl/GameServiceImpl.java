@@ -4,6 +4,7 @@ package Project.services.impl;
 import Project.aSpring.SpringBootResource;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
+import Project.controllers.gameControllers.GameController2;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -57,6 +58,8 @@ public class GameServiceImpl implements IGameService {
     public int st = 24;
     @AutoStand
     GameController gameController;
+    @AutoStand
+    GameController2 gameController2;
 
     @Override
     public String xl(Long who) {
@@ -720,7 +723,7 @@ public class GameServiceImpl implements IGameService {
         }
         try {
             if (warp.getBindQ().longValue() != -1) {
-                gameController.RemoveFusionNow(id.longValue());
+                gameController2.removeFusionNow(id.longValue());
             }
             i++;
         } catch (Exception e) {

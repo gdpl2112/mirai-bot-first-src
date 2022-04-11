@@ -2,6 +2,7 @@ package Project.controllers.gameControllers;
 
 
 import Project.controllers.auto.ConfirmController;
+import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -185,31 +186,31 @@ public class GameController {
         }
     }
 
-    @Action(value = "背包", otherName = "我的背包")
-    public String bgs(User qq, Group group) {
-        String str = getImageFromStrings(gameService.getBags(qq.getId()));
-        return str;
+    @AutoStand
+    GameController c0;
+
+    @AutoStand
+    ScoreController c1;
+
+    @AutoStand
+    GameJoinAcController c2;
+
+    @Action("双修打工进入.*+")
+    public Object o1(User user, Group group, @AllMess String s0) {
+        MessageTools.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
+        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+        String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
+        return c2.com1(group, name, user);
     }
 
-    @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
-    public String BuyGold(User qq, @Param("num") String num, Group group) {
-        if (challengeDetailService.isTemping(qq.getId())) {
-            return CHALLENGE_ING;
-        }
-        try {
-            Long nu = Long.valueOf(num);
-            String str = gameService.buyGold(qq.getId(), nu);
-            return str;
-        } catch (NumberFormatException e) {
-            return "买多少呢";
-        }
+    @Action("修炼打工进入.*+")
+    public Object o2(User user, Group group, @AllMess String s0) {
+        MessageTools.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
+        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+        String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
+        return c2.com1(group, name, user);
     }
 
-    @Action(value = "魂环配置", otherName = {"我的魂环"})
-    public String showHh(User qq, String num, Group group) {
-        String str = gameService.showHh(qq.getId());
-        return str;
-    }
 
     @Action("吸收魂环<.{0,}=>name>")
     public String joinHh(User qq, @Param("name") String name, Group group) {
@@ -331,10 +332,6 @@ public class GameController {
         return ("错误...");
     }
 
-    @Action("取名封号<.+=>name>")
-    public String SnameMake(@Param("name") String name, Group group, User qq) {
-        return gameService.makeSname(qq.getId(), name, group);
-    }
 
     @Action("双修")
     public String Xl2(User qq, Group group) {
@@ -342,49 +339,6 @@ public class GameController {
             return "未融合";
         String str = gameService.xl2(qq.getId());
         return str;
-    }
-
-    @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
-    public String Fusion(@Param("str") String str, Group group, User qq) {
-        Long q2 = MessageTools.getAtFromString(str);
-        if (q2 == -1)
-            throw new RuntimeException();
-        String s1 = gameService.fusion(qq.getId(), q2, group);
-        return s1;
-    }
-
-    public String RemoveFusionNow(Long qq) {
-        Warp warp = getWarp(qq);
-        if (warp.getBindQ().longValue() != -1) {
-            long q1 = qq;
-            long q2 = warp.getBindQ().longValue();
-            Warp warp2 = getWarp(q2);
-            warp.setBindQ(-1L);
-            warp2.setBindQ(-1L);
-            setWarp(warp);
-            setWarp(warp2);
-            return "解除成功";
-        } else return "你没有与任何人融合";
-    }
-
-
-    @Action("解除武魂融合")
-    public String RemoveFusion(User qq) {
-        try {
-            Method method = this.getClass().getDeclaredMethod("RemoveFusionNow", Long.class);
-            ConfirmController.regConfirm(qq.getId(), method, this, new Object[]{qq.getId()});
-            return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
-        } catch (Exception e) {
-            return "解除异常";
-        }
-    }
-
-    @Action(value = "我的武魂类型", otherName = {"武魂类型"})
-    public String myType(long q) {
-        PersonInfo p1 = getInfo(q);
-        if (p1.getWh() > 0)
-            return String.format("你的武魂是\"%s\"属于\"%s\"", getNameById(p1.getWh()), getWhType(p1.getWhType()));
-        else return "您还没有武魂";
     }
 
     @Action("关系列表")

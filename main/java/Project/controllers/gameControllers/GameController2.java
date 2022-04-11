@@ -2,32 +2,31 @@ package Project.controllers.gameControllers;
 
 
 import Project.controllers.auto.ConfirmController;
-import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import java.lang.reflect.Method;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
+import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -48,6 +47,26 @@ public class GameController2 {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
+    }
+
+    @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
+    public String buyGold(User qq, @Param("num") String num, Group group) {
+        if (challengeDetailService.isTemping(qq.getId())) {
+            return CHALLENGE_ING;
+        }
+        try {
+            Long nu = Long.valueOf(num);
+            String str = gameService.buyGold(qq.getId(), nu);
+            return str;
+        } catch (NumberFormatException e) {
+            return "买多少呢";
+        }
+    }
+
+    @Action(value = "魂环配置", otherName = {"我的魂环"})
+    public String showHh(User qq, String num, Group group) {
+        String str = gameService.showHh(qq.getId());
+        return str;
     }
 
     @Action(value = "详细信息", otherName = {"详情信息"})
@@ -78,6 +97,55 @@ public class GameController2 {
         throw new NoRunException();
     }
 
+    @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
+    public String fusion(@Param("str") String str, Group group, User qq) {
+        Long q2 = MessageTools.getAtFromString(str);
+        if (q2 == -1)
+            throw new RuntimeException();
+        String s1 = gameService.fusion(qq.getId(), q2, group);
+        return s1;
+    }
+
+    public String removeFusionNow(Long qq) {
+        Warp warp = getWarp(qq);
+        if (warp.getBindQ().longValue() != -1) {
+            long q1 = qq;
+            long q2 = warp.getBindQ().longValue();
+            Warp warp2 = getWarp(q2);
+            warp.setBindQ(-1L);
+            warp2.setBindQ(-1L);
+            setWarp(warp);
+            setWarp(warp2);
+            return "解除成功";
+        } else {
+            return "你没有与任何人融合";
+        }
+    }
+
+    @Action("取名封号<.+=>name>")
+    public String makeSName(@Param("name") String name, Group group, User qq) {
+        return gameService.makeSname(qq.getId(), name, group);
+    }
+
+    @Action("解除武魂融合")
+    public String removeFusion(User qq) {
+        try {
+            Method method = this.getClass().getDeclaredMethod("removeFusionNow", Long.class);
+            ConfirmController.regConfirm(qq.getId(), method, this, new Object[]{qq.getId()});
+            return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
+        } catch (Exception e) {
+            return "解除异常";
+        }
+    }
+
+    @Action(value = "我的武魂类型", otherName = {"武魂类型"})
+    public String myType(long q) {
+        PersonInfo p1 = getInfo(q);
+        if (p1.getWh() > 0)
+            return String.format("你的武魂是\"%s\"属于\"%s\"", getNameById(p1.getWh()), getWhType(p1.getWhType()));
+        else return "您还没有武魂";
+    }
+
     @Action("合成<.+=>name>")
     public String m1(@Param("name") String name, long q) {
         try {
@@ -89,28 +157,14 @@ public class GameController2 {
     }
 
     @AutoStand
-    GameController c0;
-
+    IGameService gameService;
     @AutoStand
-    ScoreController c1;
+    private GameBoneController gameBoneController;
 
-    @AutoStand
-    GameJoinAcController c2;
-
-    @Action("双修打工进入.*+")
-    public Object o1(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
-        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
-        String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
-        return c2.com1(group, name, user);
-    }
-
-    @Action("修炼打工进入.*+")
-    public Object o2(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
-        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
-        String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
-        return c2.com1(group, name, user);
+    @Action(value = "背包", otherName = "我的背包")
+    public String bgs(User qq, Group group) {
+        String str = getImageFromStrings(gameService.getBags(qq.getId()));
+        return str;
     }
 
     @Action("闭关")
