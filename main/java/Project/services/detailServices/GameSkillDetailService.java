@@ -6,6 +6,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
+import io.github.kloping.mirai0.commons.game.AsynchronousHf;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -90,6 +91,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8030, 40);
         BASE_PERCENT_MAP.put(8031, 40);
         BASE_PERCENT_MAP.put(8041, 42);
+        BASE_PERCENT_MAP.put(8051, 28);
+        BASE_PERCENT_MAP.put(8050, 1);
     }
 
     static {
@@ -436,6 +439,20 @@ public class GameSkillDetailService {
             return;
         }
         new AsynchronousAttack(n, q1, q2, value, eve, gid).setFormatStr(format).start();
+    }
+
+    /**
+     * 异步回血
+     *
+     * @param n
+     * @param q1
+     * @param q2
+     * @param value
+     * @param eve
+     * @param gid
+     */
+    public static void addHFSchedule(int n, long q1, long value, long eve, long gid) {
+        new AsynchronousHf(n, q1, -1L, value, eve, gid).start();
     }
 
 }

@@ -30,6 +30,7 @@ import static Project.skill.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.CANT_USE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
@@ -125,6 +126,7 @@ public class GameSkillServiceImpl implements ISkillService {
             return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
         if (personInfo.isVertigo()) return VERTIGO_ING;
+        if (personInfo.containsTag(TAG_CANT_USE)) return CANT_USE_ING;
         long v = personInfo.getHll();
         long v1 = personInfo.getHl();
         Integer b = toPercent(v1, v);
@@ -146,7 +148,7 @@ public class GameSkillServiceImpl implements ISkillService {
         String tips = skill.getTips() + GameDetailService.consumedHl(qq, uv);
         return SourceDataBase.getImgPathById(info.getId() + 100) +
                 getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(qq).getWh()) +
-                "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals("null"))) ? "" : tips);
+                "\r\n===================\r\n" + (((tips == null || tips.trim().isEmpty() || tips.equals(NULL_LOW_STR))) ? "" : tips);
     }
 
     @Override

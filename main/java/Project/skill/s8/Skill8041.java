@@ -37,7 +37,7 @@ public class Skill8041 extends SkillTemplate {
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "天使第八魂技") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "噬魂蛛皇第八魂技") {
             @Override
             public void before() {
                 if (nums.length <= 0) {

@@ -73,6 +73,10 @@ public class SkillDataBase {
      * 雷电反甲
      */
     public static final String TAG_LIGHT_F = "l";
+    /**
+     * 限制魂技
+     */
+    public static final String TAG_CANT_USE = "m";
 
     public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
 
