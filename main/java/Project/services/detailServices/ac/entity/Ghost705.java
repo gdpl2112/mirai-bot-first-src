@@ -30,7 +30,7 @@ public class Ghost705 extends GhostWithGroup {
 
     @Override
     public long updateHp(long l, BaseInfo who) {
-        setHp(getHp() + (-l));
+        setHp(getHp() + l);
         int b = toPercent(getHp(), getHpL());
         if (b <= 25 && cd < System.currentTimeMillis()) {
             cd = System.currentTimeMillis() + 30 * 1000;
