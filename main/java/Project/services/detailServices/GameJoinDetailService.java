@@ -77,15 +77,11 @@ public class GameJoinDetailService {
             }
             IDXS.add(ghostObj.getIDX());
             long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
-
             if (canAttMe) {
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
                         .append(GameDetailService.beaten(who, -2, at2));
             }
-
             ghostObj.updateHp(-att, getInfo(who));
-
-            ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
             sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害");
             boolean showY = false;
             if (ghostObj.getHp() > 0) {

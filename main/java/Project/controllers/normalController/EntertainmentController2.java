@@ -1,5 +1,6 @@
 package Project.controllers.normalController;
 
+import Project.detailPlugin.BaiduBaiKe;
 import Project.detailPlugin.GetPvpNews;
 import Project.detailPlugin.MihoyoP0;
 import Project.detailPlugin.PvpQq;
@@ -12,7 +13,6 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
-import io.github.kloping.mirai0.commons.apiEntitys.baiKe.BaiKe;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
@@ -145,12 +145,15 @@ public class EntertainmentController2 {
         }
     }
 
+    @AutoStand
+    BaiduBaiKe baiduBaiKe;
+
     @Action("百科<.+=>str>")
-    public String m1(@Param("str") String name) {
+    public Object m1(@Param("str") String name) {
         try {
-            BaiKe baiKe = muXiaoGuo.getBaiKe("Baidu", name);
-            return baiKe.getData().getContent() + "\n相关图片:" + Tool.pathToImg(baiKe.getData().getImgUrl());
+            return baiduBaiKe.getBaiKe(name);
         } catch (Exception e) {
+            e.printStackTrace();
             return "百科中没有找到相关资料";
         }
     }
@@ -283,8 +286,7 @@ public class EntertainmentController2 {
                 .append("现存确诊:").append(qing.get现存确诊()).append(NEWLINE)
                 .append("现存无症状:").append(qing.get现存无症状()).append(NEWLINE)
                 .append("治愈人数:").append(qing.get治愈人数()).append(NEWLINE)
-                .append("死亡人数:").append(qing.get死亡人数()).append(NEWLINE)
-                ;
+                .append("死亡人数:").append(qing.get死亡人数()).append(NEWLINE);
 
         return sb.toString();
     }

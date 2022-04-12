@@ -115,8 +115,8 @@ public class GameDetailServiceUtils {
      * 对某个造成伤害
      *
      * @param sb
-     * @param who
-     * @param who2
+     * @param who  攻击者
+     * @param who2 被攻击者
      * @param v
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v) {

@@ -219,6 +219,10 @@ public class MessageTools {
         return image;
     }
 
+    public static Image createImage(String path) {
+        return createImage(bot.getAsFriend(), path);
+    }
+
     public static String getFlashUrlFromMessageString(String mess) {
         int i1 = mess.indexOf(":");
         int i2 = mess.lastIndexOf(":");
@@ -440,7 +444,12 @@ public class MessageTools {
         Group group = bot.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (Object o : objects) {
-            Message message = getMessageFromString(o.toString(), group);
+            Message message;
+            if (o instanceof Message) {
+                message = (Message) o;
+            } else {
+                message = getMessageFromString(o.toString(), group);
+            }
             builder.add(bot.getId(), bot.getNick(), message);
         }
         group.sendMessage(builder.build());

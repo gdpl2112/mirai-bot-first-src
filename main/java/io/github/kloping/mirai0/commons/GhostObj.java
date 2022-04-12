@@ -347,7 +347,7 @@ public class GhostObj implements Serializable, BaseInfo {
         this.time = time;
     }
 
-    public long updateHp(long l, BaseInfo who) {
+    public synchronized long updateHp(long l, BaseInfo who) {
         setHp(getHp() + l);
         int bv = toPercent(-l, maxHp);
         bv = bv > 100 ? 100 : bv < 1 ? 1 : bv;
