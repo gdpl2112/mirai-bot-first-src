@@ -211,15 +211,15 @@ public class JoinAcService {
         getInfo(who).setNextR3(RANDOM.nextInt(MAX_RAND3)).apply();
         GhostWithGroup ghostObj = null;
         if (r == 0) {
-            ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 705);
+            ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 706);
         } else if (r < 3) {
-            ghostObj = GhostObj.create(100000, 701, 705);
+            ghostObj = GhostObj.create(1000000, 701, 706);
         } else if (r < 16) {
-            ghostObj = GhostObj.create(10000, 701, 705);
+            ghostObj = GhostObj.create(100000, 701, 706);
         } else if (r < 25) {
-            ghostObj = GhostObj.create(1000, 701, 705);
+            ghostObj = GhostObj.create(10000, 701, 706);
         } else if (r < MIN_MEET3) {
-            ghostObj = GhostObj.create(100, 701, 705);
+            ghostObj = GhostObj.create(1000, 701, 706);
         } else if (r < MIN_MEET3 + 20) {
             GameDetailService.addHp(who, 3);
             return "<Pic:./images/ac2.png>.\n" + JOIN_AC3_EVENT0;
