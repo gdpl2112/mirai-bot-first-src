@@ -7,10 +7,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
@@ -90,5 +87,12 @@ public class SkillFactory {
             e.printStackTrace();
         }
         return SKILL_MAP.get(jid);
+    }
+
+    public static Integer[] skillListIds() {
+        Set<Integer> set = new HashSet<>();
+        set.addAll(CLASS_MAP2.keySet());
+        set.addAll(CLASS_MAP.keySet());
+        return set.toArray(new Integer[0]);
     }
 }

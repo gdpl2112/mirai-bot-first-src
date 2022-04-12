@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.commons.game;
 
+import Project.services.detailServices.GameSkillDetailService;
 import io.github.kloping.date.FrameUtils;
 
 import java.util.concurrent.ScheduledFuture;
@@ -16,6 +17,7 @@ public abstract class AsynchronousThing implements Runnable {
     public long value;
     public long eve;
     public long gid;
+    public AsynchronousThingType type = AsynchronousThingType.NORMAL;
 
     public AsynchronousThing(int n, long q1, long q2, long value, long eve, long gid) {
         this.n = n;
@@ -24,6 +26,14 @@ public abstract class AsynchronousThing implements Runnable {
         this.value = value;
         this.eve = eve;
         this.gid = gid;
+    }
+
+    public AsynchronousThingType getType() {
+        return type;
+    }
+
+    public void setType(AsynchronousThingType type) {
+        this.type = type;
     }
 
     protected String sFormat;
@@ -35,5 +45,9 @@ public abstract class AsynchronousThing implements Runnable {
 
     public void start() {
         future = FrameUtils.SERVICE.scheduleWithFixedDelay(this, eve, eve, TimeUnit.MILLISECONDS);
+    }
+
+    public void over() {
+        GameSkillDetailService.ASYNCHRONOUS_THING_MAP.get(q1).remove(this);
     }
 }

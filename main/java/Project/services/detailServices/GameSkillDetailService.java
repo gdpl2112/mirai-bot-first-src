@@ -2,11 +2,14 @@ package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
+import Project.skill.SkillFactory;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
+import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
 import io.github.kloping.mirai0.commons.game.AsynchronousHf;
+import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -95,6 +98,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8050, 1);
         BASE_PERCENT_MAP.put(8060, 18);
         BASE_PERCENT_MAP.put(8061, 19);
+        BASE_PERCENT_MAP.put(8070, 45);
+        BASE_PERCENT_MAP.put(8071, 19);
     }
 
     static {
@@ -139,18 +144,9 @@ public class GameSkillDetailService {
 
     static {
         long twoMinutes = 120000;
-        for (int i = 0; i <= 22; i++) {
-            JID2TIME.put(i, twoMinutes);
+        for (Integer integer : SkillFactory.skillListIds()) {
+            JID2TIME.put(integer, twoMinutes);
         }
-
-        for (int i = 701; i <= 731; i++) {
-            JID2TIME.put(i, twoMinutes);
-        }
-
-        for (int i = 8000; i <= 8315; i++) {
-            JID2TIME.put(i, twoMinutes);
-        }
-
         JID2TIME.remove(0);
         JID2TIME.remove(1);
         JID2TIME.remove(2);
@@ -171,6 +167,12 @@ public class GameSkillDetailService {
         JID2TIME.remove(704);
         JID2TIME.remove(706);
         JID2TIME.remove(710);
+        JID2TIME.remove(8021);
+        JID2TIME.remove(8030);
+        JID2TIME.remove(8031);
+        JID2TIME.remove(8041);
+        JID2TIME.put(8050, 60000L);
+        JID2TIME.remove(8051);
     }
 
     public static Long getDuration(int jid) {
@@ -420,6 +422,8 @@ public class GameSkillDetailService {
         public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
     }
 
+    public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
+
     /**
      * 异步 攻击
      *
@@ -433,14 +437,18 @@ public class GameSkillDetailService {
         if (q1 == q2) {
             return;
         }
-        new AsynchronousAttack(n, q1, q2, value, eve, gid).start();
+        AsynchronousThing thing = new AsynchronousAttack(n, q1, q2, value, eve, gid);
+        thing.start();
+        MapUtils.append(ASYNCHRONOUS_THING_MAP, q1, thing);
     }
 
     public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid, String format) {
         if (q1 == q2) {
             return;
         }
-        new AsynchronousAttack(n, q1, q2, value, eve, gid).setFormatStr(format).start();
+        AsynchronousThing thing = new AsynchronousAttack(n, q1, q2, value, eve, gid);
+        thing.setFormatStr(format).start();
+        MapUtils.append(ASYNCHRONOUS_THING_MAP, q1, thing);
     }
 
     /**
@@ -454,7 +462,8 @@ public class GameSkillDetailService {
      * @param gid
      */
     public static void addHFSchedule(int n, long q1, long value, long eve, long gid) {
-        new AsynchronousHf(n, q1, -1L, value, eve, gid).start();
+        AsynchronousHf hf = new AsynchronousHf(n, q1, -1L, value, eve, gid);
+        hf.start();
+        MapUtils.append(ASYNCHRONOUS_THING_MAP, q1, hf);
     }
-
 }

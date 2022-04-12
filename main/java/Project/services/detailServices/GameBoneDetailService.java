@@ -1,7 +1,9 @@
 package Project.services.detailServices;
 
 import io.github.kloping.map.MapUtils;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,6 +26,19 @@ public class GameBoneDetailService {
         } else {
             TEMP_ATTR.get(q).remove(type);
         }
+    }
+
+    public static SoulAttribute append(SoulAttribute attribute, GameBoneDetailService.Type type, int v) {
+        Integer v0 = 0;
+        try {
+            Field field = SoulAttribute.MAP.get(type.value);
+            v0 = (Integer) field.get(attribute);
+            v0 += v;
+            field.set(attribute, v0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return attribute;
     }
 
     public static enum Type {

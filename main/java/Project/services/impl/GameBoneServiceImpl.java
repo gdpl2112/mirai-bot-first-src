@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
+import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
+import static Project.services.detailServices.GameBoneDetailService.append;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -53,16 +55,21 @@ public class GameBoneServiceImpl implements IGameBoneService {
     @Override
     public SoulAttribute getSoulAttribute(Long who) {
         Integer wh = GameDataBase.getInfo(who).getWh();
-        SoulAttribute soulAttribute;
+        final SoulAttribute[] soulAttribute = new SoulAttribute[1];
         if (wh > 0) {
-            soulAttribute = SpringBootResource.getSoulAttributeMapper().selectById(wh);
+            soulAttribute[0] = SpringBootResource.getSoulAttributeMapper().selectById(wh);
             for (SoulBone soulBone : getSoulBones(who.longValue())) {
-                soulAttribute.appendSoulBone(soulBone);
+                soulAttribute[0].appendSoulBone(soulBone);
             }
         } else {
-            soulAttribute = new SoulAttribute().setWh(wh);
+            soulAttribute[0] = new SoulAttribute().setWh(wh);
         }
-        return soulAttribute;
+        if (TEMP_ATTR.containsKey(who.longValue())) {
+            TEMP_ATTR.get(who.longValue()).forEach((k, v) -> {
+                soulAttribute[0] = append(soulAttribute[0], k, v.intValue());
+            });
+        }
+        return soulAttribute[0];
     }
 
     @Override
