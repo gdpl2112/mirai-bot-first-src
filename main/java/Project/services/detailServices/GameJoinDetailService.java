@@ -219,9 +219,11 @@ public class GameJoinDetailService {
      * @return
      */
     public static boolean randHh(int level) {
-        if (level > 100 * 10000) {
+        if (level > 10000000) {
+            return Tool.RANDOM.nextInt(100) < 28;
+        } else if (level > 1000000) {
             return Tool.RANDOM.nextInt(100) < 38;
-        } else if (level > 10 * 10000) {
+        } else if (level > 100000) {
             return Tool.RANDOM.nextInt(100) < 54;
         }
         return Tool.RANDOM.nextInt(100) < 75;

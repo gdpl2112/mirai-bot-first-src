@@ -3,16 +3,15 @@ package Project.services.impl;
 
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
+import Project.interfaces.http_api.QingYunKe;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.Mora;
+import io.github.kloping.mirai0.commons.apiEntitys.qingyunke.QingYunKeData;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.URL;
 
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.*;
@@ -31,11 +30,9 @@ public class OtherServiceImpl implements IOtherService {
     private static String BasicUrl = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
 
     private static String filter(String result) {
-        int start = result.indexOf(":\"");
         result = result.replaceAll("\\{", "<");
         result = result.replaceAll("\\}", ">");
         result = result.replaceAll("f", "F");
-        result = result.substring(start + 2, result.lastIndexOf("\""));
         result = result.replaceAll("菲菲", Resource.MY_MAME);
         result = result.replaceAll("<br>", "\r\n");
         return result.trim();
@@ -74,15 +71,15 @@ public class OtherServiceImpl implements IOtherService {
         return "猜拳异常";
     }
 
+    @AutoStand
+    QingYunKe qingYunKe;
+
     @Override
     public String talk(String str) {
         try {
-            URL url = new URL(BasicUrl + java.net.URLEncoder.encode(str, "utf-8"));
-            InputStream is = url.openStream();
-            BufferedInputStream br = new BufferedInputStream(is);
-            byte[] bytes1 = new byte[1024 * 4];
-            br.read(bytes1);
-            String result = new String(bytes1, "utf-8").trim();
+            String result = null;
+            QingYunKeData data = qingYunKe.data(null, null, str);
+            result = data.getContent();
             result = filter(result);
             if (Tool.isIllegSend(result)) {
                 return ERR_TIPS;

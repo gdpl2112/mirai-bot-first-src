@@ -28,6 +28,7 @@ public class BotStarter {
     private static BotConf abot = null;
 
     public static void main(String[] args) throws Exception {
+        long t = System.currentTimeMillis();
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         setterStarterApplication(BotStarter.class);
@@ -58,6 +59,7 @@ public class BotStarter {
                 SpringBootResource.getEnvironment().getProperty("mc.port"),
                 SpringBootResource.getEnvironment().getProperty("mc.gid")
         );
+        System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
     }
 
     private static void initBot() {

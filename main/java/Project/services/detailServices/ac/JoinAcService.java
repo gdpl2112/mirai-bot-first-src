@@ -54,9 +54,9 @@ public class JoinAcService {
     private GhostObj isUse107(String who) {
         PersonInfo personInfo = getInfo(who);
         String s0 = personInfo.getUsinged();
-        if (s0 == null || NULL_LOW_STR.equals(s0) || s0.isEmpty())
+        if (s0 == null || NULL_LOW_STR.equals(s0) || s0.isEmpty()) {
             return null;
-        else {
+        } else {
             putPerson(personInfo.setUsinged(NULL_LOW_STR));
             GhostObj ghostObj = null;
             long n = randA(0, 100);

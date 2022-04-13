@@ -25,6 +25,7 @@ public class BotStarter2 {
     private static BotConf abot;
 
     public static void main(String[] args) throws Exception {
+        long t = System.currentTimeMillis();
         setOnErrInFIle(getLogTimeFormat() + "b2_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b2_console.log");
         deleteDir(new File("./cache2"));
@@ -46,6 +47,7 @@ public class BotStarter2 {
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         println("运行的线程=》" + Thread.activeCount());
+        System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
     }
 
     private static void startRegisterListenerHost(String[] args) {

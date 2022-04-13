@@ -1,6 +1,7 @@
 package Project.controllers.plugins;
 
 import Project.detailPlugin.SearchSong;
+import Project.interfaces.http_api.Empty;
 import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -174,5 +175,29 @@ public class PointSongController {
             e.printStackTrace();
             return "歌词获取失败";
         }
+    }
+
+    static final String BASE0 = "±img=";
+    static final String BASE1 = "±";
+    static final String BASE2 = "作者昵称 :";
+    static final String BASE3 = "播放链接:";
+    static final String BASE4 = " 歌词:";
+
+    @AutoStand
+    Empty empty;
+
+    @Action("随机唱鸭")
+    public Object cy(io.github.kloping.mirai0.commons.Group group) {
+        String s0 = null;
+        s0 = empty.empty("http://api.weijieyue.cn/api/changba/changya.php").body().text();
+        int i1 = s0.indexOf(BASE0);
+        int i2 = s0.substring(i1 + BASE0.length()).indexOf("±");
+        String imgUrl = s0.substring(i1 + BASE0.length(), i2 + BASE0.length());
+        s0 = s0.substring(i2 + BASE0.length());
+        String aName = s0.substring(s0.indexOf(BASE2) + BASE2.length() + 1, s0.indexOf(BASE4));
+        String sUrl = s0.substring(s0.indexOf(BASE3) + BASE3.length());
+        MusicShare share = new MusicShare(MusicKind.QQMusic, aName, aName, sUrl, imgUrl, sUrl);
+        bot.getGroup(group.getId()).sendMessage(share);
+        return null;
     }
 }

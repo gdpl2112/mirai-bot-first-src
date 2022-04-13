@@ -75,7 +75,8 @@ public class GameSkillController {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
-        } if (getInfo(qq.getId()).isBg()) {
+        }
+        if (getInfo(qq.getId()).isBg()) {
             MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
@@ -126,6 +127,7 @@ public class GameSkillController {
         if (str.contains("魂技")) {
             str = str.replace("魂技", "").replace("第", "");
             String s1 = Tool.findNumberZh(str);
+            s1 = s1.substring(0, 1);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
             str = str.replace(Tool.trans(st) + "", "");
             return String.valueOf(skillService.setName(qq.getId(), st, str));
