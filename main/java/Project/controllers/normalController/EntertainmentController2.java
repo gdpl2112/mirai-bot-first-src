@@ -5,6 +5,7 @@ import Project.detailPlugin.GetPvpNews;
 import Project.detailPlugin.MihoyoP0;
 import Project.detailPlugin.PvpQq;
 import Project.interfaces.http_api.ApiIyk0;
+import Project.interfaces.http_api.Dzzui;
 import Project.interfaces.http_api.GetPvpQQ;
 import Project.interfaces.http_api.MuXiaoGuo;
 import com.alibaba.fastjson.JSONObject;
@@ -12,6 +13,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
@@ -24,7 +26,6 @@ import net.mamoe.mirai.message.data.Message;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.Main.Resource.superQL;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -37,10 +38,10 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 @Controller
 public class EntertainmentController2 {
     public static final int PAGE_SIZE = 5;
-    private static final String KFJH =
-            "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/milestones因为DNS污染可能某些时间段无法访问";
+//    private static final String KFJH =
+//            "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/milestones因为DNS污染可能某些时间段无法访问";
     public static long upNewsId = 0;
-    public PvpSkin upPS = null;
+    public PvpSkin skin = null;
     @AutoStand
     ApiIyk0 apiIyk0;
     @AutoStand
@@ -101,11 +102,14 @@ public class EntertainmentController2 {
 
     private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
 
+    @AutoStand
+    Dzzui dzzui;
+
     @Action("随机头像")
-    public String sjtx0() {
+    public String sjtx0(Group group, User user) {
         try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[2]);
-            return Tool.pathToImg(jo.getString("img"));
+            MessageTools.sendImageByBytesOnGroupWithAt(dzzui.avatar(), group.getId(), user.getId());
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return GET_FAILED;
@@ -194,15 +198,10 @@ public class EntertainmentController2 {
         return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
-    @Action("催更")
-    public String cg() {
-        return "<At:" + superQL + ">\n\n催更新,问题反馈,需要新功能,可以开issue(如果会的话\nhttps://github.com/gdpl2112/mirai-bot-first/issues/new\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/issues/new";
-    }
-
-    @Action("开发计划")
-    public String kfjh() {
-        return KFJH;
-    }
+//    @Action("开发计划")
+//    public String kfjh() {
+//        return KFJH;
+//    }
 
     @Action("/init_pvp")
     public String p() {
@@ -231,34 +230,34 @@ public class EntertainmentController2 {
     }
 
     @Action("王者图片.+")
-    public String pvpQQpic(@AllMess String a, Group group) {
+    public String pvpQqPic(@AllMess String a, Group group) {
         a = a.replaceFirst("王者图片", "");
         Data data = pvpQq.getD(a);
         return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
 
     @Action("王者最新皮肤.*?")
-    public Object pvpQQSkin(@AllMess String m) {
-        PvpSkin pvpSkin = upPS == null ? pvpQqi.getSkins() : upPS;
-        upPS = pvpSkin;
+    public Object pvpQqSkin(@AllMess String m) {
+        PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
+        skin = pvpSkin;
         Integer i = getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         StringBuilder sb = new StringBuilder();
         int[] ints = {i * PAGE_SIZE, i * PAGE_SIZE + 1, i * PAGE_SIZE + 2, i * PAGE_SIZE + 3, i * PAGE_SIZE + 4};
         for (int i1 : ints) {
-            Pcblzlby_c6 pcblzlby_c6 = pvpSkin.getPcblzlby_c6()[i1];
-            sb.append("皮肤名:").append(pcblzlby_c6.getPcblzlbybt_d3()).append(NEWLINE)
-                    .append("预览图:").append(NEWLINE).append(Tool.pathToImg("https:" + pcblzlby_c6.getPcblzlbydt_8b()))
-                    .append(NEWLINE).append("相关链接:").append(pcblzlby_c6.getPcblzlbyxqydz_c4().substring(2))
+            Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i1];
+            sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE)
+                    .append("预览图:").append(NEWLINE).append(Tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
+                    .append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2))
                     .append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
         }
         return sb.toString();
     }
 
     @Action("王者皮肤.*?")
-    public Object pvpQQSkin0(@AllMess String m) {
-        PvpSkin pvpSkin = upPS == null ? pvpQqi.getSkins() : upPS;
-        upPS = pvpSkin;
+    public Object pvpQqSkin0(@AllMess String m) {
+        PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
+        skin = pvpSkin;
         String name = m.replace("王者皮肤", "");
         Integer i = getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;

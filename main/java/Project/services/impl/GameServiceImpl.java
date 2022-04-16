@@ -44,6 +44,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_PRE_CD;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
@@ -77,7 +78,7 @@ public class GameServiceImpl implements IGameService {
             if (is.getLevel() >= 150) xr = 0;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);
-            long ll1 = HF_Hp(who);
+            long ll1 = HfHp(who);
             long ll2 = HF_Hl(who);
             long ll3 = HF_Hj(who);
             StringBuilder sb = new StringBuilder();
@@ -116,7 +117,7 @@ public class GameServiceImpl implements IGameService {
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);
 
-            long ll1 = HF_Hp(who, 1.1);
+            long ll1 = HfHp(who, 1.1);
             long ll2 = HF_Hl(who, 1.1);
             long ll3 = HF_Hj(who, 1.1);
 
@@ -133,7 +134,6 @@ public class GameServiceImpl implements IGameService {
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
                     SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
-
         } else {
             return String.format(TXL_WAIT_TIPS, getTimeTips(l));
         }
@@ -171,7 +171,7 @@ public class GameServiceImpl implements IGameService {
         if (L == 2 && getInfo(who).getWh() == 0)
             return PLEASE_AWAKENING_WH;
         if (xp >= xpL) {
-            if (L > 150) {
+            if (L > MAX_LEVEL) {
                 return "等级最大限制..";
             }
             if (isJTop(who)) {
@@ -521,7 +521,7 @@ public class GameServiceImpl implements IGameService {
         }
     }
 
-    private long HF_Hp(Long who) {
+    private long HfHp(Long who) {
         PersonInfo personInfo = getInfo(who);
         long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();
@@ -587,7 +587,7 @@ public class GameServiceImpl implements IGameService {
         return l5;
     }
 
-    private long HF_Hp(Long who, double d1) {
+    private long HfHp(Long who, double d1) {
         PersonInfo personInfo = getInfo(who);
         long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();

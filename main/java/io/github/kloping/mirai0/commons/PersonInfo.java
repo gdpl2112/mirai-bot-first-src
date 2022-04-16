@@ -11,8 +11,9 @@ import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
-import static Project.controllers.gameControllers.GameController.maxXp;
+import static Project.controllers.gameControllers.GameController.MAX_XP;
 import static Project.dataBases.GameDataBase.getInfo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 
 /**
  * @author github-kloping
@@ -493,11 +494,10 @@ public class PersonInfo implements BaseInfo {
 
     public PersonInfo addXp(Long o) {
         xp += o;
-        if (Level >= 150) {
-            this.xp = 0L;
-        }
-        if (xp > xpL * maxXp) {
-            this.xp = (long) (xpL * maxXp);
+        if (Level < MAX_LEVEL) {
+            if (xp > xpL * MAX_XP) {
+                this.xp = (long) (xpL * MAX_XP);
+            }
         }
         return this;
     }

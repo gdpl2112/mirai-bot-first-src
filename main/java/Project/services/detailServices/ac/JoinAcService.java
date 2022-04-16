@@ -9,7 +9,6 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -51,45 +50,22 @@ public class JoinAcService {
         }
     }
 
-    private GhostObj isUse107(String who) {
-        PersonInfo personInfo = getInfo(who);
-        String s0 = personInfo.getUsinged();
-        if (s0 == null || NULL_LOW_STR.equals(s0) || s0.isEmpty()) {
-            return null;
-        } else {
-            putPerson(personInfo.setUsinged(NULL_LOW_STR));
-            GhostObj ghostObj = null;
+    public String join0(long who, Group group) {
+        GhostObj ghostObj = null;
+        int r0 = getInfo(who).getNextR1();
+        int r = r0;
+        if (r0 == -2) {
             long n = randA(0, 100);
             if (n < 33) {
-                ghostObj = gameJoinDetailService.summonFor(who, 501, 521);
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 501, 521);
             } else {
-                ghostObj = new GhostObj(-1, 0, 0, 0, 0);
-            }
-            return ghostObj;
-        }
-    }
-
-    public String join0(long who, Group group) {
-        int r = Tool.RANDOM.nextInt(250);
-        GhostObj ghostObj = isUse107(String.valueOf(who));
-        boolean need = true;
-        if (ghostObj != null) {
-            if (ghostObj.getHp() <= 0) {
                 r = Tool.RANDOM.nextInt(31);
-            } else {
-                if (ghostObj.getHp() > 1) {
-                    need = false;
-                }
             }
-        }
-        int ro = r;
-        r = getInfo(who).getNextR1();
-        if (r == -1) {
-            r = ro;
         } else {
-            getInfo(who).setNextR1(-1);
+            r = r0;
         }
-        if (need) {
+
+        if (ghostObj == null) {
             if (r < 3) {
                 //十万年
                 ghostObj = GhostObj.create(100000, 501, 521);
@@ -143,6 +119,7 @@ public class JoinAcService {
                 return "你去星斗森林,只捡到了个寂寞!" + Tool.toFaceMes(String.valueOf(239));
             }
         }
+
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);

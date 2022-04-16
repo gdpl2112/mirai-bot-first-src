@@ -42,6 +42,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.16:修复部分bug,宗门扩增").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("4.13:修复已知bug,微调几率,随机唱鸭").append("\n");
         UPDATE_LOG.append("4.12:修复已知bug,网易云热评,不可用,第八魂技开发进度8/32").append("\n");
         UPDATE_LOG.append("4.11:修复已知bug,第八魂技开发进度18%").append("\n");

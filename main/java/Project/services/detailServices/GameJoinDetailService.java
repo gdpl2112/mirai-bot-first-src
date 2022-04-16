@@ -363,6 +363,7 @@ public class GameJoinDetailService {
                     >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
+            ghostObj.dispose();
             GameJoinDetailService.saveGhostObjIn(who, null);
         }
         return "逃跑完成";

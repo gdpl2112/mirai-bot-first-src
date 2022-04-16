@@ -12,11 +12,13 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
@@ -117,7 +119,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String List(Group group) {
+    public String list(Group group) {
         return getImageFromStrings(getAllZongNames());
     }
 
@@ -140,7 +142,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String Invite(long who, long qq, Group group) {
+    public String invite(long who, long qq, Group group) {
         if (!qq2id.containsKey(who))
             return ("你没有加入任何宗门");
         if (qq2id.containsKey(qq))
@@ -220,7 +222,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String Cob(Long who) {
+    public String cob(Long who) {
         if (!qq2id.containsKey(who))
             return "你没有加入任何宗门";
         Zong zong = getZongInfo(who);
@@ -348,7 +350,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String UpUp(long id, Group g) {
+    public String upUp(long id, Group g) {
         if (!qq2id.containsKey(id))
             return ("你没有加入任何宗门");
         Zon zon = getZonInfo(id);
@@ -439,7 +441,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     @Override
-    public String QuiteOne(long id, long who) {
+    public String quiteOne(long id, long who) {
         if (!qq2id.containsKey(id))
             return "你没有加入任何宗门";
         Zon zon = getZonInfo(id);
@@ -455,6 +457,56 @@ public class ZongMenServiceImpl implements IZongMenService {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return "移除异常";
+        }
+    }
+
+    public static final int GV = 50;
+
+    @Override
+    public String addMax(long id) {
+        try {
+            Zong zong = getZongInfo(id);
+            Zon zon = getZonInfo(id);
+            if (zon.getLevel() >= 1) {
+
+            } else {
+                return "宗主,长老可扩增";
+            }
+            int max = zong.getMaxP();
+            max += 10;
+            max *= GV;
+            Method method = this.getClass().getDeclaredMethod("addMaxNow", long.class);
+            StringBuilder sb = new StringBuilder();
+            sb.append("确定要扩增宗门吗\n扩增后最大人数增加到").append(zong.getMaxP() + 10)
+                    .append("\n但将花费").append(max).append("金魂币");
+            return sb.toString();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Object addMaxNow(long qid) {
+        Zong zong = getZongInfo(qid);
+        int max = zong.getMaxP();
+        max += 10;
+        max *= GV;
+        PersonInfo personInfo = getInfo(qid);
+        if (personInfo.getGold() >= max) {
+            personInfo.addGold((long) -max, new TradingRecord()
+                    .setType1(TradingRecord.Type1.lost)
+                    .setType0(TradingRecord.Type0.gold)
+                    .setTo(-1)
+                    .setMain(qid)
+                    .setFrom(qid)
+                    .setDesc("扩建宗门")
+                    .setMany(max));
+            zong.setMaxP(zong.getMaxP() + 10);
+            ZongMenDataBase.putZongInfo(zong);
+            return "完成";
+
+        } else {
+            return ResourceSet.FinalString.NOT_ENOUGH_GOLD;
         }
     }
 }

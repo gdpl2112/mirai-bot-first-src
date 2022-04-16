@@ -458,10 +458,10 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use107(long who) {
-            String str = personInfo.getUsinged();
-            if (str == null || "null".equals(str) || str.isEmpty()) {
+            int r = personInfo.getNextR1();
+            if (r != -2) {
                 remove(107, who);
-                putPerson(personInfo.setUsinged("!@#$%^&*("));
+                putPerson(personInfo.setNextR1(-2));
                 return "使用成功!!";
             } else {
                 return "使用失败,另一个正在使用..";

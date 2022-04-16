@@ -12,17 +12,17 @@ public interface IZongMenService {
 
     String zongInfo(Integer id, Group group);
 
-    String List(Group group);
+    String list(Group group);
 
     String setIcon(String imgUrl, Long who, Group group);
 
-    String Invite(long who, long qq, Group group);
+    String invite(long who, long qq, Group group);
 
     String listPer(Long who, Group group);
 
     String setName(String name, long id, Group group);
 
-    String Cob(Long qq);
+    String cob(Long qq);
 
     String help(long id, long who);
 
@@ -30,9 +30,11 @@ public interface IZongMenService {
 
     String cancelElder(long id, long who);
 
-    String UpUp(long id, Group group);
+    String upUp(long id, Group group);
 
     String quite(long id);
 
-    String QuiteOne(long id, long who);
+    String quiteOne(long id, long who);
+
+    String addMax(long id);
 }

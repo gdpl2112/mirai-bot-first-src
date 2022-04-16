@@ -19,7 +19,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 public class Skill8071 extends SkillTemplate {
 
     public Skill8071() {
-        super(8061);
+        super(8071);
     }
 
     @Override

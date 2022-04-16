@@ -66,4 +66,9 @@ public class Ghost701 extends GhostWithGroup {
         this.baseInfo = who;
         return super.updateHp(l, who);
     }
+
+    @Override
+    public void dispose() {
+        setHp(0);
+    }
 }

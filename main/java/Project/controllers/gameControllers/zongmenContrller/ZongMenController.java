@@ -34,6 +34,7 @@ public class ZongMenController {
             "10.设置长老(@)\n" +
             "11.取消长老(@)\n" +
             "12.移除成员(@)\n" +
+            "13.宗门扩增\n" +
             "宗门的作用请见'宗门作用'";
     private static String line2 = "";
 
@@ -86,7 +87,7 @@ public class ZongMenController {
 
     @Action("宗门列表")
     public String list(Group g) {
-        return zongMenService.List(g);
+        return zongMenService.list(g);
     }
 
     @Action("设置宗门图标<.+=>name>")
@@ -107,7 +108,7 @@ public class ZongMenController {
         long l1 = MessageTools.getAtFromString(mess);
         if (l1 < 0) return NOT_FOUND_AT;
         if (longs.contains(l1)) return "Can't";
-        return zongMenService.Invite(qq.getId(), l1, group);
+        return zongMenService.invite(qq.getId(), l1, group);
     }
 
     @Action("宗门人数")
@@ -122,7 +123,7 @@ public class ZongMenController {
 
     @Action("宗门贡献")
     public String cob(User qq) {
-        return zongMenService.Cob(qq.getId());
+        return zongMenService.cob(qq.getId());
     }
 
     @Action("救援.+")
@@ -153,21 +154,26 @@ public class ZongMenController {
     }
 
     @Action("宗门升级")
-    public String UpUp(User qq, Group group) {
-        return zongMenService.UpUp(qq.getId(), group);
+    public String upUp(User qq, Group group) {
+        return zongMenService.upUp(qq.getId(), group);
     }
 
     @Action("退出宗门")
-    public String QuiteZong(User qq) {
+    public String quiteZong(User qq) {
         return zongMenService.quite(qq.getId());
     }
 
     @Action("移除成员.+")
-    public String QuiteOne(User qq, @AllMess String mess) {
+    public String quiteOne(User qq, @AllMess String mess) {
         long who = MessageTools.getAtFromString(mess);
         if (who < 0) {
             return "谁?";
         }
-        return zongMenService.QuiteOne(qq.getId(), who);
+        return zongMenService.quiteOne(qq.getId(), who);
+    }
+
+    @Action("宗门扩增")
+    public String addMax(User user) {
+        return zongMenService.addMax(user.getId());
     }
 }

@@ -83,9 +83,9 @@ public class GhostObj implements Serializable, BaseInfo {
         L = l;
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NOT_NEED;
-        name = getNameById(this.id);
         initHj();
         IDX = getIdx();
+        name = getNameById(this.id);
     }
 
     public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
@@ -97,9 +97,9 @@ public class GhostObj implements Serializable, BaseInfo {
         L = summonL(bl);
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NOT_NEED;
-        name = getNameById(this.id);
         initHj();
         IDX = getIdx();
+        name = getNameById(this.id);
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
@@ -390,5 +390,9 @@ public class GhostObj implements Serializable, BaseInfo {
     @Override
     public String getTips() {
         return null;
+    }
+
+    public void dispose() {
+
     }
 }

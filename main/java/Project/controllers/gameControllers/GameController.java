@@ -38,7 +38,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Controller
 public class GameController {
 
-    public static final float maxXp = 1.5f;
+    public static final float MAX_XP = 1.5f;
     public static final Map<Long, Integer> deleteC = new ConcurrentHashMap<>();
     private static List<String> listFx = new ArrayList<>();
     private static String com13 = "";
