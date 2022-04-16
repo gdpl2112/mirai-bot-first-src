@@ -35,6 +35,7 @@ public class JoinAcService {
     private static final int MAX_RAND_2 = 150;
     private static final int MAX_RAND3 = 300;
     private static final int MIN_MEET3 = 50;
+
     @AutoStand
     GameJoinDetailService gameJoinDetailService;
 

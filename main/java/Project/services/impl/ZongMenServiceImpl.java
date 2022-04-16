@@ -476,6 +476,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             max += 10;
             max *= GV;
             Method method = this.getClass().getDeclaredMethod("addMaxNow", long.class);
+            ConfirmController.regConfirm(id, method, this, new Object[]{id});
             StringBuilder sb = new StringBuilder();
             sb.append("确定要扩增宗门吗\n扩增后最大人数增加到").append(zong.getMaxP() + 10)
                     .append("\n但将花费").append(max).append("金魂币");
