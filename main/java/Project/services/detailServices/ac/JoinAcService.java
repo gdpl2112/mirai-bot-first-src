@@ -64,7 +64,7 @@ public class JoinAcService {
         } else {
             r = r0;
         }
-
+        getInfo(who).setNextR1(Tool.RANDOM.nextInt(250)).apply();
         if (ghostObj == null) {
             if (r < 3) {
                 //十万年
