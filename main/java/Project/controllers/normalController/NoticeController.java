@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.19:修复魂兽效果异常的bug").append("\n");
         UPDATE_LOG.append("4.16:修复部分bug,宗门扩增").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("4.13:修复已知bug,微调几率,随机唱鸭").append("\n");

@@ -23,8 +23,8 @@ public class Ghost702 extends GhostWithGroup {
         super(hp, att, xp, id, l);
     }
 
-    public Ghost702(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        super(hp, att, xp, idMin, idMax, l, rand, bl);
+    public Ghost702(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
+        super(hp, att, xp, id, l, rand, bl);
     }
 
     public Long getShield() {

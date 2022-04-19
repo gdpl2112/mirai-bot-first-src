@@ -206,7 +206,7 @@ public class BeatenRoles {
         public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
             if (q2.longValue() > 0) {
                 PersonInfo info1 = GameDataBase.getInfo(q2);
-                if (p1.containsTag(TAG_SHE) && p1.containsTag(TAG_SHIELD)) {
+                if (p1.containsTag(TAG_SHE) && info1.containsTag(TAG_SHIELD)) {
                     int b = p1.getTagValue(TAG_SHE).intValue();
                     long v2 = percentTo(b, ov);
                     putPerson(GameDataBase.getInfo(q2.longValue()).addHp(-v2));
@@ -215,14 +215,16 @@ public class BeatenRoles {
                 }
             } else {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
-                if (ghostObj instanceof Ghost702) {
-                    Ghost702 ghost702 = (Ghost702) ghostObj;
-                    if (ghost702.getShield() >= 0) {
-                        int b = p1.getTagValue(TAG_SHE).intValue();
-                        long v2 = percentTo(b, ov);
-                        GameJoinDetailService.attGho(q1.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
-                        sb.append(NEWLINE);
-                        sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                if (p1.containsTag(TAG_SHE)) {
+                    if (ghostObj instanceof Ghost702) {
+                        Ghost702 ghost702 = (Ghost702) ghostObj;
+                        if (ghost702.getShield() >= 0) {
+                            int b = p1.getTagValue(TAG_SHE).intValue();
+                            long v2 = percentTo(b, ov);
+                            GameJoinDetailService.attGho(q1.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
+                            sb.append(NEWLINE);
+                            sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                        }
                     }
                 }
             }
@@ -236,7 +238,7 @@ public class BeatenRoles {
             if (p1.containsTag(TAG_LIGHT_ATT)) {
                 Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
                 long v = percentTo(b, ov);
-                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()),"受到%s点雷电伤害\n" );
+                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
             }
             return null;
         }

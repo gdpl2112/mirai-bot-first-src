@@ -22,8 +22,8 @@ public class GhostWithGroup extends GhostObj {
         super(hp, att, xp, id, l);
     }
 
-    public GhostWithGroup(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        super(hp, att, xp, idMin, idMax, l, rand, bl);
+    public GhostWithGroup(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
+        super(hp, att, xp, id, l, rand, bl);
     }
 
     public Group getGroup() {

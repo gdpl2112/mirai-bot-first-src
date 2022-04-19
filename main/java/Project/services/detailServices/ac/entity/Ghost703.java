@@ -22,8 +22,9 @@ public class Ghost703 extends GhostWithGroup {
         super(hp, att, xp, id, l);
     }
 
-    public Ghost703(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        super(hp, att, xp, idMin, idMax, l, rand, bl);
+
+    public Ghost703(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
+        super(hp, att, xp, id, l, rand, bl);
     }
 
     @Override

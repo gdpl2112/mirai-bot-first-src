@@ -17,6 +17,21 @@ public class Ghost701 extends GhostWithGroup {
 
     private BaseInfo baseInfo;
 
+    public Ghost701() {
+    }
+
+    public Ghost701(String forWhoStr) {
+        super(forWhoStr);
+    }
+
+    public Ghost701(long hp, long att, long xp, long id, long l) {
+        super(hp, att, xp, id, l);
+    }
+
+    public Ghost701(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
+        super(hp, att, xp, id, l, rand, bl);
+    }
+
     {
         Set<RunnableWithOver> runnable = StarterApplication.Setting.INSTANCE
                 .getContextManager().getContextEntity(Set.class, "m100");
@@ -45,22 +60,6 @@ public class Ghost701 extends GhostWithGroup {
             }
         });
     }
-
-    public Ghost701() {
-    }
-
-    public Ghost701(String forWhoStr) {
-        super(forWhoStr);
-    }
-
-    public Ghost701(long hp, long att, long xp, long id, long l) {
-        super(hp, att, xp, id, l);
-    }
-
-    public Ghost701(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
-        super(hp, att, xp, idMin, idMax, l, rand, bl);
-    }
-
     @Override
     public long updateHp(long l, BaseInfo who) {
         this.baseInfo = who;

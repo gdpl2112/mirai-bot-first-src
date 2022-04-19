@@ -502,10 +502,10 @@ public class ZongMenServiceImpl implements IZongMenService {
                     .setFrom(qid)
                     .setDesc("扩建宗门")
                     .setMany(max));
+            personInfo.apply();
             zong.setMaxP(zong.getMaxP() + 10);
             ZongMenDataBase.putZongInfo(zong);
             return "完成";
-
         } else {
             return ResourceSet.FinalString.NOT_ENOUGH_GOLD;
         }

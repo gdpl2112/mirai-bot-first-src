@@ -88,12 +88,12 @@ public class GhostObj implements Serializable, BaseInfo {
         name = getNameById(this.id);
     }
 
-    public GhostObj(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
+    public GhostObj(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
         this.hp = randFloatByte1(hp);
         this.maxHp = this.hp;
         this.att = randFloatByte1(att);
         this.xp = randFloatByte1(xp);
-        this.id = randA(idMin, idMax);
+        this.id = Long.valueOf(id);
         L = summonL(bl);
         time = System.currentTimeMillis() + 1000 * 60 * 7;
         state = NOT_NEED;
@@ -103,24 +103,24 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
+        int id = (int) randA(idMin, idMax);
         if (idMin > 700) {
-            int id = (int) randA(idMin, idMax);
             switch (id) {
                 case 701:
-                    return new Ghost701(hp, att, xp, idMin, idMax, l, rand, bl);
+                    return new Ghost701(hp, att, xp, id, l, rand, bl);
                 case 702:
-                    return new Ghost702(hp, att, xp, idMin, idMax, l, rand, bl);
+                    return new Ghost702(hp, att, xp, id, l, rand, bl);
                 case 703:
-                    return new Ghost703(hp, att, xp, idMin, idMax, l, rand, bl);
+                    return new Ghost703(hp, att, xp, id, l, rand, bl);
                 case 704:
-                    return new Ghost704(hp, att, xp, idMin, idMax, l, rand, bl);
+                    return new Ghost704(hp, att, xp, id, l, rand, bl);
                 case 705:
-                    return new Ghost705(hp, att, xp, idMin, idMax, l, rand, bl);
+                    return new Ghost705(hp, att, xp, id, l, rand, bl);
                 default:
                     return null;
             }
         } else {
-            return new GhostObj(hp, att, xp, idMin, idMax, l, rand, bl);
+            return new GhostObj(hp, att, xp, id, l, rand, bl);
         }
     }
 
