@@ -237,8 +237,9 @@ public class GameJoinDetailService {
             long mxv = getInfo(who).getXpL();
             v = v > mxv / 2 ? mxv / 2 : v;
             if (isHelp) {
-                putPerson(getInfo(who).addXp(v / 2));
-                return "\n由于在支援别人,所以获得经验减半 获得了" + ghostObj.getXp() / 2 + "点经验";
+                v /= 2;
+                putPerson(getInfo(who).addXp(v));
+                return "\n由于在支援别人,所以获得经验减半 获得了" + v + "点经验";
             } else {
                 putPerson(getInfo(who).addXp(v));
                 return "\n获得了 " + ghostObj.getXp() + "点经验";
@@ -329,7 +330,7 @@ public class GameJoinDetailService {
         GhostObj ghostObj = GhostObj.create(
                 (long) (personInfo.getAtt() * bl),
                 personInfo.getHpL(),
-                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel())),
+                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
                 idMin, idMax,
                 -1,
                 true, bl);
