@@ -15,7 +15,8 @@ import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.getAttFromAny;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -67,13 +68,6 @@ public class Skill704 extends SkillTemplate {
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    eddAttAny(who, nums[0], -v);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setTips("武魂真身失效");
             }
         };
     }
