@@ -45,7 +45,7 @@ public class Ghost701 extends GhostWithGroup {
 
             @Override
             public void run() {
-                if (index++ % 50 == 0) {
+                if (index++ % 100 == 0) {
                     baseInfo = baseInfo == null ? baseInfo = GameDataBase.getInfo(getWhoMeet()) : baseInfo;
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
@@ -60,6 +60,7 @@ public class Ghost701 extends GhostWithGroup {
             }
         });
     }
+
     @Override
     public long updateHp(long l, BaseInfo who) {
         this.baseInfo = who;

@@ -3,6 +3,9 @@ package Project.broadcast.game;
 import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
+/**
+ * @author github-kloping
+ */
 public class JoinBroadcast extends Broadcast {
     public static final JoinBroadcast INSTANCE = new JoinBroadcast();
 

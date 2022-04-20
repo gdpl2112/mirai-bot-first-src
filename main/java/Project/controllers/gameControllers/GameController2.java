@@ -24,7 +24,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -180,10 +179,8 @@ public class GameController2 {
             return String.format(BG_WAIT_TIPS, getTimeTips(p0.getBgk()));
         }
         GhostObj ghostObj = getGhostObjFrom(q);
-        if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
-            if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
-                return IN_SELECT;
-            }
+        if (ghostObj != null) {
+            return IN_SELECT;
         }
         p0.setBg(true);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);

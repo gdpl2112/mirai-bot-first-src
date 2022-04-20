@@ -135,7 +135,7 @@ public class EntertainmentController3 {
         }
         try {
             URL u = new URL(urlStr);
-            File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
+            File outFile = new File("./temp/" + UUID.randomUUID() + "-zan.png");
             outFile = ImageDrawer.getZan(new File("./images/zan.jpg"), u, outFile);
             return Tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {

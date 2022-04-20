@@ -6,6 +6,9 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 
 import java.lang.reflect.Method;
 
+/**
+ * @author github-kloping
+ */
 public class GotOrLostObjBroadcast extends Broadcast {
     public static final GotOrLostObjBroadcast INSTANCE = new GotOrLostObjBroadcast();
     private static Method method;

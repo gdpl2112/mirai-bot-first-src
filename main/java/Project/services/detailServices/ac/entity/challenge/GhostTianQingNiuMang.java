@@ -13,7 +13,7 @@ public class GhostTianQingNiuMang extends ChallengeGhost {
     public static final List<Integer> LOSE_ITEMS = new ArrayList<>();
 
     public GhostTianQingNiuMang() {
-        super(NAME, LOSE_ITEMS, att, hp, maxHp, hj, maxHj, "", new ArrayList<>());
+        super(NAME, LOSE_ITEMS, 0, 0, 0, 0, 0, "", new ArrayList<>());
     }
 
     @Override

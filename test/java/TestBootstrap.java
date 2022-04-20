@@ -1,6 +1,6 @@
+import Project.broadcast.normal.MemberJoinedBroadcast;
 import io.github.kloping.mirai0.Main.BotStarter;
 
-import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -11,5 +11,7 @@ public class TestBootstrap {
         BotStarter.main(args);
         System.err.println("all is ok");
         System.out.println(getDuration(9));
+        Thread.sleep(2000L);
+        MemberJoinedBroadcast.INSTANCE.broadcast(3474006766L, 759590727L);
     }
 }

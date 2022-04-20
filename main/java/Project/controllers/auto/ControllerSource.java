@@ -1,5 +1,6 @@
 package Project.controllers.auto;
 
+import Project.controllers.normalController.EntertainmentController3;
 import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
@@ -33,6 +34,9 @@ public class ControllerSource {
     public static EmojiCompositeListenerHost emojiCompositeListenerHost;
     @AutoStand
     public static ChallengeDetailService challengeDetailService;
+    @AutoStand
+    public static EntertainmentController3 entertainmentController3;
+
     public static GameReceiver0 receiver0 = new GameReceiver0();
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',

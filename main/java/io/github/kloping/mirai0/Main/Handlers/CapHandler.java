@@ -43,6 +43,8 @@ public class CapHandler {
             if (!CAP_T.containsKey(qid))
                 startTimer(qid);
             CAP_T.put(qid, MAX_WAIT.intValue());
+        } else {
+            MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId());
         }
     }
 

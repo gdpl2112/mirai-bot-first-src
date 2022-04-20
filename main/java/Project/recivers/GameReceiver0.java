@@ -7,20 +7,20 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
 
+import static Project.controllers.auto.ControllerSource.entertainmentController3;
 import static Project.controllers.normalController.NoticeController.lowst;
 
 /**
  * @author github-kloping
  */
 public class GameReceiver0 {
-    @AutoStand
-    static EntertainmentController3 entertainmentController3;
 
     public GameReceiver0() {
         init();
