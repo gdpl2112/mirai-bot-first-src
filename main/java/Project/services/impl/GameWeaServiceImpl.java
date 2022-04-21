@@ -23,7 +23,8 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Entity
 public class GameWeaServiceImpl implements IGameWeaService {
 
-    private static final Pattern PATTERN = Pattern.compile("(\\[\\@.+\\]|#)");
+    private static final Pattern PATTERN = Pattern.compile("(\\[@\\d+]|#)");
+
     @AutoStand
     public static GameWeaDetailService gameWeaDetailService;
     public static String MENU = "";

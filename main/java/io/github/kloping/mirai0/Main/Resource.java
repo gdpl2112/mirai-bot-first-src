@@ -10,6 +10,7 @@ import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.object.ObjectUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -183,6 +184,8 @@ public class Resource {
                 group.sendMessage(mc);
             } else if (o instanceof Message) {
                 group.sendMessage(builder.append((Message) o).build());
+            } else if (ObjectUtils.isBaseOrPack(o.getClass())) {
+                group.sendMessage(o.toString());
             } else {
                 System.err.println("未知的返回类型");
             }
