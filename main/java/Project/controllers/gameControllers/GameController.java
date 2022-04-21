@@ -1,7 +1,6 @@
 package Project.controllers.gameControllers;
 
 
-import Project.controllers.auto.ConfirmController;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
@@ -14,7 +13,6 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.Warp;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,7 @@ public class GameController {
     public static final float MAX_XP = 1.5f;
     public static final Map<Long, Integer> deleteC = new ConcurrentHashMap<>();
     private static List<String> listFx = new ArrayList<>();
-    private static String com13 = "";
+    private static String COM13 = "";
 
     static {
         listFx.add("购买金魂币");
@@ -115,11 +113,12 @@ public class GameController {
         sb.append("150--=>");
         sb.append("\r\n\t");
         sb.append(getFH(150));
-        com13 = sb.toString();
+        COM13 = sb.toString();
     }
 
     @AutoStand
     IGameService gameService;
+
     @AutoStand
     private GameBoneController gameBoneController;
 
@@ -307,7 +306,7 @@ public class GameController {
 
     @Action("称号")
     public String com13() {
-        return com13;
+        return COM13;
     }
 
     @Action("吸收<.{0,}=>str>")
