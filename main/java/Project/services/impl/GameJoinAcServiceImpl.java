@@ -68,10 +68,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             return String.format(ACTIVITY_WAIT_TIPS, getTimeTips(getK2(who)));
         }
         GhostObj ghostObj = getGhostObjFrom(who);
-        if (ghostObj != null && ghostObj.getState() == GhostObj.HELPING) {
-            if (isATrue(Long.valueOf(ghostObj.getForWhoStr()))) {
-                return IN_SELECT;
-            }
+        if (ghostObj != null) {
+            return IN_SELECT;
         }
         if (ghostObj != null) saveGhostObjIn(who, ghostObj);
         String what = name.trim();
