@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.23:修复部分bug;https://github.com/gdpl2112/mirai-bot-first/blob/master/to-do.md").append("\n");
         UPDATE_LOG.append("4.21:修复部分bug").append("\n");
         UPDATE_LOG.append("4.20:修复已知bug").append("\n");
         UPDATE_LOG.append("4.19:修复魂兽效果异常的bug").append("\n");
