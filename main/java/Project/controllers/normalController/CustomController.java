@@ -154,7 +154,7 @@ public class CustomController {
 
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
-        if (isSuperQ(qq)) {
+        if (!isSuperQ(qq)) {
             if (Tool.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
