@@ -156,6 +156,7 @@ public class Resource {
         StarterApplication.run(cla);
         //load conf
         superQL.addAll(parseToLongList(contextManager.getContextEntity(String.class, "superQL")));
+        StarterApplication.logger.info("superQL=>" + superQL);
         MY_MAME = contextManager.getContextEntity(String.class, "bot.myName");
     }
 
