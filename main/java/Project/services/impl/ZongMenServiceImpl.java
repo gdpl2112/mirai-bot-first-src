@@ -21,8 +21,7 @@ import static Project.controllers.gameControllers.zongmenContrller.ZongMenContro
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
@@ -328,14 +327,15 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String cancelElder(long id, long who) {
+        if (id == who) return ILLEGAL_OPERATION;
         String s1 = setUpElderPermission(id, who);
         if (!s1.isEmpty()) return s1;
         Zong zong = getZongInfo(id);
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
-        if (zon.getLevel() != 2)
+        if (zon.getLevel() != 2) {
             return "仅宗主可设置长老";
-        else {
+        } else {
             if (!zong.getElder().contains(who)) {
                 return "ta 本来就不是长老";
             }

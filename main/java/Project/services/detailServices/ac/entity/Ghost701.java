@@ -26,13 +26,15 @@ public class Ghost701 extends GhostWithGroup {
 
     public Ghost701(long hp, long att, long xp, long id, long l) {
         super(hp, att, xp, id, l);
+        init();
     }
 
     public Ghost701(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
         super(hp, att, xp, id, l, rand, bl);
+        init();
     }
 
-    {
+    private void init() {
         Set<RunnableWithOver> runnable = StarterApplication.Setting.INSTANCE
                 .getContextManager().getContextEntity(Set.class, "m100");
         runnable.add(new RunnableWithOver() {
