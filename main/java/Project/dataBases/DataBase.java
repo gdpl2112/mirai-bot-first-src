@@ -154,6 +154,7 @@ public class DataBase {
             }
             father.setId(who.longValue());
             father.addPermission(Long.parseLong(perm));
+            father.getPermission();
             return getFatherMapper().updateById(father) > 0;
         }
         File file = new File(path + "/mainfist/fathers/" + who);

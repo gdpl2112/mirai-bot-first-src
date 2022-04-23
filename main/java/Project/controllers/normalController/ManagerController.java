@@ -29,6 +29,7 @@ import java.util.Set;
 
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 
@@ -58,7 +59,7 @@ public class ManagerController {
 
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
-        if (qq.getId() == Long.parseLong(superQ)) {
+        if (isSuperQ(qq.getId())) {
             println("超级权限执行...");
             return;
         } else if (DataBase.isFather(qq.getId(), group.getId())) {

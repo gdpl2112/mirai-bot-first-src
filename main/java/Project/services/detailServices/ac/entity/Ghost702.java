@@ -19,8 +19,8 @@ public class Ghost702 extends GhostWithGroup {
         super(forWhoStr);
     }
 
-    public Ghost702(long hp, long att, long xp, long id, long l) {
-        super(hp, att, xp, id, l);
+    public Ghost702(long hp, long att, long id, long l) {
+        super(hp, att, id, l);
     }
 
     public Ghost702(long hp, long att, long xp, int id, long l, boolean rand, float bl) {

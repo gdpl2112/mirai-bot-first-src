@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromMessageChain;
+import static io.github.kloping.mirai0.Main.Parse.aStart;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getBase64Data;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
@@ -62,8 +63,10 @@ public class MessageTools {
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
             String str = o.toString();
-            if ((str.startsWith("<") || str.startsWith("[")) && !str.matches("\\[.+]请使用最新版手机QQ体验新功能")) {
-                String ss = str.replace("<", "").replace(">", "").replace("[", "").replace("]", "");
+            boolean k = (str.startsWith("<") || str.startsWith("[")) && !str.matches("\\[.+]请使用最新版手机QQ体验新功能");
+            if (k) {
+                String ss = str.replace("<", "").replace(">", "")
+                        .replace("[", "").replace("]", "");
                 int i1 = ss.indexOf(":");
                 String s1 = ss.substring(0, i1);
                 String s2 = ss.substring(i1 + 1);
@@ -108,65 +111,6 @@ public class MessageTools {
             At at = new At(id);
             ats.put(id, at);
             return at;
-        }
-    }
-
-    public static List<Object> aStart(String line) {
-        List<String> list = new ArrayList<>();
-        List<Object> olist = new ArrayList<>();
-        a1b2c3(list, line);
-        for (String s : list) {
-            int i = line.indexOf(s);
-            if (i > 0) {
-                olist.add(line.substring(0, i));
-            }
-            olist.add(s);
-            line = line.substring(i + s.length());
-        }
-        if (!line.isEmpty())
-            olist.add(line);
-        return olist;
-    }
-
-    public static void a1b2c3(List<String> list, String line) {
-        if (list == null || line == null || line.isEmpty()) return;
-        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL);
-        if (nm.isEmpty()) {
-            list.add(line);
-            return;
-        }
-        int n = nm.keySet().iterator().next();
-        String v = nm.get(n);
-        String[] ss = new String[2];
-        ss[0] = line.substring(0, line.indexOf(v));
-        ss[1] = line.substring(line.indexOf(v) + v.length(), line.length());
-        if (!ss[0].isEmpty()) {
-            list.add(ss[0]);
-            line = line.replaceFirst(ss[0], "");
-        }
-        line = ss[1];
-        list.add(v);
-        a1b2c3(list, line);
-        return;
-    }
-
-    public static Map<Integer, String> getNearestOne(final String line, Pattern... patterns) {
-        try {
-            Map<Integer, String> map = new LinkedHashMap<>();
-            for (Pattern pattern : patterns) {
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    String l1 = matcher.group();
-                    int i1 = line.indexOf(l1);
-                    map.put(i1, l1);
-                }
-            }
-            Map<Integer, String> result1 = new LinkedHashMap<>();
-            map.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(x -> result1.put(x.getKey(), x.getValue()));
-            return result1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

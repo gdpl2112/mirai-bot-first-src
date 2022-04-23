@@ -6,7 +6,7 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.action.MemberNudge;
 import net.mamoe.mirai.message.data.*;
 
-import static io.github.kloping.mirai0.Main.Resource.superQL;
+import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
 
 /**
  * @author github-kloping
@@ -112,7 +112,7 @@ public class EventTools {
     }
 
     private static boolean isIllegal(String str, long who) {
-        if (who == superQL) return false;
+        if (isSuperQ(who)) return false;
         if (str.matches(".*\\[@\\d+].*")) {
             return true;
         } else return str.matches(".*\\[(图片|语音)].*");

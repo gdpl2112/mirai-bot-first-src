@@ -1,13 +1,15 @@
 package Project.services.detailServices.ac.entity;
 
-import Project.dataBases.GameDataBase;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import java.util.Set;
+
+import static Project.dataBases.GameDataBase.getInfo;
 
 /**
  * @author github-kloping
@@ -24,8 +26,8 @@ public class Ghost701 extends GhostWithGroup {
         super(forWhoStr);
     }
 
-    public Ghost701(long hp, long att, long xp, long id, long l) {
-        super(hp, att, xp, id, l);
+    public Ghost701(long hp, long att, long id, long l) {
+        super(hp, att, id, l);
         init();
     }
 
@@ -40,7 +42,8 @@ public class Ghost701 extends GhostWithGroup {
         runnable.add(new RunnableWithOver() {
             @Override
             public boolean over() {
-                return Ghost701.this.getHp() <= 0;
+                baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
+                return Ghost701.this.getHp() <= 0 || baseInfo.getHp() <= 0;
             }
 
             private int index = 0;
@@ -48,7 +51,7 @@ public class Ghost701 extends GhostWithGroup {
             @Override
             public void run() {
                 if (index++ % 100 == 0) {
-                    baseInfo = baseInfo == null ? baseInfo = GameDataBase.getInfo(getWhoMeet()) : baseInfo;
+                    baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
                         v = v <= 0 ? 1 : v;

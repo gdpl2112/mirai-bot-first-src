@@ -229,13 +229,12 @@ public class GameJoinDetailService {
         return Tool.RANDOM.nextInt(100) < 75;
     }
 
+    public static final int MAX_F = 3;
+
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
-        if (getInfo(who).getLevel() >= 150) {
-            return "\n等级最大限制,无法获得经验";
-        } else {
             long v = ghostObj.getXp();
             long mxv = getInfo(who).getXpL();
-            v = v > mxv / 2 ? mxv / 2 : v;
+        v = v > mxv / MAX_F ? mxv / MAX_F : v;
             if (isHelp) {
                 v /= 2;
                 putPerson(getInfo(who).addXp(v));
@@ -243,7 +242,6 @@ public class GameJoinDetailService {
             } else {
                 putPerson(getInfo(who).addXp(v));
                 return "\n获得了 " + ghostObj.getXp() + "点经验";
-            }
         }
     }
 

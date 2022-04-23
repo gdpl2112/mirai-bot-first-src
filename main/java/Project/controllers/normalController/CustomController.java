@@ -8,7 +8,6 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
@@ -26,6 +25,7 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
 import static Project.services.impl.GameServiceImpl.threads;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -154,7 +154,7 @@ public class CustomController {
 
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
-        if (qq != Resource.superQL) {
+        if (isSuperQ(qq)) {
             if (Tool.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }

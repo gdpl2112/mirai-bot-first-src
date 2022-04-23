@@ -120,7 +120,7 @@ public class Client implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
             if (!test)
-                bot.getFriend(superQL).sendMessage(e.getMessage());
+                bot.getFriend(superQL.iterator().next()).sendMessage(e.getMessage());
         }
     }
 }

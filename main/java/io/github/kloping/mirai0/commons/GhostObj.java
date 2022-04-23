@@ -75,10 +75,10 @@ public class GhostObj implements Serializable, BaseInfo {
         name = ghostObj.name;
     }
 
-    public GhostObj(long hp, long att, long xp, long id, long l) {
+    public GhostObj(long hp, long att, long id, long l) {
         this.maxHp = this.hp = hp;
         this.att = att;
-        this.xp = xp;
+        this.xp = randA((int) (0.5f * l), (int) (3 * l));
         this.id = id;
         L = l;
         time = System.currentTimeMillis() + 1000 * 60 * 7;
@@ -134,31 +134,24 @@ public class GhostObj implements Serializable, BaseInfo {
             switch (id) {
                 case 701:
                     return (T) new Ghost701(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                            , randA(10 * level, 35 * level)
                             , id, randA(level + 1, Lmax(level)));
                 case 702:
                     return (T) new Ghost702(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                            , randA(10 * level, 35 * level)
                             , id, randA(level + 1, Lmax(level)));
                 case 703:
                     return (T) new Ghost703(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                            , randA(10 * level, 35 * level)
                             , id, randA(level + 1, Lmax(level)));
                 case 704:
                     return (T) new Ghost704(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                            , randA(10 * level, 35 * level)
                             , id, randA(level + 1, Lmax(level)));
                 case 705:
                     return (T) new Ghost705(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                            , randA(10 * level, 35 * level)
                             , id, randA(level + 1, Lmax(level)));
                 default:
                     return null;
             }
         } else {
-            GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level)
-                    , randA(10 * level, 35 * level)
-                    , randA(idMin, idMax), randA(level + 1, Lmax(level)));
+            GhostObj ghostObj = new GhostObj(randA(4 * level, 7 * level), randA(2 * level, 8 * level), randA(idMin, idMax), randA(level + 1, Lmax(level)));
             return (T) ghostObj;
         }
     }

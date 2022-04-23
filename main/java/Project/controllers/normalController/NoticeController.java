@@ -42,6 +42,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.24:修复部分bug;移除神王无法获得经验限制,且无经验上限").append("\n");
         UPDATE_LOG.append("4.23:修复部分bug;https://github.com/gdpl2112/mirai-bot-first/blob/master/to-do.md").append("\n");
         UPDATE_LOG.append("4.21:修复部分bug").append("\n");
         UPDATE_LOG.append("4.20:修复已知bug").append("\n");

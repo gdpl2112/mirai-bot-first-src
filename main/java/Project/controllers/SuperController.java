@@ -65,7 +65,7 @@ public class SuperController {
                 return;
             }
         }
-        if (qq.getId() != superQL) {
+        if (isSuperQ(qq.getId())) {
             throw new NoRunException("can`t do this");
         }
     }
@@ -219,7 +219,7 @@ public class SuperController {
 
     @Action("添加管理.{1,}")
     public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
-        if (qq.getId() != superQL)
+        if (isSuperQ(qq.getId()))
             throw new NoRunException();
         long who = MessageTools.getAtFromString(message);
         if (who == -1)
@@ -235,7 +235,7 @@ public class SuperController {
 
     @Action("移除管理.{1,}")
     public String removeFather(@AllMess String message, User qq) throws NoRunException {
-        if (qq.getId() != superQL)
+        if (isSuperQ(qq.getId()))
             throw new NoRunException();
         long who = MessageTools.getAtFromString(message);
         if (who == -1)

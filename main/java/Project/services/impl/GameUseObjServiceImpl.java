@@ -350,7 +350,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                         return s0;
                     }
                 case 103:
-                    if (personInfo.getLevel() >= 150) return "等级最大限制";
                     int c = (getRandXl(personInfo.getLevel()));
                     long xr = personInfo.getXpL() / c;
                     long mx = (long) (xr * 0.92f);
@@ -413,7 +412,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use103(long who) {
-            if (personInfo.getLevel() >= 150) return "等级最大限制";
             int c = (getRandXl(personInfo.getLevel()));
             long xr = personInfo.getXpL() / c;
             long mx = (long) (xr * 1.1f);

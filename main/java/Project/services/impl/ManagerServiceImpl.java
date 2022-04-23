@@ -19,6 +19,7 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 
 import java.util.List;
 
+import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
 import static io.github.kloping.mirai0.Main.Resource.superQL;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -37,7 +38,7 @@ public class ManagerServiceImpl implements IManagerService {
 
     @Override
     public String addFather(long father, long who, String perm) {
-        if (father == superQL) {
+        if (isSuperQ(father)) {
             if (DataBase.addFather(Long.valueOf(who), perm)) {
                 return "添加完成";
             } else {
@@ -50,7 +51,7 @@ public class ManagerServiceImpl implements IManagerService {
 
     @Override
     public String removeFather(long father, long who) {
-        if (father == superQL) {
+        if (isSuperQ(father)) {
             if (DataBase.removeFather(Long.valueOf(who))) {
                 return "移除完成";
             } else {

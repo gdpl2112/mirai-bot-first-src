@@ -75,7 +75,6 @@ public class GameServiceImpl implements IGameService {
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
             long xr = mx / c;
-            if (is.getLevel() >= 150) xr = 0;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);
             long ll1 = HfHp(who);
@@ -112,7 +111,6 @@ public class GameServiceImpl implements IGameService {
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
             long xr = mx / c;
-            if (is.getLevel() >= 150) xr = 0;
             xr *= 1.1;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);

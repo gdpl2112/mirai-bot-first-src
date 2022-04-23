@@ -23,12 +23,15 @@ import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.*;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
+import static io.github.kloping.mirai0.Main.Parse.parseToLongList;
 
 /**
  * @author github-kloping
@@ -43,8 +46,12 @@ public class Resource {
 
     public static Bot bot;
 
-    public static String superQ;
-    public static Long superQL;
+    public static Set<Long> superQL = new HashSet<>();
+
+    public static boolean isSuperQ(long q) {
+        return superQL.contains(q);
+    }
+
     public static String datePath = "";
 
     public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
@@ -148,8 +155,7 @@ public class Resource {
         contextManager = StarterApplication.Setting.INSTANCE.getContextManager();
         StarterApplication.run(cla);
         //load conf
-        superQL = contextManager.getContextEntity(Number.class, "superQL").longValue();
-        superQ = superQL.toString();
+        superQL.addAll(parseToLongList(contextManager.getContextEntity(String.class, "superQL")));
         MY_MAME = contextManager.getContextEntity(String.class, "bot.myName");
     }
 
