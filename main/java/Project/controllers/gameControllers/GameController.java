@@ -289,7 +289,7 @@ public class GameController {
                     .append(entry.getValue())
                     .append("级\r\n");
         }
-        return sb.toString();
+        return n <= 10 ? getImageFromStrings(false, sb.toString().split("\r\n")) : sb.toString();
     }
 
     @Action("称号")
@@ -311,12 +311,12 @@ public class GameController {
                     return null;
                 }
             } else {
-                return ("???");
+                return ERR_TIPS;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ("错误...");
+        return ERR_TIPS;
     }
 
 
