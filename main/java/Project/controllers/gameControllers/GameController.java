@@ -285,7 +285,7 @@ public class GameController {
             String sn = getFhName(Long.valueOf(entry.getKey()));
             sb.append("第" + (r++)).append(":QQ:")
                     .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>\r\n\t")
+                    .append("==>\r").append(n <= 10 ? "" : "\n\t")
                     .append(entry.getValue())
                     .append("级\r\n");
         }
