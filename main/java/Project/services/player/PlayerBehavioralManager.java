@@ -12,8 +12,10 @@ import java.util.*;
 @Entity
 public class PlayerBehavioralManager {
     public static final String ATTACK_PRE = "attack_pre";
-    public static final String ATTACK_AFTER = "attack_pre";
+    public static final String ATTACK_AFTER = "attack_post";
     private Map<Long, List<Growth>> growths = new HashMap<>();
+    public static final long PRE_LEAST = 500;
+    public static final long POST_LEAST = 1000;
 
     public long getAttPre(long q) {
         filter(q);
@@ -25,7 +27,7 @@ public class PlayerBehavioralManager {
                 }
             }
         }
-        return default0;
+        return default0 < PRE_LEAST ? PRE_LEAST : default0;
     }
 
     public long getAttPost(long q) {
@@ -38,7 +40,7 @@ public class PlayerBehavioralManager {
                 }
             }
         }
-        return default0;
+        return default0 < POST_LEAST ? POST_LEAST : default0;
     }
 
     public List<Growth> add(Growth growth) {

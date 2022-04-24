@@ -3,6 +3,7 @@ package Project.controllers.normalController;
 import Project.interfaces.http_api.ApiIyk0;
 import Project.interfaces.http_api.ApiKit9;
 import Project.interfaces.http_api.Dzzui;
+import Project.interfaces.http_api.JuiLi;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -11,6 +12,8 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
+import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Data;
+import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
@@ -81,6 +84,28 @@ public class CallApiController {
 //            e.printStackTrace();
 //            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
 //        }
+    }
+
+    @AutoStand
+    JuiLi juiLi;
+
+    @Action("未来天气<.+=>ms>")
+    public String weather1(@Param("ms") String mess, Group group) {
+        Weather weather = juiLi.weather(mess);
+        if (weather.getData() == null) {
+            return weather.getMsg();
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(weather.getTips()).append(NEWLINE);
+            for (Data datum : weather.getData()) {
+                sb.append(datum.getDate())
+                        .append("\n\t").append(datum.getWeather())
+                        .append("\n\t").append(datum.getHigh())
+                        .append("\n\t").append(datum.getLow())
+                    .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
+            }
+            return sb.toString().trim();
+        }
     }
 
     @Action("随机头像")

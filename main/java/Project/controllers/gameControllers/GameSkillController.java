@@ -19,6 +19,7 @@ import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -28,10 +29,18 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 public class GameSkillController {
     private static List<String> listFx = new ArrayList<>();
     private static String menu;
-    private static String m1 = "调整:\n令指定一个人魂力减少,自身当前魂力的n%的魂力的值\n新.\n" +
-            "\t1.特殊,增益型技能;血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾\n" +
-            "\t2.特殊,增益型技能;令自身增加n%的免伤\n" +
-            "\t3.控制型技能,眩晕\n";
+    private static String m1 = null;
+
+    static {
+        StringBuilder sb = new StringBuilder();
+        sb.append("调整:").append(NEWLINE)
+                .append("\t1.蓄力型技能,指定敌人,蓄力1.5倍攻击前摇秒后对其造成 攻击的%s +- 10%% 的 伤害").append(NEWLINE);
+        sb.append("新.").append(NEWLINE)
+                .append("\t1.缩减指定人自身%s秒的攻击前摇,前摇最小0.5s\n")
+                .append("\t2.减少指定人对应该魂技的位置的魂技%s秒的冷却");
+        m1 = sb.toString();
+
+    }
 
     static {
         listFx.add("我的第");
@@ -107,11 +116,11 @@ public class GameSkillController {
             Set<Number> numbers = new HashSet<>();
             while (true) {
                 if (str.contains("#")) {
-                    str = str.replaceAll("\\#", "");
+                    str = str.replaceAll("#", "");
                     numbers.add(-2);
                 }
                 Long l1 = MessageTools.getAtFromString(str);
-                str = str.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "\\]", "");
+                str = str.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "]", "");
                 if (l1 == -1) break;
                 else numbers.add(l1);
             }

@@ -78,7 +78,7 @@ public class GhostObj implements Serializable, BaseInfo {
     public GhostObj(long hp, long att, long id, long l) {
         this.maxHp = this.hp = hp;
         this.att = att;
-        this.xp = randA((int) (0.5f * l), (int) (3 * l));
+        this.xp = randA((int) (1f * l), (int) (4 * l));
         this.id = id;
         L = l;
         time = System.currentTimeMillis() + 1000 * 60 * 7;
@@ -380,12 +380,16 @@ public class GhostObj implements Serializable, BaseInfo {
         return this;
     }
 
+    private Integer nc = 0;
+
     @Override
-    public String getTips() {
-        return null;
+    public Integer getTips() {
+        return nc;
     }
 
-    public void dispose() {
-
+    public void setNc(Integer nc) {
+        this.nc = nc;
     }
+
+    public void dispose() {}
 }

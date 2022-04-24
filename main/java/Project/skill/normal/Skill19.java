@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.controllers.auto.ControllerSource;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -34,7 +35,7 @@ public class Skill19 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蓄力型技能,指定敌人,蓄力5秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(getJid(), getId()));
+        return String.format("蓄力型技能,指定敌人,蓄力1.5倍攻击前摇秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -65,7 +66,8 @@ public class Skill19 extends SkillTemplate {
             public void run() {
                 super.run();
                 try {
-                    Thread.sleep(5000);
+                    long t = (long) (ControllerSource.playerBehavioralManager.getAttPre(who.longValue()) * 1.5f);
+                    Thread.sleep(t);
                     long att = getInfo(who).att();
                     long v = percentTo(b, att);
                     StringBuilder sb = new StringBuilder();

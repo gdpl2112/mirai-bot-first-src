@@ -56,6 +56,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(20, 1);
         BASE_PERCENT_MAP.put(21, 7);
         BASE_PERCENT_MAP.put(22, 16);
+        BASE_PERCENT_MAP.put(23, 1000);
+        BASE_PERCENT_MAP.put(24, 90000);
         //=
         BASE_PERCENT_MAP.put(701, 42);
         BASE_PERCENT_MAP.put(702, 58);
@@ -206,11 +208,11 @@ public class GameSkillDetailService {
             return 12;
         }
         int n = 205 - id;
-        return 12 - n;
+        return 11 - n;
     }
 
     public static Number getUserPercent(int st, int jid) {
-        return (7 + (st - 1));
+        return (6 + (st - 1));
     }
 
     /**

@@ -3,6 +3,7 @@ package Project.dataBases;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GotOrLostObjBroadcast;
+import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
@@ -111,6 +113,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(113, "遗忘药水");
         ID_2_NAME_MAPS.put(114, "落叶碎片");
         ID_2_NAME_MAPS.put(115, "落日花瓣");
+        ID_2_NAME_MAPS.put(116, "冷却药水");
+        ID_2_NAME_MAPS.put(117, "大冷却药水");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
@@ -202,10 +206,12 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(109, "救援卡,使用后获得请求支援次数");
         ID_2_INTRO_MAPS.put(110, "支援卡,使用后获得支援次数");
         ID_2_INTRO_MAPS.put(111, "融合戒指,用于与ta人融合武魂,以激活双修");
-        ID_2_INTRO_MAPS.put(112, "精神神石,增加最大精神力");
+        ID_2_INTRO_MAPS.put(112, "精神神石,恢复精神力");
         ID_2_INTRO_MAPS.put(113, "遗忘药水,用来忘掉某些事");
         ID_2_INTRO_MAPS.put(114, "落日碎片,用于合成落日花瓣");
         ID_2_INTRO_MAPS.put(115, "落日花瓣,下次进落日森林一定遇到魂兽");
+        ID_2_INTRO_MAPS.put(116, "冷却药水,使指定一个魂技减少" + OBJ116_VALUE / 60000 + "分钟冷却,使用示例,使用冷却药水2");
+        ID_2_INTRO_MAPS.put(117, "大冷却药水,使所有魂技立刻完成冷却,但每日只能使用" + UseRestrictions.getUseRestrictions(117) + "次");
 
         ID_2_INTRO_MAPS.put(1000, "暗器零件,用于制作暗器;");
         ID_2_INTRO_MAPS.put(1001, "暗器,诸葛神弩,单体伤害,造成 500+攻击x0.9的伤害,需要选择某(所有暗器,不消耗魂力)");
@@ -271,6 +277,8 @@ public class GameDataBase {
         ID_2_SHOP_MAPS.put(111, 10000L);
         ID_2_SHOP_MAPS.put(112, 525L);
         ID_2_SHOP_MAPS.put(113, 889L);
+        ID_2_SHOP_MAPS.put(116, 989L);
+        ID_2_SHOP_MAPS.put(117, 28888L);
 
         ID_2_SHOP_MAPS.put(1000, 215L);
 
@@ -302,23 +310,22 @@ public class GameDataBase {
     }
 
     private static void initWhType() {
-        WH_2_TYPE.put(-1, -1);
         WH_2_TYPE.put(1, 0);
-        WH_2_TYPE.put(2, 1);//1
+        WH_2_TYPE.put(2, 1);
         WH_2_TYPE.put(3, 0);
         WH_2_TYPE.put(4, 0);
         WH_2_TYPE.put(5, 2);
         WH_2_TYPE.put(6, 0);
         WH_2_TYPE.put(7, 0);
         WH_2_TYPE.put(8, 0);
-        WH_2_TYPE.put(9, 1);//2
+        WH_2_TYPE.put(9, 1);
         WH_2_TYPE.put(10, 0);
-        WH_2_TYPE.put(11, 1);//3
+        WH_2_TYPE.put(11, 1);
         WH_2_TYPE.put(12, 0);
-        WH_2_TYPE.put(13, 1);//4
+        WH_2_TYPE.put(13, 1);
         WH_2_TYPE.put(14, 0);
         WH_2_TYPE.put(15, 0);
-        WH_2_TYPE.put(16, 2);//5
+        WH_2_TYPE.put(16, 2);
         WH_2_TYPE.put(17, 0);
         WH_2_TYPE.put(18, 2);
         WH_2_TYPE.put(19, 0);
@@ -326,13 +333,13 @@ public class GameDataBase {
         WH_2_TYPE.put(21, 0);
         WH_2_TYPE.put(22, 0);
         WH_2_TYPE.put(23, 0);
-        WH_2_TYPE.put(24, 1);//6
+        WH_2_TYPE.put(24, 1);
         WH_2_TYPE.put(25, 0);
-        WH_2_TYPE.put(26, 1);//7
-        WH_2_TYPE.put(27, 1);//8
-        WH_2_TYPE.put(28, 1);//9
-        WH_2_TYPE.put(29, 1);//10
-        WH_2_TYPE.put(30, 1);//11
+        WH_2_TYPE.put(26, 1);
+        WH_2_TYPE.put(27, 1);
+        WH_2_TYPE.put(28, 1);
+        WH_2_TYPE.put(29, 1);
+        WH_2_TYPE.put(30, 1);
         WH_2_TYPE.put(31, 0);
     }
 
@@ -361,8 +368,9 @@ public class GameDataBase {
      * @param who
      */
     public static void testMan(Long who) {
-        if (!exist(who))
+        if (!exist(who)) {
             regPerson(new PersonInfo().setName(String.valueOf(who)));
+        }
     }
 
     //=========================================

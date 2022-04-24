@@ -108,11 +108,11 @@ public class EventTools {
     private static boolean isIllegal(String str) {
         if (str.matches(".*\\[@\\d+].*")) {
             return true;
-        } else return str.matches(".*\\[(图片|语音)\\].*");
+        } else return str.matches(".*\\[(图片|语音)].*");
     }
 
     private static boolean isIllegal(String str, long who) {
-        if (!isSuperQ(who)) return false;
+        if (isSuperQ(who)) return false;
         if (str.matches(".*\\[@\\d+].*")) {
             return true;
         } else return str.matches(".*\\[(图片|语音)].*");

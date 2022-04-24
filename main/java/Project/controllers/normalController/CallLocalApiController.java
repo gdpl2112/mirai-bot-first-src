@@ -183,12 +183,6 @@ public class CallLocalApiController {
         return weatherGetter.get(address);
     }
 
-    @Action("天气预报.+")
-    public String weather1(@AllMess String mess, Group group) {
-        String line = otherService.talk(mess);
-        return line;
-    }
-
     @Action("天气<.+=>name>")
     public String weather0(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
@@ -197,6 +191,4 @@ public class CallLocalApiController {
         }
         return line;
     }
-
-
 }

@@ -1,33 +1,22 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.MySpringTool.annotations.http.*;
+import io.github.kloping.MySpringTool.annotations.http.GetPath;
+import io.github.kloping.MySpringTool.annotations.http.HttpClient;
+import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
 
 /**
  * @author github kloping
  * @version 1.0
  */
-@HttpClient("http://jiuli.xiaoapi.cn/i")
+@HttpClient("http://jiuli.xiaoapi.cn/i/web")
 public interface JuiLi {
     /**
-     * 举牌子的
-     * <a href="http://jiuli.xiaoapi.cn/i/xiaoren_jupai.php?msg=">api</a>
+     * 获取五日天气
      *
-     * @param msg
+     * @param city
      * @return
      */
-    @GetPath("xiaoren_jupai.php")
-    @CookieFrom("this")
-    byte[] jupaizi(@ParamName("msg") String msg);
-
-    /**
-     * 爬的
-     * <a href="http://jiuli.xiaoapi.cn/i/pa_img.php?qq=3474006766&id=0">api</a>
-     *
-     * @param msg
-     * @param id
-     * @return
-     */
-    @GetPath("pa_img.php")
-    byte[] paImg(@ParamName("qq") Long qq,
-                 @DefaultValue("0") @ParamName("id") Integer id);
+    @GetPath("tianqi.php")
+    Weather weather(@ParamName("city") String city);
 }

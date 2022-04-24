@@ -6,10 +6,12 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.player.UseRestrictions;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -23,10 +25,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
+import static Project.dataBases.skill.SkillDataBase.updateSkillInfo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.SLE_ONE_MAX;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.TRANSFER_ONE_MAX;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -84,6 +88,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (l1 >= System.currentTimeMillis()) {
             return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
+        if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (id > 200 && id < 300) return "请使用 \"吸收\" 使用魂环";
         if (bgids.contains(id)) {
@@ -128,7 +133,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         String[] sss = gameService.getBags(who);
         if (num <= 0 || num > 50)
             return NUM_TOO_MUCH;
-        if (getNumForO(sss, getNameById(id)) >= num) {
+        if (id == 116 || getNumForO(sss, getNameById(id)) >= num) {
             String str = new UseTool().useObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)));
@@ -322,33 +327,38 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         public String useObjNum(Long who, Integer id, Integer num) {
             PersonInfo personInfo = getInfo(who);
             long l = 0;
+            if (id != 116) {
+                for (Integer integer = 0; integer < num; integer++) {
+                    UseRestrictions.record(who, id);
+                }
+            } else {
+                UseRestrictions.record(who, id);
+            }
+            if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
             switch (id) {
                 case 102:
-                    if (num > 6)
-                        return SUPERFLUOUS_USE;
-                    else {
-                        String s0 = "";
-                        long m = personInfo.getHpL();
-                        long t = personInfo.getHp();
-                        l = 0;
-                        int i1 = personInfo.getLevel() / 10;
-                        i1 = i1 < 4 ? 4 : i1;
-                        l = m / i1;
-                        l *= num;
-                        if (m - t < l) {
+                    String s0 = "";
+                    long m = personInfo.getHpL();
+                    long t = personInfo.getHp();
+                    l = 0;
+                    int i1 = personInfo.getLevel() / 10;
+                    i1 = i1 < 4 ? 4 : i1;
+                    i1 = i1 > 7 ? 7 : i1;
+                    l = m / i1;
+                    l *= num;
+                    if (m - t < l) {
                             l = m - t;
                         }
-                        if (GameTool.isATrue(who)) {
-                            personInfo.addHp(l / 2);
-                            s0 = "处于选择状态增加减半 加血=>" + (l / 2);
-                        } else {
-                            personInfo.addHp(l);
-                            s0 = "加血=>" + l;
-                        }
-                        putPerson(personInfo);
-                        removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
-                        return s0;
+                    if (GameTool.isATrue(who)) {
+                        personInfo.addHp(l / 2);
+                        s0 = "处于选择状态增加减半 加血=>" + (l / 2);
+                    } else {
+                        personInfo.addHp(l);
+                        s0 = "加血=>" + l;
                     }
+                    putPerson(personInfo);
+                    removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
+                    return s0;
                 case 103:
                     int c = (getRandXl(personInfo.getLevel()));
                     long xr = personInfo.getXpL() / c;
@@ -356,7 +366,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     mx *= num;
                     putPerson(personInfo.addXp(mx));
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
-                    return " 增加了:" + mx + "点经验";
+                    return "增加了:" + mx + "点经验";
                 case 104:
                     long att = personInfo.getLevel() * 25;
                     att *= num;
@@ -376,6 +386,18 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     putPerson(getInfo(who).addHj(l).addHjL(l));
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                     return "增加了" + l + "点最大精神力";
+                case 116:
+                    Map<Integer, SkillInfo> infos = getSkillInfo(who.longValue());
+                    if (infos.containsKey(num)) {
+                        SkillInfo skillInfo = infos.get(num);
+                        skillInfo.setTime(skillInfo.getTime() - OBJ116_VALUE);
+                        updateSkillInfo(skillInfo);
+                        removeFromBgs(Long.valueOf(who), id, 1, ObjType.use);
+                        UseRestrictions.record(who.longValue(), id);
+                        return "使用成功";
+                    } else {
+                        return ("其魂技未解锁");
+                    }
                 default:
                     return NOT_SUPPORTED_NUM_USE;
             }
@@ -396,17 +418,19 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             } else {
                 int i1 = personInfo.getLevel() / 10;
                 i1 = i1 < 4 ? 4 : i1;
+                i1 = i1 > 7 ? 7 : i1;
                 l = m / i1;
                 if (m - t < l) {
                     l = m - t;
                 }
+                remove(102, who);
+                UseRestrictions.record(who, 102);
                 if (GameTool.isATrue(who)) {
                     putPerson(getInfo(who).addHp(l / 2));
                     return "处于选择状态增加减半 加血=>" + (l / 2);
-                } else
+                } else {
                     putPerson(getInfo(who).addHp(l));
-                remove(102, who);
-
+                }
             }
             return "加血=>" + l;
         }
@@ -417,7 +441,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             long mx = (long) (xr * 1.1f);
             putPerson(getInfo(who).addXp(mx));
             remove(103, who);
-            return " 增加了:" + mx + "点经验";
+            return "增加了:" + mx + "点经验";
         }
 
         public String use104(long who) {
@@ -436,6 +460,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
         public String use106(long who) {
             remove(106, who);
+            UseRestrictions.record(who, 106);
             long m = personInfo.getHll();
             long t = personInfo.getHl();
             long l = 0;
@@ -450,8 +475,9 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             if (GameTool.isATrue(who)) {
                 putPerson(getInfo(who).addHl(l / 2));
                 return "处于选择状态增加减半 增加了" + (l / 2) + "点魂力";
-            } else
+            } else {
                 putPerson(personInfo.addHl(l));
+            }
             return "增加了" + l + "点魂力";
         }
 
@@ -480,11 +506,13 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         public String use109(long who) {
             remove(109, who);
             putPerson(getInfo(who).setHelpC(personInfo.getHelpC() - 1));
+            UseRestrictions.record(who, 109);
             return "使用成功!!\r\n获得一次请求支援机会";
         }
 
         public String use110(long who) {
             remove(110, who);
+            UseRestrictions.record(who, 110);
             putPerson(getInfo(who).setHelpToc(personInfo.getHelpToc() - 1));
             return "使用成功!!\r\n获得一次支援机会";
         }
@@ -495,10 +523,14 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
         public String use112(long who) {
             long l = getInfo(who).getLevel();
-            l = l * (l > 100 ? l / 3 : 35);
-            putPerson(getInfo(who).addHj(l).addHjL(l));
+            long lv = getInfo(who).getHjL();
+            l = l < 5 ? 5 : l;
+            l = l > 10 ? 10 : l;
+            long v = lv / l;
+            putPerson(getInfo(who).addHj(v));
             remove(112, who);
-            return "增加了" + l + "点最大精神力";
+            UseRestrictions.record(who, 112);
+            return "恢复了" + l + "点精神力";
         }
 
         public String use115(long who) {
@@ -510,6 +542,17 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             } else {
                 return "使用失败,另一个正在使用..";
             }
+        }
+
+        public String use117(long who) {
+            UseRestrictions.record(who, 117);
+            Map<Integer, SkillInfo> infos = getSkillInfo(who);
+            for (SkillInfo value : infos.values()) {
+                value.setTime(1L);
+                updateSkillInfo(value);
+            }
+            removeFromBgs(Long.valueOf(who), 117, 1, ObjType.use);
+            return "使用成功";
         }
 
         public String use1000(long who) {

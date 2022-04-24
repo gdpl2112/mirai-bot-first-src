@@ -64,9 +64,6 @@ public class SummonPicController {
     WeiJieYue weiJieYue;
 
     @AutoStand
-    JuiLi api0;
-
-    @AutoStand
     Atoolbox atoolbox;
 
     @AutoStand

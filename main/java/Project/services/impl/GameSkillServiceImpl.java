@@ -74,21 +74,21 @@ public class GameSkillServiceImpl implements ISkillService {
             }
         }
         Integer id = is[st - 1];
-        Integer id2 = null;
+        Integer jid = null;
         if (st > 7) {
             if (test && st == 8) {
-                id2 = factory8id(getInfo(qq).getWh());
+                jid = factory8id(getInfo(qq).getWh());
             } else {
                 return ("更多魂技开发中...");
             }
         } else if (st == 7) {
-            id2 = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
+            jid = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
         } else {
             while (true) {
-                id2 = Tool.RANDOM.nextInt(normalSkillNum);
+                jid = Tool.RANDOM.nextInt(normalSkillNum);
                 boolean k = false;
                 for (SkillInfo i : skinfo.values()) {
-                    if (i.getJid().intValue() == id2.intValue()) {
+                    if (i.getJid().intValue() == jid.intValue()) {
                         k = true;
                         break;
                     }
@@ -103,17 +103,17 @@ public class GameSkillServiceImpl implements ISkillService {
 
         SkillInfo info = new SkillInfo()
                 .setId(id)
-                .setJid(id2)
+                .setJid(jid)
                 .setQq(qq)
                 .setTime(1L)
-                .setTimeL(getCoolTime(id, id2, getInfo(qq).getWh(), st).longValue() * 60 * 1000L)
+                .setTimeL(getCoolTime(id, jid, getInfo(qq).getWh(), st).longValue() * 60 * 1000L)
                 .setSt(st)
-                .setAddPercent((int) (getBasePercent(id2) * GameTool.getAHBl_(id)))
-                .setUsePercent(getUserPercent(st, id2).intValue());
+                .setAddPercent((int) (getBasePercent(jid) * GameTool.getAHBl_(id)))
+                .setUsePercent(getUserPercent(st, jid).intValue());
 
         SkillDataBase.saveSkillInfo(info);
         int id0 = is[st - 1] + 100;
-        return SourceDataBase.getImgPathById(id0) + getIntro(id, id2, st, getInfo(qq).getWh());
+        return SourceDataBase.getImgPathById(id0) + getIntro(id, jid, st, getInfo(qq).getWh());
     }
 
     @Override

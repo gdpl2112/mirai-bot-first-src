@@ -12,7 +12,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
 
 import static Project.controllers.auto.ControllerSource.entertainmentController3;
-import static Project.controllers.normalController.NoticeController.lowst;
+import static Project.controllers.normalController.NoticeController.LOWST;
 
 /**
  * @author github-kloping
@@ -37,7 +37,7 @@ public class GameReceiver0 {
                 StarterApplication.logger.info(String.format("ghost losted by %s level=%s with %s",
                         who, ghostObj.getL(), with));
                 if (with.longValue() == -1) {
-                    if (ghostObj.getL() >= lowst * 10000L) {
+                    if (ghostObj.getL() >= LOWST * 10000L) {
                         StarterApplication.logger.info(String.format("add master point %s ", who));
                         GInfo.getInstance(who).addMasterPoint().apply();
                     }

@@ -55,7 +55,7 @@ public class GameObjController {
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
-            if (num == null || num.intValue() == 1) {
+            if (num == null) {
                 sss = gameUseObiService.useObj(qq.getId(), id);
             } else {
                 if (challengeDetailService.isTemping(qq.getId())) {
