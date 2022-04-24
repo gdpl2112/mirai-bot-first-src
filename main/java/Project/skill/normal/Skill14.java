@@ -44,7 +44,7 @@ public class Skill14 extends SkillTemplate {
                 }
                 q = nums[0].longValue();
                 putPerson(getInfo(q).addTag(TAG_CANT_HIDE, 0));
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
         };
     }

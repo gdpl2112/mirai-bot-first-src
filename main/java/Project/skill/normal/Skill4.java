@@ -44,11 +44,11 @@ public class Skill4 extends SkillTemplate {
                     return;
                 }
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 long v = percentTo(info.getAddPercent(), lon);
-                v = v > pInfo.getAtt() ? pInfo.getAtt() : v;
+                v = v > pInfo.att() ? pInfo.att() : v;
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
         };
     }

@@ -119,7 +119,7 @@ public class ChallengeServiceImpl implements IChallengeService {
         PersonInfo p22 = copyBase(p2);
 
         Long hp = (p1.getHpL() + p2.getHpL()) / 2;
-        Long att = (p1.getAtt() + p2.getAtt()) / 2 / 2;
+        Long att = (p1.att() + p2.att()) / 2 / 2;
         Long hl = (p1.getHll() + p2.getHll()) / 2;
         Long hj = (p1.getHjL() + p2.getHjL()) / 2;
         Integer level = (p1.getLevel() + p2.getLevel()) / 2;

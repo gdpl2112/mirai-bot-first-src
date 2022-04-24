@@ -39,7 +39,7 @@ public class Skill701 extends SkillTemplate {
             public void before() {
                 StringBuilder sb = new StringBuilder();
                 for (Long q : nearest(2, nums)) {
-                    long v = percentTo(60, getInfo(who).getAtt());
+                    long v = percentTo(60, getInfo(who).att());
                     attGhostOrMan(sb, who, q, v);
                 }
                 setTips(sb.toString());
@@ -52,14 +52,14 @@ public class Skill701 extends SkillTemplate {
                     Thread.sleep(10 * 1000);
                     StringBuilder sb = new StringBuilder();
                     for (Long q : nearest(2, nums)) {
-                        long v = percentTo(30, getInfo(who).getAtt());
+                        long v = percentTo(30, getInfo(who).att());
                         attGhostOrMan(sb, who, q, v);
                     }
                     setTips(sb.toString());
                     sb = new StringBuilder();
                     Thread.sleep(10 * 1000);
                     for (Long q : nearest(2, nums)) {
-                        long v = percentTo(10, getInfo(who).getAtt());
+                        long v = percentTo(10, getInfo(who).att());
                         attGhostOrMan(sb, who, q, v);
                     }
                     setTips(sb.toString());

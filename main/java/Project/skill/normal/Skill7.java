@@ -39,7 +39,7 @@ public class Skill7 extends SkillTemplate {
             @Override
             public void before() {
                 putPerson(getInfo(who).addTag(TAG_FJ, info.getAddPercent()));
-                setTips("作用于 " + Tool.At(who.longValue()));
+                setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override

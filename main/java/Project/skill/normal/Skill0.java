@@ -40,7 +40,7 @@ public class Skill0 extends SkillTemplate {
                     return;
                 }
                 addHp(who.longValue(), q, info.getAddPercent());
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
         };
     }

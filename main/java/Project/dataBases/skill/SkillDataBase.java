@@ -24,7 +24,6 @@ import static Project.services.detailServices.GameSkillDetailService.getUserPerc
 public class SkillDataBase {
 
     public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
-
     /**
      * 吸血
      */
@@ -232,6 +231,17 @@ public class SkillDataBase {
                 appendInfo(info);
             }
         });
+    }
+
+    public static void reMap() {
+        QQ_2_ST_2_MAP.clear();
+        List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
+        for (SkillInfo info : list) {
+            info.setState(0);
+            info.setAddPercent((int) (getBasePercent(info.getJid()) * GameTool.getAHBl_(info.getId())));
+            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
+            appendInfo(info);
+        }
     }
 
     public static class HasTimeAdder {

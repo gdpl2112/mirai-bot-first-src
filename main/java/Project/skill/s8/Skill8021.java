@@ -44,7 +44,7 @@ public class Skill8021 extends SkillTemplate {
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 BaseInfo baseInfo = getBaseInfoFromAny(who, nums[0].longValue());
                 int b = toPercent(baseInfo.getHp(), baseInfo.getHpL());
                 if (b >= 90) {

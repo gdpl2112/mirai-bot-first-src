@@ -1,33 +1,31 @@
+
 package Project.controllers.normalController;
 
-import Project.detailPlugin.BaiduBaiKe;
-import Project.detailPlugin.GetPvpNews;
-import Project.detailPlugin.MihoyoP0;
-import Project.detailPlugin.PvpQq;
-import Project.interfaces.http_api.ApiIyk0;
-import Project.interfaces.http_api.Dzzui;
+import Project.detailPlugin.*;
+import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.http_api.GetPvpQQ;
 import Project.interfaces.http_api.MuXiaoGuo;
-import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.dataBases.DataBase.getConf;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
@@ -36,14 +34,19 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
  * @author github-kloping
  */
 @Controller
-public class EntertainmentController2 {
-    public static final int PAGE_SIZE = 5;
-//    private static final String KFJH =
-//            "开发计划请见\nhttps://github.com/gdpl2112/mirai-bot-first/milestones\n或\nhttps://hub.fastgit.org/gdpl2112/mirai-bot-first/milestones因为DNS污染可能某些时间段无法访问";
-    public static long upNewsId = 0;
-    public PvpSkin skin = null;
-    @AutoStand
-    ApiIyk0 apiIyk0;
+public class CallLocalApiController {
+
+    public CallLocalApiController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
+
+    @Before
+    public void before(Group group) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
+        }
+    }
+
     @AutoStand
     MuXiaoGuo muXiaoGuo;
     @AutoStand
@@ -56,101 +59,16 @@ public class EntertainmentController2 {
     PvpQq pvpQq;
     @AutoStand
     Project.interfaces.http_api.PvpQq pvpQqi;
-
-    public EntertainmentController2() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
-    @Before
-    public void before(Group group) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw NOT_OPEN_NO_RUN_EXCEPTION;
-        }
-    }
-
-    @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
-    public String getBottle() {
-        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
-//        PickupABottle pab = null;
-//        try {
-//            pab = apiIyk0.pickupBottle(2);
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
-//                    .append("\n的:").append(pab.getData().getUin())
-//                    .append("\n在:").append(pab.getData().getTime())
-//                    .append("\n写的:").append(pab.getData().getMsg());
-//            return sb.toString();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "没捡到瓶子...";
-//        }
-    }
-
-    @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
-    public String setBottle(long q, Group group, @Param("str") String str) {
-        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
-//        if (str == null || str.trim().isEmpty()) return "请携带内容~";
-//        try {
-//            ThrowABottle throwABottle = apiIyk0.throwBottle(1,
-//                    str, q, group.getId());
-//            return throwABottle.getData().getMsg();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
-//        }
-    }
-
-    private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
-
-    @AutoStand
-    Dzzui dzzui;
-
-    @Action("随机头像")
-    public String sjtx0(Group group, User user) {
-        try {
-            MessageTools.sendImageByBytesOnGroupWithAt(dzzui.avatar(), group.getId(), user.getId());
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("随机男头像")
-    public String sjtx1() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[1]);
-            return Tool.pathToImg(jo.getString("img"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("随机女头像")
-    public String sjtx2() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[0]);
-            return Tool.pathToImg(jo.getString("img"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("随机情侣头像")
-    public String sjtx3() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[3]);
-            return Tool.pathToImg(jo.getString("img1")) + "\n" + Tool.pathToImg(jo.getString("img2"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
     @AutoStand
     BaiduBaiKe baiduBaiKe;
+    @AutoStand
+    WeatherGetter weatherGetter;
+    @AutoStand
+    IOtherService otherService;
+
+   public PvpSkin skin = null;
+    public static final int PAGE_SIZE = 5;
+    public static long upNewsId = 0;
 
     @Action("百科<.+=>str>")
     public Object m1(@Param("str") String name) {
@@ -197,11 +115,6 @@ public class EntertainmentController2 {
         }
         return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
-
-//    @Action("开发计划")
-//    public String kfjh() {
-//        return KFJH;
-//    }
 
     @Action("/init_pvp")
     public String p() {
@@ -261,32 +174,29 @@ public class EntertainmentController2 {
         String name = m.replace("王者皮肤", "");
         Integer i = getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
-        Pcblzlby_c6 pcblzlby_c6 = pvpSkin.getPcblzlby_c6()[i];
-        return pvpQq.getSkinPic("https:" + pcblzlby_c6.getPcblzlbyxqydz_c4());
+        Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i];
+        return pvpQq.getSkinPic("https:" + c6.getPcblzlbyxqydz_c4());
     }
 
-    @Action("疫情<.+=>name>")
-    public String yq0(@Param("name") String address) {
-        YiQing qing = apiIyk0.yq(address);
-        if (qing == null) {
-            return ERR_TIPS;
+    @Action("短时预报<.+=>address>")
+    public String m2(@Param("address") String address) {
+        return weatherGetter.get(address);
+    }
+
+    @Action("天气预报.+")
+    public String weather1(@AllMess String mess, Group group) {
+        String line = otherService.talk(mess);
+        return line;
+    }
+
+    @Action("天气<.+=>name>")
+    public String weather0(@Param("name") String name, Group group) {
+        String line = weatherGetter.detail(name);
+        if (getConf(group.getId()).getVoiceK()) {
+            speak(line, group);
         }
-        // "目前确诊": "1792",
-        //    "死亡人数": "9",
-        //    "治愈人数": "1723",
-        //    "新增确诊": "11",
-        //    "现存确诊": "60",
-        //    "现存无症状": "463",
-        StringBuilder sb = new StringBuilder()
-                .append("地区:").append(qing.get查询地区()).append(NEWLINE)
-                .append("时间:").append(qing.getTime()).append(NEWLINE)
-                .append("新增确诊:").append(qing.get新增确诊()).append(NEWLINE)
-                .append("目前确诊:").append(qing.get目前确诊()).append(NEWLINE)
-                .append("现存确诊:").append(qing.get现存确诊()).append(NEWLINE)
-                .append("现存无症状:").append(qing.get现存无症状()).append(NEWLINE)
-                .append("治愈人数:").append(qing.get治愈人数()).append(NEWLINE)
-                .append("死亡人数:").append(qing.get死亡人数()).append(NEWLINE);
-
-        return sb.toString();
+        return line;
     }
+
+
 }

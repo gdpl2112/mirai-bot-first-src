@@ -12,6 +12,7 @@ import Project.dataBases.ZongMenDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
+import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -43,7 +44,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_PRE_CD;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
@@ -77,9 +77,9 @@ public class GameServiceImpl implements IGameService {
             long xr = mx / c;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);
-            long ll1 = HfHp(who);
-            long ll2 = HF_Hl(who);
-            long ll3 = HF_Hj(who);
+            long ll1 = hfHp(who, 1.0f);
+            long ll2 = hfHl(who, 1.0f);
+            long ll3 = hfHj(who, 1.0f);
             StringBuilder sb = new StringBuilder();
             if (is.getWh() != 0) {
                 sb.append(GameDataBase.getNameById(is.getWh()));
@@ -89,7 +89,6 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");
             sb.append(String.format("恢复了%s点魂力", ll2)).append(",");
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
-
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
                     SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
@@ -115,9 +114,9 @@ public class GameServiceImpl implements IGameService {
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
             putPerson(is);
 
-            long ll1 = HfHp(who, 1.1);
-            long ll2 = HF_Hl(who, 1.1);
-            long ll3 = HF_Hj(who, 1.1);
+            long ll1 = hfHp(who, 1.1);
+            long ll2 = hfHl(who, 1.1);
+            long ll3 = hfHj(who, 1.1);
 
             StringBuilder sb = new StringBuilder();
             if (is.getWh() != 0) {
@@ -151,9 +150,9 @@ public class GameServiceImpl implements IGameService {
             str1.append(pathToImg(createFont(getFhName(who))));
         }
         long n = is.getWh();
-        if (n == 0)
+        if (n == 0) {
             str1.append("你的武魂:暂未获得").append("\r\n");
-        else {
+        } else {
             str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
             str1.append(SourceDataBase.getImgPathById((int) n)).append("\r\n");
         }
@@ -166,23 +165,25 @@ public class GameServiceImpl implements IGameService {
         long xp = is.getXp();
         long xpL = is.getXpL();
         long L = is.getLevel();
-        if (L == 2 && getInfo(who).getWh() == 0)
-            return PLEASE_AWAKENING_WH;
-        if (xp >= xpL) {
-            if (L > MAX_LEVEL) {
-                return "等级最大限制..";
+        if (L != 2 || getInfo(who).getWh() != 0) {
+            if (xp >= xpL) {
+                if (L > MAX_LEVEL) {
+                    return "等级最大限制..";
+                }
+                if (isJTop(who)) {
+                    return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append("升级成功");
+                is.addLevel(1).addXp(-xpL);
+                putPerson(is);
+                sb.append(upTrue(who));
+                return pathToImg(createImage(sb.toString().split("\r\n")));
+            } else {
+                return "经验不足,无法升级!";
             }
-            if (isJTop(who)) {
-                return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
-            }
-            StringBuilder sb = new StringBuilder();
-            sb.append("升级成功");
-            is.addLevel(1).addXp(-xpL);
-            putPerson(is);
-            sb.append(upTrue(who));
-            return pathToImg(createImage(sb.toString().split("\r\n")));
         } else {
-            return "经验不足,无法升级!";
+            return PLEASE_AWAKENING_WH;
         }
     }
 
@@ -362,6 +363,16 @@ public class GameServiceImpl implements IGameService {
         return attNow(who, q2, group, 0);
     }
 
+    @AutoStand
+    PlayerBehavioralManager behavioral;
+
+    /**
+     * @param p1 攻击者
+     * @param p2 被攻击者
+     * @param g1 所处gid
+     * @param v  type
+     * @return
+     */
     public String attNow(Long p1, Long p2, Group g1, Integer v) {
         Future future = threads.submit(new Runnable() {
             private Group group = g1;
@@ -373,7 +384,7 @@ public class GameServiceImpl implements IGameService {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(ATT_PRE_CD);
+                    Thread.sleep(behavioral.getAttPre(p1));
                     if (i == 2) {
                         Zon zon = getZonInfo(who);
                         zon.setXper(zon.getXper() - 10);
@@ -386,9 +397,10 @@ public class GameServiceImpl implements IGameService {
                         if (yper.getHp() > 0) {
                             long l = randLong(iper.getHll(), 0.2f, 0.3f);
                             if (iper.getHl() >= l) {
-                                long l1 = randLong(iper.getAtt(), 0.2f, 0.25f);
-                                if (i == 1)
+                                long l1 = randLong(iper.att(), 0.2f, 0.25f);
+                                if (i == 1) {
                                     l1 *= 0.9f;
+                                }
                                 tips += GameDetailService.consumedHl(who, l);
                                 tips += GameDetailService.beaten(q2, who, l1);
                                 if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
@@ -427,7 +439,7 @@ public class GameServiceImpl implements IGameService {
             }
 
             private void send(String line) {
-                MessageTools.sendMessageInGroup(At(who) + "\r\n" + line, group.getId());
+                MessageTools.sendMessageInGroup(at(who) + "\r\n" + line, group.getId());
             }
         });
         BaseInfoTemp.append(p1, future);
@@ -437,8 +449,9 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String getScoreFromGold(Long who, long num) {
         PersonInfo is = getInfo(who);
-        if (is.getGold() <= 500)
+        if (is.getGold() <= 500) {
             return "高出1000的金魂币才能换成积分";
+        }
         if (is.getGold() - 500 >= num) {
             DataBase.addScore((long) (num * 1.5f), who);
             putPerson(is.addGold(-num,
@@ -486,11 +499,13 @@ public class GameServiceImpl implements IGameService {
     }
 
     private boolean randHh(Integer id, long who, int level) {
-        if ((id >= 204 && level < 10) || (id >= 205 && level < 50) || (id >= 206 && level < 70)) {
+        boolean k1 = (id >= 204 && level < 10);
+        boolean k2 = (id >= 205 && level < 50);
+        boolean k3 = (id >= 206 && level < 70);
+        if (k1 || k2 || k3) {
             return false;
         }
         int r1 = RANDOM.nextInt(10);
-
         PersonInfo personInfo = getInfo(who);
         if (personInfo.getLevel() > 10) r1--;
         if (personInfo.getLevel() > 30) r1--;
@@ -498,7 +513,6 @@ public class GameServiceImpl implements IGameService {
         if (personInfo.getLevel() > 60) r1--;
         if (personInfo.getLevel() > 90) r1--;
         if (personInfo.getLevel() > 120) r1--;
-
         switch (id) {
             case 201:
                 return true;
@@ -519,7 +533,7 @@ public class GameServiceImpl implements IGameService {
         }
     }
 
-    private long HfHp(Long who) {
+    private long hfHp(Long who, double d1) {
         PersonInfo personInfo = getInfo(who);
         long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();
@@ -534,6 +548,7 @@ public class GameServiceImpl implements IGameService {
         if (c1 < 4) c1 = 4;
         long l5 = personInfo.getHpL() / c1;
         l5 += randLong(l5, 0.5f, 0.6f);
+        l5 *= d1;
         if ((hpl - hp) < l5) {
             l5 = (hpl - hp);
         }
@@ -541,7 +556,7 @@ public class GameServiceImpl implements IGameService {
         return l5;
     }
 
-    private long HF_Hl(Long who) {
+    private long hfHl(Long who, double d1) {
         PersonInfo personInfo = getInfo(who);
         long vL = personInfo.getHll();
         long v = personInfo.getHl();
@@ -556,6 +571,7 @@ public class GameServiceImpl implements IGameService {
         if (c1 < 4) c1 = 4;
         long l5 = personInfo.getHll() / c1;
         l5 += randLong(l5, 0.5f, 0.7f);
+        l5 *= d1;
         if ((vL - v) < l5) {
             l5 = (vL - v);
         }
@@ -563,7 +579,7 @@ public class GameServiceImpl implements IGameService {
         return l5;
     }
 
-    private long HF_Hj(Long who) {
+    private long hfHj(Long who, double d1) {
         PersonInfo personInfo = getInfo(who);
         long vL = personInfo.getHjL();
         long v = personInfo.getHj();
@@ -578,75 +594,7 @@ public class GameServiceImpl implements IGameService {
         if (c1 < 8) c1 = 8;
         long l5 = personInfo.getHjL() / c1;
         l5 += randLong(l5, 0.6f, 0.9f);
-        if ((vL - v) < l5) {
-            l5 = (vL - v);
-        }
-        putPerson(personInfo.addHj(l5));
-        return l5;
-    }
-
-    private long HfHp(Long who, double d1) {
-        PersonInfo personInfo = getInfo(who);
-        long hpl = personInfo.getHpL();
-        long hp = personInfo.getHp();
-        if (hp >= hpl)
-            return 0;
-        if (hp > hpl) {
-            putPerson(personInfo.setHp(personInfo.getHpL()));
-            return hpl - hp;
-        }
-        int c1 = getRandXl(personInfo.getLevel());
-        if (c1 > 30) c1 = 30;
-        if (c1 < 4) c1 = 4;
-        long l5 = personInfo.getHpL() / c1;
-        l5 += randLong(l5, 0.5f, 0.6f);
-        l5 *= 1.1;
-        if ((hpl - hp) < l5) {
-            l5 = (hpl - hp);
-        }
-        putPerson(personInfo.addHp(l5));
-        return l5;
-    }
-
-    private long HF_Hl(Long who, double d1) {
-        PersonInfo personInfo = getInfo(who);
-        long vL = personInfo.getHll();
-        long v = personInfo.getHl();
-        if (v >= vL)
-            return 0;
-        if (v > vL) {
-            putPerson(personInfo.setHl(personInfo.getHll()));
-            return vL - v;
-        }
-        int c1 = getRandXl(personInfo.getLevel());
-        if (c1 > 24) c1 = 24;
-        if (c1 < 4) c1 = 4;
-        long l5 = personInfo.getHll() / c1;
-        l5 += randLong(l5, 0.5f, 0.7f);
-        l5 *= 1.1;
-        if ((vL - v) < l5) {
-            l5 = (vL - v);
-        }
-        putPerson(personInfo.addHl(l5));
-        return l5;
-    }
-
-    private long HF_Hj(Long who, double d1) {
-        PersonInfo personInfo = getInfo(who);
-        long vL = personInfo.getHjL();
-        long v = personInfo.getHj();
-        if (v >= vL)
-            return 0;
-        if (v > vL) {
-            putPerson(personInfo.setHj(personInfo.getHjL()));
-            return vL - v;
-        }
-        int c1 = getRandXl(personInfo.getLevel());
-        if (c1 > 20) c1 = 20;
-        if (c1 < 8) c1 = 8;
-        long l5 = personInfo.getHjL() / c1;
-        l5 += randLong(l5, 0.6f, 0.9f);
-        l5 *= 1.1;
+        l5 *= d1;
         if ((vL - v) < l5) {
             l5 = (vL - v);
         }
@@ -695,89 +643,65 @@ public class GameServiceImpl implements IGameService {
 
     private String returnNow(Long id) {
         HIST_INFOS.remove(id);
+        Warp warp = null;
         int i = 0;
-
         try {
             SpringBootResource.getPersonInfoMapper().deleteById(id.longValue());
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             SkillDataBase.remove(id);
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Warp warp = null;
+        } catch (Exception e) {e.printStackTrace();}
         try {
             warp = getWarp(id);
             if (warp.getMaster().longValue() != -1) {
                 chuShiNow(id.longValue());
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             if (warp.getBindQ().longValue() != -1) {
                 gameController2.removeFusionNow(id.longValue());
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
                 SpringBootResource.getBagMapper().update(id0);
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
                 SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
                 SpringBootResource.getSoulBoneMapper().delete(soulBone);
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             SpringBootResource.getgInfoMapper().deleteById(id);
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
                 SpringBootResource.getHhpzMapper().delete(integer);
             }
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         try {
             SpringBootResource.getTaskPointMapper().deleteById(id);
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        } catch (Exception e) {e.printStackTrace();}
         try {
             SpringBootResource.getUpupMapper().deleteByQq(id);
             i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
         return "转生完成\n已移除" + i + "项记录";
     }
 

@@ -38,7 +38,7 @@ public class Skill17 extends SkillTemplate {
             @Override
             public void before() {
                 getInfo(who).addTag(TAG_XUAN_YU_S, 1).apply();
-                setTips("作用于 " + Tool.At(who.longValue()));
+                setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override

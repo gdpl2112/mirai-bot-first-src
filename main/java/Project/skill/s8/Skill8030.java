@@ -45,7 +45,7 @@ public class Skill8030 extends SkillTemplate {
                 }
                 long id = nums[0].longValue();
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 if (id > 0) {
                     PersonInfo p2 = getInfo(id);
                     int b = toPercent(p2.getHl(), p2.getHll());

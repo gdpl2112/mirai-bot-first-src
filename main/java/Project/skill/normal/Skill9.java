@@ -45,7 +45,7 @@ public class Skill9 extends SkillTemplate {
                 v = 1;
                 q = oneNearest(who, nums);
                 eve();
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
 
             @Override

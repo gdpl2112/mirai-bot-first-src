@@ -41,7 +41,7 @@ public class Skill709 extends SkillTemplate {
                 if (!exist(q)) {
                     return;
                 }
-                long v = percentTo(info.getAddPercent(), getInfo(q).getAtt());
+                long v = percentTo(info.getAddPercent(), getInfo(q).att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
         };

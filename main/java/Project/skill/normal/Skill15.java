@@ -42,7 +42,7 @@ public class Skill15 extends SkillTemplate {
                 int b = info.getAddPercent();
                 long v2 = percentTo(b, v);
                 addShield(who.longValue(), v2);
-                setTips("作用于 " + Tool.At(who.longValue()));
+                setTips("作用于 " + Tool.at(who.longValue()));
             }
         };
     }

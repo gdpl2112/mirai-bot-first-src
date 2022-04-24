@@ -42,7 +42,7 @@ public class Skill8 extends SkillTemplate {
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getInfo(who).getAtt());
+                long v = percentTo(info.getAddPercent(), getInfo(who).att());
                 attGhostOrMan(sb, who, nums[0], v);
                 setTips(sb.toString());
             }

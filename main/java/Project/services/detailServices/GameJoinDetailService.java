@@ -8,6 +8,7 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
+import Project.services.player.PlayerBehavioralManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -25,7 +26,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.toPercent;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.objectToJsonString;
@@ -38,7 +40,6 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class GameJoinDetailService {
-
     public static final List<Integer> IDXS = new CopyOnWriteArrayList<>();
     public static final Map<Long, GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
     @AutoStand
@@ -326,7 +327,7 @@ public class GameJoinDetailService {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
         GhostObj ghostObj = GhostObj.create(
-                (long) (personInfo.getAtt() * bl),
+                (long) (personInfo.att() * bl),
                 personInfo.getHpL(),
                 (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
                 idMin, idMax,
@@ -337,15 +338,18 @@ public class GameJoinDetailService {
 
     public Object select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
+        Object s0 = null;
         switch (id) {
             case 0:
-                return att(who, ghostObj);
+                s0 = att(who, ghostObj);
+                break;
             case 1:
-                return taoPao(ghostObj, who);
+                s0 = taoPao(ghostObj, who);
+                break;
             default:
                 break;
         }
-        return "未知选择";
+        return s0;
     }
 
     private String taoPao(GhostObj ghostObj, long who) {
@@ -359,7 +363,7 @@ public class GameJoinDetailService {
         } else {
             PersonInfo personInfo = getInfo(who);
             if (Tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
-                    >= personInfo.getAtt() && personInfo.getHp() <= ghostObj.getHp()) {
+                    >= personInfo.att() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
             ghostObj.dispose();
@@ -368,12 +372,15 @@ public class GameJoinDetailService {
         return "逃跑完成";
     }
 
+    @AutoStand
+    PlayerBehavioralManager manager;
+
     private String att(long who, GhostObj ghostObj) {
         if (getInfo(who).getJak1() > System.currentTimeMillis()) {
-            return "攻击冷却中...";
+            return ATT_WAIT_TIPS;
         }
         try {
-            putPerson(getInfo(who).setJak1(System.currentTimeMillis() + 2000));
+            putPerson(getInfo(who).setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2));
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
             String whos = "";
             if (isHelp) {
@@ -381,16 +388,13 @@ public class GameJoinDetailService {
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
             if (IDXS.contains(ghostObj.getIDX())) {
-                return "\n该魂兽,正在被攻击中";
+                return SYNC_GHOST_TIPS;
             }
             IDXS.add(ghostObj.getIDX());
-
             PersonInfo personInfo = getInfo(who);
-
             long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
-            long at1 = randLong(personInfo.getAtt(), 0.35f, 0.48f);
+            long at1 = randLong(personInfo.att(), 0.35f, 0.48f);
             long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
-
             StringBuilder sb = new StringBuilder();
             sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {
@@ -399,14 +403,12 @@ public class GameJoinDetailService {
                 ghostObj.updateHp(-at1, personInfo);
                 sb.append(GameDetailService.onAtt(who, -2, at1));
             } else {
-                sb.append("魂力不足,攻击失败");
+                sb.append(HL_NOT_ENOUGH_TIPS0);
             }
             sb.append(NEWLINE);
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
                     .append(GameDetailService.beaten(who, -2, at2));
-
             ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
-
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {

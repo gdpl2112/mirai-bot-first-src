@@ -42,7 +42,7 @@ public class Skill12 extends SkillTemplate {
                 q = oneNearest(who, nums);
                 v = Long.valueOf(info.getAddPercent());
                 GameBoneDetailService.addForAttr(q, v, GameBoneDetailService.Type.HIDE_PRO);
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
 
             @Override

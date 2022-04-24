@@ -41,7 +41,7 @@ public class Skill731 extends SkillTemplate {
             @Override
             public void before() {
                 PersonInfo pInfo = getInfo(who);
-                v = percentTo(info.getAddPercent(), pInfo.getAtt());
+                v = percentTo(info.getAddPercent(), pInfo.att());
                 long v = percentTo(info.getAddPercent(), pInfo.getHpL());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 addShield(who.longValue(), v, getDuration(getJid()));

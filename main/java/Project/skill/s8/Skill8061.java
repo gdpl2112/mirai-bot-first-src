@@ -45,42 +45,42 @@ public class Skill8061 extends SkillTemplate {
                     StringBuilder sb;
                     //1
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //2
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //3
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //4
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //5
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //6
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //7
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //8
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().getAtt()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                 } catch (Exception e) {

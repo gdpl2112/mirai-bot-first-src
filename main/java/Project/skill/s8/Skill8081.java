@@ -73,7 +73,7 @@ public class Skill8081 extends SkillTemplate {
                 future.cancel(true);
                 over();
             } else {
-                Long att = getInfo(q1).getAtt();
+                Long att = getInfo(q1).att();
                 long v = percentTo((int) value, att);
                 BaseInfo baseInfo = getBaseInfoFromAny(q1, q2);
                 v += percentTo(8, baseInfo.getHpL() - baseInfo.getHp());

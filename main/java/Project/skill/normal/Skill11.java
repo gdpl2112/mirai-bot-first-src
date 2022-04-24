@@ -42,7 +42,7 @@ public class Skill11 extends SkillTemplate {
             public void before() {
                 q = oneNearest(who, nums);
                 putPerson(getInfo(q).addTag(TAG_TRUE, 1));
-                setTips("作用于 " + Tool.At(q));
+                setTips("作用于 " + Tool.at(q));
             }
 
             @Override

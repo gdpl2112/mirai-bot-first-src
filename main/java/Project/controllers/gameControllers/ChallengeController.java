@@ -18,10 +18,10 @@ import static Project.services.detailServices.ChallengeDetailService.A2R;
 import static Project.services.detailServices.ChallengeDetailService.WILL_GO;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.EveListStartWith;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeHHMM;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github.kloping
@@ -89,7 +89,7 @@ public class ChallengeController {
     public Object o3(long qid) {
         long at = getInfo(qid).getAk1();
         if (at > System.currentTimeMillis())
-            return ("攻击冷却中..=>" + getTimeHHMM(at));
+            return String.format(BG_WAIT_TIPS, getTimeTips(at));
         return gameService.attNow(qid, A2R.get(qid), Group.get(WILL_GO.get(qid)), 0);
     }
 

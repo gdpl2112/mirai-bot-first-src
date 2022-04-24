@@ -7,11 +7,14 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.GameBoneDetailService;
+import Project.services.player.PlayerBehavioralManager;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +22,7 @@ import java.util.Map;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -37,19 +39,23 @@ public class GameBoneServiceImpl implements IGameBoneService {
         return false;
     }
 
+    @AutoStand
+    PlayerBehavioralManager manager;
+
     @Override
     public String getInfoAttributes(Long who) {
         SoulAttribute attributeBone = getSoulAttribute(who);
-        String[] sss = new String[8];
-        sss[0] = "============我的属性";
-        sss[1] = "伤害闪避率:" + attributeBone.getHideChance() + "%";
-        sss[2] = "生命恢复率:" + attributeBone.getHpChance() + "%";
-        sss[3] = "生命恢复效果:" + attributeBone.getHpEffect() + "%";
-        sss[4] = "魂力恢复率:" + attributeBone.getHlChance() + "%";
-        sss[5] = "魂力恢复效果:" + attributeBone.getHlEffect() + "%";
-        sss[6] = "精神力恢复率:" + attributeBone.getHjChance() + "%";
-        sss[7] = "精神力恢复效果:" + attributeBone.getHjEffect() + "%";
-        return getImageFromStrings(sss);
+        List<String> list = new ArrayList<>();
+        list.add("=====我的属性=====");
+        list.add("伤害闪避率:" + attributeBone.getHideChance() + "%");
+        list.add("生命恢复率:" + attributeBone.getHpChance() + "%");
+        list.add("生命恢复效果:" + attributeBone.getHpEffect() + "%");
+        list.add("魂力恢复率:" + attributeBone.getHlChance() + "%");
+        list.add("魂力恢复效果:" + attributeBone.getHlEffect() + "%");
+        list.add("精神力恢复率:" + attributeBone.getHjChance() + "%");
+        list.add("精神力恢复效果:" + attributeBone.getHjEffect() + "%");
+        list.add("攻击前/后摇:" + device(manager.getAttPre(who), 1000f, 1) + "/" + device(manager.getAttPost(who), 1000f, 1) + "s");
+        return getImageFromStrings(list.toArray(new String[0]));
     }
 
     @Override

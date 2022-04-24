@@ -42,7 +42,7 @@ public class Skill705 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                long v = percentTo(info.getAddPercent() * 4, getInfo(q).getAtt());
+                long v = percentTo(info.getAddPercent() * 4, getInfo(q).att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 eve();
             }

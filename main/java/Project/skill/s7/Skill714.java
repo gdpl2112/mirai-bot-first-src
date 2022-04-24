@@ -43,7 +43,7 @@ public class Skill714 extends SkillTemplate {
                 if (!exist(q)) {
                     return;
                 }
-                Long lon = getInfo(q).getAtt();
+                Long lon = getInfo(q).att();
                 long v = percentTo(info.getAddPercent(), lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 try {

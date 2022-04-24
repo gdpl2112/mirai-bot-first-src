@@ -40,7 +40,7 @@ public class Skill718 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 int p = info.getAddPercent();
                 long v = percentTo(p, lon);
                 long o = percentTo(p, v);

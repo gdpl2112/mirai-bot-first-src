@@ -62,7 +62,7 @@ public class Skill18 extends SkillTemplate {
                 final long max = maxTemp > 0 ? maxTemp : 0;
                 final long th = thTemp > 0 ? thTemp : 0;
                 int b = info.getAddPercent();
-                long att = getInfo(who).getAtt();
+                long att = getInfo(who).att();
                 int x = toPercent(th, max);
                 x = 100 - x;
                 int y = (int) (((float) x / 50f) * 100);

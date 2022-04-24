@@ -58,7 +58,7 @@ public class Skill19 extends SkillTemplate {
                     PersonInfo in = getInfo(nums[0]);
                 }
                 b = info.getAddPercent() + r;
-                setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).getAtt())));
+                setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).att())));
             }
 
             @Override
@@ -66,7 +66,7 @@ public class Skill19 extends SkillTemplate {
                 super.run();
                 try {
                     Thread.sleep(5000);
-                    long att = getInfo(who).getAtt();
+                    long att = getInfo(who).att();
                     long v = percentTo(b, att);
                     StringBuilder sb = new StringBuilder();
                     attGhostOrMan(sb, who, nums[0], v);

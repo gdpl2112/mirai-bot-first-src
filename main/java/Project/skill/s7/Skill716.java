@@ -42,7 +42,7 @@ public class Skill716 extends SkillTemplate {
                     return;
                 }
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 int p = info.getAddPercent();
                 long v = percentTo(p, lon);
                 long o = percentTo(p, v);

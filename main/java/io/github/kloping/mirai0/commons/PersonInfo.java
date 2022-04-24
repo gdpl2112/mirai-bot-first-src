@@ -277,6 +277,10 @@ public class PersonInfo implements BaseInfo {
 
     @Override
     public Long getAtt() {
+        return att;
+    }
+
+    public Long att(){
         long at1 = att;
         try {
             if (SkillDataBase.HAS_ADDER_MAP_LIST.containsKey(getId().longValue())) {

@@ -52,7 +52,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(16, 50);
         BASE_PERCENT_MAP.put(17, 9);
         BASE_PERCENT_MAP.put(18, 40);
-        BASE_PERCENT_MAP.put(19, 40);
+        BASE_PERCENT_MAP.put(19, 25);
         BASE_PERCENT_MAP.put(20, 1);
         BASE_PERCENT_MAP.put(21, 7);
         BASE_PERCENT_MAP.put(22, 16);
@@ -88,6 +88,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(729, 54);
         BASE_PERCENT_MAP.put(730, 40);
         BASE_PERCENT_MAP.put(731, 40);
+        //==
         BASE_PERCENT_MAP.put(8010, 20);
         BASE_PERCENT_MAP.put(8011, 10);
         BASE_PERCENT_MAP.put(8021, 50);
@@ -101,6 +102,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8070, 45);
         BASE_PERCENT_MAP.put(8071, 19);
         BASE_PERCENT_MAP.put(8081, 3);
+        BASE_PERCENT_MAP.put(8080, 34);
+        BASE_PERCENT_MAP.put(8090, 30);
     }
 
     static {
@@ -140,6 +143,7 @@ public class GameSkillDetailService {
     public static Long getAddP(Integer jid, Integer id) {
         return (long) (getBasePercent(jid) * GameTool.getAHBl_(id));
     }
+
 
     public static final Map<Integer, Long> JID2TIME = new HashMap<>();
 

@@ -42,7 +42,7 @@ public class Skill16 extends SkillTemplate {
                 long t = b / 5;
                 long v2 = percentTo(b, getInfo(who).getHpL());
                 addShield(who.longValue(), v2, t * 1000);
-                setTips("作用于 " + Tool.At(who.longValue()));
+                setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override

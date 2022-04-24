@@ -49,7 +49,7 @@ public class Skill13 extends SkillTemplate {
                 long v = percentTo(info.getAddPercent(), m);
                 p2.addHl(-v);
                 putPerson(p2);
-                setTips("令" + Tool.At(nums[0].longValue()) + "魂力减少");
+                setTips("令" + Tool.at(nums[0].longValue()) + "魂力减少");
             }
         };
     }

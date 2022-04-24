@@ -4,6 +4,7 @@ package Project.controllers.gameControllers;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
+import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -23,10 +24,9 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.ATT_CD;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
@@ -222,17 +222,20 @@ public class GameController {
         }
     }
 
+    @AutoStand
+    PlayerBehavioralManager manager;
+
     @Action("攻击.+")
     public String AttWho(User qq, @AllMess String chain, Group group) {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
-            return ("谁?");
+            return NOT_FOUND_AT;
         long at = getInfo(qq.getId()).getAk1();
         if (at > System.currentTimeMillis())
-            return ("攻击冷却中..=>" + getTimeHHMM(at));
+            return String.format(BG_WAIT_TIPS, getTimeTips(at));
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         String sss = gameService.att(qq.getId(), who, group);
-        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + ATT_CD).apply();
+        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();
         return sss;
     }
 
@@ -240,7 +243,7 @@ public class GameController {
     public String Look(User qq, @AllMess String chain, Group group) {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
-            return ("谁?");
+            return NOT_FOUND_AT;
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = getInfo(qq.getId());
         PersonInfo Y = getInfo(who);
@@ -261,14 +264,14 @@ public class GameController {
     @Action("换积分<\\d{1,}=>num>")
     public String getScore(@Param("num") String num, User qq, Group group) {
         String ll = findNumberFromString(num);
-        if (ll == null || ll.isEmpty()) return ("给个数值");
+        if (ll == null || ll.isEmpty()) return NOT_FOUND_VALUE;
         long l = Long.parseLong(ll);
         String sss = gameService.getScoreFromGold(qq.getId(), l);
         return sss;
     }
 
-    @Action("等级排行<\\d{1,}=>num>")
-    public String pH(@Param("num") String num) {
+    @Action("等级排行.*?")
+    public String pH(@AllMess String num) {
         int n;
         String ll = findNumberFromString(num);
         if (ll == null || ll.isEmpty()) {
@@ -287,21 +290,6 @@ public class GameController {
                     .append("级\r\n");
         }
         return sb.toString();
-    }
-
-    @Action("等级排行")
-    public String pH10() {
-        StringBuilder sb = new StringBuilder();
-        int r = 1;
-        for (Map.Entry<String, Integer> entry : phGet(10)) {
-            String sn = getFhName(Long.valueOf(entry.getKey()));
-            sb.append("第" + (r++)).append(":QQ:")
-                    .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>")
-                    .append(entry.getValue())
-                    .append("级\r\n");
-        }
-        return getImageFromStrings(false, sb.toString().split("\r\n"));
     }
 
     @Action("称号")

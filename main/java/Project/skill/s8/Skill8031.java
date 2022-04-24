@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.At;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.at;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
@@ -47,7 +47,7 @@ public class Skill8031 extends SkillTemplate {
                 long id = nums[0].longValue();
                 if (id >= 0) {
                     getInfo(id).addHl(v).apply();
-                    setTips("作用于" + At(id));
+                    setTips("作用于" + at(id));
                 }
             }
         };

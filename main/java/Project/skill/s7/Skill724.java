@@ -41,7 +41,7 @@ public class Skill724 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 long v = percentTo(info.getAddPercent(), lon);
                 pInfo.addHl(percentTo(info.getAddPercent() / 3, pInfo.getHll()));
                 putPerson(pInfo.addTag(TAG_TRUE, 1));

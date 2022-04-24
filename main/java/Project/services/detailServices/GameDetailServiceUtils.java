@@ -31,7 +31,7 @@ public class GameDetailServiceUtils {
             if (!GameDataBase.exist(num.longValue())) {
                 return 1;
             }
-            return GameDataBase.getInfo(num).getAtt();
+            return GameDataBase.getInfo(num).att();
         } else {
             GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
             if (ghostObj == null) {

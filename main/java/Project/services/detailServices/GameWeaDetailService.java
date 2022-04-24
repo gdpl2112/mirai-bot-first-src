@@ -90,7 +90,7 @@ public class GameWeaDetailService {
      */
     public String use1001(List<String> lps, long who) {
         if (lps.size() == 1) {
-            long ar = (long) (500 + (getInfo(who).getAtt() * 0.9f));
+            long ar = (long) (500 + (getInfo(who).att() * 0.9f));
             PersonInfo pInfo = getInfo(who);
             int sid = 1001;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
@@ -136,7 +136,7 @@ public class GameWeaDetailService {
     public String use1003(List<String> lps, long who) {
         int num = lps.size();
         if (num < 3 && num > 0) {
-            long ar = (long) (getInfo(who).getAtt() * 0.6f);
+            long ar = (long) (getInfo(who).att() * 0.6f);
             int sid = 1003;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
@@ -156,7 +156,7 @@ public class GameWeaDetailService {
     public String use1004(List<String> lps, long who) {
         int num = lps.size();
         if (num < 5 && num > 0) {
-            long ar = (long) (1500 + getInfo(who).getAtt() * 0.45f);
+            long ar = (long) (1500 + getInfo(who).att() * 0.45f);
             int sid = 1004;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
@@ -176,7 +176,7 @@ public class GameWeaDetailService {
     public String use1005(List<String> lps, long who) {
         int num = lps.size();
         if (num < 4 && num > 0) {
-            long ar = (long) (getInfo(who).getAtt() * 0.65f);
+            long ar = (long) (getInfo(who).att() * 0.65f);
             int sid = 1005;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);
@@ -195,7 +195,7 @@ public class GameWeaDetailService {
      */
     public String use1006(List<String> lps, long who) {
         if (lps.size() == 1) {
-            long ar = (long) (3000 + (getInfo(who).getAtt() * 2.8f));
+            long ar = (long) (3000 + (getInfo(who).att() * 2.8f));
             int sid = 1006;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
@@ -220,7 +220,7 @@ public class GameWeaDetailService {
     public String use1007(List<String> lps, long who) {
         int num = lps.size();
         if (num < 4 && num > 0) {
-            long ar = (long) (4500 + getInfo(who).getAtt() * 0.72f + getInfo(who).getLevel() * 10);
+            long ar = (long) (4500 + getInfo(who).att() * 0.72f + getInfo(who).getLevel() * 10);
             int sid = 1007;
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             Object[] os = startAtt(who, ar, lps);

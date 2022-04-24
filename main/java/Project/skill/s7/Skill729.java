@@ -40,7 +40,7 @@ public class Skill729 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 int b = info.getAddPercent();
                 SkillInfo i1 = getSkillInfo(who.longValue()).get(1);
                 int id = i1.getId();
@@ -50,7 +50,7 @@ public class Skill729 extends SkillTemplate {
                 b += id;
                 long v = percentTo(b, lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
-                setTips(String.format("增加%s%%(%s)攻击", b, percentTo(b, getInfo(who).getAtt())));
+                setTips(String.format("增加%s%%(%s)攻击", b, percentTo(b, getInfo(who).att())));
             }
         };
     }

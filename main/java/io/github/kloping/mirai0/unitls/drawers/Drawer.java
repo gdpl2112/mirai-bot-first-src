@@ -164,7 +164,7 @@ public class Drawer {
         g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT18);
-        g.drawString(filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + SMALL_FONT18.getSize());
+        g.drawString(filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT18.getSize());
         y = y + 85;
         g.setColor(levelColor);
         g.setFont(BIG_FONT35);

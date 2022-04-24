@@ -940,5 +940,4 @@ public class GameDataBase {
         String pathN = path + "/dates/users/" + who + "/" + DataName;
         return Tool.putStringInFile(line, pathN, "utf-8");
     }
-
 }

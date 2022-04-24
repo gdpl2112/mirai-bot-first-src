@@ -84,19 +84,6 @@ public class ManagerController {
         }
     }
 
-    @Action("跳过进入冷却.+")
-    public String oo1(@AllMess String mess) {
-        try {
-            String numStr = findNumberFromString(mess);
-            long qid = Long.parseLong(numStr);
-            GameDataBase.getInfo(qid).setK2(-1L).apply();
-            return "ok";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "not found";
-        }
-    }
-
     @Action("通过")
     public Object ace(User user, Group group) {
         Member qq = Resource.bot.getGroup(group.getId()).get(user.getId());

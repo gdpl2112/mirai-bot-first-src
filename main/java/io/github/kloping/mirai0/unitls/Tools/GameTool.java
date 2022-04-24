@@ -134,7 +134,7 @@ public class GameTool {
             case 206:
                 return 2.6;
             case 207:
-                return 3.3;
+                return 3.0;
         }
         return -1;
     }

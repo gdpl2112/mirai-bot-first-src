@@ -43,7 +43,7 @@ public class Skill725 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.getAtt();
+                Long lon = pInfo.att();
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
                 pInfo.addTag(TAG_FJ, b / 3);

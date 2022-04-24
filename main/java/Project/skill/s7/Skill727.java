@@ -40,7 +40,7 @@ public class Skill727 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 PersonInfo info_ = getInfo(q);
-                Long lon = info_.getAtt();
+                Long lon = info_.att();
                 long v = percentTo(info.getAddPercent(), lon);
                 putPerson(info_);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));

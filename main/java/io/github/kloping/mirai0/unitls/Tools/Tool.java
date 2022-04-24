@@ -45,6 +45,7 @@ public class Tool {
     private static String today = null;
     private static String toMon = null;
     private static String[] illegalSends = null;
+    private static final String BASE64 = "base64,";
 
     static {
         int i = 1;
@@ -54,8 +55,6 @@ public class Tool {
             i++;
         }
     }
-
-    private static final String BASE64 = "base64,";
 
     public static byte[] getBase64Data(String base64) {
         int i = base64.indexOf(BASE64);
@@ -122,7 +121,6 @@ public class Tool {
         if (!str.startsWith("\\u")) {
             return false;
         }
-        // \u6B65
         if (str.length() < 6) {
             return false;
         }
@@ -169,7 +167,7 @@ public class Tool {
         }
     }
 
-    public static final void setOnErrInFIle(String path) {
+    public static void setOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;
             new File(path).getParentFile().mkdirs();
@@ -194,7 +192,7 @@ public class Tool {
         }
     }
 
-    public static final void setOnOutInFIle(String path) {
+    public static void setOnOutInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.out;
             new File(path).getParentFile().mkdirs();
@@ -245,11 +243,11 @@ public class Tool {
      * @param t 时间戳
      * @return
      */
-    public static final String getTimeYMdhms(long t) {
+    public static String getTimeYMdhms(long t) {
         return df2.format(new Date(t));
     }
 
-    public static final String getTimeYMdhm(long t) {
+    public static String getTimeYMdhm(long t) {
         return df4.format(new Date(t));
     }
 
@@ -259,7 +257,7 @@ public class Tool {
      * @param t 时间戳
      * @return
      */
-    public static final String getTimeM(long t) {
+    public static String getTimeM(long t) {
         return df3.format(new Date(t));
     }
 
@@ -408,8 +406,8 @@ public class Tool {
     public static String filterBigNum(String line) {
         BigInteger[] numbers = findNums(line, 5);
         for (Number number : numbers) {
-            String r = BigNumToWE(number);
-            line = line.replace(number + "", r);
+            String r = bigNumToWE(number);
+            line = line.replace(number.toString(), r);
         }
         return line;
     }
@@ -456,29 +454,29 @@ public class Tool {
      * @param number
      * @return
      */
-    public static String BigNumToWE(Number number) {
+    public static String bigNumToWE(Number number) {
         if (number instanceof BigInteger) {
             if (number.toString().length() < 9) {
                 return toW(number.longValue());
             } else if (number.toString().length() < 13) {
-                BigDecimal b1 = new BigDecimal(number + "");
+                BigDecimal b1 = new BigDecimal(number.toString());
                 b1.setScale(2, BigDecimal.ROUND_HALF_UP);
                 b1 = b1.divide(b2);
                 String s = b1.toString();
                 s = s.substring(0, s.indexOf(".") + 2);
                 return s + "e";
             } else if (number.toString().length() < 17) {
-                BigDecimal b1 = new BigDecimal(number + "");
+                BigDecimal b1 = new BigDecimal(number.toString());
                 b1.setScale(2, BigDecimal.ROUND_HALF_UP);
                 b1 = b1.divide(be);
                 String s = b1.toString();
                 s = s.substring(0, s.indexOf(".") + 3);
                 return s + "we";
             } else {
-                BigDecimal b1 = new BigDecimal(number + "");
+                BigDecimal b1 = new BigDecimal(number.toString());
                 b1.setScale(2, BigDecimal.ROUND_HALF_UP);
                 b1 = b1.divide(bw);
-                String s = b1.toString() + "";
+                String s = b1.toString().toString();
                 s = s.substring(0, s.indexOf(".") + 3);
                 return s + "kwe";
             }
@@ -489,7 +487,7 @@ public class Tool {
                 return toE(number);
             }
         }
-        return number.toString() + "";
+        return number.toString().toString();
     }
 
     /**
@@ -499,10 +497,10 @@ public class Tool {
      * @return
      */
     private static String toE(Number number) {
-        BigDecimal b1 = new BigDecimal(number + "");
+        BigDecimal b1 = new BigDecimal(number.toString());
         b1.setScale(2, BigDecimal.ROUND_HALF_UP);
         b1 = b1.divide(b2);
-        String s = b1.toString() + "";
+        String s = b1.toString().toString();
         s = s.substring(0, s.indexOf(".") + 3);
         return s + "e";
     }
@@ -515,8 +513,8 @@ public class Tool {
      */
     private static String toW(long l) {
         long l1 = 10000;
-        double d3 = (double) l / (double) l1;
-        String s = d3 + "";
+        Double d3 = (double) l / (double) l1;
+        String s = d3.toString();
         if (s.length() >= s.indexOf(".") + 3)
             s = s.substring(0, s.indexOf(".") + 3);
         return s + "w";
@@ -605,7 +603,7 @@ public class Tool {
      * @param who
      * @return
      */
-    public static String At(Long who) {
+    public static String at(Long who) {
         return String.format("<At:%s>", who);
     }
 
@@ -615,7 +613,7 @@ public class Tool {
      * @param ss
      * @return
      */
-    public static int[] StringsToInts(String... ss) {
+    public static int[] stringsToInts(String... ss) {
         try {
             int[] ints = new int[ss.length];
             for (int i = 0; i < ss.length; i++) {
@@ -633,7 +631,7 @@ public class Tool {
      * @param ss
      * @return
      */
-    public static int[] StringToInts(String str) {
+    public static int[] stringToInts(String str) {
         try {
             String[] ss = str.split(",| |，");
             int[] ints = new int[ss.length];
@@ -646,7 +644,7 @@ public class Tool {
         }
     }
 
-    public static int[] StringToInts(String str, int xy) {
+    public static int[] stringToInts(String str, int xy) {
         try {
             String[] ss = str.split(",| |，");
             int[] ints = new int[ss.length];
@@ -1045,15 +1043,15 @@ public class Tool {
      * @param sss
      * @return
      */
-    public static final String getRandString(String... sss) {
+    public static String getRandString(String... sss) {
         return getRandT(sss);
     }
 
-    public static final <T> T getRandT(T... ts) {
+    public static <T> T getRandT(T... ts) {
         return ts[RANDOM.nextInt(ts.length)];
     }
 
-    public static final <T> T getRandT(List<T> ts) {
+    public static <T> T getRandT(List<T> ts) {
         return ts.get(RANDOM.nextInt(ts.size()));
     }
 
@@ -1064,7 +1062,7 @@ public class Tool {
      * @param v
      * @return v 的 b%
      */
-    public final static Long percentTo(Integer b, Number v) {
+    public static Long percentTo(Integer b, Number v) {
         if (v.longValue() < 100) {
             float f = b / 100f;
             return (long) (f * (v.intValue()));
@@ -1081,7 +1079,7 @@ public class Tool {
      * @param v2
      * @return v1/v2 => %
      */
-    public final static Integer toPercent(Number v1, Number v2) {
+    public static Integer toPercent(Number v1, Number v2) {
         double dv1 = (double) v1.longValue();
         double dv2 = (double) v2.longValue();
         double dv3 = dv1 / dv2;
@@ -1090,24 +1088,16 @@ public class Tool {
         return v3;
     }
 
-    public static <K, V extends Number> Map<K, V> sortMapByValue(Map<K, V> oriMap) {
-        if (oriMap != null && !oriMap.isEmpty()) {
-            List<Map.Entry<K, V>> entryList = new ArrayList<Map.Entry<K, V>>(oriMap.entrySet());
-            Collections.sort(entryList,
-                    new Comparator<Map.Entry<K, V>>() {
-                        public int compare(Map.Entry<K, V> entry1, Map.Entry<K, V> entry2) {
-                            int value1 = entry1.getValue().intValue(), value2 = entry2.getValue().intValue();
-                            return value2 - value1;
-                        }
-                    });
-            oriMap = new LinkedHashMap<>();
-            Iterator<Map.Entry<K, V>> iter = entryList.iterator();
-            Map.Entry<K, V> tmpEntry = null;
-            while (iter.hasNext()) {
-                tmpEntry = iter.next();
-                oriMap.put(tmpEntry.getKey(), tmpEntry.getValue());
-            }
-        }
-        return oriMap;
+    /**
+     * 将l除以v 保留 d 位小数
+     *
+     * @param l
+     * @param v
+     * @param d
+     * @return
+     */
+    public static String device(Long l, double v, int d) {
+        double f = l / v;
+        return String.format("%." + d + "f", f);
     }
 }

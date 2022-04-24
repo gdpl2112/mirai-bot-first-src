@@ -2,6 +2,7 @@ package Project.controllers;
 
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IManagerService;
@@ -27,6 +28,7 @@ import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 
 /**
  * @author github-kloping
@@ -70,24 +72,6 @@ public class SuperController {
         }
     }
 
-    @Action("/c-ms")
-    public String o2() {
-        THREADS.submit(Client.INSTANCE);
-        return "trying";
-    }
-
-    @Action("/execute.+")
-    public String o1(@AllMess String str, Group group) {
-        long q = MessageTools.getAtFromString(str);
-        if (q == -1) {
-            throw new NoRunException("");
-        }
-        String qStr = q == bot.getId() ? "me" : String.valueOf(q);
-        str = str.replaceFirst("/execute\\[@" + qStr + "]", "");
-        StarterApplication.executeMethod(q, str, q, getUser(q), Group.get(group.getId()), 0);
-        return "executing";
-    }
-
     @Action("赋予一次超级权限.+")
     public String f0(@AllMess String s) {
         long q = MessageTools.getAtFromString(s);
@@ -98,7 +82,7 @@ public class SuperController {
         return "ok";
     }
 
-    @Action("addScore.{1,}")
+    @Action(value = "addScore.{1,}", otherName = {"加积分.+"})
     public String addScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
         long who = MessageTools.getAtFromString(messages);
         messages = messages.replace(Long.toString(who), "");
@@ -110,7 +94,7 @@ public class SuperController {
         return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
     }
 
-    @Action("加积分.{1,}")
+    @Action("全体加积分.{1,}")
     public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
         long num = Long.parseLong(Tool.findNumberFromString(messages));
         HIST_U_SCORE.forEach((k, v) -> {
@@ -175,6 +159,50 @@ public class SuperController {
         return "ok";
     }
 
+    @Action("添加管理.{1,}")
+    public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
+        if (!isSuperQ(qq.getId()))
+            throw new NoRunException();
+        long who = MessageTools.getAtFromString(message);
+        if (who == -1)
+            return "添加谁?";
+        String perm = message.replace(String.format(AT_FORMAT, who), "");
+        perm = perm.replace("添加管理", "");
+        if (perm.equals(Father.ALL)) {
+            return managerService.addFather(qq.getId(), who);
+        } else {
+            return managerService.addFather(qq.getId(), who, Long.toString(group.getId()));
+        }
+    }
+
+    @Action("/c-ms")
+    public String o2() {
+        THREADS.submit(Client.INSTANCE);
+        return "trying";
+    }
+
+    @Action("/execute.+")
+    public String o1(@AllMess String str, Group group) {
+        long q = MessageTools.getAtFromString(str);
+        if (q == -1) {
+            throw new NoRunException("");
+        }
+        String qStr = q == bot.getId() ? "me" : String.valueOf(q);
+        str = str.replaceFirst("/execute\\[@" + qStr + "]", "");
+        StarterApplication.executeMethod(q, str, q, getUser(q), Group.get(group.getId()), 0);
+        return null;
+    }
+
+    @Action("移除管理.{1,}")
+    public String removeFather(@AllMess String message, User qq) throws NoRunException {
+        if (isSuperQ(qq.getId()))
+            throw new NoRunException();
+        long who = MessageTools.getAtFromString(message);
+        if (who == -1)
+            return "移除谁?";
+        return managerService.removeFather(qq.getId(), who);
+    }
+
     @Action("/即时公告.+")
     public String announcement(@AllMess String str) {
         for (net.mamoe.mirai.contact.Group group : bot.getGroups()) {
@@ -190,6 +218,7 @@ public class SuperController {
         } finally {
             HIST_U_SCORE.clear();
             HIST_INFOS.clear();
+            SkillDataBase.reMap();
             Tool.deleteDir(new File("./temp"));
         }
     }
@@ -217,32 +246,6 @@ public class SuperController {
         return OK_TIPS;
     }
 
-    @Action("添加管理.{1,}")
-    public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
-        if (!isSuperQ(qq.getId()))
-            throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
-        if (who == -1)
-            return "添加谁?";
-        String perm = message.replace(String.format(AT_FORMAT, who), "");
-        perm = perm.replace("添加管理", "");
-        if (perm.equals(Father.ALL)) {
-            return managerService.addFather(qq.getId(), who);
-        } else {
-            return managerService.addFather(qq.getId(), who, Long.toString(group.getId()));
-        }
-    }
-
-    @Action("移除管理.{1,}")
-    public String removeFather(@AllMess String message, User qq) throws NoRunException {
-        if (isSuperQ(qq.getId()))
-            throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
-        if (who == -1)
-            return "移除谁?";
-        return managerService.removeFather(qq.getId(), who);
-    }
-
     @Action("/跳过闭关冷却.+")
     public String o1(@AllMess String l) {
         long who = MessageTools.getAtFromString(l);
@@ -250,4 +253,18 @@ public class SuperController {
         getInfo(who).setBgk(0L).apply();
         return "OK";
     }
+
+    @Action("/跳过进入冷却.+")
+    public String oo1(@AllMess String mess) {
+        try {
+            String numStr = findNumberFromString(mess);
+            long qid = Long.parseLong(numStr);
+            GameDataBase.getInfo(qid).setK2(-1L).apply();
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "not found";
+        }
+    }
+
 }

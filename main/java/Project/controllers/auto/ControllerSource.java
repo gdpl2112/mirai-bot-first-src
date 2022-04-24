@@ -1,10 +1,11 @@
 package Project.controllers.auto;
 
-import Project.controllers.normalController.EntertainmentController3;
+import Project.controllers.normalController.SummonPicController;
 import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.player.PlayerBehavioralManager;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -27,7 +28,6 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 public class ControllerSource {
     @AutoStand
     public static ControllerSource INSTANCE;
-
     @AutoStand
     public static AiBaiduDetail aiBaiduDetail;
     @AutoStand
@@ -35,16 +35,20 @@ public class ControllerSource {
     @AutoStand
     public static ChallengeDetailService challengeDetailService;
     @AutoStand
-    public static EntertainmentController3 entertainmentController3;
+    public static SummonPicController entertainmentController3;
+    @AutoStand
+    public static PlayerBehavioralManager playerBehavioralManager;
 
     public static GameReceiver0 receiver0 = new GameReceiver0();
+
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     };
+
     @AutoStand
-    public DefaultKaptcha defaultKaptcha;
+    public static DefaultKaptcha defaultKaptcha;
 
     public static String getCode() {
         char[] chars = new char[4];

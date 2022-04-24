@@ -38,7 +38,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
  * @author github-kloping
  */
 @Controller
-public class EntertainmentController3 {
+public class SummonPicController {
     public static final File EMPTY_FILE = new File("./images/gunc/empty200.png");
     public static final File DIRT_FILE = new File("./images/gunc/dirt.png");
     private static final String XML_STR0 = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>\n" +
@@ -72,7 +72,7 @@ public class EntertainmentController3 {
     @AutoStand
     IBaiduShitu iBaiduShitu;
 
-    public EntertainmentController3() {
+    public SummonPicController() {
         println(this.getClass().getSimpleName() + "构建");
     }
 

@@ -41,7 +41,7 @@ public class Skill8070 extends SkillTemplate {
             @Override
             public void before() {
                 int v = info.getAddPercent();
-                long a = getPersonInfo().getAtt();
+                long a = getPersonInfo().att();
                 addShield(who.longValue(), percentTo(v, a));
                 addTagPack(new NormalTagPack(TAG_DAMAGE_REDUCTION, v).setQ(who.longValue()).setValue((long) v).setEffected(false));
                 addAttHasTime(who.longValue(), new SkillDataBase.HasTimeAdder(

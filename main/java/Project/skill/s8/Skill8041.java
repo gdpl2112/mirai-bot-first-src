@@ -45,7 +45,7 @@ public class Skill8041 extends SkillTemplate {
                     return;
                 }
                 long id = nums[0].longValue();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 BaseInfo baseInfo = getBaseInfoFromAny(who, id);
                 int b = 100;
                 int b0 = toPercent(baseInfo.getHj(), baseInfo.getHjL());

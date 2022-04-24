@@ -199,7 +199,7 @@ public class GhostBehavior implements Runnable {
     private void startWay() {
         try {
             PersonInfo info = GameDataBase.getInfo(qq);
-            int b1 = toPercent(ghostObj.getAtt(), info.getAtt());
+            int b1 = toPercent(ghostObj.getAtt(), info.att());
             int r = 5;
             if (b1 < 70) {
                 r = 3;
@@ -249,7 +249,7 @@ public class GhostBehavior implements Runnable {
         SoulAttribute attributeBone = gameBoneService.getSoulAttribute(qq);
         boolean k1 = attributeBone.getHideChance() >= 50;
         boolean k2 = ((double) info.getHpL() / (double) info.getHp()) > 0.5;
-        boolean k3 = info.getAtt() * getAllHHBL(qq) >= ghostObj.getHp() / 2;
+        boolean k3 = info.att() * getAllHHBL(qq) >= ghostObj.getHp() / 2;
         return k1 && (k2 || k3);
     }
 

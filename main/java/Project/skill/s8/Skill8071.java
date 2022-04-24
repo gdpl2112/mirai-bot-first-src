@@ -45,7 +45,7 @@ public class Skill8071 extends SkillTemplate {
                 try {
                     Thread.sleep(1500);
                     StringBuilder sb = new StringBuilder();
-                    long v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                    long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                     attGhostOrMan(sb, who, nums[0].longValue(), v);
                     getPersonInfo().addHp(percentTo(15, v));
                     setTips(sb.toString());

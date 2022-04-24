@@ -2,23 +2,18 @@ package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
-import Project.detailPlugin.WeatherGetter;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.http_api.ApiIyk0;
-import Project.interfaces.http_api.ApiKit9;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.GroupConf;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +22,6 @@ import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.Main.Resource.*;
@@ -37,22 +31,17 @@ import static io.github.kloping.mirai0.Main.Resource.*;
  */
 @Controller
 public class EntertainmentController {
-    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
-    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
     @AutoStand
     public static IOtherService otherService;
     public static int maxFail = 5;
+
     /**
      * 成语接龙消耗积分
      */
     private static int eveS1 = 2;
-    @AutoStand
-    public WeatherGetter weatherGetter;
     public Map<Long, Idiom> longIdiomMap = new ConcurrentHashMap<>();
     @AutoStand
     private ApiIyk0 apiIyk0;
-    @AutoStand
-    private ApiKit9 apiKit9;
 
     public EntertainmentController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -95,52 +84,6 @@ public class EntertainmentController {
         }
     }
 
-    @Action("短时预报<.+=>address>")
-    public String m2(@Param("address") String address) {
-        return weatherGetter.get(address);
-    }
-
-    @Action("天气预报.+")
-    public String weather1(@AllMess String mess, Group group) {
-        String line = otherService.talk(mess);
-        return line;
-    }
-
-    @Action("天气<.+=>name>")
-    public String weather0(@Param("name") String name, Group group) {
-        String line = weatherGetter.detail(name);
-        if (getConf(group.getId()).getVoiceK()) {
-            speak(line, group);
-        }
-        return line;
-    }
-
-    @Action("全国降水量")
-    public String lowWater() {
-        return Tool.pathToImg(apiIyk0.getJyu().getImg());
-    }
-
-    @Action("卫星云图")
-    public void mn(Group g) {
-        net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImage(group, BASE_URL_CLOUD);
-        MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
-        builder.append("\n");
-        builder.append(image);
-        group.sendMessage(builder.build());
-    }
-
-    @Action("全球卫星云图")
-    public void m1(Group g) {
-        net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
-        Image image = MessageTools.createImage(group, BASE_URL_CLOUD0);
-        MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
-        builder.append("\n");
-        builder.append(image);
-        group.sendMessage(builder.build());
-    }
 
     @Action("时间")
     public Object nowTime() {
@@ -265,54 +208,5 @@ public class EntertainmentController {
             }
         }
         return sb.toString();
-    }
-
-    @Action("QQ信息.*?")
-    public Object info(@AllMess String mess, long q) {
-        String str = Tool.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return apiKit9.getInfo(q).toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
-    @Action("QQ群信息.*?")
-    public Object groupInfo(@AllMess String mess, Group group) {
-        long q = group.getId();
-        String str = Tool.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return apiKit9.getGroupInfo(q).toStrings();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
-    @Action("QQ达人.*?")
-    public Object getTalent(@AllMess String mess, long q) {
-        String str = Tool.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return "QQ达人天数:" + apiKit9.getTalent(q);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
     }
 }
