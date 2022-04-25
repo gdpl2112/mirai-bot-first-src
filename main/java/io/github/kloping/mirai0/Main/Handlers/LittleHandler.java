@@ -36,7 +36,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @Controller
 public class LittleHandler extends SimpleListenerHost {
-
     public static final String WANT_TITLE = "我要头衔";
     public static final String ILLEGAL = "敏感字节!";
     public static final String PRE = "/";
