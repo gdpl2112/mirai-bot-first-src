@@ -54,12 +54,18 @@ public class BotStarter {
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
-        new Client(
-                SpringBootResource.getEnvironment().getProperty("mc.ip"),
-                SpringBootResource.getEnvironment().getProperty("mc.port"),
-                SpringBootResource.getEnvironment().getProperty("mc.gid")
-        );
+        loadMc();
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
+    }
+
+    private static void loadMc() {
+        String ip = SpringBootResource.getEnvironment().getProperty("mc.ip");
+        if (ip != null)
+            new Client(
+                    ip,
+                    SpringBootResource.getEnvironment().getProperty("mc.port"),
+                    SpringBootResource.getEnvironment().getProperty("mc.gid")
+            );
     }
 
     private static void initBot() {
