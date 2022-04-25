@@ -215,27 +215,16 @@ public class GameTool {
      * @return
      */
     public static long getAArtt(int level) {
-        if (level < 10)
-            return randA(80, 120);
-        else if (level < 40)
-            return randA(290, 315);
-        else if (level < 60)
-            return randA(900, 1100);
-        else if (level < 80)
-            return randA(2500, 2600);
-        else if (level < 90)
-            return randA(3900, 4000);
-        else if (level < 95)
-            return randA(39000, 40000);
-        else if (level < 100)
-            return randA(95000, 100000);
-        else if (level < 110)
-            return randA(179500, 190000);
-        else if (level < 120)
-            return randA(290000, 310000);
-        else if (level < 150)
-            return randA(160000, 166667);
-        return -1;
+        if (level < 10) return randA(80, 120);
+        else if (level < 40) return randA(290, 315);
+        else if (level < 60) return randA(900, 1100);
+        else if (level < 80) return randA(2500, 2600);
+        else if (level < 90) return randA(3900, 4000);
+        else if (level < 95) return randA(39000, 40000);
+        else if (level < 100) return randA(95000, 100000);
+        else if (level < 110) return randA(179500, 190000);
+        else if (level < 120) return randA(280000, 285000);
+        else return randA(160000, 166667);
     }
 
     /**
