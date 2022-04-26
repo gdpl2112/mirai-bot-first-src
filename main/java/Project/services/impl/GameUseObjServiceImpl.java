@@ -374,7 +374,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                     return "增加了" + l + "点最大生命";
                 case 112:
-                    long v = percentTo((int) randA(8, 12), getInfo(who).getHpL());
+                    long v = percentTo((int) randA(10, 15), getInfo(who).getHjL());
                     v = v < 0 ? 1 : v;
                     v *= num;
                     putPerson(getInfo(who).addHj(l).addHjL(l));
@@ -516,7 +516,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use112(long who) {
-            long v = percentTo((int) randA(9, 15), getInfo(who).getHpL());
+            long v = percentTo((int) randA(11, 17), getInfo(who).getHjL());
             v = v < 0 ? 1 : v;
             putPerson(getInfo(who).addHj(v));
             remove(112, who);
