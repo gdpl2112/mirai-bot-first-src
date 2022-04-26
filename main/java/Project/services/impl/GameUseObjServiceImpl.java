@@ -32,7 +32,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -374,12 +374,12 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                     return "增加了" + l + "点最大生命";
                 case 112:
-                    l = getInfo(who).getLevel();
-                    l = l * (l > 100 ? l / 3 : 35);
-                    l *= num;
+                    long v = percentTo((int) randA(8, 12), getInfo(who).getHpL());
+                    v = v < 0 ? 1 : v;
+                    v *= num;
                     putPerson(getInfo(who).addHj(l).addHjL(l));
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
-                    return "增加了" + l + "点最大精神力";
+                    return "恢复了" + v + "点精神力";
                 case 116:
                     Map<Integer, SkillInfo> infos = getSkillInfo(who.longValue());
                     if (infos.containsKey(num)) {
@@ -516,15 +516,12 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
 
         public String use112(long who) {
-            long l = getInfo(who).getLevel();
-            long lv = getInfo(who).getHjL();
-            l = l < 5 ? 5 : l;
-            l = l > 10 ? 10 : l;
-            long v = lv / l;
+            long v = percentTo((int) randA(9, 15), getInfo(who).getHpL());
+            v = v < 0 ? 1 : v;
             putPerson(getInfo(who).addHj(v));
             remove(112, who);
             UseRestrictions.record(who, 112);
-            return "恢复了" + l + "点精神力";
+            return "恢复了" + v + "点精神力";
         }
 
         public String use115(long who) {
