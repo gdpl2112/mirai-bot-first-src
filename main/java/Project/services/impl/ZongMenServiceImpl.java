@@ -134,8 +134,8 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
         String path = ZongMenDataBase.path + "/" + getZongInfo(who).getId() + "/icon.png";
         io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
-        filterImg(new File(path));
-        zong.setIcon(path).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
+        File file = filterImg(new File(path));
+        zong.setIcon(file.getPath()).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return zongInfo(who, group);
     }
