@@ -116,25 +116,18 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
         if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
-        if (id == 109 || id == 110) {
-            if (id == 109)
-                if (getInfo(who).getBuyHelpC() >= MAX_HELP) {
-                    return TODAY_BUY_UPPER_TIPS;
-                } else {
-                    putPerson(getInfo(who).addBuyHelpToC());
-                }
-            if (id == 110) {
-                if (getInfo(who).getBuyHelpToC() >= MAX_HELP_TO) {
-                    return TODAY_BUY_UPPER_TIPS;
-                } else {
-                    putPerson(getInfo(who).addBuyHelpToC());
-                }
-            }
-        }
         String[] sss = gameService.getBags(who);
         if (num <= 0 || num > 50)
             return NUM_TOO_MUCH;
-        if (id == 116 || getNumForO(sss, getNameById(id)) >= num) {
+        boolean enough = false;
+        if (id == 116) {
+            if (getNumForO(sss, getNameById(id)) > 0) {
+                enough = true;
+            } else {
+                enough = getNumForO(sss, getNameById(id)) >= num;
+            }
+        }
+        if (enough) {
             String str = new UseTool().useObjNum(who, id, num);
             if (!Tool.findNumberFromString(str).isEmpty())
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)));

@@ -194,6 +194,8 @@ public class GameJoinDetailService {
     public static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
         if (ghostObj == null) {
             putDataString(qq, "decide", "");
+            if (GHOST_TEMP.containsKey(qq) && GHOST_TEMP.get(qq) != null)
+                GHOST_TEMP.get(qq).dispose();
             GHOST_TEMP.remove(qq);
         } else {
             putDataString(qq, "decide", objectToJsonString(ghostObj));
