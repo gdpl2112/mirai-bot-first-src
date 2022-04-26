@@ -123,9 +123,9 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (id == 116) {
             if (getNumForO(sss, getNameById(id)) > 0) {
                 enough = true;
-            } else {
-                enough = getNumForO(sss, getNameById(id)) >= num;
             }
+        } else {
+            enough = getNumForO(sss, getNameById(id)) >= num;
         }
         if (enough) {
             String str = new UseTool().useObjNum(who, id, num);
