@@ -115,6 +115,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (l1 >= System.currentTimeMillis()) {
             return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
         }
+        if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
         if (id == 109 || id == 110) {
             if (id == 109)
                 if (getInfo(who).getBuyHelpC() >= MAX_HELP) {

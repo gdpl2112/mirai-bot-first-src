@@ -1,9 +1,6 @@
 package Project.controllers.normalController;
 
-import Project.interfaces.http_api.ApiIyk0;
-import Project.interfaces.http_api.ApiKit9;
-import Project.interfaces.http_api.Dzzui;
-import Project.interfaces.http_api.JuiLi;
+import Project.interfaces.http_api.*;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -14,6 +11,9 @@ import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
+import io.github.kloping.mirai0.commons.apiEntitys.shyJan.SearchData;
+import io.github.kloping.mirai0.commons.apiEntitys.shyJan.SearchResult;
+import io.github.kloping.mirai0.commons.apiEntitys.shyJan.ShyJanData;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
@@ -245,5 +245,49 @@ public class CallApiController {
         builder.append("\n");
         builder.append(image);
         group.sendMessage(builder.build());
+    }
+
+    public static final String S0 = "https://jx.iztyy.com/svip/?url=";
+    @AutoStand
+    ShyJan shyJan;
+
+    private static final String SPLIT_POINT = ",";
+
+    @Action("我要看.+")
+    public String s0(@AllMess String mess) {
+        String s0 = mess.substring(3);
+        Integer select0 = -1;
+        Integer select1 = -1;
+        if (mess.contains(SPLIT_POINT)) {
+            try {
+                String[] ss = s0.split(SPLIT_POINT);
+                String n0 = Tool.findNumberFromString(ss[0]);
+                String n1 = Tool.findNumberFromString(ss[1]);
+                s0 = s0.replace(SPLIT_POINT, "").replace(n0, "").replace(n1, "");
+                select0 = Integer.valueOf(n0)-1;
+                select1 = Integer.valueOf(n1) - 1;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        SearchResult result = shyJan.search(s0);
+        if (select0 < 0 || select1 < 0) {
+            int i = 1;
+            StringBuilder sb = new StringBuilder();
+            for (SearchData searchData : result.getList()) {
+                sb.append(i++).append(":").append(searchData.getTitle())
+                        .append("(").append(searchData.getCategory()).append(")")
+                        .append(NEWLINE);
+            }
+            return sb.toString().trim();
+        } else {
+            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
+            try {
+                return S0 + data.getVod_list()[0].getData()[select1].getUrl();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
+            }
+        }
     }
 }
