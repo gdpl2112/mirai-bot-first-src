@@ -19,7 +19,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
  * @author github-kloping
  */
 @Entity
-public class GameObjService implements IGameObjService {
+public class GameObjServiceImpl implements IGameObjService {
     /**
      * 制作
      * id 为 key 的东西
