@@ -48,17 +48,17 @@ public class SessionController {
     @AutoStand
     private RunAll runAll;
 
-    {
-        SUPPORTED_LANGUAGE.put("java", "java");
-        SUPPORTED_LANGUAGE.put("c", "c");
-        SUPPORTED_LANGUAGE.put("py", "python");
-        SUPPORTED_LANGUAGE.put("cpp", "cpp");
-        SUPPORTED_LANGUAGE.put("kt", "kotlin");
-        SUPPORTED_LANGUAGE.put("go", "go");
-        SUPPORTED_LANGUAGE.put("sh", "bash");
-        SUPPORTED_LANGUAGE.put("lua", "lua");
-        SUPPORTED_LANGUAGE.put("js", "javascript");
-    }
+   static {
+       SUPPORTED_LANGUAGE.put("java", "java");
+       SUPPORTED_LANGUAGE.put("c", "c");
+       SUPPORTED_LANGUAGE.put("py", "python");
+       SUPPORTED_LANGUAGE.put("cpp", "cpp");
+       SUPPORTED_LANGUAGE.put("kt", "kotlin");
+       SUPPORTED_LANGUAGE.put("go", "go");
+       SUPPORTED_LANGUAGE.put("sh", "bash");
+       SUPPORTED_LANGUAGE.put("lua", "lua");
+       SUPPORTED_LANGUAGE.put("js", "javascript");
+   }
 
     public boolean contains(long id) {
         return InTheSession.contains(id);

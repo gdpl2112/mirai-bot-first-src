@@ -48,10 +48,6 @@ public class CallLocalApiController {
     }
 
     @AutoStand
-    MuXiaoGuo muXiaoGuo;
-    @AutoStand
-    GetPvpQQ getpvpqq;
-    @AutoStand
     GetPvpNews getPvpNews;
     @AutoStand
     MihoyoP0 mihoyoP0;
@@ -63,8 +59,6 @@ public class CallLocalApiController {
     BaiduBaiKe baiduBaiKe;
     @AutoStand
     WeatherGetter weatherGetter;
-    @AutoStand
-    IOtherService otherService;
 
    public PvpSkin skin = null;
     public static final int PAGE_SIZE = 5;

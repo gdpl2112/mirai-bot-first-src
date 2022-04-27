@@ -21,6 +21,7 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
@@ -263,7 +264,7 @@ public class CallApiController {
                 String[] ss = s0.split(SPLIT_POINT);
                 String n0 = Tool.findNumberFromString(ss[0]);
                 String n1 = Tool.findNumberFromString(ss[1]);
-                s0 = s0.replace(SPLIT_POINT, "").replace(n0, "").replace(n1, "");
+                s0 = s0.replace(SPLIT_POINT, EMPTY_STR).replace(n0, EMPTY_STR).replace(n1, EMPTY_STR);
                 select0 = Integer.valueOf(n0) - 1;
                 select1 = Integer.valueOf(n1) - 1;
             } catch (Exception e) {

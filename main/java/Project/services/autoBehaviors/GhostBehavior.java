@@ -153,7 +153,7 @@ public class GhostBehavior implements Runnable {
             int[] fs = getReadyTime(ghostObj.getL());
             int findTime = Tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
             while (findTime > 0) {
-                Thread.sleep(1600);
+                Thread.sleep(1200);
                 findTime--;
                 if (needAway()) {
                     send(ghostObj.getName() + "取消了蓄力,准备逃跑");
