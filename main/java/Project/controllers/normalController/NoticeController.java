@@ -49,7 +49,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("4.27:修复批量使用精神神石不回复的bug").append("\n");
+        UPDATE_LOG.append("4.27:修复批量使用精神神石不回复的bug.").append("\n");
         UPDATE_LOG.append("4.26:修复bug").append("\n");
         UPDATE_LOG.append("4.25:见魂技更新列表,新物品见商城,新机制2").append("\n");
         UPDATE_LOG.append("4.24:修复部分bug;平调部分玩家攻击").append("\n");
