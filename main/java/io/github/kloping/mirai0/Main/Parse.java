@@ -105,13 +105,10 @@ public class Parse {
 
 
     public static void main(String[] args) {
-        //侦查成功,消耗十点魂力
-        //-"&!@,():,;~'_'_@iwoyx)的信息
-        //你的武魂:暂未获得
-        //<Pic:.\temp\27b39c1d-c1fe-43da-88b5-9aea2fa51d12.png>
     }
 
     public static List<Long> parseToLongList(String s0) {
+        if (s0 == null) return new ArrayList<>();
         List<Long> set = new ArrayList<>();
         for (String s : s0.split(SPLIT)) {
             if (s.trim().isEmpty()) continue;
