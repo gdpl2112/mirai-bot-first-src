@@ -264,14 +264,18 @@ public class CallApiController {
                 String n0 = Tool.findNumberFromString(ss[0]);
                 String n1 = Tool.findNumberFromString(ss[1]);
                 s0 = s0.replace(SPLIT_POINT, "").replace(n0, "").replace(n1, "");
-                select0 = Integer.valueOf(n0)-1;
+                select0 = Integer.valueOf(n0) - 1;
                 select1 = Integer.valueOf(n1) - 1;
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            String n0 = Tool.findNumberFromString(mess);
+            if (n0 != null && !n0.isEmpty())
+                select0 = Integer.parseInt(n0);
         }
         SearchResult result = shyJan.search(s0);
-        if (select0 < 0 || select1 < 0) {
+        if (select0 < 0 && select1 < 0) {
             int i = 1;
             StringBuilder sb = new StringBuilder();
             for (SearchData searchData : result.getList()) {
@@ -280,6 +284,9 @@ public class CallApiController {
                         .append(NEWLINE);
             }
             return sb.toString().trim();
+        } else if (select0 > 0 && select1 < 0) {
+            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
+            return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
         } else {
             ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
             try {
