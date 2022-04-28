@@ -377,7 +377,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     long v = percentTo((int) randA(10, 15), getInfo(who).getHjL());
                     v = v < 0 ? 1 : v;
                     v *= num;
-                    putPerson(getInfo(who).addHj(l).addHjL(v));
+                    putPerson(getInfo(who).addHj(v));
                     removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                     return "恢复了" + v + "点精神力";
                 case 116:
