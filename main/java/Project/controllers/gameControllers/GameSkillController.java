@@ -135,11 +135,11 @@ public class GameSkillController {
     @Action(value = "魂技取名<.+=>str>", otherName = {"魂技起名<.+=>str>"})
     public String setName(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
-            str = str.replace("魂技", EMPTY_STR).replace("第", EMPTY_STR);
+            str = str.replaceFirst("魂技", EMPTY_STR).replaceFirst("第", EMPTY_STR);
             String s1 = Tool.findNumberZh(str);
             s1 = s1.substring(0, 1);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replace(Tool.trans(st) + EMPTY_STR, EMPTY_STR);
+            str = str.replaceFirst(Tool.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.setName(qq.getId(), st, str));
         } else {
             return "格式错误";
@@ -163,10 +163,10 @@ public class GameSkillController {
     public String forget(@Param("name") String str, User user) {
         if (str.contains("魂技")) {
             try {
-                str = str.replace("魂技", EMPTY_STR);
+                str = str.replaceFirst("魂技", EMPTY_STR);
                 String s1 = Tool.findNumberZh(str);
                 Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-                str = str.replace(Tool.trans(st) + EMPTY_STR, EMPTY_STR);
+                str = str.replaceFirst(Tool.trans(st)  , EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
                 return "未知异常.";
