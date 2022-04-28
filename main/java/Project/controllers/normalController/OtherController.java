@@ -239,6 +239,9 @@ public class OtherController {
         return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
     }
 
+    private long cd0 = 0;
+    private static final long CD = 3000;
+
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, Group group, @Param("str") String str) {
         if (str.startsWith(SPEAK_STR)) {
@@ -260,8 +263,11 @@ public class OtherController {
                 return controller.close(group);
             } else if (DataBase.canSpeak(group.getId())) {
                 if (!Tool.isIlleg(str)) {
-                    String talk = otherService.talk(str);
-                    return talk;
+                    if (cd0 < System.currentTimeMillis()) {
+                        cd0 = System.currentTimeMillis() + CD;
+                        String talk = otherService.talk(str);
+                        return talk;
+                    }
                 }
             }
         }
