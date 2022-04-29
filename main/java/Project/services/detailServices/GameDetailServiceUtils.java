@@ -127,7 +127,7 @@ public class GameDetailServiceUtils {
                 sb.append(PLAYER_NOT_REGISTERED);
                 return;
             }
-            sb.append(beaten(who2, who, v));
+            sb.append(beaten(who2, who, v).trim());
             sb.append(NEWLINE).append(String.format(ATTACK_TIPS0, v));
             if (!sb.toString().contains(JUMP_STR_0)) {
                 sb.append(onAtt(who2, who, v));

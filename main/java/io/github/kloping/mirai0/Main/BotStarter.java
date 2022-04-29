@@ -57,6 +57,7 @@ public class BotStarter {
         Resource.println("运行的线程=》" + Thread.activeCount());
         loadMc();
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
+        pluginLoad();
     }
 
     private static void loadMc() {

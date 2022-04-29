@@ -49,6 +49,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("4.29:今日已更新").append("\n");
         UPDATE_LOG.append("4.28:修复bug").append("\n");
         UPDATE_LOG.append("4.27:修复批量使用精神神石不回复的bug.").append("\n");
         UPDATE_LOG.append("4.26:修复bug").append("\n");

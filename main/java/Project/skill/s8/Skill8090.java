@@ -36,7 +36,7 @@ public class Skill8090 extends SkillTemplate {
         return String.format("七杀剑第八魂技,2秒内对敌人(最多3个造成%s次的伤害,每次造成攻击的2%%伤害", getAddP(getJid(), getId()));
     }
 
-    public static final long t0 = 2000;
+    public static final long T_0 = 2000;
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
@@ -58,7 +58,7 @@ public class Skill8090 extends SkillTemplate {
                 super.run();
                 v = percentTo(2, getPersonInfo().att());
                 StringBuilder sb = new StringBuilder();
-                e = (t0 / c);
+                e = (T_0 / c);
                 try {
                     while (c-- > 0) {
                         eve(sb);
@@ -66,6 +66,7 @@ public class Skill8090 extends SkillTemplate {
                 } catch (InterruptedException ex) {
                     setTips(ATTACK_BREAK);
                 }
+                setTips(sb.toString().trim());
                 setTips(String.format("累计造成%s点伤害", v0));
             }
 

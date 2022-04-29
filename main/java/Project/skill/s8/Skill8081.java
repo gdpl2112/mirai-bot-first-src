@@ -49,7 +49,8 @@ public class Skill8081 extends SkillTemplate {
                 if (nums.length == 0) return;
                 int n = 12;
                 int eve = 5000;
-                AsynchronousThing thing = new AsynchronousAttack(n, who.longValue(), nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
+                AsynchronousThing thing = new AsynchronousAttack(n, who.longValue(), nums[0].longValue(),
+                        info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
                 thing.start();
                 MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
                 setTips(nums[0].toString());
@@ -76,7 +77,7 @@ public class Skill8081 extends SkillTemplate {
                 Long att = getInfo(q1).att();
                 long v = percentTo((int) value, att);
                 BaseInfo baseInfo = getBaseInfoFromAny(q1, q2);
-                v += percentTo(8, baseInfo.getHpL() - baseInfo.getHp());
+                v += percentTo(7, baseInfo.getHpL() - baseInfo.getHp());
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);
                 if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);

@@ -2,13 +2,21 @@
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
+import io.github.kloping.map.MapUtils;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
 
+import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
+import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -26,7 +34,7 @@ public class Skill8100 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("碧灵蛇皇毒第八魂技", getAddP(getJid(), getId()));
+        return String.format("碧灵蛇皇毒第八魂技,使指定一个人受到%s%%的攻击,并在接下来的两分钟内持续受到递减的伤害,最小3%%的攻击", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -34,7 +42,16 @@ public class Skill8100 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "七杀剑第八魂技") {
             @Override
             public void before() {
-
+                if (nums.length == 0) return;
+                int n = 12;
+                int eve = 5000;
+                AsynchronousAttack thing = new AsynchronousAttack(n, who.longValue()
+                        , nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
+                thing.v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                thing.minV = percentTo(3, getPersonInfo().getAtt());
+                thing.start();
+                MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
+                setTips(nums[0].toString());
             }
 
             @Override
@@ -42,5 +59,32 @@ public class Skill8100 extends SkillTemplate {
                 super.run();
             }
         };
+    }
+
+    public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
+        private ScheduledFuture<?> future;
+
+        public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
+            super(n, q1, q2, value, eve, gid);
+            setType(AsynchronousThingType.ATTACK);
+        }
+
+        private int i = 0;
+        private long v = 0;
+        private long minV = 0;
+
+        @Override
+        public void run() {
+            if (i++ >= n) {
+                future.cancel(true);
+                over();
+            } else {
+                v = percentTo(80, v);
+                v = v <= minV ? minV : v;
+                StringBuilder sb = new StringBuilder();
+                attGhostOrMan(sb, q1, q2, v);
+                if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);
+            }
+        }
     }
 }
