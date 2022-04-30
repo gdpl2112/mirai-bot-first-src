@@ -24,12 +24,13 @@ public class TaskDetailService {
         return sb.toString();
     }
 
-    private static String s1002(Task task) {
-        return "每周任务:进入列表中所有活动,并击败每个活动中的一只魂兽";
+    private static String s1000(Task task) {
+        Task1000 task1002 = (Task1000) task;
+        return "每周任务:以" + task1002.getNeedType().getName() + "方式击杀一只魂兽";
     }
 
-    private static String f1002(Task task) {
-        return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽 完成\n奖励随机物品";
+    private static String f1000(Task task) {
+        return "每周任务:\n以指定方式击杀魂兽 完成\n奖励随机物品";
     }
 
     private static String s1001(Task task) {
@@ -41,13 +42,12 @@ public class TaskDetailService {
         return "每周任务:\n击杀指定一只魂兽 完成\n奖励随机物品";
     }
 
-    private static String s1000(Task task) {
-        Task1000 task1002 = (Task1000) task;
-        return "每周任务:以" + task1002.getNeedType().getName() + "方式击杀一只魂兽";
+    private static String s1002(Task task) {
+        return "每周任务:进入列表中所有活动,并击败每个活动中的一只魂兽";
     }
 
-    private static String f1000(Task task) {
-        return "每周任务:\n以指定方式击杀魂兽 完成\n奖励随机物品";
+    private static String f1002(Task task) {
+        return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽 完成\n奖励随机物品";
     }
 
     public static String getFinish(Task task) {

@@ -25,7 +25,8 @@ public class TaskCreator {
     public static final int MIN_PRENTICE_INDEX = 0;
     public static final int MAX_INDEX = 1003;
     public static final int MIN_INDEX = 1000;
-    public static final Integer[] T_1000_OBJS = new Integer[]{201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 1000};
+    public static final Integer[] T_1000_OBJS = new Integer[]{
+            201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 115, 116, 1000};
 
     public static <T extends Task> T getTask(int id) {
         if (id == 0) {
@@ -63,7 +64,7 @@ public class TaskCreator {
     }
 
     public static Receiver task1000(Task task) {
-        if (!(task instanceof Task1002)) return null;
+        if (!(task instanceof Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
                 = new GhostLostReceiverWithTask1000((Task1002) task));
@@ -79,7 +80,7 @@ public class TaskCreator {
     }
 
     public static synchronized Receiver task1002(Task task) {
-        if (!(task instanceof Task1000)) return null;
+        if (!(task instanceof Task1002)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
                 = new GhostLostReceiverWithTask1002((Task1000) task));

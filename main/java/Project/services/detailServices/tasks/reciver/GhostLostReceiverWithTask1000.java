@@ -35,16 +35,12 @@ public class GhostLostReceiverWithTask1000 extends GhostLostBroadcast.AbstractGh
         } else if (ghostObj.getId() < 800) {
             task.m1.put(3, true);
         }
-
         task.update();
-
         if (task.isFinish()) {
             deleteTask(task);
             int id = getRandObj1000();
-
             MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
                     , task.getFromG().longValue(), task.getHost());
-
             addToBgs(who, id, ObjType.got);
             GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
                 task.destroy();
