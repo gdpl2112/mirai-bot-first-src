@@ -27,6 +27,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
+/**
+ * @author github-kloping
+ */
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
 
@@ -288,7 +291,6 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String setElder(long id, long who) {
         String s1 = setUpElderPermission(id, who);
         if (!s1.isEmpty()) return s1;
-
         Zong zong = getZongInfo(id);
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
@@ -318,10 +320,9 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "ta没有加入任何宗门";
         if (!GameDataBase.exist(who))
             return PLAYER_NOT_REGISTERED;
-        Long l1 = Long.valueOf(qq2id.get(who) + "");
-        Long l2 = Long.valueOf(qq2id.get(who) + "");
-        if (l1 != l2)
-            return "你们不在同一个宗门";
+        Long l1 = Long.valueOf(qq2id.get(who).toString());
+        Long l2 = Long.valueOf(qq2id.get(who).toString());
+        if (!l1.equals(l2)) return "你们不在同一个宗门";
         return "";
     }
 
@@ -333,16 +334,12 @@ public class ZongMenServiceImpl implements IZongMenService {
         Zong zong = getZongInfo(id);
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
-        if (zon.getLevel() != 2) {
-            return "仅宗主可设置长老";
-        } else {
-            if (!zong.getElder().contains(who)) {
-                return "ta 本来就不是长老";
-            }
+        if (zon.getLevel() != 2) return "仅宗主可设置长老";
+        else {
+            if (!zong.getElder().contains(who)) return "ta 本来就不是长老";
             zong.setElders(zong.getElders() - 1);
             zong.getElder().remove(id);
             zon.setLevel(0);
-
             putZongInfo(zong);
             putZonInfo(zon);
             return "取消设置成功";
@@ -434,22 +431,17 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     public String quiteNow(Long id) {
-        if (ZongDetailService.quite(id))
-            return (" 成功");
-        else
-            return (" 失败");
+        if (ZongDetailService.quite(id)) return (" 成功");
+        else return (" 失败");
     }
 
     @Override
     public String quiteOne(long id, long who) {
-        if (!qq2id.containsKey(id))
-            return "你没有加入任何宗门";
+        if (!qq2id.containsKey(id)) return "你没有加入任何宗门";
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
-        if (zon.getLevel() != 2)
-            return "仅宗主可移除成员";
-        if (zon1.getLevel() > 1)
-            return "不可以移除宗主或长老";
+        if (zon.getLevel() != 2) return "仅宗主可移除成员";
+        if (zon1.getLevel() > 1) return "不可以移除宗主或长老";
         try {
             Method method = this.getClass().getDeclaredMethod("quiteNow", Long.class);
             ConfirmController.regConfirm(id, method, this, new Object[]{who});
@@ -467,11 +459,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         try {
             Zong zong = getZongInfo(id);
             Zon zon = getZonInfo(id);
-            if (zon.getLevel() >= 1) {
-
-            } else {
-                return "宗主,长老可扩增";
-            }
+            if (zon.getLevel() < 1) return "宗主,长老可扩增";
             int max = zong.getMaxP();
             max += 10;
             max *= GV;

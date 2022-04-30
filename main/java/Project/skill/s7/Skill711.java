@@ -17,7 +17,6 @@ import static Project.services.detailServices.GameSkillDetailService.*;
  */
 public class Skill711 extends SkillTemplate {
 
-
     public Skill711() {
         super(711);
     }
