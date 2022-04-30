@@ -67,7 +67,7 @@ public class TaskCreator {
         if (!(task instanceof Task1000)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1000((Task1002) task));
+                = new GhostLostReceiverWithTask1000((Task1000) task));
         return receiver;
     }
 
@@ -83,7 +83,7 @@ public class TaskCreator {
         if (!(task instanceof Task1002)) return null;
         Receiver receiver = null;
         GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1002((Task1000) task));
+                = new GhostLostReceiverWithTask1002((Task1002) task));
         return receiver;
     }
 
