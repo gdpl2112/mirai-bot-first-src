@@ -653,7 +653,7 @@ public class GameDataBase {
      */
     public static void upHh(Long who, Integer st, Integer oid) {
         Integer id = SpringBootResource.getHhpzMapper().selectIds(who.longValue()).get(st);
-        SpringBootResource.getHhpzMapper().update(st, oid);
+        SpringBootResource.getHhpzMapper().update(id, oid);
     }
 
     /**
