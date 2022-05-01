@@ -95,14 +95,6 @@ public class SkillDataBase {
         return map;
     }
 
-    public static final void update() {
-        for (Long k1 : QQ_2_ST_2_MAP.keySet()) {
-            for (SkillInfo info : QQ_2_ST_2_MAP.get(k1).values()) {
-                break;
-            }
-        }
-    }
-
     /**
      * 保存魂技信息
      *

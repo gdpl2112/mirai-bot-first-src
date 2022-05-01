@@ -39,10 +39,11 @@ public class Skill24 extends SkillTemplate {
             @Override
             public void before() {
                 long q = nearest(1, who.longValue(), nums)[0];
-                Map<Integer, SkillInfo> infos = getSkillInfo(who.longValue());
+                Map<Integer, SkillInfo> infos = getSkillInfo(q);
                 if (infos.containsKey(getSt())) {
                     SkillInfo skillInfo = infos.get(getSt());
                     skillInfo.setTime(skillInfo.getTime() - info.getAddPercent());
+                    infos.put(getSt(), skillInfo);
                     updateSkillInfo(info);
                     setTips("作用于:" + q);
                 } else {
