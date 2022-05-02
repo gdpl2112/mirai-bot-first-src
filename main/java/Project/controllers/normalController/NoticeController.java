@@ -49,6 +49,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.2 :见暗器菜单").append("\n");
         UPDATE_LOG.append("4.30:修复任务bug").append("\n");
         UPDATE_LOG.append("4.29:今日已更新").append("\n");
         UPDATE_LOG.append("4.28:修复bug").append("\n");

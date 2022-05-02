@@ -30,7 +30,8 @@ public class GameWeaController {
     public void before(Group group, User qq) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
-        } if (getInfo(qq.getId()).isBg()) {
+        }
+        if (getInfo(qq.getId()).isBg()) {
             MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
@@ -63,10 +64,26 @@ public class GameWeaController {
     @Action("制作暗器<.{1,}=>name>")
     public String makeAq(User qq, @Param("name") String name, Group group) {
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
-        if (id == null || !(id > 1000 && id < 1200)) {
+        if (id == null || !(isAnq(id))) {
             return "系统找不到=>" + name;
         }
         String str = gameWeaService.makeAq(qq.getId(), id);
         return str;
+    }
+
+    public boolean isAnq(int id) {
+        return (id > 1000 && id < 1200);
+    }
+
+    @Action("分解<.+=>name>")
+    public String decomposition(User user, @Param("name") String name) {
+        Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
+        if (id == null) {
+            return "系统找不到=>" + name;
+        }
+        if (!(isAnq(id))) {
+            return name + "不可分解";
+        }
+        return gameWeaService.decomposition(user.getId(), id);
     }
 }

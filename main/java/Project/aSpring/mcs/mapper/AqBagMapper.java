@@ -41,4 +41,14 @@ public interface AqBagMapper {
      */
     @Update("UPDATE `aq_bag` SET `num`=#{num},`state`=#{state} WHERE id=#{id}")
     Integer update(@Param("num") Integer num, @Param("state") Integer state, @Param("id") Integer id);
+
+    /**
+     * delete
+     *
+     * @param qid
+     * @param id
+     * @return
+     */
+    @Delete("DELETE FROM `aq_bag` WHERE id=#{id}")
+    Integer delete(@Param("id") Integer id);
 }

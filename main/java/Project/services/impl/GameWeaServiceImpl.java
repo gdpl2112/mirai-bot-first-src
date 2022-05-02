@@ -1,5 +1,6 @@
 package Project.services.impl;
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameWeaService;
 import Project.services.detailServices.GameWeaDetailService;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_THIS_AQ_IN_BG_TIPS;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -35,6 +37,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         MENU += "\n暗器背包";
         MENU += "\n制作暗器<暗器名>";
         MENU += "\n暗器制作表";
+        MENU += "\n分解<暗器名>";
         MENU += "\n##最大伤害";
         MAX_DAMAGE.forEach((k, v) -> {
             MENU += ("\n\t" + getNameById(k) + "=>" + v);
@@ -106,5 +109,27 @@ public class GameWeaServiceImpl implements IGameWeaService {
             sb.append("\"" + getNameById(i) + "\"需要" + ID_2_WEA_MAPS.get(i) + "个零件").append("\r\n");
         }
         return getImageFromStrings(list.toArray(new String[0])) + "\r\n" + sb;
+    }
+
+    @Override
+    public String decomposition(long qid, Integer id) {
+        //源使用次数
+        int numc = ID_2_WEA_O_NUM_MAPS.get(id);
+        //需要数量
+        int num = ID_2_WEA_MAPS.get(id);
+        //每次的数量
+        int n = num / numc;
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(qid)) {
+            int oid = map.get("oid");
+            if (oid == id) {
+                int sl = map.get("num");
+                int e0 = sl * n;
+                e0 = (int) (e0 * 0.9f);
+                SpringBootResource.getAqBagMapper().delete(map.get("id"));
+                addToBgs(qid, 1000, e0, ObjType.un);
+                return "成功分解了" + getNameById(id) + "获得了" + e0 + "个暗器零件";
+            }
+        }
+        return NOT_FOUND_THIS_AQ_IN_BG_TIPS;
     }
 }
