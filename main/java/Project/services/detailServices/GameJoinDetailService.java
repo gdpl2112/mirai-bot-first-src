@@ -58,7 +58,7 @@ public class GameJoinDetailService {
      * @param canAttMe 魂兽是否可攻击我
      * @return
      */
-    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
+    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         if (ghostObj == null) {
             return "\n没有遇到魂兽或 已过期,或已死亡";
@@ -73,7 +73,7 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (IDXS.contains(ghostObj.getIDX())) {
+            if (!mandatory && IDXS.contains(ghostObj.getIDX())) {
                 return "\n该魂兽,正在被攻击中";
             }
             IDXS.add(ghostObj.getIDX());
@@ -117,6 +117,10 @@ public class GameJoinDetailService {
         } finally {
             IDXS.remove((Object) ghostObj.getIDX());
         }
+    }
+
+    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
+        return attGho(who, att, show, canAttMe, type, false);
     }
 
     public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
@@ -235,16 +239,16 @@ public class GameJoinDetailService {
     public static final int MAX_F = 3;
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
-            long v = ghostObj.getXp();
-            long mxv = getInfo(who).getXpL();
+        long v = ghostObj.getXp();
+        long mxv = getInfo(who).getXpL();
         v = v > mxv / MAX_F ? mxv / MAX_F : v;
-            if (isHelp) {
-                v /= 2;
-                putPerson(getInfo(who).addXp(v));
-                return "\n由于在支援别人,所以获得经验减半 获得了" + v + "点经验";
-            } else {
-                putPerson(getInfo(who).addXp(v));
-                return "\n获得了 " + ghostObj.getXp() + "点经验";
+        if (isHelp) {
+            v /= 2;
+            putPerson(getInfo(who).addXp(v));
+            return "\n由于在支援别人,所以获得经验减半 获得了" + v + "点经验";
+        } else {
+            putPerson(getInfo(who).addXp(v));
+            return "\n获得了 " + ghostObj.getXp() + "点经验";
         }
     }
 

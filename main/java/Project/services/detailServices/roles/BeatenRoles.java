@@ -108,7 +108,8 @@ public class BeatenRoles {
             } else {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
                 sb.append("您带有反甲,").append(ghostObj.getName()).append("受到").append(v1).append("点伤害");
-                sb.append(GameJoinDetailService.attGho(q1.longValue(), v1, false, false, GhostLostBroadcast.KillType.SKILL_ATT));
+                sb.append(GameJoinDetailService.attGho(q1.longValue(), v1, false,
+                        false, GhostLostBroadcast.KillType.SKILL_ATT, true));
             }
         }
         return null;

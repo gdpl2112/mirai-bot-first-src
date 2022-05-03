@@ -133,42 +133,42 @@ public class GameBoneServiceImpl implements IGameBoneService {
                 );
                 return "吸收成功 获得了 " + nu + "点 闪避\r\n" + SourceDataBase.getImgPathById(id);
             case 1:
-                nu = i * 5;
+                nu = i * 10;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HP_PRO.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
                 );
                 return "吸收成功 获得了 " + nu + "点 生命回复率\r\n" + SourceDataBase.getImgPathById(id);
             case 2:
-                nu = i * 6;
+                nu = i * 12;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HP_REC_EFF.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
                 );
                 return "吸收成功 获得了 " + nu + "点 生命回复效果\r\n" + SourceDataBase.getImgPathById(id);
             case 3:
-                nu = i * 5;
+                nu = i * 10;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HL_PRO.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
                 );
                 return "吸收成功 获得了 " + nu + "点 魂力回复率\r\n" + SourceDataBase.getImgPathById(id);
             case 4:
-                nu = i * 6;
+                nu = i * 12;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HL_REC_EFF.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
                 );
                 return "吸收成功 获得了 " + nu + "点 魂力回复效果\r\n" + SourceDataBase.getImgPathById(id);
             case 5:
-                nu = i * 5;
+                nu = i * 10;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HJ_PRO.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
                 );
                 return "吸收成功 获得了 " + nu + "点精神力回复率\r\n" + SourceDataBase.getImgPathById(id);
             case 6:
-                nu = i * 6;
+                nu = i * 12;
                 SpringBootResource.getSoulBoneMapper().insert(new SoulBone()
                         .setType(GameBoneDetailService.Type.HJ_REC_EFF.getValue())
                         .setOid(id).setQid(qq).setTime(System.currentTimeMillis()).setValue(nu)
