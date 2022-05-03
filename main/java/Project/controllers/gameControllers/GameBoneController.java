@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +77,7 @@ public class GameBoneController {
     @Action("我的魂骨")
     public String myBones(long qq, Group g) {
         List<SoulBone> list = gameBoneService.getSoulBones(qq);
-        StringBuilder sb = new StringBuilder();
-        for (SoulBone soulBone : list) {
-            Integer id = soulBone.getOid();
-            sb.append(getNameById(id)).append(SourceDataBase.getImgPathById(id));
-        }
-        return sb.toString().isEmpty() ? "没有魂骨!" : sb.toString();
+        return list.isEmpty() ? "没有魂骨!" : Tool.pathToImg(Drawer.drawBoneMap(list));
     }
 
     @Action("吸收魂骨<.{1,}=>name>")

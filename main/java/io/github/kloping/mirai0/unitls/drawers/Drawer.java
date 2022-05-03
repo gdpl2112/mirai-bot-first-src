@@ -8,6 +8,7 @@ import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -15,7 +16,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -285,7 +284,54 @@ public class Drawer {
         return saveTempImage(image).getPath();
     }
 
-    public static final synchronized Image loadImage(String fileName) {
+    public static final String drawBoneMap(List<SoulBone> bones) {
+        int width = 400;
+        int height = 400;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics g = image.getGraphics();
+        g.setClip(0, 0, width, height);
+        g.setColor(BACKGROUND_COLOR);
+        g.fillRect(0, 0, width, height);
+        g.setFont(BIG_FONT35);
+        Rectangle clip = g.getClipBounds();
+        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
+        int ascent = fm.getAscent();
+        int descent = fm.getDescent();
+        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+        g.dispose();
+        for (SoulBone bone : bones) {
+            try {
+                int id0 = bone.partId();
+                Image i0 = loadImage(getImgPathById(bone.getOid(),false));
+                i0 = ImageDrawerUtils.image2Size((BufferedImage) i0, 100, 100);
+                int[] xy = getBoneXY(bone.partId());
+                if (xy != null)
+                    image = putImage(image, (BufferedImage) i0, xy[0], xy[1]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return saveTempImage(image).getPath();
+    }
+
+    private static int[] getBoneXY(int id) {
+        switch (id) {
+            case 151:
+                return new int[]{150, 0};
+            case 152:
+                return new int[]{50, 130};
+            case 153:
+                return new int[]{250, 130};
+            case 154:
+                return new int[]{80, 260};
+            case 155:
+                return new int[]{220, 260};
+            default:
+                return null;
+        }
+    }
+
+    public static synchronized Image loadImage(String fileName) {
         try {
             if (TEMP_IMAGES_MAP.containsKey(fileName)) return TEMP_IMAGES_MAP.get(fileName);
             BufferedImage img = ImageIO.read(new File(fileName));
@@ -334,45 +380,6 @@ public class Drawer {
         g.drawString("※====☆=?==★===?====$==*=※", 10, (sss.length + 2) * 40);
         g.dispose();
         return saveTempImage(image).getPath();
-    }
-
-    /**
-     * @param n
-     * @param sss
-     * @return
-     */
-    public static String createImage(int n, String... sss) {
-        int width = 500;
-        int height = (sss.length + 3) * 40;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.setClip(0, 0, width, height);
-        g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, width, height);
-        g.setFont(FONT30);
-        Rectangle clip = g.getClipBounds();
-        FontMetrics fm = g.getFontMetrics(FONT30);
-        int ascent = fm.getAscent();
-        int descent = fm.getDescent();
-        int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(BORDER_COLOR);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
-        for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
-            g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
-        }
-        g.setColor(BORDER_COLOR);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, (sss.length + 2) * 40);
-        g.dispose();
-        String name = UUID.randomUUID() + ".png";
-        new File("./temp/" + n).mkdirs();
-        File file = new File("./temp/" + n + "/" + name);
-        try {
-            ImageIO.write(image, "png", file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file.getPath();
     }
 
     /**
@@ -490,7 +497,6 @@ public class Drawer {
             }
         }
         g.dispose();
-
         try {
             String name = UUID.randomUUID() + ".png";
             new File("./temp").mkdirs();
@@ -519,25 +525,6 @@ public class Drawer {
         return Tool.pathToImg(drawStringOnTwoColumns(strings));
     }
 
-    private static Image[] getImages(String[] urls) {
-        Image[] images = new Image[urls.length];
-        try {
-            CountDownLatch countDownLatch = new CountDownLatch(urls.length);
-            for (int i = 0; i < urls.length; i++) {
-                int finalI = i;
-                EXECUTOR_SERVICE.execute(() -> {
-                    images[finalI] = loadImageFromUrl(urls[finalI]);
-                    countDownLatch.countDown();
-                });
-            }
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return images;
-
-    }
-
     /**
      * 从网络流中获取Image
      *
@@ -552,40 +539,6 @@ public class Drawer {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * 从本地流获取Image
-     *
-     * @param path
-     * @return
-     */
-    private static Image loadImageFromPath(String path) {
-        try {
-            BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
-            return bufferedImage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * 专属国旗
-     *
-     * @param endU
-     * @return
-     */
-    public static String bundler0(String endU) {
-        Image oImage = loadImageFromUrl(endU);
-        int width = oImage.getWidth(null);
-        int height = oImage.getHeight(null);
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.drawImage(image, 0, 0, width, height, null);
-        g.drawImage(loadImageFromPath("./temp/1/base.png"), 0, 0, width, height, null);
-        g.dispose();
-        return saveTempImage(image).getPath();
     }
 
     public static String drawHh(Integer mid, List<Integer> ids) throws Exception {
