@@ -208,7 +208,7 @@ public class GhostBehavior implements Runnable {
             }
             boolean sendl = false;
             while (true) {
-                Thread.sleep(3000);
+                Thread.sleep(r * 1000);
                 if (Tool.RANDOM.nextInt(10) < r) {
                     saveGhostObjIn(qq, null);
                     send(ghostObj.getName() + "拼尽全力逃跑了!");

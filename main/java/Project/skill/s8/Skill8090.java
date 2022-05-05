@@ -33,7 +33,7 @@ public class Skill8090 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("七杀剑第八魂技,2秒内对敌人(最多3个造成%s次的伤害,每次造成攻击的2%%伤害", getAddP(getJid(), getId()));
+        return String.format("七杀剑第八魂技,2秒内对敌人(最多3个)造成%s次的伤害,每次造成攻击的2%%伤害", getAddP(getJid(), getId()));
     }
 
     public static final long T_0 = 2000;

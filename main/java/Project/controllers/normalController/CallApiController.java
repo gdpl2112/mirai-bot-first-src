@@ -11,9 +11,6 @@ import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
-import io.github.kloping.mirai0.commons.apiEntitys.shyJan.SearchData;
-import io.github.kloping.mirai0.commons.apiEntitys.shyJan.SearchResult;
-import io.github.kloping.mirai0.commons.apiEntitys.shyJan.ShyJanData;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
@@ -21,7 +18,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
@@ -103,7 +99,7 @@ public class CallApiController {
                         .append("\n\t").append(datum.getWeather())
                         .append("\n\t").append(datum.getHigh())
                         .append("\n\t").append(datum.getLow())
-                    .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
+                        .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
             }
             return sb.toString().trim();
         }
@@ -249,6 +245,7 @@ public class CallApiController {
     }
 
     public static final String S0 = "https://jx.iztyy.com/svip/?url=";
+
     @AutoStand
     ShyJan shyJan;
 
@@ -256,46 +253,47 @@ public class CallApiController {
 
     @Action("我要看.+")
     public String s0(@AllMess String mess) {
-        String s0 = mess.substring(3);
-        Integer select0 = -1;
-        Integer select1 = -1;
-        if (mess.contains(SPLIT_POINT)) {
-            try {
-                String[] ss = s0.split(SPLIT_POINT);
-                String n0 = Tool.findNumberFromString(ss[0]);
-                String n1 = Tool.findNumberFromString(ss[1]);
-                s0 = s0.replace(SPLIT_POINT, EMPTY_STR).replace(n0, EMPTY_STR).replace(n1, EMPTY_STR);
-                select0 = Integer.valueOf(n0) - 1;
-                select1 = Integer.valueOf(n1) - 1;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            String n0 = Tool.findNumberFromString(mess);
-            if (n0 != null && !n0.isEmpty())
-                select0 = Integer.parseInt(n0);
-        }
-        SearchResult result = shyJan.search(s0);
-        if (select0 < 0 && select1 < 0) {
-            int i = 1;
-            StringBuilder sb = new StringBuilder();
-            for (SearchData searchData : result.getList()) {
-                sb.append(i++).append(":").append(searchData.getTitle())
-                        .append("(").append(searchData.getCategory()).append(")")
-                        .append(NEWLINE);
-            }
-            return sb.toString().trim();
-        } else if (select0 > 0 && select1 < 0) {
-            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
-            return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
-        } else {
-            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
-            try {
-                return S0 + data.getVod_list()[0].getData()[select1].getUrl();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
-            }
-        }
+//        String s0 = mess.substring(3);
+//        Integer select0 = -1;
+//        Integer select1 = -1;
+//        if (mess.contains(SPLIT_POINT)) {
+//            try {
+//                String[] ss = s0.split(SPLIT_POINT);
+//                String n0 = Tool.findNumberFromString(ss[0]);
+//                String n1 = Tool.findNumberFromString(ss[1]);
+//                s0 = s0.replace(SPLIT_POINT, EMPTY_STR).replace(n0, EMPTY_STR).replace(n1, EMPTY_STR);
+//                select0 = Integer.valueOf(n0) - 1;
+//                select1 = Integer.valueOf(n1) - 1;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            String n0 = Tool.findNumberFromString(mess);
+//            if (n0 != null && !n0.isEmpty())
+//                select0 = Integer.parseInt(n0);
+//        }
+//        SearchResult result = shyJan.search(s0);
+//        if (select0 < 0 && select1 < 0) {
+//            int i = 1;
+//            StringBuilder sb = new StringBuilder();
+//            for (SearchData searchData : result.getList()) {
+//                sb.append(i++).append(":").append(searchData.getTitle())
+//                        .append("(").append(searchData.getCategory()).append(")")
+//                        .append(NEWLINE);
+//            }
+//            return sb.toString().trim();
+//        } else if (select0 > 0 && select1 < 0) {
+//            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
+//            return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
+//        } else {
+//            ShyJanData data = shyJan.get(result.getList()[select0].getVid().toString());
+//            try {
+//                return S0 + data.getVod_list()[0].getData()[select1].getUrl();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return data.getVod_name() + NEWLINE + data.getVod_class() + NEWLINE + data.getVod_update();
+//            }
+//        }
+        return "维修中...";
     }
 }

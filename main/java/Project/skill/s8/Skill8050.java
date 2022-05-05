@@ -28,7 +28,7 @@ public class Skill8050 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蓝银皇,野火烧不尽,春风吹又生,令自己每秒回复%s%%的生命", getAddP(getJid(), getId()));
+        return String.format("蓝银皇,令自己每秒回复%s%%的生命", getAddP(getJid(), getId()));
     }
 
     @Override

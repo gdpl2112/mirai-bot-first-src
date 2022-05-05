@@ -42,6 +42,7 @@ public class Skill8071 extends SkillTemplate {
 
             @Override
             public void run() {
+                if (nums.length == 0) return;
                 try {
                     Thread.sleep(1500);
                     StringBuilder sb = new StringBuilder();
