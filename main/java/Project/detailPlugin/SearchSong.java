@@ -1,6 +1,6 @@
 package Project.detailPlugin;
 
-import Project.interfaces.http_api.GetSongs;
+import Project.interfaces.http_api.Kloping;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.apiEntitys.Songs;
@@ -13,7 +13,7 @@ import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 public class SearchSong {
 
     @AutoStand
-    private GetSongs getSongs;
+    private Kloping getSongs;
 
     public Songs netEase(String name) {
         return getSongs.getSongs(name, "wy");
