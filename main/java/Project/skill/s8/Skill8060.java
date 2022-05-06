@@ -1,5 +1,3 @@
-
-
 package Project.skill.s8;
 
 import Project.services.detailServices.GameBoneDetailService;

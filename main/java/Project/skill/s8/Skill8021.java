@@ -5,15 +5,15 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
 
 /**
  * @author github.kloping
@@ -44,11 +44,11 @@ public class Skill8021 extends SkillTemplate {
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att());
                 BaseInfo baseInfo = getBaseInfoFromAny(who, nums[0].longValue());
                 int b = toPercent(baseInfo.getHp(), baseInfo.getHpL());
                 if (b >= 90) {
-                    v = percentTo(108, v);
+                    v = CommonSource.percentTo(108, v);
                 }
                 sb.append("将造成").append(v).append("伤害");
                 attGhostOrMan(sb, who, nums[0].longValue(), v);

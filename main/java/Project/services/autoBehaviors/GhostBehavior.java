@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 

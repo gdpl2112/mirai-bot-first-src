@@ -7,11 +7,11 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
@@ -59,7 +59,7 @@ public class Skill19 extends SkillTemplate {
                     PersonInfo in = getInfo(nums[0]);
                 }
                 b = info.getAddPercent() + r;
-                setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).att())));
+                setTips(String.format("将造成%s%%(%s)伤害", b, CommonSource.percentTo(b, getInfo(who).att())));
             }
 
             @Override
@@ -69,7 +69,7 @@ public class Skill19 extends SkillTemplate {
                     long t = (long) (ControllerSource.playerBehavioralManager.getAttPre(who.longValue()) * 1.5f);
                     Thread.sleep(t);
                     long att = getInfo(who).att();
-                    long v = percentTo(b, att);
+                    long v = CommonSource.percentTo(b, att);
                     StringBuilder sb = new StringBuilder();
                     attGhostOrMan(sb, who, nums[0], v);
                     setTips(sb.toString());

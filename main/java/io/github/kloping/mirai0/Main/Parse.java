@@ -17,23 +17,9 @@ public class Parse {
     private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
 
     public static final Pattern[] PATTERNS = {PATTER_FACE, PATTER_PIC, PATTER_URL, PATTER_AT, PATTER_VOICE};
-
-    public static List<Object> aStart(String line) {
-        List<String> list = new ArrayList<>();
-        List<Object> olist = new ArrayList<>();
-        a1b2c3(list, line);
-        for (String s : list) {
-            int i = line.indexOf(s);
-            if (i > 0) {
-                olist.add(line.substring(0, i));
-            }
-            olist.add(s);
-            line = line.substring(i + s.length());
-        }
-        if (!line.isEmpty())
-            olist.add(line);
-        return olist;
-    }
+    private static final Set<Character> TS = new HashSet<>(Arrays.asList(
+            new Character[]{'*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '\\', '/'})
+    );
 
 //    public static void a1b2c3(List<String> list, String line) {
 //        if (list == null || line == null || line.isEmpty()) return;
@@ -57,6 +43,23 @@ public class Parse {
 //        return;
 //    }
 
+    public static List<Object> aStart(String line) {
+        List<String> list = new ArrayList<>();
+        List<Object> olist = new ArrayList<>();
+        a1b2c3(list, line);
+        for (String s : list) {
+            int i = line.indexOf(s);
+            if (i > 0) {
+                olist.add(line.substring(0, i));
+            }
+            olist.add(s);
+            line = line.substring(i + s.length());
+        }
+        if (!line.isEmpty())
+            olist.add(line);
+        return olist;
+    }
+
     public static void a1b2c3(List<String> list, String line) {
         if (list == null || line == null || line.isEmpty()) return;
         Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL);
@@ -78,10 +81,6 @@ public class Parse {
         a1b2c3(list, line);
         return;
     }
-
-    private static final Set<Character> TS = new HashSet<>(Arrays.asList(
-            new Character[]{'*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '\\', '/'})
-    );
 
     public static Map<Integer, String> getNearestOne(final String line, Pattern... patterns) {
         try {

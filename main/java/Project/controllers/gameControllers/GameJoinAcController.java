@@ -56,7 +56,8 @@ public class GameJoinAcController {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();
             }
-        } if (getInfo(qq.getId()).isBg()) {
+        }
+        if (getInfo(qq.getId()).isBg()) {
             MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }

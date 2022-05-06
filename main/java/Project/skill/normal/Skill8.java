@@ -4,11 +4,11 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.WhTypes;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
@@ -42,7 +42,7 @@ public class Skill8 extends SkillTemplate {
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getInfo(who).att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getInfo(who).att());
                 attGhostOrMan(sb, who, nums[0], v);
                 setTips(sb.toString());
             }

@@ -6,11 +6,13 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
@@ -46,7 +48,7 @@ public class Skill721 extends SkillTemplate {
                 Long q = who.longValue();
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.att();
-                v2 = percentTo(info.getAddPercent(), lon);
+                v2 = CommonSource.percentTo(info.getAddPercent(), lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v2));
                 q1 = Long.valueOf(who + "");
                 v = Long.valueOf(info.getAddPercent());

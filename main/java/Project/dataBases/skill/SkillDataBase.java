@@ -176,41 +176,19 @@ public class SkillDataBase {
         }
     }
 
-    /**
-     * 计算百分比
-     *
-     * @param b b%
-     * @param v
-     * @return v 的 b%
-     */
-    public final static Long percentTo(Integer b, Number v) {
-        if (v.longValue() < 100) {
-            float f = b / 100f;
-            return (long) (f * (v.intValue()));
-        }
-        double d = v.longValue();
-        d /= 100f;
-        d *= b;
-        long v1 = (long) d;
-        return v1;
-    }
-
-    /**
-     * @param v1
-     * @param v2
-     * @return v1/v2 => %
-     */
-    public final static Integer toPercent(Number v1, Number v2) {
-        double dv1 = (double) v1.longValue();
-        double dv2 = (double) v2.longValue();
-        double dv3 = dv1 / dv2;
-        dv3 *= 100f;
-        int v3 = (int) dv3;
-        return v3;
-    }
-
     public static void addAttHasTime(long who, HasTimeAdder adder) {
         MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
+    }
+
+    public static void reMap() {
+        QQ_2_ST_2_MAP.clear();
+        List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
+        for (SkillInfo info : list) {
+            info.setState(0);
+            info.setAddPercent((int) (getBasePercent(info.getJid()) * GameTool.getAHBl_(info.getId())));
+            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
+            appendInfo(info);
+        }
     }
 
     private void initMap() {
@@ -223,17 +201,6 @@ public class SkillDataBase {
                 appendInfo(info);
             }
         });
-    }
-
-    public static void reMap() {
-        QQ_2_ST_2_MAP.clear();
-        List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
-        for (SkillInfo info : list) {
-            info.setState(0);
-            info.setAddPercent((int) (getBasePercent(info.getJid()) * GameTool.getAHBl_(info.getId())));
-            info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
-            appendInfo(info);
-        }
     }
 
     public static class HasTimeAdder {

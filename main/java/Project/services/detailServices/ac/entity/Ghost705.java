@@ -3,8 +3,8 @@ package Project.services.detailServices.ac.entity;
 import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
-import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github-kloping
@@ -39,7 +39,7 @@ public class Ghost705 extends GhostWithGroup {
             addHp(v0);
             sendMessage("触发" + getName() + "被动,恢复了" + v0 + "点血");
         }
-        int bv = SkillDataBase.toPercent(-l, getMaxHp());
+        int bv = toPercent(-l, getMaxHp());
         bv = bv > 100 ? 100 : bv < 1 ? 1 : bv;
         long v = percentTo(bv, getHj());
         addHj(-v);

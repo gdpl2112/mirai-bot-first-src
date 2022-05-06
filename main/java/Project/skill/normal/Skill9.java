@@ -4,13 +4,13 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.oneNearest;
 
@@ -66,7 +66,7 @@ public class Skill9 extends SkillTemplate {
                     return false;
                 }
                 long l = getInfo(q).getHpL();
-                putPerson(getInfo(q).addHp(percentTo(info.getAddPercent(), l)));
+                putPerson(getInfo(q).addHp(CommonSource.percentTo(info.getAddPercent(), l)));
                 return true;
             }
         };

@@ -13,6 +13,8 @@ import static io.github.kloping.mirai0.Main.Resource.bot;
  * @author github-kloping
  */
 public class MemberTools {
+    public static final Map<Long, Long> RECENT_SPEECHES = new HashMap<>();
+
     public static User getUser(long q) {
         if (User.get(q) == null) {
             for (Group group : bot.getGroups()) {
@@ -59,8 +61,6 @@ public class MemberTools {
         }
         return id + "";
     }
-
-    public static final Map<Long, Long> RECENT_SPEECHES = new HashMap<>();
 
     public static long getRecentSpeeches(long qid) {
         return RECENT_SPEECHES.get(qid);

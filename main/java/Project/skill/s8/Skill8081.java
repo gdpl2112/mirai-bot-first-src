@@ -1,4 +1,3 @@
-
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
@@ -10,12 +9,12 @@ import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
@@ -60,13 +59,12 @@ public class Skill8081 extends SkillTemplate {
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
         private ScheduledFuture<?> future;
+        private int i = 0;
 
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);
             setType(AsynchronousThingType.ATTACK);
         }
-
-        private int i = 0;
 
         @Override
         public void run() {
@@ -75,9 +73,9 @@ public class Skill8081 extends SkillTemplate {
                 over();
             } else {
                 Long att = getInfo(q1).att();
-                long v = percentTo((int) value, att);
+                long v = CommonSource.percentTo((int) value, att);
                 BaseInfo baseInfo = getBaseInfoFromAny(q1, q2);
-                v += percentTo(7, baseInfo.getHpL() - baseInfo.getHp());
+                v += CommonSource.percentTo(7, baseInfo.getHpL() - baseInfo.getHp());
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);
                 if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);

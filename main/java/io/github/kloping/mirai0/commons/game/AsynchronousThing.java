@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
  * @author github.kloping
  */
 public abstract class AsynchronousThing implements Runnable {
-    private ScheduledFuture<?> future;
     public int n;
     public long q1;
     public long q2;
@@ -18,6 +17,8 @@ public abstract class AsynchronousThing implements Runnable {
     public long eve;
     public long gid;
     public AsynchronousThingType type = AsynchronousThingType.NORMAL;
+    protected String sFormat;
+    private ScheduledFuture<?> future;
 
     public AsynchronousThing(int n, long q1, long q2, long value, long eve, long gid) {
         this.n = n;
@@ -35,8 +36,6 @@ public abstract class AsynchronousThing implements Runnable {
     public void setType(AsynchronousThingType type) {
         this.type = type;
     }
-
-    protected String sFormat;
 
     public AsynchronousThing setFormatStr(String s) {
         this.sFormat = s;

@@ -5,6 +5,7 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,8 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -45,7 +45,7 @@ public class Skill8041 extends SkillTemplate {
                     return;
                 }
                 long id = nums[0].longValue();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att());
                 BaseInfo baseInfo = getBaseInfoFromAny(who, id);
                 int b = 100;
                 int b0 = toPercent(baseInfo.getHj(), baseInfo.getHjL());
@@ -55,7 +55,7 @@ public class Skill8041 extends SkillTemplate {
                 if (baseInfo.getHj() < getPersonInfo().getHj()) {
                     b += 6;
                 }
-                v = percentTo(b, v);
+                v = CommonSource.percentTo(b, v);
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, who, id, v);
                 setTips(sb.toString());

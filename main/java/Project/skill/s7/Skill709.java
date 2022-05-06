@@ -4,12 +4,14 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.exist;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
@@ -41,7 +43,7 @@ public class Skill709 extends SkillTemplate {
                 if (!exist(q)) {
                     return;
                 }
-                long v = percentTo(info.getAddPercent(), getInfo(q).att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getInfo(q).att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
             }
         };

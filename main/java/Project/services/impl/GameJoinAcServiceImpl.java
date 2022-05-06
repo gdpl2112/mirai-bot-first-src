@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;

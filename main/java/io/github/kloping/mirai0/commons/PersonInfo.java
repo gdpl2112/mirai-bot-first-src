@@ -280,7 +280,13 @@ public class PersonInfo implements BaseInfo {
         return att;
     }
 
-    public Long att(){
+    @Override
+    public PersonInfo setAtt(Long att) {
+        this.att = att;
+        return this;
+    }
+
+    public Long att() {
         long at1 = att;
         try {
             if (SkillDataBase.HAS_ADDER_MAP_LIST.containsKey(getId().longValue())) {
@@ -300,12 +306,6 @@ public class PersonInfo implements BaseInfo {
             e.printStackTrace();
         }
         return at1;
-    }
-
-    @Override
-    public PersonInfo setAtt(Long att) {
-        this.att = att;
-        return this;
     }
 
     public Long getGold() {

@@ -26,6 +26,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 @Controller
 public class OtherController {
     private static final StringBuilder MENU_STR = new StringBuilder();
+    private static final long CD = 3000;
     public static String[] E_MENUS = null;
     private static String[] BaseMenuStrings;
 
@@ -164,6 +165,7 @@ public class OtherController {
     IOtherService otherService;
     @AutoStand
     private ManagerController controller;
+    private long cd0 = 0;
 
     public OtherController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -238,9 +240,6 @@ public class OtherController {
     public String m0(long q) {
         return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
     }
-
-    private long cd0 = 0;
-    private static final long CD = 3000;
 
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, Group group, @Param("str") String str) {

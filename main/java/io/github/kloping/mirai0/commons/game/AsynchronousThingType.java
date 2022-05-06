@@ -23,8 +23,7 @@ public enum AsynchronousThingType {
     /**
      * 火焰
      */
-    FIRE("fire")
-    ;
+    FIRE("fire");
     String value;
 
     AsynchronousThingType(String value) {

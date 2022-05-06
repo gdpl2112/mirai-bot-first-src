@@ -24,6 +24,11 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class PointSongController {
+    static final String BASE0 = "±img=";
+    static final String BASE1 = "±";
+    static final String BASE2 = "作者昵称 :";
+    static final String BASE3 = "播放链接:";
+    static final String BASE4 = " 歌词:";
     private static final StringBuilder SB = new StringBuilder();
     @AutoStand
     static SearchSong searchSong;
@@ -40,6 +45,8 @@ public class PointSongController {
 
     @AutoStand
     MuXiaoGuo muXiaoGuo;
+    @AutoStand
+    Empty empty;
 
     public PointSongController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -176,15 +183,6 @@ public class PointSongController {
             return "歌词获取失败";
         }
     }
-
-    static final String BASE0 = "±img=";
-    static final String BASE1 = "±";
-    static final String BASE2 = "作者昵称 :";
-    static final String BASE3 = "播放链接:";
-    static final String BASE4 = " 歌词:";
-
-    @AutoStand
-    Empty empty;
 
     @Action("随机唱鸭")
     public Object cy(io.github.kloping.mirai0.commons.Group group) {

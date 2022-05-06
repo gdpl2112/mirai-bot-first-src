@@ -1,4 +1,3 @@
-
 package Project.skill.s8;
 
 import Project.controllers.auto.ControllerSource;
@@ -6,11 +5,11 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
@@ -59,13 +58,13 @@ public class Skill8080 extends SkillTemplate {
                 int r = RANDOM.nextInt(20) - 10;
                 int b = info.getAddPercent();
                 b += r;
-                setTips(String.format("将造成%s%%(%s)伤害", b, percentTo(b, getInfo(who).att())));
+                setTips(String.format("将造成%s%%(%s)伤害", b, CommonSource.percentTo(b, getInfo(who).att())));
                 long t = ControllerSource.playerBehavioralManager.getAttPre(who.longValue());
                 t *= 2;
                 try {
                     Thread.sleep(t);
                     long att = getInfo(who).att();
-                    long v = percentTo(b, att);
+                    long v = CommonSource.percentTo(b, att);
                     StringBuilder sb = new StringBuilder();
                     attGhostOrMan(sb, who, qid, v);
                     setTips(sb.toString());

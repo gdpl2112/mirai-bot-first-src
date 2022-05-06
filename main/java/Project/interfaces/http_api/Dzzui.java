@@ -9,7 +9,6 @@ import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 @HttpClient("https://api.dzzui.com/")
 public interface Dzzui {
     /**
-     *
      * @return
      */
     @GetPath("api/avatar")

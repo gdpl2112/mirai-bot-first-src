@@ -1,7 +1,6 @@
 package Project.controllers.gameControllers;
 
 
-import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -16,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;

@@ -27,12 +27,14 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.dataBases.skill.SkillDataBase.updateSkillInfo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
 /**
  * @author github-kloping
@@ -341,8 +343,8 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                     l = m / i1;
                     l *= num;
                     if (m - t < l) {
-                            l = m - t;
-                        }
+                        l = m - t;
+                    }
                     if (GameTool.isATrue(who)) {
                         personInfo.addHp(l / 2);
                         s0 = "处于选择状态增加减半 加血=>" + (l / 2);

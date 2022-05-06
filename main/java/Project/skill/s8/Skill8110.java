@@ -7,6 +7,7 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
@@ -15,7 +16,6 @@ import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrM
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -43,15 +43,15 @@ public class Skill8110 extends SkillTemplate {
             public void before() {
                 if (nums.length == 0) return;
                 StringBuilder sb = new StringBuilder();
-                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att());
                 attGhostOrMan(sb, who, nums[0].longValue(), v);
-                getPersonInfo().addHp(percentTo(15, v));
+                getPersonInfo().addHp(CommonSource.percentTo(15, v));
                 setTips(sb.toString());
                 int n = 4;
                 int eve = 1000;
                 AsynchronousAttack thing = new AsynchronousAttack(n, who.longValue()
                         , nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
-                thing.v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                thing.v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().getAtt());
                 thing.v /= 8;
                 thing.start();
                 MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
@@ -66,14 +66,13 @@ public class Skill8110 extends SkillTemplate {
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
         private ScheduledFuture<?> future;
+        private int i = 0;
+        private long v = 0;
 
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);
             setType(AsynchronousThingType.ATTACK);
         }
-
-        private int i = 0;
-        private long v = 0;
 
         @Override
         public void run() {

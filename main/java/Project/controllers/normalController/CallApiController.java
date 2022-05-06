@@ -28,17 +28,21 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class CallApiController {
+    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
+    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
+    public static final String S0 = "https://jx.iztyy.com/svip/?url=";
     private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
-
+    private static final String SPLIT_POINT = ",";
+    @AutoStand
+    JuiLi juiLi;
+    @AutoStand
+    ShyJan shyJan;
     @AutoStand
     private ApiIyk0 apiIyk0;
     @AutoStand
     private ApiKit9 apiKit9;
     @AutoStand
     private Dzzui dzzui;
-
-    public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
-    public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
 
     public CallApiController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -82,9 +86,6 @@ public class CallApiController {
 //            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
 //        }
     }
-
-    @AutoStand
-    JuiLi juiLi;
 
     @Action("未来天气<.+=>ms>")
     public String weather1(@Param("ms") String mess, Group group) {
@@ -243,13 +244,6 @@ public class CallApiController {
         builder.append(image);
         group.sendMessage(builder.build());
     }
-
-    public static final String S0 = "https://jx.iztyy.com/svip/?url=";
-
-    @AutoStand
-    ShyJan shyJan;
-
-    private static final String SPLIT_POINT = ",";
 
     @Action("我要看.+")
     public String s0(@AllMess String mess) {

@@ -30,10 +30,15 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 @Controller
 public class Controller0 {
 
+    public static final Map<Long, Map<Long, Long>> WIFE = new HashMap<>();
+
+    static {
+        ZERO_RUNS.add(() -> WIFE.clear());
+    }
+
     public Controller0() {
         println(this.getClass().getSimpleName() + "构建");
     }
-
 
     @Before
     public void before(@AllMess String mess, Group group) throws NoRunException {
@@ -43,12 +48,6 @@ public class Controller0 {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
-    }
-
-    public static final Map<Long, Map<Long, Long>> WIFE = new HashMap<>();
-
-    static {
-        ZERO_RUNS.add(() -> WIFE.clear());
     }
 
     @Action("哪个群友是我老婆")

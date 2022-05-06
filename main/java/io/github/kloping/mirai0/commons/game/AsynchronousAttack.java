@@ -10,13 +10,12 @@ import java.util.concurrent.ScheduledFuture;
  */
 public class AsynchronousAttack extends AsynchronousThing {
     private ScheduledFuture<?> future;
+    private int i = 0;
 
     public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
         super(n, q1, q2, value, eve, gid);
         setType(AsynchronousThingType.ATTACK);
     }
-
-    private int i = 0;
 
     @Override
     public void run() {

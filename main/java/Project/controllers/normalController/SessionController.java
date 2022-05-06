@@ -30,6 +30,19 @@ public class SessionController {
     private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
     @AutoStand
     public static SessionController INSTANCE;
+
+    static {
+        SUPPORTED_LANGUAGE.put("java", "java");
+        SUPPORTED_LANGUAGE.put("c", "c");
+        SUPPORTED_LANGUAGE.put("py", "python");
+        SUPPORTED_LANGUAGE.put("cpp", "cpp");
+        SUPPORTED_LANGUAGE.put("kt", "kotlin");
+        SUPPORTED_LANGUAGE.put("go", "go");
+        SUPPORTED_LANGUAGE.put("sh", "bash");
+        SUPPORTED_LANGUAGE.put("lua", "lua");
+        SUPPORTED_LANGUAGE.put("js", "javascript");
+    }
+
     public final List<Long> InTheSession = new CopyOnWriteArrayList<>();
     public final Map<Long, String> q2Filename = new ConcurrentHashMap<>();
     public final Map<Long, String> q2CodeContent = new ConcurrentHashMap<>();
@@ -47,18 +60,6 @@ public class SessionController {
             "目前可运行 java c py c++ kotlin lua go bash javascript更多语言开发中...";
     @AutoStand
     private RunAll runAll;
-
-   static {
-       SUPPORTED_LANGUAGE.put("java", "java");
-       SUPPORTED_LANGUAGE.put("c", "c");
-       SUPPORTED_LANGUAGE.put("py", "python");
-       SUPPORTED_LANGUAGE.put("cpp", "cpp");
-       SUPPORTED_LANGUAGE.put("kt", "kotlin");
-       SUPPORTED_LANGUAGE.put("go", "go");
-       SUPPORTED_LANGUAGE.put("sh", "bash");
-       SUPPORTED_LANGUAGE.put("lua", "lua");
-       SUPPORTED_LANGUAGE.put("js", "javascript");
-   }
 
     public boolean contains(long id) {
         return InTheSession.contains(id);

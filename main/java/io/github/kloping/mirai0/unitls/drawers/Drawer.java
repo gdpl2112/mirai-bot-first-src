@@ -30,7 +30,7 @@ import static Project.dataBases.SourceDataBase.getImageById;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
@@ -302,7 +302,7 @@ public class Drawer {
         for (SoulBone bone : bones) {
             try {
                 int id0 = bone.partId();
-                Image i0 = loadImage(getImgPathById(bone.getOid(),false));
+                Image i0 = loadImage(getImgPathById(bone.getOid(), false));
                 i0 = ImageDrawerUtils.image2Size((BufferedImage) i0, 100, 100);
                 int[] xy = getBoneXY(bone.partId());
                 if (xy != null)

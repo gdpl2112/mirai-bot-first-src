@@ -5,12 +5,14 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
@@ -42,7 +44,7 @@ public class Skill705 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                long v = percentTo(info.getAddPercent() * 4, getInfo(q).att());
+                long v = CommonSource.percentTo(info.getAddPercent() * 4, getInfo(q).att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 eve();
             }
@@ -65,7 +67,7 @@ public class Skill705 extends SkillTemplate {
 
             public void eve() {
                 PersonInfo pInfo = getInfo(who);
-                long v = percentTo(info.getAddPercent(), pInfo.getHp());
+                long v = CommonSource.percentTo(info.getAddPercent(), pInfo.getHp());
                 putPerson(getInfo(who).addHp(v));
             }
         };

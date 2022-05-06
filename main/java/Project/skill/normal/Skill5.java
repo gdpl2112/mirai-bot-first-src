@@ -5,14 +5,17 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.exist;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
@@ -46,7 +49,7 @@ public class Skill5 extends SkillTemplate {
                     }
                     PersonInfo pInfo = getInfo(q);
                     Long lon = pInfo.att();
-                    long v = percentTo(info.getAddPercent(), lon);
+                    long v = CommonSource.percentTo(info.getAddPercent(), lon);
                     v = v > pInfo.att() ? pInfo.att() : v;
                     addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v));
                     setTips("作用于 " + Tool.at(q));

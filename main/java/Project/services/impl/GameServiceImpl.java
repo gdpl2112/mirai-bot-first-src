@@ -38,8 +38,10 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
+import static Project.services.detailServices.GameSkillDetailService.getTagDesc;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
@@ -61,6 +63,8 @@ public class GameServiceImpl implements IGameService {
     GameController gameController;
     @AutoStand
     GameController2 gameController2;
+    @AutoStand
+    PlayerBehavioralManager behavioral;
 
     @Override
     public String xl(Long who) {
@@ -363,9 +367,6 @@ public class GameServiceImpl implements IGameService {
         return attNow(who, q2, group, 0);
     }
 
-    @AutoStand
-    PlayerBehavioralManager behavioral;
-
     /**
      * @param p1 攻击者
      * @param p2 被攻击者
@@ -648,60 +649,82 @@ public class GameServiceImpl implements IGameService {
         try {
             SpringBootResource.getPersonInfoMapper().deleteById(id.longValue());
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             SkillDataBase.remove(id);
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             warp = getWarp(id);
             if (warp.getMaster().longValue() != -1) {
                 chuShiNow(id.longValue());
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             if (warp.getBindQ().longValue() != -1) {
                 gameController2.removeFusionNow(id.longValue());
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
                 SpringBootResource.getBagMapper().update(id0);
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
                 SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
                 SpringBootResource.getSoulBoneMapper().delete(soulBone);
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             SpringBootResource.getgInfoMapper().deleteById(id);
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
                 SpringBootResource.getHhpzMapper().delete(integer);
             }
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             SpringBootResource.getTaskPointMapper().deleteById(id);
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             SpringBootResource.getUpupMapper().deleteByQq(id);
             i++;
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "转生完成\n已移除" + i + "项记录";
     }
 
@@ -748,6 +771,7 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String detailInfo(long q) {
         GInfo gInfo = GInfo.getInstance(q);
+        String s0 = getTagDesc(q);
         return pathToImg(drawGInfo(gInfo));
     }
 

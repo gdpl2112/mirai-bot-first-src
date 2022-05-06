@@ -83,7 +83,7 @@ public class TimerController {
         }
     }
 
-    @Schedule("07:10:00")
+    @Schedule("06:10:00")
     public static void onSix() {
         updateToday();
         THREADS.execute(() -> {

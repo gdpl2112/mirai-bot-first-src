@@ -9,13 +9,12 @@ import java.util.concurrent.ScheduledFuture;
  */
 public class AsynchronousHf extends AsynchronousThing {
     private ScheduledFuture<?> future;
+    private int i = 0;
 
     public AsynchronousHf(int n, long q1, long q2, long value, long eve, long gid) {
         super(n, q1, q2, value, eve, gid);
         setType(AsynchronousThingType.HF);
     }
-
-    private int i = 0;
 
     @Override
     public void run() {

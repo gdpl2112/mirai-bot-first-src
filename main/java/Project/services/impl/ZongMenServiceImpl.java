@@ -33,6 +33,8 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
 
+    public static final int GV = 50;
+
     public long isJkOk(Long qq) {
         PersonInfo info = GameDataBase.getInfo(qq);
         if (info.getJk1() <= System.currentTimeMillis())
@@ -451,8 +453,6 @@ public class ZongMenServiceImpl implements IZongMenService {
             return "移除异常";
         }
     }
-
-    public static final int GV = 50;
 
     @Override
     public String addMax(long id) {

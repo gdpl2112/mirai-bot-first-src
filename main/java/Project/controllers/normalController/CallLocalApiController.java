@@ -1,14 +1,9 @@
-
 package Project.controllers.normalController;
 
 import Project.detailPlugin.*;
-import Project.interfaces.Iservice.IOtherService;
-import Project.interfaces.http_api.GetPvpQQ;
-import Project.interfaces.http_api.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
@@ -16,9 +11,7 @@ import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
@@ -36,17 +29,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 @Controller
 public class CallLocalApiController {
 
-    public CallLocalApiController() {
-        println(this.getClass().getSimpleName() + "构建");
-    }
-
-    @Before
-    public void before(Group group) throws NoRunException {
-        if (!opened(group.getId(), this.getClass())) {
-            throw NOT_OPEN_NO_RUN_EXCEPTION;
-        }
-    }
-
+    public static final int PAGE_SIZE = 5;
+    public static long upNewsId = 0;
+    public PvpSkin skin = null;
     @AutoStand
     GetPvpNews getPvpNews;
     @AutoStand
@@ -59,10 +44,16 @@ public class CallLocalApiController {
     BaiduBaiKe baiduBaiKe;
     @AutoStand
     WeatherGetter weatherGetter;
+    public CallLocalApiController() {
+        println(this.getClass().getSimpleName() + "构建");
+    }
 
-   public PvpSkin skin = null;
-    public static final int PAGE_SIZE = 5;
-    public static long upNewsId = 0;
+    @Before
+    public void before(Group group) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
+        }
+    }
 
     @Action("百科<.+=>str>")
     public Object m1(@Param("str") String name) {

@@ -33,14 +33,33 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
 @Controller
 public class OtherController1 {
 
+    private static final String PATH = "./records/jkbd/record.json";
+    private static final int BASE = 16;
+    private static final Map<Integer, Character> ANSWERS2ID = new HashMap<>();
+    private static final Map<Character, Integer> ID2ANSWERS = new HashMap<>();
+    private static Record record = new Record();
+
+    static {
+        for (int i = 1; i <= 8; i++) {
+            int n = BASE;
+            char c0 = (char) ('A' + i - 1);
+            for (int i1 = 1; i1 < i; i1++) {
+                n *= 2;
+            }
+            ANSWERS2ID.put(n, c0);
+            ID2ANSWERS.put(c0, n);
+        }
+        System.out.println();
+    }
+
+    @AutoStand
+    JiaKaoBaoDian dian;
+    private QuestionData questionData;
+
     public OtherController1() {
         println(this.getClass().getSimpleName() + "构建");
         load();
     }
-
-
-    private static Record record = new Record();
-    private static final String PATH = "./records/jkbd/record.json";
 
     private void load() {
         record = FileInitializeValue.getValue(PATH, record, true);
@@ -55,9 +74,6 @@ public class OtherController1 {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
-
-    @AutoStand
-    JiaKaoBaoDian dian;
 
     @Action("驾校考题.+")
     public String s0(@AllMess String ss) {
@@ -103,10 +119,6 @@ public class OtherController1 {
         return sb.toString();
     }
 
-    private QuestionData questionData;
-
-    private static final int BASE = 16;
-
     @Action("选<.+=>a>")
     public String s1(@Param("a") String a, Group group) {
         a = a.toUpperCase();
@@ -142,22 +154,6 @@ public class OtherController1 {
             MessageTools.sendMessageInGroup(ret(), gid);
             MessageTools.sendMessageInGroup(String.format(CE_CA, record.getCorrect(), record.getError(), record.getUpSt(), record.questionIdData().getData().getQuestionList().length), gid);
         });
-    }
-
-    private static final Map<Integer, Character> ANSWERS2ID = new HashMap<>();
-    private static final Map<Character, Integer> ID2ANSWERS = new HashMap<>();
-
-    static {
-        for (int i = 1; i <= 8; i++) {
-            int n = BASE;
-            char c0 = (char) ('A' + i - 1);
-            for (int i1 = 1; i1 < i; i1++) {
-                n *= 2;
-            }
-            ANSWERS2ID.put(n, c0);
-            ID2ANSWERS.put(c0, n);
-        }
-        System.out.println();
     }
 
     private char toAnswer(int i) {

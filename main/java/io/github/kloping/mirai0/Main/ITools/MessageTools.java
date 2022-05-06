@@ -14,7 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,9 +39,9 @@ public class MessageTools {
     private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
     private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
     private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
-    private static final Map<Integer, Face> faces = new ConcurrentHashMap<>();
-    private static final Map<Long, At> ats = new ConcurrentHashMap<>();
-    private static final Map<String, Image> HIST_IMAGES = new ConcurrentHashMap<>();
+    private static final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
+    private static final Map<Long, At> ATS = new ConcurrentHashMap<>();
+    private static final Map<String, Image> HIST_IMAGES = new HashMap<>();
 
     public static long getAtFromString(String message) {
         int start = message.indexOf("[@");
@@ -95,21 +98,21 @@ public class MessageTools {
     }
 
     private static Face getFace(int parseInt) {
-        if (faces.containsKey(parseInt)) {
-            return faces.get(parseInt);
+        if (FACES.containsKey(parseInt)) {
+            return FACES.get(parseInt);
         } else {
             Face face = new Face(parseInt);
-            faces.put(parseInt, face);
+            FACES.put(parseInt, face);
             return face;
         }
     }
 
     public static At getAt(long id) {
-        if (ats.containsKey(id)) {
-            return ats.get(id);
+        if (ATS.containsKey(id)) {
+            return ATS.get(id);
         } else {
             At at = new At(id);
-            ats.put(id, at);
+            ATS.put(id, at);
             return at;
         }
     }

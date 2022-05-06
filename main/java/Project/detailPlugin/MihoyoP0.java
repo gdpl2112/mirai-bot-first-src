@@ -30,6 +30,35 @@ public class MihoyoP0 {
         return getJsonFromYs(arg);
     }
 
+    public static String getJsonFromYs(Document doc) {
+        Element element = doc.body().getElementsByTag("script").get(0);
+        final String oStr = element.toString();
+        int i1 = oStr.lastIndexOf("(");
+        int i2 = oStr.lastIndexOf(")") - 1;
+        String eStr = oStr.substring(i1 + 1, i2);
+        String[] args = eStr.split(",");
+        String m = "function";
+        i1 = oStr.indexOf(m) + m.length();
+        i2 = oStr.lastIndexOf("}(");
+        String jsMethod = oStr.substring(i1, i2);
+        jsMethod = "function m0" + jsMethod + "}";
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine engine = manager.getEngineByName("javascript");
+        try {
+            engine.eval("function m1(o){return JSON.stringify(o);}");
+            engine.eval(jsMethod);
+            if (engine instanceof Invocable) {
+                Invocable in = (Invocable) engine;
+                Object o = in.invokeFunction("m0", args);
+                return in.invokeFunction("m1", o).toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "{}";
+    }
+
     public MihoyoYuanshen getNews() {
         return mihoyo.newsIndex();
     }
@@ -87,34 +116,5 @@ public class MihoyoP0 {
             }
         }
         return false;
-    }
-
-    public static String getJsonFromYs(Document doc) {
-        Element element = doc.body().getElementsByTag("script").get(0);
-        final String oStr = element.toString();
-        int i1 = oStr.lastIndexOf("(");
-        int i2 = oStr.lastIndexOf(")") - 1;
-        String eStr = oStr.substring(i1 + 1, i2);
-        String[] args = eStr.split(",");
-        String m = "function";
-        i1 = oStr.indexOf(m) + m.length();
-        i2 = oStr.lastIndexOf("}(");
-        String jsMethod = oStr.substring(i1, i2);
-        jsMethod = "function m0" + jsMethod + "}";
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("javascript");
-        try {
-            engine.eval("function m1(o){return JSON.stringify(o);}");
-            engine.eval(jsMethod);
-            if (engine instanceof Invocable) {
-                Invocable in = (Invocable) engine;
-                Object o = in.invokeFunction("m0", args);
-                return in.invokeFunction("m1", o).toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "{}";
     }
 }

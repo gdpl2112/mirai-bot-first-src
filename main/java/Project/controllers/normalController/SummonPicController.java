@@ -4,7 +4,6 @@ import Project.broadcast.PicBroadcast;
 import Project.detailPlugin.BaiduShituDetail;
 import Project.interfaces.http_api.Atoolbox;
 import Project.interfaces.http_api.IBaiduShitu;
-import Project.interfaces.http_api.JuiLi;
 import Project.interfaces.http_api.WeiJieYue;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

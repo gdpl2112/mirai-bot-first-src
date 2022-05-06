@@ -1,17 +1,16 @@
-
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -45,42 +44,42 @@ public class Skill8061 extends SkillTemplate {
                     StringBuilder sb;
                     //1
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //2
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //3
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //4
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //5
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //6
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //7
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                     //8
                     sb = new StringBuilder();
-                    attGhostOrMan(sb, who, nums[0].longValue(), percentTo(info.getAddPercent(), getPersonInfo().att()));
+                    attGhostOrMan(sb, who, nums[0].longValue(), CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att()));
                     Thread.sleep(500);
                     setTips(sb.toString());
                 } catch (Exception e) {

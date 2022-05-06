@@ -118,7 +118,14 @@ public class GameController {
 
     @AutoStand
     IGameService gameService;
-
+    @AutoStand
+    GameController c0;
+    @AutoStand
+    ScoreController c1;
+    @AutoStand
+    GameJoinAcController c2;
+    @AutoStand
+    PlayerBehavioralManager manager;
     @AutoStand
     private GameBoneController gameBoneController;
 
@@ -185,15 +192,6 @@ public class GameController {
         }
     }
 
-    @AutoStand
-    GameController c0;
-
-    @AutoStand
-    ScoreController c1;
-
-    @AutoStand
-    GameJoinAcController c2;
-
     @Action("双修打工进入.*+")
     public Object o1(User user, Group group, @AllMess String s0) {
         MessageTools.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
@@ -210,7 +208,6 @@ public class GameController {
         return c2.com1(group, name, user);
     }
 
-
     @Action("吸收魂环<.{0,}=>name>")
     public String joinHh(User qq, @Param("name") String name, Group group) {
         try {
@@ -221,9 +218,6 @@ public class GameController {
             return "系统未找到:" + name;
         }
     }
-
-    @AutoStand
-    PlayerBehavioralManager manager;
 
     @Action("攻击.+")
     public String AttWho(User qq, @AllMess String chain, Group group) {
@@ -279,6 +273,7 @@ public class GameController {
         } else {
             n = Integer.parseInt(ll);
         }
+        n = n > 100 ? 100 : n;
         StringBuilder sb = new StringBuilder();
         int r = 1;
         for (Map.Entry<String, Integer> entry : phGet(n)) {
@@ -318,7 +313,6 @@ public class GameController {
         }
         return ERR_TIPS;
     }
-
 
     @Action("双修")
     public String Xl2(User qq, Group group) {

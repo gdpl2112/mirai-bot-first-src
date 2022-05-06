@@ -6,21 +6,20 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
  */
 public class Skill18 extends SkillTemplate {
-
 
     public Skill18() {
         super(18);
@@ -66,8 +65,8 @@ public class Skill18 extends SkillTemplate {
                 int x = toPercent(th, max);
                 x = 100 - x;
                 int y = (int) (((float) x / 50f) * 100);
-                long v = percentTo(b, att);
-                v = percentTo(y, v);
+                long v = CommonSource.percentTo(b, att);
+                v = CommonSource.percentTo(y, v);
                 StringBuilder sb = new StringBuilder();
                 v = v < 0 ? 0 : v;
                 attGhostOrMan(sb, who, nums[0], v);

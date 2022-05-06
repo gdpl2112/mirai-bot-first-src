@@ -1,10 +1,10 @@
-
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,12 +15,13 @@ import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrM
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
  */
 public class Skill8090 extends SkillTemplate {
+
+    public static final long T_0 = 2000;
 
     public Skill8090() {
         super(8090);
@@ -35,8 +36,6 @@ public class Skill8090 extends SkillTemplate {
     public String getIntro() {
         return String.format("七杀剑第八魂技,2秒内对敌人(最多3个)造成%s次的伤害,每次造成攻击的2%%伤害", getAddP(getJid(), getId()));
     }
-
-    public static final long T_0 = 2000;
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
@@ -56,7 +55,7 @@ public class Skill8090 extends SkillTemplate {
             @Override
             public void run() {
                 super.run();
-                v = percentTo(2, getPersonInfo().att());
+                v = CommonSource.percentTo(2, getPersonInfo().att());
                 StringBuilder sb = new StringBuilder();
                 e = (T_0 / c);
                 try {

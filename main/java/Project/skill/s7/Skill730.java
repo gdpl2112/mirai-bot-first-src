@@ -10,10 +10,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameDetailServiceUtils.getHjFromAny;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping

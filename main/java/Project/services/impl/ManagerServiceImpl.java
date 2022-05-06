@@ -20,7 +20,6 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 import java.util.List;
 
 import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
-import static io.github.kloping.mirai0.Main.Resource.superQL;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 

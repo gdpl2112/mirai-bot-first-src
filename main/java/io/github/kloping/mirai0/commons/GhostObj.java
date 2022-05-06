@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 
 import static Project.dataBases.GameDataBase.getNameById;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.Lmax;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.randFloatByte1;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
@@ -61,6 +61,7 @@ public class GhostObj implements Serializable, BaseInfo {
     @Nullable
     private Long with = -1L;
     private long whoMeet = -1;
+    private Integer nc = 0;
 
     public GhostObj() {
     }
@@ -380,8 +381,6 @@ public class GhostObj implements Serializable, BaseInfo {
         return this;
     }
 
-    private Integer nc = 0;
-
     @Override
     public Integer getTips() {
         return nc;
@@ -391,5 +390,6 @@ public class GhostObj implements Serializable, BaseInfo {
         this.nc = nc;
     }
 
-    public void dispose() {}
+    public void dispose() {
+    }
 }

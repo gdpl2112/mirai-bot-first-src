@@ -30,6 +30,9 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
+    @AutoStand
+    PlayerBehavioralManager manager;
+
     private static boolean hasSamePart(List<SoulBone> list, Integer id) {
         for (SoulBone soulBone : list) {
             String s1 = soulBone.getOid().toString().substring(0, 3);
@@ -38,9 +41,6 @@ public class GameBoneServiceImpl implements IGameBoneService {
         }
         return false;
     }
-
-    @AutoStand
-    PlayerBehavioralManager manager;
 
     @Override
     public String getInfoAttributes(Long who) {

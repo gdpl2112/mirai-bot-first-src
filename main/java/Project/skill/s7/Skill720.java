@@ -5,11 +5,11 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
@@ -41,7 +41,7 @@ public class Skill720 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(who);
                 long v = pInfo.getHpL();
                 int p = info.getAddPercent();
-                long o = percentTo(p, v);
+                long o = CommonSource.percentTo(p, v);
                 addShield(who.longValue(), o);
             }
         };

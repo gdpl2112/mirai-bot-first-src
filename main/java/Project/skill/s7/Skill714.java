@@ -5,11 +5,13 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
@@ -44,7 +46,7 @@ public class Skill714 extends SkillTemplate {
                     return;
                 }
                 Long lon = getInfo(q).att();
-                long v = percentTo(info.getAddPercent(), lon);
+                long v = CommonSource.percentTo(info.getAddPercent(), lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 try {
                     if (nums.length != 0) {

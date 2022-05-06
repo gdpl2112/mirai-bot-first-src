@@ -5,6 +5,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -45,12 +46,12 @@ public class Skill723 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.att();
                 int b = info.getAddPercent();
-                v1 = percentTo(b, lon);
-                long v4 = percentTo(b / 2, pInfo.getHjL());
+                v1 = CommonSource.percentTo(b, lon);
+                long v4 = CommonSource.percentTo(b / 2, pInfo.getHjL());
                 pInfo.addHj(v4);
                 pInfo.addTag(TAG_XX, b / 5);
                 putPerson(pInfo);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() +getDuration(getJid()), who.longValue(), v1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
             }
         };
     }

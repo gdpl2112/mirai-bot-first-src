@@ -1,4 +1,3 @@
-
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
@@ -8,6 +7,7 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
@@ -16,7 +16,6 @@ import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrM
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -47,8 +46,8 @@ public class Skill8100 extends SkillTemplate {
                 int eve = 5000;
                 AsynchronousAttack thing = new AsynchronousAttack(n, who.longValue()
                         , nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
-                thing.v = percentTo(info.getAddPercent(), getPersonInfo().getAtt());
-                thing.minV = percentTo(3, getPersonInfo().getAtt());
+                thing.v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().getAtt());
+                thing.minV = CommonSource.percentTo(3, getPersonInfo().getAtt());
                 thing.start();
                 MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
                 setTips(nums[0].toString());
@@ -63,15 +62,14 @@ public class Skill8100 extends SkillTemplate {
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
         private ScheduledFuture<?> future;
+        private int i = 0;
+        private long v = 0;
+        private long minV = 0;
 
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);
             setType(AsynchronousThingType.ATTACK);
         }
-
-        private int i = 0;
-        private long v = 0;
-        private long minV = 0;
 
         @Override
         public void run() {
@@ -79,7 +77,7 @@ public class Skill8100 extends SkillTemplate {
                 future.cancel(true);
                 over();
             } else {
-                v = percentTo(80, v);
+                v = CommonSource.percentTo(80, v);
                 v = v <= minV ? minV : v;
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);

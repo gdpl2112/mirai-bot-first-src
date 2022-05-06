@@ -5,13 +5,13 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -46,7 +46,7 @@ public class Skill13 extends SkillTemplate {
                 PersonInfo p2 = getInfo(nums[0]);
                 PersonInfo p1 = getPersonInfo();
                 long m = p1.getHl();
-                long v = percentTo(info.getAddPercent(), m);
+                long v = CommonSource.percentTo(info.getAddPercent(), m);
                 p2.addHl(-v);
                 putPerson(p2);
                 setTips("令" + Tool.at(nums[0].longValue()) + "魂力减少");

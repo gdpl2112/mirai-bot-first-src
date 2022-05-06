@@ -5,6 +5,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -48,9 +49,9 @@ public class Skill729 extends SkillTemplate {
                 updateSkillInfo(i1);
                 id -= 200;
                 b += id;
-                long v = percentTo(b, lon);
+                long v = CommonSource.percentTo(b, lon);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
-                setTips(String.format("增加%s%%(%s)攻击", b, percentTo(b, getInfo(who).att())));
+                setTips(String.format("增加%s%%(%s)攻击", b, CommonSource.percentTo(b, getInfo(who).att())));
             }
         };
     }

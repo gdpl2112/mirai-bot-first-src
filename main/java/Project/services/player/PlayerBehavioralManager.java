@@ -13,9 +13,9 @@ import java.util.*;
 public class PlayerBehavioralManager {
     public static final String ATTACK_PRE = "attack_pre";
     public static final String ATTACK_AFTER = "attack_post";
-    private Map<Long, List<Growth>> growths = new HashMap<>();
     public static final long PRE_LEAST = 500;
     public static final long POST_LEAST = 1000;
+    private Map<Long, List<Growth>> growths = new HashMap<>();
 
     public long getAttPre(long q) {
         filter(q);

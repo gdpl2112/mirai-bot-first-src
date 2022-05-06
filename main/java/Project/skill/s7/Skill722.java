@@ -5,12 +5,14 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
@@ -45,10 +47,10 @@ public class Skill722 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.att();
                 int b = info.getAddPercent();
-                v1 = percentTo(b, lon);
-                long v2 = percentTo(b / 2, pInfo.getHpL());
-                long v3 = percentTo(b / 2, pInfo.getHll());
-                long v4 = percentTo(b / 2, pInfo.getHjL());
+                v1 = CommonSource.percentTo(b, lon);
+                long v2 = CommonSource.percentTo(b / 2, pInfo.getHpL());
+                long v3 = CommonSource.percentTo(b / 2, pInfo.getHll());
+                long v4 = CommonSource.percentTo(b / 2, pInfo.getHjL());
                 pInfo.addHp(v2);
                 pInfo.addHl(v3);
                 pInfo.addHj(v4);

@@ -5,14 +5,17 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.exist;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
+import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -47,7 +50,7 @@ public class Skill708 extends SkillTemplate {
                 int n = toPercent(info1.getHl(), info1.getHll());
                 int n2 = n / 2;
                 int a = info.getAddPercent() + n2;
-                long v = percentTo(a, info1.att());
+                long v = CommonSource.percentTo(a, info1.att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 setTips("剩余" + n + "% 的魂力,增加" + a + "%的攻击力");
             }

@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -42,12 +42,15 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class GameJoinDetailService {
     public static final List<Integer> IDXS = new CopyOnWriteArrayList<>();
     public static final Map<Long, GhostObj> GHOST_TEMP = new ConcurrentHashMap<>();
+    public static final int MAX_F = 3;
     @AutoStand
     IGameService gameService;
     @AutoStand
     JoinAcService join;
     @AutoStand
     ChallengeController challengeController;
+    @AutoStand
+    PlayerBehavioralManager manager;
 
     /**
      * 攻击一个魂兽
@@ -236,8 +239,6 @@ public class GameJoinDetailService {
         return Tool.RANDOM.nextInt(100) < 75;
     }
 
-    public static final int MAX_F = 3;
-
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
         long v = ghostObj.getXp();
         long mxv = getInfo(who).getXpL();
@@ -378,15 +379,12 @@ public class GameJoinDetailService {
         return "逃跑完成";
     }
 
-    @AutoStand
-    PlayerBehavioralManager manager;
-
     private String att(long who, GhostObj ghostObj) {
         if (getInfo(who).getJak1() > System.currentTimeMillis()) {
             return ATT_WAIT_TIPS;
         }
         try {
-            putPerson(getInfo(who).setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2));
+            getInfo(who).setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2).apply();
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
             String whos = "";
             if (isHelp) {

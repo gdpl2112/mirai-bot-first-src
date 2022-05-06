@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 public interface Empty {
     /**
      * path value
+     *
      * @param path
      * @return
      */

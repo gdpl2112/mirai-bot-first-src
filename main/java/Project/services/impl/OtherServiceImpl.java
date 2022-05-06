@@ -28,6 +28,8 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 public class OtherServiceImpl implements IOtherService {
 
     private static String BasicUrl = "http://api.qingyunke.com/api.php?key=free&appid=0&msg=";
+    @AutoStand
+    QingYunKe qingYunKe;
 
     private static String filter(String result) {
         result = result.replaceAll("\\{", "<");
@@ -70,9 +72,6 @@ public class OtherServiceImpl implements IOtherService {
         }
         return "猜拳异常";
     }
-
-    @AutoStand
-    QingYunKe qingYunKe;
 
     @Override
     public String talk(String str) {

@@ -1,4 +1,3 @@
-
 package Project.skill.normal;
 
 import Project.skill.SkillTemplate;

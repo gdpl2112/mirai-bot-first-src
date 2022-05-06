@@ -42,10 +42,10 @@ public class Tool {
     private static final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
     private static final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     private static final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
+    private static final String BASE64 = "base64,";
     private static String today = null;
     private static String toMon = null;
     private static String[] illegalSends = null;
-    private static final String BASE64 = "base64,";
 
     static {
         int i = 1;
@@ -1053,39 +1053,6 @@ public class Tool {
 
     public static <T> T getRandT(List<T> ts) {
         return ts.get(RANDOM.nextInt(ts.size()));
-    }
-
-    /**
-     * 计算百分比
-     *
-     * @param b b%
-     * @param v
-     * @return v 的 b%
-     */
-    public static Long percentTo(Integer b, Number v) {
-        if (v.longValue() < 100) {
-            float f = b / 100f;
-            return (long) (f * (v.intValue()));
-        }
-        double d = v.longValue();
-        d /= 100f;
-        d *= b;
-        long v1 = (long) d;
-        return v1;
-    }
-
-    /**
-     * @param v1
-     * @param v2
-     * @return v1/v2 => %
-     */
-    public static Integer toPercent(Number v1, Number v2) {
-        double dv1 = (double) v1.longValue();
-        double dv2 = (double) v2.longValue();
-        double dv3 = dv1 / dv2;
-        dv3 *= 100;
-        int v3 = (int) dv3;
-        return v3;
     }
 
     /**

@@ -169,7 +169,7 @@ public class GameSkillController {
                 str = str.replaceFirst("魂技", EMPTY_STR);
                 String s1 = Tool.findNumberZh(str);
                 Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-                str = str.replaceFirst(Tool.trans(st)  , EMPTY_STR);
+                str = str.replaceFirst(Tool.trans(st), EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
                 return "未知异常.";

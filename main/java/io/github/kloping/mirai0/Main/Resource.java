@@ -47,15 +47,8 @@ public class Resource {
     public static Bot bot;
 
     public static Set<Long> superQL = new HashSet<>();
-
-    public static boolean isSuperQ(long q) {
-        return superQL.contains(q);
-    }
-
     public static String datePath = "";
-
     public static Bots bots = FileInitializeValue.getValue("./conf/bots.conf.json", new Bots());
-
     public static BotConf qq = null;
     public static DataBase dataBase = null;
     public static GameDataBase gameDataBase = null;
@@ -88,6 +81,10 @@ public class Resource {
                 System.out.println("==================删除=>" + file.getName() + "========>");
             }
         });
+    }
+
+    public static boolean isSuperQ(long q) {
+        return superQL.contains(q);
     }
 
     public static void pluginLoad() {

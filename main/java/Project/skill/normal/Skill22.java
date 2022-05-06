@@ -5,12 +5,12 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.toPercent;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -47,7 +47,7 @@ public class Skill22 extends SkillTemplate {
                 if (b <= LOWEST) {
                     GameSkillDetailService.addHp(who, who.longValue(), ad);
                 } else {
-                    GameSkillDetailService.addShield(who.longValue(), percentTo(ad, getPersonInfo().getHp()));
+                    GameSkillDetailService.addShield(who.longValue(), CommonSource.percentTo(ad, getPersonInfo().getHp()));
                 }
             }
         };

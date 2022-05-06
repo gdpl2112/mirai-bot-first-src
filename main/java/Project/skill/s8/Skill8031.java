@@ -4,6 +4,7 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,7 +12,6 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.at;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -38,7 +38,7 @@ public class Skill8031 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "天使第八魂技") {
             @Override
             public void before() {
-                long v = percentTo(info.getAddPercent(), getPersonInfo().getHll());
+                long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().getHll());
                 getPersonInfo().addHl(v).apply();
                 if (nums.length <= 0) {
                     setTips(NOT_SELECT_STR);

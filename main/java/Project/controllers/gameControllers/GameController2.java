@@ -36,6 +36,10 @@ public class GameController2 {
     IGameService service;
     @AutoStand
     IGameObjService gameObjService;
+    @AutoStand
+    IGameService gameService;
+    @AutoStand
+    private GameBoneController gameBoneController;
 
     public GameController2() {
         println(this.getClass().getSimpleName() + "构建");
@@ -154,11 +158,6 @@ public class GameController2 {
             return "未找到相关物品";
         }
     }
-
-    @AutoStand
-    IGameService gameService;
-    @AutoStand
-    private GameBoneController gameBoneController;
 
     @Action(value = "背包", otherName = "我的背包")
     public String bgs(User qq, Group group) {

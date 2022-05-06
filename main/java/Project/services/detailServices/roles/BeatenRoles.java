@@ -21,6 +21,7 @@ import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
@@ -96,6 +97,14 @@ public class BeatenRoles {
         }
         return null;
     };
+    public static final Role TAG_LIGHT_F_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(TAG_LIGHT_F)) {
+            Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
+            long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
+            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
+        }
+        return null;
+    };
     public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
             sb.append(NEWLINE);
@@ -114,6 +123,63 @@ public class BeatenRoles {
         }
         return null;
     };
+    public static final Role TAG_XX = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (p1.containsTag(SkillDataBase.TAG_XX)) {
+                int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
+                long v1 = percentTo(p, ov);
+                if (v1 < 1) {
+                    v1 = 1;
+                }
+                p1.addHp(v1);
+                sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
+            }
+            return null;
+        }
+    };
+    public static final Role TAG_SHE_ROLE = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (q2.longValue() > 0) {
+                PersonInfo info1 = GameDataBase.getInfo(q2);
+                if (p1.containsTag(TAG_SHE) && info1.containsTag(TAG_SHIELD)) {
+                    int b = p1.getTagValue(TAG_SHE).intValue();
+                    long v2 = percentTo(b, ov);
+                    putPerson(GameDataBase.getInfo(q2.longValue()).addHp(-v2));
+                    sb.append(NEWLINE);
+                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                }
+            } else {
+                GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
+                if (p1.containsTag(TAG_SHE)) {
+                    if (ghostObj instanceof Ghost702) {
+                        Ghost702 ghost702 = (Ghost702) ghostObj;
+                        if (ghost702.getShield() >= 0) {
+                            int b = p1.getTagValue(TAG_SHE).intValue();
+                            long v2 = percentTo(b, ov);
+                            GameJoinDetailService.attGho(q1.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
+                            sb.append(NEWLINE);
+                            sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+    };
+    public static final Role TAG_LIGHT_ATT_RS = new Role() {
+        @Override
+        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
+            if (p1.containsTag(TAG_LIGHT_ATT)) {
+                Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
+                long v = percentTo(b, ov);
+                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
+            }
+            return null;
+        }
+    };
+
     private static final String CANT_HIDE_ARG_KEY = "cant hide";
     /**
      * 特殊闪避
@@ -137,6 +203,7 @@ public class BeatenRoles {
         return response;
     };
     private static final String TRUE_HIT_ARG_KEY = "true att";
+
     public static final Role TAG_SHIELD_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
             if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString()) == true) {
@@ -171,80 +238,10 @@ public class BeatenRoles {
         return response;
     };
 
-    public static final Role TAG_LIGHT_F_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(TAG_LIGHT_F)) {
-            Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
-            long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
-            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
-        }
-        return null;
-    };
-
     public static final Role[] RS = new Role[]{
             XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
             HG_HIDE, TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_LIGHT_F_ROLE
     };
-
-
-    public static final Role TAG_XX = new Role() {
-        @Override
-        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
-            if (p1.containsTag(SkillDataBase.TAG_XX)) {
-                int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
-                long v1 = percentTo(p, ov);
-                if (v1 < 1) {
-                    v1 = 1;
-                }
-                p1.addHp(v1);
-                sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
-            }
-            return null;
-        }
-    };
-
-    public static final Role TAG_SHE_ROLE = new Role() {
-        @Override
-        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
-            if (q2.longValue() > 0) {
-                PersonInfo info1 = GameDataBase.getInfo(q2);
-                if (p1.containsTag(TAG_SHE) && info1.containsTag(TAG_SHIELD)) {
-                    int b = p1.getTagValue(TAG_SHE).intValue();
-                    long v2 = percentTo(b, ov);
-                    putPerson(GameDataBase.getInfo(q2.longValue()).addHp(-v2));
-                    sb.append(NEWLINE);
-                    sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
-                }
-            } else {
-                GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
-                if (p1.containsTag(TAG_SHE)) {
-                    if (ghostObj instanceof Ghost702) {
-                        Ghost702 ghost702 = (Ghost702) ghostObj;
-                        if (ghost702.getShield() >= 0) {
-                            int b = p1.getTagValue(TAG_SHE).intValue();
-                            long v2 = percentTo(b, ov);
-                            GameJoinDetailService.attGho(q1.longValue(), v2, false, false, GhostLostBroadcast.KillType.SKILL_ATT);
-                            sb.append(NEWLINE);
-                            sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-    };
-
-    public static final Role TAG_LIGHT_ATT_RS = new Role() {
-        @Override
-        public RoleResponse call(StringBuilder sb, Number q1, Number q2, long ov, long nv, PersonInfo p1, Map<String, Object> args) {
-            if (p1.containsTag(TAG_LIGHT_ATT)) {
-                Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
-                long v = percentTo(b, ov);
-                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
-            }
-            return null;
-        }
-    };
-
     public static final Role[] ATT_RS = new Role[]{
             TAG_XX, TAG_SHE_ROLE, TAG_LIGHT_ATT_RS
     };

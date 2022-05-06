@@ -20,11 +20,20 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
  */
 @Entity
 public class BaiduBaiKe {
+    public static final String HAS_SELECT_CLASS_TAG = "list-dot";
+    public static final String MAIN_TAG = "main-content J-content";
+    public static final String BAIKE_TITLE_NAME_CLASS_TAG = "lemmaWgt-lemmaTitle lemmaWgt-lemmaTitle-";
+    public static final String BAIKE_CONTENT_NAME_CLASS_TAG = "lemma-summary";
+    public static final String BAIKE_TITLE_LEVE2_NAME_CLASS_TAG = "J-chapter";
+    public static final String BAIKE_TITLE_LEVE2_CLASS_TAG = "title-text";
+    public static final String IMG_TAG = "img";
+    public static final String IMG_STC_TAG = "src";
+    public static final int MAX_SIZE = 3420;
+    public static final int MAX_SIZE0 = 3020;
     @AutoStand
     BaiKeBaidu baiKeBaidu;
     @AutoStand
     Empty empty;
-    public static final String HAS_SELECT_CLASS_TAG = "list-dot";
 
     public Object getBaiKe(String name) {
         Document document = baiKeBaidu.doc(name);
@@ -37,17 +46,6 @@ public class BaiduBaiKe {
         }
         return build(document.getElementsByClass("J-content").get(0));
     }
-
-    public static final String MAIN_TAG = "main-content J-content";
-    public static final String BAIKE_TITLE_NAME_CLASS_TAG = "lemmaWgt-lemmaTitle lemmaWgt-lemmaTitle-";
-    public static final String BAIKE_CONTENT_NAME_CLASS_TAG = "lemma-summary";
-    public static final String BAIKE_TITLE_LEVE2_NAME_CLASS_TAG = "J-chapter";
-    public static final String BAIKE_TITLE_LEVE2_CLASS_TAG = "title-text";
-    public static final String IMG_TAG = "img";
-    public static final String IMG_STC_TAG = "src";
-    public static final int MAX_SIZE = 3420;
-    public static final int MAX_SIZE0 = 3020;
-
 
     private Object build(Element element) {
         List obs = new ArrayList();

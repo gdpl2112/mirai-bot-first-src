@@ -3,7 +3,6 @@ package Project.services.detailServices.ac.entity;
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
@@ -40,13 +39,13 @@ public class Ghost701 extends GhostWithGroup {
         Set<RunnableWithOver> runnable = StarterApplication.Setting.INSTANCE
                 .getContextManager().getContextEntity(Set.class, "m100");
         runnable.add(new RunnableWithOver() {
+            private int index = 0;
+
             @Override
             public boolean over() {
                 baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
                 return Ghost701.this.getHp() <= 0 || baseInfo.getHp() <= 0;
             }
-
-            private int index = 0;
 
             @Override
             public void run() {

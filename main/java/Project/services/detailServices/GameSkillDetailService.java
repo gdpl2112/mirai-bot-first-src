@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static Project.dataBases.skill.SkillDataBase.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github-kloping
@@ -30,6 +30,8 @@ import static Project.dataBases.skill.SkillDataBase.percentTo;
 @Entity
 public class GameSkillDetailService {
 
+    public static final Map<Integer, Long> JID2TIME = new HashMap<>();
+    public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
     private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
     private static List<TagPack> tagPacks = new LinkedList<>();
 
@@ -127,32 +129,6 @@ public class GameSkillDetailService {
         });
     }
 
-    /**
-     * 获取魂技基础加成
-     *
-     * @param id
-     * @return
-     */
-    public static Integer getBasePercent(Integer id) {
-        if (BASE_PERCENT_MAP.containsKey(id.intValue())) {
-            return BASE_PERCENT_MAP.get(id.intValue());
-        } else {
-            return -1;
-        }
-    }
-
-    /**
-     * @param jid 魂技ID
-     * @param id  魂环ID
-     * @return
-     */
-    public static Long getAddP(Integer jid, Integer id) {
-        return (long) (getBasePercent(jid) * GameTool.getAHBl_(id));
-    }
-
-
-    public static final Map<Integer, Long> JID2TIME = new HashMap<>();
-
     static {
         long twoMinutes = 120000;
         for (Integer integer : SkillFactory.skillListIds()) {
@@ -184,6 +160,29 @@ public class GameSkillDetailService {
         JID2TIME.remove(8041);
         JID2TIME.put(8050, 60000L);
         JID2TIME.remove(8051);
+    }
+
+    /**
+     * 获取魂技基础加成
+     *
+     * @param id
+     * @return
+     */
+    public static Integer getBasePercent(Integer id) {
+        if (BASE_PERCENT_MAP.containsKey(id.intValue())) {
+            return BASE_PERCENT_MAP.get(id.intValue());
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * @param jid 魂技ID
+     * @param id  魂环ID
+     * @return
+     */
+    public static Long getAddP(Integer jid, Integer id) {
+        return (long) (getBasePercent(jid) * GameTool.getAHBl_(id));
     }
 
     public static Long getDuration(int jid) {
@@ -423,18 +422,6 @@ public class GameSkillDetailService {
         }
     }
 
-    public static final class WhTypes {
-        public static final SkillIntro.Type[] T0 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T1 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T4 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T5 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
-        public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
-    }
-
-    public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
-
     /**
      * 异步 攻击
      *
@@ -476,5 +463,21 @@ public class GameSkillDetailService {
         AsynchronousHf hf = new AsynchronousHf(n, q1, -1L, value, eve, gid);
         hf.start();
         MapUtils.append(ASYNCHRONOUS_THING_MAP, q1, hf);
+    }
+
+    public static String getTagDesc(long q) {
+        StringBuilder sb = new StringBuilder();
+        PersonInfo pInfo = getInfo(q);
+        return sb.toString();
+    }
+
+    public static final class WhTypes {
+        public static final SkillIntro.Type[] T0 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T1 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T4 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.HasTime};
+        public static final SkillIntro.Type[] T5 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.HasTime};
+        public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
+        public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
+        public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
     }
 }

@@ -28,7 +28,7 @@ import static Project.services.detailServices.GameSkillDetailService.*;
 import static Project.skill.SkillFactory.factory8id;
 import static Project.skill.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.CANT_USE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;

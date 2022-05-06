@@ -10,22 +10,6 @@ import javax.script.ScriptException;
  */
 public class JsUtils {
 
-    public static String f(int t) {
-        if (ENGINE instanceof Invocable) {
-            Invocable in = (Invocable) ENGINE;
-            Object o = null;
-            try {
-                o = in.invokeFunction("getR", t);
-            } catch (ScriptException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-            return o.toString();
-        }
-        return null;
-    }
-
     private static final ScriptEngineManager MANAGER = new ScriptEngineManager();
     private static final ScriptEngine ENGINE = MANAGER.getEngineByName("javascript");
 
@@ -44,5 +28,21 @@ public class JsUtils {
         } catch (ScriptException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String f(int t) {
+        if (ENGINE instanceof Invocable) {
+            Invocable in = (Invocable) ENGINE;
+            Object o = null;
+            try {
+                o = in.invokeFunction("getR", t);
+            } catch (ScriptException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            return o.toString();
+        }
+        return null;
     }
 }

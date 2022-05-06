@@ -1,17 +1,16 @@
-
 package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.percentTo;
 
 /**
  * @author github.kloping
@@ -46,9 +45,9 @@ public class Skill8071 extends SkillTemplate {
                 try {
                     Thread.sleep(1500);
                     StringBuilder sb = new StringBuilder();
-                    long v = percentTo(info.getAddPercent(), getPersonInfo().att());
+                    long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att());
                     attGhostOrMan(sb, who, nums[0].longValue(), v);
-                    getPersonInfo().addHp(percentTo(15, v));
+                    getPersonInfo().addHp(CommonSource.percentTo(15, v));
                     setTips(sb.toString());
                 } catch (InterruptedException e) {
                     setTips(ATTACK_BREAK);

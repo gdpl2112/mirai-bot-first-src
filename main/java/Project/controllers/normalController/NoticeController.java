@@ -18,6 +18,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class NoticeController {
+    public static final int LOWST = 5;
     private static final String HJ_INTRO = "精神力有什么用:\r\n\t" +
             "   1.精神力高于80%时格挡10%的伤害,同时消耗精神力\r\n\t" +
             "   2.精神力低于45%时额外受到10%的伤害\r\n\t" +
@@ -26,14 +27,11 @@ public class NoticeController {
             "   4.可使用 精神攻击@某 随机发射 12~20%(可指定) 的最大精神力的值 对目标造成同等值的精神损失 最大造成 " + MAX_SA_LOSE_HJ_B + "%的精神力" +
             "若目标不足及承受发射的精神力 则将额外造成 剩余可作用的精神力的值的" + HJ_LOSE_1_X +
             "倍的伤害最大造成目标" + MAX_SA_LOSE_HP_B + "%的最大生命值,魂兽不受其最大生命值限制";
-
     private static final StringBuilder UPDATE_LOG = new StringBuilder();
-
     private static final String MORA_STR_2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
             "   9级不能吸收万年及以上\n\t" +
             "   49级不能吸收十万年及以上\n\t" +
             "   69级不能吸收百万年及以上\n\t";
-
     private static final String STRING = "每个人 今日首次 无状态时(血量为0)>清空经验,\n" +
             "再次 无状态时 下降一级,\n" +
             "之后都 清空经验\n" +
@@ -41,10 +39,7 @@ public class NoticeController {
             "每日最多下降一级\n" +
             "整10级(10,20...)时不会下降等级\n" +
             "请保证自己的血量健康";
-
     private static final String STRING2 = "在面对魂兽时仅能使用" + UseRestrictions.MAX_MEET_C + "次,增幅物品";
-
-    public static final int LOWST = 5;
     private static String[] UPDATE_LOGS;
 
     static {
