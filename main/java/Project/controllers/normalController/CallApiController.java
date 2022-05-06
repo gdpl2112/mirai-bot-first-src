@@ -259,16 +259,20 @@ public class CallApiController {
                 String n0 = Tool.findNumberFromString(ss[0]);
                 String n1 = Tool.findNumberFromString(ss[1]);
                 s0 = s0.replace(SPLIT_POINT, EMPTY_STR).replace(n0, EMPTY_STR).replace(n1, EMPTY_STR);
-                select0 = Integer.valueOf(n0) - 1;
-                select1 = Integer.valueOf(n1) - 1;
+                select0 = Integer.valueOf(n0);
+                select1 = Integer.valueOf(n1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             String n0 = Tool.findNumberFromString(mess);
-            if (n0 != null && !n0.isEmpty())
+            if (n0 != null && !n0.isEmpty()) {
                 select0 = Integer.parseInt(n0);
+            }
         }
+        s0 = s0.replace(select0.toString(), "").replace(select1.toString(), "");
+        select0--;
+        select1--;
         VideoAnimeSource[] sources = kloping.videoSearch(s0, "all");
         if (select0 < 0 && select1 < 0) {
             int i = 1;
