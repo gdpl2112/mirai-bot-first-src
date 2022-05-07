@@ -16,6 +16,7 @@ import java.util.*;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
+import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
@@ -129,6 +130,8 @@ public class GameSkillController {
                 else numbers.add(l1);
             }
             Number[] ats = numbers.toArray(new Number[0]);
+            if (getGhostObjFrom(qq.getId()) != null && ats.length == 0)
+                ats = new Number[]{-2};
             return String.valueOf(skillService.useSkill(qq.getId(), st, ats, str, group));
         } else {
             throw new NoRunException();

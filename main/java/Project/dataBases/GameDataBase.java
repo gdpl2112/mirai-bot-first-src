@@ -491,8 +491,7 @@ public class GameDataBase {
     public static PersonInfo getInfo(Long who) {
         if (challengeDetailService.isTemping(who.longValue())) {
             return challengeDetailService.getTempInfo(who.longValue());
-        }
-        if (HIST_INFOS.containsKey(who.longValue())) {
+        } else if (HIST_INFOS.containsKey(who.longValue()) && HIST_INFOS.get(who.longValue()) != null) {
             return HIST_INFOS.get(who.longValue());
         }
         testMan(who.longValue());
