@@ -597,7 +597,7 @@ public class GameDataBase {
      * @param personInfo
      */
     public static void regPerson(PersonInfo personInfo) {
-        if (personInfo.getId().intValue() < 0) return;
+        if (personInfo.getId().longValue() < 0) return;
         SpringBootResource.getPersonInfoMapper().insert(personInfo);
     }
 

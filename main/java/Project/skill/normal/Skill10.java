@@ -19,7 +19,6 @@ import static Project.services.detailServices.GameSkillDetailService.getAddP;
  */
 public class Skill10 extends SkillTemplate {
 
-
     public Skill10() {
         super(10);
     }
