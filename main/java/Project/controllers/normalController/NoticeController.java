@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.8 :见商城,每周最后的任务奖励升级").append("\n");
         UPDATE_LOG.append("5.5 :魂兽逃跑时间调整,第八魂技开发进度30%").append("\n");
         UPDATE_LOG.append("5.3 :修复魂兽反甲无伤害的问题,魂骨属性的增强,优化魂骨显示").append("\n");
         UPDATE_LOG.append("5.2 :见暗器菜单").append("\n");

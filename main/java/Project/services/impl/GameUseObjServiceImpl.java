@@ -6,6 +6,7 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.detailServices.shopItems.Item118;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -27,6 +28,7 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.dataBases.skill.SkillDataBase.updateSkillInfo;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
@@ -41,7 +43,6 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
  */
 @Entity
 public class GameUseObjServiceImpl implements IGameUseObjService {
-
     /**
      * 仅可出售
      */
@@ -64,7 +65,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         ONLY_SLE.put(1604, 720);
     }
 
-    private final UseTool use = new UseTool();
+    private final UseTool USE_TOOL = new UseTool();
     private final IGameService gameService = new GameServiceImpl();
 
     public static Integer getNumForO(String[] sss, String s1) {
@@ -94,9 +95,9 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
         if (id > 200 && id < 300) return "请使用 \"吸收\" 使用魂环";
         if (bgids.contains(id)) {
-            use.getClass().getMethod("before", long.class).invoke(use, who);
-            Method method = use.getClass().getMethod("use" + id, long.class);
-            String str = String.valueOf(method.invoke(use, who));
+            USE_TOOL.getClass().getMethod("before", long.class).invoke(USE_TOOL, who);
+            Method method = USE_TOOL.getClass().getMethod("use" + id, long.class);
+            String str = String.valueOf(method.invoke(USE_TOOL, who));
             putPerson(getInfo(who).setUk1(System.currentTimeMillis() + (long) (1000)));
             if (challengeDetailService.isTemping(who)) {
                 if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
@@ -545,6 +546,13 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 updateSkillInfo(value);
             }
             removeFromBgs(Long.valueOf(who), 117, 1, ObjType.use);
+            return "使用成功";
+        }
+
+        public String use118(long who) {
+            UseRestrictions.record(who, 118);
+            THREADS.submit(new Item118(who));
+            removeFromBgs(Long.valueOf(who), 118, 1, ObjType.use);
             return "使用成功";
         }
 

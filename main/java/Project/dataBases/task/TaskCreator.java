@@ -25,6 +25,7 @@ public class TaskCreator {
     public static final int MIN_PRENTICE_INDEX = 0;
     public static final int MAX_INDEX = 1003;
     public static final int MIN_INDEX = 1000;
+
     public static final Integer[] T_1000_OBJS = new Integer[]{
             201, 202, 203, 101, 102, 103, 104, 105, 106, 107, 109, 110, 112, 113, 114, 115, 116, 1000};
 

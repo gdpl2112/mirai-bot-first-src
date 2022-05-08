@@ -10,7 +10,7 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
-import static Project.dataBases.task.TaskCreator.getRandObj1000;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 周任务1
@@ -38,7 +38,7 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
         task.update();
         if (task.isFinish()) {
             deleteTask(task);
-            int id = getRandObj1000();
+            int id = getRandObj1002();
             MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
                     , task.getFromG().longValue(), task.getHost());
             addToBgs(who, id, ObjType.got);
@@ -46,5 +46,19 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
                 task.destroy();
             });
         }
+    }
+
+    public static final Integer[] T_1002_OBJS = new Integer[]{
+            115,
+            116,
+            117,
+            118,
+            1512,
+            1601,
+            1521,
+    };
+
+    private int getRandObj1002() {
+        return getRandT(T_1002_OBJS);
     }
 }

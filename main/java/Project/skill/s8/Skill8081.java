@@ -19,7 +19,7 @@ import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrM
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
  * @author github.kloping
@@ -49,7 +49,7 @@ public class Skill8081 extends SkillTemplate {
                 int n = 12;
                 int eve = 5000;
                 AsynchronousThing thing = new AsynchronousAttack(n, who.longValue(), nums[0].longValue(),
-                        info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
+                        info.getAddPercent(), eve, getRecentSpeechesGid(who.longValue()));
                 thing.start();
                 MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
                 setTips(nums[0].toString());

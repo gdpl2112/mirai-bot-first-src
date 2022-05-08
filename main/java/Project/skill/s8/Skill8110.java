@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledFuture;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
  * @author github.kloping
@@ -50,7 +50,7 @@ public class Skill8110 extends SkillTemplate {
                 int n = 4;
                 int eve = 1000;
                 AsynchronousAttack thing = new AsynchronousAttack(n, who.longValue()
-                        , nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeeches(who.longValue()));
+                        , nums[0].longValue(), info.getAddPercent(), eve, getRecentSpeechesGid(who.longValue()));
                 thing.v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().getAtt());
                 thing.v /= 8;
                 thing.start();

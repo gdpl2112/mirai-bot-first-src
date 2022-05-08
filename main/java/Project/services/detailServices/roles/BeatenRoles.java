@@ -20,7 +20,7 @@ import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
@@ -101,7 +101,7 @@ public class BeatenRoles {
         if (p1.containsTag(TAG_LIGHT_F)) {
             Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
             long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
-            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
+            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n");
         }
         return null;
     };
@@ -174,7 +174,7 @@ public class BeatenRoles {
             if (p1.containsTag(TAG_LIGHT_ATT)) {
                 Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
                 long v = percentTo(b, ov);
-                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeeches(q1.longValue()), "受到%s点雷电伤害\n");
+                GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n");
             }
             return null;
         }

@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,6 +77,24 @@ public class SkillDataBase {
      * 限制魂技
      */
     public static final String TAG_CANT_USE = "m";
+
+    public static final Map<String, String> TAG2NAME = new HashMap<>();
+
+    static {
+        TAG2NAME.put(TAG_XX, "吸血");
+        TAG2NAME.put(TAG_FJ, "反甲");
+        TAG2NAME.put(TAG_MS, "免死");
+        TAG2NAME.put(TAG_WD, "无敌");
+        TAG2NAME.put(TAG_CANT_HIDE, "无法躲避");
+        TAG2NAME.put(TAG_SHIELD, "护盾");
+        TAG2NAME.put(TAG_TRUE, "真身");
+        TAG2NAME.put(TAG_SHE, "护盾额外");
+        TAG2NAME.put(TAG_XUAN_YU_S, "下次免疫");
+        TAG2NAME.put(TAG_DAMAGE_REDUCTION, "免伤");
+        TAG2NAME.put(TAG_LIGHT_ATT, "雷电攻击");
+        TAG2NAME.put(TAG_LIGHT_F, "雷电反甲");
+        TAG2NAME.put(TAG_CANT_USE, "魂技限制");
+    }
 
     public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
 

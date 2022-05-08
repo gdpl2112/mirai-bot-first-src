@@ -62,7 +62,7 @@ public class MemberTools {
         return id + "";
     }
 
-    public static long getRecentSpeeches(long qid) {
+    public static long getRecentSpeechesGid(long qid) {
         return RECENT_SPEECHES.get(qid);
     }
 

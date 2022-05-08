@@ -9,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.addHFSchedule;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeeches;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
  * @author github.kloping
@@ -36,7 +36,7 @@ public class Skill8050 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝银皇第八魂技") {
             @Override
             public void before() {
-                addHFSchedule(60, who.longValue(), info.getAddPercent(), 1000L, getRecentSpeeches(who.longValue()));
+                addHFSchedule(60, who.longValue(), info.getAddPercent(), 1000L, getRecentSpeechesGid(who.longValue()));
             }
         };
     }

@@ -237,6 +237,10 @@ public class Drawer {
     }
 
     public static final String drawGInfo(GInfo p) {
+        return drawGInfoWith(p, "");
+    }
+
+    public static final String drawGInfoWith(GInfo p, String tips) {
         int width = 400;
         int height = 400;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
@@ -275,7 +279,10 @@ public class Drawer {
         //========
         y = y + eve;
         g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + SMALL_FONT18.getSize());
-
+        if (tips != null && !tips.isEmpty()) {
+            y = y + eve;
+            g.drawString(tips, x, y + SMALL_FONT18.getSize());
+        }
         //==================================
         g.setColor(BORDER_COLOR);
         g.setFont(BIG_FONT35);

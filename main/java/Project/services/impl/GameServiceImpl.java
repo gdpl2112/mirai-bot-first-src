@@ -772,7 +772,7 @@ public class GameServiceImpl implements IGameService {
     public String detailInfo(long q) {
         GInfo gInfo = GInfo.getInstance(q);
         String s0 = getTagDesc(q);
-        return pathToImg(drawGInfo(gInfo));
+        return pathToImg(drawGInfoWith(gInfo, s0));
     }
 
     @Override

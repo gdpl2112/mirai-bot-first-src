@@ -258,7 +258,7 @@ public class CallApiController {
                 String[] ss = s0.split(SPLIT_POINT);
                 String n0 = Tool.findNumberFromString(ss[0]);
                 String n1 = Tool.findNumberFromString(ss[1]);
-                s0 = s0.replace(SPLIT_POINT, EMPTY_STR).replace(n0, EMPTY_STR).replace(n1, EMPTY_STR);
+                s0 = s0.replaceFirst(SPLIT_POINT, EMPTY_STR).replaceFirst(n0, EMPTY_STR).replaceFirst(n1, EMPTY_STR);
                 select0 = Integer.valueOf(n0);
                 select1 = Integer.valueOf(n1);
             } catch (Exception e) {
@@ -290,9 +290,9 @@ public class CallApiController {
             VideoAnimeDetail detail = source.details[select1];
             try {
                 if (detail.isVip) {
-                    return S0 + detail.getPlayUrl();
+                    return detail.getName() + NEWLINE + S0 + detail.getPlayUrl();
                 } else {
-                    return S0 + detail.getPlayUrl() + NEWLINE + detail.playUrl;
+                    return detail.getName() + NEWLINE + S0 + detail.getPlayUrl() + NEWLINE + detail.playUrl;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

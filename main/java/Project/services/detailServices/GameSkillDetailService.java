@@ -2,6 +2,7 @@ package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.skill.SkillFactory;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
@@ -23,6 +24,7 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -470,6 +472,19 @@ public class GameSkillDetailService {
     public static String getTagDesc(long q) {
         StringBuilder sb = new StringBuilder();
         PersonInfo pInfo = getInfo(q);
+        final int[] l0 = {0};
+        SkillDataBase.TAG2NAME.forEach((k, v) -> {
+            Number v0 = pInfo.getTagValue(k);
+            if (v0 != null && v0.longValue() > 0) {
+                String s0 = v + v0.toString() + ",";
+                l0[0] = l0[0] + s0.length();
+                if (l0[0] >= 15) {
+                    sb.append(NEWLINE);
+                    l0[0] = 0;
+                }
+                sb.append(s0);
+            }
+        });
         return sb.toString();
     }
 
