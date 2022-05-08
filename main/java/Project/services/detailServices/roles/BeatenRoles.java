@@ -229,11 +229,13 @@ public class BeatenRoles {
     };
     public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-        if (getInfo(q2).containsTag(TAG_TRUE)) {
-            sb.append(NEWLINE).append("此次真实伤害");
-            response.addArg(TRUE_HIT_ARG_KEY, true);
-        } else {
-            response.addArg(TRUE_HIT_ARG_KEY, false);
+        if (q2.longValue() > 0) {
+            if (getInfo(q2).containsTag(TAG_TRUE)) {
+                sb.append(NEWLINE).append("此次真实伤害");
+                response.addArg(TRUE_HIT_ARG_KEY, true);
+            } else {
+                response.addArg(TRUE_HIT_ARG_KEY, false);
+            }
         }
         return response;
     };
