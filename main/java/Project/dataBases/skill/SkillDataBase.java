@@ -87,7 +87,7 @@ public class SkillDataBase {
         TAG2NAME.put(TAG_WD, "无敌");
         TAG2NAME.put(TAG_CANT_HIDE, "无法躲避");
         TAG2NAME.put(TAG_SHIELD, "护盾");
-        TAG2NAME.put(TAG_TRUE, "真身");
+        TAG2NAME.put(TAG_TRUE, "真伤");
         TAG2NAME.put(TAG_SHE, "护盾额外");
         TAG2NAME.put(TAG_XUAN_YU_S, "下次免疫");
         TAG2NAME.put(TAG_DAMAGE_REDUCTION, "免伤");
