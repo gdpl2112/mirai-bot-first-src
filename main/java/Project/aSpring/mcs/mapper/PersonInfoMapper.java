@@ -24,6 +24,16 @@ public interface PersonInfoMapper extends BaseMapper<PersonInfo> {
     List<PersonInfo> getOrderByLevel(@Param("num") Integer num);
 
     /**
+     * get排名
+     *
+     * @param num
+     * @return
+     */
+    @Select("SELECT * FROM person_info ORDER BY win_c DESC LIMIT #{num}")
+    List<PersonInfo> getOrderByStar(@Param("num") Integer num);
+
+
+    /**
      * 更新全部 0点
      *
      * @return

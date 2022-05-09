@@ -14,10 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
+import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_USED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 
 /**
@@ -65,17 +67,18 @@ public class GameWeaDetailService {
         if (!exitsO(id, who)) {
             return "你没有 " + name + "或已损坏";
         }
+        if (challengeDetailService.isTemping(who)) {
+            long at = getInfo(who).getAk1();
+            if (at > System.currentTimeMillis()) {
+                return String.format(ATT_WAIT_TIPS, getTimeTips(at));
+            } else {
+                getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who)).apply();
+            }
+        }
         try {
             Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
             used(who, id);
-            if (challengeDetailService.isTemping(who)) {
-                if (ChallengeDetailService.USED.containsKey(who) && ChallengeDetailService.USED.get(who)) {
-                    return CHALLENGE_USED;
-                } else {
-                    ChallengeDetailService.USED.put(who, true);
-                }
-            }
             return mes;
         } catch (Exception e) {
             e.printStackTrace();

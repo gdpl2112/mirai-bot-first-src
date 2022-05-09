@@ -4,6 +4,7 @@ import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skill.SkillFactory;
+import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.map.MapUtils;
@@ -130,6 +131,7 @@ public class GameSkillDetailService {
                 } else if (tagP.over()) {
                     tagP.loseEffect();
                     iterator.remove();
+                    StarterApplication.logger.info("remove => " + tagP);
                 }
             }
         });
@@ -422,7 +424,7 @@ public class GameSkillDetailService {
 
     public static long getCooling(Long qq, SkillInfo info) {
         if (challengeDetailService.isTemping(qq.longValue())) {
-            return System.currentTimeMillis() + info.getTimeL() / 60L;
+            return System.currentTimeMillis() + info.getTimeL() / 40L;
         } else {
             return System.currentTimeMillis() + info.getTimeL();
         }

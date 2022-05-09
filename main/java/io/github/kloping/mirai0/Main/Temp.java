@@ -104,11 +104,24 @@ public class Temp extends SimpleListenerHost {
         return "ok";
     }
 
+    private String delete(String s) {
+        try {
+            c1.getList().remove(Integer.parseInt(s));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        start();
+        return list();
+    }
+
     private String add(String t, String qid, String content) {
         String[] ss = t.split(":");
         Integer t0 = Integer.valueOf(ss[0]);
         Integer t1 = Integer.valueOf(ss[1]);
-        C0 c0 = new C0().setContent(content).setTargetId(Long.parseLong(qid)).setHour(t0).setMinutes(t1);
+        String type = qid.substring(0, 1);
+        C0 c0 = new C0().setContent(content).setTargetId(Long.parseLong(qid.substring(1)))
+                .setType(type).setHour(t0).setMinutes(t1);
         c1.getList().add(c0);
         start();
         return save();
@@ -144,7 +157,16 @@ public class Temp extends SimpleListenerHost {
                 C0 c0 = c1.nearestC0();
                 long t = c0.st();
                 Thread.sleep(t);
-                bot.getFriend(c0.getTargetId()).sendMessage(c0.getContent());
+                switch (c0.getType()) {
+                    case "g":
+                        bot.getGroup(c0.getTargetId()).sendMessage(c0.getContent());
+                        break;
+                    case "u":
+                        bot.getFriend(c0.getTargetId()).sendMessage(c0.getContent());
+                        break;
+                    default:
+                        break;
+                }
                 THREADS.execute(this::start);
             } catch (InterruptedException e) {
                 e.printStackTrace();

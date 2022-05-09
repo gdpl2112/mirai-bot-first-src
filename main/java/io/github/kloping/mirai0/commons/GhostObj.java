@@ -272,7 +272,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public void setHp(long hp) {
-        this.hp = hp;
+        this.hp = hp < 0 ? 0 : hp;
     }
 
     public void setHp(Long hp) {

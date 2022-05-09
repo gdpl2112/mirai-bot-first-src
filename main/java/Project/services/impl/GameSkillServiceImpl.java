@@ -122,8 +122,7 @@ public class GameSkillServiceImpl implements ISkillService {
         if (!infos.containsKey(st)) return DONT_HAVE_SKILL;
         SkillInfo info = infos.get(st);
         if (info.getState() < 0) return THIS_SKILL_CANT_USE;
-        if (System.currentTimeMillis() < info.getTime())
-            return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
+        if (System.currentTimeMillis() < info.getTime()) return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
         if (personInfo.isVertigo()) return VERTIGO_ING;
         if (personInfo.containsTag(TAG_CANT_USE)) return CANT_USE_ING;

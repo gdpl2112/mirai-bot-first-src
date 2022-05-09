@@ -438,7 +438,6 @@ public class GameServiceImpl implements IGameService {
                     send(ATTACK_BREAK);
                 }
             }
-
             private void send(String line) {
                 MessageTools.sendMessageInGroup(at(who) + "\r\n" + line, group.getId());
             }

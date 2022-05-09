@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.commons.gameEntitys.WinStar;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -25,11 +26,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static Project.dataBases.SourceDataBase.getImageById;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
+import static io.github.kloping.mirai0.commons.gameEntitys.WinStar.LEVEL4;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
@@ -137,17 +140,17 @@ public class Drawer {
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, width, 50);
+        g.fillRect(x, y, width - x, 50);
         g.setColor(hlColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHl(), p.getHll()) / 100.0 * width), 50);
+        g.fillRect(x, y, (int) (toPercent(p.getHl(), p.getHll()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
         g.drawString(filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT18.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, width, 50);
+        g.fillRect(x, y, width - x, 50);
         g.setColor(hjColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width), 50);
+        g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
         g.drawString(filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT18.getSize());
         //==================================
@@ -168,12 +171,32 @@ public class Drawer {
         g.setColor(levelColor);
         g.setFont(BIG_FONT35);
         g.drawString("等级:" + p.getLevel() + "=>" + GameTool.getFH(p.getLevel().intValue()), x, y);
+        drawStar(g, new WinStar(p.getWinC()));
         //==================================
         g.setColor(BORDER_COLOR);
         g.setFont(BIG_FONT35);
         g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
         g.dispose();
         return saveTempImage(image).getPath();
+    }
+
+    private static void drawStar(Graphics g, WinStar winStar) {
+        int x = 350;
+        AtomicInteger y = new AtomicInteger(350);
+        winStar.flushMap();
+        winStar.getStarMap().forEach((k, v) -> {
+            String s0 = "";
+            if (k == LEVEL4) {
+                s0 = "☆x" + v;
+            } else {
+                for (Integer integer = 0; integer < v; integer++) {
+                    s0 += "☆";
+                }
+            }
+            g.setColor(k);
+            g.drawString(s0, x, y.get());
+            y.addAndGet(40);
+        });
     }
 
     public static final String drawWarp(Warp p) {

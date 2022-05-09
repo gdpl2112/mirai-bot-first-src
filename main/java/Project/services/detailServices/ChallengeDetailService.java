@@ -14,7 +14,6 @@ import java.util.Map;
 public class ChallengeDetailService {
     public static final Map<Long, Long> A2R = new HashMap<>();
     public static final Map<Long, PersonInfo> TEMP_PERSON_INFOS = new HashMap<>();
-    public static final Map<Long, Boolean> USED = new HashMap<>();
     public static final Map<Long, Receiver> RECEIVER_MAP = new HashMap<>();
     public static final Map<Long, Long> WILL_GO = new HashMap<>();
 

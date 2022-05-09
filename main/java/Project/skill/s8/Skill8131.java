@@ -41,9 +41,6 @@ public class Skill8131 extends SkillTemplate {
             @Override
             public void run() {
                 super.run();
-                if (nums.length == 0) return;
-                long qid = nums[0].longValue();
-                StringBuilder sb = new StringBuilder();
                 addTagPack(new NormalTagPack(TAG_DAMAGE_REDUCTION, getDuration(getJid())).setQ(who.longValue())
                         .setValue(Long.valueOf(info.getAddPercent())).setEffected(false));
             }

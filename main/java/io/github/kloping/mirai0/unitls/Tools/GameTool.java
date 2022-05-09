@@ -316,116 +316,11 @@ public class GameTool {
         return false;
     }
 
-    /*
-        public static final File INDEX_FILE = new File(GameDataBase.path + "/dates/indexsUserLevel");
-
-        public static void loadPh() {
-            if (INDEX_FILE.exists() && !FileUtils.getStringFromFile(INDEX_FILE.getAbsolutePath()).isEmpty()) {
-                loadPhIndexs();
-            } else {
-                for (File f1 : new File(GameDataBase.path + "/dates/users/").listFiles()) {
-                    try {
-                        final Long id = Long.parseLong(f1.getName());
-                        if (id == -1L) {
-                            f1.delete();
-                            continue;
-                        }
-                        int l = GameDataBase.getInfoFromFile(id).getLevel();
-                        if (l < 10) {
-                            continue;
-                        } else {
-                            PHMAP.put(id.toString(), l);
-                            THREADS.execute(() -> {
-                                removeAllTag(id);
-                            });
-                            System.out.println("loaded-->" + f1);
-                        }
-                    } catch (Exception e) {
-                        System.err.println(f1.getPath());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            System.out.println("load---end");
-            PH.clear();
-            PH.addAll(PHMAP.entrySet());
-            PHMAP.clear();
-            Collections.sort(PH, new Comparator<Map.Entry<String, Integer>>() {
-                @Override
-                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    return o2.getValue() - o1.getValue();
-                }
-            });
-            flushIndexs();
-        }
-
-        public static void loadPhIndexs() {
-            String[] strings = getStringsFromFile(INDEX_FILE.getAbsolutePath());
-            for (String s2 : strings) {
-                try {
-                    String[] ss = s2.split(":");
-                    Long who = Long.parseLong(ss[0]);
-                    int level = Integer.valueOf(ss[1]);
-                    PHMAP.put(who.toString(), level);
-                    THREADS.execute(() -> {
-                        removeAllTag(who);
-                    });
-                } catch (Exception e) {
-                    System.err.println(s2);
-                    e.printStackTrace();
-                    continue;
-                }
-            }
-        }
-
-        public static synchronized List<Map.Entry<String, Integer>> phGet(int num) {
-            if (PH.size() == 0) loadPh();
-            if (num >= PH.size())
-                return PH;
-            List<Map.Entry<String, Integer>> ph1 = new LinkedList<>();
-            for (Map.Entry e : PH) {
-                if (ph1.size() == num)
-                    break;
-                else {
-                    ph1.add(e);
-                }
-            }
-            return ph1;
-        }
-
-        public static final List<Map.Entry<String, Integer>> PH = new LinkedList<>();
-        public static final Map<String, Integer> PHMAP = new ConcurrentHashMap<>();
-        public static int num = 199;
-
-        private static void flushIndexs() {
-            try {
-                PrintWriter pw = new PrintWriter(INDEX_FILE);
-                for (Map.Entry<String, Integer> entry : PH) {
-                    pw.println(entry.getKey() + ":" + entry.getValue());
-                }
-                pw.flush();
-                pw.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        static {
-            loadPh();
-            ZERO_RUNS.add(() -> {
-                INDEX_FILE.delete();
-                loadPh();
-            });
-        }*/
     public static List<Map.Entry<String, Integer>> phGet(int num) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>();
         for (PersonInfo personInfo : SpringBootResource.getPersonInfoMapper().getOrderByLevel(num)) {
             list.add(getEntry(personInfo.getName(), personInfo.getLevel()));
         }
         return list;
-    }
-
-    public static void removeAllTag(Number number) {
-        GameDataBase.getInfo(number).setTag("").apply();
     }
 }

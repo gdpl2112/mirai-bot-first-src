@@ -2,6 +2,7 @@ package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.ISkillService;
+import Project.services.detailServices.ChallengeDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -13,16 +14,21 @@ import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberZh;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
 
 /**
  * @author github-kloping
@@ -41,8 +47,7 @@ public class GameSkillController {
                 .append("\t1.缩减指定人自身%s秒的攻击后摇,后摇最小1s\n")
                 .append("\t2.使指定人的后摇,减少%s%%秒冷却")
                 .append("\t3.缩减指定人自身%s秒的攻击前摇,前摇最小0.5s\n")
-                .append("\t4.减少指定人对应该魂技的位置的魂技%s秒的冷却")
-        ;
+                .append("\t4.减少指定人对应该魂技的位置的魂技%s秒的冷却");
         m1 = sb.toString();
 
     }
@@ -97,37 +102,52 @@ public class GameSkillController {
     }
 
     @Action("激活魂技<.+=>st>")
-    public String initSkill(User member, Group group, @Param("st") String st) {
+    public String initSkill(User qq, Group group, @Param("st") String st) {
+        if (challengeDetailService.isTemping(qq.getId())) {
+            return CHALLENGE_ING;
+        }
         Integer i;
         try {
             i = Integer.parseInt(st);
         } catch (Exception e) {
             try {
-                i = Tool.chineseNumber2Int(Tool.findNumberZh(st));
+                i = Tool.chineseNumber2Int(findNumberZh(st));
             } catch (Exception ex) {
                 return ("错误!\r\n示例:激活魂技1");
             }
         }
-        return skillService.initSkill(member.getId(), group, i);
+        return skillService.initSkill(qq.getId(), group, i);
     }
 
     @Action(value = "第<.+=>str>", otherName = {"释放第<.+=>str>"})
     public String use(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
-            String s1 = Tool.findNumberZh(str);
+            String s1 = findNumberZh(str);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(Tool.trans(st), EMPTY_STR);
+            str = str.replaceFirst(trans(st), EMPTY_STR);
             Set<Number> numbers = new HashSet<>();
             while (true) {
                 if (str.contains("#")) {
                     str = str.replaceAll("#", EMPTY_STR);
                     numbers.add(-2);
                 }
-                Long l1 = MessageTools.getAtFromString(str);
+                Long l1 = getAtFromString(str);
                 str = str.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "]", EMPTY_STR);
-                if (l1 == -1) break;
-                else numbers.add(l1);
+                if (l1 <= 0) {
+                    break;
+                } else {
+                    //过滤挑战
+                    if (challengeDetailService.isTemping(l1)) {
+                        if (challengeDetailService.isTemping(qq.getId())) {
+                            if (ChallengeDetailService.A2R.get(qq.getId()) == l1.longValue()) {
+                                numbers.add(l1);
+                            }
+                        }
+                    } else {
+                        numbers.add(l1);
+                    }
+                }
             }
             Number[] ats = numbers.toArray(new Number[0]);
             if (getGhostObjFrom(qq.getId()) != null && ats.length == 0)
@@ -142,10 +162,10 @@ public class GameSkillController {
     public String setName(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replaceFirst("魂技", EMPTY_STR).replaceFirst("第", EMPTY_STR);
-            String s1 = Tool.findNumberZh(str);
+            String s1 = findNumberZh(str);
             s1 = s1.substring(0, 1);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(Tool.trans(st) + EMPTY_STR, EMPTY_STR);
+            str = str.replaceFirst(trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.setName(qq.getId(), st, str));
         } else {
             return "格式错误";
@@ -156,9 +176,9 @@ public class GameSkillController {
     public String getIntro(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
-            String s1 = Tool.findNumberZh(str);
+            String s1 = findNumberZh(str);
             Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replace(Tool.trans(st) + EMPTY_STR, EMPTY_STR);
+            str = str.replace(trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.getIntro(qq.getId(), st, str));
         } else {
             throw new NoRunException();
@@ -170,9 +190,9 @@ public class GameSkillController {
         if (str.contains("魂技")) {
             try {
                 str = str.replaceFirst("魂技", EMPTY_STR);
-                String s1 = Tool.findNumberZh(str);
+                String s1 = findNumberZh(str);
                 Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-                str = str.replaceFirst(Tool.trans(st), EMPTY_STR);
+                str = str.replaceFirst(trans(st), EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
                 return "未知异常.";

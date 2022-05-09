@@ -21,6 +21,7 @@ public class C0 {
     private int minutes;
     private String content;
     private long targetId;
+    private String type;
 
     public long st() {
         return getTimeFromNowTo(getHour(), getMinutes(), 0);

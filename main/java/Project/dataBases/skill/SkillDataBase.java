@@ -191,6 +191,7 @@ public class SkillDataBase {
         try {
             return SkillFactory.factory(info.getJid()).create(info, qq, numbers);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

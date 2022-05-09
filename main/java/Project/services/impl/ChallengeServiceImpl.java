@@ -78,15 +78,13 @@ public class ChallengeServiceImpl implements IChallengeService {
         A2R.put(q2, q1);
         WILL_GO.put(q1, WILL_GO.get(q2));
         summonTempInfo(q1, q2);
-        USED.remove(q1);
-        USED.remove(q2);
         Receiver receiver = null;
         PlayerLostBroadcast.INSTANCE.add(receiver = new PlayerLostBroadcast.OncePlayerLostReceiver() {
             @Override
             public boolean onReceive(long who, long from) {
                 if (who == q1 || who == q2) {
-                    deleteTempInfo(q1, q2);
                     MessageTools.sendMessageInGroup("挑战结束\n<At:" + who + "> 胜利 加一星\n<At:" + A2R.get(who) + "> 失败", WILL_GO.get(who));
+                    deleteTempInfo(q1, q2);
                     return true;
                 }
                 return false;
@@ -135,9 +133,10 @@ public class ChallengeServiceImpl implements IChallengeService {
                 .setName(p1.getName())
                 .setWhType(p1.getWhType())
                 .setWh(p1.getWh()).setXpL(p1.getXpL()).setXp(0L)
-                .setHelpC(99).setHelpToc(99).setGold(0L).setSname(p1.Sname)
+                .setHelpC(99).setHelpToc(99).setGold(0L)
                 .setK1(Long.MAX_VALUE).setK2(Long.MAX_VALUE).setGk1(Long.MAX_VALUE)
-                .setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(Long.MAX_VALUE)
-                .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis());
+                .setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(System.currentTimeMillis())
+                .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis())
+                ;
     }
 }
