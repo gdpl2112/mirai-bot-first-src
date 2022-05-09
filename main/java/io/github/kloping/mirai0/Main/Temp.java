@@ -20,9 +20,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.setterStarterApplication;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
@@ -54,6 +55,7 @@ public class Temp extends SimpleListenerHost {
         bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         bot.login();
         bot.getEventChannel().registerListenerHost(contextManager.getContextEntity(Temp.class));
+        contextManager.getContextEntity(Temp.class).load();
         contextManager.getContextEntity(Temp.class).start();
     }
 
@@ -91,8 +93,9 @@ public class Temp extends SimpleListenerHost {
 
     private String list() {
         StringBuilder sb = new StringBuilder();
+        int i = 0;
         for (C0 c0 : c1.getList()) {
-            sb.append(c0.getHour()).append(":").append(c0.getMinutes()).
+            sb.append(i++).append(".").append(c0.getHour()).append(":").append(c0.getMinutes()).
                     append("给").append(c0.getTargetId()).append("发送\"").append(c0.getContent()).append("\"").append(NEWLINE);
         }
         if (sb.length() == 0) return "无";
@@ -145,13 +148,17 @@ public class Temp extends SimpleListenerHost {
         return null;
     }
 
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(5);
+
     private Future future;
 
     public String start() {
-        if (c1.getList().isEmpty()) return "empty";
         if (future != null) {
-            future.cancel(true);
+            if (!future.isDone() || !future.isCancelled()) {
+                future.cancel(true);
+            }
         }
+        if (c1.getList().isEmpty()) return "empty";
         future = THREADS.submit(() -> {
             try {
                 C0 c0 = c1.nearestC0();
@@ -167,8 +174,8 @@ public class Temp extends SimpleListenerHost {
                     default:
                         break;
                 }
-                THREADS.execute(this::start);
-            } catch (InterruptedException e) {
+                THREADS.submit(() -> start());
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         });

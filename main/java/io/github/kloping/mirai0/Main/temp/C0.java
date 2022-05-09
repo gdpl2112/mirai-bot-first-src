@@ -24,6 +24,7 @@ public class C0 {
     private String type;
 
     public long st() {
-        return getTimeFromNowTo(getHour(), getMinutes(), 0);
+        long t0 = getTimeFromNowTo(getHour(), getMinutes(), 0);
+        return t0 <= 0 ? t0 + 1000 * 60 * 60 * 24 : t0;
     }
 }

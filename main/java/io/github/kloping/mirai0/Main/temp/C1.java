@@ -28,7 +28,7 @@ public class C1 {
                 c0 = c1;
                 st0 = c1.st();
                 continue;
-            } else if (c1.st() < st0) {
+            } else if (c1.st() > 0 && c1.st() < st0){
                 c0 = c1;
             }
         }
