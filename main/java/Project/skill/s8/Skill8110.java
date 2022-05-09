@@ -66,8 +66,8 @@ public class Skill8110 extends SkillTemplate {
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
         private ScheduledFuture<?> future;
-        private int i = 0;
-        private long v = 0;
+        public int i = 0;
+        public long v = 0;
 
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);

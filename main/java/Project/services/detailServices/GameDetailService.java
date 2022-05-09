@@ -160,8 +160,10 @@ public class GameDetailService {
      * @return
      */
     public static String onAtt(Number qq, Number qq2, Long v) {
-        if (getInfo(qq2).isBg()) {
-            return PLAYER_BG_TIPS;
+        if (qq2.longValue() > 0) {
+            if (getInfo(qq2).isBg()) {
+                return PLAYER_BG_TIPS;
+            }
         }
         PersonInfo info = GameDataBase.getInfo(qq);
         StringBuilder sb = new StringBuilder();
