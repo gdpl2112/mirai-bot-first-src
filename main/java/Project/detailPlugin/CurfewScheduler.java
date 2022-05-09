@@ -60,7 +60,7 @@ public class CurfewScheduler extends TimerTask implements Runnable {
     @Override
     public void run() {
         CURFEW_MAP.forEach((k, v) -> {
-            String dateStr = Curfew.FORMAT.format(new Date());
+            String dateStr = Curfew.FORMAT_HH_MM.format(new Date());
             for (String from : v.getFroms()) {
                 if (from != null && from.equals(dateStr)) {
                     try {

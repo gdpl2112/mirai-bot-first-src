@@ -50,8 +50,8 @@ public class SuperController {
     public static String[] getTime(String mess) {
         String[] ss = mess.split("-");
         try {
-            Curfew.FORMAT.parse(ss[0]);
-            Curfew.FORMAT.parse(ss[1]);
+            Curfew.FORMAT_HH_MM.parse(ss[0]);
+            Curfew.FORMAT_HH_MM.parse(ss[1]);
             return ss;
         } catch (ParseException e) {
             e.printStackTrace();
