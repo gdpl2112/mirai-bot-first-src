@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class C1 {
 
-    private List<C0> list = new LinkedList<>();
+    public List<C0> list = new LinkedList<>();
 
     public List<C0> getList() {
         return list;
@@ -28,28 +28,39 @@ public class C1 {
                 c0 = c1;
                 st0 = c1.st();
                 continue;
-            } else if (c1.st() > 0 && c1.st() < st0){
+            } else if (c1.st() > 0 && c1.st() < st0) {
                 c0 = c1;
             }
         }
         return c0;
     }
 
-    private static final SimpleDateFormat F0 = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+    public static final SimpleDateFormat F0 = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
-    private static int getYear() {
+    public static int getYear() {
         String s = F0.format(new Date());
         return Integer.parseInt(s.substring(0, 4));
     }
 
-    private static int getMon() {
+    public static int getMon() {
         String s = F0.format(new Date());
         return Integer.parseInt(s.substring(5, 7));
     }
 
-    static int getDay() {
+    public static int getDay() {
         String s = F0.format(new Date());
         return Integer.parseInt(s.substring(8, 10));
+    }
+
+    public static int getHour() {
+        String s = F0.format(new Date());
+        return Integer.parseInt(s.substring(11, 13));
+    }
+
+
+    public static int getMinutes() {
+        String s = F0.format(new Date());
+        return Integer.parseInt(s.substring(14, 16));
     }
 
     public static long getTimeFromNowTo(int hour, int mini, int mil) {

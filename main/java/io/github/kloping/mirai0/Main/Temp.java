@@ -4,6 +4,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
+import io.github.kloping.date.FrameUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.temp.C0;
 import io.github.kloping.mirai0.Main.temp.C1;
@@ -22,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import static io.github.kloping.mirai0.Main.Resource.setterStarterApplication;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
@@ -56,7 +57,6 @@ public class Temp extends SimpleListenerHost {
         bot.login();
         bot.getEventChannel().registerListenerHost(contextManager.getContextEntity(Temp.class));
         contextManager.getContextEntity(Temp.class).load();
-        contextManager.getContextEntity(Temp.class).start();
     }
 
     @EventHandler
@@ -73,7 +73,7 @@ public class Temp extends SimpleListenerHost {
         }
     }
 
-    public C1 c1 = new C1();
+    public static C1 c1 = new C1();
 
     private String comm(String trim) {
         if (trim.startsWith("/")) {
@@ -114,7 +114,6 @@ public class Temp extends SimpleListenerHost {
             e.printStackTrace();
             return e.getMessage();
         }
-        start();
         return list();
     }
 
@@ -126,7 +125,6 @@ public class Temp extends SimpleListenerHost {
         C0 c0 = new C0().setContent(content).setTargetId(Long.parseLong(qid.substring(1)))
                 .setType(type).setHour(t0).setMinutes(t1);
         c1.getList().add(c0);
-        start();
         return save();
     }
 
@@ -148,37 +146,31 @@ public class Temp extends SimpleListenerHost {
         return null;
     }
 
-    public static final ExecutorService THREADS = Executors.newFixedThreadPool(5);
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(2);
 
-    private Future future;
+    public static final int EVE = 60000;
 
-    public String start() {
-        if (future != null) {
-            if (!future.isDone() || !future.isCancelled()) {
-                future.cancel(true);
+    static {
+        new Thread() {
+            @Override
+            public void run() {
+                FrameUtils.SERVICE.scheduleAtFixedRate(() -> {
+                    for (C0 c0 : c1.getList()) {
+                        if (c0.getHour() == C1.getHour() && c0.getMinutes() == C1.getMinutes()) {
+                            switch (c0.getType()) {
+                                case "g":
+                                    bot.getGroup(c0.getTargetId()).sendMessage(c0.getContent());
+                                    break;
+                                case "u":
+                                    bot.getFriend(c0.getTargetId()).sendMessage(c0.getContent());
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }, EVE, EVE, TimeUnit.MILLISECONDS);
             }
-        }
-        if (c1.getList().isEmpty()) return "empty";
-        future = THREADS.submit(() -> {
-            try {
-                C0 c0 = c1.nearestC0();
-                long t = c0.st();
-                Thread.sleep(t);
-                switch (c0.getType()) {
-                    case "g":
-                        bot.getGroup(c0.getTargetId()).sendMessage(c0.getContent());
-                        break;
-                    case "u":
-                        bot.getFriend(c0.getTargetId()).sendMessage(c0.getContent());
-                        break;
-                    default:
-                        break;
-                }
-                THREADS.submit(() -> start());
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        });
-        return "running";
+        }.start();
     }
 }

@@ -268,11 +268,12 @@ public class GhostObj implements Serializable, BaseInfo {
 
     @Override
     public Long getHp() {
+        this.hp = hp <= 0 ? 0 : hp;
         return hp;
     }
 
     public void setHp(long hp) {
-        this.hp = hp < 0 ? 0 : hp;
+        this.hp = hp <= 0 ? 0 : hp;
     }
 
     public void setHp(Long hp) {
@@ -342,11 +343,11 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public synchronized long updateHp(long l, BaseInfo who) {
-        setHp(getHp() + l);
         int bv = toPercent(-l, maxHp);
         bv = bv > 100 ? 100 : bv < 1 ? 1 : bv;
         long v = percentTo(bv, hj);
         hj -= v;
+        setHp(getHp() + l);
         return getHp();
     }
 

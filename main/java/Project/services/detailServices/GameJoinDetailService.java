@@ -412,7 +412,6 @@ public class GameJoinDetailService {
             sb.append(NEWLINE);
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
                     .append(GameDetailService.beaten(who, -2, at2));
-            ghostObj.setHp(ghostObj.getHp() < 0 ? 0 : ghostObj.getHp());
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {
