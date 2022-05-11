@@ -95,7 +95,7 @@ public class Temp extends SimpleListenerHost {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         for (C0 c0 : c1.getList()) {
-            sb.append(i++).append(".").append(c0.getHour()).append(":").append(c0.getMinutes()).
+            sb.append(i++).append(":\n\t").append(c0.getHour()).append(":").append(c0.getMinutes()).
                     append("给").append(c0.getTargetId()).append("发送\"").append(c0.getContent()).append("\"").append(NEWLINE);
         }
         if (sb.length() == 0) return "无";
