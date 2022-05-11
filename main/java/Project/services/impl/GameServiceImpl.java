@@ -438,6 +438,7 @@ public class GameServiceImpl implements IGameService {
                     send(ATTACK_BREAK);
                 }
             }
+
             private void send(String line) {
                 MessageTools.sendMessageInGroup(at(who) + "\r\n" + line, group.getId());
             }
@@ -831,6 +832,16 @@ public class GameServiceImpl implements IGameService {
         return pathToImg(drawWarp(warp1));
     }
 
+    public String chuTuNow(long q) {
+        Warp warp1 = getWarp(q);
+        Warp warp2 = getWarp(warp1.getPrentice());
+        warp1.setPrentice(-1L);
+        warp2.setMaster(-1L);
+        setWarp(warp1);
+        setWarp(warp2);
+        return pathToImg(drawWarp(warp1));
+    }
+
     @Override
     public String upHh(long q, int st) {
         Integer[] ints = getHhs(q);
@@ -886,5 +897,21 @@ public class GameServiceImpl implements IGameService {
                 return "精神力不足30%或不足及发射指定比率的精神力";
             }
         }
+    }
+
+    @Override
+    public String chuTu(long q) {
+        if (getWarp(q).getMaster().longValue() == -1)
+            return "您没有徒弟";
+        try {
+            ConfirmController.regConfirm(q,
+                    this.getClass().getDeclaredMethod("chuTuNow", long.class),
+                    this, new Object[]{q}
+            );
+            return "您确定要解除徒弟吗?\r\n请在30秒内回复\r\n确定/取消";
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return "未知异常";
     }
 }

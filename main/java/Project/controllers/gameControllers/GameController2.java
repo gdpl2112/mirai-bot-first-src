@@ -89,6 +89,11 @@ public class GameController2 {
         return service.chuShi(q);
     }
 
+    @Action(value = "出师")
+    public String m4(long q) {
+        return service.chuTu(q);
+    }
+
     @Action("升级第<.+=>str>")
     public String upda(@Param("str") String str, long q) {
         if (str.contains("魂环")) {

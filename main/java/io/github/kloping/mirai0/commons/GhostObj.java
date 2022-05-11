@@ -378,7 +378,7 @@ public class GhostObj implements Serializable, BaseInfo {
 
     @Override
     public GhostObj letVertigo(long t) {
-        BaseInfoTemp.letVertigo(getId(), t);
+        BaseInfoTemp.letVertigo(-getWhoMeet(), t);
         return this;
     }
 

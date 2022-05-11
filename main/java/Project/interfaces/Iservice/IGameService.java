@@ -183,7 +183,16 @@ public interface IGameService {
      *
      * @param q
      * @param q2
+     * @param br
      * @return
      */
     String attByHj(long q, long q2, int br);
+
+    /**
+     * 出徒
+     *
+     * @param q
+     * @return
+     */
+    String chuTu(long q);
 }

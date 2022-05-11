@@ -13,17 +13,19 @@ import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import static Project.dataBases.GameDataBase.putPerson;
+import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
 
 /**
@@ -124,18 +126,24 @@ public class GhostBehavior implements Runnable {
                 if (!updateGhost()) {
                     break;
                 }
-                if ((!led || Tool.RANDOM.nextInt(5) < 3) && needLock()) {
+                boolean k0 = (!led || Tool.RANDOM.nextInt(5) < 3) && needLock();
+                if (k0) {
                     if (!startLock()) {
                         break;
                     }
                     l = true;
                 }
-                if (startAtt(l)) {
-                    Thread.sleep(8500);
-                    continue;
-                } else {
-                    break;
-                }
+                boolean finalL = l;
+                FutureTask future = new FutureTask(() -> {
+                    try {
+                        startAtt(finalL);
+                    } catch (InterruptedException e) {
+                        send(ghostObj.getName() + "因为眩晕被打断了");
+                    }
+                }, "");
+                BaseInfoTemp.append(-qq, future);
+                future.run();
+                Thread.sleep(8500);
             }
             onDestroy(l);
         } catch (Exception e) {
@@ -158,11 +166,6 @@ public class GhostBehavior implements Runnable {
                 if (needAway()) {
                     send(ghostObj.getName() + "取消了蓄力,准备逃跑");
                     startWay();
-                }
-                if (brokenPaper()) {
-                    send(ghostObj.getName() + "因为眩晕被打断了蓄力");
-                    ghostObj.cancelVertigo();
-                    return true;
                 }
                 if (!updateGhost()) return false;
                 if (needSay(findTime)) send("蓄力倒计时!\r\n" + findTime);
@@ -209,6 +212,7 @@ public class GhostBehavior implements Runnable {
             boolean sendl = false;
             while (true) {
                 Thread.sleep(r * 1000);
+                if (!updateGhost()) return;
                 if (Tool.RANDOM.nextInt(10) < r) {
                     saveGhostObjIn(qq, null);
                     send(ghostObj.getName() + "拼尽全力逃跑了!");
@@ -218,7 +222,6 @@ public class GhostBehavior implements Runnable {
                         sendl = true;
                     }
                 }
-                if (!updateGhost()) return;
             }
         } catch (Exception e) {
             e.printStackTrace();

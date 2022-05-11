@@ -18,7 +18,6 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
  */
 @Entity
 public class InitBeans {
-
     @Bean("m100")
     public Set<RunnableWithOver> m500() {
         Set<RunnableWithOver> rs = new ConcurrentSet<>();
@@ -41,7 +40,6 @@ public class InitBeans {
         }, 100, 100);
         return rs;
     }
-
     @Bean("dataPath")
     public String dataPath() {
         return Resource.datePath;
