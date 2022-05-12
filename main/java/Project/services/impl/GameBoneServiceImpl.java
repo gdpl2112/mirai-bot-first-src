@@ -58,8 +58,13 @@ public class GameBoneServiceImpl implements IGameBoneService {
         return getImageFromStrings(list.toArray(new String[0]));
     }
 
+    public static final SoulAttribute EMPTY = new SoulAttribute();
+
     @Override
     public SoulAttribute getSoulAttribute(Long who) {
+        if (who <= 0) {
+            return EMPTY;
+        }
         Integer wh = GameDataBase.getInfo(who).getWh();
         final SoulAttribute[] soulAttribute = new SoulAttribute[1];
         if (wh > 0) {

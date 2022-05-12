@@ -12,7 +12,6 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 
 import static Project.controllers.gameControllers.GameController.MAX_XP;
-import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 
 /**
@@ -149,7 +148,7 @@ public class PersonInfo implements BaseInfo {
      */
     public String Sname = "";
     /**
-     * 标题
+     * 标记
      */
     public String myTag = "";
     /**
@@ -566,11 +565,13 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    @Override
     public PersonInfo setTag(String myTag) {
         this.myTag = myTag;
         return this;
     }
 
+    @Override
     public PersonInfo addTag(String myTag, Number percent) {
         if (this.myTag.contains(myTag)) {
             Long v = getTagValue(myTag).longValue();
@@ -584,6 +585,7 @@ public class PersonInfo implements BaseInfo {
         }
     }
 
+    @Override
     public PersonInfo addTag(String myTag, Number percent, Number max) {
         if (this.myTag.contains(myTag)) {
             Long v = getTagValue(myTag).longValue();
@@ -600,6 +602,7 @@ public class PersonInfo implements BaseInfo {
         }
     }
 
+    @Override
     public PersonInfo eddTag(String myTag, Number percent) {
         if (this.myTag.contains(myTag + percent + ",")) {
             this.myTag = this.myTag.replaceAll(myTag + percent + ",", "");
@@ -607,6 +610,7 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    @Override
     public PersonInfo eddTag(Number v1, String myTag) {
         Number v0 = getTagValue(myTag);
         if (v0.longValue() > v1.longValue()) {
@@ -619,6 +623,7 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    @Override
     public PersonInfo eddTag(String myTag) {
         if (this.myTag.contains(myTag)) {
             String t1 = this.myTag;
@@ -630,6 +635,7 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    @Override
     public boolean containsTag(String tag) {
         return myTag.contains(tag);
     }
@@ -645,9 +651,9 @@ public class PersonInfo implements BaseInfo {
         }
     }
 
+    @Override
     public Number getTagValue(String tag) {
-        PersonInfo info = getInfo(this.name);
-        String sb = info.getMyTag();
+        String sb = this.myTag;
         int i = sb.indexOf(tag);
         if (i < 0) {
             return -1;

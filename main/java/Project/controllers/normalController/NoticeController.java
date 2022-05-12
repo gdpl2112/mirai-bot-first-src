@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.12:修复已知bug,取消自动选择").append("\n");
         UPDATE_LOG.append("5.11:修复魂兽死亡之后,仍发送逃跑的信息,修复眩晕偶尔无法打断魂兽蓄力的问题,\'出徒\'").append("\n");
         UPDATE_LOG.append("5.9 :修复无法选择攻击的bug").append("\n");
         UPDATE_LOG.append("5.8 :见商城,每周最后的任务奖励升级").append("\n");

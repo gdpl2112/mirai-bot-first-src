@@ -1,6 +1,7 @@
 package Project.services.detailServices.roles;
 
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import java.util.Map;
 
@@ -21,5 +22,5 @@ public interface Role {
      * @param args args
      * @return
      */
-    RoleResponse call(StringBuilder sb, Number q1, Number q2, final long ov, long nv, PersonInfo p1, Map<String, Object> args);
+    RoleResponse call(StringBuilder sb, Number q1, Number q2, final long ov, long nv, BaseInfo p1, Map<String, Object> args);
 }

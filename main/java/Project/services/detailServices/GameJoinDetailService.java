@@ -8,6 +8,10 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
+import Project.services.detailServices.roles.BeatenRoles;
+import Project.services.detailServices.roles.Role;
+import Project.services.detailServices.roles.RoleResponse;
+import Project.services.detailServices.roles.RoleState;
 import Project.services.player.PlayerBehavioralManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -85,8 +89,25 @@ public class GameJoinDetailService {
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
                         .append(GameDetailService.beaten(who, -2, at2));
             }
-            ghostObj.updateHp(-att, getInfo(who));
-            sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(att).append("点伤害");
+
+            long oNow = att;
+            Map<String, Object> maps = new ConcurrentHashMap<>();
+            for (Role r : BeatenRoles.RS) {
+                RoleResponse response = r.call(sb, -2, who, att, oNow, ghostObj, maps);
+                if (response != null) {
+                    oNow = response.getNowV();
+                    if (!response.getArgs().isEmpty()) {
+                        maps.putAll(response.getArgs());
+                    }
+                    if (response.getState() == RoleState.STOP) {
+                        break;
+                    }
+                }
+            }
+            if (oNow > 0) {
+                ghostObj.updateHp(-oNow, getInfo(who));
+                sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
+            }
             boolean showY = false;
             if (ghostObj.getHp() > 0) {
                 showY = true;

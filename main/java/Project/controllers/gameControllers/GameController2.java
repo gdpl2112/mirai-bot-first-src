@@ -89,7 +89,7 @@ public class GameController2 {
         return service.chuShi(q);
     }
 
-    @Action(value = "出师")
+    @Action(value = "出徒")
     public String m4(long q) {
         return service.chuTu(q);
     }

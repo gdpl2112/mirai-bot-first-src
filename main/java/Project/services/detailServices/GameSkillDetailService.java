@@ -119,6 +119,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8121, 15);
         BASE_PERCENT_MAP.put(8130, 13);
         BASE_PERCENT_MAP.put(8131, 26);
+        BASE_PERCENT_MAP.put(8140, 10);
     }
 
     static {

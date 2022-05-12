@@ -77,10 +77,15 @@ public class SkillDataBase {
      * 限制魂技
      */
     public static final String TAG_CANT_USE = "m";
+    /**
+     * 额外受伤
+     */
+    public static final String TAG_EXTRA_DAMAGE = "n";
 
     public static final Map<String, String> TAG2NAME = new HashMap<>();
 
     static {
+        TAG2NAME.put(TAG_EXTRA_DAMAGE, "额外受伤");
         TAG2NAME.put(TAG_XX, "吸血");
         TAG2NAME.put(TAG_FJ, "反甲");
         TAG2NAME.put(TAG_MS, "免死");

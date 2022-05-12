@@ -62,6 +62,7 @@ public class GhostObj implements Serializable, BaseInfo {
     private Long with = -1L;
     private long whoMeet = -1;
     private Integer nc = 0;
+    private String myTag = "";
 
     public GhostObj() {
     }
@@ -393,4 +394,104 @@ public class GhostObj implements Serializable, BaseInfo {
 
     public void dispose() {
     }
+
+    @Override
+    public GhostObj setTag(String myTag) {
+        this.myTag = myTag;
+        return this;
+    }
+
+    @Override
+    public GhostObj addTag(String myTag, Number percent) {
+        if (this.myTag.contains(myTag)) {
+            Long v = getTagValue(myTag).longValue();
+            eddTag(myTag);
+            long v1 = percent.longValue() + v.longValue();
+            this.myTag += myTag + v1 + ",";
+            return this;
+        } else {
+            this.myTag += myTag + percent + ",";
+            return this;
+        }
+    }
+
+    @Override
+    public GhostObj addTag(String myTag, Number percent, Number max) {
+        if (this.myTag.contains(myTag)) {
+            Long v = getTagValue(myTag).longValue();
+            eddTag(myTag);
+            long v1 = percent.longValue() + v.longValue();
+            if (v1 >= max.longValue()) {
+                v1 = max.longValue();
+            }
+            this.myTag += myTag + v1 + ",";
+            return this;
+        } else {
+            this.myTag += myTag + percent + ",";
+            return this;
+        }
+    }
+
+    @Override
+    public GhostObj eddTag(String myTag, Number percent) {
+        if (this.myTag.contains(myTag + percent + ",")) {
+            this.myTag = this.myTag.replaceAll(myTag + percent + ",", "");
+        }
+        return this;
+    }
+
+    @Override
+    public GhostObj eddTag(Number v1, String myTag) {
+        Number v0 = getTagValue(myTag);
+        if (v0.longValue() > v1.longValue()) {
+            eddTag(myTag, v0);
+            v0 = v0.longValue() - v1.longValue();
+            addTag(myTag, v0);
+        } else {
+            eddTag(myTag);
+        }
+        return this;
+    }
+
+    @Override
+    public GhostObj eddTag(String myTag) {
+        if (this.myTag.contains(myTag)) {
+            String t1 = this.myTag;
+            int i1 = t1.indexOf(myTag);
+            int i2 = t1.substring(i1).indexOf(",");
+            t1 = t1.substring(i1, i2 + i1 + 1);
+            this.myTag = this.myTag.replaceAll(t1, "");
+        }
+        return this;
+    }
+
+    @Override
+    public boolean containsTag(String tag) {
+        return myTag.contains(tag);
+    }
+
+    public String getTag(String tag) {
+        if (myTag.contains(tag)) {
+            int start = myTag.indexOf(tag);
+            int end = myTag.indexOf(",", start);
+            String s1 = myTag.substring(start, end);
+            return s1;
+        } else {
+            return "0";
+        }
+    }
+
+    @Override
+    public Number getTagValue(String tag) {
+        String sb = this.myTag;
+        int i = sb.indexOf(tag);
+        if (i < 0) {
+            return -1;
+        }
+        sb = sb.substring(i);
+        int i2 = sb.indexOf(",");
+        String vs = sb.substring(1, i2);
+        return Long.valueOf(vs);
+    }
+
 }

@@ -150,8 +150,8 @@ public class GameSkillController {
                 }
             }
             Number[] ats = numbers.toArray(new Number[0]);
-            if (getGhostObjFrom(qq.getId()) != null && ats.length == 0)
-                ats = new Number[]{-2};
+//            if (getGhostObjFrom(qq.getId()) != null && ats.length == 0)
+//                ats = new Number[]{-2};
             return String.valueOf(skillService.useSkill(qq.getId(), st, ats, str, group));
         } else {
             throw new NoRunException();

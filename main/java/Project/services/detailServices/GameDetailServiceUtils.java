@@ -64,7 +64,7 @@ public class GameDetailServiceUtils {
     }
 
     /**
-     * 获取基本信息
+     * who 获取 o  获取基本信息
      *
      * @param who
      * @param o   playerId
