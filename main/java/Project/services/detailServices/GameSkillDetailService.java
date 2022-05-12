@@ -228,26 +228,6 @@ public class GameSkillDetailService {
     }
 
     /**
-     * 获取tag值
-     *
-     * @param qq
-     * @param tag
-     * @return
-     */
-    public static Number getTagValue(Number qq, String tag) {
-        PersonInfo info = GameDataBase.getInfo(qq);
-        String sb = info.getMyTag();
-        int i = sb.indexOf(tag);
-        if (i < 0) {
-            return -1;
-        }
-        sb = sb.substring(i);
-        int i2 = sb.indexOf(",");
-        String vs = sb.substring(1, i2);
-        return Integer.parseInt(vs);
-    }
-
-    /**
      * 减少任何攻击
      *
      * @param who

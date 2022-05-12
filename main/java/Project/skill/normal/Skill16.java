@@ -3,14 +3,16 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.services.detailServices.GameSkillDetailService.addShield;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.dataBases.skill.SkillDataBase.TAG_EXTRA_DAMAGE;
+import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
+import static Project.services.detailServices.GameSkillDetailService.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
@@ -30,7 +32,7 @@ public class Skill16 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("为自己增加一个最大生命值的%s%%的临时护盾持续时间%s秒", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 5);
+        return String.format("对指定,增加一个最大生命值的%s%%的临时护盾持续时间%s秒", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 4);
     }
 
     @Override
@@ -38,11 +40,13 @@ public class Skill16 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "临时护盾") {
             @Override
             public void before() {
+                long qid = nearest(1, who.longValue(), nums)[0];
                 int b = info.getAddPercent();
-                long t = b / 5;
+                long t = b / 4;
                 long v2 = percentTo(b, getInfo(who).getHpL());
-                addShield(who.longValue(), v2, t * 1000);
-                setTips("作用于 " + Tool.at(who.longValue()));
+                NormalWithWhoTagPack tagPack = new NormalWithWhoTagPack(TAG_SHIELD,t * 1000);
+                tagPack.setQ(qid).setWho(who.longValue()).setValue(v2).setEffected(false);
+                addTagPack(tagPack);
             }
 
             @Override

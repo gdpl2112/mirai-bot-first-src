@@ -2,8 +2,8 @@ package io.github.kloping.mirai0.commons.game;
 
 
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
@@ -26,7 +26,9 @@ public class NormalWithWhoTagPack extends TagPack {
 
     @Override
     public void effect() {
-        getBaseInfoFromAny(who, getQ()).addTag(getTAG(), getValue()).apply();
+        BaseInfo info = getBaseInfoFromAny(who, getQ());
+        if (info != null)
+            info.addTag(getTAG(), getValue()).apply();
         setEffected(true);
     }
 
@@ -37,7 +39,9 @@ public class NormalWithWhoTagPack extends TagPack {
 
     @Override
     public void loseEffect() {
-        getBaseInfoFromAny(who, getQ()).eddTag(getTAG(), getValue()).apply();
+        BaseInfo info = getBaseInfoFromAny(who, getQ());
+        if (info != null)
+            info.eddTag(getTAG(), getValue()).apply();
     }
 
     public long getWho() {

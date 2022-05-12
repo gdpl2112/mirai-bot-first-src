@@ -215,7 +215,7 @@ public class BeatenRoles {
             if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString())) {
                 RoleResponse response = new RoleResponse(ov, nv, q1, q2);
                 sb.append(NEWLINE);
-                long v = GameSkillDetailService.getTagValue(q1, SkillDataBase.TAG_SHIELD).longValue();
+                long v = p1.getTagValue(SkillDataBase.TAG_SHIELD).longValue();
                 if (v >= nv) {
                     Long i = v - nv;
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);

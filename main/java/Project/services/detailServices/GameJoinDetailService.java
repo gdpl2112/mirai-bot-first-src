@@ -425,8 +425,29 @@ public class GameJoinDetailService {
             if (personInfo.getHl() > hl1) {
                 sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
                 sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
-                ghostObj.updateHp(-at1, personInfo);
-                sb.append(GameDetailService.onAtt(who, -2, at1));
+
+                long oNow = at1;
+                Map<String, Object> maps = new ConcurrentHashMap<>();
+                for (Role r : BeatenRoles.RS) {
+                    RoleResponse response = r.call(sb, -2, who, at1, oNow, ghostObj, maps);
+                    if (response != null) {
+                        oNow = response.getNowV();
+                        if (!response.getArgs().isEmpty()) {
+                            maps.putAll(response.getArgs());
+                        }
+                        if (response.getState() == RoleState.STOP) {
+                            break;
+                        }
+                    }
+                }
+                if (oNow > 0) {
+                    ghostObj.updateHp(-oNow, getInfo(who));
+                    sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
+                }
+                if (oNow > 0) {
+                    ghostObj.updateHp(-oNow, personInfo);
+                    sb.append(GameDetailService.onAtt(who, -2, oNow));
+                }
             } else {
                 sb.append(HL_NOT_ENOUGH_TIPS0);
             }
