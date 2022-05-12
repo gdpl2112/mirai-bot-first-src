@@ -109,9 +109,9 @@ public class GameDetailService {
             }
             //=====广播
             HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(),
-                    p1.getHp() - oNow, oNow, qq2.longValue(), qq2.longValue() > 0 ?
-                            HpChangeBroadcast.HpChangeReceiver.type.fromQ :
-                            HpChangeBroadcast.HpChangeReceiver.type.fromG);
+                    p1.getHp() - oNow, -oNow, qq2.longValue(), qq2.longValue() > 0 ?
+                            HpChangeBroadcast.HpChangeReceiver.type.FROM_Q :
+                            HpChangeBroadcast.HpChangeReceiver.type.FROM_G);
             if (oNow > 0) {
                 p1.addHp(-oNow);
                 p1.apply();

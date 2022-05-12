@@ -120,6 +120,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8130, 13);
         BASE_PERCENT_MAP.put(8131, 26);
         BASE_PERCENT_MAP.put(8140, 10);
+        BASE_PERCENT_MAP.put(8150, 35);
     }
 
     static {
@@ -262,7 +263,7 @@ public class GameSkillDetailService {
         PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
         HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
-                p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
+                p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
         p2.addHp(v1);
         putPerson(p2);
     }
@@ -280,7 +281,7 @@ public class GameSkillDetailService {
         PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
         HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
-                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.fromQ);
+                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
         p2.addHl(v1);
         putPerson(p2);
     }
