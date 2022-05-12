@@ -1,5 +1,4 @@
 package io.github.kloping.mirai0.Main;
-// io.github.kloping.mirai0.Main.BotStarter
 
 import Project.aSpring.SpringBootResource;
 import Project.aSpring.SpringStarter;

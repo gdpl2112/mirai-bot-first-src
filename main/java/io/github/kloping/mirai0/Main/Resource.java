@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.concurrent.*;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
+import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 import static io.github.kloping.mirai0.Main.Parse.parseToLongList;
 
@@ -132,7 +133,7 @@ public class Resource {
 
     protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
-        StarterApplication.setWaitTime(30 * 1000L);
+        StarterApplication.setWaitTime(test ? 600000L : 30 * 1000L);
         StarterApplication.setAccessTypes(Long.class, io.github.kloping.mirai0.commons.User.class, Group.class, Integer.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
