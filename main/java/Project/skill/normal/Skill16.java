@@ -4,7 +4,6 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
@@ -40,7 +40,7 @@ public class Skill16 extends SkillTemplate {
             public void before() {
                 int b = info.getAddPercent();
                 long t = b / 5;
-                long v2 = CommonSource.percentTo(b, getInfo(who).getHpL());
+                long v2 = percentTo(b, getInfo(who).getHpL());
                 addShield(who.longValue(), v2, t * 1000);
                 setTips("作用于 " + Tool.at(who.longValue()));
             }

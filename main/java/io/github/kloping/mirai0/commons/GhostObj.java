@@ -367,12 +367,12 @@ public class GhostObj implements Serializable, BaseInfo {
 
     @Override
     public boolean isVertigo() {
-        return BaseInfoTemp.isVertigo(getId());
+        return BaseInfoTemp.isVertigo(-getWhoMeet());
     }
 
     @Override
     public GhostObj cancelVertigo() {
-        BaseInfoTemp.removeVertigo(getId().longValue());
+        BaseInfoTemp.removeVertigo(-getWhoMeet());
         return this;
     }
 

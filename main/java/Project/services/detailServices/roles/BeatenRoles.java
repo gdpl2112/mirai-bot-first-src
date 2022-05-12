@@ -206,7 +206,7 @@ public class BeatenRoles {
 
     public static final Role TAG_SHIELD_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
-            if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString()) == true) {
+            if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString())) {
                 RoleResponse response = new RoleResponse(ov, nv, q1, q2);
                 sb.append(NEWLINE);
                 long v = GameSkillDetailService.getTagValue(q1, SkillDataBase.TAG_SHIELD).longValue();
@@ -229,12 +229,11 @@ public class BeatenRoles {
     };
     public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+        response.addArg(TRUE_HIT_ARG_KEY, false);
         if (q2.longValue() > 0) {
             if (getInfo(q2).containsTag(TAG_TRUE)) {
                 sb.append(NEWLINE).append("此次真实伤害");
                 response.addArg(TRUE_HIT_ARG_KEY, true);
-            } else {
-                response.addArg(TRUE_HIT_ARG_KEY, false);
             }
         }
         return response;
@@ -244,6 +243,7 @@ public class BeatenRoles {
             XG_VERTIGO, TAG_WD, TAG_MS, TAG_XYS, TAG_CANT_HIDE,
             HG_HIDE, TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_LIGHT_F_ROLE
     };
+
     public static final Role[] ATT_RS = new Role[]{
             TAG_XX, TAG_SHE_ROLE, TAG_LIGHT_ATT_RS
     };

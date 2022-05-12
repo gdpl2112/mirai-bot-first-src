@@ -17,10 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
@@ -69,7 +69,9 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         }
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
-            return IN_SELECT;
+            if (ghostObj.getTime() <= System.currentTimeMillis()) {
+                return IN_SELECT;
+            }
         }
         if (ghostObj != null) saveGhostObjIn(who, ghostObj);
         String what = name.trim();
