@@ -901,7 +901,7 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String chuTu(long q) {
-        if (getWarp(q).getMaster().longValue() == -1)
+        if (getWarp(q).getPrentice().longValue() == -1)
             return "您没有徒弟";
         try {
             ConfirmController.regConfirm(q,
