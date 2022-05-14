@@ -278,7 +278,7 @@ public class GameDataBase {
         ID_2_SHOP_MAPS.put(110, 498L);
         ID_2_SHOP_MAPS.put(111, 10000L);
         ID_2_SHOP_MAPS.put(112, 525L);
-        ID_2_SHOP_MAPS.put(113, 889L);
+        ID_2_SHOP_MAPS.put(113, 789L);
         ID_2_SHOP_MAPS.put(116, 889L);
         ID_2_SHOP_MAPS.put(117, 18888L);
         ID_2_SHOP_MAPS.put(118, 778L);
