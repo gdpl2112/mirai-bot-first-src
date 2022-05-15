@@ -64,6 +64,11 @@ public class TestBootstrap {
         sys.getShop().map();
     }
 
+    @Action(".*?\\[@me].*?")
+    public Object s0(@AllMess String all) {
+        return "???";
+    }
+
     @Action("我的存款")
     public Object s0(long qid) {
         Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
