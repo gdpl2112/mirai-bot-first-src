@@ -17,7 +17,6 @@ import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
-import java.text.ParseException;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
@@ -29,34 +28,27 @@ import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.getTime;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class SuperController {
+
     public long tempSuperL = -1;
+
     @AutoStand
     IGameService gameService;
+
     @AutoStand
     IManagerService managerService;
+
     @AutoStand
     private ZongMenServiceImpl zons;
 
     public SuperController() {
         println(this.getClass().getSimpleName() + "构建");
-    }
-
-    public static String[] getTime(String mess) {
-        String[] ss = mess.split("-");
-        try {
-            Curfew.FORMAT_HH_MM.parse(ss[0]);
-            Curfew.FORMAT_HH_MM.parse(ss[1]);
-            return ss;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     @Before
@@ -220,6 +212,7 @@ public class SuperController {
             HIST_INFOS.clear();
             SkillDataBase.reMap();
             Tool.deleteDir(new File("./temp"));
+            MessageTools.HIST_IMAGES.clear();
         }
     }
 

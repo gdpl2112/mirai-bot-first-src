@@ -38,7 +38,7 @@ public abstract class Broadcast {
         }
     }
 
-    public static void ifIsRunElseJump(Object INSTANCE, Method method, Object[] objects) {
+    public static void ifIsRunElseJump(Object instance, Method method, Object[] objects) {
         if (!method.isAccessible()) method.setAccessible(true);
         if (objects.length == method.getParameterCount()) {
             Class<?>[] cls = method.getParameterTypes();
@@ -49,7 +49,7 @@ public abstract class Broadcast {
                     return;
             }
             try {
-                method.invoke(INSTANCE, objects);
+                method.invoke(instance, objects);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {

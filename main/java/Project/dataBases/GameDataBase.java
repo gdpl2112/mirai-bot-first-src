@@ -77,7 +77,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(25, "青龙");
         ID_2_NAME_MAPS.put(26, "海神");
         ID_2_NAME_MAPS.put(27, "九心海棠");
-        ID_2_NAME_MAPS.put(28, "落日神功");
+        ID_2_NAME_MAPS.put(28, "落日神弓");
         ID_2_NAME_MAPS.put(29, "杀神昊天锤");
         ID_2_NAME_MAPS.put(30, "魔神剑");
         ID_2_NAME_MAPS.put(31, "暗金恐爪熊");
@@ -247,6 +247,8 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(703, "被攻击时随50%几率造成攻击的15%的反弹伤害");
         ID_2_INTRO_MAPS.put(704, "来自地狱魔魔兽,免疫一次死亡");
         ID_2_INTRO_MAPS.put(705, "吸收大地之力,血量低于25%时恢复已损失18%的生命值,冷却30秒");
+
+        ID_2_INTRO_MAPS.put(19,"蓝银花,蓝银草的变异,拥有艳丽的花瓣,在拥有蓝银草顽强的生命力的同时也含有毒性");
     }
 
     private static void initShop() {
