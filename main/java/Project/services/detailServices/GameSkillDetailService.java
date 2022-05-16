@@ -84,7 +84,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(716, 42);
         BASE_PERCENT_MAP.put(717, 39);
         BASE_PERCENT_MAP.put(718, 38);
-        BASE_PERCENT_MAP.put(719, 5);
+        BASE_PERCENT_MAP.put(719, 3);
         BASE_PERCENT_MAP.put(720, 41);
         BASE_PERCENT_MAP.put(721, 12);
         BASE_PERCENT_MAP.put(722, 32);
@@ -92,8 +92,8 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(724, 50);
         BASE_PERCENT_MAP.put(725, 42);
         BASE_PERCENT_MAP.put(726, 50);
-        BASE_PERCENT_MAP.put(727, 40);
-        BASE_PERCENT_MAP.put(728, 40);
+        BASE_PERCENT_MAP.put(727, 45);
+        BASE_PERCENT_MAP.put(728, 44);
         BASE_PERCENT_MAP.put(729, 54);
         BASE_PERCENT_MAP.put(730, 40);
         BASE_PERCENT_MAP.put(731, 40);
@@ -121,6 +121,9 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8131, 26);
         BASE_PERCENT_MAP.put(8140, 10);
         BASE_PERCENT_MAP.put(8150, 35);
+        BASE_PERCENT_MAP.put(8160, 32);
+        BASE_PERCENT_MAP.put(8170, 39);
+        BASE_PERCENT_MAP.put(8180, 33);
     }
 
     static {
@@ -258,14 +261,16 @@ public class GameSkillDetailService {
      * @param bf   比例
      */
     public static void addHp(Number who, long who2, float bf) {
-        PersonInfo p1 = GameDataBase.getInfo(who);
-        long v1 = percentTo((int) bf, p1.getHpL());
-        PersonInfo p2 = GameDataBase.getInfo(who2);
-        v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
-        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
-                p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
-        p2.addHp(v1);
-        putPerson(p2);
+        if (who2 > 0) {
+            PersonInfo p1 = GameDataBase.getInfo(who);
+            long v1 = percentTo((int) bf, p1.getHpL());
+            PersonInfo p2 = GameDataBase.getInfo(who2);
+            v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
+            HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
+                    p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
+            p2.addHp(v1);
+            putPerson(p2);
+        }
     }
 
     /**
@@ -442,12 +447,12 @@ public class GameSkillDetailService {
     /**
      * 异步回血
      *
-     * @param n
-     * @param q1
-     * @param q2
-     * @param value
-     * @param eve
-     * @param gid
+     * @param n     次数
+     * @param q1    主动
+     * @param q2    被动
+     * @param value 值
+     * @param eve   间隔
+     * @param gid   gid
      */
     public static void addHFSchedule(int n, long q1, long value, long eve, long gid) {
         AsynchronousHf hf = new AsynchronousHf(n, q1, -1L, value, eve, gid);

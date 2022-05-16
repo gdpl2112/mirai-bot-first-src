@@ -34,7 +34,7 @@ public class Skill713 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("释放奇茸通天菊真身,增加%s%%的攻击力,并令一个人,无法躲避下次攻击", getAddP(getJid(), getId()));
+        return String.format("释放奇茸通天草真身,增加%s%%的攻击力,并令一个人,无法躲避下次攻击", getAddP(getJid(), getId()));
     }
 
     @Override

@@ -89,7 +89,6 @@ public class GameJoinDetailService {
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
                         .append(GameDetailService.beaten(who, -2, at2));
             }
-
             long oNow = att;
             Map<String, Object> maps = new ConcurrentHashMap<>();
             for (Role r : BeatenRoles.RS) {
@@ -401,9 +400,7 @@ public class GameJoinDetailService {
     }
 
     private String att(long who, GhostObj ghostObj) {
-        if (getInfo(who).getJak1() > System.currentTimeMillis()) {
-            return ATT_WAIT_TIPS;
-        }
+        if (getInfo(who).getJak1() > System.currentTimeMillis()) return ATT_WAIT_TIPS;
         try {
             getInfo(who).setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2).apply();
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
@@ -412,12 +409,10 @@ public class GameJoinDetailService {
                 whos = ghostObj.getForWhoStr();
                 ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
             }
-            if (IDXS.contains(ghostObj.getIDX())) {
-                return SYNC_GHOST_TIPS;
-            }
+            if (IDXS.contains(ghostObj.getIDX())) return SYNC_GHOST_TIPS;
             IDXS.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
-            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.24f);
+            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.16f);
             long at1 = randLong(personInfo.att(), 0.35f, 0.48f);
             long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
             StringBuilder sb = new StringBuilder();
@@ -425,19 +420,14 @@ public class GameJoinDetailService {
             if (personInfo.getHl() > hl1) {
                 sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
                 sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
-
                 long oNow = at1;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {
                     RoleResponse response = r.call(sb, -2, who, at1, oNow, ghostObj, maps);
                     if (response != null) {
                         oNow = response.getNowV();
-                        if (!response.getArgs().isEmpty()) {
-                            maps.putAll(response.getArgs());
-                        }
-                        if (response.getState() == RoleState.STOP) {
-                            break;
-                        }
+                        if (!response.getArgs().isEmpty()) maps.putAll(response.getArgs());
+                        if (response.getState() == RoleState.STOP) break;
                     }
                 }
                 if (oNow > 0) {
@@ -460,11 +450,8 @@ public class GameJoinDetailService {
                 if (ghostObj.getHp() > 0) {
                     showY = true;
                     showI = true;
-                    if (isHelp) {
-                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
-                    } else {
-                        GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-                    }
+                    if (isHelp) GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
+                    else GameJoinDetailService.saveGhostObjIn(who, ghostObj);
                 } else {
                     showI = true;
                     sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
@@ -479,11 +466,10 @@ public class GameJoinDetailService {
                     }
                 }
                 //广播
-                if (!isHelp) {
+                if (!isHelp)
                     GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
-                } else {
+                else
                     GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
-                }
             } else {
                 sb.append(NEWLINE);
                 sb.append("你被打败了!!!");
@@ -499,12 +485,8 @@ public class GameJoinDetailService {
                 }
                 GameJoinDetailService.saveGhostObjIn(who, null);
             }
-            if (showI) {
-                sb.append(NEWLINE).append(gameService.info(who));
-            }
-            if (showY) {
-                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
-            }
+            if (showI) sb.append(NEWLINE).append(gameService.info(who));
+            if (showY) sb.append(NEWLINE).append(willTips(who, ghostObj, false));
             return sb.toString();
         } finally {
             IDXS.remove((Object) ghostObj.getIDX());

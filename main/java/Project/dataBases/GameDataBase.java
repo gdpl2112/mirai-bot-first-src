@@ -40,7 +40,7 @@ public class GameDataBase {
         intiObj();
     }
 
-    private static void intiObj() {
+    public static void intiObj() {
         initName();
         initIntro();
         initShop();
@@ -50,46 +50,38 @@ public class GameDataBase {
     }
 
     private static void initName() {
-        String whs = "1:蓝电霸王龙\n" +
-                "2:昊天锤\n" +
-                "3:六翼天使\n" +
-                "4:噬魂珠皇\n" +
-                "5:蓝银皇\n" +
-                "6:柔骨兔\n" +
-                "7:邪眸白虎\n" +
-                "8:邪火凤凰\n" +
-                "9:七杀剑\n" +
-                "10:碧灵蛇皇\n" +
-                "11:破魂枪\n" +
-                "12:大力金刚熊\n" +
-                "13:奇茸通天菊\n" +
-                "14:鬼魅\n" +
-                "15:刺豚\n" +
-                "16:蛇矛\n" +
-                "17:骨龙\n" +
-                "18:蛇杖\n" +
-                "19:蓝银草\n" +
-                "20:玄龟\n" +
-                "21:幽冥灵猫\n" +
-                "22:光明圣龙\n" +
-                "23:黑暗圣龙\n" +
-                "24:修罗神剑\n" +
-                "25:青龙\n" +
-                "26:海神\n" +
-                "27:锄头\n" +
-                "28:斧头\n" +
-                "29:杀神昊天锤\n" +
-                "30:魔神剑\n" +
-                "31:暗金恐爪熊\n";
-        for (String s : whs.trim().split("\n")) {
-            if (s.isEmpty()) {
-                continue;
-            }
-            String[] ss = s.split(":");
-            int id = Integer.parseInt(ss[0]);
-            ID_2_NAME_MAPS.put(id, ss[1]);
-        }
-
+        ID_2_NAME_MAPS.put(1, "蓝电霸王龙");
+        ID_2_NAME_MAPS.put(2, "昊天锤");
+        ID_2_NAME_MAPS.put(3, "六翼天使");
+        ID_2_NAME_MAPS.put(4, "噬魂珠皇");
+        ID_2_NAME_MAPS.put(5, "蓝银皇");
+        ID_2_NAME_MAPS.put(6, "柔骨兔");
+        ID_2_NAME_MAPS.put(7, "邪眸白虎");
+        ID_2_NAME_MAPS.put(8, "邪火凤凰");
+        ID_2_NAME_MAPS.put(9, "七杀剑");
+        ID_2_NAME_MAPS.put(10, "碧灵蛇皇");
+        ID_2_NAME_MAPS.put(11, "破魂枪");
+        ID_2_NAME_MAPS.put(12, "大力金刚熊");
+        ID_2_NAME_MAPS.put(13, "奇茸通天草");
+        ID_2_NAME_MAPS.put(14, "鬼魅");
+        ID_2_NAME_MAPS.put(15, "刺豚");
+        ID_2_NAME_MAPS.put(16, "蛇矛");
+        ID_2_NAME_MAPS.put(17, "骨龙");
+        ID_2_NAME_MAPS.put(18, "蛇杖");
+        ID_2_NAME_MAPS.put(19, "蓝银花");
+        ID_2_NAME_MAPS.put(20, "玄龟");
+        ID_2_NAME_MAPS.put(21, "幽冥灵猫");
+        ID_2_NAME_MAPS.put(22, "光明圣龙");
+        ID_2_NAME_MAPS.put(23, "黑暗圣龙");
+        ID_2_NAME_MAPS.put(24, "修罗神剑");
+        ID_2_NAME_MAPS.put(25, "青龙");
+        ID_2_NAME_MAPS.put(26, "海神");
+        ID_2_NAME_MAPS.put(27, "九心海棠");
+        ID_2_NAME_MAPS.put(28, "落日神功");
+        ID_2_NAME_MAPS.put(29, "杀神昊天锤");
+        ID_2_NAME_MAPS.put(30, "魔神剑");
+        ID_2_NAME_MAPS.put(31, "暗金恐爪熊");
+        //==
         ID_2_NAME_MAPS.put(201, "十年魂环");
         ID_2_NAME_MAPS.put(202, "百年魂环");
         ID_2_NAME_MAPS.put(203, "千年魂环");
@@ -97,7 +89,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(205, "十万年魂环");
         ID_2_NAME_MAPS.put(206, "百万年魂环");
         ID_2_NAME_MAPS.put(207, "神级魂环");
-
+        //==
         ID_2_NAME_MAPS.put(101, "时光胶囊");
         ID_2_NAME_MAPS.put(102, "恢复药水");
         ID_2_NAME_MAPS.put(103, "大瓶经验");
@@ -181,7 +173,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(1603, "紫升级券");
         ID_2_NAME_MAPS.put(1604, "黑升级券");
         ID_2_NAME_MAPS.put(1605, "红升级券");
-
+        //==
         ID_2_NAME_MAPS.forEach((k, v) -> {
             NAME_2_ID_MAPS.put(v, k);
         });

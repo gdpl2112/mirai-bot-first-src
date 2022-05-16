@@ -47,6 +47,7 @@ public abstract class AsynchronousThing implements Runnable {
     }
 
     public void over() {
+        future.cancel(true);
         GameSkillDetailService.ASYNCHRONOUS_THING_MAP.get(q1).remove(this);
     }
 }

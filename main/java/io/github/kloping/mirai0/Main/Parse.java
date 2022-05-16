@@ -11,7 +11,7 @@ import static io.github.kloping.mirai0.commons.Father.SPLIT;
  */
 public class Parse {
     private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
-    private static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
+    public static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
     private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
     private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
     private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
@@ -20,28 +20,6 @@ public class Parse {
     private static final Set<Character> TS = new HashSet<>(Arrays.asList(
             new Character[]{'*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '\\', '/'})
     );
-
-//    public static void a1b2c3(List<String> list, String line) {
-//        if (list == null || line == null || line.isEmpty()) return;
-//        Map<Integer, String> nm = getNearestOne(line, PATTER_PIC, PATTER_AT, PATTER_FACE, PATTER_URL);
-//        if (nm.isEmpty()) {
-//            list.add(line);
-//            return;
-//        }
-//        int n = nm.keySet().iterator().next();
-//        String v = nm.get(n);
-//        String[] ss = new String[2];
-//        ss[0] = line.substring(0, line.indexOf(v));
-//        ss[1] = line.substring(line.indexOf(v) + v.length(), line.length());
-//        if (!ss[0].isEmpty()) {
-//            list.add(ss[0]);
-//            line = line.replaceFirst(ss[0], "");
-//        }
-//        line = ss[1];
-//        list.add(v);
-//        a1b2c3(list, line);
-//        return;
-//    }
 
     public static List<Object> aStart(String line) {
         List<String> list = new ArrayList<>();
@@ -100,10 +78,6 @@ public class Parse {
             e.printStackTrace();
             return null;
         }
-    }
-
-
-    public static void main(String[] args) {
     }
 
     public static List<Long> parseToLongList(String s0) {

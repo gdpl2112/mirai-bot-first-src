@@ -27,7 +27,7 @@ public class Skill8131 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("奇茸通天菊第八魂技,金刚不坏之身,立刻增加%s%%的免伤", getAddP(getJid(), getId()));
+        return String.format("奇茸通天草第八魂技,金刚不坏之身,立刻增加%s%%的免伤", getAddP(getJid(), getId()));
     }
 
     @Override

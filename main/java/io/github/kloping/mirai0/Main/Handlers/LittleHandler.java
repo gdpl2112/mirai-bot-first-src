@@ -13,6 +13,7 @@ import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
@@ -88,7 +89,7 @@ public class LittleHandler extends SimpleListenerHost {
     }
 
     public static boolean isSuperQ(long q) {
-        return SUPER_LIST.contains(q);
+        return SUPER_LIST.contains(q) || Resource.superQL.contains(q);
     }
 
     @Override

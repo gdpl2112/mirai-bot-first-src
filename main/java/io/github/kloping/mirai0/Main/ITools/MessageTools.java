@@ -3,7 +3,6 @@ package io.github.kloping.mirai0.Main.ITools;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
@@ -20,10 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
-import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromMessageChain;
+import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
 import static io.github.kloping.mirai0.Main.Resource.bot;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getBase64Data;
@@ -33,15 +31,17 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
  * @author github-kloping
  */
 public class MessageTools {
-    public static final String BASE_VOICE_URL = "https://tts.youdao.com/fanyivoice?word=%s&le=zh&keyfrom=speaker-target";
-    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
-    private static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
-    private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
-    private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
-    private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");
     private static final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
     private static final Map<Long, At> ATS = new ConcurrentHashMap<>();
     private static final Map<String, Image> HIST_IMAGES = new HashMap<>();
+
+    public static MessageChain getMessageFromString(String str, Contact group) {
+        if (str == null || str.isEmpty() || group == null) return null;
+        MessageChainBuilder builder = new MessageChainBuilder();
+        append(str, builder, group);
+        MessageChain message = builder.build();
+        return message;
+    }
 
     public static long getAtFromString(String message) {
         int start = message.indexOf("[@");
@@ -52,14 +52,6 @@ public class MessageTools {
             return Resource.qq.getQq();
         long l = Long.parseLong(str);
         return l;
-    }
-
-    public static MessageChain getMessageFromString(String str, Contact group) {
-        if (str == null || str.isEmpty() || group == null) return null;
-        MessageChainBuilder builder = new MessageChainBuilder();
-        append(str, builder, group);
-        MessageChain message = builder.build();
-        return message;
     }
 
     private static List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
@@ -125,20 +117,6 @@ public class MessageTools {
         }
     }
 
-    public static long findNumberFromMessage(MessageChain message) {
-        try {
-            String str = getStringFromMessageChain(message);
-            String at = getAtFromString(str) + "";
-            if (str.contains(at + ""))
-                str = str.replace(at, "");
-            if (str.isEmpty()) return -1;
-            long l = Long.parseLong(Tool.findNumberFromString(str));
-            return l;
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
-
     public static Image createImage(Contact group, String path) {
         Image image = null;
         try {
@@ -179,10 +157,10 @@ public class MessageTools {
         return null;
     }
 
-    public static String getImageUrlFromMessageString(String allmess) {
+    public static String getImageUrlFromMessageString(String allMess) {
         try {
             String url = "";
-            Matcher matcher = PATTER_PIC.matcher(allmess);
+            Matcher matcher = PATTER_PIC.matcher(allMess);
             if (matcher.find()) {
                 String p1 = matcher.group();
                 int i1 = p1.indexOf("{");
@@ -196,9 +174,9 @@ public class MessageTools {
         return null;
     }
 
-    public static String getImageIDFromMessageString(String allmess) {
+    public static String getImageIdFromMessageString(String allMess) {
         try {
-            Matcher matcher = PATTER_PIC.matcher(allmess);
+            Matcher matcher = PATTER_PIC.matcher(allMess);
             if (matcher.find()) {
                 String p1 = matcher.group();
                 int i1 = p1.indexOf("{");
@@ -216,15 +194,6 @@ public class MessageTools {
             Group group = bot.getGroup(id);
             Message message = MessageTools.getMessageFromString(str, group);
             group.sendMessage(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void sendStringInGroup(String str, long id) {
-        try {
-            Group group = bot.getGroup(id);
-            group.sendMessage(new PlainText(str));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -308,28 +277,32 @@ public class MessageTools {
     }
 
     public static byte[] mp32amr(byte[] bytes) throws Exception {
-        File source = File.createTempFile("temp0", ".mp3");
-        File target = File.createTempFile("temp1", ".amr");
-        FileUtils.writeBytesToFile(bytes, source);
-        FileUtils.writeBytesToFile(bytes, target);
         try {
-            String[] args = {
-                    "ffmpeg", "-i", source.getAbsolutePath(),
-                    "-ac", "1",
-                    "-ar", "8000",
-                    "-f", "amr",
-                    "-y", target.getAbsolutePath()
-            };
-            StarterApplication.logger.info("exec(" + Arrays.toString(args) + ")");
-            String[] ss = print(Runtime.getRuntime().exec(args));
-            StarterApplication.logger.info("exec out:" + ss[0]);
-            StarterApplication.logger.error("exec err:" + ss[1]);
-        } catch (Exception e) {
+            File source = File.createTempFile("temp0", ".mp3");
+            File target = File.createTempFile("temp1", ".amr");
+            FileUtils.writeBytesToFile(bytes, source);
+            FileUtils.writeBytesToFile(bytes, target);
+            try {
+                String[] args = {
+                        "ffmpeg", "-i", source.getAbsolutePath(),
+                        "-ac", "1",
+                        "-ar", "8000",
+                        "-f", "amr",
+                        "-y", target.getAbsolutePath()
+                };
+                StarterApplication.logger.info("exec(" + Arrays.toString(args) + ")");
+                String[] ss = print(Runtime.getRuntime().exec(args));
+                StarterApplication.logger.info("exec out:" + ss[0]);
+                StarterApplication.logger.error("exec err:" + ss[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bytes = FileUtils.getBytesFromFile(target.getAbsolutePath());
+            source.delete();
+            target.delete();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        bytes = FileUtils.getBytesFromFile(target.getAbsolutePath());
-        source.delete();
-        target.delete();
         return bytes;
     }
 
@@ -402,6 +375,12 @@ public class MessageTools {
         group.sendMessage(builder.build());
     }
 
+    /**
+     * forward小心
+     *
+     * @param gid
+     * @param strings
+     */
     public static void sendMessageByForward(long gid, String[] strings) {
         Group group = bot.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
@@ -411,6 +390,13 @@ public class MessageTools {
         group.sendMessage(builder.build());
     }
 
+    /**
+     * 判断群聊是否存在某QQ
+     *
+     * @param qq
+     * @param id
+     * @return
+     */
     public static boolean containsOneInGroup(Long qq, long id) {
         try {
             return bot.getGroup(id).contains(qq);

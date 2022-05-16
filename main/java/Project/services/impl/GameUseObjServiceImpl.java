@@ -225,8 +225,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String sleObj(Long who, int id) {
         try {
             List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
-            if (id == 206 || id == 207)
-                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             if (bgids.contains(id)) {
                 long l = 0;
                 if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
@@ -259,14 +257,11 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             return SLE_TOO_MUCH;
         }
         if (contiansBgsNum(who, id, num)) {
-            if (id == 206 || id == 207)
-                return GameDataBase.getNameById(id) + ",太过昂贵,不可出售";
             removeFromBgs(who, id, num, ObjType.sell);
             long l;
             if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
             else if (ONLY_SLE.containsKey(id)) l = ONLY_SLE.get(id).longValue() / 3;
             else return "商城中为发现此物品";
-
             l = l > maxSle ? maxSle : l;
             l *= num;
             putPerson(getInfo(who).addGold(l
@@ -287,9 +282,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
     @Override
     public String objTo(Long who, int id, Long whos, Integer num) {
-        if (num > TRANSFER_ONE_MAX) {
-            return TRANSFER_TOO_MUCH;
-        }
+        if (num > TRANSFER_ONE_MAX) return TRANSFER_TOO_MUCH;
         if (contiansBgsNum(who, id, num)) {
             GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
             GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);

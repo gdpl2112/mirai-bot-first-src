@@ -266,6 +266,17 @@ public class GameDetailService {
         return String.format(ADD_HP_TIPS, v);
     }
 
+    /**
+     * 回血
+     * @param q
+     * @param v
+     * @return
+     */
+    public static String addHp(long q, long v) {
+        GameDataBase.getInfo(q).addHp(v).apply();
+        return String.format(ADD_HP_TIPS, v);
+    }
+
     public static String addHl(long q, int b) {
         Long l = GameDataBase.getInfo(q).getHll();
         Long v = percentTo(b, l);

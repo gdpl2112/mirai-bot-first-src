@@ -48,8 +48,14 @@ public class Drawer {
     private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
     private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashTreeMap<>();
     private static final Color[] COLORS = new Color[]{
-            Color.BLUE, Color.RED, Color.cyan, Color.ORANGE,
-            Color.green, Color.getHSBColor(1, 1, 1), Color.RED, Color.DARK_GRAY, Color.black
+            Color.BLUE,
+            Color.RED,
+            Color.ORANGE,
+            Color.RED,
+            new Color(159, 4, 180),
+            new Color(180, 66, 4),
+            Color.DARK_GRAY,
+            Color.BLACK
     };
     private static final Font FONT30 = new Font("宋体", Font.BOLD, 30);
     private static final Font FONT140 = new Font("宋体", Font.HANGING_BASELINE, 40);
@@ -66,7 +72,8 @@ public class Drawer {
     private static BufferedImage INFO_BASE = null;
 
     static {
-        BORDER_COLOR = new Color(123, 20, 135);
+        BORDER_COLOR =
+                new Color(123, 20, 135);
 //        BACKGROUD_COLOR = new Color(249, 79, 108);
 //        try {
 //            INFO_BASE = ImageIO.read(new File("./images/b0.png"));

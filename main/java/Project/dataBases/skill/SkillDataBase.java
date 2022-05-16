@@ -81,10 +81,20 @@ public class SkillDataBase {
      * 额外受伤
      */
     public static final String TAG_EXTRA_DAMAGE = "n";
+    /**
+     * 额外受盾
+     */
+    public static final String TAG_EXTRA_SHIELD = "o";
+    /**
+     * 蛇杖标记
+     */
+    public static final String TAG_818 = "p";
+
 
     public static final Map<String, String> TAG2NAME = new HashMap<>();
 
     static {
+        TAG2NAME.put(TAG_EXTRA_SHIELD, "受盾");
         TAG2NAME.put(TAG_EXTRA_DAMAGE, "额外受伤");
         TAG2NAME.put(TAG_XX, "吸血");
         TAG2NAME.put(TAG_FJ, "反甲");

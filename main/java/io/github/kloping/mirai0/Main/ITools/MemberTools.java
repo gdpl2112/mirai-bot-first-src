@@ -32,7 +32,7 @@ public class MemberTools {
         return User.get(q);
     }
 
-    public static synchronized String getNameFromGroup(long id, io.github.kloping.mirai0.commons.Group group) {
+    public static String getNameFromGroup(long id, io.github.kloping.mirai0.commons.Group group) {
         String name = "";
         try {
             Group group1 = bot.getGroup(group.getId());
@@ -46,7 +46,7 @@ public class MemberTools {
         }
     }
 
-    public static synchronized String getName(long id) {
+    public static String getName(long id) {
         String name = "";
         try {
             for (Group group : bot.getGroups()) {
@@ -65,5 +65,4 @@ public class MemberTools {
     public static long getRecentSpeechesGid(long qid) {
         return RECENT_SPEECHES.get(qid);
     }
-
 }

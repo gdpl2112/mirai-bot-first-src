@@ -44,6 +44,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.16:修复已知bug,移除武魂 斧头 锄头 蓝银草武魂改为蓝银花 添加武魂 落日神功 九心海棠 其第七魂技也跟随改变;移除神级/百万 年魂环,不可出售的限制,微降选择攻击消耗的魂力").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("5.12:修复已知bug,取消自动选择").append("\n");
         UPDATE_LOG.append("5.11:修复魂兽死亡之后,仍发送逃跑的信息,修复眩晕偶尔无法打断魂兽蓄力的问题,\'出徒\'").append("\n");
         UPDATE_LOG.append("5.9 :修复无法选择攻击的bug").append("\n");
