@@ -5,6 +5,7 @@ import Project.aSpring.SpringStarter;
 import Project.listeners.NbListener;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.iwanna.buy.impl.Sys;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
@@ -28,6 +29,7 @@ public class BotStarter {
     private static BotConf abot = null;
 
     public static void main(String[] args) throws Exception {
+        System.out.println(System.getProperties().get("user.dir"));
         long t = System.currentTimeMillis();
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
