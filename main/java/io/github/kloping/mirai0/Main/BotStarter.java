@@ -29,7 +29,6 @@ public class BotStarter {
     private static BotConf abot = null;
 
     public static void main(String[] args) throws Exception {
-        System.out.println(System.getProperties().get("user.dir"));
         long t = System.currentTimeMillis();
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
