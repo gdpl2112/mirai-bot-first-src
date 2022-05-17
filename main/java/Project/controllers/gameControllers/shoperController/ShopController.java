@@ -55,12 +55,12 @@ public class ShopController {
     }
 
     @Action("交易市场")
-    public String AllInfo(Group group) {
+    public String allInfo(Group group) {
         return shoperService.allInfo(group);
     }
 
     @Action("市场上架.+")
-    public String UpItem(User qq, @AllMess String mess) {
+    public String upItem(User qq, @AllMess String mess) {
         if (longs.contains(qq.getId())) {
             return "您不能上架物品";
         }
