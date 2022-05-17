@@ -22,7 +22,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -77,11 +76,10 @@ public class Resource {
     public static void verify() throws RuntimeException {
         String code = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
         if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
-        if (!Boolean.valueOf(StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class).v0(code)))
-            throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
-        else {
-            StarterApplication.logger.info("授权码验证成功√√√");
-        }
+        Kloping kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class);
+        String r0 = kloping.verify0(code);
+        if (!Boolean.valueOf(r0)) throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
+        else StarterApplication.logger.info("授权码验证成功√√√");
     }
 
     public static boolean isSuperQ(long q) {

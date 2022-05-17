@@ -85,5 +85,5 @@ public interface Kloping {
      * @return
      */
     @GetPath("/verify0")
-    String v0(@ParamName("code") String code);
+    String verify0(@ParamName("code") String code);
 }
