@@ -31,11 +31,8 @@ public class ShopDataBase {
 
     public static synchronized boolean deleteItem(Integer id) {
         ShopItem item = ITEM_MAP.get(id);
-        ITEM_MAP.remove(id);
-        item.setState(1);
-        UpdateWrapper<ShopItem> q = new UpdateWrapper<>();
-        q.eq("id", id);
-        return getShopItemMapper().update(item, q) > 0;
+        ITEM_MAP.remove(id.intValue());
+        return getShopItemMapper().deleteById(id) > 0;
     }
 
     private static Integer getId() {

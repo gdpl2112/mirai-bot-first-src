@@ -130,6 +130,8 @@ public class OtherController1 {
                 return "太棒了,回答正确";
             }
             return "回答错误";
+        } catch (Exception e) {
+            return null;
         } finally {
             sendNext(k, group.getId());
         }

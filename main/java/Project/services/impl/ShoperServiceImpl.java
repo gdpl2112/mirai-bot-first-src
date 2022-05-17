@@ -48,11 +48,12 @@ public class ShoperServiceImpl implements IShoperService {
             GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell);
             ShopItem item = new ShopItem()
                     .setItemId(id1).setWho(id).setPrice(aLong1)
-                    .setNum(Integer.valueOf(aLong + "")).setTime(System.currentTimeMillis());
+                    .setNum(Long.valueOf(aLong).intValue()).setTime(System.currentTimeMillis());
             ShopDataBase.saveItem(item);
             return UP_SHOP_ITEM_OK;
-        } else
+        } else {
             return ("你没有足够的 " + getNameById(id1));
+        }
     }
 
     @Override

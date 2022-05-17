@@ -8,7 +8,10 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.ShieldPack;
+import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
 import io.github.kloping.mirai0.commons.game.AsynchronousHf;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
@@ -20,6 +23,7 @@ import io.github.kloping.object.ObjectUtils;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -36,7 +40,7 @@ public class GameSkillDetailService {
     public static final Map<Integer, Long> JID2TIME = new HashMap<>();
     public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
     private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
-    private static List<TagPack> tagPacks = new LinkedList<>();
+    private static final List<TagPack> TAG_PACKS = new LinkedList<>();
 
     static {
         BASE_PERCENT_MAP.put(0, 10);
@@ -127,8 +131,8 @@ public class GameSkillDetailService {
     }
 
     static {
-        FrameUtils.add(() -> {
-            Iterator<TagPack> iterator = tagPacks.listIterator();
+        FrameUtils.SERVICE.scheduleAtFixedRate(() -> {
+            Iterator<TagPack> iterator = TAG_PACKS.listIterator();
             while (iterator.hasNext()) {
                 TagPack tagP = iterator.next();
                 if (!tagP.getEffected()) {
@@ -139,7 +143,7 @@ public class GameSkillDetailService {
                     StarterApplication.logger.info("remove => " + tagP);
                 }
             }
-        });
+        }, 450, 450, TimeUnit.MILLISECONDS);
     }
 
     static {
@@ -231,27 +235,6 @@ public class GameSkillDetailService {
         return (6 + (st - 1));
     }
 
-    /**
-     * 减少任何攻击
-     *
-     * @param who
-     * @param num
-     * @param v
-     * @return
-     */
-    public static boolean eddAttAny(Number who, Number num, long v) {
-        if (num.longValue() != -2) {
-            if (!GameDataBase.exist(num.longValue())) {
-                return false;
-            }
-            putPerson(GameDataBase.getInfo(num).addAtt(-v));
-        } else {
-            GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who.longValue());
-            ghostObj.setAtt(ghostObj.getAtt() - v);
-            GameJoinDetailService.saveGhostObjIn(who.longValue(), ghostObj);
-        }
-        return true;
-    }
 
     /**
      * 一个 player 对 另一个 player 的加血
@@ -323,7 +306,7 @@ public class GameSkillDetailService {
     }
 
     public static void addTagPack(TagPack tagPack) {
-        tagPacks.add(tagPack);
+        TAG_PACKS.add(tagPack);
     }
 
     /**
@@ -334,10 +317,7 @@ public class GameSkillDetailService {
      * @param t 时长 最大 30*60*1000
      */
     public static void addShield(long q, Long v, Long t) {
-        ShieldPack shieldPack = new ShieldPack();
-        shieldPack.setQ(q).setValue(v).setEffected(false);
-        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + t);
-        tagPacks.add(shieldPack);
+        addShield(q, v, getInfo(q).getHpL(), t);
     }
 
     /**
@@ -347,10 +327,7 @@ public class GameSkillDetailService {
      * @param v
      */
     public static void addShield(long q, Long v) {
-        ShieldPack shieldPack = new ShieldPack();
-        shieldPack.setQ(q).setValue(v).setEffected(false);
-        shieldPack.setMax(getInfo(q).getHpL()).setTime(System.currentTimeMillis() + 60 * 60 * 1000);
-        tagPacks.add(shieldPack);
+        addShield(q, v, 60 * 60 * 1000L);
     }
 
     /**
@@ -365,7 +342,7 @@ public class GameSkillDetailService {
         ShieldPack shieldPack = new ShieldPack();
         shieldPack.setQ(q).setValue(v).setEffected(false);
         shieldPack.setMax(maxV).setTime(System.currentTimeMillis() + t);
-        tagPacks.add(shieldPack);
+        TAG_PACKS.add(shieldPack);
     }
 
     /**

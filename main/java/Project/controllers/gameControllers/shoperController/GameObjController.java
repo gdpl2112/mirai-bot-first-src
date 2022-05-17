@@ -105,10 +105,11 @@ public class GameObjController {
             String shopName = what.trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String sss = null;
-            if (num == null || num.intValue() == 1)
+            if (num == null || num.intValue() == 1) {
                 sss = gameUseObiService.buyObj(qq.getId(), id);
-            else
+            } else {
                 sss = gameUseObiService.buyObj(qq.getId(), id, num);
+            }
             return sss;
         } catch (Exception e) {
             e.printStackTrace();

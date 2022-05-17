@@ -3,13 +3,14 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.TAG_XUAN_YU_S;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -37,19 +38,15 @@ public class Skill17 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "玄玉手") {
             @Override
             public void before() {
-                getInfo(who).addTag(TAG_XUAN_YU_S, 1).apply();
+                NormalTagPack pack = new NormalTagPack(TAG_XUAN_YU_S, info.getAddPercent() * 1000);
+                pack.setQ(who.longValue()).setValue(1L).setEffected(false);
+                addTagPack(pack);
                 setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(info.getAddPercent() * 1000L);
-                    getInfo(who).eddTag(TAG_XUAN_YU_S, 1).apply();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

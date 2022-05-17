@@ -20,7 +20,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
  */
 public class Skill16 extends SkillTemplate {
 
-
     public Skill16() {
         super(16);
     }
