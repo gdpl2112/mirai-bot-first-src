@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 
 /**
@@ -28,6 +28,18 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 @Controller
 public class TimerController {
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
+
+    static {
+        ZERO_RUNS.add(() -> {
+            try {
+                Resource.verify();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+        });
+    }
+
     public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
     private static int ts = 10;
 
