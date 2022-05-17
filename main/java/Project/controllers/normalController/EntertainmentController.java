@@ -107,7 +107,7 @@ public class EntertainmentController {
             return Tool.pathToImg(url);
         } else if (sendFlashToSuper) {
             try {
-                bot.getGroup(794238572L).sendMessage(url);
+                BOT.getGroup(794238572L).sendMessage(url);
             } catch (Exception e) {
                 e.printStackTrace();
             }

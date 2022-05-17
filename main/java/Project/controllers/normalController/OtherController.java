@@ -15,7 +15,7 @@ import net.mamoe.mirai.contact.NormalMember;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -223,7 +223,7 @@ public class OtherController {
     public Object getAllInfo(Group group, @Param("str") String str) {
         long qq = MessageTools.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
-        NormalMember member = bot.getGroup(group.getId()).get(qq);
+        NormalMember member = BOT.getGroup(group.getId()).get(qq);
         StringBuilder sb = new StringBuilder();
         sb.append("QQ:").append(qq).append("\r\n");
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");

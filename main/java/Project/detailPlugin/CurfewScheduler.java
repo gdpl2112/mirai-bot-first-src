@@ -64,8 +64,8 @@ public class CurfewScheduler extends TimerTask implements Runnable {
             for (String from : v.getFroms()) {
                 if (from != null && from.equals(dateStr)) {
                     try {
-                        Resource.bot.getGroup(k).getSettings().setMuteAll(true);
-                        Resource.bot.getGroup(k).sendMessage("宵禁开始");
+                        Resource.BOT.getGroup(k).getSettings().setMuteAll(true);
+                        Resource.BOT.getGroup(k).sendMessage("宵禁开始");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -74,8 +74,8 @@ public class CurfewScheduler extends TimerTask implements Runnable {
             for (String to : v.getTos()) {
                 if (to != null && to.equals(dateStr)) {
                     try {
-                        Resource.bot.getGroup(k).getSettings().setMuteAll(false);
-                        Resource.bot.getGroup(k).sendMessage("宵禁结束");
+                        Resource.BOT.getGroup(k).getSettings().setMuteAll(false);
+                        Resource.BOT.getGroup(k).sendMessage("宵禁结束");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

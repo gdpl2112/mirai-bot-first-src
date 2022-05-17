@@ -32,6 +32,7 @@ public class BotStarter {
         setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
         setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
         setterStarterApplication(BotStarter.class);
+        verify();
         deleteDir(new File("./cache"));
         deleteDir(new File("./cache1"));
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
@@ -45,18 +46,17 @@ public class BotStarter {
         botConfiguration.setCacheDir(new File("./cache1"));
         botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
-        Resource.bot = bot;
+        Resource.BOT = bot;
         datePath = "./Libs";
         init();
         SpringStarter.main(args);
         bot.login();
         startRegisterListenerHost(args);
         startedAfter();
+        pluginLoad();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
-        loadMc();
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
-        pluginLoad();
     }
 
     private static void loadMc() {
@@ -74,11 +74,11 @@ public class BotStarter {
     }
 
     private static void startRegisterListenerHost(String[] args) {
-        bot.getEventChannel().registerListenerHost(new MyHandler());
-        bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        bot.getEventChannel().registerListenerHost(
+        BOT.getEventChannel().registerListenerHost(new MyHandler());
+        BOT.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+        BOT.getEventChannel().registerListenerHost(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
         );
-        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
+        BOT.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 }

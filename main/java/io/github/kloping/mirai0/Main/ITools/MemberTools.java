@@ -7,7 +7,7 @@ import net.mamoe.mirai.contact.Member;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 
 /**
  * @author github-kloping
@@ -17,7 +17,7 @@ public class MemberTools {
 
     public static User getUser(long q) {
         if (User.get(q) == null) {
-            for (Group group : bot.getGroups()) {
+            for (Group group : BOT.getGroups()) {
                 if (group.contains(q)) {
                     Member member = group.get(q);
                     User user = User.create(q,
@@ -35,7 +35,7 @@ public class MemberTools {
     public static String getNameFromGroup(long id, io.github.kloping.mirai0.commons.Group group) {
         String name = "";
         try {
-            Group group1 = bot.getGroup(group.getId());
+            Group group1 = BOT.getGroup(group.getId());
             Member member = group1.get(id);
             name = member.getNameCard();
             if (name == null || name.isEmpty())
@@ -49,7 +49,7 @@ public class MemberTools {
     public static String getName(long id) {
         String name = "";
         try {
-            for (Group group : bot.getGroups()) {
+            for (Group group : BOT.getGroups()) {
                 if (group.contains(id)) {
                     Member member = group.get(id);
                     name = member.getNick();

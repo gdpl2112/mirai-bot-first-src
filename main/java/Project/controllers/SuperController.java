@@ -179,7 +179,7 @@ public class SuperController {
         if (q == -1) {
             throw new NoRunException("");
         }
-        String qStr = q == bot.getId() ? "me" : String.valueOf(q);
+        String qStr = q == BOT.getId() ? "me" : String.valueOf(q);
         str = str.replaceFirst("/execute\\[@" + qStr + "]", "");
         StarterApplication.executeMethod(q, str, q, getUser(q), Group.get(group.getId()), 0);
         return null;
@@ -197,7 +197,7 @@ public class SuperController {
 
     @Action("/即时公告.+")
     public String announcement(@AllMess String str) {
-        for (net.mamoe.mirai.contact.Group group : bot.getGroups()) {
+        for (net.mamoe.mirai.contact.Group group : BOT.getGroups()) {
             group.sendMessage(str);
         }
         return "ok";

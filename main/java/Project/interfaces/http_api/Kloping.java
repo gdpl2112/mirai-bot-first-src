@@ -70,10 +70,20 @@ public interface Kloping {
 
     /**
      * 获取视频
+     *
      * @param keyword
      * @param type
      * @return
      */
     @GetPath("api/search/video")
     VideoAnimeSource[] videoSearch(@ParamName("keyword") String keyword, @ParamName("type") String type);
+
+    /**
+     * 验证
+     *
+     * @param code
+     * @return
+     */
+    @GetPath("/verify0")
+    String v0(@ParamName("code") String code);
 }

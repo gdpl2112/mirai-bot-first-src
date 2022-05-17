@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.Main;
 
 import Project.dataBases.*;
 import Project.dataBases.skill.SkillDataBase;
+import Project.interfaces.http_api.Kloping;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -45,7 +46,7 @@ public class Resource {
     public static final List<Runnable> START_AFTER = new CopyOnWriteArrayList<>();
     public static String MY_MAME;
 
-    public static Bot bot;
+    public static Bot BOT;
 
     public static Set<Long> superQL = new HashSet<>();
     public static String datePath = "";
@@ -59,17 +60,6 @@ public class Resource {
     public static GameTaskDatabase gameTaskDatabase = null;
     public static OtherDatabase otherDatabase = null;
     public static ContextManager contextManager;
-    private static Runnable RUNNABLE_BEFORE = () -> {
-        try {
-            String u0 = contextManager.getContextEntity(String.class, "handled.url");
-            if (u0 != null && !u0.trim().isEmpty()) {
-                URL url = new URL(u0);
-                url.openStream();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    };
 
     static {
         ZERO_RUNS.add(() -> {
@@ -82,6 +72,16 @@ public class Resource {
                 System.out.println("==================删除=>" + file.getName() + "========>");
             }
         });
+    }
+
+    public static void verify() throws RuntimeException {
+        String code = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
+        if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
+        if (!Boolean.valueOf(StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class).v0(code)))
+            throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
+        else {
+            StarterApplication.logger.info("授权码验证成功√√√");
+        }
     }
 
     public static boolean isSuperQ(long q) {
@@ -146,7 +146,6 @@ public class Resource {
         StarterApplication.setAllBefore(new Runner() {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
-                onServerAddTimes();
             }
         });
         StarterApplication.addConfFile("./conf/conf.txt");
@@ -162,7 +161,7 @@ public class Resource {
         MessageChainBuilder builder = new MessageChainBuilder();
         Integer type = Integer.valueOf(objects[5].toString());
         if (type == 0) {
-            net.mamoe.mirai.contact.Group group = bot.getGroup(((Group) objects[4]).getId());
+            net.mamoe.mirai.contact.Group group = BOT.getGroup(((Group) objects[4]).getId());
             if (o == null) {
                 return;
             }
@@ -196,7 +195,7 @@ public class Resource {
             }
             //====
         } else {
-            Contact contact = bot.getGroup(((Group) objects[4]).getId()).get(((io.github.kloping.mirai0.commons.User) objects[3]).getId());
+            Contact contact = BOT.getGroup(((Group) objects[4]).getId()).get(((io.github.kloping.mirai0.commons.User) objects[3]).getId());
             if (o == null) {
                 return;
             }
@@ -219,10 +218,6 @@ public class Resource {
                 System.err.println("未知的返回类型");
             }
         }
-    }
-
-    public static void onServerAddTimes() {
-        DEA_THREADS.execute(RUNNABLE_BEFORE);
     }
 
     public static void startedAfter() {

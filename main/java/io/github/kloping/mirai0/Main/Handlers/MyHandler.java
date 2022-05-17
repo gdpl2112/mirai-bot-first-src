@@ -38,7 +38,7 @@ import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.CAP_2;
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.join;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 
 /**
  * @author github-kloping
@@ -53,9 +53,9 @@ public class MyHandler extends SimpleListenerHost {
 
     static {
         Resource.START_AFTER.add(() -> {
-            io.github.kloping.mirai0.commons.User.create(bot.getId()
-                    , bot.getGroups().stream().iterator().next().getId()
-                    , bot.getNick(), bot.getNick());
+            io.github.kloping.mirai0.commons.User.create(BOT.getId()
+                    , BOT.getGroups().stream().iterator().next().getId()
+                    , BOT.getNick(), BOT.getNick());
         });
     }
 
@@ -169,7 +169,7 @@ public class MyHandler extends SimpleListenerHost {
     }
 
     private Group getCg(long id) {
-        for (Group group : bot.getGroups()) {
+        for (Group group : BOT.getGroups()) {
             if (group.contains(id)) {
                 return group;
             }

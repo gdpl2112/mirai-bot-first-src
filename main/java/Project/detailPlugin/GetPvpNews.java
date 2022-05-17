@@ -21,7 +21,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.createImage;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
 
 /**
@@ -108,7 +108,7 @@ public class GetPvpNews {
         for (Element e : elements) {
             if (hasImgTag(e)) {
                 for (Element img : e.getElementsByTag("img")) {
-                    sb.append(createImage(bot.getGroup(gid), img.attr("src"))).append("\n");
+                    sb.append(createImage(BOT.getGroup(gid), img.attr("src"))).append("\n");
                 }
             } else {
                 sb.append(e.text()).append("\n");
@@ -142,7 +142,7 @@ public class GetPvpNews {
                 for (Element img : e.getElementsByTag("img")) {
                     String m0 = img.attr("src");
                     if (!m0.equals(upS0)) {
-                        sb.append(createImage(bot.getGroup(gid), m0)).append("\n");
+                        sb.append(createImage(BOT.getGroup(gid), m0)).append("\n");
                     }
                     upS0 = m0;
                 }

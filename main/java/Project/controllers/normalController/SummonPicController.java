@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.detailPlugin.All.getTitle;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -289,7 +289,7 @@ public class SummonPicController {
 
     @Action("/搜图.+")
     public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {
-        net.mamoe.mirai.contact.Group g = bot.getGroup(group.getId());
+        net.mamoe.mirai.contact.Group g = BOT.getGroup(group.getId());
         Long q = MessageTools.getAtFromString(mess);
         String urlStr = null;
         if (q == -1) {

@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WHERE_MEMBER_IS_MY_WIFE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
@@ -76,7 +76,7 @@ public class Controller0 {
 
     private long getRandQid(Group group) {
         Member member;
-        member = (Member) getRandT(bot.getGroup(group.getId()).getMembers().toArray(new Member[0]));
+        member = (Member) getRandT(BOT.getGroup(group.getId()).getMembers().toArray(new Member[0]));
         long qid = member.getId();
         if (WIFE.containsKey(group.getId())) {
             if (WIFE.get(group.getId()).values().contains(qid)) {

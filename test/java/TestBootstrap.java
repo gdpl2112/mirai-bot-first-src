@@ -103,6 +103,6 @@ public class TestBootstrap {
     }
 
     public static void send(Object o) {
-        Resource.bot.getGroup(759590727L).sendMessage(o.toString());
+        Resource.BOT.getGroup(759590727L).sendMessage(o.toString());
     }
 }

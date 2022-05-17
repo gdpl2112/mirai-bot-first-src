@@ -228,7 +228,7 @@ public class CallApiController {
 
     @Action("卫星云图")
     public void mn(Group g) {
-        net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
+        net.mamoe.mirai.contact.Group group = Resource.BOT.getGroup(g.getId());
         Image image = MessageTools.createImage(group, BASE_URL_CLOUD);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
@@ -239,7 +239,7 @@ public class CallApiController {
 
     @Action("全球卫星云图")
     public void m1(Group g) {
-        net.mamoe.mirai.contact.Group group = Resource.bot.getGroup(g.getId());
+        net.mamoe.mirai.contact.Group group = Resource.BOT.getGroup(g.getId());
         Image image = MessageTools.createImage(group, BASE_URL_CLOUD0);
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));

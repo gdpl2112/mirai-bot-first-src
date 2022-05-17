@@ -18,9 +18,8 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
@@ -135,7 +134,7 @@ public class GameSkillController {
                     numbers.add(-2);
                 }
                 Long l1 = getAtFromString(str);
-                str = str.replaceFirst("\\[@" + (l1 == bot.getId() ? "me" : l1) + "]", EMPTY_STR);
+                str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
                 if (l1 <= 0) {
                     break;
                 } else {

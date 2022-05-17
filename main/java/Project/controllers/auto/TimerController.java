@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 
 /**
@@ -87,7 +87,7 @@ public class TimerController {
     public static void onSix() {
         updateToday();
         THREADS.execute(() -> {
-            for (Group group : bot.getGroups()) {
+            for (Group group : BOT.getGroups()) {
                 if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }

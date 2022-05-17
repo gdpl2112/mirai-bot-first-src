@@ -63,7 +63,7 @@ public class ManagerController {
         } else if (DataBase.isFather(qq.getId(), group.getId())) {
             return;
         } else if (mess.contains("通过")) {
-            if (bot.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0)
+            if (BOT.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0)
                 return;
         }
         throw new NoRunException("无权限");
@@ -84,7 +84,7 @@ public class ManagerController {
 
     @Action("通过")
     public Object ace(User user, Group group) {
-        Member qq = Resource.bot.getGroup(group.getId()).get(user.getId());
+        Member qq = Resource.BOT.getGroup(group.getId()).get(user.getId());
         if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
             if (MyHandler.joinRequestEvent != null) {
                 MyHandler.joinRequestEvent.accept();
@@ -96,7 +96,7 @@ public class ManagerController {
 
     @Action("不通过")
     public Object rej(User user, Group group) {
-        Member qq = Resource.bot.getGroup(group.getId()).get(user.getId());
+        Member qq = Resource.BOT.getGroup(group.getId()).get(user.getId());
         if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
             if (MyHandler.joinRequestEvent != null) {
                 MyHandler.joinRequestEvent.reject();
@@ -168,7 +168,7 @@ public class ManagerController {
         }
         if (numbers.length == 1) {
             long who = numbers[0].longValue();
-            net.mamoe.mirai.contact.Group group = bot.getGroup(gr.getId());
+            net.mamoe.mirai.contact.Group group = BOT.getGroup(gr.getId());
             NormalMember m1 = group.get(Resource.qq.getQq());
             NormalMember m2 = group.get(who);
             if (m1.getPermission().getLevel() == 0) {
@@ -199,7 +199,7 @@ public class ManagerController {
 
     private String kickNum(Number[] numbers, Group g) {
         try {
-            net.mamoe.mirai.contact.Group group = bot.getGroup(g.getId());
+            net.mamoe.mirai.contact.Group group = BOT.getGroup(g.getId());
             for (Number n : numbers) {
                 try {
                     long q1 = n.longValue();
@@ -220,7 +220,7 @@ public class ManagerController {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
             return "谁？";
-        net.mamoe.mirai.contact.Group group = bot.getGroup(egroup.getId());
+        net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         return managerService.notSpeak(group.get(who), str.replace(who + "", ""), group);
     }
 
@@ -229,7 +229,7 @@ public class ManagerController {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
             return "谁？";
-        net.mamoe.mirai.contact.Group group = bot.getGroup(egroup.getId());
+        net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         String str = managerService.notSpeak(group.get(who), "0秒", group);
         return TRY_UNMUTE;
     }
@@ -247,7 +247,7 @@ public class ManagerController {
                 for (int i1 = 0; i1 < i; i1++) {
                     is[i1] = i1;
                 }
-                return managerService.backMess(bot.getGroup(group.getId()), at, group.getId(), is);
+                return managerService.backMess(BOT.getGroup(group.getId()), at, group.getId(), is);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getBase64Data;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
 
@@ -145,7 +145,7 @@ public class MessageTools {
     }
 
     public static Image createImage(String path) {
-        return createImage(bot.getAsFriend(), path);
+        return createImage(BOT.getAsFriend(), path);
     }
 
     public static String getFlashUrlFromMessageString(String mess) {
@@ -191,7 +191,7 @@ public class MessageTools {
 
     public static void sendMessageInGroup(String str, long id) {
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             Message message = MessageTools.getMessageFromString(str, group);
             group.sendMessage(message);
         } catch (Exception e) {
@@ -201,7 +201,7 @@ public class MessageTools {
 
     public static void sendMessageInGroup(Object o, long id) {
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             if (o instanceof Message) {
                 group.sendMessage((Message) o);
             } else {
@@ -215,7 +215,7 @@ public class MessageTools {
 
     public static void sendVoiceMessageInGroup(String url, long id) {
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             group.sendMessage(createVoiceMessageInGroup(url, id));
         } catch (Exception e) {
             e.printStackTrace();
@@ -224,7 +224,7 @@ public class MessageTools {
 
     public static void sendVoiceMessageInGroup(byte[] bytes, long id) {
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             group.sendMessage(createVoiceMessageInGroup(bytes, id));
         } catch (Exception e) {
             e.printStackTrace();
@@ -234,7 +234,7 @@ public class MessageTools {
     public static Message createVoiceMessageInGroup(String url, long id) {
         ExternalResource resource = null;
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
             bytes = mp32amr(bytes);
             resource = ExternalResource.create(bytes);
@@ -257,7 +257,7 @@ public class MessageTools {
     public static Message createVoiceMessageInGroup(byte[] bytes, long id) {
         ExternalResource resource = null;
         try {
-            Group group = bot.getGroup(id);
+            Group group = BOT.getGroup(id);
             bytes = mp32amr(bytes);
             resource = ExternalResource.create(bytes);
             Audio audio = group.uploadAudio(resource);
@@ -307,7 +307,7 @@ public class MessageTools {
     }
 
     public static void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
-        Group group = bot.getGroup(gid);
+        Group group = BOT.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);
         Image image = group.uploadImage(resource);
         MessageChainBuilder mcb = new MessageChainBuilder().append(getAt(qid)).append("\n").append(image);
@@ -318,7 +318,7 @@ public class MessageTools {
         if (bytes == null) {
             return null;
         }
-        Group group = bot.getGroup(gid);
+        Group group = BOT.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);
         Image image = group.uploadImage(resource);
         return image;
@@ -327,7 +327,7 @@ public class MessageTools {
     public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;
-            Group group = bot.getGroup(gid);
+            Group group = BOT.getGroup(gid);
             Message message = MessageTools.getMessageFromString(str, group);
             group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
         } catch (Exception e) {
@@ -337,7 +337,7 @@ public class MessageTools {
 
     public static void sendMessageInOneFromGroup(String str, long id, long gid) {
         try {
-            Contact contact = bot.getGroup(gid).get(id);
+            Contact contact = BOT.getGroup(gid).get(id);
             Message message = MessageTools.getMessageFromString(str, contact);
             contact.sendMessage(message);
         } catch (Exception e) {
@@ -347,7 +347,7 @@ public class MessageTools {
 
     public static void sendMessageInOneFromGroup(String str, long id) {
         try {
-            for (Group group : bot.getGroups()) {
+            for (Group group : BOT.getGroups()) {
                 if (group.contains(id)) {
                     Contact contact = group.get(id);
                     Message message = MessageTools.getMessageFromString(str, contact);
@@ -361,7 +361,7 @@ public class MessageTools {
     }
 
     public static void sendMessageByForward(long gid, Object[] objects) {
-        Group group = bot.getGroup(gid);
+        Group group = BOT.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (Object o : objects) {
             Message message;
@@ -370,7 +370,7 @@ public class MessageTools {
             } else {
                 message = getMessageFromString(o.toString(), group);
             }
-            builder.add(bot.getId(), bot.getNick(), message);
+            builder.add(BOT.getId(), BOT.getNick(), message);
         }
         group.sendMessage(builder.build());
     }
@@ -382,10 +382,10 @@ public class MessageTools {
      * @param strings
      */
     public static void sendMessageByForward(long gid, String[] strings) {
-        Group group = bot.getGroup(gid);
+        Group group = BOT.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (String string : strings) {
-            builder.add(bot.getId(), bot.getNick(), new PlainText(string));
+            builder.add(BOT.getId(), BOT.getNick(), new PlainText(string));
         }
         group.sendMessage(builder.build());
     }
@@ -399,7 +399,7 @@ public class MessageTools {
      */
     public static boolean containsOneInGroup(Long qq, long id) {
         try {
-            return bot.getGroup(id).contains(qq);
+            return BOT.getGroup(id).contains(qq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -407,7 +407,7 @@ public class MessageTools {
     }
 
     public static boolean isJoinGroup(long qq) {
-        for (net.mamoe.mirai.contact.Group group : bot.getGroups())
+        for (net.mamoe.mirai.contact.Group group : BOT.getGroups())
             if (qq == group.getId()) return true;
         return false;
     }

@@ -36,10 +36,11 @@ public class BotStarter2 {
         botConfiguration.setCacheDir(new File("./cache2"));
         botConfiguration.fileBasedDeviceInfo("./devices/device3.json");
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
-        Resource.bot = bot;
-        Resource.datePath = "./Libs2";
-        Resource.init();
-        Resource.setterStarterApplication(BotStarter2.class);
+        BOT = bot;
+        datePath = "./Libs2";
+        init();
+        setterStarterApplication(BotStarter2.class);
+        verify();
         SpringStarter.main(args);
         bot.login();
         pluginLoad();
@@ -51,12 +52,12 @@ public class BotStarter2 {
     }
 
     private static void startRegisterListenerHost(String[] args) {
-        bot.getEventChannel().registerListenerHost(new MyHandler());
-        bot.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        bot.getEventChannel().registerListenerHost(
+        BOT.getEventChannel().registerListenerHost(new MyHandler());
+        BOT.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+        BOT.getEventChannel().registerListenerHost(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
         );
-        bot.getEventChannel().registerListenerHost(new SaveHandler(args));
+        BOT.getEventChannel().registerListenerHost(new SaveHandler(args));
     }
 
 }

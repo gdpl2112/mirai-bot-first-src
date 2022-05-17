@@ -15,7 +15,7 @@ import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.bot;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -72,7 +72,7 @@ public class PointSongController {
     @Action("QQ点歌<.+=>name>")
     public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.qq(name);
-        Group group = bot.getGroup(gro.getId());
+        Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
@@ -88,7 +88,7 @@ public class PointSongController {
     @Action("酷狗点歌<.+=>name>")
     public void pointSongKugou(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.kugou(name);
-        Group group = bot.getGroup(gro.getId());
+        Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
@@ -104,7 +104,7 @@ public class PointSongController {
     @Action("网易点歌<.+=>name>")
     public void pointSongNetEase(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.netEase(name);
-        Group group = bot.getGroup(gro.getId());
+        Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
         MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
@@ -134,7 +134,7 @@ public class PointSongController {
                 return sb.toString();
             } finally {
                 Songs songs = searchSong.netEase(reping163.getData().getSongName());
-                net.mamoe.mirai.contact.Group group = bot.getGroup(gro.getId());
+                net.mamoe.mirai.contact.Group group = BOT.getGroup(gro.getId());
                 Song s1 = songs.getData()[0];
                 MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
                 group.sendMessage(share1);
@@ -195,7 +195,7 @@ public class PointSongController {
         String aName = s0.substring(s0.indexOf(BASE2) + BASE2.length() + 1, s0.indexOf(BASE4));
         String sUrl = s0.substring(s0.indexOf(BASE3) + BASE3.length());
         MusicShare share = new MusicShare(MusicKind.QQMusic, aName, aName, sUrl, imgUrl, sUrl);
-        bot.getGroup(group.getId()).sendMessage(share);
+        BOT.getGroup(group.getId()).sendMessage(share);
         return null;
     }
 }
