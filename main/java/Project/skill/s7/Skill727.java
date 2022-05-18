@@ -32,7 +32,7 @@ public class Skill727 extends SkillTemplate {
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "锄头真身") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "九心海棠真身") {
             @Override
             public void before() {
                 for (Long aLong : nearest(2, who.longValue(), nums)) {
