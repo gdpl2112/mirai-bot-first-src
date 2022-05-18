@@ -40,10 +40,11 @@ public class SpringStarter {
                     objects.add(allSource);
                 }
                 for (Field declaredField : SpringBootResource.class.getDeclaredFields()) {
-                    if (declaredField.getName().toUpperCase().endsWith("mapper")) {
+                    if (declaredField.getName().toLowerCase().endsWith("mapper")) {
                         objects.add(declaredField.getType());
                     }
                 }
+                System.out.println("get all ==>>"+objects);
                 return objects;
             }
         }.run(args);

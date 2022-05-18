@@ -38,6 +38,7 @@ public class SaverSpringStarter {
                         objects.add(allSource);
                     }
                     objects.add(SaveMapper.class);
+                    System.out.println("get all ==>>" + objects);
                     return objects;
                 }
             }.run(args);
