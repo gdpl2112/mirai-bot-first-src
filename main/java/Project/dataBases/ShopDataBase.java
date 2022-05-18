@@ -1,6 +1,5 @@
 package Project.dataBases;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 

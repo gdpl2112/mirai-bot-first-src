@@ -3,6 +3,7 @@ package Project.aSpring;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.kloping.MySpringTool.StarterApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +19,17 @@ import static Project.aSpring.SpringBootResource.*;
  * @author github-kloping
  */
 @SpringBootApplication(scanBasePackages = {"Project.aSpring.mcs"})
-@MapperScan("Project.aSpring.mcs")
+@MapperScan("Project.aSpring.mcs.mapper")
 public class SpringStarter {
     public static void main(String[] args) throws Exception {
-        configuration = SpringApplication.run(SpringStarter.class, args);
+
+        configuration = new SpringApplication(new Class[]{SpringStarter.class}) {
+            @Override
+            public ClassLoader getClassLoader() {
+                return StarterApplication.SCAN_LOADER;
+            }
+        }.run(args);
+
         environment = configuration.getEnvironment();
         init();
     }

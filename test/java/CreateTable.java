@@ -1,7 +1,5 @@
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.mirai0.Main.Handlers.AllMessage;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.*;
 
 import java.io.File;
 import java.io.IOException;

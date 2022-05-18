@@ -1,6 +1,7 @@
 package Project.aSpring;
 
 import Project.aSpring.mcs.save.SaveMapper;
+import io.github.kloping.MySpringTool.StarterApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +23,13 @@ public class SaverSpringStarter {
         try {
             args = Arrays.copyOf(args, args.length + 1);
             args[args.length - 1] = "--spring.config.location=./spring/conf/application0.yml";
-            configuration = SpringApplication.run(SpringStarter.class, args);
+
+            configuration = new SpringApplication(new Class[]{SaverSpringStarter.class}){
+                @Override
+                public ClassLoader getClassLoader() {
+                    return StarterApplication.SCAN_LOADER;
+                }
+            }.run(args);
             saveMapper = configuration.getBean(SaveMapper.class);
             System.err.println("saver spring started succeed");
         } catch (Exception e) {

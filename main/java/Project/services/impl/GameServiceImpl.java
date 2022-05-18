@@ -19,6 +19,7 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
