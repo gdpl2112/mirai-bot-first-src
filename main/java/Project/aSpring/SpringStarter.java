@@ -3,9 +3,7 @@ package Project.aSpring;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.kloping.MySpringTool.StarterApplication;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,41 +12,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.lang.reflect.Field;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import static Project.aSpring.SpringBootResource.*;
 
 /**
  * @author github-kloping
  */
 @SpringBootApplication(scanBasePackages = {"Project.aSpring.mcs"})
-@MapperScan("Project.aSpring.mcs.mapper")
 public class SpringStarter {
     public static void main(String[] args) throws Exception {
-
-        configuration = new SpringApplication(new Class[]{SpringStarter.class}) {
-            @Override
-            public ClassLoader getClassLoader() {
-                return StarterApplication.SCAN_LOADER;
-            }
-
-            @Override
-            public Set<Object> getAllSources() {
-                Set<Object> objects = new LinkedHashSet<>();
-                for (Object allSource : super.getAllSources()) {
-                    objects.add(allSource);
-                }
-                for (Field declaredField : SpringBootResource.class.getDeclaredFields()) {
-                    if (declaredField.getName().toLowerCase().endsWith("mapper")) {
-                        objects.add(declaredField.getType());
-                    }
-                }
-                System.out.println("get all ==>>"+objects);
-                return objects;
-            }
-        }.run(args);
+        configuration = new SpringApplication(new Class[]{SpringStarter.class}).run(args);
         environment = configuration.getEnvironment();
         init();
     }
