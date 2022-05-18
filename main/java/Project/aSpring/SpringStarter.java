@@ -13,6 +13,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.lang.reflect.Field;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import static Project.aSpring.SpringBootResource.*;
 
 /**
@@ -27,6 +31,20 @@ public class SpringStarter {
             @Override
             public ClassLoader getClassLoader() {
                 return StarterApplication.SCAN_LOADER;
+            }
+
+            @Override
+            public Set<Object> getAllSources() {
+                Set<Object> objects = new LinkedHashSet<>();
+                for (Object allSource : super.getAllSources()) {
+                    objects.add(allSource);
+                }
+                for (Field declaredField : SpringBootResource.class.getDeclaredFields()) {
+                    if (declaredField.getName().toUpperCase().endsWith("mapper")) {
+                        objects.add(declaredField.getType());
+                    }
+                }
+                return objects;
             }
         }.run(args);
 

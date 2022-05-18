@@ -20,6 +20,7 @@ public class SpringBootResource {
     public static String address;
     public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
+
     public static UserScoreMapper scoreMapper;
     public static PersonInfoMapper personInfoMapper;
     public static GInfoMapper gInfoMapper;
