@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.kloping.MySpringTool.StarterApplication;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +49,6 @@ public class SpringStarter {
                 return objects;
             }
         }.run(args);
-
         environment = configuration.getEnvironment();
         init();
     }
