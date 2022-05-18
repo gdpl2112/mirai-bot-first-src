@@ -49,7 +49,7 @@ public class GameDetailService {
             @Override
             public void run() {
                 ZERO_RUNS.add(() -> {
-                    GameController.deleteC.clear();
+                    GameController.DELETE_C.clear();
                     GameDataBase.HIST_INFOS.clear();
                     DataBase.HIST_U_SCORE.clear();
                     SpringBootResource.getPersonInfoMapper().updateAll();

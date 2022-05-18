@@ -18,6 +18,7 @@ import static Project.aSpring.SpringBootResource.*;
  * @author github-kloping
  */
 @SpringBootApplication(scanBasePackages = {"Project.aSpring.mcs"})
+@MapperScan("Project.aSpring.mcs.mapper")
 public class SpringStarter {
     public static void main(String[] args) throws Exception {
         configuration = new SpringApplication(new Class[]{SpringStarter.class}).run(args);

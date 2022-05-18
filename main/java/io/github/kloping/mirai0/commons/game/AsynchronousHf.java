@@ -22,7 +22,7 @@ public class AsynchronousHf extends AsynchronousThing {
             future.cancel(true);
             over();
         } else {
-            GameDetailService.addHp(q1, (int) value);
+            GameDetailService.addHp(q1, (long) value);
         }
     }
 }

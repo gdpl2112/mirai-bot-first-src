@@ -37,7 +37,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class GameController {
 
     public static final float MAX_XP = 1.5f;
-    public static final Map<Long, Integer> deleteC = new ConcurrentHashMap<>();
+    public static final Map<Long, Integer> DELETE_C = new ConcurrentHashMap<>();
     private static List<String> listFx = new ArrayList<>();
     private static String COM13 = "";
 
@@ -181,14 +181,14 @@ public class GameController {
             return CHALLENGE_ING;
         }
         try {
-            if (deleteC.containsKey(qq.getId()))
-                if (deleteC.get(qq.getId()) >= 3)
-                    return "一天仅可转生三次";
+            if (DELETE_C.containsKey(qq.getId()))
+                if (DELETE_C.get(qq.getId()) >= 5)
+                    return "一天仅可转生五次";
             return gameService.returnA(qq.getId());
         } finally {
-            if (deleteC.containsKey(qq.getId()))
-                deleteC.put(qq.getId(), deleteC.get(qq.getId()) + 1);
-            else deleteC.put(qq.getId(), 1);
+            if (DELETE_C.containsKey(qq.getId()))
+                DELETE_C.put(qq.getId(), DELETE_C.get(qq.getId()) + 1);
+            else DELETE_C.put(qq.getId(), 1);
         }
     }
 
@@ -222,11 +222,9 @@ public class GameController {
     @Action("攻击.+")
     public String AttWho(User qq, @AllMess String chain, Group group) {
         long who = MessageTools.getAtFromString(chain);
-        if (who == -1)
-            return NOT_FOUND_AT;
+        if (who == -1) return NOT_FOUND_AT;
         long at = getInfo(qq.getId()).getAk1();
-        if (at > System.currentTimeMillis())
-            return String.format(BG_WAIT_TIPS, getTimeTips(at));
+        if (at > System.currentTimeMillis()) return String.format(BG_WAIT_TIPS, getTimeTips(at));
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         String sss = gameService.att(qq.getId(), who, group);
         getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();
