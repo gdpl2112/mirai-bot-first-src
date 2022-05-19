@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.19:修复了转生之后第一次就遇十万的问题").append("\n");
         UPDATE_LOG.append("5.18:每日可转生5次,第八魂技开发进度60%").append("\n");
         UPDATE_LOG.append("5.17:落日神功 改为=> 落日神弓").append("\n");
         UPDATE_LOG.append("5.16:修复已知bug,移除武魂 斧头 锄头 蓝银草武魂改为蓝银花 添加武魂 落日神功 九心海棠 其第七魂技也跟随改变;移除神级/百万 年魂环,不可出售的限制,微降选择攻击消耗的魂力").append("\n");

@@ -62,6 +62,8 @@ public class JoinAcService {
             } else {
                 r = Tool.RANDOM.nextInt(31);
             }
+        } else if (r0 == -1) {
+            r = Tool.RANDOM.nextInt(250);
         } else {
             r = r0;
         }
