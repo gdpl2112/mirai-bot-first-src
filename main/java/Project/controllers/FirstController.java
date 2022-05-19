@@ -13,11 +13,5 @@ import io.github.kloping.mirai0.commons.User;
  */
 @Controller
 public class FirstController {
-    @AutoStand
-    AiBaidu aiBaidu;
 
-    @Action("测试.+")
-    public Object a(@AllMess String mess, Group group, User user) throws Exception {
-        return null;
-    }
 }
