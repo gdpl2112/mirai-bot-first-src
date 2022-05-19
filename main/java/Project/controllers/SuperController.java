@@ -1,5 +1,6 @@
 package Project.controllers;
 
+import Project.controllers.auto.GameConfSource;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -10,15 +11,22 @@ import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.object.ObjectUtils;
+import io.github.kloping.serialize.HMLObject;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
+import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.HIST_INFOS;
@@ -27,8 +35,7 @@ import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTime;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -43,6 +50,30 @@ public class SuperController {
 
     @AutoStand
     IManagerService managerService;
+
+    public static Map<String, Object> AUTO_CONF = new HashMap<>();
+    public static String AUTO_CONF_PATH = "./conf/auto-conf.hml";
+
+    static {
+        try {
+            AUTO_CONF = (Map<String, Object>) HMLObject.parseObject(FileUtils.getStringFromFile(AUTO_CONF_PATH)).toJavaObject();
+            if (AUTO_CONF == null) AUTO_CONF = new HashMap<>();
+            for (Field declaredField : GameConfSource.class.getDeclaredFields()) {
+                String name = declaredField.getName();
+                if (AUTO_CONF.containsKey(name)) {
+                    Object v0 = AUTO_CONF.get(name);
+                    if (v0 != null) {
+                        declaredField.set(null, ObjectUtils.maybeType(v0.toString()));
+                    }
+                } else {
+                    AUTO_CONF.put(name, declaredField.get(null));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
+    }
 
     @AutoStand
     private ZongMenServiceImpl zons;
@@ -244,7 +275,7 @@ public class SuperController {
         long who = MessageTools.getAtFromString(l);
         if (who == -1) return ERR_TIPS;
         getInfo(who).setBgk(0L).apply();
-        return "OK";
+        return OK_TIPS;
     }
 
     @Action("/跳过进入冷却.+")
@@ -259,4 +290,28 @@ public class SuperController {
             return "not found";
         }
     }
+
+    @Action("/更改武魂<.+=>mess>")
+    public String modifyWh(@Param("mess") String mess) {
+        long who = MessageTools.getAtFromString(mess);
+        if (who == -1) return ERR_TIPS;
+        mess = mess.replace("[@" + who + "]", "");
+        Integer id = GameDataBase.NAME_2_ID_MAPS.get(mess);
+        if (id == null) return ERR_TIPS;
+        else {
+            getInfo(who).setWh(id).apply();
+            return OK_TIPS;
+        }
+    }
+
+    @Action("/更改转生次数<.+=>mess>")
+    public String modifyDMax(@Param("mess") String mess) {
+        Integer c = getInteagerFromStr(mess);
+        if (c == null) return ERR_TIPS;
+        AUTO_CONF.put("DELETE_MAX", c);
+        DELETE_MAX = c;
+        FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
+        return OK_TIPS;
+    }
+
 }

@@ -42,7 +42,6 @@ public class ControllerSource {
     @AutoStand
     public static GameServiceImpl gameService;
 
-
     public static GameReceiver0 receiver0 = new GameReceiver0();
 
     public static char[] cs = new char[]{
@@ -75,4 +74,5 @@ public class ControllerSource {
             return new Object[]{e.getMessage()};
         }
     }
+
 }

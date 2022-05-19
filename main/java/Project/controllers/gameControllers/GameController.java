@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -182,8 +183,8 @@ public class GameController {
         }
         try {
             if (DELETE_C.containsKey(qq.getId()))
-                if (DELETE_C.get(qq.getId()) >= 5)
-                    return "一天仅可转生五次";
+                if (DELETE_C.get(qq.getId()) >= DELETE_MAX)
+                    return "当日转生次数上限";
             return gameService.returnA(qq.getId());
         } finally {
             if (DELETE_C.containsKey(qq.getId()))
