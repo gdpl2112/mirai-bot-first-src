@@ -3,6 +3,7 @@ package Project.services.detailServices;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
+import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
@@ -63,9 +64,11 @@ public class GameJoinDetailService {
      * @param att      值
      * @param show     返回攻击后的魂兽信息
      * @param canAttMe 魂兽是否可攻击我
+     * @param bo       if false don't broadcast
      * @return
      */
-    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
+    public static String attGho(long who, long att, boolean show, boolean canAttMe,
+                                GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         if (ghostObj == null) {
             return "\n没有遇到魂兽或 已过期,或已死亡";
@@ -139,7 +142,13 @@ public class GameJoinDetailService {
             return sb.toString();
         } finally {
             IDXS.remove((Object) ghostObj.getIDX());
+            if (bo)
+                SelectAttBroadcast.INSTANCE.broadcast(who, -2, att, 2);
         }
+    }
+
+    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
+        return attGho(who, att, show, canAttMe, type, mandatory, true);
     }
 
     public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
@@ -151,7 +160,7 @@ public class GameJoinDetailService {
         long v1 = getInfo(qq).getHj();
         long v2 = ghostObj.getHj();
         int bv = toPercent(v1, v2);
-        if (bv >= 120) {
+        if (bv >= 90) {
             return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
                     getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),

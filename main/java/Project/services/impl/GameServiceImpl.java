@@ -2,6 +2,7 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
 import Project.controllers.gameControllers.GameController2;
@@ -19,7 +20,6 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
@@ -42,6 +42,7 @@ import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.GameSkillDetailService.getTagDesc;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
@@ -376,6 +377,22 @@ public class GameServiceImpl implements IGameService {
      * @return
      */
     public String attNow(Long p1, Long p2, Group g1, Integer v) {
+        return attNow(p1, p2, g1, v, 100, true, true);
+    }
+
+    /**
+     * 现在攻击
+     *
+     * @param p1
+     * @param p2
+     * @param g1
+     * @param v
+     * @param by   100 => 正常 (100%
+     * @param lose if false don't lose hl
+     * @param bo   if false don't broadcast
+     * @return
+     */
+    public String attNow(Long p1, Long p2, Group g1, Integer v, Integer by, boolean lose, boolean bo) {
         Future future = threads.submit(new Runnable() {
             private Group group = g1;
             private String tips;
@@ -403,11 +420,15 @@ public class GameServiceImpl implements IGameService {
                                 if (i == 1) {
                                     l1 *= 0.9f;
                                 }
-                                tips += GameDetailService.consumedHl(who, l);
+                                percentTo(by, l1);
+                                if (!lose)
+                                    tips += GameDetailService.consumedHl(who, l);
                                 tips += GameDetailService.beaten(q2, who, l1);
                                 if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
                                     tips += GameDetailService.onAtt(who, q2, l1);
                                 }
+                                if (bo)
+                                    SelectAttBroadcast.INSTANCE.broadcast(p1, p2, l1, 1);
                                 if (getInfo(q2).getHp() > 0) {
                                     tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力\n" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                                 } else {
@@ -444,7 +465,7 @@ public class GameServiceImpl implements IGameService {
                 MessageTools.sendMessageInGroup(at(who) + "\r\n" + line, group.getId());
             }
         });
-        BaseInfoTemp.append(p1, future);
+        BaseInfoTemp.append(p1, future, bo);
         return "准备攻击中...";
     }
 

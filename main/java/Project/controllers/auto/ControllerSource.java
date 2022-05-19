@@ -5,6 +5,7 @@ import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.impl.GameServiceImpl;
 import Project.services.player.PlayerBehavioralManager;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
@@ -38,6 +39,9 @@ public class ControllerSource {
     public static SummonPicController entertainmentController3;
     @AutoStand
     public static PlayerBehavioralManager playerBehavioralManager;
+    @AutoStand
+    public static GameServiceImpl gameService;
+
 
     public static GameReceiver0 receiver0 = new GameReceiver0();
 

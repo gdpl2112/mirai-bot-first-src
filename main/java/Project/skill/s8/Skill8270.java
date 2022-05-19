@@ -4,22 +4,20 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
  */
-public class Skill8190 extends SkillTemplate {
+public class Skill8270 extends SkillTemplate {
 
-    public Skill8190() {
-        super(8190);
+    public Skill8270() {
+        super(8270);
     }
 
     @Override
@@ -29,7 +27,7 @@ public class Skill8190 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蓝银花第八魂技,对指定敌人持续 累计造成%s%%的伤害,伤害存在期间,自身持续恢复生命值",
+        return String.format("九心海棠第八魂技,为自己和其他指定4人恢复最大生命值得%s%%的血量和护盾",
                 getAddP(getJid(), getId())
         );
     }
@@ -40,18 +38,18 @@ public class Skill8190 extends SkillTemplate {
 
             @Override
             public void before() {
+
             }
 
             @Override
             public void run() {
                 super.run();
-                if (nums.length <= 0) return;
-                long qid = nums[0].longValue();
-                BaseInfo baseInfo = getBaseInfoFromAny(who.longValue(), qid);
-                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
-                v /= 12;
-                addAttSchedule(12, qid, who.longValue(), v, 10000, getRecentSpeechesGid(who.longValue()), null);
-                addHFSchedule(12, who.longValue(), v, 10000, getRecentSpeechesGid(who.longValue()) );
+                long v = percentTo(info.getAddPercent(), getPersonInfo().getHpL());
+                for (long qid : nearest(5, who.longValue(), nums)) {
+                    addHp(who, qid, info.getAddPercent());
+                    addShield(qid, v);
+                    setTips("作用于:" + Tool.at(who.longValue()));
+                }
             }
         };
     }
