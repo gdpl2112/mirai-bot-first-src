@@ -1019,7 +1019,12 @@ public class Tool {
     }
 
     public static String[] getIllegal() {
-        return contextManager.getContextEntity(String.class, "Illegal.txt").trim().split("\\s+");
+        String s0 = contextManager.getContextEntity(String.class, "Illegal.txt");
+        if (s0 != null) {
+            return s0.trim().split("\\s+");
+        } else {
+            return new String[]{};
+        }
     }
 
     public static String[] getIllegalSend() {
