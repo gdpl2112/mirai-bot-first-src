@@ -292,12 +292,13 @@ public class SuperController {
     }
 
     @Action("/更改武魂<.+=>mess>")
-    public String modifyWh(@Param("mess") String mess) {
+    public String modifyWuhun(@Param("mess") String mess) {
         long who = MessageTools.getAtFromString(mess);
         if (who == -1) return ERR_TIPS;
         mess = mess.replace("[@" + who + "]", "");
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(mess);
         if (id == null) return ERR_TIPS;
+        else if (id > 100) return ERR_TIPS;
         else {
             getInfo(who).setWh(id).apply();
             return OK_TIPS;
@@ -305,7 +306,7 @@ public class SuperController {
     }
 
     @Action("/更改转生次数<.+=>mess>")
-    public String modifyDMax(@Param("mess") String mess) {
+    public String modifyDeleteMax(@Param("mess") String mess) {
         Integer c = getInteagerFromStr(mess);
         if (c == null) return ERR_TIPS;
         AUTO_CONF.put("DELETE_MAX", c);
