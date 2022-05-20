@@ -1028,9 +1028,14 @@ public class Tool {
     }
 
     public static String[] getIllegalSend() {
-        return illegalSends == null ?
-                illegalSends = contextManager.getContextEntity(String.class, "Illegal.send").trim().split("\\s+") :
-                illegalSends;
+        String s0 = contextManager.getContextEntity(String.class, "Illegal.send");
+        if (s0 != null) {
+            return illegalSends == null ?
+                    illegalSends = contextManager.getContextEntity(String.class, "Illegal.send").trim().split("\\s+") :
+                    illegalSends;
+        } else {
+            return new String[]{};
+        }
     }
 
     /**
