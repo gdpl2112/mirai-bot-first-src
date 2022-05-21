@@ -5,7 +5,6 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -43,13 +42,12 @@ public class Skill5 extends SkillTemplate {
 
             @Override
             public void before() {
+                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 for (Long q : nearest(3, who.longValue(), nums)) {
                     if (!exist(q)) {
                         continue;
                     }
                     PersonInfo pInfo = getInfo(q);
-                    Long lon = pInfo.att();
-                    long v = CommonSource.percentTo(info.getAddPercent(), lon);
                     v = v > pInfo.att() ? pInfo.att() : v;
                     addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v));
                     setTips("作用于 " + Tool.at(q));

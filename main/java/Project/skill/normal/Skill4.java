@@ -5,7 +5,6 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -42,13 +41,12 @@ public class Skill4 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体加攻击技能") {
             @Override
             public void before() {
+                long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 Long q = oneNearest(who, nums);
                 if (!exist(q)) {
                     return;
                 }
                 PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.att();
-                long v = CommonSource.percentTo(info.getAddPercent(), lon);
                 v = v > pInfo.att() ? pInfo.att() : v;
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
                 setTips("作用于 " + Tool.at(q));
