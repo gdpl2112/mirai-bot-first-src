@@ -784,10 +784,7 @@ public class PersonInfo implements BaseInfo {
     }
 
     public Integer getWhType() {
-        if (whType == null || whType == -1) {
-            return (whType = GameDataBase.WH_2_TYPE.get(wh.intValue()));
-        }
-        return whType;
+       return GameDataBase.getWhTypeByWh(wh);
     }
 
     public PersonInfo setWhType(Integer whType) {

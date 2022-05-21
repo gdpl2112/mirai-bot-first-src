@@ -346,6 +346,13 @@ public class GameDataBase {
         SpringBootResource.getKillGhostMapper().update(n0, who.longValue());
     }
 
+    public static Integer getWhTypeByWh(Integer wh) {
+        if (wh>=1){
+            return WH_2_TYPE.get(wh);
+        }
+        return -1;
+    }
+
     public static final String getWhType(int type) {
         switch (type) {
             case 0:
@@ -945,4 +952,5 @@ public class GameDataBase {
         String pathN = path + "/dates/users/" + who + "/" + DataName;
         return Tool.putStringInFile(line, pathN, "utf-8");
     }
+
 }
