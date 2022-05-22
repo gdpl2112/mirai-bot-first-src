@@ -4,6 +4,7 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
+import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -12,8 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import static Project.services.detailServices.GameSkillDetailService.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 
 /**
  * @author github.kloping
@@ -32,7 +33,7 @@ public class Skill725 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("青龙真身,增加%s%%的攻击,并为自己增加%s%%的反甲效果", getAddP(getJid(), getId()), getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 3);
+        return String.format("青龙真身,增加%s%%的攻击,并为自己增加%s%%的反甲效果", getAddP(getJid(), getId()), getAddP(getJid(), getId()));
     }
 
     @Override
@@ -43,25 +44,18 @@ public class Skill725 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.att();
+                Long lon = getPersonInfo().att();
                 int b = info.getAddPercent();
-                v1 = CommonSource.percentTo(b, lon);
-                pInfo.addTag(TAG_FJ, b / 3);
-                putPerson(pInfo);
+                v1 = percentTo(b, lon);
+                NormalTagPack tagPack = new NormalTagPack(TAG_FJ,getDuration(getJid()));
+                tagPack.setQ(who.longValue()).setValue((long) b).setEffected(false);
+                addTagPack(tagPack);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    putPerson(getInfo(who).eddTag(TAG_FJ));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setTips("武魂真身失效");
             }
         };
     }

@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skill.SkillTemplate;
-import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -11,8 +10,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.*;
@@ -43,14 +40,11 @@ public class Skill728 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = who.longValue();
-                PersonInfo pInfo = getInfo(q);
-                Long lon = pInfo.att();
+                Long lon = getPersonInfo().att();
                 long v = percentTo(info.getAddPercent(), lon);
-                pInfo.setAk1(2L);
-                pInfo.setJak1(2L);
-                putPerson(pInfo);
+                getPersonInfo().setAk1(2L);
+                getPersonInfo().setJak1(2L).apply();
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
-
                 playerBehavioralManager.add(
                         new Growth().setQid(q).setTime(System.currentTimeMillis() + getDuration(getJid()))
                                 .setType(PlayerBehavioralManager.ATTACK_AFTER).setValue(-playerBehavioralManager.getAttPost(who.longValue()) / 2));

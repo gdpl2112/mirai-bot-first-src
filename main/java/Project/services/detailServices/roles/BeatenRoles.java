@@ -28,35 +28,95 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 public class BeatenRoles {
     public static final String THIS_DANGER_OVER_FLAG = "$";
+    private static final String CANT_HIDE_ARG_KEY = "cant hide";
+    private static final String TRUE_HIT_ARG_KEY = "true att";
 
-    public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
-            int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
-            int lose = 100 - r;
-            nv = percentTo(lose, nv);
-            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-            response.setNowV(nv);
-            sb.append(NEWLINE);
-            sb.append("伤害免疫").append(r).append("%");
-            return response;
+    public static final Role XG_VERTIGO_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        BaseInfo p2 = getBaseInfoFromAny(q1, q2);
+        if (p2.isVertigo()) {
+            sb.append(NEWLINE).append("攻击者处于眩晕状态,攻击无效");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
         }
         return null;
     };
-
-    public static final Role TAG_EXTRA_DAMAGE_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(TAG_EXTRA_DAMAGE)) {
-            int r = p1.getTagValue(TAG_EXTRA_DAMAGE).intValue();
-            int lose = 100 + r;
-            nv = percentTo(lose, nv);
-            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-            response.setNowV(nv);
-            sb.append(NEWLINE);
-            sb.append("伤害额外").append(r).append("%");
-            return response;
+    public static final Role TAG_WD_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_WD)) {
+            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
+        } else {
+            return null;
+        }
+    };
+    public static final Role TAG_MS_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_MS)) {
+            if (p1.getHp() - ov <= 0) {
+                putPerson(p1.eddTag(SkillDataBase.TAG_MS));
+                sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("被攻击者,由于使用了免死类魂技,免疫此次 死亡");
+                return new RoleResponse(STOP, ov, 0, q1, q2);
+            }
         }
         return null;
     };
-
+    public static final Role TAG_XYS_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(TAG_XUAN_YU_S)) {
+            putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
+            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("免疫此次伤害");
+            return new RoleResponse(STOP, ov, 0, q1, q2);
+        }
+        return null;
+    };
+    public static final Role TAG_CANT_HIDE_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+        if (p1.containsTag(SkillDataBase.TAG_CANT_HIDE)) {
+            response.addArg(CANT_HIDE_ARG_KEY, true);
+        } else {
+            response.addArg(CANT_HIDE_ARG_KEY, false);
+        }
+        return response;
+    };
+    public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
+            if (proZ(gameBoneService.getSoulAttribute(q1.longValue()).getHideChance())) {
+                sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("得益于魂骨你闪避了此次伤害");
+                return new RoleResponse(STOP, ov, 0, q1, q2);
+            }
+        }
+        return null;
+    };
+    public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
+        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+        response.addArg(TRUE_HIT_ARG_KEY, false);
+        if (q2.longValue() > 0) {
+            if (getInfo(q2).containsTag(TAG_TRUE)) {
+                sb.append(NEWLINE).append("此次真实伤害");
+                response.addArg(TRUE_HIT_ARG_KEY, true);
+            }
+        }
+        return response;
+    };
+    public static final Role TAG_SHIELD_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
+            if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString())) {
+                RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+                sb.append(NEWLINE);
+                long v = p1.getTagValue(SkillDataBase.TAG_SHIELD).longValue();
+                if (v >= nv) {
+                    Long i = v - nv;
+                    p1.eddTag(SkillDataBase.TAG_SHIELD, v);
+                    p1.addTag(SkillDataBase.TAG_SHIELD, i);
+                    sb.append("此次伤害全部护盾抵挡");
+                    sb.append("护盾剩余:").append(i);
+                    response.setNowV(0);
+                } else {
+                    p1.eddTag(SkillDataBase.TAG_SHIELD, v);
+                    response.setNowV(nv - v);
+                    sb.append("部分伤害护盾抵挡,伤害剩余:").append(response.getNowV());
+                }
+                return response;
+            }
+        }
+        return null;
+    };
     public static final Role HG_HF = (sb, q1, q2, ov, nv, p1, args) -> {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(q1.longValue());
         if (proZ(soulAttribute.getHpChance())) {
@@ -72,53 +132,6 @@ public class BeatenRoles {
         }
         return null;
     };
-    /**
-     * 以下免疫到此
-     */
-    public static final Role TAG_XYS_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(TAG_XUAN_YU_S)) {
-            putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
-            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("免疫此次伤害");
-            return new RoleResponse(STOP, ov, 0, q1, q2);
-        }
-        return null;
-    };
-    public static final Role TAG_MS_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_MS)) {
-            if (p1.getHp() - ov <= 0) {
-                putPerson(p1.eddTag(SkillDataBase.TAG_MS));
-                sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("被攻击者,由于使用了免死类魂技,免疫此次 死亡");
-                return new RoleResponse(STOP, ov, 0, q1, q2);
-            }
-        }
-        return null;
-    };
-    public static final Role TAG_WD_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_WD)) {
-            sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
-            return new RoleResponse(STOP, ov, 0, q1, q2);
-        } else {
-            return null;
-        }
-    };
-    public static final Role XG_VERTIGO_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        BaseInfo p2 = getBaseInfoFromAny(q1, q2);
-        if (p2.isVertigo()) {
-            sb.append(NEWLINE).append("攻击者处于眩晕状态,攻击无效");
-            return new RoleResponse(STOP, ov, 0, q1, q2);
-        }
-        return null;
-    };
-
-    public static final Role TAG_LIGHT_F_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(TAG_LIGHT_F)) {
-            Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
-            long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
-            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n");
-        }
-        return null;
-    };
-
     public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
             sb.append(NEWLINE);
@@ -137,6 +150,62 @@ public class BeatenRoles {
         }
         return null;
     };
+    public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
+            int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
+            int lose = 100 - r;
+            nv = percentTo(lose, nv);
+            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+            response.setNowV(nv);
+            sb.append(NEWLINE);
+            sb.append("伤害免疫").append(r).append("%");
+            return response;
+        }
+        return null;
+    };
+    public static final Role TAG_EXTRA_DAMAGE_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(TAG_EXTRA_DAMAGE)) {
+            int r = p1.getTagValue(TAG_EXTRA_DAMAGE).intValue();
+            int lose = 100 + r;
+            nv = percentTo(lose, nv);
+            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+            response.setNowV(nv);
+            sb.append(NEWLINE);
+            sb.append("伤害额外").append(r).append("%");
+            return response;
+        }
+        return null;
+    };
+    public static final Role TAG_LIGHT_F_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
+        if (p1.containsTag(TAG_LIGHT_F)) {
+            Integer b = p1.getTagValue(TAG_LIGHT_F).intValue();
+            long v = percentTo(b, getBaseInfoFromAny(q1, q2).getAtt());
+            GameSkillDetailService.addAttSchedule(2, q2.longValue(), q1.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n");
+        }
+        return null;
+    };
+    public static final Role TAG_EDD_ATT_R = (sb, q1, q2, ov, nv, p1, args) -> {
+        BaseInfo baseInfo = getBaseInfoFromAny(q2, q1);
+        if (baseInfo.containsTag(TAG_EDD_ATT)) {
+            int b0 = baseInfo.getTagValue(TAG_EDD_ATT).intValue();
+            int b1 = 100 - b0;
+            nv = percentTo(b1, nv);
+            RoleResponse response = new RoleResponse(ov, nv, q1, q2);
+            response.setNowV(nv);
+            sb.append(NEWLINE);
+            sb.append("伤害减伤").append(b1).append("%");
+            return response;
+        }
+        return null;
+    };
+
+
+    public static final Role[] RS = new Role[]{
+            XG_VERTIGO_R, TAG_WD_R, TAG_MS_R, TAG_XYS_R, TAG_CANT_HIDE_R, HG_HIDE,
+            TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_EDD_ATT_R,
+            TAG_EXTRA_DAMAGE_R, TAG_LIGHT_F_ROLE
+    };
+
     public static final Role TAG_XX = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_XX)) {
             int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
@@ -149,7 +218,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_SHE_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
         if (q2.longValue() > 0) {
             PersonInfo info1 = GameDataBase.getInfo(q2);
@@ -184,70 +252,6 @@ public class BeatenRoles {
             GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n");
         }
         return null;
-    };
-
-    private static final String CANT_HIDE_ARG_KEY = "cant hide";
-    /**
-     * 特殊闪避
-     */
-    public static final Role HG_HIDE = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (args.containsKey(CANT_HIDE_ARG_KEY) && Boolean.parseBoolean(args.get(CANT_HIDE_ARG_KEY).toString()) == true) {
-            if (proZ(gameBoneService.getSoulAttribute(q1.longValue()).getHideChance())) {
-                sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("得益于魂骨你闪避了此次伤害");
-                return new RoleResponse(STOP, ov, 0, q1, q2);
-            }
-        }
-        return null;
-    };
-    public static final Role TAG_CANT_HIDE_R = (sb, q1, q2, ov, nv, p1, args) -> {
-        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-        if (p1.containsTag(SkillDataBase.TAG_CANT_HIDE)) {
-            response.addArg(CANT_HIDE_ARG_KEY, true);
-        } else {
-            response.addArg(CANT_HIDE_ARG_KEY, false);
-        }
-        return response;
-    };
-    private static final String TRUE_HIT_ARG_KEY = "true att";
-
-    public static final Role TAG_SHIELD_ROLE = (sb, q1, q2, ov, nv, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_SHIELD)) {
-            if (!Boolean.parseBoolean(args.get(TRUE_HIT_ARG_KEY).toString())) {
-                RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-                sb.append(NEWLINE);
-                long v = p1.getTagValue(SkillDataBase.TAG_SHIELD).longValue();
-                if (v >= nv) {
-                    Long i = v - nv;
-                    p1.eddTag(SkillDataBase.TAG_SHIELD, v);
-                    p1.addTag(SkillDataBase.TAG_SHIELD, i);
-                    sb.append("此次伤害全部护盾抵挡");
-                    sb.append("护盾剩余:").append(i);
-                    response.setNowV(0);
-                } else {
-                    p1.eddTag(SkillDataBase.TAG_SHIELD, v);
-                    response.setNowV(nv - v);
-                    sb.append("部分伤害护盾抵挡,伤害剩余:").append(response.getNowV());
-                }
-                return response;
-            }
-        }
-        return null;
-    };
-    public static final Role TAG_TURE = (sb, q1, q2, ov, nv, p1, args) -> {
-        RoleResponse response = new RoleResponse(ov, nv, q1, q2);
-        response.addArg(TRUE_HIT_ARG_KEY, false);
-        if (q2.longValue() > 0) {
-            if (getInfo(q2).containsTag(TAG_TRUE)) {
-                sb.append(NEWLINE).append("此次真实伤害");
-                response.addArg(TRUE_HIT_ARG_KEY, true);
-            }
-        }
-        return response;
-    };
-
-    public static final Role[] RS = new Role[]{
-            XG_VERTIGO_R, TAG_WD_R, TAG_MS_R, TAG_XYS_R, TAG_CANT_HIDE_R, HG_HIDE,
-            TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_EXTRA_DAMAGE_R, TAG_LIGHT_F_ROLE
     };
 
     public static final Role[] ATT_RS = new Role[]{
