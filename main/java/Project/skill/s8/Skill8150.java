@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.Main.Temp.THREADS;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.SKILL_BREAK;
 

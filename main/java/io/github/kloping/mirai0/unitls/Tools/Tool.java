@@ -19,7 +19,7 @@ import static io.github.kloping.mirai0.Main.Resource.contextManager;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
-    public static final String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    public static final String[] WEEK_DAYS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
     public static final Random RANDOM = new SecureRandom();
     public static final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
     /**
@@ -230,7 +230,7 @@ public class Tool {
         if (w < 0) {
             w = 0;
         }
-        return weekDays[w];
+        return WEEK_DAYS[w];
     }
 
     public static String getLogTimeFormat() {

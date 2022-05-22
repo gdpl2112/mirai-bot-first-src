@@ -21,7 +21,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.WEEK_DAYS;
 
 /**
  * @author github-kloping
@@ -30,7 +30,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.weekDays;
 public class GameTaskController {
     static {
         MORNING_RUNNABLE.add(() -> {
-            if (Tool.getWeekOfDate(new Date()).equals(weekDays[weekDays.length - 1])) {
+            if (Tool.getWeekOfDate(new Date()).equals(WEEK_DAYS[WEEK_DAYS.length - 1])) {
                 SpringBootResource.getTaskPointMapper().updateAll();
                 SpringBootResource.getScoreMapper().updateEarnings();
             }
