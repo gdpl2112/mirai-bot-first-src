@@ -70,4 +70,13 @@ public interface ApiIyk0 {
      */
     @GetPath("swt")
     String getImgFromName(@ParamName("msg") String msg);
+
+    /**
+     * get ip
+     *
+     * @param ip
+     * @return
+     */
+    @GetPath("ip")
+    String getAddressByIp(@ParamName("ip") String ip);
 }

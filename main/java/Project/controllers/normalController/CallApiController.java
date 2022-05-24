@@ -305,4 +305,13 @@ public class CallApiController {
             }
         }
     }
+
+    @Action("IP:<.+=>ip>")
+    public String getAddressByIp(@Param("ip") String ip) {
+        try {
+            return apiIyk0.getAddressByIp(ip);
+        } catch (Exception e) {
+            return ERR_TIPS;
+        }
+    }
 }
