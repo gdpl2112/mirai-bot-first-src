@@ -2,10 +2,12 @@ package Project.controllers.auto;
 
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.apiEntitys.iciba.Dsapi;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -29,8 +31,8 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 public class TimerController {
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
 
-    static {
-    }
+    @AutoStand(id = "gson0")
+    private static Gson gson;
 
     public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
     private static int ts = 10;
@@ -40,9 +42,9 @@ public class TimerController {
             URL url = new URL("http://open.iciba.com/dsapi");
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
             String str = br.readLine();
-            JSONObject object = (JSONObject) JSONObject.parse(str);
-            builder.append(object.getString("note"));
-            builder.append("\r\n" + object.getString("content"));
+            Dsapi dsapi = gson.fromJson(str, Dsapi.class);
+            builder.append(dsapi.getNote());
+            builder.append("\r\n" + dsapi.getContent());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,33 +98,15 @@ public class TimerController {
         });
     }
 
-//    public static String[] At_NOON_TIPS = {"中午好呀~", "午好<Face:336>", "午好<Face:287>", "午好", "又到中午了", "干饭了吗<Face:171>"};
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
         updateToday();
-//        THREADS.execute(() -> {
-//            for (Group group : bot.getGroups()) {
-//                if (!ControllerTool.canGroup(group.getId())) {
-//                    continue;
-//                }
-//                MessageTools.sendMessageInGroup(getRandString(At_NOON_TIPS), group.getId());
-//            }
-//        });
     }
 
-//    public static String[] AT_NIGHT_TIPS = {"晚好..", "晚上好<Face:41>", "晚好<Face:63>", "晚好晚好\n<Pic:{74FC0290-CD86-C3E2-754A-9A3FB4196522}.gif>", "晚好\n<Pic:{4687B190-05D6-922E-8B7F-B769D555648C}.gif>"};
 
     @Schedule("17:50:00")
     public static void onNightSix() {
         updateToday();
-//        THREADS.execute(() -> {
-//            for (Group group : bot.getGroups()) {
-//                if (!ControllerTool.canGroup(group.getId())) {
-//                    continue;
-//                }
-//                MessageTools.sendMessageInGroup(getRandString(AT_NIGHT_TIPS), group.getId());
-//            }
-//        });
     }
 }

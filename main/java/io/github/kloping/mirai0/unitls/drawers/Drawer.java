@@ -1,7 +1,6 @@
 package io.github.kloping.mirai0.unitls.drawers;
 
 import Project.dataBases.skill.SkillDataBase;
-import com.google.gson.internal.LinkedHashTreeMap;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.GInfo;
@@ -19,10 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,7 +43,7 @@ public class Drawer {
     private static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
     private static final Font SMALL_FONT18 = new Font("宋体", Font.BOLD, 28);
     private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
-    private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashTreeMap<>();
+    private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashMap<>();
     private static final Color[] COLORS = new Color[]{
             Color.BLUE,
             Color.RED,

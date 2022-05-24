@@ -3,7 +3,6 @@ package Project.controllers.normalController;
 import Project.broadcast.normal.MessageBroadcast;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.google.gson.internal.LinkedHashTreeMap;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
@@ -15,6 +14,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -109,7 +109,7 @@ public class CustomController {
     public final static Map<String, List<AutoReply>> getAllAutoReply() {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
-        Map<String, List<AutoReply>> map = new LinkedHashTreeMap<>();
+        Map<String, List<AutoReply>> map = new LinkedHashMap<>();
         for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
             MapUtils.append(map, autoReply.getK(), autoReply);
         }

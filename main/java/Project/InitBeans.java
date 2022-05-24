@@ -3,6 +3,7 @@ package Project;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
+import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.Resource;
@@ -88,5 +89,11 @@ public class InitBeans {
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
+    }
+
+    @Bean("gson0")
+    public Gson gson0(){
+        Gson gson = new Gson();
+        return gson;
     }
 }
