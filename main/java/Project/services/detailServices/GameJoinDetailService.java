@@ -428,7 +428,6 @@ public class GameJoinDetailService {
             sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {
                 sb.append("消耗了").append(hl1).append("点魂力\n").append(GameDetailService.consumedHl(who, hl1).trim());
-                sb.append("\n你对").append(getNameById(ghostObj.getId())).append("造成").append(at1).append("点伤害");
                 long oNow = at1;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {

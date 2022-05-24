@@ -31,7 +31,7 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
  * @author github kloping
  */
 @Controller
-public class OtherController1 {
+public class TopicController {
 
     private static final String PATH = "./records/jkbd/record.json";
     private static final int BASE = 16;
@@ -56,7 +56,7 @@ public class OtherController1 {
     JiaKaoBaoDian dian;
     private QuestionData questionData;
 
-    public OtherController1() {
+    public TopicController() {
         println(this.getClass().getSimpleName() + "构建");
         load();
     }

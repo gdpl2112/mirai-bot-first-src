@@ -30,14 +30,6 @@ public class TimerController {
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
 
     static {
-        ZERO_RUNS.add(() -> {
-            try {
-                Resource.verify();
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-                System.exit(0);
-            }
-        });
     }
 
     public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
@@ -63,26 +55,15 @@ public class TimerController {
             GameDataBase.HIST_INFOS.clear();
             DataBase.HIST_U_SCORE.clear();
             Resource.Switch.AllK = false;
-//            for (Group group : bot.getGroups()) {
-//                if (!ControllerTool.canGroup(group.getId())) {
-//                    continue;
-//                }
-//                group.sendMessage("自动关闭" + ts + "分钟");
-//            }
             startOnZeroTime();
-//            try {
-//                Thread.sleep(1000 * 60 * ts);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             Resource.Switch.AllK = true;
-//            for (Group group : bot.getGroups()) {
-//                if (!ControllerTool.canGroup(group.getId())) {
-//                    continue;
-//                }
-//                group.sendMessage("自动开启");
-//            }
         });
+        try {
+            Resource.verify();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     private static void startOnZeroTime() {

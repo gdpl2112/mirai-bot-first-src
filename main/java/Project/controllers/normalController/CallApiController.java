@@ -33,17 +33,22 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 public class CallApiController {
     public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
-    public static final String S0 = "https://jx.iztyy.com/svip/?url=";
+    public static final String S0 = "https://api.okjx.cc:3389/jx.php?url=";
     private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
-    private static final String SPLIT_POINT = ",";
+    private static final String SPLIT_POINT_STR = ",";
+
     @AutoStand
     JuiLi juiLi;
+
     @AutoStand
     private ApiIyk0 apiIyk0;
+
     @AutoStand
     private ApiKit9 apiKit9;
+
     @AutoStand
     private Dzzui dzzui;
+
     @AutoStand
     private Kloping kloping;
 
@@ -253,12 +258,12 @@ public class CallApiController {
         String s0 = mess.substring(3);
         Integer select0 = -1;
         Integer select1 = -1;
-        if (mess.contains(SPLIT_POINT)) {
+        if (mess.contains(SPLIT_POINT_STR)) {
             try {
-                String[] ss = s0.split(SPLIT_POINT);
+                String[] ss = s0.split(SPLIT_POINT_STR);
                 String n0 = Tool.findNumberFromString(ss[0]);
                 String n1 = Tool.findNumberFromString(ss[1]);
-                s0 = s0.replaceFirst(SPLIT_POINT, EMPTY_STR).replaceFirst(n0, EMPTY_STR).replaceFirst(n1, EMPTY_STR);
+                s0 = s0.replaceFirst(SPLIT_POINT_STR, EMPTY_STR).replaceFirst(n0, EMPTY_STR).replaceFirst(n1, EMPTY_STR);
                 select0 = Integer.valueOf(n0);
                 select1 = Integer.valueOf(n1);
             } catch (Exception e) {
