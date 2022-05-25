@@ -35,10 +35,9 @@ public class Skill22 extends SkillTemplate {
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "位移") {
-            @Override
-            public void before() {
 
-            }
+            @Override
+            public void before() {}
 
             @Override
             public void run() {

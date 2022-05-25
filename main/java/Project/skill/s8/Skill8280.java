@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.addAttSchedule;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
@@ -48,8 +49,7 @@ public class Skill8280 extends SkillTemplate {
                 if (nums.length <= 0) return;
                 long qid = nums[0].longValue();
                 long v = percentTo(info.getAddPercent(), getPersonInfo().att());
-                addAttSchedule(3, qid, who.longValue(), v, 100,
-                        MemberTools.getRecentSpeechesGid(who.longValue()), "箭矢造成%s%%的伤害");
+                addAttSchedule(3, qid, who.longValue(), v, 100, getRecentSpeechesGid(who.longValue()), "箭矢造成%s%%的伤害");
             }
         };
     }

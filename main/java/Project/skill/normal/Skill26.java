@@ -29,7 +29,7 @@ public class Skill26 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("使指定人的后摇,减少%s%%秒冷却", device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("使指定人的后摇,减少%s秒冷却", device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

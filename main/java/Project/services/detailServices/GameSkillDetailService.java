@@ -141,16 +141,15 @@ public class GameSkillDetailService {
                 TagPack tagP = iterator.next();
                 if (!tagP.getEffected()) {
                     tagP.effect();
+                    StarterApplication.logger.info("start => " + tagP);
                 } else if (tagP.over()) {
                     tagP.loseEffect();
                     iterator.remove();
                     StarterApplication.logger.info("remove => " + tagP);
                 }
             }
-        }, 450, 450, TimeUnit.MILLISECONDS);
-    }
+        }, 300, 300, TimeUnit.MILLISECONDS);
 
-    static {
         long twoMinutes = 120000;
         for (Integer integer : SkillFactory.skillListIds()) {
             JID2TIME.put(integer, twoMinutes);
