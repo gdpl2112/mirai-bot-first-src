@@ -19,6 +19,7 @@ import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WHERE_MEMBER_IS_MY_WIFE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WHERE_MEMBER_IS_MY_WIFE1;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OPEN_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -30,6 +31,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 @Controller
 public class Controller0 {
 
+    /**
+     * 群号 => qid => qid
+     */
     public static final Map<Long, Map<Long, Long>> WIFE = new HashMap<>();
 
     static {
@@ -50,39 +54,53 @@ public class Controller0 {
         }
     }
 
-    @Action("哪个群友是我老婆")
+    @Action(value = "哪个群友是我老婆", otherName = {"娶群友"})
     public String s0(Group group, User user) {
         Long qid = null;
-        if (WIFE.containsKey(group.getId())) {
-            if (WIFE.get(group.getId()).containsKey(user.getId())) {
-                qid = WIFE.get(group.getId()).get(user.getId());
+        long uid = user.getId();
+        long gid = group.getId();
+        if (WIFE.containsKey(gid)) {
+            Map<Long, Long> map = WIFE.get(gid);
+            if (map.containsKey(uid)) {
+                qid = WIFE.get(gid).get(uid);
+            } else if (map.values().contains(uid)) {
+                for (Map.Entry<Long, Long> e0 : map.entrySet()) {
+                    if (e0.getValue() == uid) {
+                        return toView1(e0.getKey(), e0.getKey(), group);
+                    }
+                }
             }
         }
         if (qid == null) {
-            qid = getRandQid(group);
-            MapUtils.append(WIFE, group.getId(), user.getId(), qid);
+            qid = getRandQid(uid, group);
+            MapUtils.append(WIFE, gid, uid, qid);
         }
-        String s0 = toView(user.getId(), qid, group);
+        String s0 = toView(uid, qid, group);
         return s0;
     }
 
     private String toView(long id, Long qid, Group group) {
         String name0 = MemberTools.getNameFromGroup(id, group);
         String name1 = MemberTools.getNameFromGroup(qid, group);
-        return String.format(WHERE_MEMBER_IS_MY_WIFE,
-                qid, name1, qid
-        );
+        return String.format(WHERE_MEMBER_IS_MY_WIFE, qid, name1, qid);
     }
 
-    private long getRandQid(Group group) {
+    private String toView1(long id, Long qid, Group group) {
+        String name0 = MemberTools.getNameFromGroup(id, group);
+        String name1 = MemberTools.getNameFromGroup(qid, group);
+        return String.format(WHERE_MEMBER_IS_MY_WIFE1, qid, name1, qid);
+    }
+
+    private long getRandQid(long mid, Group group) {
         Member member;
-        member = (Member) getRandT(BOT.getGroup(group.getId()).getMembers().toArray(new Member[0]));
+        member = (Member) getRandT(BOT.getGroup(group.getId()).getMembers());
         long qid = member.getId();
         if (WIFE.containsKey(group.getId())) {
-            if (WIFE.get(group.getId()).values().contains(qid)) {
-                return getRandQid(group);
+            if (WIFE.get(group.getId()).keySet().contains(qid)||WIFE.get(group.getId()).values().contains(qid)) {
+                return getRandQid(mid, group);
             }
         }
+        if (qid == mid) return getRandQid(mid, group);
         return qid;
     }
 }

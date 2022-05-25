@@ -1074,8 +1074,10 @@ public class Tool {
         return ts[RANDOM.nextInt(ts.length)];
     }
 
-    public static <T> T getRandT(List<T> ts) {
-        return ts.get(RANDOM.nextInt(ts.size()));
+    public static <T> T getRandT(Collection<T> ts) {
+        List<T> list = new LinkedList<>();
+        list.addAll(ts);
+        return list.get(RANDOM.nextInt(ts.size()));
     }
 
     /**
