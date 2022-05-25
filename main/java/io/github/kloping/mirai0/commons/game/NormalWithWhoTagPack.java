@@ -27,8 +27,10 @@ public class NormalWithWhoTagPack extends TagPack {
     @Override
     public void effect() {
         BaseInfo info = getBaseInfoFromAny(who, getQ());
+        long v = getValue();
+        v = v > info.getHpL() ? info.getHpL() : v;
         if (info != null)
-            info.addTag(getTAG(), getValue()).apply();
+            info.addTag(getTAG(), v).apply();
         setEffected(true);
     }
 
@@ -40,8 +42,11 @@ public class NormalWithWhoTagPack extends TagPack {
     @Override
     public void loseEffect() {
         BaseInfo info = getBaseInfoFromAny(who, getQ());
-        if (info != null)
-            info.eddTag(getTAG(), getValue()).apply();
+        long v = getValue();
+        v = v > info.getHpL() ? info.getHpL() : v;
+        if (info != null) {
+            info.eddTag(getTAG(), v).apply();
+        }
     }
 
     public long getWho() {

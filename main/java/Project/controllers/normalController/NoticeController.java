@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.25:修复已知问题").append("\n");
         UPDATE_LOG.append("5.24:修复已知问题").append("\n");
         UPDATE_LOG.append("5.21:修复已知问题").append("\n");
         UPDATE_LOG.append("5.19:修复了转生之后第一次就遇十万的问题").append("\n");
