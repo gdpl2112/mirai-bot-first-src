@@ -93,10 +93,15 @@ public class SkillDataBase {
      * 减伤
      */
     public static final String TAG_EDD_ATT = "q";
+    /**
+     * 增伤
+     */
+    public static final String TAG_ADD_ATT = "r";
 
     public static final Map<String, String> TAG2NAME = new HashMap<>();
 
     static {
+        TAG2NAME.put(TAG_ADD_ATT, "增伤");
         TAG2NAME.put(TAG_EDD_ATT, "减伤");
         TAG2NAME.put(TAG_818, "蛇杖标记");
         TAG2NAME.put(TAG_EXTRA_SHIELD, "受盾");

@@ -268,6 +268,7 @@ public class GameDetailService {
 
     /**
      * 回血
+     *
      * @param q
      * @param v
      * @return
