@@ -90,6 +90,7 @@ public class OtherController {
         baseMenuStr.append("精神力作用\n");
         baseMenuStr.append("新机制\n");
         baseMenuStr.append("怎么获得名师点\n");
+        baseMenuStr.append("我的buff/我的效果\n");
         baseMenuStr.append("====");
         baseMenuStr.append("#任务相关\n");
         baseMenuStr.append("接徒弟任务\n");

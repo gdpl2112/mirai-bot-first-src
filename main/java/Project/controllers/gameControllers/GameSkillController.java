@@ -1,15 +1,18 @@
 package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.ISkillService;
 import Project.services.detailServices.ChallengeDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
@@ -17,6 +20,7 @@ import java.util.*;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
@@ -26,8 +30,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberZh;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -225,5 +228,24 @@ public class GameSkillController {
                     .append("\n");
         }
         return sb.toString();
+    }
+
+    @Action(value = "我的buff", otherName = {"我的效果"})
+    public String my(User user) {
+        StringBuilder sb = new StringBuilder();
+        PersonInfo pInfo = getInfo(user.getId());
+        SkillDataBase.TAG2NAME.forEach((k, v) -> {
+            Number v0 = pInfo.getTagValue(k);
+            if (v0 != null && v0.longValue() > 0) {
+                String s0 = v + v0.toString() + ",";
+                sb.append(NEGATIVE_TAGS.contains(k) ? "负:" : "增:");
+                sb.append(s0);
+                sb.append(NEWLINE);
+            }
+        });
+        if (sb.length() <= 0) {
+            sb.append("无");
+        }
+        return pathToImg(Drawer.getImageFromStrings(sb.toString().trim().split(NEWLINE)));
     }
 }

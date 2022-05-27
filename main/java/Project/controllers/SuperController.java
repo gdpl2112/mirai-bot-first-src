@@ -3,6 +3,7 @@ package Project.controllers;
 import Project.controllers.auto.GameConfSource;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.ShopDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
@@ -16,6 +17,8 @@ import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
@@ -29,8 +32,7 @@ import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
-import static Project.dataBases.GameDataBase.HIST_INFOS;
-import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
@@ -315,4 +317,17 @@ public class SuperController {
         return OK_TIPS;
     }
 
+    @Action("/下架市场<.+=>str>")
+    public String down(@Param("str") String str) {
+        Integer id = Integer.parseInt(str);
+        if (ShopDataBase.ITEM_MAP.containsKey(id)) {
+            ShopItem item = ShopDataBase.ITEM_MAP.get(id);
+            Long who = item.getWho().longValue();
+            ShopDataBase.deleteItem(item.getId());
+            addToBgs(who, item.getItemId(), item.getNum(), ObjType.un);
+            return DOWN_SHOP_ITEM_OK;
+        } else {
+            return NOT_FOUND_SHOP_ITEM;
+        }
+    }
 }

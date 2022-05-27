@@ -8,10 +8,7 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -101,6 +98,7 @@ public class SkillDataBase {
     public static final Map<String, String> TAG2NAME = new HashMap<>();
 
     static {
+
         TAG2NAME.put(TAG_ADD_ATT, "增伤");
         TAG2NAME.put(TAG_EDD_ATT, "减伤");
         TAG2NAME.put(TAG_818, "蛇杖标记");
@@ -120,6 +118,24 @@ public class SkillDataBase {
         TAG2NAME.put(TAG_LIGHT_F, "雷电反甲");
         TAG2NAME.put(TAG_CANT_USE, "魂技限制");
     }
+
+    /**
+     * 负面效果
+     */
+    public static final Set<String> NEGATIVE_TAGS = new HashSet<>();
+
+    static {
+        NEGATIVE_TAGS.add(TAG_EDD_ATT);
+        NEGATIVE_TAGS.add(TAG_818);
+        NEGATIVE_TAGS.add(TAG_EXTRA_DAMAGE);
+        NEGATIVE_TAGS.add(TAG_CANT_HIDE);
+        NEGATIVE_TAGS.add(TAG_CANT_USE);
+    }
+
+    /**
+     * 控制时可用魂技
+     */
+    public static final Set<Integer> AVAILABLE_IN_CONTROL = new HashSet<>();
 
     public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
 

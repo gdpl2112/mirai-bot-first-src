@@ -27,7 +27,6 @@ import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 import static Project.skill.SkillFactory.factory8id;
 import static Project.skill.SkillFactory.normalSkillNum;
-import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.CANT_USE_ING;
@@ -75,12 +74,10 @@ public class GameSkillServiceImpl implements ISkillService {
         }
         Integer id = is[st - 1];
         Integer jid = null;
-        if (st > 7) {
-            if (test && st == 8) {
-                jid = factory8id(getInfo(qq).getWh());
-            } else {
-                return ("更多魂技开发中...");
-            }
+        if (st > 8) {
+            return "更多魂技开发中...";
+        } else if (st == 8) {
+            jid = factory8id(getInfo(qq).getWh());
         } else if (st == 7) {
             jid = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
         } else {
@@ -122,7 +119,8 @@ public class GameSkillServiceImpl implements ISkillService {
         if (!infos.containsKey(st)) return DONT_HAVE_SKILL;
         SkillInfo info = infos.get(st);
         if (info.getState() < 0) return THIS_SKILL_CANT_USE;
-        if (System.currentTimeMillis() < info.getTime()) return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
+        if (System.currentTimeMillis() < info.getTime())
+            return String.format(USE_SKILL_WAIT_TIPS, getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
         if (personInfo.isVertigo()) return VERTIGO_ING;
         if (personInfo.containsTag(TAG_CANT_USE)) return CANT_USE_ING;

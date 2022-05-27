@@ -23,7 +23,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toP
  */
 public class Skill730 extends SkillTemplate {
 
-
     public Skill730() {
         super(730);
     }
