@@ -28,7 +28,7 @@ public class Skill8300 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("魔神剑第八魂技,以自身当前30%生命值为引,引血越多伤害越高,对指定敌人造成%s%%+的伤害",
+        return String.format("魔神剑第八魂技,以自身当前30%%生命值为引,引血越多伤害越高,对指定敌人造成%s%%+的伤害",
                 getAddP(getJid(), getId())
         );
     }

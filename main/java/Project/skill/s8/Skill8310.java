@@ -29,7 +29,7 @@ public class Skill8310 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("暗金恐爪熊第八魂技,连续辉出两爪,每爪对指定敌人造成%s%%的伤害,但其弹道之窄每爪只有40%的命中率",
+        return String.format("暗金恐爪熊第八魂技,连续辉出两爪,每爪对指定敌人造成%s%%的伤害,但其弹道之窄每爪只有40%%的命中率",
                 getAddP(getJid(), getId())
         );
     }
