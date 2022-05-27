@@ -37,7 +37,7 @@ public class Skill8081 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("邪火凤凰第八魂技,对指定敌人每5秒造成%s%%+指定敌人已损失7%生命值的伤害", getAddP(getJid(), getId()));
+        return String.format("邪火凤凰第八魂技,对指定敌人每5秒造成%s%%+指定敌人已损失7%%生命值的伤害", getAddP(getJid(), getId()));
     }
 
     @Override
