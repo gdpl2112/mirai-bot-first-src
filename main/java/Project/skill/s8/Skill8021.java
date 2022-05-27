@@ -31,7 +31,7 @@ public class Skill8021 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("对指定敌人发动强力攻击造成%s%%的伤害,对血量高于90%%的敌人额外造成8%%的伤害", getAddP(getJid(), getId()));
+        return String.format("昊天锤第八魂技,对指定敌人发动强力攻击造成%s%%的伤害,对血量高于90%%的敌人额外造成8%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

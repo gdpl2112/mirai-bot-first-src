@@ -32,7 +32,7 @@ public class Skill8220 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("光明圣龙第八魂技,增加指定敌人%s%%的输出,并对其恢复%s%%的",
+        return String.format("光明圣龙第八魂技,增加指定敌人%s%%的输出,并对其恢复%s%%的生命",
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId()) * V0
         );

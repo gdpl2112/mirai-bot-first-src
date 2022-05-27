@@ -130,7 +130,7 @@ public class GameObjController {
             Integer num = null;
             try {
                 num = Integer.valueOf(Tool.findNumberFromString(name));
-                name = name.replaceFirst(num + "", "").replaceAll(",", "").replaceAll("个", "");
+                name = name.replaceFirst(String.valueOf(num), "").replaceAll(",", "").replaceAll("个", "");
             } catch (Exception e) {
                 num = null;
             }

@@ -193,7 +193,7 @@ public class BeatenRoles {
             RoleResponse response = new RoleResponse(ov, nv, q1, q2);
             response.setNowV(nv);
             sb.append(NEWLINE);
-            sb.append("伤害减伤").append(b1).append("%");
+            sb.append("伤害剩余").append(b1).append("%");
             return response;
         }
         return null;

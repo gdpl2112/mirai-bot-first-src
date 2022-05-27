@@ -39,7 +39,6 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
-import static Project.services.detailServices.GameSkillDetailService.getTagDesc;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getNameFromGroup;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -395,7 +394,7 @@ public class GameServiceImpl implements IGameService {
     public String attNow(Long p1, Long p2, Group g1, Integer v, Integer by, boolean lose, boolean bo) {
         Future future = threads.submit(new Runnable() {
             private Group group = g1;
-            private String tips;
+            private StringBuilder tips = new StringBuilder();
             private long who = p1;
             private long q2 = p2;
             private int i = v;
@@ -409,7 +408,6 @@ public class GameServiceImpl implements IGameService {
                         zon.setXper(zon.getXper() - 10);
                         putZonInfo(zon);
                     }
-                    tips = "\n";
                     PersonInfo iper = getInfo(who);
                     PersonInfo yper = getInfo(q2);
                     if (iper.getHp() > 10) {
@@ -417,20 +415,18 @@ public class GameServiceImpl implements IGameService {
                             long l = randLong(iper.getHll(), 0.2f, 0.3f);
                             if (iper.getHl() >= l) {
                                 long l1 = randLong(iper.att(), 0.2f, 0.25f);
-                                if (i == 1) {
-                                    l1 *= 0.9f;
-                                }
-                                percentTo(by, l1);
+                                if (i == 1) l1 *= 0.9f;
+                                l1 = percentTo(by, l1);
                                 if (!lose)
-                                    tips += GameDetailService.consumedHl(who, l);
-                                tips += GameDetailService.beaten(q2, who, l1);
-                                if (!tips.contains(THIS_DANGER_OVER_FLAG)) {
-                                    tips += GameDetailService.onAtt(who, q2, l1);
+                                    tips.append(GameDetailService.consumedHl(who, l));
+                                tips.append(GameDetailService.beaten(q2, who, l1));
+                                if (!tips.toString().contains(THIS_DANGER_OVER_FLAG)) {
+                                    tips.append(GameDetailService.onAtt(who, q2, l1));
                                 }
                                 if (bo)
                                     SelectAttBroadcast.INSTANCE.broadcast(p1, p2, l1, 1);
                                 if (getInfo(q2).getHp() > 0) {
-                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害\r\n消耗了" + l + "点魂力\n" + tips + (i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
+                                    tips.append("\n你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害\r\n消耗了").append(l).append("点魂力\n").append(i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                                 } else {
                                     long lg = randLong(240, 0.6f, 0.9f);
                                     putPerson(getInfo(who).addGold(lg,
@@ -444,25 +440,25 @@ public class GameServiceImpl implements IGameService {
                                                     .setMany(lg)
 
                                     ));
-                                    tips = "\n你对'" + getNameFromGroup(q2, group) + "'造成了" + l1 + " 点伤害剩余了 0 点血 " + "\r\n消耗了" + l + "点魂力\n" + tips + "\r\n你获得了" + lg + "个金魂币";
+                                    tips.append("你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害剩余了 0 点血 ").append("\r\n消耗了").append(l).append("点魂力\n").append("\r\n你获得了").append(lg).append("个金魂币");
                                 }
                             } else {
-                                tips = "魂力不足,攻击失败";
+                                tips = new StringBuilder("魂力不足,攻击失败");
                             }
                         } else {
-                            tips = "ta已无状态";
+                            tips = new StringBuilder("ta已无状态");
                         }
                     } else {
-                        tips = "血量不足,无法攻击";
+                        tips = new StringBuilder("血量不足,无法攻击");
                     }
-                    send(tips);
+                    send(tips.toString());
                 } catch (InterruptedException e) {
                     send(ATTACK_BREAK);
                 }
             }
 
             private void send(String line) {
-                MessageTools.sendMessageInGroup(at(who) + "\r\n" + line, group.getId());
+                MessageTools.sendMessageInGroup(at(who) + "|\n" + line, group.getId());
             }
         });
         BaseInfoTemp.append(p1, future, bo);

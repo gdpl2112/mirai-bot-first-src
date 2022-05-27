@@ -31,7 +31,7 @@ public class Skill8290 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("杀神昊天锤弓第八魂技,挥动巨大的昊天锤,在1.5倍攻击前摇之后,对指定敌人造成%s%%的巨大伤害,但之后使用者将额外受伤20%",
+        return String.format("杀神昊天锤弓第八魂技,挥动巨大的昊天锤,在1.5倍攻击前摇之后,对指定敌人造成%s%%的巨大伤害,但之后使用者将额外受伤20%%",
                 getAddP(getJid(), getId())
         );
     }

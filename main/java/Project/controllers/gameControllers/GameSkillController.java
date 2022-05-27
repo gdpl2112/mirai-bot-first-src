@@ -30,7 +30,8 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberZh;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
 
 /**
  * @author github-kloping
@@ -246,6 +247,6 @@ public class GameSkillController {
         if (sb.length() <= 0) {
             sb.append("无");
         }
-        return pathToImg(Drawer.getImageFromStrings(sb.toString().trim().split(NEWLINE)));
+        return Drawer.getImageFromStrings(sb.toString().trim().split(NEWLINE));
     }
 }

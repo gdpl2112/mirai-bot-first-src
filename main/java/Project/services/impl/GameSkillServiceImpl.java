@@ -61,7 +61,7 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String initSkill(long qq, Group group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
-        if (is[0] == 0 || is.length < st) return ("你还没有获得对应的魂环");
+        if (is.length < st || is[0] == 0) return ("你还没有获得对应的魂环");
         Map<Integer, SkillInfo> skinfo = getSkillInfo(qq);
         if (skinfo.containsKey(st)) {
             return ("已经激活了这个魂技");
