@@ -31,7 +31,7 @@ public class Skill8130 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("奇茸通天菊第八魂技,对指定敌人连续造成4次%s%%伤害,且每次都有25%的几率造成持续流血伤害", getAddP(getJid(), getId()));
+        return String.format("奇茸通天菊第八魂技,对指定敌人连续造成4次%s%%伤害,且每次都有25%%的几率造成持续流血伤害", getAddP(getJid(), getId()));
     }
 
     @Override

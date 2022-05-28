@@ -31,7 +31,7 @@ public class Skill8030 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("以炽热的天使圣剑,对敌人造成%s%%的伤害,额外对魂力低于60%%的敌人造成8%%的伤害,对魂兽额外造成15%的伤害", getAddP(getJid(), getId()));
+        return String.format("以炽热的天使圣剑,对敌人造成%s%%的伤害,额外对魂力低于60%%的敌人造成8%%的伤害,对魂兽额外造成15%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override
