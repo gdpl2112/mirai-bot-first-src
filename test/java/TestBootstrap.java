@@ -1,3 +1,4 @@
+import Project.services.detailServices.GameSkillDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
@@ -25,6 +26,9 @@ public class TestBootstrap {
 
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
+        System.out.println(GameSkillDetailService.getAddP(8070, 207));
+        System.out.println(GameSkillDetailService.getAddP(8070, 206));
+        System.out.println(GameSkillDetailService.getAddP(8070, 205));
         TestBootstrap testBootstrap = new TestBootstrap();
         StarterApplication.Setting.INSTANCE.getContextManager().append(testBootstrap);
         StarterApplication.Setting.INSTANCE.getActionManager().manager(testBootstrap);

@@ -174,7 +174,7 @@ public class SpringBootResource {
                     .get();
             String ip = JSON.parseObject(document.body().text()).getString("ip");
             return ip;
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return "localhost";
         }

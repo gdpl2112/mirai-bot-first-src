@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("5.29:修复部分问题").append("\n");
         UPDATE_LOG.append("5.28:修复已知问题 ").append("\n");
         UPDATE_LOG.append("5.27:我的buff,我的效果,第八魂技开始测试,有些武魂有2种第八魂技,但大部分只有1种,后期可能会增加,若您有好的建议,可以给开发者提供,第八魂技可能存在bug,发现bug请及时反馈").append("\n");
         UPDATE_LOG.append("5.25:修复已知问题").append("\n");

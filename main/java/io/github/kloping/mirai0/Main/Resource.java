@@ -74,12 +74,12 @@ public class Resource {
     }
 
     public static void verify() throws RuntimeException {
-//        String code = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
-//        if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
-//        Kloping kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class);
-//        String r0 = kloping.verify0(code);
-//        if (!Boolean.valueOf(r0)) throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
-//        else StarterApplication.logger.info("授权码验证成功√√√");
+        String code = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
+        if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
+        Kloping kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class);
+        String r0 = kloping.verify0(code);
+        if (!Boolean.valueOf(r0)) throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
+        else StarterApplication.logger.info("授权码验证成功√√√");
     }
 
     public static boolean isSuperQ(long q) {
