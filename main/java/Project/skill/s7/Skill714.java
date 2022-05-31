@@ -47,7 +47,7 @@ public class Skill714 extends SkillTemplate {
                 }
                 Long lon = getInfo(q).att();
                 long v = CommonSource.percentTo(info.getAddPercent(), lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
                 try {
                     if (nums.length != 0) {
                         putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 0));

@@ -48,7 +48,7 @@ public class Skill730 extends SkillTemplate {
                 long v = getHjFromAny(who, nums[0].longValue());
                 PersonInfo in = getInfo(who);
                 long vv = percentTo(info.getAddPercent(), in.att());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), vv));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), vv, getJid()));
                 int b = toPercent(v, in.getHjL());
                 b = b > 15 ? 15 : b <= 2 ? 3 : b;
                 long v1 = percentTo(b, in.getHpL());

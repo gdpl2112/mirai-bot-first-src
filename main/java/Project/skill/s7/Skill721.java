@@ -49,8 +49,8 @@ public class Skill721 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.att();
                 v2 = CommonSource.percentTo(info.getAddPercent(), lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v2));
-                q1 = Long.valueOf(who + "");
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v2,getJid()));
+                q1 = who.longValue();
                 v = Long.valueOf(info.getAddPercent());
                 GameBoneDetailService.addForAttr(q1, v, GameBoneDetailService.Type.HIDE_PRO);
             }

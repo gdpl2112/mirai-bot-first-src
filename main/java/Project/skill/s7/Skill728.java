@@ -44,7 +44,7 @@ public class Skill728 extends SkillTemplate {
                 long v = percentTo(info.getAddPercent(), lon);
                 getPersonInfo().setAk1(2L);
                 getPersonInfo().setJak1(2L).apply();
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
                 playerBehavioralManager.add(
                         new Growth().setQid(q).setTime(System.currentTimeMillis() + getDuration(getJid()))
                                 .setType(PlayerBehavioralManager.ATTACK_AFTER).setValue(-playerBehavioralManager.getAttPost(who.longValue()) / 2));

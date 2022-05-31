@@ -50,7 +50,7 @@ public class Skill726 extends SkillTemplate {
                 NormalTagPack tagPack = new NormalTagPack(TAG_SHE,getDuration(getJid()));
                 tagPack.setQ(who.longValue()).setValue((long) b/8).setEffected(false);
                 addTagPack(tagPack);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v1, getJid()));
             }
 
             @Override

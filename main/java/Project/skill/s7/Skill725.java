@@ -48,7 +48,7 @@ public class Skill725 extends SkillTemplate {
                 NormalTagPack tagPack = new NormalTagPack(TAG_FJ, getDuration(getJid()));
                 tagPack.setQ(who.longValue()).setValue((long) b / F0).setEffected(false);
                 addTagPack(tagPack);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v1, getJid()));
             }
 
             @Override

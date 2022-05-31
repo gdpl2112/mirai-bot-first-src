@@ -44,7 +44,7 @@ public class Skill702 extends SkillTemplate {
                 PersonInfo pInfo = getInfo(q);
                 Long lon = pInfo.att();
                 long v = CommonSource.percentTo(info.getAddPercent(), lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
             }
         };
     }

@@ -57,7 +57,7 @@ public class Skill704 extends SkillTemplate {
                 v = CommonSource.percentTo(info.getAddPercent(), v1);
                 if (id > 0) {
                     addAttHasTime(id, new SkillDataBase.HasTimeAdder(System.currentTimeMillis() + getDuration(getJid())
-                            , id, -v));
+                            , id, -v,getJid()));
                 } else {
                     BaseInfo baseInfo = getBaseInfoFromAny(who, id);
                     baseInfo.setAtt(baseInfo.getAtt() - v).apply();

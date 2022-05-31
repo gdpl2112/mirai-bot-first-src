@@ -55,7 +55,7 @@ public class Skill722 extends SkillTemplate {
                 pInfo.addHl(v3);
                 pInfo.addHj(v4);
                 putPerson(pInfo);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1,getJid()));
             }
         };
     }

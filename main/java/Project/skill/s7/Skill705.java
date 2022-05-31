@@ -45,7 +45,7 @@ public class Skill705 extends SkillTemplate {
             public void before() {
                 Long q = who.longValue();
                 long v = CommonSource.percentTo(info.getAddPercent() * 4, getInfo(q).att());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
                 eve();
             }
 

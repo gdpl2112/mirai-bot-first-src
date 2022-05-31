@@ -137,7 +137,7 @@ public class SkillDataBase {
      */
     public static final Set<Integer> AVAILABLE_IN_CONTROL = new HashSet<>();
 
-    public static final Map<Long, List<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
+    public static final Map<Long, Set<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
 
     public static String path;
 
@@ -238,7 +238,7 @@ public class SkillDataBase {
     }
 
     public static void addAttHasTime(long who, HasTimeAdder adder) {
-        MapUtils.append(HAS_ADDER_MAP_LIST, who, adder, ArrayList.class);
+        MapUtils.appendSet(HAS_ADDER_MAP_LIST, who, adder, HashSet.class);
     }
 
     public static void reMap() {
@@ -268,11 +268,13 @@ public class SkillDataBase {
         private long toTime;
         private long who;
         private Number value;
+        private Integer jid;
 
-        public HasTimeAdder(long toTime, long who, Number value) {
+        public HasTimeAdder(long toTime, long who, Number value, int jid) {
             this.toTime = toTime;
             this.who = who;
             this.value = value;
+            this.jid = jid;
         }
 
         public boolean test() {
@@ -289,6 +291,24 @@ public class SkillDataBase {
 
         public Number getValue() {
             return value;
+        }
+
+        public HasTimeAdder setJid(Integer jid) {
+            this.jid = jid;
+            return this;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            HasTimeAdder that = (HasTimeAdder) o;
+            return Objects.equals(jid, that.jid);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(jid);
         }
     }
 }

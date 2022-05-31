@@ -6,7 +6,6 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -44,7 +43,7 @@ public class Skill8070 extends SkillTemplate {
                 addShield(who.longValue(), percentTo(v, a));
                 addTagPack(new NormalTagPack(TAG_DAMAGE_REDUCTION, v).setQ(who.longValue()).setValue((long) v).setEffected(false));
                 addAttHasTime(who.longValue(), new SkillDataBase.HasTimeAdder(
-                        System.currentTimeMillis() + getDuration(getJid()), who.longValue(), percentTo(v, a)
+                        System.currentTimeMillis() + getDuration(getJid()), who.longValue(), percentTo(v, a), getJid()
                 ));
             }
         };

@@ -50,7 +50,7 @@ public class Skill729 extends SkillTemplate {
                 id -= 200;
                 b += id;
                 long v = CommonSource.percentTo(b, lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
                 setTips(String.format("增加%s%%(%s)攻击", b, CommonSource.percentTo(b, getInfo(who).att())));
             }
         };
