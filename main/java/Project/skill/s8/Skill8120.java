@@ -3,7 +3,6 @@ package Project.skill.s8;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.DamageReductionPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
@@ -19,13 +18,11 @@ import static Project.services.detailServices.GameSkillDetailService.getAddP;
  */
 public class Skill8120 extends SkillTemplate {
 
+    public static final int F0 = 3;
+
+
     public Skill8120() {
         super(8120);
-    }
-
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
     }
 
     @Override
@@ -34,8 +31,6 @@ public class Skill8120 extends SkillTemplate {
                 getAddP(getJid(), getId()), getAddP(getJid(), getId()) * F0
         );
     }
-
-    public static final int F0 = 3;
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

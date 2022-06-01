@@ -25,7 +25,7 @@ public class SkillFactory {
     static {
         PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
         try {
-            for (Class<?> aClass : scanner.scan(SkillFactory.class.getClassLoader(),SkillFactory.class.getPackage().getName())) {
+            for (Class<?> aClass : scanner.scan(SkillFactory.class.getClassLoader(), SkillFactory.class.getPackage().getName())) {
                 if (aClass == SkillTemplate.class) continue;
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;

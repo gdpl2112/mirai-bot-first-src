@@ -192,36 +192,23 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         int bv = toPercent(v1, v2);
         StringBuilder sb = new StringBuilder();
         int maxLose = 16;
-        if (bv < 80) {
-            int bvc = 100 - bv;
-            bvc = bvc > maxLose ? maxLose : bvc < 1 ? 1 : bvc;
-            long ev = percentTo(bvc, getInfo(qq).getHjL());
-            if (getInfo(qq).getHj() < ev) {
-                return HJ_NOT_ENOUGH;
-            }
-            putPerson(getInfo(qq).addHj(-ev));
-            sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
-            sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
-                    .append(getImageFromStrings(
-                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                            "等级:" + ghostObj.getL(),
-                            "攻击:" + ghostObj.getAtt(),
-                            "生命:" + ghostObj.getHp(),
-                            "经验:" + ghostObj.getXp(),
-                            "精神力:" + ghostObj.getHj()
-                    ));
-        } else {
-            sb.append("探查成功,这消耗了你0%的精神力");
-            sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
-                    .append(getImageFromStrings(
-                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                            "等级:" + ghostObj.getL(),
-                            "攻击:" + ghostObj.getAtt(),
-                            "生命:" + ghostObj.getHp(),
-                            "经验:" + ghostObj.getXp(),
-                            "精神力:" + ghostObj.getHj()
-                    ));
+        int bvc = 100 - bv;
+        bvc = bvc > maxLose ? maxLose : bvc < 0 ? 0 : bvc;
+        long ev = percentTo(bvc, getInfo(qq).getHjL());
+        if (getInfo(qq).getHj() < ev) {
+            return HJ_NOT_ENOUGH;
         }
+        putPerson(getInfo(qq).addHj(-ev));
+        sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
+        sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
+                .append(getImageFromStrings(
+                        "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
+                        "等级:" + ghostObj.getL(),
+                        "攻击:" + ghostObj.getAtt(),
+                        "生命:" + ghostObj.getHp(),
+                        "经验:" + ghostObj.getXp(),
+                        "精神力:" + ghostObj.getHj()
+                ));
         return sb.toString();
     }
 }

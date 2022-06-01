@@ -2,7 +2,6 @@ package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
@@ -22,10 +21,6 @@ public class Skill8190 extends SkillTemplate {
         super(8190);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {
@@ -51,7 +46,7 @@ public class Skill8190 extends SkillTemplate {
                 long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 v /= 12;
                 addAttSchedule(12, qid, who.longValue(), v, 10000, getRecentSpeechesGid(who.longValue()), null);
-                addHFSchedule(12, who.longValue(), v, 10000, getRecentSpeechesGid(who.longValue()) );
+                addHFSchedule(12, who.longValue(), v, 10000, getRecentSpeechesGid(who.longValue()));
             }
         };
     }

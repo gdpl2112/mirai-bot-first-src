@@ -2,7 +2,6 @@ package Project.skill.s7;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -22,10 +21,6 @@ public class Skill710 extends SkillTemplate {
         super(710);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Att};
-    }
 
     @Override
     public String getIntro() {

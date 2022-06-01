@@ -3,7 +3,6 @@ package Project.skill.s8;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,10 +23,6 @@ public class Skill8170 extends SkillTemplate {
         super(8170);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {

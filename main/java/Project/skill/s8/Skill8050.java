@@ -2,7 +2,6 @@ package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,10 +20,6 @@ public class Skill8050 extends SkillTemplate {
         setHasTime(60000L);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Control, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {

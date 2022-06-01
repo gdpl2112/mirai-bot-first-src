@@ -3,7 +3,6 @@ package Project.skill.normal;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -22,10 +21,6 @@ public class Skill22 extends SkillTemplate {
         super(22);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.Add};
-    }
 
     @Override
     public String getIntro() {
@@ -37,7 +32,8 @@ public class Skill22 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "位移") {
 
             @Override
-            public void before() {}
+            public void before() {
+            }
 
             @Override
             public void run() {

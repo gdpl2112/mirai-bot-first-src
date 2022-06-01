@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,10 +22,6 @@ public class Skill717 extends SkillTemplate {
         super(717);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Add, SkillIntro.Type.Shd, SkillIntro.Type.Mark};
-    }
 
     @Override
     public String getIntro() {
@@ -43,7 +38,7 @@ public class Skill717 extends SkillTemplate {
                 Long lon = pInfo.att();
                 long v = percentTo(info.getAddPercent(), lon);
                 addShield(q, percentTo(info.getAddPercent(), pInfo.getHpL()));
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
             }
         };
     }

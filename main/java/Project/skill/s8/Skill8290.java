@@ -2,7 +2,6 @@ package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
@@ -24,10 +23,6 @@ public class Skill8290 extends SkillTemplate {
         super(8290);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {

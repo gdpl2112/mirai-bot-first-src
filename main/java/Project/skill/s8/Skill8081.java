@@ -4,7 +4,6 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -30,10 +29,6 @@ public class Skill8081 extends SkillTemplate {
         super(8081);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {

@@ -3,7 +3,6 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -26,10 +25,6 @@ public class Skill4 extends SkillTemplate {
         super(4);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return WhTypes.T4;
-    }
 
     @Override
     public String getIntro() {

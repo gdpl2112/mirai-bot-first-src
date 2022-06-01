@@ -29,8 +29,7 @@ import static Project.skill.SkillFactory.factory8id;
 import static Project.skill.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.CANT_USE_ING;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
@@ -61,7 +60,7 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String initSkill(long qq, Group group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
-        if (is.length < st || is[0] == 0) return ("你还没有获得对应的魂环");
+        if (is.length < st || is[0] == 0) return NOT_GET_POSSTION_HH;
         Map<Integer, SkillInfo> skinfo = getSkillInfo(qq);
         if (skinfo.containsKey(st)) {
             return ("已经激活了这个魂技");

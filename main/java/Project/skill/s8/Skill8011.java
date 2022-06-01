@@ -3,7 +3,6 @@ package Project.skill.s8;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
@@ -22,10 +21,6 @@ public class Skill8011 extends SkillTemplate {
         super(8011);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.HasTime, SkillIntro.Type.ToNum};
-    }
 
     @Override
     public String getIntro() {

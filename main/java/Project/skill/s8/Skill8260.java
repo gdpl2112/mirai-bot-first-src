@@ -2,7 +2,6 @@ package Project.skill.s8;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,17 +18,12 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
  */
 public class Skill8260 extends SkillTemplate {
 
-    public Skill8260() {
-        super(8260);
-    }
-
     static {
         AVAILABLE_IN_CONTROL.add(8260);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
+    public Skill8260() {
+        super(8260);
     }
 
     @Override

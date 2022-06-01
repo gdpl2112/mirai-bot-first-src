@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -24,10 +23,6 @@ public class Skill729 extends SkillTemplate {
         super(729);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.Mark, SkillIntro.Type.Edd};
-    }
 
     @Override
     public String getIntro() {
@@ -50,7 +45,7 @@ public class Skill729 extends SkillTemplate {
                 id -= 200;
                 b += id;
                 long v = CommonSource.percentTo(b, lon);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
                 setTips(String.format("增加%s%%(%s)攻击", b, CommonSource.percentTo(b, getInfo(who).att())));
             }
         };

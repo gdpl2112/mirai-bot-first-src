@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -25,10 +24,6 @@ public class Skill723 extends SkillTemplate {
         super(723);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.HasTime, SkillIntro.Type.Special, SkillIntro.Type.Add};
-    }
 
     @Override
     public String getIntro() {
@@ -51,7 +46,7 @@ public class Skill723 extends SkillTemplate {
                 pInfo.addHj(v4);
                 pInfo.addTag(TAG_XX, b / 5);
                 putPerson(pInfo);
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v1, getJid()));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1, getJid()));
             }
         };
     }

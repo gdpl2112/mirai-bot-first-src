@@ -2,7 +2,6 @@ package Project.skill.s7;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -12,7 +11,8 @@ import static Project.dataBases.GameDataBase.exist;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -24,10 +24,6 @@ public class Skill712 extends SkillTemplate {
         super(712);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return WhTypes.T72;
-    }
 
     @Override
     public String getIntro() {
@@ -44,7 +40,7 @@ public class Skill712 extends SkillTemplate {
                     return;
                 }
                 long v = CommonSource.percentTo(info.getAddPercent(), getInfo(q).att());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
             }
         };
     }

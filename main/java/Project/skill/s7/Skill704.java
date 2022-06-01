@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
@@ -28,10 +27,6 @@ public class Skill704 extends SkillTemplate {
         super(704);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.Att, SkillIntro.Type.OneTime};
-    }
 
     @Override
     public String getIntro() {
@@ -57,7 +52,7 @@ public class Skill704 extends SkillTemplate {
                 v = CommonSource.percentTo(info.getAddPercent(), v1);
                 if (id > 0) {
                     addAttHasTime(id, new SkillDataBase.HasTimeAdder(System.currentTimeMillis() + getDuration(getJid())
-                            , id, -v,getJid()));
+                            , id, -v, getJid()));
                 } else {
                     BaseInfo baseInfo = getBaseInfoFromAny(who, id);
                     baseInfo.setAtt(baseInfo.getAtt() - v).apply();

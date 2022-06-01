@@ -468,13 +468,4 @@ public class GameSkillDetailService {
         return sb.toString();
     }
 
-    public static final class WhTypes {
-        public static final SkillIntro.Type[] T0 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T1 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T4 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToOne, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T5 = new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.ToNum, SkillIntro.Type.HasTime};
-        public static final SkillIntro.Type[] T6 = new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.ToOne, SkillIntro.Type.Mark};
-        public static final SkillIntro.Type[] T8 = new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne, SkillIntro.Type.OneTime};
-        public static final SkillIntro.Type[] T72 = new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Add, SkillIntro.Type.HasTime};
-    }
 }

@@ -2,9 +2,7 @@ package Project.skill.normal;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,10 +22,6 @@ public class Skill15 extends SkillTemplate {
         super(15);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Mark, SkillIntro.Type.Shd};
-    }
 
     @Override
     public String getIntro() {
@@ -41,7 +35,7 @@ public class Skill15 extends SkillTemplate {
             public void before() {
                 long v = getInfo(who).getHp();
                 int b = info.getAddPercent();
-                long v2 =  percentTo(b, v);
+                long v2 = percentTo(b, v);
                 addShield(who.longValue(), v2);
                 setTips("作用于 " + Tool.at(who.longValue()));
             }

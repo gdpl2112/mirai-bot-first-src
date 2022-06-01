@@ -2,15 +2,12 @@ package Project.skill.normal;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.TAG_EXTRA_DAMAGE;
 import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
 import static Project.services.detailServices.GameSkillDetailService.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -24,10 +21,6 @@ public class Skill16 extends SkillTemplate {
         super(16);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Mark, SkillIntro.Type.Shd};
-    }
 
     @Override
     public String getIntro() {
@@ -43,7 +36,7 @@ public class Skill16 extends SkillTemplate {
                 int b = info.getAddPercent();
                 long t = b / 4;
                 long v2 = percentTo(b, getInfo(who).getHpL());
-                NormalWithWhoTagPack tagPack = new NormalWithWhoTagPack(TAG_SHIELD,t * 1000);
+                NormalWithWhoTagPack tagPack = new NormalWithWhoTagPack(TAG_SHIELD, t * 1000);
                 tagPack.setQ(qid).setWho(who.longValue()).setValue(v2).setEffected(false);
                 addTagPack(tagPack);
             }

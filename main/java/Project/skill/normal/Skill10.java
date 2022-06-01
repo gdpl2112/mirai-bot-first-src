@@ -3,7 +3,6 @@ package Project.skill.normal;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -11,7 +10,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_MS;
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -23,10 +21,6 @@ public class Skill10 extends SkillTemplate {
         super(10);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return WhTypes.T6;
-    }
 
     @Override
     public String getIntro() {

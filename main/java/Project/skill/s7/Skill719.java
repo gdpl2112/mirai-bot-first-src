@@ -3,12 +3,10 @@ package Project.skill.s7;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.WhTypes;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -23,10 +21,6 @@ public class Skill719 extends SkillTemplate {
         super(719);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return WhTypes.T72;
-    }
 
     @Override
     public String getIntro() {

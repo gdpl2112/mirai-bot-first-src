@@ -4,7 +4,6 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
@@ -26,10 +25,6 @@ public class Skill8110 extends SkillTemplate {
         super(8110);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {
@@ -65,9 +60,9 @@ public class Skill8110 extends SkillTemplate {
     }
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
-        private ScheduledFuture<?> future;
         public int i = 0;
         public long v = 0;
+        private ScheduledFuture<?> future;
 
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);

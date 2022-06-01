@@ -3,7 +3,6 @@ package Project.skill.s8;
 import Project.services.detailServices.GameDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
@@ -18,17 +17,12 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
  */
 public class Skill8220 extends SkillTemplate {
 
+    public static final int V0 = 3;
+
+
     public Skill8220() {
         super(8220);
     }
-
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
-
-
-    public static final int V0 = 3;
 
     @Override
     public String getIntro() {

@@ -44,6 +44,9 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+
+        UPDATE_LOG.append("6.1 :取消魂技类型的描述").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("5.31:尝试解决同一魂技攻击无限叠加的问题").append("\n");
         UPDATE_LOG.append("5.29:修复部分问题").append("\n");
         UPDATE_LOG.append("5.28:修复已知问题 ").append("\n");

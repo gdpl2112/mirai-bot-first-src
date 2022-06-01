@@ -3,7 +3,6 @@ package Project.skill.s7;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
@@ -27,10 +26,6 @@ public class Skill708 extends SkillTemplate {
         super(708);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.WHZs, SkillIntro.Type.Special, SkillIntro.Type.Add, SkillIntro.Type.HasTime, SkillIntro.Type.Edd};
-    }
 
     @Override
     public String getIntro() {
@@ -51,7 +46,7 @@ public class Skill708 extends SkillTemplate {
                 int n2 = n / 2;
                 int a = info.getAddPercent() + n2;
                 long v = CommonSource.percentTo(a, info1.att());
-                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()),  who.longValue(), v, getJid()));
+                addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
                 setTips("剩余" + n + "% 的魂力,增加" + a + "%的攻击力");
             }
         };

@@ -2,7 +2,6 @@ package Project.skill.normal;
 
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.Map;
@@ -23,10 +22,6 @@ public class Skill24 extends SkillTemplate {
         super(24);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.Add};
-    }
 
     @Override
     public String getIntro() {

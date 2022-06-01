@@ -3,18 +3,11 @@ package Project.skill.normal;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.DamageReductionPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -25,10 +18,6 @@ public class Skill21 extends SkillTemplate {
         super(21);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Special, SkillIntro.Type.Add};
-    }
 
     @Override
     public String getIntro() {

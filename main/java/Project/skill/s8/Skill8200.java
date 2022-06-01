@@ -3,7 +3,6 @@ package Project.skill.s8;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.DamageReductionPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
@@ -23,10 +22,6 @@ public class Skill8200 extends SkillTemplate {
         super(8200);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Att, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {

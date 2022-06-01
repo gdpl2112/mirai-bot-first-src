@@ -3,7 +3,6 @@ package Project.skill.normal;
 import Project.services.detailServices.GameBoneDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -21,10 +20,6 @@ public class Skill12 extends SkillTemplate {
         super(12);
     }
 
-    @Override
-    public SkillIntro.Type[] getTypes() {
-        return new SkillIntro.Type[]{SkillIntro.Type.Add, SkillIntro.Type.HasTime, SkillIntro.Type.ToOne};
-    }
 
     @Override
     public String getIntro() {
