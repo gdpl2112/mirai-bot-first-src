@@ -13,6 +13,7 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,6 @@ import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -225,7 +225,8 @@ public class GameController {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1) return NOT_FOUND_AT;
         long at = getInfo(qq.getId()).getAk1();
-        if (at > System.currentTimeMillis()) return String.format(BG_WAIT_TIPS, getTimeTips(at));
+        if (at > System.currentTimeMillis())
+            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         String sss = gameService.att(qq.getId(), who, group);
         getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();

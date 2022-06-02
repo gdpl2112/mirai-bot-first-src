@@ -53,13 +53,11 @@ public class TimerController {
     @Schedule("00:00:00")
     public static void onZero() {
         updateToday();
-        THREADS.execute(() -> {
-            GameDataBase.HIST_INFOS.clear();
-            DataBase.HIST_U_SCORE.clear();
-            Resource.Switch.AllK = false;
-            startOnZeroTime();
-            Resource.Switch.AllK = true;
-        });
+        GameDataBase.HIST_INFOS.clear();
+        DataBase.HIST_U_SCORE.clear();
+        Resource.Switch.AllK = false;
+        startOnZeroTime();
+        Resource.Switch.AllK = true;
         try {
             Resource.verify();
         } catch (RuntimeException e) {

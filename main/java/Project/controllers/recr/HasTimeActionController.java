@@ -1,5 +1,6 @@
 package Project.controllers.recr;
 
+import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -93,6 +94,10 @@ public class HasTimeActionController {
     }
 
     public static Set<Long> received = new HashSet<>();
+
+    static {
+        TimerController.ZERO_RUNS.add(() -> received.clear());
+    }
 
     @Action("领取粽子")
     public String a0(User user) {
