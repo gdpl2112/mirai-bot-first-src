@@ -296,7 +296,7 @@ public class UseTool {
     }
 
     public String use7001(long who) {
-        removeFromBgs(Long.valueOf(who), 118, 1, ObjType.use);
+        removeFromBgs(Long.valueOf(who), 7001, 1, ObjType.use);
         return HasTimeActionController.use(who);
     }
 }
