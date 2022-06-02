@@ -174,6 +174,9 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(1604, "黑升级券");
         ID_2_NAME_MAPS.put(1605, "红升级券");
         //==
+        //临时活动物品
+        ID_2_NAME_MAPS.put(7001, "粽子");
+
         ID_2_NAME_MAPS.forEach((k, v) -> {
             NAME_2_ID_MAPS.put(v, k);
         });
@@ -248,7 +251,9 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(704, "来自地狱魔魔兽,免疫一次死亡");
         ID_2_INTRO_MAPS.put(705, "吸收大地之力,血量低于25%时恢复已损失18%的生命值,冷却30秒");
 
-        ID_2_INTRO_MAPS.put(19,"蓝银花,蓝银草的变异,拥有艳丽的花瓣,在拥有蓝银草顽强的生命力的同时也含有毒性");
+        ID_2_INTRO_MAPS.put(19, "蓝银花,蓝银草的变异,拥有艳丽的花瓣,在拥有蓝银草顽强的生命力的同时也含有毒性");
+
+        ID_2_INTRO_MAPS.put(7001, "粽子,活动物品,用来随机获取奖励");
     }
 
     private static void initShop() {
@@ -347,7 +352,7 @@ public class GameDataBase {
     }
 
     public static Integer getWhTypeByWh(Integer wh) {
-        if (wh>=1){
+        if (wh >= 1) {
             return WH_2_TYPE.get(wh);
         }
         return -1;

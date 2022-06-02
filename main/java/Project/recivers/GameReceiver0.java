@@ -5,12 +5,13 @@ import Project.broadcast.normal.MemberJoinedBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerSource.entertainmentController3;
 import static Project.controllers.normalController.NoticeController.LOWST;
@@ -29,6 +30,20 @@ public class GameReceiver0 {
         init5();
         init6();
         init7();
+        init8();
+    }
+
+    private void init8() {
+        GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
+            @Override
+            public void onReceive(long who, Long with, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
+                int r = Tool.RANDOM.nextInt(100);
+                if (r <= 20) {
+                    GameDataBase.addToBgs(who, 7001, ObjType.got);
+                    MessageTools.sendMessageInGroup("获得一个粽子", MemberTools.getRecentSpeechesGid(who));
+                }
+            }
+        });
     }
 
     private static void init() {

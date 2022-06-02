@@ -44,7 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-
+        UPDATE_LOG.append("6.2 :端午活动,每日可\'领取粽子\',击败魂兽几率掉落粽子6.2-6.5").append("\n");
         UPDATE_LOG.append("6.1 :取消魂技类型的描述").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("5.31:尝试解决同一魂技攻击无限叠加的问题").append("\n");

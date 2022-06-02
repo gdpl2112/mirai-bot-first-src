@@ -32,7 +32,8 @@ public class SourceDataBase {
     public static String getImgPathById(Integer id, Boolean k) {
         if (ID2FILE.isEmpty()) init();
         if (ID2FILE.containsKey(id))
-            return k ? Tool.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) : ID2FILE.get(id.intValue()).getAbsolutePath();
+            return k ? Tool.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) :
+                    ID2FILE.get(id.intValue()).getAbsolutePath();
         else return null;
     }
 
