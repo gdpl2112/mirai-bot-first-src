@@ -327,7 +327,7 @@ public class SummonPicController {
             MessageTools.sendMessageInGroup("将字符控制在1-4个之间", group.getId());
             return;
         }
-        MessageTools.sendMessageInGroup("请在发送要变大的图片", group.getId());
+        MessageTools.sendMessageInGroup("请在发送要变的图片", group.getId());
         PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
             @Override
             public Object onReceive(long qid, long gid, String pic, Object[] objects) {
