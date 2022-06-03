@@ -68,7 +68,7 @@ public class MyHandler extends SimpleListenerHost {
     }
 
     private static void eveEnd(String text, long id, io.github.kloping.mirai0.commons.Group eGroup, Group group, Member member, MessageChain message) {
-        DAE_THREADS.execute(() -> {
+        DAE_THREADS.submit(() -> {
             DataBase.addTimes(1, id);
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
             if (CD < System.currentTimeMillis()) {

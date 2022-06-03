@@ -24,9 +24,8 @@ import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
 import static Project.services.impl.GameServiceImpl.threads;
+import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
-import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
-import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
@@ -165,7 +164,7 @@ public class CustomController {
             String v = str.substring(i2 + 1, str.length());
             if (k.contains("*") || v.contains("*")) {
                 QLIST.put(qq, str);
-                threads.execute(new Runnable() {
+                THREADS.submit(new Runnable() {
                     private long q1 = qq;
 
                     @Override

@@ -1,6 +1,7 @@
 package Project.controllers;
 
 import Project.controllers.auto.GameConfSource;
+import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ShopDataBase;
@@ -12,6 +13,7 @@ import Project.services.impl.ZongMenServiceImpl;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -25,8 +27,11 @@ import io.github.kloping.serialize.HMLObject;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
@@ -329,5 +334,37 @@ public class SuperController {
         } else {
             return NOT_FOUND_SHOP_ITEM;
         }
+    }
+
+    @Action("/updateZero")
+    public String uz() {
+        TimerController.onZero();
+        return "ok";
+    }
+
+    @Action("/list<.+=>str>")
+    public Object l0(@Param("str") String str) {
+        try {
+            Map<String, Set<Method>> maps = new ConcurrentHashMap<>();
+            Field field = ActionManagerImpl.class.getDeclaredField("maps");
+            field.setAccessible(true);
+            maps = (Map<String, Set<Method>>) field.get(StarterApplication.Setting.INSTANCE.getActionManager());
+            StringBuilder sb = new StringBuilder();
+            maps.forEach((k, v) -> {
+                for (Method method : v) {
+                    String dname = method.getDeclaringClass().getSimpleName();
+                    if (dname.equalsIgnoreCase(str)) {
+                        sb.append(k).append(NEWLINE);
+                        return;
+                    }
+                }
+            });
+            return sb.toString();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return "not found";
     }
 }

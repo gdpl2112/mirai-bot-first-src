@@ -79,7 +79,7 @@ public class TimerController {
     @Schedule("06:10:00")
     public static void onSix() {
         updateToday();
-        THREADS.execute(() -> {
+        THREADS.submit(() -> {
             for (Group group : BOT.getGroups()) {
                 if (!ControllerTool.canGroup(group.getId())) {
                     continue;

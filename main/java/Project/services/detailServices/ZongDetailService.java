@@ -17,6 +17,7 @@ import static Project.aSpring.SpringBootResource.getZongMapper;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
 /**
  * @author github-kloping
@@ -40,7 +41,7 @@ public class ZongDetailService {
     }
 
     public static void onKilled(Long who, Long xp) {
-        threads.execute(() -> {
+        THREADS.submit(() -> {
             try {
                 startShare(who, xp);
             } catch (Exception e) {
@@ -50,7 +51,7 @@ public class ZongDetailService {
     }
 
     private static void startShare(Long who, Long xp) {
-        threads.execute(new Runnable() {
+        THREADS.submit(new Runnable() {
             private final Long aXp = xp;
             private final Long aWho = who;
 

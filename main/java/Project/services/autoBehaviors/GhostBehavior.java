@@ -54,7 +54,7 @@ public class GhostBehavior implements Runnable {
 
     public static void exRun(GhostBehavior ghostBehavior) {
         ls.put(ghostBehavior.qq, ghostBehavior);
-        THREADS.execute(ghostBehavior);
+        THREADS.submit(ghostBehavior);
     }
 
     public static GhostBehavior create(long who, Group group, Integer level) {

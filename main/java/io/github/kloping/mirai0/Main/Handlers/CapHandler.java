@@ -49,7 +49,7 @@ public class CapHandler {
     }
 
     private static void startTimer(long qid) {
-        THREADS.execute(new Runnable() {
+        THREADS.submit(new Runnable() {
             @Override
             public void run() {
                 try {

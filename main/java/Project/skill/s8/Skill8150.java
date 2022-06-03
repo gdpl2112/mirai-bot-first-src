@@ -66,7 +66,7 @@ public class Skill8150 extends SkillTemplate {
                     }
                 });
                 final HpChangeBroadcast.OnCeHpChangeReceiver finalReceiver = receiver;
-                THREADS.execute(() -> {
+                THREADS.submit(() -> {
                     try {
                         Thread.sleep(10000);
                         if (!ab.get()) {

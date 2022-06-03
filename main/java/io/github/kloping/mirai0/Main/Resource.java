@@ -219,7 +219,7 @@ public class Resource {
     }
 
     public static void startedAfter() {
-        THREADS.execute(new Runnable() {
+        THREADS.submit(new Runnable() {
             @Override
             public void run() {
                 for (Runnable runnable : START_AFTER) {
