@@ -238,7 +238,21 @@ public class SkillDataBase {
     }
 
     public static void addAttHasTime(long who, HasTimeAdder adder) {
+        clearOld();
         MapUtils.appendSet(HAS_ADDER_MAP_LIST, who, adder, HashSet.class);
+    }
+
+    private static void clearOld() {
+        Iterator<Set<HasTimeAdder>> iterator = HAS_ADDER_MAP_LIST.values().iterator();
+        while (iterator.hasNext()) {
+            Iterator<HasTimeAdder> iterator0 = iterator.next().iterator();
+            while (iterator0.hasNext()) {
+                HasTimeAdder adder = iterator0.next();
+                if (!adder.test()) {
+                    iterator0.remove();
+                }
+            }
+        }
     }
 
     public static void reMap() {

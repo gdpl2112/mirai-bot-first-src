@@ -111,10 +111,6 @@ public class Drawer {
             g = image.getGraphics();
         }
         g.setFont(BIG_FONT35);
-        Rectangle clip = g.getClipBounds();
-        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
-        int ascent = fm.getAscent();
-        int descent = fm.getDescent();
         int y = 40;
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);

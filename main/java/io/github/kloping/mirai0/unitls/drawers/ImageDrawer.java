@@ -4,6 +4,7 @@ import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import com.madgag.gif.fmsware.GifDecoder;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,6 @@ import java.net.URL;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
@@ -228,23 +228,36 @@ public class ImageDrawer {
         return outFile;
     }
 
-    public static void main(String[] args) throws Throwable {
-        BufferedImage bi0;
-//        bi0 = ImageIO.read(new File("./data/empty200.png"));
-        bi0 = ImageIO.read(new File("./data/m3.png"));
-        BufferedImage t0 = ImageIO.read(new URL(getTouUrl(3474006766L)));
-        int x0 = 27, y0 = 36;
-        BufferedImage t1 = t0;
-        t1 = (BufferedImage) image2Size(t1, 43, 43);
-        t1 = roundImage(t1, 999);
-        BufferedImage o1 = putImage(bi0, t1, x0, y0);
+    public static final int SIZE = 10;
+    private static final Font FONT0 = new Font("宋体", Font.BOLD, SIZE);
 
-        BufferedImage t2 = t0;
-        t2 = (BufferedImage) image2Size(t2, 115, 115);
-        t2 = roundImage(t2, 999);
-        t2 = (BufferedImage) rotateImage(t2, 18);
-        o1 = putImage(o1, t2, 54, 57);
-
-        ImageIO.write(o1, "png", new File("./data/mout.png"));
+    public static File getPixelWordImage(URL url, File outFile, String word) throws IOException {
+        int JRX = SIZE * word.length();
+        int JRY = SIZE;
+        BufferedImage image = ImageIO.read(url);
+        BufferedImage imageO;
+        imageO = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_BGR);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        Graphics g = imageO.getGraphics();
+        g.setClip(0, 0, width, height);
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.setFont(FONT0);
+        int jrx = 0;
+        int jry = 0;
+        for (int x = 0; x < image.getWidth(); x++) {
+            if (jrx++ % JRX != 0) continue;
+            for (int y = 0; y < image.getHeight(); y++) {
+                if (jry++ % JRY != 0) continue;
+                int rgb = image.getRGB(x, y);
+                Color color = new Color(rgb);
+                g.setColor(color);
+                g.drawString(word, x, y);
+            }
+        }
+        g.dispose();
+        ImageIO.write(imageO, "jpg", outFile);
+        return outFile;
     }
 }

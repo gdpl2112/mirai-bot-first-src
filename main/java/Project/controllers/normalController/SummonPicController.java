@@ -321,4 +321,31 @@ public class SummonPicController {
         return list.toArray();
     }
 
+    @Action("/转字符图<.+=>str>")
+    public void s0(long qId, @Param("str") String word, Group group) {
+        if (word.length() < 1 || word.length() > 4) {
+            MessageTools.sendMessageInGroup("将字符控制在1-4个之间", group.getId());
+            return;
+        }
+        MessageTools.sendMessageInGroup("请在发送要变大的图片", group.getId());
+        PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
+            @Override
+            public Object onReceive(long qid, long gid, String pic, Object[] objects) {
+                if (qId == qid) {
+                    String name = UUID.randomUUID() + ".png";
+                    new File("./temp").mkdirs();
+                    File file = new File("./temp/" + name);
+                    String url = MessageTools.getImageUrlFromMessageString(pic);
+                    try {
+                        ImageDrawer.getPixelWordImage(new URL(url), file, word);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    MessageTools.sendMessageInGroup(Tool.pathToImg(file.getAbsolutePath()), gid);
+                    return "ok";
+                }
+                return null;
+            }
+        });
+    }
 }

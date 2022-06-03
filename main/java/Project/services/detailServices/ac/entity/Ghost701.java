@@ -1,6 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
 import Project.services.detailServices.GameDetailService;
+import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
@@ -44,7 +45,7 @@ public class Ghost701 extends GhostWithGroup {
             @Override
             public boolean over() {
                 baseInfo = baseInfo == null ? baseInfo = getInfo(getWhoMeet()) : baseInfo;
-                return Ghost701.this.getHp() <= 0 || baseInfo.getHp() <= 0;
+                return Ghost701.this.getHp() <= 0 || baseInfo.getHp() <= 0 || GameJoinDetailService.getGhostObjFrom(getWhoMeet()) == null;
             }
 
             @Override
