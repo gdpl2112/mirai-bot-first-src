@@ -68,7 +68,7 @@ public class Skill8090 extends SkillTemplate {
                 Thread.sleep(e);
                 for (Long m : ms) {
                     v0 += v;
-                    attGhostOrMan(sb, who, m, v);
+                    attGhostOrMan(sb, who, m, v,false);
                 }
             }
         };

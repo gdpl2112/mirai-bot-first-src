@@ -120,8 +120,12 @@ public class GameDetailServiceUtils {
      * @param v
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v) {
+        attGhostOrMan(sb, who, who2, v, true);
+    }
+
+    public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v, Boolean k) {
         if (who2.longValue() == -2) {
-            sb.append(attGho(who.longValue(), v, true, false, GhostLostBroadcast.KillType.SKILL_ATT));
+            sb.append(attGho(who.longValue(), v, k, false, GhostLostBroadcast.KillType.SKILL_ATT));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
                 sb.append(PLAYER_NOT_REGISTERED);
