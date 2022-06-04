@@ -228,13 +228,16 @@ public class ImageDrawer {
         return outFile;
     }
 
-    public static final int SIZE = 10;
+    public static final int SIZE = 12;
     private static final Font FONT0 = new Font("宋体", Font.BOLD, SIZE);
 
     public static File getPixelWordImage(URL url, File outFile, String word) throws IOException {
         int JRX = SIZE * word.length();
         int JRY = SIZE;
         BufferedImage image = ImageIO.read(url);
+        int wh0 = image.getHeight() > image.getWidth() ? image.getWidth() : image.getHeight();
+        int r0 = 2000 / wh0;
+        image = (BufferedImage) ImageDrawerUtils.image2Size(image, image.getWidth() * r0, image.getHeight() * r0);
         BufferedImage imageO;
         imageO = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_BGR);
         int width = image.getWidth();
