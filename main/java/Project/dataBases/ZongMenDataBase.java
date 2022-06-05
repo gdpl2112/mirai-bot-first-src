@@ -117,17 +117,6 @@ public class ZongMenDataBase {
 
     public static boolean putZongInfo(Zong zong) {
         return getZongMapper().updateById(zong) > 0;
-//        try {
-//            File file = new File(path + "/" + zong.getId() + "/main.json");
-//            file.getParentFile().mkdirs();
-//            file.createNewFile();
-//            String line = JsonUtils.objectToJsonString(zong);
-//            putStringInFile(line, file.getPath(), "utf-8");
-//            return true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
     }
 
     public static boolean putZonInfo(Zon zon) {
@@ -136,18 +125,6 @@ public class ZongMenDataBase {
         } else {
             return getZonMapper().insert(zon) > 0;
         }
-//        try {
-//            File file = new File(path + "/" + zon.getId() + "/" + zon.getQq() + ".json");
-//            file.getParentFile().mkdirs();
-//            file.createNewFile();
-//            String line = JsonUtils.objectToJsonString(zon);
-//            putStringInFile(line, file.getPath(), "utf-8");
-//            qq2id.put(zon.getQq().longValue(), zon.getId());
-//            return true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
     }
 
     public static boolean addPer(Zong zong, Long qq) {
@@ -163,14 +140,6 @@ public class ZongMenDataBase {
 
     public static String[] getAllZongNames() {
         StringBuilder sb = new StringBuilder();
-//        File[] files = new File(path).listFiles();
-//        for (File file1 : files) {
-//            if (file1.isDirectory()) {
-//                sb.append(file1.getName()).append(":").append(getZongInfo(Integer.valueOf(file1.getName())).getName()).append("\r\n");
-//            } else {
-//                continue;
-//            }
-//        }
         for (Zong zong : getZongMapper().selectAll()) {
             sb.append(zong.getId()).append(":").append(zong.getName()).append("\r\n");
         }

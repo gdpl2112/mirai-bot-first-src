@@ -41,6 +41,7 @@ public class InitBeans {
         }, 100, 100);
         return rs;
     }
+
     @Bean("dataPath")
     public String dataPath() {
         return Resource.datePath;
@@ -92,7 +93,7 @@ public class InitBeans {
     }
 
     @Bean("gson0")
-    public Gson gson0(){
+    public Gson gson0() {
         Gson gson = new Gson();
         return gson;
     }

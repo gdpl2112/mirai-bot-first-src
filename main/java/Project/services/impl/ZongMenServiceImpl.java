@@ -336,7 +336,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         Zong zong = getZongInfo(id);
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
-        if (zon.getLevel() != 2) return "仅宗主可设置长老";
+        if (zon.getLevel() < 2) return "仅宗主可设置长老";
         else {
             if (!zong.getElder().contains(who)) return "ta 本来就不是长老";
             zong.setElders(zong.getElders() - 1);
@@ -350,11 +350,9 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String upUp(long id, Group g) {
-        if (!qq2id.containsKey(id))
-            return ("你没有加入任何宗门");
+        if (!qq2id.containsKey(id)) return "你没有加入任何宗门";
         Zon zon = getZonInfo(id);
-        if (zon.getLevel() != 2)
-            return ("仅宗主可升级");
+        if (zon.getLevel() != 2) return "仅宗主可升级";
         Zong zong = getZongInfo(id);
         if (zong.getXp() >= zong.getXpMax()) {
             switch (zong.getLevel()) {
