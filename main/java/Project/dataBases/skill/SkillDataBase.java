@@ -312,12 +312,13 @@ public class SkillDataBase {
             return this;
         }
 
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            HasTimeAdder that = (HasTimeAdder) o;
-            return Objects.equals(jid, that.jid);
+            HasTimeAdder adder = (HasTimeAdder) o;
+            return who == adder.who && Objects.equals(jid, adder.jid);
         }
 
         @Override
