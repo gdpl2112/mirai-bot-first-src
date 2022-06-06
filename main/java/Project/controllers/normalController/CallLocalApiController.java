@@ -44,6 +44,7 @@ public class CallLocalApiController {
     BaiduBaiKe baiduBaiKe;
     @AutoStand
     WeatherGetter weatherGetter;
+
     public CallLocalApiController() {
         println(this.getClass().getSimpleName() + "构建");
     }

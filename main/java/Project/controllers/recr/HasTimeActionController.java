@@ -92,22 +92,22 @@ public class HasTimeActionController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
-
-    public static Set<Long> received = new HashSet<>();
-
-    static {
-        TimerController.ZERO_RUNS.add(() -> received.clear());
-    }
-
-    @Action("领取粽子")
-    public String a0(User user) {
-        if (received.contains(user.getId())) {
-            return "您今天已经领取过了哦";
-        } else {
-            received.add(user.getId());
-            GameDataBase.addToBgs(user.getId(), 7001, ObjType.got);
-            return "领取成功,已发放至背包" + SourceDataBase.getImgPathById(7001);
-        }
-    }
+//
+//    public static Set<Long> received = new HashSet<>();
+//
+//    static {
+//        TimerController.ZERO_RUNS.add(() -> received.clear());
+//    }
+//
+//    @Action("领取粽子")
+//    public String a0(User user) {
+//        if (received.contains(user.getId())) {
+//            return "您今天已经领取过了哦";
+//        } else {
+//            received.add(user.getId());
+//            GameDataBase.addToBgs(user.getId(), 7001, ObjType.got);
+//            return "领取成功,已发放至背包" + SourceDataBase.getImgPathById(7001);
+//        }
+//    }
 
 }
