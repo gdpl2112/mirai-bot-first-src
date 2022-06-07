@@ -18,7 +18,7 @@ public class ControllerTool {
 
     public static boolean opened(long gid, Class<?> cla) {
         if (!AllK) {
-            throw new NoRunException("总开关——关闭");
+            throw new NoRunException("总关闭");
         } else {
             if (canGroup(gid)) {
                 return true;
