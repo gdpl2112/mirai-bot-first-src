@@ -11,7 +11,6 @@ import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.ShieldPack;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.SkillIntro;
 import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
 import io.github.kloping.mirai0.commons.game.AsynchronousHf;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
@@ -132,6 +131,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8200, 15);
         BASE_PERCENT_MAP.put(8210, 25);
         BASE_PERCENT_MAP.put(8220, 8);
+        BASE_PERCENT_MAP.put(8221, 22);
         BASE_PERCENT_MAP.put(8230, 8);
         BASE_PERCENT_MAP.put(8240, 32);
         BASE_PERCENT_MAP.put(8250, 10);

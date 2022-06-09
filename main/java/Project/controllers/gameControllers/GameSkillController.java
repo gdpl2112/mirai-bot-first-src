@@ -44,15 +44,7 @@ public class GameSkillController {
 
     static {
         StringBuilder sb = new StringBuilder();
-        sb.append("调整:").append(NEWLINE)
-                .append("\t1.蓄力型技能,指定敌人,蓄力1.5倍攻击前摇秒后对其造成 攻击的%s +- 10%% 的 伤害").append(NEWLINE)
-                .append("\t2.对指定,增加一个最大生命值的%s%%的临时护盾持续时间%s秒").append(NEWLINE)
-        ;
-        sb.append("新.").append(NEWLINE)
-                .append("\t1.缩减指定人自身%s秒的攻击后摇,后摇最小1s\n")
-                .append("\t2.使指定人的后摇,减少%s%%秒冷却")
-                .append("\t3.缩减指定人自身%s秒的攻击前摇,前摇最小0.5s\n")
-                .append("\t4.减少指定人对应该魂技的位置的魂技%s秒的冷却");
+        sb.append("光明圣龙新增第八魂技");
         m1 = sb.toString();
 
     }
