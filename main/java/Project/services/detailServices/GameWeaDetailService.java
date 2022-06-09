@@ -6,6 +6,7 @@ import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
@@ -59,22 +59,17 @@ public class GameWeaDetailService {
             }
     }
 
-    public String useAq(List<String> lps, long who, String name) {
+    public synchronized String useAq(List<String> lps, long who, String name) {
         if (AQS.isEmpty()) initAqs();
-        if (!AQS.contains(name))
-            return "系统未找到 此暗器";
+        if (!AQS.contains(name)) return "系统未找到 此暗器";
         int id = NAME_2_ID_MAPS.get(name);
-        if (!exitsO(id, who)) {
-            return "你没有 " + name + "或已损坏";
-        }
-        if (challengeDetailService.isTemping(who)) {
-            long at = getInfo(who).getAk1();
-            if (at > System.currentTimeMillis()) {
-                return String.format(ATT_WAIT_TIPS, getTimeTips(at));
-            } else {
-                getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who)).apply();
-            }
-        }
+        if (!exitsO(id, who)) return "你没有 " + name + "或已损坏";
+        long at = getInfo(who).getAk1();
+        if (at > System.currentTimeMillis())
+            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
+        if (challengeDetailService.isTemping(who))
+            getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) * 2).apply();
+        else getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) / 3).apply();
         try {
             Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
