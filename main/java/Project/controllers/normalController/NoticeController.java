@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("6.10:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("6.9 :暗器使用增加冷却,冷却为1/3的后摇;见魂技更新列表").append("\n");
         UPDATE_LOG.append("6.6 :尝试修复已知bug").append("\n");
         UPDATE_LOG.append("6.4 :尝试修复已知bug").append("\n");

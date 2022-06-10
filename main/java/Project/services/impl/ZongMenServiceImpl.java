@@ -398,6 +398,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     return zongInfo(id, g);
                 case 6:
                     return ("宗门最大等级");
+
             }
         } else {
             return ("宗门经验不足");
