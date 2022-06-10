@@ -30,11 +30,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 @Controller
 public class TimerController {
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
-
+    public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
     @AutoStand(id = "gson0")
     private static Gson gson;
-
-    public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
     private static int ts = 10;
 
     public static void appendOneDay(MessageChainBuilder builder, Group group) {

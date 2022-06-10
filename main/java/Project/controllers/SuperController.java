@@ -50,14 +50,6 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 @Controller
 public class SuperController {
 
-    public long tempSuperL = -1;
-
-    @AutoStand
-    IGameService gameService;
-
-    @AutoStand
-    IManagerService managerService;
-
     public static Map<String, Object> AUTO_CONF = new HashMap<>();
     public static String AUTO_CONF_PATH = "./conf/auto-conf.hml";
 
@@ -82,6 +74,11 @@ public class SuperController {
         FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
     }
 
+    public long tempSuperL = -1;
+    @AutoStand
+    IGameService gameService;
+    @AutoStand
+    IManagerService managerService;
     @AutoStand
     private ZongMenServiceImpl zons;
 

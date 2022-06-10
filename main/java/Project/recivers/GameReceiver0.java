@@ -31,10 +31,6 @@ public class GameReceiver0 {
         init8();
     }
 
-    private void init8() {
-
-    }
-
     private static void init() {
         GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
             @Override
@@ -163,5 +159,9 @@ public class GameReceiver0 {
                 MessageTools.sendMessageInGroupWithAt(m, g, q);
             }
         });
+    }
+
+    private void init8() {
+
     }
 }

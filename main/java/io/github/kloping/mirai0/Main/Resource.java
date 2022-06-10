@@ -147,8 +147,8 @@ public class Resource {
             }
         });
         StarterApplication.addConfFile("./conf/conf.txt");
-        contextManager = StarterApplication.Setting.INSTANCE.getContextManager();
         StarterApplication.run(cla);
+        contextManager = StarterApplication.Setting.INSTANCE.getContextManager();
         //load conf
         superQL.addAll(parseToLongList(contextManager.getContextEntity(String.class, "superQL")));
         StarterApplication.logger.info("superQL=>" + superQL);

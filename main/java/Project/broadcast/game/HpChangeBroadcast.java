@@ -12,12 +12,11 @@ import java.util.List;
  */
 public class HpChangeBroadcast extends Broadcast {
     public static final HpChangeBroadcast INSTANCE = new HpChangeBroadcast();
+    public static final List<Receiver> RECEIVERS = new ArrayList<>();
 
     public HpChangeBroadcast() {
         super("HpChangeBroadcast");
     }
-
-    public static final List<Receiver> RECEIVERS = new ArrayList<>();
 
     @Override
     public boolean add(Receiver receiver) {

@@ -10,8 +10,8 @@ import static io.github.kloping.mirai0.commons.Father.SPLIT;
  * @author github.kloping
  */
 public class Parse {
-    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
     public static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
+    private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
     private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");
     private static final Pattern PATTER_AT = Pattern.compile("\\[At:.+?]|<At:.+?>");
     private static final Pattern PATTER_VOICE = Pattern.compile("\\[Voice:.+?]|<Audio:.+?>");

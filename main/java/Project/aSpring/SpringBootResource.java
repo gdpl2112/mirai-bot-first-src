@@ -9,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**

@@ -37,8 +37,7 @@ public class ChallengeController {
             "5.挑战中时不可购买物品,不可被转让\n" +
             "6.挑战中时攻击值减半\n" +
             "7.挑战者的攻击将被平均,挑战结束,恢复原样\n" +
-            "8.挑战中时可使用背包物品,但使用冷却更长\n"
-            ;
+            "8.挑战中时可使用背包物品,但使用冷却更长\n";
 
     private static List<String> listFx = new ArrayList<>();
 

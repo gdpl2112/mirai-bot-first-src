@@ -1,6 +1,5 @@
 package Project.services.detailServices.ac.entity;
 
-import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;

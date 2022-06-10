@@ -4,7 +4,6 @@ import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
-import net.mamoe.mirai.message.data.PlainText;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -20,7 +19,7 @@ public class FirstController {
         try {
             Field field = Resource.contextManager.getClass().getDeclaredField("contexts");
             field.setAccessible(true);
-             FileUtils.putStringInFile(field.get(Resource.contextManager).toString(),new File("./temp/temp.txt"));
+            FileUtils.putStringInFile(field.get(Resource.contextManager).toString(), new File("./temp/temp.txt"));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }

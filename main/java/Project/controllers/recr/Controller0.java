@@ -96,7 +96,7 @@ public class Controller0 {
         member = (Member) getRandT(BOT.getGroup(group.getId()).getMembers());
         long qid = member.getId();
         if (WIFE.containsKey(group.getId())) {
-            if (WIFE.get(group.getId()).keySet().contains(qid)||WIFE.get(group.getId()).values().contains(qid)) {
+            if (WIFE.get(group.getId()).keySet().contains(qid) || WIFE.get(group.getId()).values().contains(qid)) {
                 return getRandQid(mid, group);
             }
         }

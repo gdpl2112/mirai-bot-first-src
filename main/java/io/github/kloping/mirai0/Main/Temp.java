@@ -4,7 +4,6 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.file.FileUtils;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
@@ -23,15 +22,10 @@ import static io.github.kloping.mirai0.Main.Resource.setterStarterApplication;
 @CommentScan(path = "io.github.kloping.mirai0.Main.temp")
 @Controller
 public class Temp extends SimpleListenerHost {
-    @Override
-    public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        super.handleException(context, exception);
-    }
-
-    private static Resource.BotConf abot;
-    private static Bot bot;
     @AutoStand
     static ContextManager contextManager;
+    private static Resource.BotConf abot;
+    private static Bot bot;
 
     public static void main(String[] args) {
         abot = Resource.get(4);
@@ -45,5 +39,10 @@ public class Temp extends SimpleListenerHost {
         bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         bot.login();
         pluginLoad();
+    }
+
+    @Override
+    public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
+        super.handleException(context, exception);
     }
 }

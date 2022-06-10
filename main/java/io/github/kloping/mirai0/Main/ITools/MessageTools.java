@@ -31,9 +31,9 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
  * @author github-kloping
  */
 public class MessageTools {
+    public static final Map<String, Image> HIST_IMAGES = new HashMap<>();
     private static final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
     private static final Map<Long, At> ATS = new ConcurrentHashMap<>();
-    public static final Map<String, Image> HIST_IMAGES = new HashMap<>();
 
     public static MessageChain getMessageFromString(String str, Contact group) {
         if (str == null || str.isEmpty() || group == null) return null;

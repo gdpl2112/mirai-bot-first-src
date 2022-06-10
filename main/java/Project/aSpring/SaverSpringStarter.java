@@ -1,16 +1,11 @@
 package Project.aSpring;
 
 import Project.aSpring.mcs.save.SaveMapper;
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
-import io.github.kloping.MySpringTool.StarterApplication;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import static Project.aSpring.SpringBootResource.configuration;
 
@@ -27,7 +22,7 @@ public class SaverSpringStarter {
         try {
             args = Arrays.copyOf(args, args.length + 1);
             args[args.length - 1] = "--spring.config.location=./spring/conf/application0.yml";
-            configuration = new SpringApplication(new Class[]{SaverSpringStarter.class}) .run(args);
+            configuration = new SpringApplication(new Class[]{SaverSpringStarter.class}).run(args);
             saveMapper = configuration.getBean(SaveMapper.class);
             System.err.println("saver spring started succeed");
         } catch (Exception e) {

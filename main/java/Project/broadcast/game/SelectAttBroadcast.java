@@ -14,6 +14,7 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
  */
 public class SelectAttBroadcast extends Broadcast {
     public static final SelectAttBroadcast INSTANCE = new SelectAttBroadcast();
+    private List<SelectAttReceiver> receivers = new LinkedList<>();
 
     public SelectAttBroadcast() {
         super("SelectAttBroadcast");
@@ -30,8 +31,6 @@ public class SelectAttBroadcast extends Broadcast {
             }
         });
     }
-
-    private List<SelectAttReceiver> receivers = new LinkedList<>();
 
     @Override
     public boolean add(Receiver receiver) {

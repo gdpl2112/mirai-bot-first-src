@@ -18,6 +18,16 @@ import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
  * @author github-kloping
  */
 public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1002> {
+    public static final Integer[] T_1002_OBJS = new Integer[]{
+            115,
+            116,
+            117,
+            118,
+            1512,
+            1601,
+            1521,
+    };
+
     public GhostLostReceiverWithTask1002(Task1002 task1002) {
         super(task1002);
     }
@@ -47,16 +57,6 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
             });
         }
     }
-
-    public static final Integer[] T_1002_OBJS = new Integer[]{
-            115,
-            116,
-            117,
-            118,
-            1512,
-            1601,
-            1521,
-    };
 
     private int getRandObj1002() {
         return getRandT(T_1002_OBJS);

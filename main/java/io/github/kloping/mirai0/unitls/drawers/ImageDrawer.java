@@ -19,6 +19,9 @@ import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
  */
 public class ImageDrawer {
 
+    public static final int SIZE = 12;
+    private static final Font FONT0 = new Font("宋体", Font.BOLD, SIZE);
+
     /**
      * 推 的动画
      *
@@ -227,9 +230,6 @@ public class ImageDrawer {
         encoder.finish();
         return outFile;
     }
-
-    public static final int SIZE = 12;
-    private static final Font FONT0 = new Font("宋体", Font.BOLD, SIZE);
 
     public static File getPixelWordImage(URL url, File outFile, String word) throws IOException {
         int JRX = SIZE * word.length();

@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class SkillUseBroadcast extends Broadcast {
     public static final SkillUseBroadcast INSTANCE = new SkillUseBroadcast();
+    private List<SkillUseReceiver> receivers = new LinkedList<>();
 
     public SkillUseBroadcast() {
         super("SkillUseBroadcast");
@@ -22,8 +23,6 @@ public class SkillUseBroadcast extends Broadcast {
             receiver.onReceive(who, jid, st, info);
         }
     }
-
-    private List<SkillUseReceiver> receivers = new LinkedList<>();
 
     @Override
     public boolean add(Receiver receiver) {

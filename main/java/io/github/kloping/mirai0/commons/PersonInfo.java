@@ -784,7 +784,7 @@ public class PersonInfo implements BaseInfo {
     }
 
     public Integer getWhType() {
-       return GameDataBase.getWhTypeByWh(wh);
+        return GameDataBase.getWhTypeByWh(wh);
     }
 
     public PersonInfo setWhType(Integer whType) {

@@ -30,6 +30,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class GameBoneServiceImpl implements IGameBoneService {
+    public static final SoulAttribute EMPTY = new SoulAttribute();
     @AutoStand
     PlayerBehavioralManager manager;
 
@@ -57,8 +58,6 @@ public class GameBoneServiceImpl implements IGameBoneService {
         list.add("攻击前/后摇:" + device(manager.getAttPre(who), 1000f, 1) + "/" + device(manager.getAttPost(who), 1000f, 1) + "s");
         return getImageFromStrings(list.toArray(new String[0]));
     }
-
-    public static final SoulAttribute EMPTY = new SoulAttribute();
 
     @Override
     public SoulAttribute getSoulAttribute(Long who) {

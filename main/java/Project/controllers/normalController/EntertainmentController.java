@@ -22,9 +22,9 @@ import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.dataBases.DataBase.*;
+import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
-import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
  * @author github-kloping
