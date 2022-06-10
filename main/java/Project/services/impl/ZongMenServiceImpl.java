@@ -360,7 +360,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(2);
                     zong.setElderNum(3);
-                    zong.setMaxP(14);
+                    zong.setMaxP(zong.getMaxP() + 6);
                     zong.setXpMax(1000L);
                     putZongInfo(zong);
                     return zongInfo(id, g);
@@ -368,7 +368,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(3);
                     zong.setElderNum(4);
-                    zong.setMaxP(18);
+                    zong.setMaxP(zong.getMaxP() + 8);
                     zong.setXpMax(4800L);
                     putZongInfo(zong);
                     return zongInfo(id, g);
@@ -376,7 +376,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(4);
                     zong.setElderNum(5);
-                    zong.setMaxP(22);
+                    zong.setMaxP(zong.getMaxP() + 8);
                     zong.setXpMax(8200L);
                     putZongInfo(zong);
                     return zongInfo(id, g);
@@ -384,7 +384,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(5);
                     zong.setElderNum(7);
-                    zong.setMaxP(25);
+                    zong.setMaxP(zong.getMaxP() + 9);
                     zong.setXpMax(12500L);
                     putZongInfo(zong);
                     return zongInfo(id, g);
@@ -392,13 +392,12 @@ public class ZongMenServiceImpl implements IZongMenService {
                     zong.setXp(zong.getXp() - zong.getXpMax());
                     zong.setLevel(6);
                     zong.setElderNum(7);
-                    zong.setMaxP(29);
+                    zong.setMaxP(zong.getMaxP() + 10);
                     zong.setXpMax(54500L);
                     putZongInfo(zong);
                     return zongInfo(id, g);
                 case 6:
                     return ("宗门最大等级");
-
             }
         } else {
             return ("宗门经验不足");
