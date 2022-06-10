@@ -294,6 +294,8 @@ public class ZongMenServiceImpl implements IZongMenService {
         String s1 = setUpElderPermission(id, who);
         if (!s1.isEmpty()) return s1;
         Zong zong = getZongInfo(id);
+        Zong zong1 = getZongInfo(who);
+        if (zong.getId().intValue() != zong1.getId().intValue()) return ILLEGAL_OPERATION;
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
         if (zong.getElders() >= zong.getElderNum()) {
@@ -302,9 +304,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             if (zon.getLevel() != 2)
                 return "仅宗主可设置长老";
             else {
-                if (zong.getElder().contains(who)) {
-                    return "ta 本来就是长老";
-                }
+                if (zong.getElder().contains(who)) return "ta 本来就是长老";
                 zong.setElders(zong.getElders() + 1);
                 zong.getElder().add(who);
                 zon1.setLevel(1);
@@ -334,6 +334,8 @@ public class ZongMenServiceImpl implements IZongMenService {
         String s1 = setUpElderPermission(id, who);
         if (!s1.isEmpty()) return s1;
         Zong zong = getZongInfo(id);
+        Zong zong1 = getZongInfo(who);
+        if (zong.getId().intValue() != zong1.getId().intValue()) return ILLEGAL_OPERATION;
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
         if (zon.getLevel() < 2) return "仅宗主可设置长老";
@@ -438,6 +440,9 @@ public class ZongMenServiceImpl implements IZongMenService {
     @Override
     public String quiteOne(long id, long who) {
         if (!qq2id.containsKey(id)) return "你没有加入任何宗门";
+        Zong zong = getZongInfo(id);
+        Zong zong1 = getZongInfo(who);
+        if (zong.getId().intValue() != zong1.getId().intValue()) return ILLEGAL_OPERATION;
         Zon zon = getZonInfo(id);
         Zon zon1 = getZonInfo(who);
         if (zon.getLevel() != 2) return "仅宗主可移除成员";
