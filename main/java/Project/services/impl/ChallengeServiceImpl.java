@@ -5,6 +5,7 @@ import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
 import Project.controllers.gameControllers.GameController;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.interfaces.Iservice.IGameService;
+import Project.services.detailServices.ChallengeDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -12,11 +13,16 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
+import io.github.kloping.mirai0.commons.gameEntitys.challange.AbstractChallenge;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.services.detailServices.ChallengeDetailService.*;
+import static Project.services.detailServices.ChallengeDetailService.TEMP_PERSON_INFOS;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CREATE_CHALLENGE_OK;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 
 /**
  * @author github.kloping
@@ -36,10 +42,15 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     @AutoStand
+    ChallengeDetailService service0;
+
+
+    @AutoStand
     IGameService service;
+    private final Map<Long, Receiver> RECEIVER_MAP = new HashMap<>();
 
     private void testWill(long qid) throws NoRunException {
-        if (A2R.containsKey(qid)) {
+        if (service0.challenges.contains(qid)) {
             throw new NoRunException("不要重复参赛哦.");
         }
         if (getGhostObjFrom(qid) != null) {
@@ -48,16 +59,60 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     @Override
-    public Object createChallenge(long qid, long gid) {
+    public Object createTrialChallenge(long qid, long gid) {
         try {
             testWill(qid);
         } catch (NoRunException e) {
             return e.getMessage();
         }
-        if (WILL_GO.containsKey(qid)) {
-            return PLEASE_NOT_REPEAT;
-        }
-        WILL_GO.put(qid, gid);
+        service0.challenges.create(qid, new AbstractChallenge() {
+            @Override
+            public boolean ready() {
+                return p1 > 0 && p2 > 0;
+            }
+
+            @Override
+            public AbstractChallenge start() {
+                PersonInfo pi1 = getInfo(p1);
+                PersonInfo pi2 = getInfo(p2);
+
+                PersonInfo p11 = copyBase(pi1);
+                PersonInfo p22 = copyBase(pi2);
+
+                p11.setAtt(pi1.getAtt());
+                p22.setAtt(pi2.getAtt());
+
+                p11 = toMax(p11);
+                p22 = toMax(p22);
+
+                TEMP_PERSON_INFOS.put(p1, p11);
+                TEMP_PERSON_INFOS.put(p2, p22);
+
+                Receiver receiver = null;
+                PlayerLostBroadcast.INSTANCE.add(receiver = new PlayerLostBroadcast.OncePlayerLostReceiver() {
+                    @Override
+                    public boolean onReceive(long who, long from) {
+                        if (who == p1 || who == p2) {
+                            MessageTools.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
+                            deleteTempInfo(p1, p2);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                RECEIVER_MAP.put(p1, receiver);
+                RECEIVER_MAP.put(p2, receiver);
+
+                MessageTools.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
+
+                return this;
+            }
+
+            @Override
+            public long getGid() {
+                return gid;
+            }
+        });
         return CREATE_CHALLENGE_OK;
     }
 
@@ -68,44 +123,20 @@ public class ChallengeServiceImpl implements IChallengeService {
         } catch (NoRunException e) {
             return e.getMessage();
         }
-        if (WILL_GO.containsKey(q1)) {
-            return PLEASE_NOT_REPEAT;
+        return service0.challenges.join(q1, q2) ? "参与成功" : "参与失败";
+    }
+
+    @Override
+    public Object destroy(long qid) {
+        if (service0.challenges.contains(qid)) {
+            deleteTempInfo(qid, service0.challenges.Q2Q.get(qid));
         }
-        if (!WILL_GO.containsKey(q2)) {
-            return NOT_FOUND;
-        }
-        A2R.put(q1, q2);
-        A2R.put(q2, q1);
-        WILL_GO.put(q1, WILL_GO.get(q2));
-        summonTempInfo(q1, q2);
-        Receiver receiver = null;
-        PlayerLostBroadcast.INSTANCE.add(receiver = new PlayerLostBroadcast.OncePlayerLostReceiver() {
-            @Override
-            public boolean onReceive(long who, long from) {
-                if (who == q1 || who == q2) {
-                    MessageTools.sendMessageInGroup("挑战结束\n<At:" + who + "> 胜利 加一星\n<At:" + A2R.get(who) + "> 失败", WILL_GO.get(who));
-                    deleteTempInfo(q1, q2);
-                    return true;
-                }
-                return false;
-            }
-        });
-        RECEIVER_MAP.put(q1, receiver);
-        RECEIVER_MAP.put(q2, receiver);
-        try {
-            return JOIN_CHALLENGE_OK;
-        } finally {
-            MessageTools.sendMessageInGroup(service.info(q1) + "\nVS\n" + service.info(q2), WILL_GO.get(q1));
-        }
+        return "尝试结束";
     }
 
     private void deleteTempInfo(long q1, long q2) {
         TEMP_PERSON_INFOS.remove(q1);
         TEMP_PERSON_INFOS.remove(q2);
-        WILL_GO.remove(q1);
-        WILL_GO.remove(q2);
-        A2R.remove(q1);
-        A2R.remove(q2);
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q1));
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q2));
     }
@@ -138,5 +169,9 @@ public class ChallengeServiceImpl implements IChallengeService {
                 .setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(System.currentTimeMillis())
                 .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis())
                 ;
+    }
+
+    private PersonInfo toMax(PersonInfo personInfo) {
+        return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHj());
     }
 }

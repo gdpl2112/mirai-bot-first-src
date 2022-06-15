@@ -137,7 +137,7 @@ public class GameSkillController {
                     //过滤挑战
                     if (challengeDetailService.isTemping(l1)) {
                         if (challengeDetailService.isTemping(qq.getId())) {
-                            if (ChallengeDetailService.A2R.get(qq.getId()) == l1.longValue()) {
+                            if (challengeDetailService.challenges.Q2Q.get(qq.getId()) == l1.longValue()) {
                                 numbers.add(l1);
                             }
                         }

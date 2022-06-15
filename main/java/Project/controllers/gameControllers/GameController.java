@@ -220,18 +220,19 @@ public class GameController {
         }
     }
 
-    @Action("攻击.+")
-    public String AttWho(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.getAtFromString(chain);
-        if (who == -1) return NOT_FOUND_AT;
-        long at = getInfo(qq.getId()).getAk1();
-        if (at > System.currentTimeMillis())
-            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
-        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
-        String sss = gameService.att(qq.getId(), who, group);
-        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();
-        return sss;
-    }
+//
+//    @Action("攻击.+")
+//    public String attWho(User qq, @AllMess String chain, Group group) {
+//        long who = MessageTools.getAtFromString(chain);
+//        if (who == -1) return NOT_FOUND_AT;
+//        long at = getInfo(qq.getId()).getAk1();
+//        if (at > System.currentTimeMillis())
+//            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
+//        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
+//        String sss = gameService.att(qq.getId(), who, group);
+//        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();
+//        return sss;
+//    }
 
     @Action("侦查.+")
     public String Look(User qq, @AllMess String chain, Group group) {

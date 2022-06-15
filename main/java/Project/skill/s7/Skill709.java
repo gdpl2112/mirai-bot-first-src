@@ -7,8 +7,6 @@ import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.exist;
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
@@ -35,11 +33,7 @@ public class Skill709 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "七杀真身") {
             @Override
             public void before() {
-                Long q = who.longValue();
-                if (!exist(q)) {
-                    return;
-                }
-                long v = CommonSource.percentTo(info.getAddPercent(), getInfo(q).att());
+                long v = CommonSource.percentTo(info.getAddPercent(), getPersonInfo().att());
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
             }
         };

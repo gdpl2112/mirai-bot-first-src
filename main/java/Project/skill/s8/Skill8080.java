@@ -37,15 +37,13 @@ public class Skill8080 extends SkillTemplate {
 
             @Override
             public void before() {
-                if (nums.length <= 0) {
-                    return;
-                }
-                qid = nums[0].longValue();
             }
 
             @Override
             public void run() {
                 super.run();
+                if (nums.length == 0) return;
+                qid = nums[0].longValue();
                 if (qid <= 0) {
                     setTips(NOT_SELECT_STR);
                     return;

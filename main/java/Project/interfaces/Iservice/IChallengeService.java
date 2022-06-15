@@ -11,7 +11,7 @@ public interface IChallengeService {
      * @param gid
      * @return
      */
-    Object createChallenge(long qid, long gid);
+    Object createTrialChallenge(long qid, long gid);
 
     /**
      * 移动
@@ -21,4 +21,12 @@ public interface IChallengeService {
      * @return
      */
     Object joinChallenge(long id, long str);
+
+    /**
+     * destroy
+     *
+     * @param qid
+     * @return
+     */
+    Object destroy(long qid);
 }

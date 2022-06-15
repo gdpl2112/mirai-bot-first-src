@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("6.15:取消'攻击',新增试炼挑战,见'挑战说明',存在bug请及时反馈,修复已知问题").append("\n");
         UPDATE_LOG.append("6.11:尝试修复了跨宗门可设置长老的问题").append("\n");
         UPDATE_LOG.append("6.10:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("6.9 :暗器使用增加冷却,冷却为1/3的后摇;见魂技更新列表").append("\n");
