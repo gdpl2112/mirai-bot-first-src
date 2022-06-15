@@ -51,9 +51,6 @@ public class ChallengeController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
-        if (!test) {
-            throw new NoRunException("未开放");
-        }
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
