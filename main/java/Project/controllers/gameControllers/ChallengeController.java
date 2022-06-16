@@ -36,7 +36,7 @@ public class ChallengeController {
                     "\t4.挑战者的信息将被回满,挑战结束,恢复原样\n" +
                     "\t5.挑战中时可使用背包物品,但使用冷却更长\n" +
                     "\t6.挑战中攻击减半\n" +
-                    "\t6.挑战中普通攻击转为'选择攻击'\n" +
+                    "\t7.挑战中普通攻击转为'选择攻击'\n" +
                     "命令:\n创建试炼挑战\n挑战<At>\n结束挑战";
 
     private static List<String> listFx = new ArrayList<>();
