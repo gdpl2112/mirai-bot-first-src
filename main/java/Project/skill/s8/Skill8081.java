@@ -41,13 +41,14 @@ public class Skill8081 extends SkillTemplate {
             @Override
             public void before() {
                 if (nums.length == 0) return;
+                Long qid = nums[0].longValue();
                 int n = 12;
                 int eve = 5000;
-                AsynchronousThing thing = new AsynchronousAttack(n, who.longValue(), nums[0].longValue(),
+                AsynchronousThing thing = new AsynchronousAttack(n, who.longValue(), qid,
                         info.getAddPercent(), eve, getRecentSpeechesGid(who.longValue()));
                 thing.start();
                 MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
-                setTips(nums[0].toString());
+                setTips(qid.toString());
             }
         };
     }

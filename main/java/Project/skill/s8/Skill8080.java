@@ -12,7 +12,6 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
@@ -44,10 +43,6 @@ public class Skill8080 extends SkillTemplate {
                 super.run();
                 if (nums.length == 0) return;
                 qid = nums[0].longValue();
-                if (qid <= 0) {
-                    setTips(NOT_SELECT_STR);
-                    return;
-                }
                 int r = RANDOM.nextInt(20) - 10;
                 int b = info.getAddPercent();
                 b += r;

@@ -68,7 +68,6 @@ public class OtherController {
         baseMenuStr.append("吸收(十/百/千..)年魂环\n");
         baseMenuStr.append("魂环配置 #展示魂环\n");
         baseMenuStr.append("购买金魂币(值) #2积分1个\n");
-        baseMenuStr.append("攻击<At>\n");
         baseMenuStr.append("精神冲击<Any>\n");
         baseMenuStr.append("侦查<At>\n");
         baseMenuStr.append("升级第<几>魂环\n");
@@ -91,6 +90,7 @@ public class OtherController {
         baseMenuStr.append("新机制\n");
         baseMenuStr.append("怎么获得名师点\n");
         baseMenuStr.append("我的buff/我的效果\n");
+        baseMenuStr.append("创建试炼挑战\n");
         baseMenuStr.append("====");
         baseMenuStr.append("#任务相关\n");
         baseMenuStr.append("接徒弟任务\n");

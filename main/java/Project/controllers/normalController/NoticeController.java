@@ -44,6 +44,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("6.16:修复已知问题,见'挑战说明'").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("6.15:取消'攻击',新增试炼挑战,见'挑战说明',存在bug请及时反馈,修复已知问题").append("\n");
         UPDATE_LOG.append("6.11:尝试修复了跨宗门可设置长老的问题").append("\n");
         UPDATE_LOG.append("6.10:尝试修复已知问题").append("\n");

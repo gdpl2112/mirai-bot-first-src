@@ -79,8 +79,8 @@ public class ChallengeServiceImpl implements IChallengeService {
                 PersonInfo p11 = copyBase(pi1);
                 PersonInfo p22 = copyBase(pi2);
 
-                p11.setAtt(pi1.getAtt());
-                p22.setAtt(pi2.getAtt());
+                p11.setAtt(pi1.getAtt() / 2);
+                p22.setAtt(pi2.getAtt() / 2);
 
                 p11 = toMax(p11);
                 p22 = toMax(p22);
@@ -137,6 +137,8 @@ public class ChallengeServiceImpl implements IChallengeService {
     private void deleteTempInfo(long q1, long q2) {
         TEMP_PERSON_INFOS.remove(q1);
         TEMP_PERSON_INFOS.remove(q2);
+        service0.challenges.destroy(q1);
+        service0.challenges.destroy(q2);
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q1));
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q2));
     }
