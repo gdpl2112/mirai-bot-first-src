@@ -343,7 +343,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             if (!zong.getElder().contains(who)) return "ta 本来就不是长老";
             zong.setElders(zong.getElders() - 1);
             zong.getElder().remove(id);
-            zon.setLevel(0);
+            zon1.setLevel(0);
             putZongInfo(zong);
             putZonInfo(zon);
             return "取消设置成功";
