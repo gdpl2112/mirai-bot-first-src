@@ -157,7 +157,7 @@ public class GameSkillDetailService {
                     StarterApplication.logger.info("remove => " + tagP);
                 }
             }
-        }, 200, 200, TimeUnit.MILLISECONDS);
+        }, 150, 150, TimeUnit.MILLISECONDS);
 
         long twoMinutes = 120000;
         for (Integer integer : SkillFactory.skillListIds()) {
