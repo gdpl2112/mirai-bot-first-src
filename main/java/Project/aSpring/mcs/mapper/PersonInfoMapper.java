@@ -20,7 +20,7 @@ public interface PersonInfoMapper extends BaseMapper<PersonInfo> {
      * @param num
      * @return
      */
-    @Select("SELECT * FROM person_info ORDER BY level DESC LIMIT #{num}")
+    @Select("SELECT * FROM person_info ORDER BY `level` DESC,`xp` DESC LIMIT #{num}")
     List<PersonInfo> getOrderByLevel(@Param("num") Integer num);
 
     /**

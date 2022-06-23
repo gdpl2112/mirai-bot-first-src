@@ -310,7 +310,6 @@ public class GameController {
                 return ERR_TIPS;
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return ERR_TIPS;
     }
