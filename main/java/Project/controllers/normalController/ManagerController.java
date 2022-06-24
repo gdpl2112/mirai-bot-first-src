@@ -260,23 +260,4 @@ public class ManagerController {
         return str.substring(7);
     }
 
-    @Action("/get.+")
-    public Object o0(@AllMess String str, Group group) {
-        long q0 = getAtFromString(str);
-        if (q0 < 0) {
-            return ERR_TIPS;
-        }
-        int n = Integer.parseInt(findNumberFromString(str.replace(Long.toString(q0), "")));
-        for (AllMessage allMessage : SaverSpringStarter.saveMapper.selectMessage(group.getId(), q0, n)) {
-            String s0 = allMessage.getContent();
-            Message message;
-            try {
-                message = MessageChain.deserializeFromJsonString(s0);
-            } catch (Exception e) {
-                message = new PlainText(s0);
-            }
-            MessageTools.sendMessageInGroup(message, group.getId());
-        }
-        return "OK";
-    }
 }

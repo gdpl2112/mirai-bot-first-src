@@ -80,7 +80,9 @@ public class GameReceiver0 {
                         who, from, type.name()));
                 switch (type) {
                     case att:
-                        lost(who);
+                        if (from <= 0) {
+                            lost(who);
+                        }
                         GInfo.getInstance(who).addDiedc().apply();
                         break;
                     case un:

@@ -1,5 +1,6 @@
 package Project.controllers;
 
+import Project.aSpring.SaverSpringStarter;
 import Project.controllers.auto.GameConfSource;
 import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
@@ -15,6 +16,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
 import io.github.kloping.file.FileUtils;
+import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -24,6 +26,9 @@ import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.PlainText;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -39,6 +44,7 @@ import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
+import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -99,9 +105,29 @@ public class SuperController {
         }
     }
 
+    @Action("/get.+")
+    public Object o0(@AllMess String str, Group group) {
+        long q0 = getAtFromString(str);
+        if (q0 < 0) {
+            return ERR_TIPS;
+        }
+        int n = Integer.parseInt(findNumberFromString(str.replace(Long.toString(q0), "")));
+        for (AllMessage allMessage : SaverSpringStarter.saveMapper.selectMessage(group.getId(), q0, n)) {
+            String s0 = allMessage.getContent();
+            Message message;
+            try {
+                message = MessageChain.deserializeFromJsonString(s0);
+            } catch (Exception e) {
+                message = new PlainText(s0);
+            }
+            MessageTools.sendMessageInGroup(message, group.getId());
+        }
+        return "OK";
+    }
+
     @Action("赋予一次超级权限.+")
     public String f0(@AllMess String s) {
-        long q = MessageTools.getAtFromString(s);
+        long q = getAtFromString(s);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -111,7 +137,7 @@ public class SuperController {
 
     @Action(value = "addScore.{1,}", otherName = {"加积分.+"})
     public String addScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
-        long who = MessageTools.getAtFromString(messages);
+        long who = getAtFromString(messages);
         messages = messages.replace(Long.toString(who), "");
         if (who == -1) {
             return ("Are You True??");
@@ -145,7 +171,7 @@ public class SuperController {
 
     @Action("超级侦查<.+=>name>")
     public String select(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.getAtFromString(chain);
+        long who = getAtFromString(chain);
         if (who == -1)
             return ("谁?");
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
@@ -190,7 +216,7 @@ public class SuperController {
     public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
         if (!isSuperQ(qq.getId()))
             throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
+        long who = getAtFromString(message);
         if (who == -1)
             return "添加谁?";
         String perm = message.replace(String.format(AT_FORMAT, who), "");
@@ -210,7 +236,7 @@ public class SuperController {
 
     @Action("/execute.+")
     public String o1(@AllMess String str, Group group) {
-        long q = MessageTools.getAtFromString(str);
+        long q = getAtFromString(str);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -224,7 +250,7 @@ public class SuperController {
     public String removeFather(@AllMess String message, User qq) throws NoRunException {
         if (isSuperQ(qq.getId()))
             throw new NoRunException();
-        long who = MessageTools.getAtFromString(message);
+        long who = getAtFromString(message);
         if (who == -1)
             return "移除谁?";
         return managerService.removeFather(qq.getId(), who);
@@ -253,7 +279,7 @@ public class SuperController {
 
     @Action("/添加物品<.+=>str>")
     public Object add0(@Param("str") String str) {
-        Long who = MessageTools.getAtFromString(str);
+        Long who = getAtFromString(str);
         if (who == -1) {
             return NOT_FOUND_AT;
         }
@@ -276,7 +302,7 @@ public class SuperController {
 
     @Action("/跳过闭关冷却.+")
     public String o1(@AllMess String l) {
-        long who = MessageTools.getAtFromString(l);
+        long who = getAtFromString(l);
         if (who == -1) return ERR_TIPS;
         getInfo(who).setBgk(0L).apply();
         return OK_TIPS;
@@ -297,7 +323,7 @@ public class SuperController {
 
     @Action("/更改武魂<.+=>mess>")
     public String modifyWuhun(@Param("mess") String mess) {
-        long who = MessageTools.getAtFromString(mess);
+        long who = getAtFromString(mess);
         if (who == -1) return ERR_TIPS;
         mess = mess.replace("[@" + who + "]", "");
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(mess);
