@@ -290,7 +290,8 @@ public class PersonInfo implements BaseInfo {
         try {
             if (SkillDataBase.HAS_ADDER_MAP_LIST.containsKey(getId().longValue())) {
                 if (!SkillDataBase.HAS_ADDER_MAP_LIST.get(getId().longValue()).isEmpty()) {
-                    Iterator<SkillDataBase.HasTimeAdder> iterator = SkillDataBase.HAS_ADDER_MAP_LIST.get(getId().longValue()).iterator();
+                    Iterator<SkillDataBase.HasTimeAdder> iterator =
+                            SkillDataBase.HAS_ADDER_MAP_LIST.get(getId().longValue()).iterator();
                     while (iterator.hasNext()) {
                         SkillDataBase.HasTimeAdder adder = iterator.next();
                         if (adder.test()) {
@@ -591,9 +592,7 @@ public class PersonInfo implements BaseInfo {
             Long v = getTagValue(myTag).longValue();
             eddTag(myTag);
             long v1 = percent.longValue() + v.longValue();
-            if (v1 >= max.longValue()) {
-                v1 = max.longValue();
-            }
+            if (v1 >= max.longValue()) v1 = max.longValue();
             this.myTag += myTag + v1 + ",";
             return this;
         } else {

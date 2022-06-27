@@ -38,12 +38,9 @@ public class Skill4 extends SkillTemplate {
             public void before() {
                 long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 Long q = oneNearest(who, nums);
-                if (!exist(q)) {
-                    return;
-                }
                 PersonInfo pInfo = getInfo(q);
                 v = v > pInfo.att() ? pInfo.att() : v;
-                addAttHasTime(who.longValue(), new HasTimeAdder(
+                addAttHasTime(q, new HasTimeAdder(
                         System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
                 setTips("作用于 " + Tool.at(q));
             }

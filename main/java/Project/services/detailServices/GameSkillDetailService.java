@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
+import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
@@ -143,21 +144,28 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8310, 33);
     }
 
-    static {
-        FrameUtils.SERVICE.scheduleAtFixedRate(() -> {
-            Iterator<TagPack> iterator = TAG_PACKS.listIterator();
-            while (iterator.hasNext()) {
-                TagPack tagP = iterator.next();
-                if (!tagP.getEffected()) {
-                    tagP.effect();
-                    StarterApplication.logger.info("start => " + tagP);
-                } else if (tagP.over()) {
-                    tagP.loseEffect();
-                    iterator.remove();
-                    StarterApplication.logger.info("remove => " + tagP);
+    public static Runnable TAG_PACKS_WORK = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (this) {
+                Iterator<TagPack> iterator = TAG_PACKS.listIterator();
+                while (iterator.hasNext()) {
+                    TagPack tagP = iterator.next();
+                    if (!tagP.getEffected()) {
+                        tagP.effect();
+                        StarterApplication.logger.info("start => " + tagP);
+                    } else if (tagP.over()) {
+                        tagP.loseEffect();
+                        iterator.remove();
+                        StarterApplication.logger.info("remove => " + tagP);
+                    }
                 }
             }
-        }, 150, 150, TimeUnit.MILLISECONDS);
+        }
+    };
+
+    static {
+        FrameUtils.SERVICE.scheduleAtFixedRate(TAG_PACKS_WORK, 1000, 1000, TimeUnit.MILLISECONDS);
 
         long twoMinutes = 120000;
         for (Integer integer : SkillFactory.skillListIds()) {
@@ -319,6 +327,7 @@ public class GameSkillDetailService {
 
     public static void addTagPack(TagPack tagPack) {
         TAG_PACKS.add(tagPack);
+        THREADS.submit(TAG_PACKS_WORK);
     }
 
     /**
@@ -355,6 +364,7 @@ public class GameSkillDetailService {
         shieldPack.setQ(q).setValue(v).setEffected(false);
         shieldPack.setMax(maxV).setTime(System.currentTimeMillis() + t);
         TAG_PACKS.add(shieldPack);
+        THREADS.submit(TAG_PACKS_WORK);
     }
 
     /**

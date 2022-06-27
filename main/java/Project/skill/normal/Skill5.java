@@ -39,12 +39,9 @@ public class Skill5 extends SkillTemplate {
             public void before() {
                 long v = percentTo(info.getAddPercent(), getPersonInfo().att());
                 for (Long q : nearest(3, who.longValue(), nums)) {
-                    if (!exist(q)) {
-                        continue;
-                    }
                     PersonInfo pInfo = getInfo(q);
                     v = v > pInfo.att() ? pInfo.att() : v;
-                    addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v, getJid()));
+                    addAttHasTime(q, new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v, getJid()));
                     setTips("作用于 " + Tool.at(q));
                 }
             }
