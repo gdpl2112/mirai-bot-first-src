@@ -22,6 +22,7 @@ import java.util.Map;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -56,6 +57,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         list.add("精神力恢复率:" + attributeBone.getHjChance() + "%");
         list.add("精神力恢复效果:" + attributeBone.getHjEffect() + "%");
         list.add("攻击前/后摇:" + device(manager.getAttPre(who), 1000f, 1) + "/" + device(manager.getAttPost(who), 1000f, 1) + "s");
+        list.add("魂力节省比:" + toPercent(getInfo(who).getLevel(), 150) / 2 + "%");
         return getImageFromStrings(list.toArray(new String[0]));
     }
 

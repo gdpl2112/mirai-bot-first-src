@@ -143,6 +143,10 @@ public class GameDetailService {
             oNow -= fn;
             sb.append("\n得益于 魂骨 你恢复了").append(fn).append("魂力");
         }
+        int level0 = getInfo(who).getLevel();
+        int v1 = toPercent(level0, 150);
+        v1 /= 2;
+        oNow = percentTo(100 - v1, oNow).intValue();
         personInfo.addHl(-oNow);
         putPerson(personInfo);
         return sb.toString();

@@ -3,7 +3,9 @@ package io.github.kloping.mirai0.commons;
 
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.*;
+import Project.services.detailServices.roles.v1.TagManagers;
 import com.alibaba.fastjson.annotation.JSONField;
+import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import org.jetbrains.annotations.Nullable;
@@ -396,102 +398,53 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     @Override
-    public GhostObj setTag(String myTag) {
-        this.myTag = myTag;
+    public GhostObj addTag(String myTag, Number percent, long t) {
+        NormalTagPack pack = new NormalTagPack(myTag, t);
+        pack.setValue(percent.longValue());
+        pack.setQ(-getWhoMeet());
+        TagManagers.getTagManager(-getWhoMeet()).addTag(pack);
         return this;
     }
 
     @Override
-    public GhostObj addTag(String myTag, Number percent) {
-        if (this.myTag.contains(myTag)) {
-            Long v = getTagValue(myTag).longValue();
-            eddTag(myTag);
-            long v1 = percent.longValue() + v.longValue();
-            this.myTag += myTag + v1 + ",";
+    public GhostObj addTag(String myTag, Number percent, Number max, long t) {
+        long v0 = getTagValue(myTag).longValue();
+        if (v0 >= max.longValue()) {
+            return this;
+        } else if (v0 + percent.longValue() > max.longValue()) {
+            NormalTagPack pack = new NormalTagPack(myTag, t);
+            pack.setValue(max.longValue() - v0);
+            pack.setQ(-getWhoMeet());
+            TagManagers.getTagManager(-getWhoMeet()).addTag(pack);
             return this;
         } else {
-            this.myTag += myTag + percent + ",";
-            return this;
-        }
-    }
-
-    @Override
-    public GhostObj addTag(String myTag, Number percent, Number max) {
-        if (this.myTag.contains(myTag)) {
-            Long v = getTagValue(myTag).longValue();
-            eddTag(myTag);
-            long v1 = percent.longValue() + v.longValue();
-            if (v1 >= max.longValue()) {
-                v1 = max.longValue();
-            }
-            this.myTag += myTag + v1 + ",";
-            return this;
-        } else {
-            this.myTag += myTag + percent + ",";
+            NormalTagPack pack = new NormalTagPack(myTag, t);
+            pack.setValue(percent.longValue());
+            pack.setQ(-getWhoMeet());
+            TagManagers.getTagManager(-getWhoMeet()).addTag(pack);
             return this;
         }
     }
 
     @Override
     public GhostObj eddTag(String myTag, Number percent) {
-        if (this.myTag.contains(myTag + percent + ",")) {
-            this.myTag = this.myTag.replaceAll(myTag + percent + ",", "");
-        }
-        return this;
-    }
-
-    @Override
-    public GhostObj eddTag(Number v1, String myTag) {
-        Number v0 = getTagValue(myTag);
-        if (v0.longValue() > v1.longValue()) {
-            eddTag(myTag, v0);
-            v0 = v0.longValue() - v1.longValue();
-            addTag(myTag, v0);
-        } else {
-            eddTag(myTag);
-        }
+        TagManagers.getTagManager(-getWhoMeet()).eddValue(myTag, percent.longValue());
         return this;
     }
 
     @Override
     public GhostObj eddTag(String myTag) {
-        if (this.myTag.contains(myTag)) {
-            String t1 = this.myTag;
-            int i1 = t1.indexOf(myTag);
-            int i2 = t1.substring(i1).indexOf(",");
-            t1 = t1.substring(i1, i2 + i1 + 1);
-            this.myTag = this.myTag.replaceAll(t1, "");
-        }
+        TagManagers.getTagManager(-getWhoMeet()).eddValue(myTag);
         return this;
     }
 
     @Override
     public boolean containsTag(String tag) {
-        return myTag.contains(tag);
-    }
-
-    public String getTag(String tag) {
-        if (myTag.contains(tag)) {
-            int start = myTag.indexOf(tag);
-            int end = myTag.indexOf(",", start);
-            String s1 = myTag.substring(start, end);
-            return s1;
-        } else {
-            return "0";
-        }
+        return TagManagers.getTagManager(-getWhoMeet()).contains(tag);
     }
 
     @Override
     public Number getTagValue(String tag) {
-        String sb = this.myTag;
-        int i = sb.indexOf(tag);
-        if (i < 0) {
-            return -1;
-        }
-        sb = sb.substring(i);
-        int i2 = sb.indexOf(",");
-        String vs = sb.substring(1, i2);
-        return Long.valueOf(vs);
+        return TagManagers.getTagManager(-getWhoMeet()).getValue(tag);
     }
-
 }

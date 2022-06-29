@@ -1,14 +1,14 @@
 package Project.skill.normal;
 
-import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.game.DamageReductionPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -34,11 +34,7 @@ public class Skill21 extends SkillTemplate {
 
             @Override
             public void run() {
-                DamageReductionPack pack = new DamageReductionPack();
-                pack.setQ(who.longValue());
-                pack.setValue(info.getAddPercent().longValue());
-                pack.setEffected(false);
-                GameSkillDetailService.addTagPack(pack);
+                getPersonInfo().addTag(TAG_DAMAGE_REDUCTION, info.getAddPercent().longValue(), 90L, getDuration(getJid()));
             }
         };
     }

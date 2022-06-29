@@ -3,13 +3,11 @@ package Project.services.detailServices;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
+import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skill.SkillFactory;
-import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.date.FrameUtils;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.ShieldPack;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
 import io.github.kloping.mirai0.commons.game.AsynchronousHf;
@@ -22,12 +20,10 @@ import io.github.kloping.object.ObjectUtils;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
@@ -40,7 +36,6 @@ public class GameSkillDetailService {
     public static final Map<Integer, Long> JID2TIME = new HashMap<>();
     public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
     private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
-    private static final List<TagPack> TAG_PACKS = new LinkedList<>();
 
     static {
         BASE_PERCENT_MAP.put(0, 10);
@@ -144,29 +139,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8310, 33);
     }
 
-    public static Runnable TAG_PACKS_WORK = new Runnable() {
-        @Override
-        public void run() {
-            synchronized (this) {
-                Iterator<TagPack> iterator = TAG_PACKS.listIterator();
-                while (iterator.hasNext()) {
-                    TagPack tagP = iterator.next();
-                    if (!tagP.getEffected()) {
-                        tagP.effect();
-                        StarterApplication.logger.info("start => " + tagP);
-                    } else if (tagP.over()) {
-                        tagP.loseEffect();
-                        iterator.remove();
-                        StarterApplication.logger.info("remove => " + tagP);
-                    }
-                }
-            }
-        }
-    };
-
     static {
-        FrameUtils.SERVICE.scheduleAtFixedRate(TAG_PACKS_WORK, 1000, 1000, TimeUnit.MILLISECONDS);
-
         long twoMinutes = 120000;
         for (Integer integer : SkillFactory.skillListIds()) {
             JID2TIME.put(integer, twoMinutes);
@@ -326,8 +299,7 @@ public class GameSkillDetailService {
     }
 
     public static void addTagPack(TagPack tagPack) {
-        TAG_PACKS.add(tagPack);
-        THREADS.submit(TAG_PACKS_WORK);
+        TagManagers.getTagManager(tagPack.getQ()).addTag(tagPack);
     }
 
     /**
@@ -360,11 +332,7 @@ public class GameSkillDetailService {
      * @param t    时长 最大 30*60*1000
      */
     public static void addShield(long q, Long v, Long maxV, Long t) {
-        ShieldPack shieldPack = new ShieldPack();
-        shieldPack.setQ(q).setValue(v).setEffected(false);
-        shieldPack.setMax(maxV).setTime(System.currentTimeMillis() + t);
-        TAG_PACKS.add(shieldPack);
-        THREADS.submit(TAG_PACKS_WORK);
+        getInfo(q).addTag(SkillDataBase.TAG_SHIELD, v, maxV, t);
     }
 
     /**

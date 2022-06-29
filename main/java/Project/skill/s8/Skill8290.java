@@ -52,7 +52,7 @@ public class Skill8290 extends SkillTemplate {
                     attGhostOrMan(sb, who, qid, v);
                     setTips(sb.toString());
                     NormalTagPack tagPack = new NormalTagPack(TAG_EXTRA_DAMAGE, getDuration(getJid()));
-                    tagPack.setQ(who.longValue()).setValue(20L).setEffected(false);
+                    tagPack.setQ(who.longValue()).setValue(20L);
                     addTagPack(tagPack);
                 } catch (InterruptedException e) {
                     setTips(ATTACK_BREAK);

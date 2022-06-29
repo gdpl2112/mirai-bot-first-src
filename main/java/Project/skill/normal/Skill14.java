@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_CANT_HIDE;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -38,7 +39,7 @@ public class Skill14 extends SkillTemplate {
                     return;
                 }
                 q = nums[0].longValue();
-                putPerson(getInfo(q).addTag(TAG_CANT_HIDE, 0));
+                putPerson(getInfo(q).addTag(TAG_CANT_HIDE, 1, getDuration(getJid())));
                 setTips("作用于 " + Tool.at(q));
             }
         };

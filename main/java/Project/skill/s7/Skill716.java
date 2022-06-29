@@ -43,7 +43,7 @@ public class Skill716 extends SkillTemplate {
                 long o = CommonSource.percentTo(p, v);
                 addShield(q, o);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
-                putPerson(pInfo.addTag(TAG_XX, info.getAddPercent() / 8));
+                putPerson(pInfo.addTag(TAG_XX, info.getAddPercent() / 8, getDuration(getJid())));
             }
         };
     }

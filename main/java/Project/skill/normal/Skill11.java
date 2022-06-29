@@ -36,19 +36,13 @@ public class Skill11 extends SkillTemplate {
             @Override
             public void before() {
                 q = oneNearest(who, nums);
-                putPerson(getInfo(q).addTag(TAG_TRUE, 1));
+                putPerson(getInfo(q).addTag(TAG_TRUE, 1, getDuration(getJid())));
                 setTips("作用于 " + Tool.at(q));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    putPerson(getInfo(q).eddTag(TAG_TRUE, 1));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

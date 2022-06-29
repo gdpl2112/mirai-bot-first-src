@@ -41,7 +41,7 @@ public class Skill725 extends SkillTemplate {
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
                 NormalTagPack tagPack = new NormalTagPack(TAG_FJ, getDuration(getJid()));
-                tagPack.setQ(who.longValue()).setValue((long) b / F0).setEffected(false);
+                tagPack.setQ(who.longValue()).setValue((long) b / F0);
                 addTagPack(tagPack);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1, getJid()));
             }

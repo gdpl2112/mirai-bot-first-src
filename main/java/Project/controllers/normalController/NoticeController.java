@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("6.29:新增魂力节省比:随等级成长最大50%,重写buff算法,修复问题").append("\n");
         UPDATE_LOG.append("6.27:修复部分魂技问题").append("\n");
         UPDATE_LOG.append("6.24:移除玩家攻击玩家掉级的设定").append("\n");
         UPDATE_LOG.append("6.23:修复部分已知问题,排行同等级按照经验排序").append("\n");

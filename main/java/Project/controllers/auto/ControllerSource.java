@@ -8,6 +8,7 @@ import Project.services.detailServices.ChallengeDetailService;
 import Project.services.impl.GameServiceImpl;
 import Project.services.player.PlayerBehavioralManager;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -41,6 +42,8 @@ public class ControllerSource {
     public static PlayerBehavioralManager playerBehavioralManager;
     @AutoStand
     public static GameServiceImpl gameService;
+    @AutoStand(id = "gson0")
+    public static Gson gson0;
 
     public static GameReceiver0 receiver0 = new GameReceiver0();
 

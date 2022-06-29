@@ -167,7 +167,7 @@ public class SpringBootResource {
 
     public static String getPublicIp() {
         try {
-            Document document = Jsoup.connect("https://api.vvhan.com/api/getIpInfo")
+            Document document = Jsoup.connect("https://api.uomg.com/api/visitor.info?skey=774740085")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62")
                     .ignoreContentType(true)
                     .get();

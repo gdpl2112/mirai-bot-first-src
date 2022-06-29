@@ -7,11 +7,9 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
+import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.TAG_FJ;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -34,19 +32,17 @@ public class Skill7 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "反甲") {
             @Override
             public void before() {
-                putPerson(getInfo(who).addTag(TAG_FJ, info.getAddPercent()));
+                Long q = oneNearest(who.longValue(), nums);
+                if (!exist(q)) {
+                    return;
+                }
+                putPerson(getInfo(q).addTag(TAG_FJ, info.getAddPercent(), getDuration(getJid())));
                 setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    putPerson(getInfo(who).eddTag(TAG_FJ, info.getAddPercent()));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

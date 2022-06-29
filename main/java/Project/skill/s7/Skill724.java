@@ -40,7 +40,7 @@ public class Skill724 extends SkillTemplate {
                 Long lon = pInfo.att();
                 long v = CommonSource.percentTo(info.getAddPercent(), lon);
                 pInfo.addHl(CommonSource.percentTo(info.getAddPercent() / 3, pInfo.getHll()));
-                putPerson(pInfo.addTag(TAG_TRUE, 1));
+                putPerson(pInfo.addTag(TAG_TRUE, 1, getDuration(getJid())));
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
             }
 

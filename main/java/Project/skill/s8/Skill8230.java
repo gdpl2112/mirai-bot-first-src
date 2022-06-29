@@ -48,7 +48,7 @@ public class Skill8230 extends SkillTemplate {
                 long qid = nums[0].longValue();
 
                 NormalTagPack tagPack = new NormalTagPack(TAG_EDD_ATT, getDuration(getJid()));
-                tagPack.setQ(qid).setValue(Long.valueOf(info.getAddPercent())).setEffected(false);
+                tagPack.setQ(qid).setValue(Long.valueOf(info.getAddPercent()));
                 addTagPack(tagPack);
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, who.longValue(), qid, percentTo(info.getAddPercent() * V0, getPersonInfo().att()));

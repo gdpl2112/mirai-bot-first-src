@@ -145,7 +145,8 @@ public class BeatenRoles {
         }
         return null;
     };
-    private static final String CANT_HIDE_ARG_KEY = "cant hide";    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
+    private static final String CANT_HIDE_ARG_KEY = "cant hide";
+    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ)) {
             sb.append(NEWLINE);
             Integer p = p1.getTagValue(SkillDataBase.TAG_FJ).intValue();
@@ -202,7 +203,7 @@ public class BeatenRoles {
                 if (v >= nv) {
                     Long i = v - nv;
                     p1.eddTag(SkillDataBase.TAG_SHIELD, v);
-                    p1.addTag(SkillDataBase.TAG_SHIELD, i);
+                    p1.addTag(SkillDataBase.TAG_SHIELD, i, 20000);
                     sb.append("此次伤害全部护盾抵挡");
                     sb.append("护盾剩余:").append(i);
                     response.setNowV(0);
@@ -215,7 +216,8 @@ public class BeatenRoles {
             }
         }
         return null;
-    };    public static final Role[] RS = new Role[]{
+    };
+    public static final Role[] RS = new Role[]{
             XG_VERTIGO_R, TAG_WD_R, TAG_MS_R, TAG_XYS_R, TAG_CANT_HIDE_R, HG_HIDE,
             TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_EDD_ATT_R,
             TAG_EXTRA_DAMAGE_R, TAG_LIGHT_F_ROLE

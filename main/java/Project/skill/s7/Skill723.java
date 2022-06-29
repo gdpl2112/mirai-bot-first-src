@@ -44,7 +44,7 @@ public class Skill723 extends SkillTemplate {
                 v1 = CommonSource.percentTo(b, lon);
                 long v4 = CommonSource.percentTo(b / 2, pInfo.getHjL());
                 pInfo.addHj(v4);
-                pInfo.addTag(TAG_XX, b / 5);
+                pInfo.addTag(TAG_XX, b / 5, getDuration(getJid()));
                 putPerson(pInfo);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1, getJid()));
             }

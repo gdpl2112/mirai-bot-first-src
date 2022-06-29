@@ -47,7 +47,7 @@ public class Skill8220 extends SkillTemplate {
                 if (nums.length <= 0) return;
                 long qid = nums[0].longValue();
                 NormalTagPack tagPack = new NormalTagPack(TAG_ADD_ATT, getDuration(getJid()));
-                tagPack.setQ(qid).setValue(Long.valueOf(info.getAddPercent())).setEffected(false);
+                tagPack.setQ(qid).setValue(Long.valueOf(info.getAddPercent()));
                 addTagPack(tagPack);
                 setTips(GameDetailService.addHp(qid, percentTo(info.getAddPercent() * V0, getPersonInfo().att())));
             }

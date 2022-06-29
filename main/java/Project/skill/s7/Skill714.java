@@ -45,7 +45,7 @@ public class Skill714 extends SkillTemplate {
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
                 try {
                     if (nums.length != 0) {
-                        putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
+                        putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 1, getDuration(getJid())));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

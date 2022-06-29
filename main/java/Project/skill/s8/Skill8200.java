@@ -1,15 +1,13 @@
 package Project.skill.s8;
 
-import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.game.DamageReductionPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.addShield;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
+import static Project.services.detailServices.GameSkillDetailService.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
@@ -45,16 +43,12 @@ public class Skill8200 extends SkillTemplate {
                 super.run();
                 if (nums.length <= 0) return;
                 long qid = nums[0].longValue();
-                DamageReductionPack pack = new DamageReductionPack();
-                pack.setQ(who.longValue());
                 long v = info.getAddPercent().longValue();
-                if (toPercent(getPersonInfo().getHp(), getPersonInfo().getHpL()) <= 30)
+                if (toPercent(getPersonInfo().getHp(), getPersonInfo().getHpL()) <= 30) {
                     v *= 2;
-                pack.setValue(v);
-                pack.setEffected(false);
-                GameSkillDetailService.addTagPack(pack);
+                }
+                getPersonInfo().addTag(TAG_DAMAGE_REDUCTION, v, 90L, getDuration(getJid()));
                 addShield(who.longValue(), percentTo(info.getAddPercent(), getPersonInfo().getHpL()));
-
             }
         };
     }

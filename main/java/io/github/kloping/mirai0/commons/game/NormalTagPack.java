@@ -3,8 +3,6 @@ package io.github.kloping.mirai0.commons.game;
 
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 
-import static Project.dataBases.GameDataBase.getInfo;
-
 /**
  * @author github.kloping
  */
@@ -21,18 +19,16 @@ public class NormalTagPack extends TagPack {
     }
 
     @Override
-    public void effect() {
-        getInfo(getQ()).addTag(getTAG(), getValue()).apply();
-        setEffected(true);
+    public void eddValue(long v) {
+        if (v >= getValue()) {
+            setValue(0L);
+        } else {
+            setValue(getValue() - v);
+        }
     }
 
     @Override
     public boolean over() {
-        return System.currentTimeMillis() >= time;
-    }
-
-    @Override
-    public void loseEffect() {
-        getInfo(getQ()).eddTag(getTAG(), getValue()).apply();
+        return System.currentTimeMillis() >= time || getValue() <= 0;
     }
 }

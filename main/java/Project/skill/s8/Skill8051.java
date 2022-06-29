@@ -49,7 +49,7 @@ public class Skill8051 extends SkillTemplate {
                     i /= 2;
                 }
                 long t = i > 0 ? (long) i : 1L;
-                addTagPack(new NormalTagPack(TAG_CANT_USE, t).setValue(1L).setEffected(false).setQ(q));
+                addTagPack(new NormalTagPack(TAG_CANT_USE, t).setValue(1L).setQ(q));
                 setTips("作用于 " + b2.getName() + t + "秒");
             }
         };

@@ -1,14 +1,14 @@
 package io.github.kloping.mirai0.unitls.Tools;
 
+import Project.controllers.auto.ControllerSource;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author github-kloping
  */
 public class JsonUtils {
     public static String objectToJsonString(Object obj) {
-        return JSONObject.toJSONString(obj);
+        return ControllerSource.gson0.toJson(obj);
     }
 
     /**

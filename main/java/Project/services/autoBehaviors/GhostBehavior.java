@@ -242,7 +242,7 @@ public class GhostBehavior implements Runnable {
         int findTime = Tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
         Thread.sleep(findTime * 1000);
         if (!updateGhost()) return false;
-        putPerson(GameDataBase.getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 0));
+        putPerson(GameDataBase.getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 1,30000));
         send(ghostObj.getName() + "已经锁定你了!");
         return true;
     }

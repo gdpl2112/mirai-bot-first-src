@@ -51,7 +51,7 @@ public class Skill8250 extends SkillTemplate {
                 b = b < info.getAddPercent() ? info.getAddPercent() : b > max ? max : b;
                 setTips("增加" + b + "%");
                 NormalTagPack tagPack = new NormalTagPack(TAG_FJ, getDuration(getJid()));
-                tagPack.setQ(who.longValue()).setValue((long) b).setEffected(false);
+                tagPack.setQ(who.longValue()).setValue((long) b);
                 addTagPack(tagPack);
             }
         };

@@ -23,18 +23,16 @@ public class ShieldPack extends TagPack {
     }
 
     @Override
-    public void effect() {
-        setEffected(true);
-        getInfo(getQ().longValue()).addTag(getTAG(), getValue(), getMax()).apply();
+    public void eddValue(long v) {
+        if (v >= getValue()) {
+            setValue(0L);
+        } else {
+            setValue(getValue() - v);
+        }
     }
 
     @Override
     public boolean over() {
-        return System.currentTimeMillis() > getTime().longValue();
-    }
-
-    @Override
-    public void loseEffect() {
-        getInfo(getQ().longValue()).eddTag(getValue(), getTAG()).apply();
+        return System.currentTimeMillis() >= time || getValue() == 0;
     }
 }

@@ -34,7 +34,7 @@ public class Skill17 extends SkillTemplate {
             @Override
             public void before() {
                 NormalTagPack pack = new NormalTagPack(TAG_XUAN_YU_S, info.getAddPercent() * 1000);
-                pack.setQ(who.longValue()).setValue(1L).setEffected(false);
+                pack.setQ(who.longValue()).setValue(1L);
                 addTagPack(pack);
                 setTips("作用于 " + Tool.at(who.longValue()));
             }

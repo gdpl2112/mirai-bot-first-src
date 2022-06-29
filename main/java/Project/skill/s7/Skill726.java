@@ -39,7 +39,7 @@ public class Skill726 extends SkillTemplate {
                 int b = info.getAddPercent();
                 v1 = percentTo(b, lon);
                 NormalTagPack tagPack = new NormalTagPack(TAG_SHE, getDuration(getJid()));
-                tagPack.setQ(who.longValue()).setValue((long) b / 8).setEffected(false);
+                tagPack.setQ(who.longValue()).setValue((long) b / 8);
                 addTagPack(tagPack);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1, getJid()));
             }

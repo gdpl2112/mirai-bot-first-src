@@ -47,7 +47,7 @@ public class Skill8140 extends SkillTemplate {
                 if (nums.length <= 0) return;
                 long qid = nums[0].longValue();
                 NormalWithWhoTagPack tagPack = new NormalWithWhoTagPack(TAG_EXTRA_DAMAGE, getDuration(getJid()));
-                tagPack.setQ(qid).setWho(who.longValue()).setValue(info.getAddPercent().longValue()).setEffected(false);
+                tagPack.setWho(who.longValue()).setQ(qid).setValue(info.getAddPercent().longValue());
                 addTagPack(tagPack);
                 try {
                     Thread.sleep(2000);

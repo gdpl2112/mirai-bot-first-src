@@ -34,20 +34,13 @@ public class Skill6 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "吸血") {
             @Override
             public void before() {
-                putPerson(getInfo(who).addTag(TAG_XX, info.getAddPercent()));
+                putPerson(getInfo(who).addTag(TAG_XX, info.getAddPercent(), getDuration(getJid())));
                 setTips("作用于 " + Tool.at(who.longValue()));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    putPerson(getInfo(who).eddTag(TAG_XX, info.getAddPercent()));
-                    setTips("吸血失效");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

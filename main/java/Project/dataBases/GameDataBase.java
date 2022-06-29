@@ -346,8 +346,15 @@ public class GameDataBase {
     }
 
     public static void onKilled(Number who) {
-        Integer n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
+
+        Integer n0 = null;
+        try {
+            n0 = SpringBootResource.getKillGhostMapper().getNum(who.longValue());
+        } catch (org.springframework.jdbc.CannotGetJdbcConnectionException e) {
+            SpringBootResource.getKillGhostMapper().insert(1, who.longValue());
+        }
         n0 = n0 == null ? 1 : n0 + 1;
+
         SpringBootResource.getKillGhostMapper().update(n0, who.longValue());
     }
 

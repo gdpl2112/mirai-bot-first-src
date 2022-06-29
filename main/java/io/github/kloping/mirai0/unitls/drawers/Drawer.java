@@ -47,7 +47,6 @@ public class Drawer {
     private static final Color[] COLORS = new Color[]{
             Color.BLUE,
             Color.RED,
-            Color.ORANGE,
             Color.RED,
             new Color(159, 4, 180),
             new Color(180, 66, 4),

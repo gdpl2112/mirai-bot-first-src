@@ -1,6 +1,5 @@
 package Project.skill.normal;
 
-import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
@@ -10,6 +9,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_MS;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -38,7 +38,7 @@ public class Skill10 extends SkillTemplate {
             @Override
             public void run() {
                 super.run();
-                GameSkillDetailService.addTagPack(new NormalTagPack(TAG_MS, info.getAddPercent() * 1000L).setQ(who.longValue()).setValue(1L));
+                addTagPack(new NormalTagPack(TAG_MS, info.getAddPercent() * 1000L).setQ(who.longValue()).setValue(1L));
             }
         };
     }
