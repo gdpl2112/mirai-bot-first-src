@@ -67,4 +67,8 @@ public class TagManager {
     public synchronized void addTag(TagPack tagPack) {
         MapUtils.appendSet(map, tagPack.getTAG(), tagPack);
     }
+
+    public void removeAll() {
+        map.clear();
+    }
 }

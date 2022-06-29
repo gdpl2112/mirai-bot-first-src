@@ -6,6 +6,7 @@ import Project.controllers.gameControllers.GameController;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -128,6 +129,7 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     @Override
     public Object destroy(long qid) {
+        TagManagers.getTagManager(qid).removeAll();
         if (service0.challenges.contains(qid)) {
             deleteTempInfo(qid, service0.challenges.Q2Q.get(qid));
         }
