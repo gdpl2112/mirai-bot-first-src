@@ -250,7 +250,8 @@ public class GameTool {
         else if (level < 145) return 80;
         else if (level < 147) return 120;
         else if (level < 148) return 168;
-        else return 1200;
+        else if (level < 150) return 1200;
+        else return 99999;
     }
 
     /**

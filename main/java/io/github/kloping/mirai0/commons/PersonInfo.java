@@ -404,6 +404,9 @@ public class PersonInfo implements BaseInfo {
     }
 
     public Long getXpL() {
+        if (getLevel() >= 150) {
+            return 99999999999L;
+        }
         return xpL;
     }
 
