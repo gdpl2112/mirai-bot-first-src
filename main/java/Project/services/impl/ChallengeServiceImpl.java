@@ -129,7 +129,6 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     @Override
     public Object destroy(long qid) {
-        TagManagers.getTagManager(qid).removeAll();
         if (service0.challenges.contains(qid)) {
             deleteTempInfo(qid, service0.challenges.Q2Q.get(qid));
         }
@@ -137,6 +136,8 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     private void deleteTempInfo(long q1, long q2) {
+        TagManagers.getTagManager(q1).removeAll();
+        TagManagers.getTagManager(q2).removeAll();
         TEMP_PERSON_INFOS.remove(q1);
         TEMP_PERSON_INFOS.remove(q2);
         service0.challenges.destroy(q1);

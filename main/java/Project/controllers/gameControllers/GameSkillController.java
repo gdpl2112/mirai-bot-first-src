@@ -3,7 +3,6 @@ package Project.controllers.gameControllers;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.ISkillService;
-import Project.services.detailServices.ChallengeDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -137,6 +136,12 @@ public class GameSkillController {
                     //过滤挑战
                     if (challengeDetailService.isTemping(l1)) {
                         if (challengeDetailService.isTemping(qq.getId())) {
+                            if (challengeDetailService.challenges.Q2Q.get(qq.getId()) == l1.longValue()) {
+                                numbers.add(l1);
+                            }
+                        }
+                    } else if (challengeDetailService.isTemping(qq.getId())) {
+                        if (challengeDetailService.isTemping(l1)) {
                             if (challengeDetailService.challenges.Q2Q.get(qq.getId()) == l1.longValue()) {
                                 numbers.add(l1);
                             }
