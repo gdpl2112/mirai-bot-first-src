@@ -25,6 +25,7 @@ import net.mamoe.mirai.message.action.Nudge;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import org.eclipse.aether.spi.synccontext.SyncContextFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;

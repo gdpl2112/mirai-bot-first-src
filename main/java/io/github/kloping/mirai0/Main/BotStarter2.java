@@ -43,7 +43,7 @@ public class BotStarter2 {
         verify();
         SpringStarter.main(args);
         bot.login();
-        pluginLoad();
+//        pluginLoad();
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
