@@ -98,13 +98,15 @@ public class GameReceiver0 {
                     if (pi.dt1 <= System.currentTimeMillis()) {
                         if (pi.died) {
                             if (pi.Level % 10 == 0 || pi.downed) {
-                                pi.xp = 0L;
+                                if (pi.Level < 150)
+                                    pi.xp = 0L;
                             } else {
                                 pi.Level--;
                                 pi.downed = true;
                             }
                         } else {
-                            pi.xp = 0L;
+                            if (pi.Level < 150)
+                                pi.xp = 0L;
                             pi.died = true;
                         }
                         pi.dt1 = System.currentTimeMillis() + 1000 * 60 * 5;

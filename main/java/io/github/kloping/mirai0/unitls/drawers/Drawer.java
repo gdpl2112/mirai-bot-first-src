@@ -291,7 +291,10 @@ public class Drawer {
         g.drawString("累计获得物品: " + p.getGotc() + " 个", x, y + SMALL_FONT18.getSize());
         //========
         y = y + eve;
-        g.drawString("累计使用/失去 物品: " + p.getLostc() + " 个", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计使用/失去 物品:", x, y + SMALL_FONT18.getSize());
+        //========
+        y = y + eve;
+        g.drawString(p.getLostc() + " 个", x, y + SMALL_FONT18.getSize());
         //========
         y = y + eve;
         g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + SMALL_FONT18.getSize());
