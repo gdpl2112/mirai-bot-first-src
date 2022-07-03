@@ -53,7 +53,7 @@ public class BotStarter {
         bot.login();
         startRegisterListenerHost(args);
         startedAfter();
-        pluginLoad();
+//        pluginLoad();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
