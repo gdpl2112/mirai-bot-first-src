@@ -1,14 +1,12 @@
 package Project.services.detailServices;
 
 import Project.dataBases.GameDataBase;
-import Project.dataBases.ZongMenDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 
-import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,10 +28,7 @@ public class ZongDetailService {
     static {
         Resource.START_AFTER.add(() -> {
             ZERO_RUNS.add(() -> {
-                File[] files = new File(ZongMenDataBase.path).listFiles();
-                for (File file : files) {
-                    if (file.getName().startsWith("t")) continue;
-                    Zong zong = getZongInfo(Integer.valueOf(file.getName()));
+                for (Zong zong : getZongMapper().selectAll()) {
                     ZongDetailService.update(zong);
                 }
             });
