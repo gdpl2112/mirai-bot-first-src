@@ -47,7 +47,7 @@ public class GameBoneController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.EveListStartWith(listFx, str) == -1) {
+            if ( Tool.tool.EveListStartWith(listFx, str) == -1) {
                 throw new NoRunException();
             }
         }
@@ -77,7 +77,7 @@ public class GameBoneController {
     @Action("我的魂骨")
     public String myBones(long qq, Group g) {
         List<SoulBone> list = gameBoneService.getSoulBones(qq);
-        return list.isEmpty() ? "没有魂骨!" : Tool.pathToImg(Drawer.drawBoneMap(list));
+        return list.isEmpty() ? "没有魂骨!" :  Tool.tool.pathToImg(Drawer.drawBoneMap(list));
     }
 
     @Action("吸收魂骨<.{1,}=>name>")

@@ -256,7 +256,7 @@ public class NoticeController {
     @Action("更新日志.*?")
     public String updateLog(@AllMess String m) {
         Integer i = 0;
-        i = Tool.getInteagerFromStr(m);
+        i =  Tool.tool.getInteagerFromStr(m);
         i = i == null || i >= UPDATE_LOGS.length ? 0 : i;
         return UPDATE_LOGS[i];
     }

@@ -32,7 +32,7 @@ public class Skill10 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "免死") {
             @Override
             public void before() {
-                setTips("作用于 " + Tool.at(who.longValue()));
+                setTips("作用于 " +  Tool.tool.at(who.longValue()));
             }
 
             @Override

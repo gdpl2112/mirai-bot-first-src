@@ -48,7 +48,7 @@ public class GameObjController {
             String what = str.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf(Tool.findNumberFromString(what));
+                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
                 what = what.replace(num.toString(), "");
             } catch (Exception e) {
             }
@@ -98,7 +98,7 @@ public class GameObjController {
             String what = name.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf(Tool.findNumberFromString(what));
+                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
                 what = what.replaceFirst(num + "", "");
             } catch (Exception e) {
             }
@@ -129,7 +129,7 @@ public class GameObjController {
             name = name.replace(String.format(AT_FORMAT, whos), "").replace("[@me]", "");
             Integer num = null;
             try {
-                num = Integer.valueOf(Tool.findNumberFromString(name));
+                num = Integer.valueOf( Tool.tool.findNumberFromString(name));
                 name = name.replaceFirst(String.valueOf(num), "").replaceAll(",", "").replaceAll("个", "");
             } catch (Exception e) {
                 num = null;
@@ -160,7 +160,7 @@ public class GameObjController {
             String what = name.trim().replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf(Tool.findNumberFromString(what));
+                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
                 what = what.replaceFirst(num + "", "");
             } catch (Exception e) {
                 num = null;

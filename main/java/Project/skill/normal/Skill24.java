@@ -3,6 +3,7 @@ package Project.skill.normal;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,7 +12,6 @@ import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.dataBases.skill.SkillDataBase.updateSkillInfo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.device;
 
 /**
  * @author github.kloping
@@ -25,7 +25,7 @@ public class Skill24 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("减少指定人对应该魂技的位置的魂技%s秒的冷却", device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("减少指定人对应该魂技的位置的魂技%s秒的冷却", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

@@ -129,7 +129,7 @@ public class CallApiController {
     public String sjtx1() {
         try {
             JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[1]);
-            return Tool.pathToImg(jo.getString("img"));
+            return  Tool.tool.pathToImg(jo.getString("img"));
         } catch (Exception e) {
             e.printStackTrace();
             return GET_FAILED;
@@ -140,7 +140,7 @@ public class CallApiController {
     public String sjtx2() {
         try {
             JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[0]);
-            return Tool.pathToImg(jo.getString("img"));
+            return  Tool.tool.pathToImg(jo.getString("img"));
         } catch (Exception e) {
             e.printStackTrace();
             return GET_FAILED;
@@ -151,7 +151,7 @@ public class CallApiController {
     public String sjtx3() {
         try {
             JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[3]);
-            return Tool.pathToImg(jo.getString("img1")) + "\n" + Tool.pathToImg(jo.getString("img2"));
+            return  Tool.tool.pathToImg(jo.getString("img1")) + "\n" +  Tool.tool.pathToImg(jo.getString("img2"));
         } catch (Exception e) {
             e.printStackTrace();
             return GET_FAILED;
@@ -179,7 +179,7 @@ public class CallApiController {
 
     @Action("QQ信息.*?")
     public Object info(@AllMess String mess, long q) {
-        String str = Tool.findNumberFromString(mess);
+        String str =  Tool.tool.findNumberFromString(mess);
         try {
             Long q2 = Long.parseLong(str);
             q = q2.longValue();
@@ -196,7 +196,7 @@ public class CallApiController {
     @Action("QQ群信息.*?")
     public Object groupInfo(@AllMess String mess, Group group) {
         long q = group.getId();
-        String str = Tool.findNumberFromString(mess);
+        String str =  Tool.tool.findNumberFromString(mess);
         try {
             Long q2 = Long.parseLong(str);
             q = q2.longValue();
@@ -212,7 +212,7 @@ public class CallApiController {
 
     @Action("QQ达人.*?")
     public Object getTalent(@AllMess String mess, long q) {
-        String str = Tool.findNumberFromString(mess);
+        String str =  Tool.tool.findNumberFromString(mess);
         try {
             Long q2 = Long.parseLong(str);
             q = q2.longValue();
@@ -228,7 +228,7 @@ public class CallApiController {
 
     @Action("全国降水量")
     public String lowWater() {
-        return Tool.pathToImg(apiIyk0.getJyu().getImg());
+        return  Tool.tool.pathToImg(apiIyk0.getJyu().getImg());
     }
 
     @Action("卫星云图")
@@ -236,7 +236,7 @@ public class CallApiController {
         net.mamoe.mirai.contact.Group group = Resource.BOT.getGroup(g.getId());
         Image image = MessageTools.createImage(group, BASE_URL_CLOUD);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
+        builder.append("当前时间:" +  Tool.tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");
         builder.append(image);
         group.sendMessage(builder.build());
@@ -247,7 +247,7 @@ public class CallApiController {
         net.mamoe.mirai.contact.Group group = Resource.BOT.getGroup(g.getId());
         Image image = MessageTools.createImage(group, BASE_URL_CLOUD0);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("当前时间:" + Tool.getTimeYMdhm(System.currentTimeMillis()));
+        builder.append("当前时间:" +  Tool.tool.getTimeYMdhm(System.currentTimeMillis()));
         builder.append("\n");
         builder.append(image);
         group.sendMessage(builder.build());
@@ -261,8 +261,8 @@ public class CallApiController {
         if (mess.contains(SPLIT_POINT_STR)) {
             try {
                 String[] ss = s0.split(SPLIT_POINT_STR);
-                String n0 = Tool.findNumberFromString(ss[0]);
-                String n1 = Tool.findNumberFromString(ss[1]);
+                String n0 =  Tool.tool.findNumberFromString(ss[0]);
+                String n1 =  Tool.tool.findNumberFromString(ss[1]);
                 s0 = s0.replaceFirst(SPLIT_POINT_STR, EMPTY_STR).replaceFirst(n0, EMPTY_STR).replaceFirst(n1, EMPTY_STR);
                 select0 = Integer.valueOf(n0);
                 select1 = Integer.valueOf(n1);
@@ -270,7 +270,7 @@ public class CallApiController {
                 e.printStackTrace();
             }
         } else {
-            String n0 = Tool.findNumberFromString(mess);
+            String n0 =  Tool.tool.findNumberFromString(mess);
             if (n0 != null && !n0.isEmpty()) {
                 select0 = Integer.parseInt(n0);
             }

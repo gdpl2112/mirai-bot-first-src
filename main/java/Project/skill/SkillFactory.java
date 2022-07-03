@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * @author github.kloping
@@ -30,7 +29,7 @@ public class SkillFactory {
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;
                     String nStr = aClass.getSimpleName();
-                    Integer jid = Integer.valueOf(Tool.findNumberFromString(nStr));
+                    Integer jid = Integer.valueOf( Tool.tool.findNumberFromString(nStr));
                     if (jid < 70) {
                         normalSkillNum++;
                     }
@@ -72,7 +71,7 @@ public class SkillFactory {
                 list.add(k);
             }
         });
-        Integer jid = getRandT(list);
+        Integer jid = Tool.tool.getRandT(list);
         return jid;
     }
 

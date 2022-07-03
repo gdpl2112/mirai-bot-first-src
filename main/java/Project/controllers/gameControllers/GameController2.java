@@ -24,7 +24,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -98,8 +97,8 @@ public class GameController2 {
     public String upda(@Param("str") String str, long q) {
         if (str.contains("魂环")) {
             str = str.replace("魂环", "").replace("第", "");
-            String s1 = Tool.findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
+            String s1 =  Tool.tool.findNumberZh(str);
+            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
             return service.upHh(q, st);
         }
         throw new NoRunException();
@@ -180,7 +179,7 @@ public class GameController2 {
     private Object bg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(BG_WAIT_TIPS, getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, Tool.tool.getTimeTips(p0.getBgk()));
         }
         GhostObj ghostObj = getGhostObjFrom(q);
         if (ghostObj != null) {
@@ -195,7 +194,7 @@ public class GameController2 {
     private Object unBg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(BG_WAIT_TIPS, getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, Tool.tool.getTimeTips(p0.getBgk()));
         }
         p0.setBg(false);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);

@@ -7,10 +7,10 @@ import Project.services.detailServices.tasks.Task1002;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 周任务1
@@ -59,6 +59,6 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
     }
 
     private int getRandObj1002() {
-        return getRandT(T_1002_OBJS);
+        return Tool.tool.getRandT(T_1002_OBJS);
     }
 }

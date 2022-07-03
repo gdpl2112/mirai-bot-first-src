@@ -5,6 +5,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
 import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,8 +16,6 @@ import javax.script.ScriptEngineManager;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.VIDEO_TAG_STR;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.unicodeToCn;
 
 /**
  * @author github-kloping
@@ -70,7 +69,7 @@ public class MihoyoP0 {
         String pic = detail.getData()[0].getArticle().getCover();
         String s = getMessageStringYs(Jsoup.parse(html).body());
         pic = pic.substring(1, pic.length() - 1);
-        return new String[]{unicodeToCn(pic), title, s};
+        return new String[]{Tool.tool.unicodeToCn(pic), title, s};
     }
 
     public String getMessageStringYs(Element element) {
@@ -78,7 +77,7 @@ public class MihoyoP0 {
         if (hasVideoTag(element)) {
             String s1 = element.getElementsByTag(VIDEO_TAG_STR).get(0).attr("src");
             sb.append("相关视频:");
-            sb.append(unicodeToCn(s1));
+            sb.append(Tool.tool.unicodeToCn(s1));
         }
         for (Element child : element.children()) {
             String s = child.text();
@@ -86,7 +85,7 @@ public class MihoyoP0 {
                 sb.append("\n").append(child.text());
             }
             if (hasImgTag(child)) {
-                sb.append("\n").append(pathToImg(child.getElementsByTag(IMG_TAG_STR).get(0).attr("src")));
+                sb.append("\n").append(Tool.tool.pathToImg(child.getElementsByTag(IMG_TAG_STR).get(0).attr("src")));
             }
         }
         return sb.toString();

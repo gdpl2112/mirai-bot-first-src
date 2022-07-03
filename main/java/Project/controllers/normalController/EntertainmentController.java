@@ -87,7 +87,7 @@ public class EntertainmentController {
 
     @Action("时间")
     public Object nowTime() {
-        return Tool.getTimeYMdhms(System.currentTimeMillis());
+        return  Tool.tool.getTimeYMdhms(System.currentTimeMillis());
     }
 
     @Action("2传话<.+=>str>")
@@ -104,7 +104,7 @@ public class EntertainmentController {
     public String flash(@AllMess String str, Group group) throws NoRunException {
         String url = MessageTools.getFlashUrlFromMessageString(str);
         if (canBackShow(group.getId())) {
-            return Tool.pathToImg(url);
+            return  Tool.tool.pathToImg(url);
         } else if (sendFlashToSuper) {
             try {
                 BOT.getGroup(794238572L).sendMessage(url);
@@ -126,11 +126,11 @@ public class EntertainmentController {
     @Action(value = "掷骰子", otherName = "摇骰子")
     public String rand(Group group) {
         StringBuilder builder = new StringBuilder();
-        int r = Tool.RANDOM.nextInt(6);
+        int r =  Tool.tool.RANDOM.nextInt(6);
         String str = datePath + "/GameFile/Rt_";
         str += r;
         str += ".jpg";
-        return Tool.pathToImg(str);
+        return  Tool.tool.pathToImg(str);
     }
 
     @Action("开始成语接龙")

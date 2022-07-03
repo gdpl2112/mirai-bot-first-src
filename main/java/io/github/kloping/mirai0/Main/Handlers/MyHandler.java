@@ -187,7 +187,7 @@ public class MyHandler extends SimpleListenerHost {
             MessageChainBuilder builder = new MessageChainBuilder();
             joinRequestEvent = event;
             builder.append("收到加群申请:").append("\r\n");
-            builder.append(Contact.uploadImage(event.getGroup(), new URL(io.github.kloping.mirai0.unitls.Tools.Tool.getTouUrl(event.getFromId())).openStream()))
+            builder.append(Contact.uploadImage(event.getGroup(), new URL(io.github.kloping.mirai0.unitls.Tools. Tool.tool.getTouUrl(event.getFromId())).openStream()))
                     .append("\r\n");
             builder.append("QQ号:").append(event.getFromId() + "")
                     .append("\r\n");

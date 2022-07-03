@@ -36,8 +36,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.objectToJsonString;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -87,7 +85,7 @@ public class GameJoinDetailService {
                 return "\n该魂兽,正在被攻击中";
             }
             IDXS.add(ghostObj.getIDX());
-            long at2 = randLong(ghostObj.getAtt(), 0.333f, 0.48f);
+            long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
             if (canAttMe) {
                 sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
                         .append(GameDetailService.beaten(who, -2, at2));
@@ -264,13 +262,13 @@ public class GameJoinDetailService {
      */
     public static boolean randHh(int level) {
         if (level > 10000000) {
-            return Tool.RANDOM.nextInt(100) < 28;
+            return  Tool.tool.RANDOM.nextInt(100) < 28;
         } else if (level > 1000000) {
-            return Tool.RANDOM.nextInt(100) < 38;
+            return  Tool.tool.RANDOM.nextInt(100) < 38;
         } else if (level > 100000) {
-            return Tool.RANDOM.nextInt(100) < 54;
+            return  Tool.tool.RANDOM.nextInt(100) < 54;
         }
-        return Tool.RANDOM.nextInt(100) < 75;
+        return  Tool.tool.RANDOM.nextInt(100) < 75;
     }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
@@ -290,7 +288,7 @@ public class GameJoinDetailService {
     private static String willGetBone(int level, long who) {
         if (randHh(level)) {
             Integer id = 0;
-            int r1 = Tool.RANDOM.nextInt(5) + 1;
+            int r1 =  Tool.tool.RANDOM.nextInt(5) + 1;
             if (level > 5000) {
                 if (level < 20000) {
                     id = Integer.valueOf("15" + r1 + "1");
@@ -316,7 +314,7 @@ public class GameJoinDetailService {
     }
 
     private static String willGetLr(int level, long who) {
-        int r = RANDOM.nextInt(100);
+        int r = Tool.tool.RANDOM.nextInt(100);
         if (r > 75) {
 
         } else if (r > 50) {
@@ -324,8 +322,8 @@ public class GameJoinDetailService {
         } else if (r > 25) {
             return willGetBone(level, who);
         } else {
-            r = RANDOM.nextInt(300);
-            int n = RANDOM.nextInt(4) + 1;
+            r = Tool.tool.RANDOM.nextInt(300);
+            int n = Tool.tool.RANDOM.nextInt(4) + 1;
             if (r == 1) {
                 if (level >= 3000) {
                     addToBgs(who, 1601, ObjType.got);
@@ -354,7 +352,7 @@ public class GameJoinDetailService {
             JoinBroadcast.INSTANCE.broadcast(who, id);
             return join.join(id, who, group);
         } finally {
-            int r = Tool.RANDOM.nextInt(8) + 10;
+            int r =  Tool.tool.RANDOM.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
         }
     }
@@ -403,7 +401,7 @@ public class GameJoinDetailService {
             GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
-            if (Tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
+            if ( Tool.tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
                     >= personInfo.att() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
@@ -426,9 +424,9 @@ public class GameJoinDetailService {
             if (IDXS.contains(ghostObj.getIDX())) return SYNC_GHOST_TIPS;
             IDXS.add(ghostObj.getIDX());
             PersonInfo personInfo = getInfo(who);
-            long hl1 = randLong(personInfo.getHll(), 0.125f, 0.16f);
-            long at1 = randLong(personInfo.att(), 0.35f, 0.48f);
-            long at2 = randLong(ghostObj.getAtt(), 0.25f, 0.48f);
+            long hl1 = Tool.tool.randLong(personInfo.getHll(), 0.125f, 0.16f);
+            long at1 = Tool.tool.randLong(personInfo.att(), 0.35f, 0.48f);
+            long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.25f, 0.48f);
             StringBuilder sb = new StringBuilder();
             sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {

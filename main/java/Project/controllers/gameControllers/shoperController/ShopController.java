@@ -30,11 +30,11 @@ public class ShopController {
         try {
             String[] ss = str.split("个");
             if (ss.length > 1) {
-                String numStr = Tool.findNumberFromString(ss[0]);
+                String numStr =  Tool.tool.findNumberFromString(ss[0]);
                 if (!numStr.isEmpty()) {
                     Long num = Long.valueOf(numStr + "");
                     str = str.replaceFirst(numStr, "");
-                    String priceStr = Tool.findNumberFromString(str);
+                    String priceStr =  Tool.tool.findNumberFromString(str);
                     if (!priceStr.isEmpty()) {
                         Long price = Long.valueOf(priceStr);
                         return new Long[]{num, price};

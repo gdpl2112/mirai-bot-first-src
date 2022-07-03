@@ -37,7 +37,7 @@ public class Skill7 extends SkillTemplate {
                     return;
                 }
                 putPerson(getInfo(q).addTag(TAG_FJ, info.getAddPercent(), getDuration(getJid())));
-                setTips("作用于 " + Tool.at(who.longValue()));
+                setTips("作用于 " +  Tool.tool.at(who.longValue()));
             }
 
             @Override

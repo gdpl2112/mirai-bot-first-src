@@ -2,8 +2,8 @@ package Project.services.detailServices.tasks;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * @author github-kloping
@@ -13,7 +13,7 @@ public class Task1000 extends Task {
     private GhostLostBroadcast.KillType needType;
 
     public Task1000() {
-        this.needType = getRandT(GhostLostBroadcast.KillType.values());
+        this.needType = Tool.tool.getRandT(GhostLostBroadcast.KillType.values());
     }
 
     public GhostLostBroadcast.KillType getNeedType() {

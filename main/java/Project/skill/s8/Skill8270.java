@@ -43,7 +43,7 @@ public class Skill8270 extends SkillTemplate {
                 for (long qid : nearest(5, who.longValue(), nums)) {
                     addHp(who, qid, info.getAddPercent());
                     addShield(qid, v);
-                    setTips("作用于:" + Tool.at(who.longValue()));
+                    setTips("作用于:" +  Tool.tool.at(who.longValue()));
                 }
             }
         };

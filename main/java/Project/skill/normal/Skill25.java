@@ -6,11 +6,11 @@ import Project.services.player.PlayerBehavioralManager;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.device;
 
 /**
  * @author github.kloping
@@ -24,7 +24,7 @@ public class Skill25 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("缩减指定人自身%s秒的攻击后摇,后摇最小1s", device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("缩减指定人自身%s秒的攻击后摇,后摇最小1s", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

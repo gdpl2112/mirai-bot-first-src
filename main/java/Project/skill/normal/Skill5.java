@@ -42,7 +42,7 @@ public class Skill5 extends SkillTemplate {
                     PersonInfo pInfo = getInfo(q);
                     v = v > pInfo.att() ? pInfo.att() : v;
                     addAttHasTime(q, new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), q.longValue(), v, getJid()));
-                    setTips("作用于 " + Tool.at(q));
+                    setTips("作用于 " +  Tool.tool.at(q));
                 }
             }
         };

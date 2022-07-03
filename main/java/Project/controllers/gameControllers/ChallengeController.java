@@ -7,6 +7,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,6 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.EveListStartWith;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
-
 /**
  * @author github.kloping
  */
@@ -57,7 +55,7 @@ public class ChallengeController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (EveListStartWith(listFx, mess) == -1) {
+            if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
@@ -91,7 +89,7 @@ public class ChallengeController {
     public Object o3(long qid) {
         long at = getInfo(qid).getAk1();
         if (at > System.currentTimeMillis())
-            return String.format(ATT_WAIT_TIPS, getTimeTips(at));
+            return String.format(ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));
         return gameService.attNow(qid, challengeDetailService.challenges.Q2Q.get(qid),
                 Group.get(challengeDetailService.challenges.Q2C.get(qid).getGid()), 0);
     }

@@ -43,7 +43,7 @@ public class OtherServiceImpl implements IOtherService {
     @Override
     public String mora(Long who, String what) {
         long li = DataBase.getAllInfo(who).getScore();
-        String num = Tool.findNumberFromString(what);
+        String num =  Tool.tool.findNumberFromString(what);
         long l1 = num.isEmpty() ? 0 : Long.parseLong(num);
         Mora mora1 = Mora.findMora(what, 0);
         if (mora1 == null || mora1.getValue().isEmpty())
@@ -80,7 +80,7 @@ public class OtherServiceImpl implements IOtherService {
             QingYunKeData data = qingYunKe.data(null, null, str);
             result = data.getContent();
             result = filter(result);
-            if (Tool.isIllegSend(result)) {
+            if ( Tool.tool.isIllegSend(result)) {
                 return ERR_TIPS;
             }
             return result.trim();
@@ -96,7 +96,7 @@ public class OtherServiceImpl implements IOtherService {
         }
         try {
             str = str.replace("[", "").replace("@", "").replace("]", "");
-            if (Tool.isIlleg(str))
+            if ( Tool.tool.isIlleg(str))
                 return "存在敏感字符";
             if (str.contains("到")) {
                 String[] ss = str.split("到");
@@ -131,7 +131,7 @@ public class OtherServiceImpl implements IOtherService {
     public String trans(String str, Group group, Long qq) {
         try {
             str = str.replace("[", "").replace("@", "").replace("]", "");
-            if (Tool.isIlleg(str))
+            if ( Tool.tool.isIlleg(str))
                 return "存在敏感字符";
             if (str.contains("到")) {
                 String[] ss = str.split("到");

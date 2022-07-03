@@ -116,7 +116,7 @@ public class GhostBehavior implements Runnable {
             ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
             if (ghostObj == null) return;
             int[] fs = getFindTime(ghostObj.getL());
-            int findTime = Tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
+            int findTime =  Tool.tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
             Thread.sleep(findTime * 1000);
             if (!updateGhost()) return;
             send("小心!!\n'" + ghostObj.getName() + "'发现了你!!!");
@@ -126,7 +126,7 @@ public class GhostBehavior implements Runnable {
                 if (!updateGhost()) {
                     break;
                 }
-                boolean k0 = (!led || Tool.RANDOM.nextInt(5) < 3) && needLock();
+                boolean k0 = (!led ||  Tool.tool.RANDOM.nextInt(5) < 3) && needLock();
                 if (k0) {
                     if (!startLock()) {
                         break;
@@ -159,7 +159,7 @@ public class GhostBehavior implements Runnable {
             send(ghostObj.getName() + "准备对你,进行蓄力一击!");
             if (!updateGhost()) return false;
             int[] fs = getReadyTime(ghostObj.getL());
-            int findTime = Tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
+            int findTime =  Tool.tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
             while (findTime > 0) {
                 Thread.sleep(1200);
                 findTime--;
@@ -213,7 +213,7 @@ public class GhostBehavior implements Runnable {
             while (true) {
                 Thread.sleep(r * 1000);
                 if (!updateGhost()) return;
-                if (Tool.RANDOM.nextInt(10) < r) {
+                if ( Tool.tool.RANDOM.nextInt(10) < r) {
                     saveGhostObjIn(qq, null);
                     send(ghostObj.getName() + "拼尽全力逃跑了!");
                 } else {
@@ -239,7 +239,7 @@ public class GhostBehavior implements Runnable {
         if (!updateGhost()) return false;
         Thread.sleep(1000);
         int[] fs = getLockTime(ghostObj.getL());
-        int findTime = Tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
+        int findTime =  Tool.tool.RANDOM.nextInt(fs[1] - fs[0]) + fs[0];
         Thread.sleep(findTime * 1000);
         if (!updateGhost()) return false;
         putPerson(GameDataBase.getInfo(qq).addTag(SkillDataBase.TAG_CANT_HIDE, 1, 30000));
@@ -266,7 +266,7 @@ public class GhostBehavior implements Runnable {
         int b1 = toPercent(info.getHp(), info.getHpL());
         int b2 = toPercent(ghostObj.getHp(), ghostObj.getMaxHp());
         if (b1 >= 50 && b2 <= 50) {
-            return Tool.RANDOM.nextInt(10) < 2;
+            return  Tool.tool.RANDOM.nextInt(10) < 2;
         } else {
             return false;
         }

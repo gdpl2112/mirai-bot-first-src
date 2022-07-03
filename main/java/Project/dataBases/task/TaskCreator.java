@@ -10,10 +10,10 @@ import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask10
 import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1002;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.lang.reflect.Method;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 任务创建
@@ -61,7 +61,7 @@ public class TaskCreator {
     }
 
     public static int getRandObj1000() {
-        return getRandT(T_1000_OBJS);
+        return Tool.tool.getRandT(T_1000_OBJS);
     }
 
     public static Receiver task1000(Task task) {

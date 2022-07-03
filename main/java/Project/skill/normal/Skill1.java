@@ -30,7 +30,7 @@ public class Skill1 extends SkillTemplate {
             public void before() {
                 for (Long q : nearest(3, who.longValue(), nums)) {
                     addHp(who.longValue(), q, info.getAddPercent());
-                    setTips("作用于 " + Tool.at(q));
+                    setTips("作用于 " +  Tool.tool.at(q));
                 }
             }
         };

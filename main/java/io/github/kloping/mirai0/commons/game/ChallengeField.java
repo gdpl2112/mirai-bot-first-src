@@ -2,6 +2,7 @@ package io.github.kloping.mirai0.commons.game;
 
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
 import lombok.EqualsAndHashCode;
@@ -12,7 +13,6 @@ import lombok.experimental.Accessors;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**
  * @author github.kloping
@@ -27,10 +27,10 @@ public class ChallengeField {
     public static final String RED_SIDE = "RED", BLUE_SIDE = "BLUE";
 
     static {
-        MOVE_CHAR.put('上', getEntry(0, -1));
-        MOVE_CHAR.put('下', getEntry(0, 1));
-        MOVE_CHAR.put('左', getEntry(-1, 0));
-        MOVE_CHAR.put('右', getEntry(1, 0));
+        MOVE_CHAR.put('上', Tool.tool.getEntry(0, -1));
+        MOVE_CHAR.put('下', Tool.tool.getEntry(0, 1));
+        MOVE_CHAR.put('左', Tool.tool.getEntry(-1, 0));
+        MOVE_CHAR.put('右', Tool.tool.getEntry(1, 0));
     }
 
     private int id;

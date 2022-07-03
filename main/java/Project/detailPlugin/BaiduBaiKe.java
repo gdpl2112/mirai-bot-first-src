@@ -4,6 +4,7 @@ import Project.interfaces.http_api.BaiKeBaidu;
 import Project.interfaces.http_api.Empty;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.PlainText;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.pathToImg;
 
 /**
  * @author github.kloping
@@ -70,7 +70,7 @@ public class BaiduBaiKe {
         obs.add("相关图片:");
         for (String image : images) {
             if (image.isEmpty()) continue;
-            obs.add(pathToImg(image));
+            obs.add(Tool.tool.pathToImg(image));
         }
         return obs.toArray();
     }

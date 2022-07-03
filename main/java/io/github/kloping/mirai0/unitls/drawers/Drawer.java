@@ -31,8 +31,6 @@ import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static io.github.kloping.mirai0.commons.gameEntitys.WinStar.LEVEL4;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.filterBigNum;
 import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
@@ -122,7 +120,7 @@ public class Drawer {
         g.setColor(xpColor);
         g.fillRect(x, y, (int) (toPercent(p.getXp(), p.getXpL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(filterBigNum(String.format("经验:%s/%s", p.getXp(), p.getXpL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("经验:%s/%s", p.getXp(), p.getXpL())), x, y + SMALL_FONT18.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -135,7 +133,7 @@ public class Drawer {
             g.fillRect(x, y, (int) (toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
         }
         g.setColor(Color.black);
-        g.drawString(filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT18.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -143,7 +141,7 @@ public class Drawer {
         g.setColor(hlColor);
         g.fillRect(x, y, (int) (toPercent(p.getHl(), p.getHll()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT18.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -151,21 +149,21 @@ public class Drawer {
         g.setColor(hjColor);
         g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT18.getSize());
         //==================================
         g.setFont(SMALL_FONT15);
         y = y + 60;
         g.drawImage(loadImage(getImgPathById(2001, false)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT18);
-        g.drawString(filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT18.getSize());
         g.setFont(SMALL_FONT15);
         //==================================
         y = y + 60;
         g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT18);
-        g.drawString(filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT18.getSize());
         y = y + 85;
         g.setColor(levelColor);
         g.setFont(BIG_FONT35);
@@ -405,8 +403,8 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
-            g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
+            g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+            g.drawString("◎" + Tool.tool.filterBigNum(sss[i]), 10, (i + 2) * 40);
         }
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, (sss.length + 2) * 40);
@@ -438,9 +436,9 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
+            g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
             if (k) {
-                g.drawString("◎" + filterBigNum(sss[i]), 10, (i + 2) * 40);
+                g.drawString("◎" + Tool.tool.filterBigNum(sss[i]), 10, (i + 2) * 40);
             } else {
                 g.drawString("◎" + sss[i], 10, (i + 2) * 40);
             }
@@ -521,11 +519,11 @@ public class Drawer {
         g.drawString("※====☆=?==★===?====$==*=※===※====☆=?==★===?====$==*=※===", 15, 25);
         for (int i = 0; i < ss.length; i++) {
             if (i % 2 == 0) {
-                g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
-                g.drawString(filterBigNum(ss[i]), 15, 60 + (i) * 20);
-                g.setColor(COLORS[Tool.RANDOM.nextInt(COLORS.length)]);
+                g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+                g.drawString(Tool.tool.filterBigNum(ss[i]), 15, 60 + (i) * 20);
+                g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
                 if (ss.length > i + 1)
-                    g.drawString(filterBigNum(ss[i + 1]), width / 2, 60 + (i) * 20);
+                    g.drawString(Tool.tool.filterBigNum(ss[i + 1]), width / 2, 60 + (i) * 20);
             }
         }
         g.dispose();
@@ -542,19 +540,19 @@ public class Drawer {
     }
 
     public static String getImageFromStrings(String... sss) {
-        return Tool.pathToImg(createImage(sss));
+        return  Tool.tool.pathToImg(createImage(sss));
     }
 
     public static String getImageFromStrings(boolean k, String... strings) {
-        return Tool.pathToImg(createImage(false, strings));
+        return  Tool.tool.pathToImg(createImage(false, strings));
     }
 
     public static String getImageFromFontString(String string) {
-        return Tool.pathToImg(createFont(string));
+        return  Tool.tool.pathToImg(createFont(string));
     }
 
     public static String getImageFromStringsOnTwoColumns(String... strings) {
-        return Tool.pathToImg(drawStringOnTwoColumns(strings));
+        return  Tool.tool.pathToImg(drawStringOnTwoColumns(strings));
     }
 
     /**
@@ -612,7 +610,7 @@ public class Drawer {
                 if (st2tr.containsKey(i1)) {
                     r0 = st2tr.get(i1);
                 } else {
-                    r0 = RANDOM.nextInt(20) - 10;
+                    r0 = Tool.tool.RANDOM.nextInt(20) - 10;
                     st2tr.put(i1, r0);
                 }
                 if (r0 > 0) {

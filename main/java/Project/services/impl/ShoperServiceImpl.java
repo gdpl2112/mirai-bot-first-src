@@ -10,10 +10,10 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeYMdhms;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
 /**
@@ -120,7 +120,7 @@ public class ShoperServiceImpl implements IShoperService {
             sb.append("上架人:").append(item.getWho()).append("\r\n");
             sb.append("数量:").append(item.getNum()).append("\r\n");
             sb.append("价格:").append(item.getPrice()).append("金魂币\r\n");
-            sb.append("上架时间:").append(getTimeYMdhms(item.getTime()));
+            sb.append("上架时间:").append(Tool.tool.getTimeYMdhms(item.getTime()));
             return sb.toString();
         } else {
             return NOT_FOUND_SHOP_ITEM;

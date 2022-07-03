@@ -52,7 +52,7 @@ public class GameJoinAcController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.EveListStartWith(listFx, message) == -1) {
+            if ( Tool.tool.EveListStartWith(listFx, message) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();
             }

@@ -6,6 +6,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 
@@ -18,7 +19,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
 public class UseTool {
 
@@ -88,7 +88,7 @@ public class UseTool {
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return "增加了" + l + "点最大生命";
             case 112:
-                long v = percentTo((int) randA(10, 15), getInfo(who).getHjL());
+                long v = percentTo((int) Tool.tool.randA(10, 15), getInfo(who).getHjL());
                 v = v < 0 ? 1 : v;
                 v *= num;
                 putPerson(getInfo(who).addHj(v));
@@ -230,7 +230,7 @@ public class UseTool {
     }
 
     public String use112(long who) {
-        long v = percentTo((int) randA(11, 17), getInfo(who).getHjL());
+        long v = percentTo((int) Tool.tool.randA(11, 17), getInfo(who).getHjL());
         v = v < 0 ? 1 : v;
         putPerson(getInfo(who).addHj(v));
         remove(112, who);

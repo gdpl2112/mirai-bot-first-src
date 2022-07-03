@@ -29,8 +29,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberZh;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.trans;
 
 /**
  * @author github-kloping
@@ -86,7 +84,7 @@ public class GameSkillController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.EveListStartWith(listFx, str) == -1) {
+            if ( Tool.tool.EveListStartWith(listFx, str) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
@@ -107,7 +105,7 @@ public class GameSkillController {
             i = Integer.parseInt(st);
         } catch (Exception e) {
             try {
-                i = Tool.chineseNumber2Int(findNumberZh(st));
+                i =  Tool.tool.chineseNumber2Int(Tool.tool.findNumberZh(st));
             } catch (Exception ex) {
                 return ("错误!\r\n示例:激活魂技1");
             }
@@ -119,9 +117,9 @@ public class GameSkillController {
     public String use(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
-            String s1 = findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(trans(st), EMPTY_STR);
+            String s1 = Tool.tool.findNumberZh(str);
+            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
             Set<Number> numbers = new HashSet<>();
             while (true) {
                 if (str.contains("#")) {
@@ -164,10 +162,10 @@ public class GameSkillController {
     public String setName(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replaceFirst("魂技", EMPTY_STR).replaceFirst("第", EMPTY_STR);
-            String s1 = findNumberZh(str);
+            String s1 = Tool.tool.findNumberZh(str);
             s1 = s1.substring(0, 1);
-            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(trans(st) + EMPTY_STR, EMPTY_STR);
+            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            str = str.replaceFirst(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.setName(qq.getId(), st, str));
         } else {
             return "格式错误";
@@ -178,9 +176,9 @@ public class GameSkillController {
     public String getIntro(@Param("str") String str, User qq, Group group) {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
-            String s1 = findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-            str = str.replace(trans(st) + EMPTY_STR, EMPTY_STR);
+            String s1 = Tool.tool.findNumberZh(str);
+            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            str = str.replace(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.getIntro(qq.getId(), st, str));
         } else {
             throw new NoRunException();
@@ -192,9 +190,9 @@ public class GameSkillController {
         if (str.contains("魂技")) {
             try {
                 str = str.replaceFirst("魂技", EMPTY_STR);
-                String s1 = findNumberZh(str);
-                Integer st = Integer.valueOf(Tool.chineseNumber2Int(s1));
-                str = str.replaceFirst(trans(st), EMPTY_STR);
+                String s1 = Tool.tool.findNumberZh(str);
+                Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+                str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
                 return "未知异常.";

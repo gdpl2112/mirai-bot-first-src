@@ -40,7 +40,7 @@ public class Skill9 extends SkillTemplate {
                 v = 1;
                 q = oneNearest(who, nums);
                 eve();
-                setTips("作用于 " + Tool.at(q));
+                setTips("作用于 " +  Tool.tool.at(q));
             }
 
             @Override

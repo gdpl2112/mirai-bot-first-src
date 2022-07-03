@@ -5,6 +5,7 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,7 +13,6 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github.kloping
@@ -43,7 +43,7 @@ public class Skill8080 extends SkillTemplate {
                 super.run();
                 if (nums.length == 0) return;
                 qid = nums[0].longValue();
-                int r = RANDOM.nextInt(20) - 10;
+                int r = Tool.tool.RANDOM.nextInt(20) - 10;
                 int b = info.getAddPercent();
                 b += r;
                 setTips(String.format("将造成%s%%(%s)伤害", b, CommonSource.percentTo(b, getInfo(who).att())));

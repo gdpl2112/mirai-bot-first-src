@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.commons.Father;
 import io.github.kloping.mirai0.commons.GroupConf;
 import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.util.Arrays;
@@ -19,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.aSpring.SpringBootResource.getFatherMapper;
 import static Project.aSpring.SpringBootResource.getGroupConfMapper;
 import static io.github.kloping.mirai0.commons.Father.ALL;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -161,7 +161,7 @@ public class DataBase {
         if (file.exists()) {
             return false;
         } else {
-            testFile(file.getAbsolutePath());
+            Tool.tool.testFile(file.getAbsolutePath());
         }
         return true;
     }
@@ -211,7 +211,8 @@ public class DataBase {
             String pathN = path + "/users/" + who;
             File file = new File(pathN + "/infos");
             if (file.exists()) {
-                String jsonStr = getStringFromFile(file.getPath());
+                String jsonStr =
+                        Tool.tool.getStringFromFile(file.getPath());
                 uScore = JSON.parseObject(jsonStr, UserScore.class);
                 tryDeleteOld(who);
             } else {
@@ -228,7 +229,7 @@ public class DataBase {
                 uScore.setK(ll[8]);
                 uScore.setWho(who);
                 String jsonStr = JSON.toJSONString(uScore);
-                putStringInFile(jsonStr, file.getPath());
+                Tool.tool.putStringInFile(jsonStr, file.getPath());
             }
             HIST_U_SCORE.put(who.longValue(), uScore);
         } catch (Exception e) {
@@ -249,15 +250,15 @@ public class DataBase {
         try {
             System.out.println("查询 " + who + "的 信息");
             String pathN = path + "/users/" + who;
-            long l1 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
-            long l2 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
-            long l31 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
-            long l32 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
-            long l4 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
-            long l5 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
-            long l6 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
-            long l7 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
-            long l8 = Long.parseLong(getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
+            long l1 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
+            long l2 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
+            long l31 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
+            long l32 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
+            long l4 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
+            long l5 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
+            long l6 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
+            long l7 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
+            long l8 = Long.parseLong(Tool.tool.getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
             long[] ls = new long[]{l1, l2, l32, l32, l4, l5, l6, l7, l8};
             System.out.println(Arrays.toString(ls));
             return ls;
@@ -310,7 +311,7 @@ public class DataBase {
     public static long addTimes(long l, Long who) {
         UserScore score = getAllInfo(who);
         try {
-            int today = Integer.parseInt(getToday());
+            int today = Integer.parseInt(Tool.tool.getToday());
             if (score.getTimesDay().intValue() != today) {
                 score.setTimes(1L);
                 score.setTimesDay((long) today);

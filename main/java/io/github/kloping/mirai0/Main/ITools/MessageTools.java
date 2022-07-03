@@ -3,6 +3,7 @@ package io.github.kloping.mirai0.Main.ITools;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
@@ -24,8 +25,6 @@ import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getBase64Data;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.print;
 
 /**
  * @author github-kloping
@@ -127,7 +126,7 @@ public class MessageTools {
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
             } else if (path.contains("base64,")) {
-                image = Contact.uploadImage(group, new ByteArrayInputStream(getBase64Data(path)));
+                image = Contact.uploadImage(group, new ByteArrayInputStream(Tool.tool.getBase64Data(path)));
             } else {
                 image = Contact.uploadImage(group, new File(path));
             }
@@ -291,7 +290,7 @@ public class MessageTools {
                         "-y", target.getAbsolutePath()
                 };
                 StarterApplication.logger.info("exec(" + Arrays.toString(args) + ")");
-                String[] ss = print(Runtime.getRuntime().exec(args));
+                String[] ss = Tool.tool.print(Runtime.getRuntime().exec(args));
                 StarterApplication.logger.info("exec out:" + ss[0]);
                 StarterApplication.logger.error("exec err:" + ss[1]);
             } catch (Exception e) {

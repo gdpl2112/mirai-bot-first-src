@@ -10,13 +10,13 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 
 import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Parse.parseToLongList;
 import static io.github.kloping.mirai0.Main.Resource.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github.kloping
@@ -33,9 +33,6 @@ public class HttpStarter {
                     Group.create(e.getSubjectId(), "默认群昵称", MyHandler.HIST_GROUP_MAP), 0, e);
         });
         long t = System.currentTimeMillis();
-        setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
-        setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
-        StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(test ? 600000L : 30 * 1000L);
         StarterApplication.setAccessTypes(Long.class, io.github.kloping.mirai0.commons.User.class, Group.class, Integer.class, Message.class);
         String finalAbo = abo;
@@ -43,8 +40,6 @@ public class HttpStarter {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
                 if (t != null) {
-                    t = t.toString().replaceAll("<Pic:", "[pic=").replaceAll(">", "]");
-                    t = t.toString().replaceAll("\\[pic=\\.", "[pic=" + finalAbo);
                     Object finalT = t;
                     DEA_THREADS.submit(() -> {
                         Message message = (Message) objects[6];
@@ -68,8 +63,18 @@ public class HttpStarter {
         MY_MAME = contextManager.getContextEntity(String.class, "bot.myName");
         verify();
         init();
-        deleteDir(new File("./cache"));
-        deleteDir(new File("./cache1"));
+        String finalAbo1 = abo;
+        Tool.tool = new Tool() {
+            @Override
+            public String pathToImg(String path) {
+                if (path.startsWith(".")) {
+                    path = finalAbo1 + path;
+                }
+                return "[pic=" + path + "]\n";
+            }
+        };
+        Tool.tool.deleteDir(new File("./cache"));
+        Tool.tool.deleteDir(new File("./cache1"));
         SpringStarter.main(args);
         startedAfter();
         Resource.println("运行的线程=》" + Thread.activeCount());

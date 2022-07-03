@@ -36,7 +36,7 @@ public class Skill2 extends SkillTemplate {
                     return;
                 }
                 addHl(who, q, info.getAddPercent());
-                setTips("作用于 " + Tool.at(q));
+                setTips("作用于 " +  Tool.tool.at(q));
             }
         };
     }

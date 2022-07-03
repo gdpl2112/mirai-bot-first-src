@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import io.github.kloping.mirai0.Main.ITools.Client;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -16,7 +17,6 @@ import net.mamoe.mirai.utils.BotConfiguration;
 import java.io.File;
 
 import static io.github.kloping.mirai0.Main.Resource.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -29,12 +29,12 @@ public class BotStarter {
 
     public static void main(String[] args) throws Exception {
         long t = System.currentTimeMillis();
-        setOnErrInFIle(getLogTimeFormat() + "b1_err.log");
-        setOnOutInFIle(getLogTimeFormat() + "b1_console.log");
+        Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b1_err.log");
+        Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b1_console.log");
         setterStarterApplication(BotStarter.class);
         verify();
-        deleteDir(new File("./cache"));
-        deleteDir(new File("./cache1"));
+        Tool.tool.deleteDir(new File("./cache"));
+        Tool.tool.deleteDir(new File("./cache1"));
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;
         initBot();
@@ -53,10 +53,10 @@ public class BotStarter {
         bot.login();
         startRegisterListenerHost(args);
         startedAfter();
-//        pluginLoad();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
+//        pluginLoad();
     }
 
     private static void loadMc() {

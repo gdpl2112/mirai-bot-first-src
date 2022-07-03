@@ -7,6 +7,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -15,7 +16,6 @@ import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrM
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github.kloping
@@ -44,7 +44,7 @@ public class Skill19 extends SkillTemplate {
                     setTips("未选择");
                     return;
                 }
-                int r = RANDOM.nextInt(20) - 10;
+                int r = Tool.tool.RANDOM.nextInt(20) - 10;
                 if (nums[0].longValue() < 0) {
                     GhostObj ghostObj = getGhostObjFrom(who.longValue());
                     if (ghostObj == null) {

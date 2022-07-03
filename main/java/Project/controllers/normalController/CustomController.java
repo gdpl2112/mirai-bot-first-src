@@ -27,7 +27,6 @@ import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * @author github-kloping
@@ -67,7 +66,7 @@ public class CustomController {
             }
             if (cd > System.currentTimeMillis()) return null;
             if (MAP.containsKey(s)) {
-                AutoReply reply = getRandT(MAP.get(s));
+                AutoReply reply = Tool.tool.getRandT(MAP.get(s));
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.getV().startsWith("at")) {
                     String content = reply.getV().replaceFirst("at", "");
@@ -153,7 +152,7 @@ public class CustomController {
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
         if (!isSuperQ(qq)) {
-            if (Tool.isIlleg(str))
+            if ( Tool.tool.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
@@ -216,7 +215,7 @@ public class CustomController {
             StringBuilder sb = new StringBuilder();
             for (AutoReply reply : MAP.get(name)) {
                 sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.getK(), reply.getV(),
-                        Tool.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
+                         Tool.tool.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
             }
             return sb.toString();
         } else {

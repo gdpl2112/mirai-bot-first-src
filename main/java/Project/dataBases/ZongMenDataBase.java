@@ -4,6 +4,7 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import java.util.Map;
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getStringFromFile;
 
 /**
  * @author github-kloping
@@ -74,7 +74,7 @@ public class ZongMenDataBase {
     public static Zong getZongInfoFromFile(Integer id) {
         try {
             File file = new File(path + "/" + id + "/main.json");
-            String line = getStringFromFile(file.getPath());
+            String line = Tool.tool.getStringFromFile(file.getPath());
             Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
             System.out.println(zong);
             return zong;
@@ -106,7 +106,7 @@ public class ZongMenDataBase {
         try {
             Integer id = qq2id.get(qq);
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
-            String line = getStringFromFile(file.getPath());
+            String line = Tool.tool.getStringFromFile(file.getPath());
             Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
             return zon;
         } catch (Exception e) {

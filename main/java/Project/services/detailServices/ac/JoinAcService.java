@@ -16,8 +16,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.willTips;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.randA;
 
 /**
  * @author github-kloping
@@ -56,18 +54,18 @@ public class JoinAcService {
         int r0 = getInfo(who).getNextR1();
         int r = r0;
         if (r0 == -2) {
-            long n = randA(0, 100);
+            long n = Tool.tool.randA(0, 100);
             if (n < 33) {
                 ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 501, 521);
             } else {
-                r = Tool.RANDOM.nextInt(31);
+                r =  Tool.tool.RANDOM.nextInt(31);
             }
         } else if (r0 == -1) {
-            r = Tool.RANDOM.nextInt(250);
+            r =  Tool.tool.RANDOM.nextInt(250);
         } else {
             r = r0;
         }
-        getInfo(who).setNextR1(Tool.RANDOM.nextInt(250)).apply();
+        getInfo(who).setNextR1( Tool.tool.RANDOM.nextInt(250)).apply();
         if (ghostObj == null) {
             if (r < 3) {
                 //十万年
@@ -97,13 +95,13 @@ public class JoinAcService {
                 addToBgs(who, 103, ObjType.got);
                 return "你去星斗森林,只捡到了一个大瓶经验已存入背包";
             } else if (r < 116) {
-                int r1 = Tool.RANDOM.nextInt(3) + 1;
+                int r1 =  Tool.tool.RANDOM.nextInt(3) + 1;
                 for (int i = 0; i < r1; i++) {
                     addToBgs(who, 1000, ObjType.got);
                 }
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
-                int rr = Tool.RANDOM.nextInt(90) + 30;
+                int rr =  Tool.tool.RANDOM.nextInt(90) + 30;
                 putPerson(getInfo(who).addGold((long) rr
                         , new TradingRecord()
                                 .setFrom(-1)
@@ -113,13 +111,13 @@ public class JoinAcService {
                                 .setType0(TradingRecord.Type0.gold)
                                 .setType1(TradingRecord.Type1.add)
                 ));
-                return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.toFaceMes(String.valueOf(188));
-            } else if (Tool.RANDOM.nextInt(1000) == 0) {
+                return "你去星斗森林,只捡到了" + rr + "个金魂币" +  Tool.tool.toFaceMes(String.valueOf(188));
+            } else if ( Tool.tool.RANDOM.nextInt(1000) == 0) {
                 int id = 111;
                 addToBgs(who, id, ObjType.got);
                 return "震惊!!!\n你去星斗森林捡到一个" + getNameById(id);
             } else {
-                return "你去星斗森林,只捡到了个寂寞!" + Tool.toFaceMes(String.valueOf(239));
+                return "你去星斗森林,只捡到了个寂寞!" +  Tool.tool.toFaceMes(String.valueOf(239));
             }
         }
 
@@ -137,11 +135,11 @@ public class JoinAcService {
         int r = 0;
         r = getInfo(who).getNextR2();
         if (r == -1) {
-            r = Tool.RANDOM.nextInt(MAX_RAND_2);
+            r =  Tool.tool.RANDOM.nextInt(MAX_RAND_2);
         } else if (r == -2) {
-            r = Tool.RANDOM.nextInt(MIN_MEED);
+            r =  Tool.tool.RANDOM.nextInt(MIN_MEED);
         }
-        putPerson(getInfo(who).setNextR2(Tool.RANDOM.nextInt(MAX_RAND_2)));
+        putPerson(getInfo(who).setNextR2( Tool.tool.RANDOM.nextInt(MAX_RAND_2)));
         GhostObj ghostObj = null;
         if (r < MUST_MEED) {
             if (r == 0) {
@@ -160,10 +158,10 @@ public class JoinAcService {
                 ghostObj = GhostObj.create(100, 601, 604);
             } else {
                 addToBgs(who, 112, ObjType.got);
-                return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.toFaceMes("318");
+                return "你去极贝之地,捡到了一个精神神石已存入背包" +  Tool.tool.toFaceMes("318");
             }
         } else {
-            return "你去极北之地 ,只捡到了个寂寞。。" + Tool.toFaceMes(String.valueOf(271));
+            return "你去极北之地 ,只捡到了个寂寞。。" +  Tool.tool.toFaceMes(String.valueOf(271));
         }
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
@@ -180,15 +178,15 @@ public class JoinAcService {
         int r = getInfo(who).getNextR3();
         switch (r) {
             case -1:
-                r = RANDOM.nextInt(MAX_RAND3);
+                r = Tool.tool.RANDOM.nextInt(MAX_RAND3);
                 break;
             case -2:
-                r = RANDOM.nextInt(MIN_MEET3);
+                r = Tool.tool.RANDOM.nextInt(MIN_MEET3);
                 break;
             default:
                 break;
         }
-        getInfo(who).setNextR3(RANDOM.nextInt(MAX_RAND3)).apply();
+        getInfo(who).setNextR3(Tool.tool.RANDOM.nextInt(MAX_RAND3)).apply();
         GhostWithGroup ghostObj = null;
         if (r == 0) {
             ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 706);
@@ -213,7 +211,7 @@ public class JoinAcService {
             GameDataBase.addToBgs(who, 114, ObjType.got);
             return "<Pic:./images/ac2.png>.\n你去落日森林捡到了一片落叶碎片\uD83C\uDF42已存入背包";
         } else {
-            return "<Pic:./images/ac2.png>.\n" + Tool.getRandT(TIPS0);
+            return "<Pic:./images/ac2.png>.\n" +  Tool.tool.getRandT(TIPS0);
         }
         if (ghostObj != null) {
             ghostObj.setGroup(group);

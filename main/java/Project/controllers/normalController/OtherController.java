@@ -198,7 +198,7 @@ public class OtherController {
 
     @Action("娱乐功能.*?")
     public String m0(@AllMess String m) {
-        Integer i1 = Tool.getInteagerFromStr(m);
+        Integer i1 =  Tool.tool.getInteagerFromStr(m);
         int n = 1;
         n = i1 == null ? n : i1;
         n = n > E_MENUS.length ? 1 : n;
@@ -231,8 +231,8 @@ public class OtherController {
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
         sb.append("群内名:").append(MemberTools.getNameFromGroup(qq, group)).append("\r\n");
         sb.append("QQ名:").append(member.getNick()).append("\r\n");
-        sb.append("加入时间:").append(Tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
-        sb.append("最后发言:").append(Tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
+        sb.append("加入时间:").append( Tool.tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
+        sb.append("最后发言:").append( Tool.tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
         sb.append("头衔:").append(member.getSpecialTitle()).append("\r\n");
         sb.append("禁言时长:").append(member.getMuteTimeRemaining()).append("\r\n");
         sb.append("头像链接:").append(member.getAvatarUrl()).append("\r\n");
@@ -264,7 +264,7 @@ public class OtherController {
                 }
                 return controller.close(group);
             } else if (DataBase.canSpeak(group.getId())) {
-                if (!Tool.isIlleg(str)) {
+                if (! Tool.tool.isIlleg(str)) {
                     if (cd0 < System.currentTimeMillis()) {
                         cd0 = System.currentTimeMillis() + CD;
                         String talk = otherService.talk(str);
@@ -284,7 +284,7 @@ public class OtherController {
 //            String url = all.substring(i1 + 5, i2);
 //            String endU = Image.queryUrl(Image.fromId(url));
 //            url = Drawer.bundler_0(endU);
-//            return Tool.pathToImg(url);
+//            return  Tool.tool.pathToImg(url);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            return "生成失败";

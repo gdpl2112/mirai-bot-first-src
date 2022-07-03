@@ -110,7 +110,7 @@ public class LittleHandler extends SimpleListenerHost {
             String text = EventTools.getStringFromGroupMessageEvent(event);
             if (text.startsWith(WANT_TITLE)) {
                 text = text.replaceFirst(WANT_TITLE, "");
-                if (!Tool.isIlleg(text) && !text.isEmpty()) {
+                if (! Tool.tool.isIlleg(text) && !text.isEmpty()) {
                     group.get(yid).setSpecialTitle(text);
                     group.sendMessage(TOK);
                 } else {
@@ -178,7 +178,7 @@ public class LittleHandler extends SimpleListenerHost {
         if (at == null || plainText == null) {
             return "Not Found";
         } else {
-            int st = Integer.parseInt(Tool.findNumberFromString(plainText.getContent()));
+            int st = Integer.parseInt( Tool.tool.findNumberFromString(plainText.getContent()));
             event.getSubject().get(at.getTarget()).mute(st);
             return "succeed";
         }

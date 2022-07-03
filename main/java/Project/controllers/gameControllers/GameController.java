@@ -14,6 +14,7 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -141,7 +141,7 @@ public class GameController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (EveListStartWith(listFx, mess) == -1) {
+            if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
                 MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
@@ -258,7 +258,7 @@ public class GameController {
 
     @Action("换积分<\\d{1,}=>num>")
     public String getScore(@Param("num") String num, User qq, Group group) {
-        String ll = findNumberFromString(num);
+        String ll = Tool.tool.findNumberFromString(num);
         if (ll == null || ll.isEmpty()) return NOT_FOUND_VALUE;
         long l = Long.parseLong(ll);
         String sss = gameService.getScoreFromGold(qq.getId(), l);
@@ -268,7 +268,7 @@ public class GameController {
     @Action("等级排行.*?")
     public String pH(@AllMess String num) {
         int n;
-        String ll = findNumberFromString(num);
+        String ll = Tool.tool.findNumberFromString(num);
         if (ll == null || ll.isEmpty()) {
             n = 10;
         } else {
@@ -325,7 +325,7 @@ public class GameController {
     @Action("关系列表")
     public String warps(long q) {
         Warp warp = getWarp(q);
-        return pathToImg(drawWarp(warp));
+        return Tool.tool.pathToImg(drawWarp(warp));
     }
 
     @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})
@@ -340,8 +340,8 @@ public class GameController {
             }
         }
         mss = mss.replace("[@" + at + "]", "");
-        int br = (int) randA(12, 20);
-        String m = findNumberFromString(mss);
+        int br = (int) Tool.tool.randA(12, 20);
+        String m = Tool.tool.findNumberFromString(mss);
         try {
             br = Integer.parseInt(m);
         } catch (Exception e) {

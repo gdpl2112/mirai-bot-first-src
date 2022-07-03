@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.getHhs;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 public class GameTool {
     /**
@@ -192,19 +191,19 @@ public class GameTool {
      * @return
      */
     public static long getLtoGhsL(long l) {
-        if (l < 10) return randA(100, 200);
-        else if (l < 20) return randA(200, 1000);
-        else if (l < 30) return randA(1000, 10000);
-        else if (l < 40) return randA(10000, 20000);
-        else if (l < 60) return randA(20000, 40000);
-        else if (l < 80) return randA(40000, 80000);
-        else if (l < 90) return randA(80000, 120000);
-        else if (l < 95) return randA(120000, 200000);
-        else if (l < 100) return randA(200000, 1000000);
-        else if (l < 110) return randA(300000, 1500000);
-        else if (l < 120) return randA(800000, 2000000);
-        else if (l < 130) return randA(900000, 3000000);
-        else if (l <= 151) return randA(990000, 10010000);
+        if (l < 10) return Tool.tool.randA(100, 200);
+        else if (l < 20) return Tool.tool.randA(200, 1000);
+        else if (l < 30) return Tool.tool.randA(1000, 10000);
+        else if (l < 40) return Tool.tool.randA(10000, 20000);
+        else if (l < 60) return Tool.tool.randA(20000, 40000);
+        else if (l < 80) return Tool.tool.randA(40000, 80000);
+        else if (l < 90) return Tool.tool.randA(80000, 120000);
+        else if (l < 95) return Tool.tool.randA(120000, 200000);
+        else if (l < 100) return Tool.tool.randA(200000, 1000000);
+        else if (l < 110) return Tool.tool.randA(300000, 1500000);
+        else if (l < 120) return Tool.tool.randA(800000, 2000000);
+        else if (l < 130) return Tool.tool.randA(900000, 3000000);
+        else if (l <= 151) return Tool.tool.randA(990000, 10010000);
         else return 1L;
     }
 
@@ -215,16 +214,16 @@ public class GameTool {
      * @return
      */
     public static long getAArtt(int level) {
-        if (level < 10) return randA(80, 120);
-        else if (level < 40) return randA(290, 315);
-        else if (level < 60) return randA(900, 1100);
-        else if (level < 80) return randA(2500, 2600);
-        else if (level < 90) return randA(3900, 4000);
-        else if (level < 95) return randA(39000, 40000);
-        else if (level < 100) return randA(95000, 100000);
-        else if (level < 110) return randA(179500, 190000);
-        else if (level < 120) return randA(280000, 285000);
-        else return randA(160000, 166667);
+        if (level < 10) return Tool.tool.randA(80, 120);
+        else if (level < 40) return Tool.tool.randA(290, 315);
+        else if (level < 60) return Tool.tool.randA(900, 1100);
+        else if (level < 80) return Tool.tool.randA(2500, 2600);
+        else if (level < 90) return Tool.tool.randA(3900, 4000);
+        else if (level < 95) return Tool.tool.randA(39000, 40000);
+        else if (level < 100) return Tool.tool.randA(95000, 100000);
+        else if (level < 110) return Tool.tool.randA(179500, 190000);
+        else if (level < 120) return Tool.tool.randA(280000, 285000);
+        else return Tool.tool.randA(160000, 166667);
     }
 
     /**
@@ -294,7 +293,7 @@ public class GameTool {
      * @return
      */
     public static Long randFloatByte1(Long v) {
-        return Long.valueOf(randLong(v, 0.87f, 1.18f));
+        return Long.valueOf(Tool.tool.randLong(v, 0.87f, 1.18f));
     }
 
     /**
@@ -320,7 +319,7 @@ public class GameTool {
     public static List<Map.Entry<String, Integer>> phGet(int num) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>();
         for (PersonInfo personInfo : SpringBootResource.getPersonInfoMapper().getOrderByLevel(num)) {
-            list.add(getEntry(personInfo.getName(), personInfo.getLevel()));
+            list.add(Tool.tool.getEntry(personInfo.getName(), personInfo.getLevel()));
         }
         return list;
     }

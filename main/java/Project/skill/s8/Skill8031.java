@@ -4,13 +4,13 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.at;
 
 /**
  * @author github.kloping
@@ -41,7 +41,7 @@ public class Skill8031 extends SkillTemplate {
                 long id = nums[0].longValue();
                 if (id >= 0) {
                     getInfo(id).addHl(v).apply();
-                    setTips("作用于" + at(id));
+                    setTips("作用于" + Tool.tool.at(id));
                 }
             }
         };

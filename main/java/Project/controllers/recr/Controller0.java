@@ -9,6 +9,7 @@ import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Member;
 
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OPEN_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * @author github.kloping
@@ -93,7 +93,7 @@ public class Controller0 {
 
     private long getRandQid(long mid, Group group) {
         Member member;
-        member = (Member) getRandT(BOT.getGroup(group.getId()).getMembers());
+        member = (Member) Tool.tool.getRandT(BOT.getGroup(group.getId()).getMembers());
         long qid = member.getId();
         if (WIFE.containsKey(group.getId())) {
             if (WIFE.get(group.getId()).keySet().contains(qid) || WIFE.get(group.getId()).values().contains(qid)) {

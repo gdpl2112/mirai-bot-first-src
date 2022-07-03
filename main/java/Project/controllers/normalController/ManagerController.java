@@ -29,7 +29,6 @@ import java.util.Set;
 import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
 
 /**
  * @author github-kloping
@@ -72,7 +71,7 @@ public class ManagerController {
     @Action("跳过验证.+")
     public String o3(@AllMess String mess) {
         try {
-            String numStr = findNumberFromString(mess);
+            String numStr = Tool.tool.findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
             CapHandler.ok(qid);
             return null;
@@ -157,7 +156,7 @@ public class ManagerController {
         long who = MessageTools.getAtFromString(chain);
         if (who == -1)
             return new StringBuilder().append("谁?").toString();
-        return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[Tool.RANDOM.nextInt(sss.length - 1)]).toString();
+        return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[ Tool.tool.RANDOM.nextInt(sss.length - 1)]).toString();
     }
 
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
@@ -241,7 +240,7 @@ public class ManagerController {
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             if (str.trim().matches("最近\\d+条")) {
                 int[] is;
-                int i = Tool.getInteagerFromStr(str);
+                int i =  Tool.tool.getInteagerFromStr(str);
                 i = i > 15 ? 15 : i;
                 is = new int[i];
                 for (int i1 = 0; i1 < i; i1++) {

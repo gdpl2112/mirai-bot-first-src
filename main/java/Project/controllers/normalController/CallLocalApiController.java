@@ -20,8 +20,6 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.findNumberFromString;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getInteagerFromStr;
 
 /**
  * @author github-kloping
@@ -70,7 +68,7 @@ public class CallLocalApiController {
     public Object m3(Group group, @AllMess String str) throws Exception {
         Response0 r0 = getPvpNews.m1();
         Message message;
-        String numStr = findNumberFromString(str);
+        String numStr = Tool.tool.findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
@@ -86,7 +84,7 @@ public class CallLocalApiController {
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
     public Object m4(Group group, @AllMess String str) throws Exception {
         io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
-        String numStr = findNumberFromString(str);
+        String numStr = Tool.tool.findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
@@ -99,7 +97,7 @@ public class CallLocalApiController {
         if (!sss[0].startsWith("http")) {
             sss[0] = "https://ys.mihoyo.com" + sss[0];
         }
-        return Tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
+        return  Tool.tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
     @Action("/init_pvp")
@@ -110,7 +108,7 @@ public class CallLocalApiController {
 
     @Action("王者语音.+")
     public String m0(@AllMess String a, Group group) {
-        String numStr = findNumberFromString(a);
+        String numStr = Tool.tool.findNumberFromString(a);
         int i = 0;
         try {
             i = Integer.parseInt(numStr);
@@ -132,21 +130,21 @@ public class CallLocalApiController {
     public String pvpQqPic(@AllMess String a, Group group) {
         a = a.replaceFirst("王者图片", "");
         Data data = pvpQq.getD(a);
-        return Tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
+        return  Tool.tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
 
     @Action("王者最新皮肤.*?")
     public Object pvpQqSkin(@AllMess String m) {
         PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
         skin = pvpSkin;
-        Integer i = getInteagerFromStr(m);
+        Integer i = Tool.tool.getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         StringBuilder sb = new StringBuilder();
         int[] ints = {i * PAGE_SIZE, i * PAGE_SIZE + 1, i * PAGE_SIZE + 2, i * PAGE_SIZE + 3, i * PAGE_SIZE + 4};
         for (int i1 : ints) {
             Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i1];
             sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE)
-                    .append("预览图:").append(NEWLINE).append(Tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
+                    .append("预览图:").append(NEWLINE).append( Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
                     .append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2))
                     .append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
         }
@@ -158,7 +156,7 @@ public class CallLocalApiController {
         PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
         skin = pvpSkin;
         String name = m.replace("王者皮肤", "");
-        Integer i = getInteagerFromStr(m);
+        Integer i = Tool.tool.getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i];
         return pvpQq.getSkinPic("https:" + c6.getPcblzlbyxqydz_c4());

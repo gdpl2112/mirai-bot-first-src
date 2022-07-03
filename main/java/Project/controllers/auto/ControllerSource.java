@@ -11,6 +11,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * this is a utils for static class
@@ -59,7 +59,7 @@ public class ControllerSource {
     public static String getCode() {
         char[] chars = new char[4];
         for (int i = 0; i < chars.length; i++) {
-            chars[i] = cs[RANDOM.nextInt(cs.length)];
+            chars[i] = cs[Tool.tool.RANDOM.nextInt(cs.length)];
         }
         String caps = new String(chars);
         return caps;

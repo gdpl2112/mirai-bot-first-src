@@ -8,6 +8,7 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.apiEntitys.iciba.Dsapi;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -22,7 +23,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.updateToday;
 
 /**
  * @author github-kloping
@@ -50,7 +50,7 @@ public class TimerController {
 
     @Schedule("00:00:00")
     public static void onZero() {
-        updateToday();
+        Tool.tool.updateToday();
         GameDataBase.HIST_INFOS.clear();
         DataBase.HIST_U_SCORE.clear();
         Resource.Switch.AllK = false;
@@ -76,7 +76,7 @@ public class TimerController {
 
     @Schedule("06:10:00")
     public static void onSix() {
-        updateToday();
+        Tool.tool.updateToday();
         THREADS.submit(() -> {
             for (Group group : BOT.getGroups()) {
                 if (!ControllerTool.canGroup(group.getId())) {
@@ -97,12 +97,12 @@ public class TimerController {
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
-        updateToday();
+        Tool.tool.updateToday();
     }
 
 
     @Schedule("17:50:00")
     public static void onNightSix() {
-        updateToday();
+        Tool.tool.updateToday();
     }
 }

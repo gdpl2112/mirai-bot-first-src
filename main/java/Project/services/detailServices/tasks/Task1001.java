@@ -3,9 +3,9 @@ package Project.services.detailServices.tasks;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.dataBases.GameTaskDatabase.CD1;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getRandT;
 
 /**
  * 周任务2
@@ -18,7 +18,7 @@ public class Task1001 extends Task {
     public int needId;
 
     public Task1001() {
-        this.needId = getRandT(ids);
+        this.needId = Tool.tool.getRandT(ids);
     }
 
     public int getNeedId() {

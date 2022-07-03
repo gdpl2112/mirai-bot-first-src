@@ -153,7 +153,7 @@ public class GameDetailService {
     }
 
     public static boolean proZ(Integer n) {
-        int i = Tool.RANDOM.nextInt(100) + 1;
+        int i =  Tool.tool.RANDOM.nextInt(100) + 1;
         return n >= i;
     }
 

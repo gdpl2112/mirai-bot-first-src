@@ -20,35 +20,36 @@ import static io.github.kloping.mirai0.Main.Resource.contextManager;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
-    public static final String[] WEEK_DAYS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-    public static final Random RANDOM = new SecureRandom();
-    public static final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    public static Tool tool = new Tool();
+    public final String[] WEEK_DAYS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    public final Random RANDOM = new SecureRandom();
+    public final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
     /**
      * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
      */
-    private static final String singlePattern = "[0-9|a-f|A-F]";
-    private static final String pattern = singlePattern + singlePattern +
+    private final String singlePattern = "[0-9|a-f|A-F]";
+    private final String pattern = singlePattern + singlePattern +
             singlePattern + singlePattern;
-    private static final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
-    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-    private static final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-    private static final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
-    private static final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
-    private static final BigDecimal b2 = new BigDecimal(100000000L);
-    private static final BigDecimal be = new BigDecimal(1000000000000L);
-    private static final BigDecimal bw = new BigDecimal(10000000000000000L);
-    private static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
-    private static final SimpleDateFormat DDHHmmss = new SimpleDateFormat("dd日HH:mm:ss");
-    private static final Map<Character, Integer> char2int = new ConcurrentHashMap<>();
-    private static final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
-    private static final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
-    private static final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
-    private static final String BASE64 = "base64,";
-    private static String today = null;
-    private static String toMon = null;
-    private static String[] illegalSends = null;
+    private final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
+    private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+    private final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+    private final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+    private final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
+    private final BigDecimal b2 = new BigDecimal(100000000L);
+    private final BigDecimal be = new BigDecimal(1000000000000L);
+    private final BigDecimal bw = new BigDecimal(10000000000000000L);
+    private final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
+    private final SimpleDateFormat DDHHmmss = new SimpleDateFormat("dd日HH:mm:ss");
+    private final Map<Character, Integer> char2int = new ConcurrentHashMap<>();
+    private final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
+    private final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+    private final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
+    private final String BASE64 = "base64,";
+    private String today = null;
+    private String toMon = null;
+    private String[] illegalSends = null;
 
-    static {
+    {
         int i = 1;
         for (char c : new Character[]{'一', '二', '三', '四', '五', '六', '七', '八', '九', '十'}) {
             int2char.put(i, c);
@@ -57,7 +58,7 @@ public class Tool {
         }
     }
 
-    public static String[] getTime(String mess) {
+    public String[] getTime(String mess) {
         String[] ss = mess.split("-");
         try {
             Curfew.FORMAT_HH_MM.parse(ss[0]);
@@ -69,14 +70,14 @@ public class Tool {
         }
     }
 
-    public static byte[] getBase64Data(String base64) {
+    public byte[] getBase64Data(String base64) {
         int i = base64.indexOf(BASE64);
         String base64Str = base64.substring(i + BASE64.length());
         byte[] bytes = Base64.getDecoder().decode(base64Str);
         return bytes;
     }
 
-    public static String[] print(Process exec) throws IOException {
+    public String[] print(Process exec) throws IOException {
         try {
             exec.waitFor();
         } catch (InterruptedException e) {
@@ -97,7 +98,7 @@ public class Tool {
      * @param to   min
      * @return
      */
-    public static int inRandge(int v, int from, int to) {
+    public int inRandge(int v, int from, int to) {
         if (v < from) {
             return from;
         } else if (v > to) {
@@ -112,7 +113,7 @@ public class Tool {
      * @param str
      * @return
      */
-    private static String ustartToCn(final String str) {
+    private String ustartToCn(final String str) {
         StringBuilder sb = new StringBuilder().append("0x")
                 .append(str.substring(2, 6));
         Integer codeInteger = Integer.decode(sb.toString());
@@ -127,7 +128,7 @@ public class Tool {
      * @param str 字符串
      * @return true表示以Unicode字符开头.
      */
-    private static boolean isStartWithUnicode(final String str) {
+    private boolean isStartWithUnicode(final String str) {
         if (null == str || str.length() == 0) {
             return false;
         }
@@ -149,7 +150,7 @@ public class Tool {
      * @param strParam
      * @return
      */
-    public static String unicodeToCn(final String str) {
+    public String unicodeToCn(final String str) {
         StringBuilder sb = new StringBuilder();
         int length = str.length();
         for (int i = 0; i < length; ) {
@@ -171,7 +172,7 @@ public class Tool {
      * @param str
      * @return
      */
-    public static Integer getInteagerFromStr(String str) {
+    public Integer getInteagerFromStr(String str) {
         String s1 = findNumberFromString(str);
         if (s1 == null || s1.trim().isEmpty()) {
             return null;
@@ -180,7 +181,7 @@ public class Tool {
         }
     }
 
-    public static void setOnErrInFIle(String path) {
+    public void setOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;
             new File(path).getParentFile().mkdirs();
@@ -205,7 +206,7 @@ public class Tool {
         }
     }
 
-    public static void setOnOutInFIle(String path) {
+    public void setOnOutInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.out;
             new File(path).getParentFile().mkdirs();
@@ -236,7 +237,7 @@ public class Tool {
      * @param dt
      * @return 当前日期是星期几
      */
-    public static String getWeekOfDate(Date dt) {
+    public String getWeekOfDate(Date dt) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dt);
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
@@ -246,7 +247,7 @@ public class Tool {
         return WEEK_DAYS[w];
     }
 
-    public static String getLogTimeFormat() {
+    public String getLogTimeFormat() {
         return "./logs" + dfn.format(new Date());
     }
 
@@ -256,11 +257,11 @@ public class Tool {
      * @param t 时间戳
      * @return
      */
-    public static String getTimeYMdhms(long t) {
+    public String getTimeYMdhms(long t) {
         return df2.format(new Date(t));
     }
 
-    public static String getTimeYMdhm(long t) {
+    public String getTimeYMdhm(long t) {
         return df4.format(new Date(t));
     }
 
@@ -270,7 +271,7 @@ public class Tool {
      * @param t 时间戳
      * @return
      */
-    public static String getTimeM(long t) {
+    public String getTimeM(long t) {
         return df3.format(new Date(t));
     }
 
@@ -282,7 +283,7 @@ public class Tool {
      * @param mil  分钟
      * @return long
      */
-    public static long getTimeFromNowTo(int day, int hour, int mil) {
+    public long getTimeFromNowTo(int day, int hour, int mil) {
         Date date = null;
         try {
             date = df.parse("2021-" + getToMon() + "-" + day + "-" + hour + "-" + mil);
@@ -303,7 +304,7 @@ public class Tool {
      * @param <V>
      * @return
      */
-    public static <K, V> Map.Entry<K, V> getEntry(K _k, V _v) {
+    public <K, V> Map.Entry<K, V> getEntry(K _k, V _v) {
         Map.Entry<K, V> entry = new Map.Entry<K, V>() {
             private K k = _k;
             private V v = _v;
@@ -346,7 +347,7 @@ public class Tool {
      * @param qq
      * @return
      */
-    public static String getTou(Long qq) {
+    public String getTou(Long qq) {
         return pathToImg("http://q2.qlogo.cn/headimg_dl?dst_uin=" + qq + "&spec=100");
     }
 
@@ -356,7 +357,7 @@ public class Tool {
      * @param qq
      * @return
      */
-    public static String getTouUrl(long qq) {
+    public String getTouUrl(long qq) {
         return "https://q1.qlogo.cn/g?b=qq&nk=" + qq + "&s=640";
     }
 
@@ -367,7 +368,7 @@ public class Tool {
      * @param withs
      * @return 第几个
      */
-    public static int listEveStartWith(List<String> list, String withs) {
+    public int listEveStartWith(List<String> list, String withs) {
         if (withs != null)
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).startsWith(withs))
@@ -383,7 +384,7 @@ public class Tool {
      * @param withs
      * @return 第几个
      */
-    public static int EveListStartWith(List<String> list, String withs) {
+    public int EveListStartWith(List<String> list, String withs) {
         for (int i = 0; i < list.size(); i++) {
             if (withs.startsWith(list.get(i).replace("*", "")) || withs.equals(list.get(i)))
                 return i;
@@ -397,7 +398,7 @@ public class Tool {
      * @param str
      * @return
      */
-    public static String findNumberFromString(String str) {
+    public String findNumberFromString(String str) {
         String ss = "";
         if (str != null) {
             for (int i = 0; i < str.length(); i++) {
@@ -416,7 +417,7 @@ public class Tool {
      * @param line
      * @return
      */
-    public static String filterBigNum(String line) {
+    public String filterBigNum(String line) {
         BigInteger[] numbers = findNums(line, 5);
         for (Number number : numbers) {
             String r = bigNumToWE(number);
@@ -432,7 +433,7 @@ public class Tool {
      * @param len
      * @return
      */
-    public static BigInteger[] findNums(String str, int len) {
+    public BigInteger[] findNums(String str, int len) {
         char[] chars = str.toCharArray();
         boolean k = false;
         List<BigInteger> list = new ArrayList<>();
@@ -467,7 +468,7 @@ public class Tool {
      * @param number
      * @return
      */
-    public static String bigNumToWE(Number number) {
+    public String bigNumToWE(Number number) {
         if (number instanceof BigInteger) {
             if (number.toString().length() < 9) {
                 return toW(number.longValue());
@@ -509,7 +510,7 @@ public class Tool {
      * @param number
      * @return
      */
-    private static String toE(Number number) {
+    private String toE(Number number) {
         BigDecimal b1 = new BigDecimal(number.toString());
         b1.setScale(2, BigDecimal.ROUND_HALF_UP);
         b1 = b1.divide(b2);
@@ -524,7 +525,7 @@ public class Tool {
      * @param number
      * @return
      */
-    private static String toW(long l) {
+    private String toW(long l) {
         long l1 = 10000;
         Double d3 = (double) l / (double) l1;
         String s = d3.toString();
@@ -538,15 +539,15 @@ public class Tool {
      *
      * @return
      */
-    public static String getToday() {
+    public String getToday() {
         return today == null ? (today = new SimpleDateFormat("dd").format(new Date())) : today;
     }
 
-    public static Integer getTodayInt() {
+    public Integer getTodayInt() {
         return Integer.valueOf(getToday());
     }
 
-    public static String getTodayDetialString() {
+    public String getTodayDetialString() {
         return getYear() + "-" + getMonth() + "-" + getDay();
     }
 
@@ -555,7 +556,7 @@ public class Tool {
      *
      * @return
      */
-    public static String getToMon() {
+    public String getToMon() {
         return toMon == null ? (toMon = new SimpleDateFormat("MM").format(new Date())) : toMon;
     }
 
@@ -566,7 +567,7 @@ public class Tool {
      * @param end
      * @return
      */
-    public static long randA(int from, int end) {
+    public long randA(int from, int end) {
         int t1 = from, t2 = end;
         return Long.valueOf(RANDOM.nextInt(t2 - t1) + t1);
     }
@@ -577,7 +578,7 @@ public class Tool {
      * @param l 时间戳
      * @return
      */
-    public static String getTimeHHMM(long l) {
+    public String getTimeHHMM(long l) {
         return HHmmss.format(new Date(l));
     }
 
@@ -587,7 +588,7 @@ public class Tool {
      * @param l
      * @return
      */
-    public static String getTimeTips(long l) {
+    public String getTimeTips(long l) {
         if (l < System.currentTimeMillis()) {
             return NOT_NEED_WAIT_TIPS;
         }
@@ -605,7 +606,7 @@ public class Tool {
      * @param l 时间戳
      * @return
      */
-    public static String getTimeDDHHMM(long l) {
+    public String getTimeDDHHMM(long l) {
         if (l == Long.MAX_VALUE) return "最大";
         return DDHHmmss.format(new Date(l));
     }
@@ -616,7 +617,7 @@ public class Tool {
      * @param who
      * @return
      */
-    public static String at(Long who) {
+    public String at(Long who) {
         return String.format("<At:%s>", who);
     }
 
@@ -626,7 +627,7 @@ public class Tool {
      * @param ss
      * @return
      */
-    public static int[] stringsToInts(String... ss) {
+    public int[] stringsToInts(String... ss) {
         try {
             int[] ints = new int[ss.length];
             for (int i = 0; i < ss.length; i++) {
@@ -644,7 +645,7 @@ public class Tool {
      * @param ss
      * @return
      */
-    public static int[] stringToInts(String str) {
+    public int[] stringToInts(String str) {
         try {
             String[] ss = str.split(",| |，");
             int[] ints = new int[ss.length];
@@ -657,7 +658,7 @@ public class Tool {
         }
     }
 
-    public static int[] stringToInts(String str, int xy) {
+    public int[] stringToInts(String str, int xy) {
         try {
             String[] ss = str.split(",| |，");
             int[] ints = new int[ss.length];
@@ -676,7 +677,7 @@ public class Tool {
      * @param str
      * @return
      */
-    public static String findNumberZh(String str) {
+    public String findNumberZh(String str) {
         List<Character> cs = new ArrayList<>();
         char[] cs1 = str.toCharArray();
         for (char c1 : cs1) {
@@ -698,7 +699,7 @@ public class Tool {
      * @param num
      * @return
      */
-    public static String trans(int num) {
+    public String trans(int num) {
         StringBuilder builder = new StringBuilder();
         builder.append(numeric[num / 1000] + "千").
                 append(numeric[num / 100 % 10] + "百").
@@ -736,7 +737,7 @@ public class Tool {
      * @param chineseNumber
      * @return
      */
-    public static int chineseNumber2Int(String chineseNumber) {
+    public int chineseNumber2Int(String chineseNumber) {
         int result = 0;
         int temp = 1;
         int count = 0;
@@ -789,7 +790,7 @@ public class Tool {
     }
 
     // start IO 相关操作
-    public static boolean testFile(String path) {
+    public boolean testFile(String path) {
         try {
             File file = new File(path);
             if (file.exists()) return true;
@@ -804,7 +805,7 @@ public class Tool {
         }
     }
 
-    public static synchronized boolean putStringInFile(String str, String filename, String character) {
+    public synchronized boolean putStringInFile(String str, String filename, String character) {
         testFile(filename);
         try {
             System.gc();
@@ -818,7 +819,7 @@ public class Tool {
         }
     }
 
-    public static synchronized boolean addStingInFile(Object str, String filename, String character) {
+    public synchronized boolean addStingInFile(Object str, String filename, String character) {
         testFile(filename);
         try {
             File f = new File(filename);
@@ -832,7 +833,7 @@ public class Tool {
         }
     }
 
-    public static synchronized String getStringFromFile(String filename) {
+    public synchronized String getStringFromFile(String filename) {
         testFile(filename);
         try {
             System.gc();
@@ -849,7 +850,7 @@ public class Tool {
         }
     }
 
-    public static synchronized String getStringFromFile(String filename, Long defaultValue) {
+    public synchronized String getStringFromFile(String filename, Long defaultValue) {
         testFile(filename);
         try {
             System.gc();
@@ -869,7 +870,7 @@ public class Tool {
         }
     }
 
-    public static synchronized String getStringFromFile(String filename, Long defaultValue, Long defaultValue1) {
+    public synchronized String getStringFromFile(String filename, Long defaultValue, Long defaultValue1) {
         testFile(filename);
         try {
             System.gc();
@@ -889,7 +890,7 @@ public class Tool {
         }
     }
 
-    public static synchronized String getStringFromFile(String filename, String charcter) {
+    public synchronized String getStringFromFile(String filename, String charcter) {
         testFile(filename);
         try {
             System.gc();
@@ -906,7 +907,7 @@ public class Tool {
         }
     }
 
-    public static synchronized String[] getStringsFromFile(String filename) {
+    public synchronized String[] getStringsFromFile(String filename) {
         testFile(filename);
         try {
             System.gc();
@@ -926,7 +927,7 @@ public class Tool {
     }
     //end IO 相关操作
 
-    public static synchronized boolean putStringInFile(String str, String filename) {
+    public synchronized boolean putStringInFile(String str, String filename) {
         testFile(filename);
         try {
             System.gc();
@@ -946,7 +947,7 @@ public class Tool {
      * @param id
      * @return
      */
-    public static String toFaceMes(String id) {
+    public String toFaceMes(String id) {
         return "<Face:" + id + ">";
     }
 
@@ -956,18 +957,18 @@ public class Tool {
      * @param path
      * @return
      */
-    public static String pathToImg(String path) {
+    public String pathToImg(String path) {
         return "<Pic:" + path + ">";
     }
 
-    public static String pathToImg0(String path) {
+    public String pathToImg0(String path) {
         return "&" + pathToImg(path);
     }
 
     /**
      * 更新今天的日期
      */
-    public static void updateToday() {
+    public void updateToday() {
         today = null;
         toMon = null;
     }
@@ -980,7 +981,7 @@ public class Tool {
      * If a deletion fails, the method stops attempting to
      * delete and returns "false".
      */
-    public static synchronized boolean deleteDir(File dir) {
+    public synchronized boolean deleteDir(File dir) {
         if (!dir.exists()) return false;
         if (dir.isDirectory()) {
             String[] children = dir.list();
@@ -1002,7 +1003,7 @@ public class Tool {
      * @param e 到
      * @return
      */
-    public static long randLong(long o, float m, float e) {
+    public long randLong(long o, float m, float e) {
         if (m <= 1 && m < e) {
             float em = e - m;
             if (o < 100000) {
@@ -1018,7 +1019,7 @@ public class Tool {
         return -1;
     }
 
-    public static String[] getIllegal() {
+    public String[] getIllegal() {
         String s0 = contextManager.getContextEntity(String.class, "Illegal.txt");
         if (s0 != null) {
             return s0.trim().split("\\s+");
@@ -1027,7 +1028,7 @@ public class Tool {
         }
     }
 
-    public static String[] getIllegalSend() {
+    public String[] getIllegalSend() {
         String s0 = contextManager.getContextEntity(String.class, "Illegal.send");
         if (s0 != null) {
             return illegalSends == null ?
@@ -1044,7 +1045,7 @@ public class Tool {
      * @param s
      * @return true 违规 false 没
      */
-    public static boolean isIlleg(String s) {
+    public boolean isIlleg(String s) {
         for (String s1 : getIllegal()) {
             if (s.toUpperCase().contains(s1.toUpperCase()))
                 return true;
@@ -1052,7 +1053,7 @@ public class Tool {
         return false;
     }
 
-    public static boolean isIllegSend(String s) {
+    public boolean isIllegSend(String s) {
         for (String s1 : getIllegalSend()) {
             if (s.toUpperCase().contains(s1.toUpperCase()))
                 return true;
@@ -1066,15 +1067,15 @@ public class Tool {
      * @param sss
      * @return
      */
-    public static String getRandString(String... sss) {
+    public String getRandString(String... sss) {
         return getRandT(sss);
     }
 
-    public static <T> T getRandT(T... ts) {
+    public <T> T getRandT(T... ts) {
         return ts[RANDOM.nextInt(ts.length)];
     }
 
-    public static <T> T getRandT(Collection<T> ts) {
+    public <T> T getRandT(Collection<T> ts) {
         List<T> list = new LinkedList<>();
         list.addAll(ts);
         return list.get(RANDOM.nextInt(ts.size()));
@@ -1088,7 +1089,7 @@ public class Tool {
      * @param d
      * @return
      */
-    public static String device(Long l, double v, int d) {
+    public String device(Long l, double v, int d) {
         double f = l / v;
         return String.format("%." + d + "f", f);
     }

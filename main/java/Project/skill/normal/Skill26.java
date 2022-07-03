@@ -4,13 +4,13 @@ import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.device;
 
 /**
  * @author github.kloping
@@ -24,7 +24,7 @@ public class Skill26 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("使指定人的后摇,减少%s秒冷却", device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("使指定人的后摇,减少%s秒冷却", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

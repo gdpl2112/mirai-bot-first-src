@@ -2,9 +2,9 @@ package Project.services.detailServices.ac.entity;
 
 import Project.services.detailServices.GameDetailService;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github-kloping
@@ -30,7 +30,7 @@ public class Ghost703 extends GhostWithGroup {
     public long updateHp(long l, BaseInfo who) {
         l = -l;
         l = l > getHp() ? getHp() : l;
-        if (RANDOM.nextInt(2) == 0) {
+        if (Tool.tool.RANDOM.nextInt(2) == 0) {
             long v1 = percentTo(Math.toIntExact(l), 15);
             sendMessage("受到反甲效果:\n受到" + v1 + "点反弹伤害\n" + GameDetailService.beaten(who.getId(), -1, v1), who.getId().longValue());
         }

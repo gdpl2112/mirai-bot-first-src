@@ -13,6 +13,7 @@ import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -23,7 +24,6 @@ import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -44,10 +44,10 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String create(String name, Long who, Group group) {
-        if (isIlleg(name)) return "存在敏感字符";
+        if (Tool.tool.isIlleg(name)) return "存在敏感字符";
         if (name.length() > 4) return "名字过长最大4个长度";
         long t1 = -1;
-        if ((t1 = isJkOk(who)) > 0) return "宗门活动冷却中...==>" + getTimeDDHHMM(t1);
+        if ((t1 = isJkOk(who)) > 0) return "宗门活动冷却中...==>" + Tool.tool.getTimeDDHHMM(t1);
         //=================
         if (qq2id.containsKey(who))
             return "你已经在宗门之中";
@@ -113,7 +113,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         sb.append("宗门宗主:").append(name).append("(").append(zong.getMain()).append(")").append("\r\n");
         sb.append("宗门人数:").append(zong.getMembers()).append("/").append(zong.getMaxP()).append("\r\n");
         sb.append("宗门长老:").append(zong.getElders()).append("/").append(zong.getElderNum()).append("\r\n");
-        return (icon.isEmpty() ? "" : pathToImg(icon)) + getImageFromStrings(false, sb.toString().split("\\s+"));
+        return (icon.isEmpty() ? "" : Tool.tool.pathToImg(icon)) + getImageFromStrings(false, sb.toString().split("\\s+"));
     }
 
     @Override
@@ -136,7 +136,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zon.getLevel() != 2)
             return ("仅宗主有权限修改宗门信息");
         if (zong.getMk() > System.currentTimeMillis())
-            return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
+            return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
         String path = ZongMenDataBase.path + "/" + getZongInfo(who).getId() + "/icon.png";
         io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
         File file = filterImg(new File(path));
@@ -172,7 +172,7 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     public String join(Long who, Long qq, Group group) {
         if (GameDataBase.getInfo(qq).getJk1() > System.currentTimeMillis()) {
-            return ("宗门活动冷却中...==>" + getTimeDDHHMM(GameDataBase.getInfo(qq).getJk1()));
+            return ("宗门活动冷却中...==>" + Tool.tool.getTimeDDHHMM(GameDataBase.getInfo(qq).getJk1()));
         }
         Zong zong = getZongInfo(who);
         putPerson(GameDataBase.getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
@@ -211,7 +211,7 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String setName(String name, long who, Group group) {
-        if (isIlleg(name)) return ("存在敏感字符");
+        if (Tool.tool.isIlleg(name)) return ("存在敏感字符");
         if (!qq2id.containsKey(who))
             return ("你没有加入任何宗门");
         Zong zong = getZongInfo(who);
@@ -219,7 +219,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zon.getLevel() == 0)
             return ("仅宗主和长老有权限修改宗门名字");
         if (zong.getMk() > System.currentTimeMillis())
-            return ("宗门修改信息 冷却中 =>" + getTimeDDHHMM(zong.getMk()));
+            return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
         zong.setName(name).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return zongInfo(who, group);
@@ -235,7 +235,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (info.getGold() < info.getLevel())
             return "金魂币不足";
         if (info.getCbk1() > System.currentTimeMillis())
-            return "贡献时间未到 => " + getTimeDDHHMM(info.getCbk1());
+            return "贡献时间未到 => " + Tool.tool.getTimeDDHHMM(info.getCbk1());
         zon.setXper(zon.getXper() + info.getLevel());
         zong.setXp(zong.getXp() + info.Level);
         info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * COB_CD);

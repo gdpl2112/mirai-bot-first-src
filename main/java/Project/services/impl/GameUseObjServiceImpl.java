@@ -27,7 +27,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.SLE_ONE_MAX;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.TRANSFER_ONE_MAX;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 
 /**
  * @author github-kloping
@@ -87,7 +86,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String useObj(Long who, int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         long l1 = GameDataBase.getInfo(who).getUk1();
         if (l1 >= System.currentTimeMillis()) {
-            return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
+            return String.format(USE_OBJ_WAIT_TIPS, Tool.tool.getTimeTips(l1));
         }
         if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
@@ -111,7 +110,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String useObj(Long who, int id, int num) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         long l1 = GameDataBase.getInfo(who).getUk1();
         if (l1 >= System.currentTimeMillis()) {
-            return String.format(USE_OBJ_WAIT_TIPS, getTimeTips(l1));
+            return String.format(USE_OBJ_WAIT_TIPS, Tool.tool.getTimeTips(l1));
         }
         if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
         String[] sss = gameService.getBags(who);
@@ -136,7 +135,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
         if (enough) {
             String str = new UseTool().useObjNum(who, id, num);
-            if (!Tool.findNumberFromString(str).isEmpty()) {
+            if (! Tool.tool.findNumberFromString(str).isEmpty()) {
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + cd0));
             }
             return "批量使用" + getPic(id) + str;
@@ -149,7 +148,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String buyObj(Long who, int id, Integer num) {
         long l1 = GameDataBase.getGk1(who);
         if (l1 >= System.currentTimeMillis()) {
-            return String.format(BUY_OBJ_WAIT_TIPS, getTimeTips(l1));
+            return String.format(BUY_OBJ_WAIT_TIPS, Tool.tool.getTimeTips(l1));
         }
         if (num <= 0 || num > 50)
             return NUM_TOO_MUCH;
@@ -201,7 +200,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     public String buyObj(Long who, int id) {
         long l1 = GameDataBase.getGk1(who);
         if (l1 >= System.currentTimeMillis()) {
-            return String.format(BUY_OBJ_WAIT_TIPS, getTimeTips(l1));
+            return String.format(BUY_OBJ_WAIT_TIPS, Tool.tool.getTimeTips(l1));
         }
         long l = GameDataBase.ID_2_SHOP_MAPS.get(id);
         long Ig = GameDataBase.getInfo(who).getGold();

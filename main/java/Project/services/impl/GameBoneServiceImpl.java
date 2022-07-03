@@ -13,6 +13,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,7 +24,6 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -56,7 +56,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         list.add("魂力恢复效果:" + attributeBone.getHlEffect() + "%");
         list.add("精神力恢复率:" + attributeBone.getHjChance() + "%");
         list.add("精神力恢复效果:" + attributeBone.getHjEffect() + "%");
-        list.add("攻击前/后摇:" + device(manager.getAttPre(who), 1000f, 1) + "/" + device(manager.getAttPost(who), 1000f, 1) + "s");
+        list.add("攻击前/后摇:" + Tool.tool.device(manager.getAttPre(who), 1000f, 1) + "/" + Tool.tool.device(manager.getAttPost(who), 1000f, 1) + "s");
         list.add("魂力节省比:" + toPercent(getInfo(who).getLevel(), 150) / 2 + "%");
         return getImageFromStrings(list.toArray(new String[0]));
     }
@@ -102,7 +102,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
                 String[] vv = ss[1].split(":");
                 String v1 = vv[0];
                 Integer v2 = Integer.valueOf(vv[1]);
-                map.put(k, getEntry(v1, v2));
+                map.put(k, Tool.tool.getEntry(v1, v2));
             }
             return map;
         } catch (Exception e) {
@@ -129,7 +129,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
             return "已经吸收过 相同部位的魂骨了";
         }
         GameDataBase.removeFromBgs(qq, id, ObjType.use);
-        int r1 = RANDOM.nextInt(7);
+        int r1 = Tool.tool.RANDOM.nextInt(7);
         switch (r1) {
             case 0:
                 nu = i * 3;

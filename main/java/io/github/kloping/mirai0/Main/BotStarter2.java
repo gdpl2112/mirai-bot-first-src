@@ -7,6 +7,7 @@ import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
@@ -14,7 +15,6 @@ import net.mamoe.mirai.utils.BotConfiguration;
 import java.io.File;
 
 import static io.github.kloping.mirai0.Main.Resource.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -26,9 +26,9 @@ public class BotStarter2 {
 
     public static void main(String[] args) throws Exception {
         long t = System.currentTimeMillis();
-        setOnErrInFIle(getLogTimeFormat() + "b2_err.log");
-        setOnOutInFIle(getLogTimeFormat() + "b2_console.log");
-        deleteDir(new File("./cache2"));
+        Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b2_err.log");
+        Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b2_console.log");
+        Tool.tool.deleteDir(new File("./cache2"));
         abot = get(2);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);

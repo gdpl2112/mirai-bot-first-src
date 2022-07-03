@@ -10,6 +10,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.addToBgs;
@@ -18,7 +19,6 @@ import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OPEN_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.RANDOM;
 
 /**
  * @author github.kloping
@@ -44,12 +44,12 @@ public class HasTimeActionController {
      */
     public static String use(long who) {
         int r = 0;
-        switch (RANDOM.nextInt(10)) {
+        switch (Tool.tool.RANDOM.nextInt(10)) {
             case 0:
                 GameDataBase.addToBgs(who, 7001, ObjType.got);
                 return "使用成功获得一个粽子";
             case 1:
-                r = RANDOM.nextInt(900) + 100;
+                r = Tool.tool.RANDOM.nextInt(900) + 100;
                 GameDataBase.getInfo(who).addGold((long) r, new TradingRecord()
                         .setFrom(-1)
                         .setMain(who).setDesc("从粽子获得")
@@ -63,15 +63,15 @@ public class HasTimeActionController {
                 addToBgs(who, id, ObjType.got);
                 return "获得" + SourceDataBase.getImgPathById(id);
             case 4:
-                r = RANDOM.nextInt(9900) + 100;
+                r = Tool.tool.RANDOM.nextInt(9900) + 100;
                 GameDataBase.getInfo(who).addXp((long) r).apply();
                 return "获得" + r + "点经验";
             case 5:
-                r = RANDOM.nextInt(4) + 201;
+                r = Tool.tool.RANDOM.nextInt(4) + 201;
                 addToBgs(who, r, ObjType.got);
                 return "获得" + SourceDataBase.getImgPathById(r);
             default:
-                r = RANDOM.nextInt(900) + 100;
+                r = Tool.tool.RANDOM.nextInt(900) + 100;
                 DataBase.addScore(r, who);
                 return "获得" + r + "积分";
         }

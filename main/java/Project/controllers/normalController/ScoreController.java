@@ -11,6 +11,7 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.UserScore;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -95,7 +95,7 @@ public class ScoreController {
                 return NOT_FOUND_AT;
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             str = str.replaceFirst(Long.toString(who), "");
-            num = Long.valueOf(findNumberFromString(str));
+            num = Long.valueOf(Tool.tool.findNumberFromString(str));
             num = num <= 0 ? 0L : num;
             return scoreService.getScoreTo(qq.getId(), who, num);
         } catch (NumberFormatException e) {
@@ -109,7 +109,7 @@ public class ScoreController {
             long who = getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
-            String numStr = findNumberFromString(str.replace(String.valueOf(who), ""));
+            String numStr = Tool.tool.findNumberFromString(str.replace(String.valueOf(who), ""));
             if (numStr != null && !numStr.trim().isEmpty()) {
                 int n = Integer.parseInt(numStr);
                 if (n > MAX_ROBBERY_TIMES) {
@@ -183,7 +183,7 @@ public class ScoreController {
 
     @Action("发言排行.?")
     public String ph(@AllMess String s, Group group) {
-        Integer s0 = getInteagerFromStr(s);
+        Integer s0 = Tool.tool.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
         List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
@@ -201,10 +201,10 @@ public class ScoreController {
 
     @Action("今日发言排行.?")
     public String ph0(@AllMess String s, Group group) {
-        Integer s0 = getInteagerFromStr(s);
+        Integer s0 = Tool.tool.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
-        List<UserScore> list = SpringBootResource.getScoreMapper().toDay(getTodayInt(), s0);
+        List<UserScore> list = SpringBootResource.getScoreMapper().toDay(Tool.tool.getTodayInt(), s0);
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (UserScore score : list) {

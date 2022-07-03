@@ -87,7 +87,7 @@ public class TestBootstrap {
 
     @Action("存钱.+")
     public Object s1(long qid, @AllMess String mess) {
-        Integer i = Tool.getInteagerFromStr(mess);
+        Integer i = Tool.tool.getInteagerFromStr(mess);
         if (i == null) return null;
         Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
         player.save(i);
@@ -96,7 +96,7 @@ public class TestBootstrap {
 
     @Action("取钱.+")
     public Object s2(long qid, @AllMess String mess) {
-        Integer i = Tool.getInteagerFromStr(mess);
+        Integer i = Tool.tool.getInteagerFromStr(mess);
         if (i == null) return null;
         Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
         try {

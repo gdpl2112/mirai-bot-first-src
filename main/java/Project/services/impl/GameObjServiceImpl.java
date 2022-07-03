@@ -7,13 +7,13 @@ import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameDataBase.getNameById;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getEntry;
 
 /**
  * @author github-kloping
@@ -30,11 +30,11 @@ public class GameObjServiceImpl implements IGameObjService {
     private static final Map<Integer, Map.Entry<Integer, Integer>> NEED_NUMS = new ConcurrentHashMap<>();
 
     static {
-        NEED_NUMS.put(1602, getEntry(1601, 3));
-        NEED_NUMS.put(1603, getEntry(1602, 4));
-        NEED_NUMS.put(1604, getEntry(1603, 4));
-        NEED_NUMS.put(1605, getEntry(1604, 5));
-        NEED_NUMS.put(115, getEntry(114, 8));
+        NEED_NUMS.put(1602, Tool.tool.getEntry(1601, 3));
+        NEED_NUMS.put(1603, Tool.tool.getEntry(1602, 4));
+        NEED_NUMS.put(1604, Tool.tool.getEntry(1603, 4));
+        NEED_NUMS.put(1605, Tool.tool.getEntry(1604, 5));
+        NEED_NUMS.put(115, Tool.tool.getEntry(114, 8));
     }
 
     @AutoStand

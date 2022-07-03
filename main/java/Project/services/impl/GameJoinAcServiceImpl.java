@@ -9,6 +9,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toP
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -65,7 +65,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     @Override
     public String join(long who, String name, Group group) {
         if (System.currentTimeMillis() < getK2(who)) {
-            return String.format(ACTIVITY_WAIT_TIPS, getTimeTips(getK2(who)));
+            return String.format(ACTIVITY_WAIT_TIPS, Tool.tool.getTimeTips(getK2(who)));
         }
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {

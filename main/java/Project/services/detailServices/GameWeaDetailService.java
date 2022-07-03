@@ -7,6 +7,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -19,8 +20,6 @@ import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.getTimeTips;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.randLong;
 
 /**
  * @author github-kloping
@@ -66,7 +65,7 @@ public class GameWeaDetailService {
         if (!exitsO(id, who)) return "你没有 " + name + "或已损坏";
         long at = getInfo(who).getAk1();
         if (at > System.currentTimeMillis())
-            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
+            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));
         if (challengeDetailService.isTemping(who))
             getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) * 2).apply();
         else getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) / 3).apply();
@@ -286,7 +285,7 @@ public class GameWeaDetailService {
             sb.append(GameDetailService.beaten(whos, who, ar));
 
         if (!isAlive(Long.valueOf(whos))) {
-            int l = (int) randLong(250, 0.7f, 1.0f);
+            int l = (int) Tool.tool.randLong(250, 0.7f, 1.0f);
             putPerson(getInfo(who).addGold((long) l
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)

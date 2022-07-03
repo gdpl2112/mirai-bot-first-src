@@ -48,7 +48,6 @@ import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.unitls.Tools.Tool.*;
 
 /**
  * @author github-kloping
@@ -111,7 +110,7 @@ public class SuperController {
         if (q0 < 0) {
             return ERR_TIPS;
         }
-        int n = Integer.parseInt(findNumberFromString(str.replace(Long.toString(q0), "")));
+        int n = Integer.parseInt(Tool.tool.findNumberFromString(str.replace(Long.toString(q0), "")));
         for (AllMessage allMessage : SaverSpringStarter.saveMapper.selectMessage(group.getId(), q0, n)) {
             String s0 = allMessage.getContent();
             Message message;
@@ -142,14 +141,14 @@ public class SuperController {
         if (who == -1) {
             return ("Are You True??");
         }
-        long num = Long.parseLong(Tool.findNumberFromString(messages));
+        long num = Long.parseLong( Tool.tool.findNumberFromString(messages));
         DataBase.addScore(num, who);
         return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
     }
 
     @Action("全体加积分.{1,}")
     public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
-        long num = Long.parseLong(Tool.findNumberFromString(messages));
+        long num = Long.parseLong( Tool.tool.findNumberFromString(messages));
         HIST_U_SCORE.forEach((k, v) -> {
             v.addScore(num);
             putInfo(v);
@@ -186,7 +185,7 @@ public class SuperController {
 
     @Action("更新宵禁<.+=>str>")
     public String a0(@Param("str") String str, Group group) {
-        String[] ss = getTime(str);
+        String[] ss = Tool.tool.getTime(str);
         if (ss == null) {
             return "格式错误!!";
         } else {
@@ -203,7 +202,7 @@ public class SuperController {
 
     @Action("新增宵禁<.+=>str>")
     public String a1(@Param("str") String str, Group group) {
-        String[] ss = getTime(str);
+        String[] ss = Tool.tool.getTime(str);
         if (ss == null) {
             return "格式错误!!";
         } else {
@@ -272,7 +271,7 @@ public class SuperController {
             HIST_U_SCORE.clear();
             HIST_INFOS.clear();
             SkillDataBase.reMap();
-            Tool.deleteDir(new File("./temp"));
+             Tool.tool.deleteDir(new File("./temp"));
             MessageTools.HIST_IMAGES.clear();
         }
     }
@@ -287,7 +286,7 @@ public class SuperController {
         String what = str.trim().replaceAll(",", "").replaceAll("个", "");
         Integer num = null;
         try {
-            num = Integer.valueOf(Tool.findNumberFromString(what));
+            num = Integer.valueOf( Tool.tool.findNumberFromString(what));
             what = what.replaceFirst(num + "", "");
         } catch (Exception e) {
             num = null;
@@ -311,7 +310,7 @@ public class SuperController {
     @Action("/跳过进入冷却.+")
     public String oo1(@AllMess String mess) {
         try {
-            String numStr = findNumberFromString(mess);
+            String numStr = Tool.tool.findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
             GameDataBase.getInfo(qid).setK2(-1L).apply();
             return "ok";
@@ -337,7 +336,7 @@ public class SuperController {
 
     @Action("/更改转生次数<.+=>mess>")
     public String modifyDeleteMax(@Param("mess") String mess) {
-        Integer c = getInteagerFromStr(mess);
+        Integer c = Tool.tool.getInteagerFromStr(mess);
         if (c == null) return ERR_TIPS;
         AUTO_CONF.put("DELETE_MAX", c);
         DELETE_MAX = c;

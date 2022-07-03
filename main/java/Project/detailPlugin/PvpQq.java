@@ -57,7 +57,7 @@ public class PvpQq {
                     .get();
             String picStr = document.getElementsByClass("banner").get(0).getElementsByTag("img").get(0).attr("src");
             picStr = HTTPS_PRE + picStr;
-            list.add("皮肤原画:" + Tool.pathToImg(picStr));
+            list.add("皮肤原画:" +  Tool.tool.pathToImg(picStr));
             try {
                 Elements elements = document.getElementsByClass("relation-cont");
                 list.add("技能效果");
@@ -65,13 +65,13 @@ public class PvpQq {
                 Element e;
                 e = elements.get(elements.size() - 3);
                 es = e.getElementsByTag("img");
-                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
                 e = elements.get(elements.size() - 2);
                 es = e.getElementsByTag("img");
-                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
                 e = elements.get(elements.size() - 1);
                 es = e.getElementsByTag("img");
-                list.add(Tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
