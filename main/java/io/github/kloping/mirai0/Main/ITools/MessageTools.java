@@ -314,16 +314,6 @@ public class MessageTools {
         group.sendMessage(mcb.build());
     }
 
-    public static Image toImage(byte[] bytes, long gid) {
-        if (bytes == null) {
-            return null;
-        }
-        Group group = BOT.getGroup(gid);
-        ExternalResource resource = ExternalResource.create(bytes);
-        Image image = group.uploadImage(resource);
-        return image;
-    }
-
     public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;

@@ -96,7 +96,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(XL_WAIT_TIPS, getTimeTips(l));
         }
@@ -135,7 +135,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
-                    SourceDataBase.getImgPathById(is.getWh()) + getImageFromStrings(sb.toString().split(","));
+                    SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(TXL_WAIT_TIPS, getTimeTips(l));
         }

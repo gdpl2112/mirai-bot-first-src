@@ -46,7 +46,7 @@ import static io.github.kloping.mirai0.Main.Resource.BOT;
  */
 public class MyHandler extends SimpleListenerHost {
     public static final long REPEAT_CD = 10 * 1000;
-    private static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
+    public static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
     private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
     public static String upMessage = null;
     public static long CD = 10 * 1000;
