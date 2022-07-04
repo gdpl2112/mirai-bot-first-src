@@ -54,7 +54,7 @@ public class PointSongController {
 
     public static void sing(String name, io.github.kloping.mirai0.commons.Group group) {
         Songs songs = searchSong.kugou(name);
-        MessageTools.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
+        MessageTools.instance.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
     }
 
     @Before
@@ -150,7 +150,7 @@ public class PointSongController {
         try {
             Songs songs = searchSong.qq(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +163,7 @@ public class PointSongController {
         try {
             Songs songs = searchSong.kugou(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,7 +176,7 @@ public class PointSongController {
         try {
             Songs songs = searchSong.netEase(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();

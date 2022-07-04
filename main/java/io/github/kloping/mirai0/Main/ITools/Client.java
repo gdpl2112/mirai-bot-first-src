@@ -40,7 +40,7 @@ public class Client implements Runnable {
                                 CHContext = ctx;
                                 ByteBuf buf = (ByteBuf) msg;
                                 String dataStr = buf.toString(StandardCharsets.UTF_8);
-                                MessageTools.sendMessageInGroup("mc server: " + dataStr, gid);
+                                MessageTools.instance.sendMessageInGroup("mc server: " + dataStr, gid);
                             }
 
                             @Override

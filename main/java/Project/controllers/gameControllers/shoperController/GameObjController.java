@@ -121,7 +121,7 @@ public class GameObjController {
     public String transfer(User qq, @Param("name") String name, @AllMess String message) {
         try {
             if (longs.contains(qq.getId())) return ERR_TIPS;
-            long whos = MessageTools.getAtFromString(message);
+            long whos = MessageTools.instance.getAtFromString(message);
             if (whos == -1)
                 return NOT_FOUND_AT;
             if (!GameDataBase.exist(whos)) return PLAYER_NOT_REGISTERED;

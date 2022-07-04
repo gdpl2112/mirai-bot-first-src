@@ -54,7 +54,7 @@ public class CustomRandReplyService {
                     for (CustomElement key : customReplyGroup.getKeys()) {
                         if (key.getContext().equals(context)) {
                             CustomElement customElement = customReplyGroup.get();
-                            MessageTools.sendMessageInGroupWithAt(customElement.getContext(), gid, qid);
+                            MessageTools.instance.sendMessageInGroupWithAt(customElement.getContext(), gid, qid);
                             break;
                         }
                     }

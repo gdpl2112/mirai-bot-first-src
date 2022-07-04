@@ -44,7 +44,6 @@ import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -106,7 +105,7 @@ public class SuperController {
 
     @Action("/get.+")
     public Object o0(@AllMess String str, Group group) {
-        long q0 = getAtFromString(str);
+        long q0 = MessageTools.instance.getAtFromString(str);
         if (q0 < 0) {
             return ERR_TIPS;
         }
@@ -119,14 +118,14 @@ public class SuperController {
             } catch (Exception e) {
                 message = new PlainText(s0);
             }
-            MessageTools.sendMessageInGroup(message, group.getId());
+            MessageTools.instance.sendMessageInGroup(message, group.getId());
         }
         return "OK";
     }
 
     @Action("赋予一次超级权限.+")
     public String f0(@AllMess String s) {
-        long q = getAtFromString(s);
+        long q = MessageTools.instance.getAtFromString(s);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -136,7 +135,7 @@ public class SuperController {
 
     @Action(value = "addScore.{1,}", otherName = {"加积分.+"})
     public String addScore(@AllMess String messages, User qq, Group gr) throws NoRunException {
-        long who = getAtFromString(messages);
+        long who = MessageTools.instance.getAtFromString(messages);
         messages = messages.replace(Long.toString(who), "");
         if (who == -1) {
             return ("Are You True??");
@@ -170,7 +169,7 @@ public class SuperController {
 
     @Action("超级侦查<.+=>name>")
     public String select(User qq, @AllMess String chain, Group group) {
-        long who = getAtFromString(chain);
+        long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
             return ("谁?");
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
@@ -215,7 +214,7 @@ public class SuperController {
     public String addFather(@AllMess String message, User qq, Group group) throws NoRunException {
         if (!isSuperQ(qq.getId()))
             throw new NoRunException();
-        long who = getAtFromString(message);
+        long who = MessageTools.instance.getAtFromString(message);
         if (who == -1)
             return "添加谁?";
         String perm = message.replace(String.format(AT_FORMAT, who), "");
@@ -235,7 +234,7 @@ public class SuperController {
 
     @Action("/execute.+")
     public String o1(@AllMess String str, Group group) {
-        long q = getAtFromString(str);
+        long q = MessageTools.instance.getAtFromString(str);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -249,7 +248,7 @@ public class SuperController {
     public String removeFather(@AllMess String message, User qq) throws NoRunException {
         if (isSuperQ(qq.getId()))
             throw new NoRunException();
-        long who = getAtFromString(message);
+        long who = MessageTools.instance.getAtFromString(message);
         if (who == -1)
             return "移除谁?";
         return managerService.removeFather(qq.getId(), who);
@@ -272,13 +271,13 @@ public class SuperController {
             HIST_INFOS.clear();
             SkillDataBase.reMap();
              Tool.tool.deleteDir(new File("./temp"));
-            MessageTools.HIST_IMAGES.clear();
+            MessageTools.instance.HIST_IMAGES.clear();
         }
     }
 
     @Action("/添加物品<.+=>str>")
     public Object add0(@Param("str") String str) {
-        Long who = getAtFromString(str);
+        Long who = MessageTools.instance.getAtFromString(str);
         if (who == -1) {
             return NOT_FOUND_AT;
         }
@@ -301,7 +300,7 @@ public class SuperController {
 
     @Action("/跳过闭关冷却.+")
     public String o1(@AllMess String l) {
-        long who = getAtFromString(l);
+        long who = MessageTools.instance.getAtFromString(l);
         if (who == -1) return ERR_TIPS;
         getInfo(who).setBgk(0L).apply();
         return OK_TIPS;
@@ -322,7 +321,7 @@ public class SuperController {
 
     @Action("/更改武魂<.+=>mess>")
     public String modifyWuhun(@Param("mess") String mess) {
-        long who = getAtFromString(mess);
+        long who = MessageTools.instance.getAtFromString(mess);
         if (who == -1) return ERR_TIPS;
         mess = mess.replace("[@" + who + "]", "");
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(mess);

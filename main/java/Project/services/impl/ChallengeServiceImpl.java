@@ -94,7 +94,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                     @Override
                     public boolean onReceive(long who, long from) {
                         if (who == p1 || who == p2) {
-                            MessageTools.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
+                            MessageTools.instance.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
                             deleteTempInfo(p1, p2);
                             return true;
                         }
@@ -104,7 +104,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 RECEIVER_MAP.put(p1, receiver);
                 RECEIVER_MAP.put(p2, receiver);
 
-                MessageTools.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
+                MessageTools.instance.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
 
                 return this;
             }

@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 
 /**
  * @author github-kloping
@@ -33,9 +32,9 @@ public class CapHandler {
             Object[] o = ControllerSource.INSTANCE.createCapImage();
             String path = o[0].toString();
             String capCode = o[1].toString();
-            Image image = MessageTools.createImage(group, path);
+            Image image = MessageTools.instance.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(getAt(qid)).append("\n请在").append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
+            builder.append(MessageTools.instance.getAt(qid)).append("\n请在").append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
             CAPING.put(qid, capCode);
@@ -78,7 +77,7 @@ public class CapHandler {
         CAP_2.remove(qid);
         CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(getAt(qid)).append("\n您没有通过验证");
+        builder.append(MessageTools.instance.getAt(qid)).append("\n您没有通过验证");
         builder.append("\n请重新申请加入群聊");
         builder.append(new Face(Face.SAO_RAO));
         group.sendMessage(builder.build());
@@ -107,7 +106,7 @@ public class CapHandler {
         CAP_2.remove(qid);
         CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(getAt(qid)).append("\n恭喜你通过了验证");
+        builder.append(MessageTools.instance.getAt(qid)).append("\n恭喜你通过了验证");
         builder.append("\n群内成员要好好的与新人相处哦");
         builder.append("\n说\"菜单\"即可查看我的功能了");
         builder.append(new Face(Face.HAN_XIAO));

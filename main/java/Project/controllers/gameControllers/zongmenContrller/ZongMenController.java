@@ -92,7 +92,7 @@ public class ZongMenController {
 
     @Action("设置宗门图标<.+=>name>")
     public String setIcon(@AllMess String message, Group group, User qq) {
-        String img = MessageTools.getImageUrlFromMessageString(message);
+        String img = MessageTools.instance.getImageUrlFromMessageString(message);
         if (img == null)
             return ("请携带图片");
         return zongMenService.setIcon(img, qq.getId(), group);
@@ -105,7 +105,7 @@ public class ZongMenController {
 
     @Action("邀请.+")
     public Object invite(@AllMess String mess, User qq, Group group) {
-        long l1 = MessageTools.getAtFromString(mess);
+        long l1 = MessageTools.instance.getAtFromString(mess);
         if (l1 < 0) return NOT_FOUND_AT;
         if (longs.contains(l1)) return "Can't";
         return zongMenService.invite(qq.getId(), l1, group);
@@ -128,7 +128,7 @@ public class ZongMenController {
 
     @Action("救援.+")
     public String help(@AllMess String mess, User qq, Group group) {
-        long who = MessageTools.getAtFromString(mess);
+        long who = MessageTools.instance.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -137,7 +137,7 @@ public class ZongMenController {
 
     @Action("设置长老.+")
     public String setElder(User qq, @AllMess String mess) {
-        long who = MessageTools.getAtFromString(mess);
+        long who = MessageTools.instance.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -146,7 +146,7 @@ public class ZongMenController {
 
     @Action("取消长老.+")
     public String cancelElder(User qq, @AllMess String mess) {
-        long who = MessageTools.getAtFromString(mess);
+        long who = MessageTools.instance.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -165,7 +165,7 @@ public class ZongMenController {
 
     @Action("移除成员.+")
     public String quiteOne(User qq, @AllMess String mess) {
-        long who = MessageTools.getAtFromString(mess);
+        long who = MessageTools.instance.getAtFromString(mess);
         if (who < 0) {
             return "谁?";
         }

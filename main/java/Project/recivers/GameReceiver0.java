@@ -160,7 +160,7 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long q, long g) {
                 String m = entertainmentController3.o3("/赞[@" + q + "]", Group.get(g), q).toString();
-                MessageTools.sendMessageInGroupWithAt(m, g, q);
+                MessageTools.instance.sendMessageInGroupWithAt(m, g, q);
             }
         });
     }

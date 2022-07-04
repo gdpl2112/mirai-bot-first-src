@@ -144,15 +144,15 @@ public class TopicController {
 //                sb.append("").append(data.getConciseExplain()).append(NEWLINE);
 //                sb.append("提示: ").append(data.getKnackDetail()).append(NEWLINE);
 //                sb.append("正确答案: ").append(toAnswer(data.getAnswer().intValue()));
-//                MessageTools.sendMessageInGroup(sb.toString(), gid);
+//                MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
 //                record.addError();
 //            } else {
 //                record.addCorrect();
 //            }
 //            record.add();
 //            apply();
-//            MessageTools.sendMessageInGroup(ret(), gid);
-//            MessageTools.sendMessageInGroup(String.format(CE_CA, record.getCorrect(), record.getError(), record.getUpSt(), record.questionIdData().getData().getQuestionList().length), gid);
+//            MessageTools.instance.sendMessageInGroup(ret(), gid);
+//            MessageTools.instance.sendMessageInGroup(String.format(CE_CA, record.getCorrect(), record.getError(), record.getUpSt(), record.questionIdData().getData().getQuestionList().length), gid);
 //        });
 //    }
 //

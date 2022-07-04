@@ -74,7 +74,7 @@ public class Skill8081 extends SkillTemplate {
                 v += CommonSource.percentTo(7, baseInfo.getHpL() - baseInfo.getHp());
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);
-                if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);
+                if (!sb.toString().trim().isEmpty()) MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
             }
         }
     }

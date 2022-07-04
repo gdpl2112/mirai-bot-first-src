@@ -19,7 +19,6 @@ import java.util.Map;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.LIST_STR;
@@ -53,12 +52,12 @@ public class GameJoinAcController {
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
             if ( Tool.tool.EveListStartWith(listFx, message) == -1) {
-                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
@@ -88,7 +87,7 @@ public class GameJoinAcController {
         if (longs.contains(qq.getId())) {
             return "您不能支援";
         }
-        long whos = getAtFromString(name);
+        long whos = MessageTools.instance.getAtFromString(name);
         if (whos == -1) {
             return "支援谁？";
         } else {

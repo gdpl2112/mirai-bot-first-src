@@ -106,22 +106,22 @@ public class SummonPicController {
 
     @Action("/爬.+")
     public Object o1(@AllMess String m, Group group, long q1) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
             return "目前只支@的形式";
         }
         byte[] bytes = weiJieYue.paImg(q);
-        MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
+        MessageTools.instance.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
 
     @Action("/赞.+")
     public Object o3(@AllMess String m, Group group, long q1) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(m);
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
@@ -149,16 +149,16 @@ public class SummonPicController {
         Entry<String, Boolean> e1 = Tool.tool.getEntry("t", true);
         Entry<String, String> e2 = Tool.tool.getEntry("b", "#000000");
         byte[] bytes =  Tool.tool.getBase64Data(atoolbox.s0(e0, e1, e2));
-        MessageTools.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
+        MessageTools.instance.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
 
     @Action("/推.*")
     public String m1(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(m);
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
@@ -178,10 +178,10 @@ public class SummonPicController {
 
     @Action("/玩球.*")
     public String m2(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(m);
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
@@ -201,10 +201,10 @@ public class SummonPicController {
 
     @Action("/丢.*")
     public String m3(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(m);
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
@@ -224,10 +224,10 @@ public class SummonPicController {
 
     @Action("/滚草.*")
     public String gunC(@AllMess String m) {
-        long q = MessageTools.getAtFromString(m);
+        long q = MessageTools.instance.getAtFromString(m);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(m);
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(m);
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
@@ -264,7 +264,7 @@ public class SummonPicController {
             size0 = maps.containsKey("size") ? maps.get("size") : size0;
             size0 = size0 >= 2000 ? 2000 : size0;
         }
-        MessageTools.sendMessageInGroup("请在发送要变大的图片", group.getId());
+        MessageTools.instance.sendMessageInGroup("请在发送要变大的图片", group.getId());
         int size = size0;
         PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
             @Override
@@ -278,7 +278,7 @@ public class SummonPicController {
                     String xmlStr = XML_STR0;
                     xmlStr = String.format(xmlStr, md5 + suffix, md5, size, size, size, size);
                     SimpleServiceMessage simpleServiceMessage = new SimpleServiceMessage(5, xmlStr);
-                    MessageTools.sendMessageInGroup(simpleServiceMessage, group.getId());
+                    MessageTools.instance.sendMessageInGroup(simpleServiceMessage, group.getId());
                     return "ok";
                 }
                 return null;
@@ -289,18 +289,18 @@ public class SummonPicController {
     @Action("/搜图.+")
     public Object searchPic(@AllMess String mess, Group group, long q1) throws InterruptedException {
         net.mamoe.mirai.contact.Group g = BOT.getGroup(group.getId());
-        Long q = MessageTools.getAtFromString(mess);
+        Long q = MessageTools.instance.getAtFromString(mess);
         String urlStr = null;
         if (q == -1) {
-            urlStr = MessageTools.getImageUrlFromMessageString(mess);
-            mess = mess.replace(MessageTools.getImageIdFromMessageString(mess), "");
+            urlStr = MessageTools.instance.getImageUrlFromMessageString(mess);
+            mess = mess.replace(MessageTools.instance.getImageIdFromMessageString(mess), "");
             if (urlStr == null) {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
             mess = mess.replace(q.toString(), "");
             urlStr =  Tool.tool.getTouUrl(q);
-            urlStr = Image.queryUrl(MessageTools.createImage(g, urlStr));
+            urlStr = Image.queryUrl(MessageTools.instance.createImage(g, urlStr));
         }
         int i = 6;
         Integer i1 =  Tool.tool.getInteagerFromStr(mess);
@@ -323,10 +323,10 @@ public class SummonPicController {
     @Action("/转字符图<.+=>str>")
     public void s0(long qId, @Param("str") String word, Group group) {
         if (word.length() < 1 || word.length() > 4) {
-            MessageTools.sendMessageInGroup("将字符控制在1-4个之间", group.getId());
+            MessageTools.instance.sendMessageInGroup("将字符控制在1-4个之间", group.getId());
             return;
         }
-        MessageTools.sendMessageInGroup("请在发送要变的图片", group.getId());
+        MessageTools.instance.sendMessageInGroup("请在发送要变的图片", group.getId());
         PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
             @Override
             public Object onReceive(long qid, long gid, String pic, Object[] objects) {
@@ -334,13 +334,13 @@ public class SummonPicController {
                     String name = UUID.randomUUID() + ".png";
                     new File("./temp").mkdirs();
                     File file = new File("./temp/" + name);
-                    String url = MessageTools.getImageUrlFromMessageString(pic);
+                    String url = MessageTools.instance.getImageUrlFromMessageString(pic);
                     try {
                         ImageDrawer.getPixelWordImage(new URL(url), file, word);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MessageTools.sendMessageInGroup( Tool.tool.pathToImg(file.getAbsolutePath()), gid);
+                    MessageTools.instance.sendMessageInGroup( Tool.tool.pathToImg(file.getAbsolutePath()), gid);
                     return "ok";
                 }
                 return null;

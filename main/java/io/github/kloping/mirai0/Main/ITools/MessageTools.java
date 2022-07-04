@@ -26,15 +26,17 @@ import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 
+
 /**
  * @author github-kloping
  */
 public class MessageTools {
-    public static final Map<String, Image> HIST_IMAGES = new HashMap<>();
-    private static final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
-    private static final Map<Long, At> ATS = new ConcurrentHashMap<>();
+    public static MessageTools instance = new MessageTools();
+    public final Map<String, Image> HIST_IMAGES = new HashMap<>();
+    public final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
+    public final Map<Long, At> ATS = new ConcurrentHashMap<>();
 
-    public static MessageChain getMessageFromString(String str, Contact group) {
+    public MessageChain getMessageFromString(String str, Contact group) {
         if (str == null || str.isEmpty() || group == null) return null;
         MessageChainBuilder builder = new MessageChainBuilder();
         append(str, builder, group);
@@ -42,7 +44,7 @@ public class MessageTools {
         return message;
     }
 
-    public static long getAtFromString(String message) {
+    public long getAtFromString(String message) {
         int start = message.indexOf("[@");
         int end = message.indexOf("]");
         if (start == -1 || end == -1) return -1;
@@ -53,7 +55,7 @@ public class MessageTools {
         return l;
     }
 
-    private static List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
+    private List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
             String str = o.toString();
@@ -88,7 +90,7 @@ public class MessageTools {
         return lls;
     }
 
-    private static Face getFace(int parseInt) {
+    private Face getFace(int parseInt) {
         if (FACES.containsKey(parseInt)) {
             return FACES.get(parseInt);
         } else {
@@ -98,7 +100,7 @@ public class MessageTools {
         }
     }
 
-    public static At getAt(long id) {
+    public At getAt(long id) {
         if (ATS.containsKey(id)) {
             return ATS.get(id);
         } else {
@@ -108,15 +110,15 @@ public class MessageTools {
         }
     }
 
-    public static void speak(String line, io.github.kloping.mirai0.commons.Group group) {
+    public void speak(String line, io.github.kloping.mirai0.commons.Group group) {
         try {
-            MessageTools.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
+            MessageTools.instance.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Image createImage(Contact group, String path) {
+    public Image createImage(Contact group, String path) {
         Image image = null;
         try {
             if (HIST_IMAGES.containsKey(path)) {
@@ -143,11 +145,11 @@ public class MessageTools {
         return image;
     }
 
-    public static Image createImage(String path) {
+    public Image createImage(String path) {
         return createImage(BOT.getAsFriend(), path);
     }
 
-    public static String getFlashUrlFromMessageString(String mess) {
+    public String getFlashUrlFromMessageString(String mess) {
         int i1 = mess.indexOf(":");
         int i2 = mess.lastIndexOf(":");
         if (i1 > 0 && i2 > 0) {
@@ -156,7 +158,7 @@ public class MessageTools {
         return null;
     }
 
-    public static String getImageUrlFromMessageString(String allMess) {
+    public String getImageUrlFromMessageString(String allMess) {
         try {
             String url = "";
             Matcher matcher = PATTER_PIC.matcher(allMess);
@@ -173,7 +175,7 @@ public class MessageTools {
         return null;
     }
 
-    public static String getImageIdFromMessageString(String allMess) {
+    public String getImageIdFromMessageString(String allMess) {
         try {
             Matcher matcher = PATTER_PIC.matcher(allMess);
             if (matcher.find()) {
@@ -188,23 +190,23 @@ public class MessageTools {
         return null;
     }
 
-    public static void sendMessageInGroup(String str, long id) {
+    public void sendMessageInGroup(String str, long id) {
         try {
             Group group = BOT.getGroup(id);
-            Message message = MessageTools.getMessageFromString(str, group);
+            Message message = MessageTools.instance.getMessageFromString(str, group);
             group.sendMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendMessageInGroup(Object o, long id) {
+    public void sendMessageInGroup(Object o, long id) {
         try {
             Group group = BOT.getGroup(id);
             if (o instanceof Message) {
                 group.sendMessage((Message) o);
             } else {
-                Message message = MessageTools.getMessageFromString(o.toString(), group);
+                Message message = MessageTools.instance.getMessageFromString(o.toString(), group);
                 group.sendMessage(message);
             }
         } catch (Exception e) {
@@ -212,7 +214,7 @@ public class MessageTools {
         }
     }
 
-    public static void sendVoiceMessageInGroup(String url, long id) {
+    public void sendVoiceMessageInGroup(String url, long id) {
         try {
             Group group = BOT.getGroup(id);
             group.sendMessage(createVoiceMessageInGroup(url, id));
@@ -221,7 +223,7 @@ public class MessageTools {
         }
     }
 
-    public static void sendVoiceMessageInGroup(byte[] bytes, long id) {
+    public void sendVoiceMessageInGroup(byte[] bytes, long id) {
         try {
             Group group = BOT.getGroup(id);
             group.sendMessage(createVoiceMessageInGroup(bytes, id));
@@ -230,7 +232,7 @@ public class MessageTools {
         }
     }
 
-    public static Message createVoiceMessageInGroup(String url, long id) {
+    public Message createVoiceMessageInGroup(String url, long id) {
         ExternalResource resource = null;
         try {
             Group group = BOT.getGroup(id);
@@ -253,7 +255,7 @@ public class MessageTools {
         }
     }
 
-    public static Message createVoiceMessageInGroup(byte[] bytes, long id) {
+    public Message createVoiceMessageInGroup(byte[] bytes, long id) {
         ExternalResource resource = null;
         try {
             Group group = BOT.getGroup(id);
@@ -275,7 +277,7 @@ public class MessageTools {
         }
     }
 
-    public static byte[] mp32amr(byte[] bytes) throws Exception {
+    public byte[] mp32amr(byte[] bytes) throws Exception {
         try {
             File source = File.createTempFile("temp0", ".mp3");
             File target = File.createTempFile("temp1", ".amr");
@@ -305,7 +307,7 @@ public class MessageTools {
         return bytes;
     }
 
-    public static void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
+    public void sendImageByBytesOnGroupWithAt(byte[] bytes, long gid, long qid) {
         Group group = BOT.getGroup(gid);
         ExternalResource resource = ExternalResource.create(bytes);
         Image image = group.uploadImage(resource);
@@ -313,33 +315,33 @@ public class MessageTools {
         group.sendMessage(mcb.build());
     }
 
-    public static void sendMessageInGroupWithAt(String str, long gid, long qq) {
+    public void sendMessageInGroupWithAt(String str, long gid, long qq) {
         try {
             if (str == null || gid == -1 || qq == -1) return;
             Group group = BOT.getGroup(gid);
-            Message message = MessageTools.getMessageFromString(str, group);
+            Message message = MessageTools.instance.getMessageFromString(str, group);
             group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendMessageInOneFromGroup(String str, long id, long gid) {
+    public void sendMessageInOneFromGroup(String str, long id, long gid) {
         try {
             Contact contact = BOT.getGroup(gid).get(id);
-            Message message = MessageTools.getMessageFromString(str, contact);
+            Message message = MessageTools.instance.getMessageFromString(str, contact);
             contact.sendMessage(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void sendMessageInOneFromGroup(String str, long id) {
+    public void sendMessageInOneFromGroup(String str, long id) {
         try {
             for (Group group : BOT.getGroups()) {
                 if (group.contains(id)) {
                     Contact contact = group.get(id);
-                    Message message = MessageTools.getMessageFromString(str, contact);
+                    Message message = MessageTools.instance.getMessageFromString(str, contact);
                     contact.sendMessage(message);
                     return;
                 }
@@ -349,7 +351,7 @@ public class MessageTools {
         }
     }
 
-    public static void sendMessageByForward(long gid, Object[] objects) {
+    public void sendMessageByForward(long gid, Object[] objects) {
         Group group = BOT.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (Object o : objects) {
@@ -370,7 +372,7 @@ public class MessageTools {
      * @param gid
      * @param strings
      */
-    public static void sendMessageByForward(long gid, String[] strings) {
+    public void sendMessageByForward(long gid, String[] strings) {
         Group group = BOT.getGroup(gid);
         ForwardMessageBuilder builder = new ForwardMessageBuilder(group);
         for (String string : strings) {
@@ -386,7 +388,7 @@ public class MessageTools {
      * @param id
      * @return
      */
-    public static boolean containsOneInGroup(Long qq, long id) {
+    public boolean containsOneInGroup(Long qq, long id) {
         try {
             return BOT.getGroup(id).contains(qq);
         } catch (Exception e) {
@@ -395,7 +397,7 @@ public class MessageTools {
         return false;
     }
 
-    public static boolean isJoinGroup(long qq) {
+    public boolean isJoinGroup(long qq) {
         for (net.mamoe.mirai.contact.Group group : BOT.getGroups())
             if (qq == group.getId()) return true;
         return false;

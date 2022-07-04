@@ -56,7 +56,7 @@ public class ChallengeController {
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
-                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
@@ -69,7 +69,7 @@ public class ChallengeController {
 
     @Action("挑战.+")
     private Object o4(User user, @AllMess String s) {
-        long qid = MessageTools.getAtFromString(s);
+        long qid = MessageTools.instance.getAtFromString(s);
         if (qid <= 0) {
             return NOT_FOUND_AT;
         }

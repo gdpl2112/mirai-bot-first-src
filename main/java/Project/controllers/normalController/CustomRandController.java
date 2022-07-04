@@ -75,7 +75,7 @@ public class CustomRandController {
                     ce.setContext(pic);
                     ce.setWeight(1);
                     crg.getValues().add(ce);
-                    MessageTools.sendMessageInGroupWithAt("appened", gid, qid);
+                    MessageTools.instance.sendMessageInGroupWithAt("appened", gid, qid);
                 }
                 return null;
             }

@@ -32,7 +32,7 @@ public class GameWeaController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }

@@ -303,12 +303,12 @@ public class EmojiCompositeListenerHost {
                     url0 = String.format(U0, date, e1, e1, e2);
                 }
                 if (!checkUrl(url0)) {
-                    MessageTools.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
+                    MessageTools.instance.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
                 } else {
-                    MessageTools.sendMessageInGroupWithAt( Tool.tool.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
+                    MessageTools.instance.sendMessageInGroupWithAt( Tool.tool.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
                 }
             } catch (Exception e) {
-                MessageTools.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());
+                MessageTools.instance.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());
             }
         }
     }

@@ -284,6 +284,6 @@ public class GhostBehavior implements Runnable {
     }
 
     private void send(String str) {
-        MessageTools.sendMessageInGroupWithAt(str, group.getId(), qq);
+        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), qq);
     }
 }

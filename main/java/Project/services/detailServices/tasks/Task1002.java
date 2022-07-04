@@ -43,7 +43,7 @@ public class Task1002 extends Task {
                 .setNextCan(System.currentTimeMillis() + (CD1))
                 .addNormalIndex(-1).apply();
 
-        MessageTools.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+        MessageTools.instance.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
         destroy();
     }
 }

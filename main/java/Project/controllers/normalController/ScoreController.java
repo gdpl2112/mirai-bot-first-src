@@ -8,6 +8,7 @@ import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.UserScore;
@@ -19,7 +20,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -90,7 +90,7 @@ public class ScoreController {
         Long num = null;
         try {
             if (longs.contains(qq.getId())) return ILLEGAL_OPERATION;
-            long who = getAtFromString(str);
+            long who = MessageTools.instance.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
@@ -106,7 +106,7 @@ public class ScoreController {
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
     public String robbery(User qq, @AllMess String str) {
         try {
-            long who = getAtFromString(str);
+            long who = MessageTools.instance.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
             String numStr = Tool.tool.findNumberFromString(str.replace(String.valueOf(who), ""));
@@ -149,7 +149,7 @@ public class ScoreController {
     @Action(value = "积分侦查.{1,}", otherName = "侦查积分.{1,}")
     public String showScore(User qq, @AllMess String mess) {
         try {
-            long who = getAtFromString(mess);
+            long who = MessageTools.instance.getAtFromString(mess);
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UserScore ls = DataBase.getAllInfo(who);
             return "ta的积分剩余:" + ls.getScore();
@@ -170,7 +170,7 @@ public class ScoreController {
     public String getSpeaks(User qq, @AllMess String str) {
         StringBuilder builder = new StringBuilder();
         try {
-            long who = getAtFromString(str);
+            long who = MessageTools.instance.getAtFromString(str);
             if (who == -1)
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;

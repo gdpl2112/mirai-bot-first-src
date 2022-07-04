@@ -67,7 +67,7 @@ public class Task {
                 .setNextCan(System.currentTimeMillis() + (CD0 * 2))
                 .addPrenticeIndex(-1).apply();
 
-        MessageTools.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());
+        MessageTools.instance.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());
         destroy();
     }
 

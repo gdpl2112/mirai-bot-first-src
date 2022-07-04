@@ -76,7 +76,7 @@ public class Skill8100 extends SkillTemplate {
                 v = v <= minV ? minV : v;
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);
-                if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);
+                if (!sb.toString().trim().isEmpty()) MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
             }
         }
     }

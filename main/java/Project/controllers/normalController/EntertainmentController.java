@@ -102,7 +102,7 @@ public class EntertainmentController {
 
     @Action("\\[闪照<.+=>s1>")
     public String flash(@AllMess String str, Group group) throws NoRunException {
-        String url = MessageTools.getFlashUrlFromMessageString(str);
+        String url = MessageTools.instance.getFlashUrlFromMessageString(str);
         if (canBackShow(group.getId())) {
             return  Tool.tool.pathToImg(url);
         } else if (sendFlashToSuper) {

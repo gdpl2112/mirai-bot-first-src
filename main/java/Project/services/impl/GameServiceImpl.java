@@ -457,7 +457,7 @@ public class GameServiceImpl implements IGameService {
             }
 
             private void send(String line) {
-                MessageTools.sendMessageInGroup(Tool.tool.at(who) + "|\n" + line, group.getId());
+                MessageTools.instance.sendMessageInGroup(Tool.tool.at(who) + "|\n" + line, group.getId());
             }
         });
         BaseInfoTemp.append(p1, future, bo);

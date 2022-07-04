@@ -15,7 +15,6 @@ import net.mamoe.mirai.message.data.Message;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
@@ -122,7 +121,7 @@ public class CallLocalApiController {
         if (yy4es.length > i) {
             yy4e = yy4es[i];
         }
-        MessageTools.sendVoiceMessageInGroup("http:" + yy4e.getYyyp_9a(), group.getId());
+        MessageTools.instance.sendVoiceMessageInGroup("http:" + yy4e.getYyyp_9a(), group.getId());
         return "&" + yy4e.getYywa1_f2();
     }
 
@@ -171,7 +170,7 @@ public class CallLocalApiController {
     public String weather0(@Param("name") String name, Group group) {
         String line = weatherGetter.detail(name);
         if (getConf(group.getId()).getVoiceK()) {
-            speak(line, group);
+            MessageTools.instance.speak(line, group);
         }
         return line;
     }

@@ -26,7 +26,7 @@ public class Item118 implements Runnable {
         long hp = pInfo.getHp();
         long hl = pInfo.getHl();
         long hj = pInfo.getHj();
-        MessageTools.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "开始记录", gid);
+        MessageTools.instance.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "开始记录", gid);
         try {
             Thread.sleep(6000);
         } catch (InterruptedException e) {
@@ -35,9 +35,9 @@ public class Item118 implements Runnable {
         pInfo = getInfo(qid);
         if (pInfo.getHp() > 0) {
             pInfo.setHp(hp).setHl(hl).setHj(hj).apply();
-            MessageTools.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "刚刚好像发生了什么", gid);
+            MessageTools.instance.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "刚刚好像发生了什么", gid);
         } else {
-            MessageTools.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "药效丢失", gid);
+            MessageTools.instance.sendMessageInGroup(String.format(AT_FORMAT0, qid) + NEWLINE + "药效丢失", gid);
         }
     }
 }

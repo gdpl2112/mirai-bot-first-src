@@ -31,7 +31,7 @@ public class GhostLostReceiverWithTask1000
             if (killType == task.getNeedType()) {
                 deleteTask(task);
                 int id = getRandObj1000();
-                MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
+                MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
                         , task.getFromG().longValue(), task.getHost());
                 addToBgs(who, id, ObjType.got);
                 GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {

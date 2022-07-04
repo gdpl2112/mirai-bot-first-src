@@ -52,7 +52,7 @@ public class GameBoneController {
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }

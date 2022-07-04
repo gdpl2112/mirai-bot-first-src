@@ -24,7 +24,7 @@ public class AsynchronousAttack extends AsynchronousThing {
             over();
         } else {
             String s0 = sFormat == null ? "" : String.format(sFormat, value) + GameDetailService.beaten(q1, q2, (int) value);
-            if (!s0.isEmpty()) MessageTools.sendMessageInGroup(s0, gid);
+            if (!s0.isEmpty()) MessageTools.instance.sendMessageInGroup(s0, gid);
         }
     }
 }

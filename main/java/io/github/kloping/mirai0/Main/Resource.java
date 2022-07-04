@@ -31,7 +31,6 @@ import java.util.concurrent.*;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static io.github.kloping.mirai0.Main.BotStarter.test;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAt;
 import static io.github.kloping.mirai0.Main.Parse.parseToLongList;
 
 /**
@@ -166,7 +165,7 @@ public class Resource {
             //====
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;
-                MessageTools.sendMessageByForward(group.getId(), objs);
+                MessageTools.instance.sendMessageByForward(group.getId(), objs);
                 return;
             } else if (o instanceof Message) {
                 group.sendMessage((Message) o);
@@ -176,11 +175,11 @@ public class Resource {
             if (o.toString().startsWith("&")) {
                 o = o.toString().replaceFirst("&", "");
             } else {
-                builder.append(getAt(((User) objects[3]).getId())).append("\r\n");
+                builder.append(MessageTools.instance.getAt(((User) objects[3]).getId())).append("\r\n");
             }
             //====
             if (o instanceof String) {
-                MessageChain message = MessageTools.getMessageFromString(o.toString(), group);
+                MessageChain message = MessageTools.instance.getMessageFromString(o.toString(), group);
                 builder.append(message);
                 MessageChain mc = builder.build();
                 group.sendMessage(mc);
@@ -199,14 +198,14 @@ public class Resource {
             }
             if (o.getClass() == Object[].class) {
                 Object[] objs = (Object[]) o;
-                MessageTools.sendMessageByForward(contact.getId(), objs);
+                MessageTools.instance.sendMessageByForward(contact.getId(), objs);
                 return;
             } else if (o instanceof Message) {
                 contact.sendMessage((Message) o);
                 return;
             }
             if (o instanceof String) {
-                MessageChain message = MessageTools.getMessageFromString(o.toString(), contact);
+                MessageChain message = MessageTools.instance.getMessageFromString(o.toString(), contact);
                 builder.append(message);
                 MessageChain mc = builder.build();
                 contact.sendMessage(mc);

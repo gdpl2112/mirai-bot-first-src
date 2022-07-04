@@ -21,7 +21,6 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
@@ -85,12 +84,12 @@ public class GameSkillController {
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
             if ( Tool.tool.EveListStartWith(listFx, str) == -1) {
-                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
@@ -126,7 +125,7 @@ public class GameSkillController {
                     str = str.replaceAll("#", EMPTY_STR);
                     numbers.add(-2);
                 }
-                Long l1 = getAtFromString(str);
+                Long l1 = MessageTools.instance.getAtFromString(str);
                 str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
                 if (l1 <= 0) {
                     break;

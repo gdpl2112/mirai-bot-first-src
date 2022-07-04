@@ -106,7 +106,7 @@ public class GameController2 {
 
     @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
     public String fusion(@Param("str") String str, Group group, User qq) {
-        Long q2 = MessageTools.getAtFromString(str);
+        Long q2 = MessageTools.instance.getAtFromString(str);
         if (q2 == -1)
             throw new RuntimeException();
         String s1 = gameService.fusion(qq.getId(), q2, group);

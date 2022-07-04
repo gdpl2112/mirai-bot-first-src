@@ -31,7 +31,7 @@ public class GhostLostReceiverWithTask0
             if (ghostObj.getLevel() >= 10 * 10000) {
                 if (task.getTasker().contains(with.longValue())) {
                     deleteTask(task);
-                    MessageTools.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
+                    MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
                             , task.getFromG().longValue(), task.getHost());
                     addToBgs(who, 1601, ObjType.got);
                     addToBgs(with.longValue(), 1601, ObjType.got);

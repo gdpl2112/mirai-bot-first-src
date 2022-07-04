@@ -55,7 +55,7 @@ public class Ghost701 extends GhostWithGroup {
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
                         v = v <= 0 ? 1 : v;
-                        MessageTools.sendMessageInGroupWithAt(
+                        MessageTools.instance.sendMessageInGroupWithAt(
                                 getName() + "对你造成" + v + "伤害"
                                         + GameDetailService.beaten(baseInfo.getId(), -1, v),
                                 group.getId(), baseInfo.getId().longValue()

@@ -49,11 +49,11 @@ public class GameTaskController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }

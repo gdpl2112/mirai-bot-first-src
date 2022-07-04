@@ -7,6 +7,7 @@ import Project.interfaces.http_api.QingYunKe;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.Mora;
@@ -15,7 +16,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.MAX_EARNINGS_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_P;
@@ -101,9 +101,9 @@ public class OtherServiceImpl implements IOtherService {
             if (str.contains("到")) {
                 String[] ss = str.split("到");
                 Long gr = Long.valueOf(ss[1]);
-                if (isJoinGroup(gr)) {
+                if (MessageTools.instance.isJoinGroup(gr)) {
                     StringBuilder builder = new StringBuilder();
-                    sendMessageInGroup(ss[0], gr);
+                    MessageTools.instance.sendMessageInGroup(ss[0], gr);
                     return "传话成功!";
                 } else {
                     return "抱歉了,我没有加入该群!";
@@ -111,8 +111,8 @@ public class OtherServiceImpl implements IOtherService {
             } else if (str.contains("给")) {
                 String[] ss = str.split("给");
                 Long gq = Long.valueOf(ss[1]);
-                if (containsOneInGroup(qq, group.getId())) {
-                    sendMessageInOneFromGroup(ss[0], gq, group.getId());
+                if (MessageTools.instance.containsOneInGroup(qq, group.getId())) {
+                    MessageTools.instance.sendMessageInOneFromGroup(ss[0], gq, group.getId());
                     return "传话成功!";
                 } else {
                     return "未查找到此人";
@@ -139,11 +139,11 @@ public class OtherServiceImpl implements IOtherService {
                 if (!canGroup(qq)) {
                     return "那个群-把我关闭了 呜呜~";
                 }
-                if (isJoinGroup(gr)) {
+                if (MessageTools.instance.isJoinGroup(gr)) {
                     StringBuilder builder = new StringBuilder();
                     builder.append("来自群:").append(group.getId() + "").append("\r\n的").append(qq + "").append("传话:\r\n===================\r\n");
                     builder.append(ss[0]);
-                    sendMessageInGroup(builder.toString(), gr);
+                    MessageTools.instance.sendMessageInGroup(builder.toString(), gr);
                     return "传话成功!";
                 } else {
                     return "抱歉了,我没有加入该群!";
@@ -151,11 +151,11 @@ public class OtherServiceImpl implements IOtherService {
             } else if (str.contains("给")) {
                 String[] ss = str.split("给");
                 Long gq = Long.valueOf(ss[1]);
-                if (containsOneInGroup(gq, group.getId())) {
+                if (MessageTools.instance.containsOneInGroup(gq, group.getId())) {
                     StringBuilder builder = new StringBuilder();
                     builder.append("来自群:").append(group.getId() + "").append("\r\n的").append(qq + "").append("传话:\r\n===================\n");
                     builder.append(ss[0]);
-                    sendMessageInOneFromGroup(builder.toString(), gq, group.getId());
+                    MessageTools.instance.sendMessageInOneFromGroup(builder.toString(), gq, group.getId());
                     return "传话成功!";
                 } else {
                     return "未查找到此人";

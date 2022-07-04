@@ -35,10 +35,10 @@ public class GhostWithGroup extends GhostObj {
     }
 
     protected void sendMessage(String str) {
-        MessageTools.sendMessageInGroup(str, group.getId());
+        MessageTools.instance.sendMessageInGroup(str, group.getId());
     }
 
     protected void sendMessage(String str, long q) {
-        MessageTools.sendMessageInGroupWithAt(str, group.getId(), q);
+        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), q);
     }
 }

@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.getAtFromString;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
@@ -46,7 +45,7 @@ public class ManagerController {
     private static Number[] getAllAt(String allMess) {
         Set<Number> numbers = new HashSet<>();
         while (true) {
-            Long l1 = MessageTools.getAtFromString(allMess);
+            Long l1 = MessageTools.instance.getAtFromString(allMess);
             allMess = allMess.replaceFirst("\\[@" + l1 + "\\]", "");
             if (l1 == -1) break;
             else numbers.add(l1);
@@ -153,7 +152,7 @@ public class ManagerController {
 
     @Action(value = "与ta互动.{1,}", otherName = {"与他互动.{1,}", "与她互动.{1,}"})
     public String talkWith(User qq, @AllMess String chain) {
-        long who = MessageTools.getAtFromString(chain);
+        long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
             return new StringBuilder().append("谁?").toString();
         return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[ Tool.tool.RANDOM.nextInt(sss.length - 1)]).toString();
@@ -216,7 +215,7 @@ public class ManagerController {
 
     @Action("禁言<.{1,}=>str>")
     public String Ban(User qq, Group egroup, @Param("str") String str, @AllMess String chain) {
-        long who = MessageTools.getAtFromString(chain);
+        long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
             return "谁？";
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
@@ -225,7 +224,7 @@ public class ManagerController {
 
     @Action("解除禁言.{1,}")
     public String UnBan(User qq, Group egroup, @AllMess String chain) {
-        long who = MessageTools.getAtFromString(chain);
+        long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
             return "谁？";
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
@@ -236,7 +235,7 @@ public class ManagerController {
     @Action("撤回.+")
     public String recall(@AllMess String str, Group group) {
         try {
-            long at = getAtFromString(str);
+            long at = MessageTools.instance.getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             if (str.trim().matches("最近\\d+条")) {
                 int[] is;

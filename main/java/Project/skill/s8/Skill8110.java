@@ -77,7 +77,7 @@ public class Skill8110 extends SkillTemplate {
             } else {
                 StringBuilder sb = new StringBuilder();
                 attGhostOrMan(sb, q1, q2, v);
-                if (!sb.toString().trim().isEmpty()) MessageTools.sendMessageInGroup(sb.toString(), gid);
+                if (!sb.toString().trim().isEmpty()) MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
             }
         }
     }

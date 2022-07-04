@@ -58,7 +58,7 @@ public class RestController0 {
             CANS.add(uuid);
             String code0 = getCode();
             CAPING.put(qid, code0);
-            MessageTools.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
+            MessageTools.instance.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
             return uuid;
         } else {
             return "err";
@@ -71,7 +71,7 @@ public class RestController0 {
             @RequestParam("qid") Long qid) {
         if (pwd.equals(pwd0)) {
             String code0 = getCode();
-            MessageTools.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
+            MessageTools.instance.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
             return code0;
         } else return "-1";
     }

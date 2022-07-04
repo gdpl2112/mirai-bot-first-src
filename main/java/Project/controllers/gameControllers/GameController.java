@@ -142,12 +142,12 @@ public class GameController {
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
             if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
-                MessageTools.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
@@ -195,16 +195,16 @@ public class GameController {
 
     @Action("双修打工进入.*+")
     public Object o1(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
-        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
     }
 
     @Action("修炼打工进入.*+")
     public Object o2(User user, Group group, @AllMess String s0) {
-        MessageTools.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
-        MessageTools.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
     }
@@ -223,7 +223,7 @@ public class GameController {
 //
 //    @Action("攻击.+")
 //    public String attWho(User qq, @AllMess String chain, Group group) {
-//        long who = MessageTools.getAtFromString(chain);
+//        long who = MessageTools.instance.getAtFromString(chain);
 //        if (who == -1) return NOT_FOUND_AT;
 //        long at = getInfo(qq.getId()).getAk1();
 //        if (at > System.currentTimeMillis())
@@ -236,7 +236,7 @@ public class GameController {
 
     @Action("侦查.+")
     public String Look(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.getAtFromString(chain);
+        long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
             return NOT_FOUND_AT;
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
@@ -330,7 +330,7 @@ public class GameController {
 
     @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})
     public String SpAtt(long q, @AllMess String mss) {
-        long at = MessageTools.getAtFromString(mss);
+        long at = MessageTools.instance.getAtFromString(mss);
         if (at == -1) {
             if (mss.contains("#")) {
                 at = -2;

@@ -14,7 +14,6 @@ import net.mamoe.mirai.contact.NormalMember;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
-import static io.github.kloping.mirai0.Main.ITools.MessageTools.speak;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -223,7 +222,7 @@ public class OtherController {
 
     @Action("获取<.+=>str>")
     public Object getAllInfo(Group group, @Param("str") String str) {
-        long qq = MessageTools.getAtFromString(str);
+        long qq = MessageTools.instance.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
         NormalMember member = BOT.getGroup(group.getId()).get(qq);
         StringBuilder sb = new StringBuilder();
@@ -247,7 +246,7 @@ public class OtherController {
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, Group group, @Param("str") String str) {
         if (str.startsWith(SPEAK_STR)) {
-            speak(str.substring(1), group);
+            MessageTools.instance.speak(str.substring(1), group);
             return null;
         } else if (str.startsWith(SING_STR)) {
             sing(str.substring(1), group);
