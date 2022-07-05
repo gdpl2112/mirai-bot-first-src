@@ -70,7 +70,7 @@ public class HttpStarter {
 
                 @Override
                 public void sendMessageInGroup(Object o, long id) {
-                    System.out.println();
+
                 }
 
                 @Override
