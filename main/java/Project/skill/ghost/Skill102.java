@@ -11,15 +11,15 @@ import static Project.services.detailServices.GameSkillDetailService.getAddP;
 /**
  * @author github.kloping
  */
-public class Skill101 extends SkillTemplate {
+public class Skill102 extends SkillTemplate {
 
-    public Skill101() {
-        super(101);
+    public Skill102() {
+        super(102);
     }
 
     @Override
     public String getIntro() {
-        return String.format("魂兽普通技能,蓄力一击,蓄力倒计时结束后对玩家造成%s%%的伤害", getAddP(getJid(), getId()));
+        return String.format("魂兽普通技能,蓄力重击,蓄力倒计时结束后对玩家造成%s%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

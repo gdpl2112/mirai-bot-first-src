@@ -6,6 +6,7 @@ import Project.controllers.gameControllers.GameController;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ChallengeDetailService;
+import Project.services.detailServices.GameBoneDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -61,11 +62,13 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     @Override
     public Object createTrialChallenge(long qid, long gid) {
+
         try {
             testWill(qid);
         } catch (NoRunException e) {
             return e.getMessage();
         }
+
         service0.challenges.create(qid, new AbstractChallenge() {
             @Override
             public boolean ready() {
@@ -135,13 +138,21 @@ public class ChallengeServiceImpl implements IChallengeService {
         return "尝试结束";
     }
 
+    public static Map<GameBoneDetailService.Type, Number> EMPTY = new HashMap<>();
+
     private void deleteTempInfo(long q1, long q2) {
+        GameBoneDetailService.TEMP_ATTR.getOrDefault(q1, EMPTY).clear();
+        GameBoneDetailService.TEMP_ATTR.getOrDefault(q2, EMPTY).clear();
+
         TagManagers.getTagManager(q1).removeAll();
         TagManagers.getTagManager(q2).removeAll();
+
         TEMP_PERSON_INFOS.remove(q1);
         TEMP_PERSON_INFOS.remove(q2);
+
         service0.challenges.destroy(q1);
         service0.challenges.destroy(q2);
+
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q1));
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q2));
     }
