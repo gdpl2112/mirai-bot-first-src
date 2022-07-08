@@ -7,6 +7,7 @@ import Project.broadcast.game.PlayerLostBroadcast;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.services.detailServices.roles.BeatenRoles;
 import Project.services.detailServices.roles.Role;
@@ -153,7 +154,7 @@ public class GameDetailService {
     }
 
     public static boolean proZ(Integer n) {
-        int i =  Tool.tool.RANDOM.nextInt(100) + 1;
+        int i = Tool.tool.RANDOM.nextInt(100) + 1;
         return n >= i;
     }
 
@@ -226,6 +227,10 @@ public class GameDetailService {
             sb.append(NEWLINE);
             sb.append("\n对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失");
             long nv2 = v2 - ov2;
+            if (baseInfo.containsTag(SkillDataBase.TAG_HJ_IMMUNITY)) {
+                nv2 = 0;
+                sb.append("\n免疫精神攻击");
+            }
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
                 if (baseInfo instanceof GhostObj) {

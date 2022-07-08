@@ -11,22 +11,22 @@ import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.skill.SkillDataBase.TAG_STRENGTHEN_ATT;
+import static Project.dataBases.skill.SkillDataBase.TAG_HJ_IMMUNITY;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
  */
-public class Skill1004 extends SkillTemplate {
+public class Skill1008 extends SkillTemplate {
 
-    public Skill1004() {
-        super(1004);
-        setName("强击魂技");
+    public Skill1008() {
+        super(1008);
+        setName("精神护罩");
     }
 
     @Override
     public String getIntro() {
-        return String.format("魂兽普通技能,强击魂技,强化下次被动攻击伤害,造成%s%%的伤害,当存在支援者时效果翻倍", getAddP(getJid(), getId()));
+        return String.format("魂兽普通技能,精神护罩,%s秒内免疫精神攻击", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -35,12 +35,8 @@ public class Skill1004 extends SkillTemplate {
             @Override
             public void before() {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
-                TagPack pack = new NormalTagPack(TAG_STRENGTHEN_ATT, 20000);
-                long v = getAddP(getJid(), getId());
-                if (ghostObj.getWith() != 0) {
-                    v *= 2;
-                }
-                pack.setQ(who.longValue()).setValue(v);
+                TagPack pack = new NormalTagPack(TAG_HJ_IMMUNITY, 1000 * getAddP(getJid(), getId()));
+                pack.setQ(who.longValue()).setValue(1L);
                 TagManagers.getTagManager(who.longValue()).addTag(pack);
             }
         };

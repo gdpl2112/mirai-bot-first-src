@@ -74,19 +74,14 @@ public class GhostBehavior implements Runnable {
             SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
             jid2skill.put(jid, template);
         }
-//
-//        jid2skill.clear();
-//        int jid = 1001;
-//        jid2skill.put(jid, SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel())));
-
 
         StringBuilder sb = new StringBuilder("魂兽魂技:\n");
+        int i = 1;
         for (SkillTemplate value : jid2skill.values()) {
-            sb.append(value.getName()).append("\n");
+            sb.append(i++).append(",").append(value.getName()).append("\n");
         }
         List<Integer> list = new ArrayList<>(jid2skill.keySet());
         send(sb.toString().trim());
-
 
         AtomicReference<Future> atomicReference = new AtomicReference<>();
 
