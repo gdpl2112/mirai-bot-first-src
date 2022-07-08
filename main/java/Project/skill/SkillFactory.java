@@ -39,7 +39,11 @@ public class SkillFactory {
                         ghostSkillNum++;
                     } else {
                         CLASS_MAP.put(jid, c0);
-                        normalSkillNum++;
+                        if (jid > 700) {
+
+                        } else {
+                            normalSkillNum++;
+                        }
                     }
                 }
             }
