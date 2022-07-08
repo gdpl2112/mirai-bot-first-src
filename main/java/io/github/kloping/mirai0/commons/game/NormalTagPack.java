@@ -7,7 +7,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
  * @author github.kloping
  */
 public class NormalTagPack extends TagPack {
-    public long time;
+    private long time;
 
     /**
      * @param tag
@@ -15,7 +15,15 @@ public class NormalTagPack extends TagPack {
      */
     public NormalTagPack(String tag, long t) {
         super(tag);
-        time = System.currentTimeMillis() + t;
+        this.time = System.currentTimeMillis() + t;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     @Override

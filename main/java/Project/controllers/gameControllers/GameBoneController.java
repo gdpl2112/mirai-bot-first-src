@@ -14,11 +14,13 @@ import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -47,7 +49,7 @@ public class GameBoneController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if ( Tool.tool.EveListStartWith(listFx, str) == -1) {
+            if (Tool.tool.EveListStartWith(listFx, str) == -1) {
                 throw new NoRunException();
             }
         }
@@ -77,7 +79,7 @@ public class GameBoneController {
     @Action("我的魂骨")
     public String myBones(long qq, Group g) {
         List<SoulBone> list = gameBoneService.getSoulBones(qq);
-        return list.isEmpty() ? "没有魂骨!" :  Tool.tool.pathToImg(Drawer.drawBoneMap(list));
+        return list.isEmpty() ? "没有魂骨!" : Tool.tool.pathToImg(Drawer.drawBoneMap(list));
     }
 
     @Action("吸收魂骨<.{1,}=>name>")
@@ -96,6 +98,9 @@ public class GameBoneController {
 
     @Action("卸掉魂骨<.{1,}=>name>")
     public String unParseBone(@Param("name") String name, long qq, Group g) {
+        if (challengeDetailService.isTemping(qq)) {
+            return CHALLENGE_ING;
+        }
         int id = 0;
         try {
             id = NAME_2_ID_MAPS.get(name);

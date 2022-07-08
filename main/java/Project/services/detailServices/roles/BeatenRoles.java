@@ -36,6 +36,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_WD_R = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_WD)) {
             sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
@@ -44,6 +45,7 @@ public class BeatenRoles {
             return null;
         }
     };
+
     public static final Role TAG_MS_R = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
@@ -54,6 +56,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_XYS_R = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(TAG_XUAN_YU_S)) {
             putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
@@ -62,6 +65,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role HG_HF = (sb, q1, q2, ov, nv, p1, args) -> {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(q1.longValue());
         if (proZ(soulAttribute.getHpChance())) {
@@ -77,6 +81,7 @@ public class BeatenRoles {
         }
         return null;
     };
+
     public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
             int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
@@ -85,7 +90,7 @@ public class BeatenRoles {
             RoleResponse response = new RoleResponse(ov, nv, q1, q2);
             response.setNowV(nv);
             sb.append(NEWLINE);
-            sb.append("伤害免疫").append(r).append("%");
+            sb.append("伤害免疫").append(r).append("%\n");
             return response;
         }
         return null;

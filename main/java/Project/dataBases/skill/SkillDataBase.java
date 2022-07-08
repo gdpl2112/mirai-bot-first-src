@@ -94,6 +94,10 @@ public class SkillDataBase {
      * 增伤
      */
     public static final String TAG_ADD_ATT = "r";
+    /**
+     * 强击
+     */
+    public static final String TAG_STRENGTHEN_ATT = "s";
 
     public static final Map<String, String> TAG2NAME = new HashMap<>();
     /**
@@ -109,7 +113,7 @@ public class SkillDataBase {
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
 
     static {
-
+        TAG2NAME.put(TAG_STRENGTHEN_ATT, "强击");
         TAG2NAME.put(TAG_ADD_ATT, "增伤");
         TAG2NAME.put(TAG_EDD_ATT, "减伤");
         TAG2NAME.put(TAG_818, "蛇杖标记");

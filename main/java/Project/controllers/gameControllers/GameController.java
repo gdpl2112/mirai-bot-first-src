@@ -237,8 +237,7 @@ public class GameController {
     @Action("侦查.+")
     public String Look(User qq, @AllMess String chain, Group group) {
         long who = MessageTools.instance.getAtFromString(chain);
-        if (who == -1)
-            return NOT_FOUND_AT;
+        if (who == -1) return NOT_FOUND_AT;
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = getInfo(qq.getId());
         PersonInfo Y = getInfo(who);

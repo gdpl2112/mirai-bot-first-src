@@ -18,8 +18,10 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toS
 public class SkillFactory {
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP = new HashMap<>();
     private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP2 = new HashMap<>();
+    private static final Map<Integer, Class<SkillTemplate>> CLASS_MAP100 = new HashMap<>();
     private static final Map<Integer, SkillTemplate> SKILL_MAP = new HashMap<>();
     public static int normalSkillNum = 0;
+    public static int ghostSkillNum = 0;
 
     static {
         PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
@@ -29,14 +31,15 @@ public class SkillFactory {
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;
                     String nStr = aClass.getSimpleName();
-                    Integer jid = Integer.valueOf( Tool.tool.findNumberFromString(nStr));
-                    if (jid < 70) {
-                        normalSkillNum++;
-                    }
-                    if (jid >= 800) {
+                    Integer jid = Integer.valueOf(Tool.tool.findNumberFromString(nStr));
+                    if (jid >= 8000) {
                         CLASS_MAP2.put(jid, c0);
+                    } else if (jid > 1000) {
+                        CLASS_MAP100.put(jid, c0);
+                        ghostSkillNum++;
                     } else {
                         CLASS_MAP.put(jid, c0);
+                        normalSkillNum++;
                     }
                 }
             }
@@ -45,10 +48,11 @@ public class SkillFactory {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println();
     }
 
     public static SkillTemplate factory(int jid) {
-        if (jid >= 800) {
+        if (jid >= 8000) {
             return factory8(jid);
         }
         if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);
@@ -79,6 +83,20 @@ public class SkillFactory {
         if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);
         try {
             SkillTemplate st = CLASS_MAP2.get(jid).newInstance();
+            SKILL_MAP.put(jid, st);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return SKILL_MAP.get(jid);
+    }
+
+    public static SkillTemplate factory100(int jid, int id) {
+        if (SKILL_MAP.containsKey(jid)) return SKILL_MAP.get(jid);
+        try {
+            SkillTemplate st = CLASS_MAP100.get(jid).newInstance();
+            st.setId(id);
             SKILL_MAP.put(jid, st);
         } catch (InstantiationException e) {
             e.printStackTrace();

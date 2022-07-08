@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.commons;
 
 
+import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.v1.TagManagers;
@@ -445,5 +446,10 @@ public class GhostObj implements Serializable, BaseInfo {
     @Override
     public Number getTagValue(String tag) {
         return TagManagers.getTagManager(-getWhoMeet()).getValue(tag);
+    }
+
+    public Number getTagValueOrDefault(String tag, Number d) {
+        Number v = TagManagers.getTagManager(-getWhoMeet()).getValue(tag);
+        return v == null || v.longValue() <= 0 ? d : v;
     }
 }

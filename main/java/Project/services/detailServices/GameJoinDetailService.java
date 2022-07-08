@@ -6,6 +6,7 @@ import Project.broadcast.game.JoinBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
@@ -30,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -85,15 +87,16 @@ public class GameJoinDetailService {
                 return "\n该魂兽,正在被攻击中";
             }
             IDXS.add(ghostObj.getIDX());
-            long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
             if (canAttMe) {
-                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(att).append("点伤害\n")
+                long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
+                at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
+                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
                         .append(GameDetailService.beaten(who, -2, at2));
             }
             long oNow = att;
             Map<String, Object> maps = new ConcurrentHashMap<>();
             for (Role r : BeatenRoles.RS) {
-                RoleResponse response = r.call(sb, -2, who, att, oNow, ghostObj, maps);
+                RoleResponse response = r.call(sb, -ghostObj.getWhoMeet(), who, att, oNow, ghostObj, maps);
                 if (response != null) {
                     oNow = response.getNowV();
                     if (!response.getArgs().isEmpty()) {
@@ -262,13 +265,13 @@ public class GameJoinDetailService {
      */
     public static boolean randHh(int level) {
         if (level > 10000000) {
-            return  Tool.tool.RANDOM.nextInt(100) < 28;
+            return Tool.tool.RANDOM.nextInt(100) < 28;
         } else if (level > 1000000) {
-            return  Tool.tool.RANDOM.nextInt(100) < 38;
+            return Tool.tool.RANDOM.nextInt(100) < 38;
         } else if (level > 100000) {
-            return  Tool.tool.RANDOM.nextInt(100) < 54;
+            return Tool.tool.RANDOM.nextInt(100) < 54;
         }
-        return  Tool.tool.RANDOM.nextInt(100) < 75;
+        return Tool.tool.RANDOM.nextInt(100) < 75;
     }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
@@ -288,7 +291,7 @@ public class GameJoinDetailService {
     private static String willGetBone(int level, long who) {
         if (randHh(level)) {
             Integer id = 0;
-            int r1 =  Tool.tool.RANDOM.nextInt(5) + 1;
+            int r1 = Tool.tool.RANDOM.nextInt(5) + 1;
             if (level > 5000) {
                 if (level < 20000) {
                     id = Integer.valueOf("15" + r1 + "1");
@@ -352,7 +355,7 @@ public class GameJoinDetailService {
             JoinBroadcast.INSTANCE.broadcast(who, id);
             return join.join(id, who, group);
         } finally {
-            int r =  Tool.tool.RANDOM.nextInt(8) + 10;
+            int r = Tool.tool.RANDOM.nextInt(8) + 10;
             putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
         }
     }
@@ -401,7 +404,7 @@ public class GameJoinDetailService {
             GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
-            if ( Tool.tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
+            if (Tool.tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
                     >= personInfo.att() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
@@ -427,6 +430,7 @@ public class GameJoinDetailService {
             long hl1 = Tool.tool.randLong(personInfo.getHll(), 0.125f, 0.16f);
             long at1 = Tool.tool.randLong(personInfo.att(), 0.35f, 0.48f);
             long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.25f, 0.48f);
+            at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
             StringBuilder sb = new StringBuilder();
             sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {

@@ -44,6 +44,10 @@ public abstract class Skill implements Runnable {
         return personInfo == null ? personInfo = getInfo(qq.longValue()) : personInfo;
     }
 
+    public PersonInfo getPersonInfo0() {
+        return personInfo == null ? personInfo = getInfo(-qq.longValue()) : personInfo;
+    }
+
     /**
      * run before
      */
@@ -69,7 +73,7 @@ public abstract class Skill implements Runnable {
     public void setTips(String tips) {
         this.tips = (tips == null || tips.trim().isEmpty()) ? tips : this.tips + "\n" + tips;
         if (group != null) {
-            MessageTools.instance.sendMessageInGroupWithAt(tips, group.getId(), qq.longValue());
+            MessageTools.instance.sendMessageInGroupWithAt(tips, group.getId(), qq.longValue() > 0 ? qq.longValue() : -qq.longValue());
         }
     }
 }

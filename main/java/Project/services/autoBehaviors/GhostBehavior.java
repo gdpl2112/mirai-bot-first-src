@@ -1,48 +1,37 @@
 package Project.services.autoBehaviors;
 
-import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.interfaces.Iservice.IGameBoneService;
-import Project.interfaces.Iservice.IGameService;
-import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Entity;
+import Project.skill.SkillFactory;
+import Project.skill.SkillTemplate;
+import io.github.kloping.date.FrameUtils;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
+import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static Project.dataBases.GameDataBase.putPerson;
-import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAllHHBL;
+import static Project.skill.SkillFactory.ghostSkillNum;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 
 /**
  * @author github-kloping
  */
-@Entity
 public class GhostBehavior implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
-    public static Map<Long, GhostBehavior> ls = new HashMap<>();
-    @AutoStand
-    static IGameBoneService gameBoneService;
-    @AutoStand
-    static IGameService gameService;
+
     private Group group;
     private Long qq;
     private GhostObj ghostObj;
-    private Integer level;
 
     public GhostBehavior() {
     }
@@ -53,26 +42,104 @@ public class GhostBehavior implements Runnable {
     }
 
     public static void exRun(GhostBehavior ghostBehavior) {
-        ls.put(ghostBehavior.qq, ghostBehavior);
         THREADS.submit(ghostBehavior);
     }
 
     public static GhostBehavior create(long who, Group group, Integer level) {
         return new GhostBehavior(who, group) {
-            @Override
-            protected synchronized double getAttR(Integer level) {
-                if (level < 200000) return 0.5;
-                else {
-                    if (level < 300000) return 0.75;
-                    if (level < 1000000) return 0.9;
-                    if (level < 3000000) return 1.18;
-                    if (level <= 8000000) return 1.4;
-                    return 1.7;
-                }
-            }
+//            @Override
+//            protected synchronized double getAttR(Integer level) {
+//                if (level < 200000) return 0.5;
+//                else {
+//                    if (level < 300000) return 0.75;
+//                    if (level < 1000000) return 0.9;
+//                    if (level < 3000000) return 1.18;
+//                    if (level <= 8000000) return 1.4;
+//                    return 1.7;
+//                }
+//            }
         };
     }
 
+    @Override
+    public void run() {
+        if (!updateGhost()) return;
+        Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
+        int num = getSkillNum(ghostObj.getLevel());
+
+        while (jid2skill.size() < num) {
+            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
+            int jid = 1001 + id0;
+            if (jid2skill.containsKey(jid)) continue;
+            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
+            jid2skill.put(jid, template);
+        }
+
+        jid2skill.clear();
+        int jid = 1001;
+        jid2skill.put(jid, SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel())));
+
+
+        StringBuilder sb = new StringBuilder("魂兽魂技:\n");
+        for (SkillTemplate value : jid2skill.values()) {
+            sb.append(value.getName()).append("\n");
+        }
+        List<Integer> list = new ArrayList<>(jid2skill.keySet());
+        send(sb.toString().trim());
+
+
+        AtomicReference<Future> atomicReference = new AtomicReference<>();
+
+        ScheduledFuture future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
+            if (atomicReference.get() != null) {
+                try {
+                    atomicReference.get().get(15, TimeUnit.SECONDS);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage() + " jump");
+                }
+            }
+            SkillTemplate template = jid2skill.get(Tool.tool.getRandT(list));
+            send("释放魂技:\n" + template.getIntro());
+            Skill skill = template.create(null, -ghostObj.getWhoMeet());
+            skill.setGroup(Group.get(MemberTools.getRecentSpeechesGid(ghostObj.getWhoMeet())));
+            Future f0 = SkillDataBase.threads.submit(skill);
+            atomicReference.set(f0);
+            BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);
+        }, 4, 14, TimeUnit.SECONDS);
+        while (updateGhost()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        atomicReference.get().cancel(true);
+        future.cancel(true);
+    }
+
+    private void send(String str) {
+        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), qq);
+    }
+
+    public static int getSkillNum(int level) {
+        if (level > 5 * 0000) {
+            return 2;
+        } else if (level > 10 * 10000) {
+            return 3;
+        } else if (level > 100 * 10000) {
+            return 4;
+        } else if (level > 1000 * 10000) {
+            return 5;
+        }
+        return 1;
+    }
+
+    private boolean updateGhost() {
+        ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
+        return ghostObj != null;
+    }
+
+    /*
     private static boolean needSay(int time) {
         return (time == 1 || time == 3 | time == 8 || time == 10 || time == 15 || time == 20 || time == 25);
     }
@@ -283,7 +350,5 @@ public class GhostBehavior implements Runnable {
         }
     }
 
-    private void send(String str) {
-        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), qq);
-    }
+    */
 }
