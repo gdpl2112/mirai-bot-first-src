@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.skill.SkillFactory.ghostSkillNum;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 
@@ -101,7 +102,7 @@ public class GhostBehavior implements Runnable {
             atomicReference.set(f0);
             BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);
         }, 4, 14, TimeUnit.SECONDS);
-        while (updateGhost()) {
+        while (updateGhost() && getInfo(ghostObj.getWhoMeet()).getHp() > 0) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
