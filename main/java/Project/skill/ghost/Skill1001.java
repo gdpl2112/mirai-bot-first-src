@@ -35,7 +35,6 @@ public class Skill1001 extends SkillTemplate {
             @Override
             public void before() {
                 ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
-
             }
 
             @Override
@@ -49,6 +48,8 @@ public class Skill1001 extends SkillTemplate {
                             setTips("蓄力倒计时!\r\n" + t0);
                         }
                     }
+                    ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
+                    if (ghostObj == null) return;
                     int b = getAddP(getJid(), getId()).intValue();
                     long v = percentTo(b, ghostObj.getAtt());
                     setTips("对你造成" + v + "伤害\n" + GameDetailService.beaten(-who.longValue(), -2, v));

@@ -326,6 +326,13 @@ public class MessageTools {
         }
     }
 
+    public void sendMessageInGroupWithAtThrowable(String str, long gid, long qq) throws Throwable {
+        if (str == null || gid == -1 || qq == -1) return;
+        Group group = BOT.getGroup(gid);
+        Message message = MessageTools.instance.getMessageFromString(str, group);
+        group.sendMessage(new MessageChainBuilder().append(new At(qq)).append("\r\n").append(message).build());
+    }
+
     public void sendMessageInOneFromGroup(String str, long id, long gid) {
         try {
             Contact contact = BOT.getGroup(gid).get(id);

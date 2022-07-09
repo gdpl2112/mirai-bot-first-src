@@ -448,9 +448,6 @@ public class GameJoinDetailService {
                 if (oNow > 0) {
                     ghostObj.updateHp(-oNow, getInfo(who));
                     sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
-                }
-                if (oNow > 0) {
-                    ghostObj.updateHp(-oNow, personInfo);
                     sb.append(GameDetailService.onAtt(who, -2, oNow));
                 }
             } else {

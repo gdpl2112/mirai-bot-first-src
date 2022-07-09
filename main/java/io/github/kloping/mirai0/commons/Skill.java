@@ -73,7 +73,11 @@ public abstract class Skill implements Runnable {
     public void setTips(String tips) {
         this.tips = (tips == null || tips.trim().isEmpty()) ? tips : this.tips + "\n" + tips;
         if (group != null) {
-            MessageTools.instance.sendMessageInGroupWithAt(tips, group.getId(), qq.longValue() > 0 ? qq.longValue() : -qq.longValue());
+            try {
+                MessageTools.instance.sendMessageInGroupWithAtThrowable(tips, group.getId(), qq.longValue() > 0 ? qq.longValue() : -qq.longValue());
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ public class Skill1006 extends SkillTemplate {
                 b = 100 - b;
                 v += b / 2;
                 if (Tool.tool.RANDOM.nextInt(101) < v) {
-                    saveGhostObjIn(-ghostObj.getWhoMeet(), null);
+                    saveGhostObjIn(ghostObj.getWhoMeet(), null);
                     setTips("逃跑成功");
                 } else {
                     setTips("逃跑失败");
