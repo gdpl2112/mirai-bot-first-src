@@ -125,8 +125,7 @@ public class GhostBehavior implements Runnable {
     }
 
     private boolean updateGhost() {
-        if (ghostObj == null)
-            ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
+        ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
         return ghostObj != null && ghostObj.getHp() > 0;
     }
 }

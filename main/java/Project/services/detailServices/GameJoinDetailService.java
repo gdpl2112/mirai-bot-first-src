@@ -198,9 +198,6 @@ public class GameJoinDetailService {
         if (GHOST_TEMP.containsKey(qq)) {
             return GHOST_TEMP.get(qq);
         } else {
-//            String js = getDataString(qq, "decide").toString();
-//            if (js == null || js.trim().isEmpty()) return null;
-//            GHOST_TEMP.put(qq, getGhost(js));
             return GHOST_TEMP.get(qq);
         }
     }
@@ -230,7 +227,6 @@ public class GameJoinDetailService {
 
     public synchronized static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
         if (ghostObj == null) {
-            putDataString(qq, "decide", "");
             try {
                 if (GHOST_TEMP.containsKey(qq) && GHOST_TEMP.get(qq) != null) {
                     GHOST_TEMP.get(qq).dispose();
@@ -240,7 +236,6 @@ public class GameJoinDetailService {
             }
             GHOST_TEMP.remove(qq);
         } else {
-            putDataString(qq, "decide", objectToJsonString(ghostObj));
             GHOST_TEMP.put(qq, ghostObj);
         }
         return getGhostObjFrom(qq);
