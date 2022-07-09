@@ -98,7 +98,13 @@ public class GhostBehavior implements Runnable {
             }
         }
         atomicReference.get().cancel(true);
+        if (!atomicReference.get().isCancelled()) {
+            atomicReference.get().cancel(true);
+        }
         future.cancel(true);
+        if (!future.isCancelled()) {
+            future.cancel(true);
+        }
     }
 
     private void send(String str) {
