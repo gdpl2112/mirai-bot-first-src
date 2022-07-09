@@ -1,5 +1,6 @@
 package Project.skill.ghost;
 
+import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.skill.SkillTemplate;
@@ -11,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping
@@ -52,7 +54,12 @@ public class Skill1001 extends SkillTemplate {
                     if (ghostObj == null) return;
                     int b = getAddP(getJid(), getId()).intValue();
                     long v = percentTo(b, ghostObj.getAtt());
-                    setTips("对你造成" + v + "伤害\n" + GameDetailService.beaten(-who.longValue(), -2, v));
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
+                    sb.append(GameDetailService.beaten(-who.longValue(), -2, v));
+                    sb.append(NEWLINE);
+                    sb.append(GameController.gameService.info(-who.longValue()));
+                    setTips(sb.toString());
                 } catch (InterruptedException e) {
                     setTips("技能被打断");
                 }

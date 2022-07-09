@@ -35,7 +35,7 @@ public class GameSkillDetailService {
 
     public static final Map<Integer, Long> JID2TIME = new HashMap<>();
     public static final Map<Long, List<AsynchronousThing>> ASYNCHRONOUS_THING_MAP = new HashMap<>();
-    private static final Map<Integer, Integer> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
+    private static final Map<Integer, Number> BASE_PERCENT_MAP = new ConcurrentHashMap<>();
 
     static {
         BASE_PERCENT_MAP.put(0, 10);
@@ -106,6 +106,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(1007, 10);
         BASE_PERCENT_MAP.put(1008, 10);
         BASE_PERCENT_MAP.put(1009, 35);
+        BASE_PERCENT_MAP.put(1010, 2);
         //==
         BASE_PERCENT_MAP.put(8010, 20);
         BASE_PERCENT_MAP.put(8011, 10);
@@ -188,11 +189,11 @@ public class GameSkillDetailService {
      * @param id
      * @return
      */
-    public static Integer getBasePercent(Integer id) {
+    public static Double getBasePercent(Integer id) {
         if (BASE_PERCENT_MAP.containsKey(id.intValue())) {
-            return BASE_PERCENT_MAP.get(id.intValue());
+            return BASE_PERCENT_MAP.get(id.intValue()).doubleValue();
         } else {
-            return -1;
+            return -1.0;
         }
     }
 

@@ -13,7 +13,6 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -118,9 +117,7 @@ public class GameController {
     }
 
     @AutoStand
-    IGameService gameService;
-    @AutoStand
-    GameController c0;
+    public static IGameService gameService;
     @AutoStand
     ScoreController c1;
     @AutoStand
@@ -195,7 +192,7 @@ public class GameController {
 
     @Action("双修打工进入.*+")
     public Object o1(User user, Group group, @AllMess String s0) {
-        MessageTools.instance.sendMessageInGroupWithAt(c0.Xl2(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(Xl2(user, group), group.getId(), user.getId());
         MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
@@ -203,7 +200,7 @@ public class GameController {
 
     @Action("修炼打工进入.*+")
     public Object o2(User user, Group group, @AllMess String s0) {
-        MessageTools.instance.sendMessageInGroupWithAt(c0.Xl(user, group), group.getId(), user.getId());
+        MessageTools.instance.sendMessageInGroupWithAt(Xl(user, group), group.getId(), user.getId());
         MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);

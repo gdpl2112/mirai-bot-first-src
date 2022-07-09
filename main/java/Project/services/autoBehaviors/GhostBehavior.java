@@ -97,6 +97,7 @@ public class GhostBehavior implements Runnable {
                 e.printStackTrace();
             }
         }
+        GameJoinDetailService.saveGhostObjIn(qq, null);
         atomicReference.get().cancel(true);
         if (!atomicReference.get().isCancelled()) {
             atomicReference.get().cancel(true);
