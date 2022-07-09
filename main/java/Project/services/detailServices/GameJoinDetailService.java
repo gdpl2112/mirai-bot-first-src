@@ -194,13 +194,13 @@ public class GameJoinDetailService {
         return "未知级别";
     }
 
-    public static GhostObj getGhostObjFrom(long qq) {
+    public synchronized static GhostObj getGhostObjFrom(long qq) {
         if (GHOST_TEMP.containsKey(qq)) {
             return GHOST_TEMP.get(qq);
         } else {
-            String js = getDataString(qq, "decide").toString();
-            if (js == null || js.trim().isEmpty()) return null;
-            GHOST_TEMP.put(qq, getGhost(js));
+//            String js = getDataString(qq, "decide").toString();
+//            if (js == null || js.trim().isEmpty()) return null;
+//            GHOST_TEMP.put(qq, getGhost(js));
             return GHOST_TEMP.get(qq);
         }
     }
@@ -228,7 +228,7 @@ public class GameJoinDetailService {
         }
     }
 
-    public static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
+    public synchronized static GhostObj saveGhostObjIn(long qq, GhostObj ghostObj) {
         if (ghostObj == null) {
             putDataString(qq, "decide", "");
             try {
