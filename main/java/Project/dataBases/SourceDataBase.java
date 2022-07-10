@@ -27,7 +27,6 @@ public class SourceDataBase {
             Integer id = Integer.valueOf(Tool.tool.findNumberFromString(fn));
             ID2FILE.put(id, file);
         }
-        System.out.println(ID2FILE);
     }
 
     public static String getImgPathById(Integer id, Boolean k) {
