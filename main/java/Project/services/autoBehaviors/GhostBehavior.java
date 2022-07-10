@@ -1,5 +1,6 @@
 package Project.services.autoBehaviors;
 
+import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.skill.SkillFactory;
@@ -20,8 +21,6 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.skill.SkillFactory.ghostSkillNum;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 
 /**
@@ -29,17 +28,26 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
  */
 public class GhostBehavior implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
-
+    public static final Map<Long, GhostBehavior> MAP = new HashMap<>();
     private Group group;
     private Long qq;
     private GhostObj ghostObj;
 
-    public GhostBehavior() {
+    static {
+        PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
+            @Override
+            public void onReceive(long who, long from, LostType type) {
+                if (MAP.containsKey(who)) {
+                    MAP.get(who).thisOver();
+                }
+            }
+        });
     }
 
     public GhostBehavior(Long qq, Group group) {
         this.qq = qq;
         this.group = group;
+        MAP.put(qq, this);
     }
 
     public static void exRun(GhostBehavior ghostBehavior) {
@@ -50,19 +58,25 @@ public class GhostBehavior implements Runnable {
         return new GhostBehavior(who, group);
     }
 
+    AtomicReference<Future> atomicReference = new AtomicReference<>();
+    ScheduledFuture future;
+
     @Override
     public void run() {
         if (!updateGhost()) return;
         Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
         int num = getSkillNum(ghostObj.getLevel());
 
-        while (jid2skill.size() < num) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
-            int jid = 1001 + id0;
-            if (jid2skill.containsKey(jid)) continue;
-            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
-            jid2skill.put(jid, template);
-        }
+//        while (jid2skill.size() < num) {
+//            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
+//            int jid = 1001 + id0;
+//            if (jid2skill.containsKey(jid)) continue;
+//            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
+//            jid2skill.put(jid, template);
+//        }
+
+        int jid = 1009;
+        jid2skill.put(jid, SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel())));
 
         StringBuilder sb = new StringBuilder("魂兽魂技:\n");
         int i = 1;
@@ -72,9 +86,7 @@ public class GhostBehavior implements Runnable {
         List<Integer> list = new ArrayList<>(jid2skill.keySet());
         send(sb.toString().trim());
 
-        AtomicReference<Future> atomicReference = new AtomicReference<>();
-
-        ScheduledFuture future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
+        future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
             if (atomicReference.get() != null) {
                 try {
                     atomicReference.get().get(15, TimeUnit.SECONDS);
@@ -90,13 +102,17 @@ public class GhostBehavior implements Runnable {
             atomicReference.set(f0);
             BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);
         }, 4, 14, TimeUnit.SECONDS);
-        while (updateGhost() && getInfo(ghostObj.getWhoMeet()).getHp() > 0) {
+        while (updateGhost()) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        thisOver();
+    }
+
+    public void thisOver() {
         GameJoinDetailService.saveGhostObjIn(qq, null);
         atomicReference.get().cancel(true);
         if (!atomicReference.get().isCancelled()) {
@@ -106,6 +122,8 @@ public class GhostBehavior implements Runnable {
         if (!future.isCancelled()) {
             future.cancel(true);
         }
+        MAP.remove(qq);
+        forceOver = false;
     }
 
     private void send(String str) {
@@ -125,8 +143,10 @@ public class GhostBehavior implements Runnable {
         return 1;
     }
 
+    private boolean forceOver = true;
+
     private boolean updateGhost() {
         ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
-        return ghostObj != null && ghostObj.getHp() > 0;
+        return (forceOver && ghostObj != null && ghostObj.getHp() > 0);
     }
 }

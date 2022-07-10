@@ -1,5 +1,6 @@
 package Project.controllers.recr;
 
+import Project.controllers.auto.ControllerSource;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
@@ -10,6 +11,7 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.spt.RedisOperate;
 import net.mamoe.mirai.contact.Member;
 
 import java.util.HashMap;
@@ -37,7 +39,17 @@ public class Controller0 {
     public static final Map<Long, Map<Long, Long>> WIFE = new HashMap<>();
 
     static {
-        ZERO_RUNS.add(() -> WIFE.clear());
+        ZERO_RUNS.add(() -> {
+//            RedisOperate<Map<Long, Long>> operate = ControllerSource.firstController.redisOperate;
+//            if (operate != null) {
+//                operate.execute((e) -> {
+//                    e.keys("*").forEach((k) -> {
+//                        e.del(k);
+//                    });
+//                });
+//            }
+            WIFE.clear();
+        });
     }
 
     public Controller0() {

@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("7.10:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("7.9: 修复已知问题,修复攻击魂兽触发2次的bug,魂兽新增魂技").append("\n");
         UPDATE_LOG.append("7.8: 修复已知问题,魂兽新·魂技").append("\n");
         UPDATE_LOG.append("7.2: 到达神王之后经验不会掉").append("\n");

@@ -1,5 +1,6 @@
 package Project.controllers.auto;
 
+import Project.controllers.FirstController;
 import Project.controllers.normalController.SummonPicController;
 import Project.detailPlugin.AiBaiduDetail;
 import Project.listeners.EmojiCompositeListenerHost;
@@ -42,6 +43,8 @@ public class ControllerSource {
     public static PlayerBehavioralManager playerBehavioralManager;
     @AutoStand
     public static GameServiceImpl gameService;
+    @AutoStand
+    public static FirstController firstController;
     @AutoStand(id = "gson0")
     public static Gson gson0;
 

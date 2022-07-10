@@ -22,7 +22,7 @@ public class Skill1010 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("魂兽普通技能,短暂眩晕,对玩家造成%s%%秒的眩晕", getAddP(getJid(), getId()));
+        return String.format("魂兽普通技能,短暂眩晕,对玩家造成%s秒的眩晕", getAddP(getJid(), getId()));
     }
 
     @Override

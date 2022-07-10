@@ -1,5 +1,6 @@
 package Project.skill.ghost;
 
+import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.skill.SkillTemplate;
@@ -12,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping
@@ -25,7 +27,7 @@ public class Skill1009 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("魂兽普通技能,主动出击,对所有玩家对自己有威胁的玩家造成%s%%的伤害(包括支援的玩家)", getAddP(getJid(), getId()));
+        return String.format("魂兽普通技能,主动出击,5秒后对所有玩家对自己有威胁的玩家造成%s%%的伤害(包括支援的玩家2秒后)", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -40,13 +42,23 @@ public class Skill1009 extends SkillTemplate {
                 super.run();
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                     int b = getAddP(getJid(), getId()).intValue();
                     long v = percentTo(b, ghostObj.getAtt());
-                    setTips("对你造成" + v + "伤害\n" + GameDetailService.beaten(-who.longValue(), -2, v));
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
+                    sb.append(GameDetailService.beaten(-who.longValue(), -2, v));
+                    sb.append(NEWLINE);
+                    sb.append(GameController.gameService.info(-who.longValue()));
+                    setTips(sb.toString());
                     if (ghostObj.getWith() > 0) {
                         Thread.sleep(2000);
-                        setTips("对支援者造成" + v + "伤害\n" + GameDetailService.beaten(ghostObj.getWith(), -2, v));
+                        sb = new StringBuilder();
+                        sb.append("对支援者造成").append(v).append("伤害").append(NEWLINE);
+                        sb.append(GameDetailService.beaten(ghostObj.getWith(), -2, v));
+                        sb.append(NEWLINE);
+                        sb.append(GameController.gameService.info(-who.longValue()));
+                        setTips(sb.toString());
                     }
                 } catch (InterruptedException e) {
                     setTips(ATTACK_BREAK);

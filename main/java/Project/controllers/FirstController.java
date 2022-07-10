@@ -1,17 +1,17 @@
 package Project.controllers;
 
-import io.github.kloping.MySpringTool.annotations.Action;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.spt.RedisOperate;
 
-import java.io.File;
-import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class FirstController {
-
+    @AutoStand
+    public RedisOperate<Map<Long, Long>> redisOperate;
 }
