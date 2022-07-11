@@ -9,7 +9,8 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.spt.RedisOperate;
 
-import java.util.List;
+import java.util.Set;
+import java.util.Set;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 
@@ -30,23 +31,24 @@ public class FirstController {
 
     static {
         ZERO_RUNS.add(() -> {
-            List<Long> list = ControllerSource.firstController.redisOperate.getValue(KEY0);
-            ControllerSource.firstController.redisOperate.delKey(KEY0);
+            Set<Long> set = ControllerSource.firstController.redisOperate.getValue(KEY0);
+            set.clear();;
+            ControllerSource.firstController.   redisOperate.setValue(KEY0, set);
         });
     }
 
     @AutoStand
-    public RedisOperate<List<Long>> redisOperate;
+    public RedisOperate<Set<Long>> redisOperate;
 
 
     @Action("领取积分")
     public synchronized String a0(User user) {
-        List<Long> list = redisOperate.getValue(KEY0);
-        if (list.contains(user.getId())) {
+        Set<Long> longSet = redisOperate.getValue(KEY0);
+        if (longSet.contains(user.getId())) {
             return "已领取";
         } else {
-            list.add(user.getId());
-            redisOperate.setValue(KEY0, list);
+            longSet.add(user.getId());
+            redisOperate.setValue(KEY0, longSet);
             DataBase.addScore(10000000L, user.getId());
         }
         return "体验服专属,每日可领取一次,体验服数据随时可能删除";
