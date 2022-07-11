@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static Project.skill.SkillFactory.ghostSkillNum;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 
 /**
@@ -67,16 +68,13 @@ public class GhostBehavior implements Runnable {
         Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
         int num = getSkillNum(ghostObj.getLevel());
 
-//        while (jid2skill.size() < num) {
-//            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
-//            int jid = 1001 + id0;
-//            if (jid2skill.containsKey(jid)) continue;
-//            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
-//            jid2skill.put(jid, template);
-//        }
-
-        int jid = 1009;
-        jid2skill.put(jid, SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel())));
+        while (jid2skill.size() < num) {
+            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
+            int jid = 1001 + id0;
+            if (jid2skill.containsKey(jid)) continue;
+            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
+            jid2skill.put(jid, template);
+        }
 
         StringBuilder sb = new StringBuilder("魂兽魂技:\n");
         int i = 1;
