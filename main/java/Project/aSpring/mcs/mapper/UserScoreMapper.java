@@ -48,4 +48,14 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      */
     @Select("select * from user_score order by s_times desc limit #{num};")
     List<UserScore> ph(@Param("num") Integer num);
+
+    /**
+     * score order desc
+     *
+     * @param num
+     * @return
+     */
+    @Select("select * from user_score order by `score` desc limit #{num};")
+    List<UserScore> phScore(@Param("num") Integer num);
+
 }

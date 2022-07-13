@@ -221,4 +221,21 @@ public class ScoreController {
     public String earnings(User user) {
         return scoreService.earnings(user.getId());
     }
+
+    @Action("积分排行.?")
+    public String scorePh(@AllMess String s, Group group) {
+        Integer s0 = Tool.tool.getInteagerFromStr(s);
+        s0 = s0 == null ? 10 : s0;
+        s0 = s0 > 20 ? 20 : s0;
+        List<UserScore> list = SpringBootResource.getScoreMapper().phScore( s0);
+        StringBuilder sb = new StringBuilder();
+        int na = 0;
+        for (UserScore score : list) {
+            ++na;
+            Long qid = score.getWho();
+            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+                    .append("=>\n\t").append(score.getScore()).append("积分\n");
+        }
+        return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+    }
 }
