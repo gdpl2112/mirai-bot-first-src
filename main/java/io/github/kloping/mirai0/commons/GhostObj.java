@@ -1,7 +1,6 @@
 package io.github.kloping.mirai0.commons;
 
 
-import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.v1.TagManagers;
@@ -277,6 +276,7 @@ public class GhostObj implements Serializable, BaseInfo {
 
     public void setHp(long hp) {
         this.hp = hp <= 0 ? 0 : hp;
+        this.hp = hp >= maxHp ? maxHp : hp;
     }
 
     public void setHp(Long hp) {
