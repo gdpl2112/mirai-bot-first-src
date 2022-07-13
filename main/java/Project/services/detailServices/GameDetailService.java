@@ -202,9 +202,7 @@ public class GameDetailService {
     public static String onSpiritAttack(Number q, Number q2, Integer by) {
         synchronized (q) {
             PersonInfo p1 = GameDataBase.getInfo(q);
-            if (p1.isVertigo()) {
-                return ATTACKER_IN_VERTIGO;
-            }
+            if (p1.isVertigo()) return ATTACKER_IN_VERTIGO;
             long v1L = p1.getHjL();
             long v1 = p1.getHj();
             long v2 = percentTo(by, v1L);

@@ -85,12 +85,20 @@ public class GhostBehavior implements Runnable {
         send(sb.toString().trim());
 
         future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
+            if (!updateGhost()) {
+                thisOver();
+                return;
+            }
             if (atomicReference.get() != null) {
                 try {
                     atomicReference.get().get(15, TimeUnit.SECONDS);
                 } catch (Exception e) {
                     System.err.println(e.getMessage() + " jump");
                 }
+            }
+            if (!updateGhost()) {
+                thisOver();
+                return;
             }
             SkillTemplate template = jid2skill.get(Tool.tool.getRandT(list));
             send("释放魂技:\n" + template.getIntro());

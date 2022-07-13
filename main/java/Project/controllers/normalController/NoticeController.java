@@ -44,6 +44,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("7.13:尝试修复已知Bug").append("\n");
         UPDATE_LOG.append("7.11:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("7.10:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("7.9: 修复已知问题,修复攻击魂兽触发2次的bug,魂兽新增魂技").append("\n");

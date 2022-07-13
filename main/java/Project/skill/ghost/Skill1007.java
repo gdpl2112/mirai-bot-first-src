@@ -44,7 +44,8 @@ public class Skill1007 extends SkillTemplate {
                 int b = toPercent(ghostObj.getHp(), ghostObj.getMaxHp());
                 b = 100 - b;
                 v += b / 2;
-                ghostObj.addHp(percentTo((int) v, ghostObj.getAtt()));
+                ghostObj.setHp(ghostObj.getHp() + percentTo((int) v, ghostObj.getAtt()));
+                ghostObj.apply();
                 setTips("加血" + v + "%");
             }
         };
