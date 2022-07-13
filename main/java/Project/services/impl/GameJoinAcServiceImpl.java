@@ -4,6 +4,7 @@ package Project.services.impl;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
+import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -81,6 +82,13 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         return service.run(id, who, group);
     }
 
+    public static final GhostBehavior DEFAULT_0 = new GhostBehavior(-1L, null) {
+        @Override
+        public void thisOver() {
+
+        }
+    };
+
     @Override
     public Object startSelect(long who, String select) {
         String what = select.trim();
@@ -98,6 +106,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         } else if (challengeDetailService.isTemping(who)) {
             return controller.o3(who);
         }
+        GhostBehavior.MAP.getOrDefault(who, DEFAULT_0).thisOver();
         return NOT_IN_SELECT;
     }
 
