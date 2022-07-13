@@ -222,7 +222,7 @@ public class ScoreController {
         return scoreService.earnings(user.getId());
     }
 
-    @Action("积分排行.?")
+    @Action("积分排行.*?")
     public String scorePh(@AllMess String s, Group group) {
         Integer s0 = Tool.tool.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
