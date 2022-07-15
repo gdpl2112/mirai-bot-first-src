@@ -403,7 +403,7 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+            g.setColor(COLORS[Tool.tool.RANDOM.nextInt(COLORS.length)]);
             g.drawString("◎" + Tool.tool.filterBigNum(sss[i]), 10, (i + 2) * 40);
         }
         g.setColor(BORDER_COLOR);
@@ -436,7 +436,7 @@ public class Drawer {
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
         for (int i = 0; i < sss.length; i++) {
-            g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+            g.setColor(COLORS[Tool.tool.RANDOM.nextInt(COLORS.length)]);
             if (k) {
                 g.drawString("◎" + Tool.tool.filterBigNum(sss[i]), 10, (i + 2) * 40);
             } else {
@@ -519,9 +519,9 @@ public class Drawer {
         g.drawString("※====☆=?==★===?====$==*=※===※====☆=?==★===?====$==*=※===", 15, 25);
         for (int i = 0; i < ss.length; i++) {
             if (i % 2 == 0) {
-                g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+                g.setColor(COLORS[Tool.tool.RANDOM.nextInt(COLORS.length)]);
                 g.drawString(Tool.tool.filterBigNum(ss[i]), 15, 60 + (i) * 20);
-                g.setColor(COLORS[ Tool.tool.RANDOM.nextInt(COLORS.length)]);
+                g.setColor(COLORS[Tool.tool.RANDOM.nextInt(COLORS.length)]);
                 if (ss.length > i + 1)
                     g.drawString(Tool.tool.filterBigNum(ss[i + 1]), width / 2, 60 + (i) * 20);
             }
@@ -540,19 +540,19 @@ public class Drawer {
     }
 
     public static String getImageFromStrings(String... sss) {
-        return  Tool.tool.pathToImg(createImage(sss));
+        return Tool.tool.pathToImg(createImage(sss));
     }
 
     public static String getImageFromStrings(boolean k, String... strings) {
-        return  Tool.tool.pathToImg(createImage(false, strings));
+        return Tool.tool.pathToImg(createImage(false, strings));
     }
 
     public static String getImageFromFontString(String string) {
-        return  Tool.tool.pathToImg(createFont(string));
+        return Tool.tool.pathToImg(createFont(string));
     }
 
     public static String getImageFromStringsOnTwoColumns(String... strings) {
-        return  Tool.tool.pathToImg(drawStringOnTwoColumns(strings));
+        return Tool.tool.pathToImg(drawStringOnTwoColumns(strings));
     }
 
     /**

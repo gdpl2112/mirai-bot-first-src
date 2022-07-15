@@ -32,6 +32,7 @@ public class NoticeController {
             "   9级不能吸收万年及以上\n\t" +
             "   49级不能吸收十万年及以上\n\t" +
             "   69级不能吸收百万年及以上\n\t";
+
     private static final String STRING = "每个人 今日首次 无状态时(血量为0)>清空经验,\n" +
             "再次 无状态时 下降一级,\n" +
             "之后都 清空经验\n" +
@@ -39,6 +40,7 @@ public class NoticeController {
             "每日最多下降一级\n" +
             "整10级(10,20...)时不会下降等级\n" +
             "请保证自己的血量健康";
+
     private static final String STRING2 = "在面对魂兽时仅能使用" + UseRestrictions.MAX_MEET_C + "次,增幅物品";
     private static String[] UPDATE_LOGS;
 

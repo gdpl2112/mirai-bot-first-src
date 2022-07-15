@@ -3,6 +3,7 @@ package Project.controllers.normalController;
 import Project.detailPlugin.*;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.date.DateUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
@@ -11,11 +12,20 @@ import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils;
 import net.mamoe.mirai.message.data.Message;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -96,7 +106,7 @@ public class CallLocalApiController {
         if (!sss[0].startsWith("http")) {
             sss[0] = "https://ys.mihoyo.com" + sss[0];
         }
-        return  Tool.tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
+        return Tool.tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
     @Action("/init_pvp")
@@ -129,7 +139,7 @@ public class CallLocalApiController {
     public String pvpQqPic(@AllMess String a, Group group) {
         a = a.replaceFirst("王者图片", "");
         Data data = pvpQq.getD(a);
-        return  Tool.tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
+        return Tool.tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
     }
 
     @Action("王者最新皮肤.*?")
@@ -143,7 +153,7 @@ public class CallLocalApiController {
         for (int i1 : ints) {
             Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i1];
             sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE)
-                    .append("预览图:").append(NEWLINE).append( Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
+                    .append("预览图:").append(NEWLINE).append(Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
                     .append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2))
                     .append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
         }
@@ -173,5 +183,32 @@ public class CallLocalApiController {
             MessageTools.instance.speak(line, group);
         }
         return line;
+    }
+
+    private static final SimpleDateFormat SF_HH = new SimpleDateFormat("HH");
+
+    public static final String WENDY_URL =
+            "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
+
+    @Action("高温天气图")
+    public Object gaowen() {
+        String year = String.valueOf(io.github.kloping.date.DateUtils.getYear());
+        String month = String.valueOf(DateUtils.getMonth());
+        String day = String.valueOf(io.github.kloping.date.DateUtils.getDay());
+        String hour0 = SF_HH.format(new Date());
+        Integer h0 = Integer.parseInt(hour0);
+        h0 -= 8;
+        h0 = h0 < 0 ? 0 : h0;
+        String hour = toStr(2, h0);
+        month = toStr(2, Integer.parseInt(month));
+        day = toStr(2, Integer.parseInt(day));
+        List<String> list = new ArrayList<>();
+        for (Integer i0 = 0; i0 < h0; i0++) {
+            String url0 = String.format(WENDY_URL, year, month, day, year, month, day, toStr(2, i0));
+            list.add(url0);
+        }
+        File outFile = new File("./temp/" + UUID.randomUUID() + "-gaoWen.gif");
+        ImageDrawerUtils.image2gift(200, outFile, list.toArray(new String[0]));
+        return Tool.tool.pathToImg(outFile.getAbsolutePath());
     }
 }

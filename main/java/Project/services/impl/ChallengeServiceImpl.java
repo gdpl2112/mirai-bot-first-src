@@ -2,6 +2,7 @@ package Project.services.impl;
 
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
+import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
 import Project.controllers.gameControllers.GameController;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.interfaces.Iservice.IGameService;
@@ -101,6 +102,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                             deleteTempInfo(p1, p2);
                             return true;
                         }
+                        TrialChallengeEndBroadcast.INSTANCE.broadcast(from, who,1);
                         return false;
                     }
                 });

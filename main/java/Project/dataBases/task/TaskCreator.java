@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
  * @author github-kloping
  */
 public class TaskCreator {
-    public static final int MAX_PRENTICE_INDEX = 1;
+    public static final int MAX_PRENTICE_INDEX = 2;
     public static final int MIN_PRENTICE_INDEX = 0;
     public static final int MAX_INDEX = 1003;
     public static final int MIN_INDEX = 1000;

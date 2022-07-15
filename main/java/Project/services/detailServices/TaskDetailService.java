@@ -23,6 +23,16 @@ public class TaskDetailService {
         sb.append("任务完成,奖励师徒白升级券各一张");
         return sb.toString();
     }
+    private static String s1(Task task) {
+        return "徒弟与师傅完成试炼挑战且徒弟战胜师傅";
+    }
+
+    private static String f1(Task task) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("徒弟与师傅完成试炼挑战且徒弟战胜师傅").append("\n");
+        sb.append("任务完成,奖励师徒白升级券各两张");
+        return sb.toString();
+    }
 
     private static String s1000(Task task) {
         Task1000 task1002 = (Task1000) task;

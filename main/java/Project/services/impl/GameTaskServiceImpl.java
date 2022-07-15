@@ -43,7 +43,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         StringBuilder sb = new StringBuilder();
         task.save();
         sb.append(TaskDetailService.getIntro(task));
-        sb.append("\r\n时限:").append( Tool.tool.getTimeDDHHMM(task.getDeadline()));
+        sb.append("\r\n时限:").append(Tool.tool.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();
     }

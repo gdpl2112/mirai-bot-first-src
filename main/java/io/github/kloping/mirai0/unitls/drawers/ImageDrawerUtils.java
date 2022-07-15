@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.unitls.drawers;
 
+import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -160,5 +161,31 @@ public class ImageDrawerUtils {
     public static Image rotateImage(BufferedImage image, BufferedImage o, float rotate, int x, int y) throws IOException {
 
         return image;
+    }
+
+    public static String image2gift(int delay, File outFile, String... images) {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(delay);
+        for (int i = 0; i < images.length; i++) {
+            String u0 = images[i];
+            encoder.setDelay(delay);
+            BufferedImage main = null;
+            try {
+                if (u0 == null) continue;
+                else if (u0.startsWith("http")) {
+                    main = ImageIO.read(new URL(u0));
+                } else {
+                    main = ImageIO.read(new File(u0));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            encoder.addFrame(main);
+        }
+        encoder.finish();
+        return outFile.getAbsolutePath();
     }
 }

@@ -38,8 +38,10 @@ public class GhostBehavior implements Runnable {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
             @Override
             public void onReceive(long who, long from, LostType type) {
-                if (MAP.containsKey(who)) {
-                    MAP.get(who).thisOver();
+                if (type == LostType.att) {
+                    if (MAP.containsKey(who)) {
+                        MAP.get(who).thisOver();
+                    }
                 }
             }
         });
@@ -60,6 +62,7 @@ public class GhostBehavior implements Runnable {
     }
 
     AtomicReference<Future> atomicReference = new AtomicReference<>();
+    AtomicReference<Integer> atomicJid = new AtomicReference<>(-1);
     ScheduledFuture future;
 
     @Override
@@ -100,7 +103,11 @@ public class GhostBehavior implements Runnable {
                 thisOver();
                 return;
             }
-            SkillTemplate template = jid2skill.get(Tool.tool.getRandT(list));
+            SkillTemplate template;
+            while (true) {
+                template = jid2skill.get(Tool.tool.getRandT(list));
+                if (!atomicJid.get().equals(template.getJid())) break;
+            }
             send("释放魂技:\n" + template.getIntro());
             Skill skill = template.create(null, -ghostObj.getWhoMeet());
             skill.setGroup(Group.get(MemberTools.getRecentSpeechesGid(ghostObj.getWhoMeet())));
@@ -119,17 +126,21 @@ public class GhostBehavior implements Runnable {
     }
 
     public void thisOver() {
-        GameJoinDetailService.saveGhostObjIn(qq, null);
-        atomicReference.get().cancel(true);
-        if (!atomicReference.get().isCancelled()) {
+        try {
+            GameJoinDetailService.saveGhostObjIn(qq, null);
             atomicReference.get().cancel(true);
-        }
-        future.cancel(true);
-        if (!future.isCancelled()) {
+            if (!atomicReference.get().isCancelled()) {
+                atomicReference.get().cancel(true);
+            }
             future.cancel(true);
+            if (!future.isCancelled()) {
+                future.cancel(true);
+            }
+            MAP.remove(qq);
+            forceOver = false;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        MAP.remove(qq);
-        forceOver = false;
     }
 
     private void send(String str) {
