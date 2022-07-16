@@ -34,6 +34,7 @@ import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
@@ -375,6 +376,7 @@ public class GameJoinDetailService {
 
     public Object select(int id, GhostObj ghostObj, long who) {
         PersonInfo personInfo = getInfo(who);
+        if (personInfo.isVertigo()) return VERTIGO_ING;
         Object s0 = null;
         switch (id) {
             case 0:

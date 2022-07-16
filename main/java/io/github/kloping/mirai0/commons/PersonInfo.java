@@ -761,6 +761,11 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
+    public PersonInfo cancelVertigo(long t) {
+        BaseInfoTemp.removeVertigo(getId().longValue(),t);
+        return this;
+    }
+
     @Override
     public PersonInfo letVertigo(long t) {
         BaseInfoTemp.letVertigo(getId().longValue(), t);

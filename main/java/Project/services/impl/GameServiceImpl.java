@@ -46,6 +46,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toP
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -896,6 +897,7 @@ public class GameServiceImpl implements IGameService {
     @Override
     public String attByHj(long q, long q2, int br) {
         PersonInfo p1 = getInfo(q);
+        if (p1.isVertigo()) return VERTIGO_ING;
         br = br > 20 ? 20 : br;
         br = br < 1 ? 1 : br;
         if (p1.getHjL() == 0) {
@@ -917,8 +919,7 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String chuTu(long q) {
-        if (getWarp(q).getPrentice().longValue() == -1)
-            return "您没有徒弟";
+        if (getWarp(q).getPrentice().longValue() == -1) return "您没有徒弟";
         try {
             ConfirmController.regConfirm(q,
                     this.getClass().getDeclaredMethod("chuTuNow", long.class),

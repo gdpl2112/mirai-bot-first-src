@@ -11,8 +11,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
-import static Project.dataBases.skill.SkillDataBase.updateSkillInfo;
+import static Project.dataBases.skill.SkillDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
@@ -264,6 +263,19 @@ public class UseTool {
         UseRestrictions.record(who, 118);
         THREADS.submit(new Item118(who));
         removeFromBgs(Long.valueOf(who), 118, 1, ObjType.use);
+        return "使用成功";
+    }
+
+    public String use119(long who) {
+        UseRestrictions.record(who, 119);
+        PersonInfo personInfo = getInfo(who);
+        for (String negativeTag : NEGATIVE_TAGS) {
+            if (personInfo.containsTag(negativeTag)) {
+                personInfo.eddTag(negativeTag);
+            }
+        }
+        personInfo.cancelVertigo(5000);
+        removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
         return "使用成功";
     }
 

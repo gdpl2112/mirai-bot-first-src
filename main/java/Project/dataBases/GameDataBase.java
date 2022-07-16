@@ -109,6 +109,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(116, "冷却药水");
         ID_2_NAME_MAPS.put(117, "大冷却药水");
         ID_2_NAME_MAPS.put(118, "忘忧之香");
+        ID_2_NAME_MAPS.put(119, "净化药水");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
@@ -210,6 +211,7 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(116, "冷却药水,使指定一个魂技减少" + OBJ116_VALUE / 60000 + "分钟冷却,使用示例,使用冷却药水2");
         ID_2_INTRO_MAPS.put(117, "大冷却药水,使所有魂技立刻完成冷却,但每日只能使用" + UseRestrictions.getUseRestrictions(117) + "次");
         ID_2_INTRO_MAPS.put(118, "忘忧之香,使用之后记录当前所有状态(血量,魂力,精神力)若6秒后仍有状态,则忘掉这6秒内的事情(恢复至记录时状态)");
+        ID_2_INTRO_MAPS.put(119, "净化药水,解除自身所有负面效果,解除控制效果并持续5秒");
 
         ID_2_INTRO_MAPS.put(1000, "暗器零件,用于制作暗器;");
         ID_2_INTRO_MAPS.put(1001, "暗器,诸葛神弩,单体伤害,造成 500+攻击x0.9的伤害,需要选择某(所有暗器,不消耗魂力)");
