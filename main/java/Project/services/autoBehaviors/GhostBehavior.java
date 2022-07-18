@@ -128,19 +128,19 @@ public class GhostBehavior implements Runnable {
     public void thisOver() {
         try {
             GameJoinDetailService.saveGhostObjIn(qq, null);
-            atomicReference.get().cancel(true);
-            if (!atomicReference.get().isCancelled()) {
-                atomicReference.get().cancel(true);
-            }
             future.cancel(true);
             if (!future.isCancelled()) {
                 future.cancel(true);
             }
-            MAP.remove(qq);
-            forceOver = false;
+            atomicReference.get().cancel(true);
+            if (!atomicReference.get().isCancelled()) {
+                atomicReference.get().cancel(true);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        MAP.remove(qq);
+        forceOver = false;
     }
 
     private void send(String str) {
