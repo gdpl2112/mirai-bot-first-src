@@ -19,5 +19,6 @@ public class GhostTianQingNiuMang extends ChallengeGhost {
     @Override
     public void run() {
 
+
     }
 }

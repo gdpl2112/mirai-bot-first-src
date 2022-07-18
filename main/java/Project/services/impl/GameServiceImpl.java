@@ -286,6 +286,32 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
+    public List<String> getBags0(Long who) {
+        List<String> list = new ArrayList<>();
+        for (int i : getBgs(who)) {
+            String str = getNameById(i);
+            int n = -1;
+            if ((n = Tool.tool.listEveStartWith(list, str)) != -1) {
+                String or = list.get(n);
+                list.remove(n);
+                if (or.contains("x")) {
+                    int num = Integer.parseInt(or.substring(or.indexOf("x") + 1));
+                    or = or.replace("x" + num + "", "") + "x" + (++num);
+                } else {
+                    or = or + "x2";
+                }
+                list.add(or);
+            } else {
+                list.add(str);
+            }
+        }
+        if (list.isEmpty()) {
+            list.add("空空如也");
+        }
+        return list;
+    }
+
+    @Override
     public String buyGold(Long who, long num) {
         long is = DataBase.getAllInfo(who).getScore();
         if (is >= num * 2) {
@@ -314,7 +340,7 @@ public class GameServiceImpl implements IGameService {
         } else {
             try {
                 String f0 = drawHh(getInfo(who.longValue()).getWh(), Arrays.asList(iii));
-                return  Tool.tool.pathToImg(f0);
+                return Tool.tool.pathToImg(f0);
             } catch (Exception e) {
                 e.printStackTrace();
                 return "魂环画显示异常";

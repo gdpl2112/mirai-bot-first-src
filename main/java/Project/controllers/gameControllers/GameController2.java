@@ -14,6 +14,8 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
@@ -97,8 +99,8 @@ public class GameController2 {
     public String upda(@Param("str") String str, long q) {
         if (str.contains("魂环")) {
             str = str.replace("魂环", "").replace("第", "");
-            String s1 =  Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            String s1 = Tool.tool.findNumberZh(str);
+            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             return service.upHh(q, st);
         }
         throw new NoRunException();
@@ -163,10 +165,36 @@ public class GameController2 {
         }
     }
 
-    @Action(value = "背包", otherName = "我的背包")
-    public String bgs(User qq, Group group) {
-        String str = getImageFromStrings(gameService.getBags(qq.getId()));
-        return str;
+    private static final Integer PAGE_SIZE = 10;
+
+    @Action(value = "背包.*", otherName = "我的背包.*")
+    public String bgs(User qq, Group group, @AllMess String s0) {
+        List<String> list = gameService.getBags0(qq.getId());
+        List<String> endList = new ArrayList<>();
+        String str = null;
+        Integer num = Tool.tool.getInteagerFromStr(s0);
+        num = num == null ? 1 : num;
+        Integer max = 1;
+        int index = list.size();
+        int size = 0;
+        while (index-- > 0) {
+            size++;
+            if (size % 12 == 0)
+                max++;
+        }
+        num = num >= max ? max : 1;
+        endList.add("PAGE: " + num + "/" + max);
+        if (list.size() > PAGE_SIZE) {
+            for (int i = 0; i < PAGE_SIZE; i++) {
+                int i1 = (PAGE_SIZE * (num - 1)) + i;
+                if (i1 >= list.size()) break;
+                endList.add(list.get(i1));
+            }
+        } else {
+            endList.addAll(list);
+        }
+        String[] sss = endList.toArray(new String[0]);
+        return getImageFromStrings(sss);
     }
 
     @Action("闭关")

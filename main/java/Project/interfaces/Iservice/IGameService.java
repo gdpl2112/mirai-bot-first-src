@@ -3,6 +3,8 @@ package Project.interfaces.Iservice;
 
 import io.github.kloping.mirai0.commons.Group;
 
+import java.util.List;
+
 /**
  * @author github-kloping
  */
@@ -54,6 +56,14 @@ public interface IGameService {
      * @return
      */
     String[] getBags(Long who);
+
+    /**
+     * 获取背包
+     *
+     * @param who
+     * @return
+     */
+    List<String> getBags0(Long who);
 
     /**
      * 获取背包
