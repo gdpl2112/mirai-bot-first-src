@@ -6,8 +6,12 @@ import com.google.code.kaptcha.util.Config;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
+import io.github.kloping.date.CronUtils;
+import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
+import io.github.kloping.mirai0.commons.cron.CronEntity;
 import io.ktor.util.collections.ConcurrentSet;
 
 import java.util.*;
@@ -97,4 +101,18 @@ public class InitBeans {
         Gson gson = new Gson();
         return gson;
     }
+
+    @Bean("cronStart")
+    public void start0(ContextManager contextManager) {
+        List<CronEntity> entities = new ArrayList<>();
+        FileInitializeValue.getValue("./conf/cron-entity.json", entities, true);
+        int i = 0;
+        for (CronEntity entity : entities) {
+            CronUtils.INSTANCE.addCronJob("cron-" + i++, (c) -> {
+                Runnable runnable = contextManager.getContextEntity(Runnable.class, entity.getBeanId());
+                runnable.run();
+            });
+        }
+    }
+
 }

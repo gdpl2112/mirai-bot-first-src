@@ -1,6 +1,7 @@
 package Project.aSpring.mcs.controllers;
 
 import Project.controllers.auto.ControllerSource;
+import Project.dataBases.DataBase;
 import Project.dataBases.OtherDatabase;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -32,8 +33,12 @@ public class RestController0 {
 
     @AutoStand
     static ControllerSource controllerSource;
+
     @Value("${auth.pwd:123456}")
     String pwd0;
+
+    @Value("${auth.super.pwd:123456}")
+    String pwd1;
 
     @GetMapping("getCap")
     public String getCap() {
@@ -93,5 +98,11 @@ public class RestController0 {
     @GetMapping("getName")
     public String name(@RequestParam("qid") Long qid) {
         return MemberTools.getName(qid);
+    }
+
+    @GetMapping("addScore")
+    public synchronized String add(@RequestParam("qid") Long qid, @RequestParam("s") Long score) {
+        DataBase.addScore(score, qid);
+        return "ok";
     }
 }

@@ -7,7 +7,6 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ShopDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.detailPlugin.CurfewScheduler;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IManagerService;
 import Project.services.impl.ZongMenServiceImpl;
@@ -184,29 +183,7 @@ public class SuperController {
 
     @Action("更新宵禁<.+=>str>")
     public String a0(@Param("str") String str, Group group) {
-        String[] ss = Tool.tool.getTime(str);
-        if (ss == null) {
-            return "格式错误!!";
-        } else {
-            Curfew curfew = Curfew.getInstance(group.getId());
-            curfew.getFroms().clear();
-            curfew.getFroms().add(ss[0]);
-            curfew.getTos().clear();
-            curfew.getTos().add(ss[1]);
-            curfew.save();
-            CurfewScheduler.update(curfew);
-        }
-        return "ok";
-    }
-
-    @Action("新增宵禁<.+=>str>")
-    public String a1(@Param("str") String str, Group group) {
-        String[] ss = Tool.tool.getTime(str);
-        if (ss == null) {
-            return "格式错误!!";
-        } else {
-            CurfewScheduler.add(group.getId(), ss[0], ss[1]);
-        }
+        
         return "ok";
     }
 
