@@ -101,7 +101,7 @@ public class RestController0 {
     }
 
     @GetMapping("addScore")
-    public synchronized String add(@RequestParam("qid") Long qid, @RequestParam("pwd") Long pwd, @RequestParam("s") Long score) {
+    public synchronized String add(@RequestParam("qid") Long qid, @RequestParam("pwd") String pwd, @RequestParam("s") Long score) {
         if (!pwd.equals(pwd1)) {
             return "err";
         }
