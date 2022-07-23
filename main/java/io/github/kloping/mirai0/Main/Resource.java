@@ -2,7 +2,7 @@ package io.github.kloping.mirai0.Main;
 
 import Project.dataBases.*;
 import Project.dataBases.skill.SkillDataBase;
-import Project.interfaces.http_api.Kloping;
+import Project.interfaces.http_api.KlopingWeb;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -75,7 +75,7 @@ public class Resource {
     public static void verify() throws RuntimeException {
         String code = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
         if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
-        Kloping kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Kloping.class);
+        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
         String r0 = kloping.verify0(code);
         if (!Boolean.valueOf(r0)) throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
         else StarterApplication.logger.info("授权码验证成功√√√");
@@ -152,6 +152,7 @@ public class Resource {
         superQL.addAll(parseToLongList(contextManager.getContextEntity(String.class, "superQL")));
         StarterApplication.logger.info("superQL=>" + superQL);
         MY_MAME = contextManager.getContextEntity(String.class, "bot.myName");
+        StarterApplication.STARTED_RUNNABLE.add(() -> verify());
     }
 
     public static void onReturnResult(Object o, Object[] objects) {

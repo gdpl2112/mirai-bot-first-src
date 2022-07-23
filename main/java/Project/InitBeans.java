@@ -102,17 +102,17 @@ public class InitBeans {
         return gson;
     }
 
-    @Bean("cronStart")
-    public void start0(ContextManager contextManager) {
-        List<CronEntity> entities = new ArrayList<>();
-        FileInitializeValue.getValue("./conf/cron-entity.json", entities, true);
-        int i = 0;
-        for (CronEntity entity : entities) {
-            CronUtils.INSTANCE.addCronJob("cron-" + i++, (c) -> {
-                Runnable runnable = contextManager.getContextEntity(Runnable.class, entity.getBeanId());
-                runnable.run();
-            });
-        }
-    }
+//    @Bean("cronStart")
+//    public void start0(ContextManager contextManager) {
+//        List<CronEntity> entities = new ArrayList<>();
+//        FileInitializeValue.getValue("./conf/cron-entity.json", entities, true);
+//        int i = 0;
+//        for (CronEntity entity : entities) {
+//            CronUtils.INSTANCE.addCronJob("cron-" + i++, (c) -> {
+//                Runnable runnable = contextManager.getContextEntity(Runnable.class, entity.getBeanId());
+//                runnable.run();
+//            });
+//        }
+//    }
 
 }

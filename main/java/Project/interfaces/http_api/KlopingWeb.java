@@ -15,7 +15,7 @@ import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
  * @author github.kloping
  */
 @HttpClient(NetMain.ROOT_PATH)
-public interface Kloping {
+public interface KlopingWeb {
     /**
      * 获取歌曲
      *

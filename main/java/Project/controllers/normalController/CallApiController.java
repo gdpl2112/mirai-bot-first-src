@@ -50,7 +50,7 @@ public class CallApiController {
     private Dzzui dzzui;
 
     @AutoStand
-    private Kloping kloping;
+    private KlopingWeb kloping;
 
     public CallApiController() {
         println(this.getClass().getSimpleName() + "构建");

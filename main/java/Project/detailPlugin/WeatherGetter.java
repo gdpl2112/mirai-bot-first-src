@@ -1,6 +1,6 @@
 package Project.detailPlugin;
 
-import Project.interfaces.http_api.Kloping;
+import Project.interfaces.http_api.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.apiEntitys.WeatherDetail;
@@ -14,7 +14,7 @@ import io.github.kloping.mirai0.commons.apiEntitys.WeatherM;
 public class WeatherGetter {
 
     @AutoStand
-    static Kloping weatherM;
+    static KlopingWeb weatherM;
 
     public String get(String address) {
         try {

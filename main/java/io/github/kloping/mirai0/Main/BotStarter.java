@@ -32,7 +32,6 @@ public class BotStarter {
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b1_err.log");
         Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b1_console.log");
         setterStarterApplication(BotStarter.class);
-        verify();
         Tool.tool.deleteDir(new File("./cache"));
         Tool.tool.deleteDir(new File("./cache1"));
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");

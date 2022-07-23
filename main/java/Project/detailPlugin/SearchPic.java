@@ -1,6 +1,6 @@
 package Project.detailPlugin;
 
-import Project.interfaces.http_api.Kloping;
+import Project.interfaces.http_api.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class SearchPic {
 
     @AutoStand
-    static Kloping searchPics;
+    static KlopingWeb searchPics;
 
     public String[] getPic(String name) throws IOException {
         return searchPics.getPicNum(name, 6, null).getData();

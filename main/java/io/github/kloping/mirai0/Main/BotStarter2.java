@@ -40,7 +40,6 @@ public class BotStarter2 {
         datePath = "./Libs2";
         init();
         setterStarterApplication(BotStarter2.class);
-        verify();
         SpringStarter.main(args);
         bot.login();
 //        pluginLoad();
