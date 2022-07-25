@@ -71,8 +71,7 @@ public class RestController0 {
     }
 
     @GetMapping("authorization0")
-    public String authorization0(
-            @RequestParam("pwd") String pwd,
+    public String authorization0(@RequestParam("pwd") String pwd,
             @RequestParam("qid") Long qid) {
         if (pwd.equals(pwd0)) {
             String code0 = getCode();

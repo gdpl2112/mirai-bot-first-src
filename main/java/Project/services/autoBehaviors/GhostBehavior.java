@@ -61,9 +61,9 @@ public class GhostBehavior implements Runnable {
         return new GhostBehavior(who, group);
     }
 
-    AtomicReference<Future> atomicReference = new AtomicReference<>();
-    AtomicReference<Integer> atomicJid = new AtomicReference<>(-1);
-    ScheduledFuture future;
+    AtomicReference<Integer> atomicJid;
+    AtomicReference<Future> atomicReference;
+    ScheduledFuture future = null;
 
     @Override
     public void run() {
@@ -87,12 +87,15 @@ public class GhostBehavior implements Runnable {
         List<Integer> list = new ArrayList<>(jid2skill.keySet());
         send(sb.toString().trim());
 
+        atomicReference = new AtomicReference<>(null);
+        atomicJid = new AtomicReference<>(0);
+
         future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
             if (!updateGhost()) {
                 thisOver();
                 return;
             }
-            if (atomicReference.get() != null) {
+            if (atomicReference != null && atomicReference.get() != null) {
                 try {
                     atomicReference.get().get(15, TimeUnit.SECONDS);
                 } catch (Exception e) {
@@ -128,13 +131,17 @@ public class GhostBehavior implements Runnable {
     public void thisOver() {
         try {
             GameJoinDetailService.saveGhostObjIn(qq, null);
-            future.cancel(true);
-            if (!future.isCancelled()) {
+            if (future != null) {
                 future.cancel(true);
+                if (!future.isCancelled()) {
+                    future.cancel(true);
+                }
             }
-            atomicReference.get().cancel(true);
-            if (!atomicReference.get().isCancelled()) {
+            if (atomicReference != null) {
                 atomicReference.get().cancel(true);
+                if (!atomicReference.get().isCancelled()) {
+                    atomicReference.get().cancel(true);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
