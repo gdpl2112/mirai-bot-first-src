@@ -53,6 +53,19 @@ public class RestController0 {
         return jo.toString();
     }
 
+    @GetMapping("authCap1")
+    public String authCap(@RequestParam("id") String id, @RequestParam("code") String code) {
+        if (!UCAP.containsKey(id)) {
+            return "err";
+        }
+        if (UCAP.get(id).toLowerCase().equals(code.toLowerCase())) {
+            UCAP.remove(id);
+            return "ok";
+        } else {
+            return "err";
+        }
+    }
+
     @GetMapping("AuthCap")
     public String authCap(@RequestParam("id") String id, @RequestParam("code") String code, @RequestParam("qid") String qid) {
         if (!UCAP.containsKey(id)) {
@@ -72,7 +85,7 @@ public class RestController0 {
 
     @GetMapping("authorization0")
     public String authorization0(@RequestParam("pwd") String pwd,
-            @RequestParam("qid") Long qid) {
+                                 @RequestParam("qid") Long qid) {
         if (pwd.equals(pwd0)) {
             String code0 = getCode();
             MessageTools.instance.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);

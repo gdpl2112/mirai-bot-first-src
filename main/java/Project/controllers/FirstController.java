@@ -40,7 +40,6 @@ public class FirstController {
     @AutoStand
     public RedisOperate<Set<Long>> redisOperate;
 
-
     @Action("领取积分")
     public synchronized String a0(User user) {
         Set<Long> longSet = redisOperate.getValue(KEY0);
