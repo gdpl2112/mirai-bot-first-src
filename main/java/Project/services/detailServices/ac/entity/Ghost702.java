@@ -45,7 +45,7 @@ public class Ghost702 extends GhostWithGroup {
             PersonInfo p1 = (PersonInfo) who;
             if (p1.containsTag(TAG_TRUE)) {
                 sendMessage("真实伤害护盾未生效\n护盾剩余:" + shield, who.getId().longValue());
-                return super.updateHp(l, who);
+                return super.updateHp(l0, who);
             } else {
                 if (shield.longValue() > 0) {
                     if (l > shield.longValue()) {

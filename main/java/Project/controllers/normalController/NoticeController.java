@@ -46,6 +46,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("7.27:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("7.25:尝试修复已知问题").append("\n");
         UPDATE_LOG.append("7.18:背包分页(背包1,背包2)").append("\n");
         UPDATE_LOG.append("7.16:尝试修复已知问题,新物品净化药水").append("\n");
