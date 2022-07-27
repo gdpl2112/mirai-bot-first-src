@@ -165,7 +165,7 @@ public class GameController2 {
         }
     }
 
-    private static final Integer PAGE_SIZE = 10;
+    private static final Integer PAGE_SIZE = 12;
 
     @Action(value = "背包.*", otherName = "我的背包.*")
     public String bgs(User qq, Group group, @AllMess String s0) {
@@ -174,13 +174,15 @@ public class GameController2 {
         String str = null;
         Integer num = Tool.tool.getInteagerFromStr(s0);
         num = num == null ? 1 : num;
-        Integer max = 1;
+        if (num == 0) {
+            String[] sss = list.toArray(new String[0]);
+            return getImageFromStrings(sss);
+        }
+        Integer max = 0;
         int index = list.size();
-        int size = 0;
-        while (index-- > 0) {
-            size++;
-            if (size % 12 == 0)
-                max++;
+        while (index > 0) {
+            index -= PAGE_SIZE;
+            max++;
         }
         num = num >= max ? max : 1;
         endList.add("PAGE: " + num + "/" + max);

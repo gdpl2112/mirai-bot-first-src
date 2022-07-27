@@ -83,7 +83,7 @@ public class GameSkillController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            if ( Tool.tool.EveListStartWith(listFx, str) == -1) {
+            if (Tool.tool.EveListStartWith(listFx, str) == -1) {
                 MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
@@ -104,7 +104,7 @@ public class GameSkillController {
             i = Integer.parseInt(st);
         } catch (Exception e) {
             try {
-                i =  Tool.tool.chineseNumber2Int(Tool.tool.findNumberZh(st));
+                i = Tool.tool.chineseNumber2Int(Tool.tool.findNumberZh(st));
             } catch (Exception ex) {
                 return ("错误!\r\n示例:激活魂技1");
             }
@@ -117,7 +117,7 @@ public class GameSkillController {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
             Set<Number> numbers = new HashSet<>();
             while (true) {
@@ -163,7 +163,7 @@ public class GameSkillController {
             str = str.replaceFirst("魂技", EMPTY_STR).replaceFirst("第", EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
             s1 = s1.substring(0, 1);
-            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replaceFirst(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.setName(qq.getId(), st, str));
         } else {
@@ -176,7 +176,7 @@ public class GameSkillController {
         if (str.contains("魂技")) {
             str = str.replace("魂技", EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replace(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.getIntro(qq.getId(), st, str));
         } else {
@@ -190,7 +190,7 @@ public class GameSkillController {
             try {
                 str = str.replaceFirst("魂技", EMPTY_STR);
                 String s1 = Tool.tool.findNumberZh(str);
-                Integer st = Integer.valueOf( Tool.tool.chineseNumber2Int(s1));
+                Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
                 str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
