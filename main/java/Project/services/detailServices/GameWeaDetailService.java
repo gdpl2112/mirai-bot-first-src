@@ -28,7 +28,7 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
  */
 @Entity
 public class GameWeaDetailService {
-    public static final List<String> AQS = new ArrayList<>();
+    public static final List<String> WEAPONS = new ArrayList<>();
     public static final Map<Integer, Long> MAX_DAMAGE = new HashMap<>();
     private final static Class CLA = GameWeaDetailService.class;
     private static final String NO_H = "ta已经没有状态无需攻击";
@@ -44,25 +44,26 @@ public class GameWeaDetailService {
     }
 
     public GameWeaDetailService() {
-        if (AQS.isEmpty()) {
+        if (WEAPONS.isEmpty()) {
             for (int id : ID_2_NAME_MAPS.keySet()) {
                 if (id > 1000 && id < 1200)
-                    AQS.add(getNameById(id));
+                    WEAPONS.add(getNameById(id));
             }
         }
     }
 
     private synchronized void initAqs() {
-        if (AQS.isEmpty())
+        if (WEAPONS.isEmpty()) {
             for (int id : ID_2_NAME_MAPS.keySet()) {
-                if (id > 1000 && id < 1200)
-                    AQS.add(getNameById(id));
+                if ((id > 1000 && id < 1200) || (id >= 124 && id <= 127))
+                    WEAPONS.add(getNameById(id));
             }
+        }
     }
 
     public synchronized String useAq(List<String> lps, long who, String name) {
-        if (AQS.isEmpty()) initAqs();
-        if (!AQS.contains(name)) return "系统未找到 此暗器";
+        if (WEAPONS.isEmpty()) initAqs();
+        if (!WEAPONS.contains(name)) return "系统未找到 此暗器";
         int id = NAME_2_ID_MAPS.get(name);
         if (!exitsO(id, who)) return "你没有 " + name + "或已损坏";
         long at = getInfo(who).getAk1();
