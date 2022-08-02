@@ -49,7 +49,8 @@ public class GameObjController {
     @Action("使用<.{1,}=>str>")
     public Object use(User qq, @Param("str") String str, Group g) {
         try {
-            String what = str.replaceAll(",", "").replaceAll("个", "");
+            String what = str.replaceAll(",", "").replaceAll("个", "")
+                    .replaceAll("(\\[@\\d+]|#)", "");
             Integer num = null;
             try {
                 num = Integer.valueOf(Tool.tool.findNumberFromString(what));
@@ -59,7 +60,7 @@ public class GameObjController {
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             if (id <= 127 && id >= 124) {
-            return     gameWeaService.useAq(str, qq.getId());
+                return gameWeaService.useAq(str, qq.getId());
             }
             String sss = null;
             if (num == null) {
