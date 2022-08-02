@@ -242,7 +242,7 @@ public class GameJoinDetailService {
 
     public static String willGet(int level, long who, int id) {
         onKilled(who);
-        if (RANDOM.nextInt(25) == 0) {
+        if (RANDOM.nextInt(20) == 0) {
             int sid = 120;
             addToBgs(who, sid, ObjType.got);
             return "\n你获得了" + getNameById(sid);
