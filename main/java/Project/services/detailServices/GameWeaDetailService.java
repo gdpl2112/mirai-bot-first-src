@@ -19,6 +19,8 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.attGho;
+import static Project.services.detailServices.GameSkillDetailService.addShield;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 
 /**
@@ -64,11 +66,14 @@ public class GameWeaDetailService {
         int id = NAME_2_ID_MAPS.get(name);
         if (!exitsO(id, who)) return "你没有 " + name + "或已损坏";
         long at = getInfo(who).getAk1();
-        if (at > System.currentTimeMillis())
+        if (at > System.currentTimeMillis()) {
             return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));
-        if (challengeDetailService.isTemping(who))
+        }
+        if (challengeDetailService.isTemping(who)) {
             getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) * 2).apply();
-        else getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) / 3).apply();
+        } else {
+            getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) / 3).apply();
+        }
         try {
             Method method = CLA.getMethod("use" + (id), List.class, long.class);
             String mes = (String) method.invoke(this, lps, who);
@@ -76,7 +81,7 @@ public class GameWeaDetailService {
             return mes;
         } catch (Exception e) {
             e.printStackTrace();
-            return "使用异常...";
+            return "使用失败";
         }
     }
 
@@ -229,6 +234,64 @@ public class GameWeaDetailService {
         }
     }
 
+    /**
+     * 魂导护盾
+     *
+     * @return
+     */
+    public String use124(List<String> lps, long who) {
+        long v2 = percentTo(50, getInfo(who).getHpL());
+        addShield(who, v2);
+        return "使用成功";
+    }
+
+    /**
+     * 高级魂导护盾
+     *
+     * @return
+     */
+    public String use125(List<String> lps, long who) {
+        long v2 = percentTo(100, getInfo(who).getHpL());
+        addShield(who, v2);
+        return "使用成功";
+    }
+
+    /**
+     * 魂导炮
+     *
+     * @return
+     */
+    public String use126(List<String> lps, long who) {
+        int num = lps.size();
+        StringBuilder sb = new StringBuilder();
+        if (num < 2 && num > 0) {
+            long att = percentTo(50, getInfo(who).att());
+            for (String lp : lps) {
+                Long w2 = lp.equals("#") ? -2L : Long.parseLong(lp);
+                GameDetailServiceUtils.attGhostOrMan(sb, who, w2, att);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 高级魂导炮
+     *
+     * @return
+     */
+    public String use127(List<String> lps, long who) {
+        int num = lps.size();
+        StringBuilder sb = new StringBuilder();
+        if (num < 2 && num > 0) {
+            long att = percentTo(100, getInfo(who).att());
+            for (String lp : lps) {
+                Long w2 = lp.equals("#") ? -2L : Long.parseLong(lp);
+                GameDetailServiceUtils.attGhostOrMan(sb, who, w2, att);
+            }
+        }
+        return sb.toString();
+    }
+
     public void used(long who, int id) {
         for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(who)) {
             if (map.get("oid").intValue() == id) {
@@ -237,7 +300,7 @@ public class GameWeaDetailService {
                 if (num > 0) {
                     SpringBootResource.getAqBagMapper().update(num, 0, map.get("id"));
                 } else {
-                    SpringBootResource.getAqBagMapper().update(num, 1, map.get("id"));
+                    SpringBootResource.getAqBagMapper().delete(map.get("id"));
                 }
                 break;
             }

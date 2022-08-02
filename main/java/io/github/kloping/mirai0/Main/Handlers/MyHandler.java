@@ -45,11 +45,8 @@ import static io.github.kloping.mirai0.Main.Resource.BOT;
  * @author github-kloping
  */
 public class MyHandler extends SimpleListenerHost {
-    public static final long REPEAT_CD = 10 * 1000;
     public static final Map<Long, io.github.kloping.mirai0.commons.Group> HIST_GROUP_MAP = new ConcurrentHashMap<>();
     private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
-    public static String upMessage = null;
-    public static long CD = 10 * 1000;
     public static MemberJoinRequestEvent joinRequestEvent;
 
     static {
@@ -72,20 +69,6 @@ public class MyHandler extends SimpleListenerHost {
         DAE_THREADS.submit(() -> {
             DataBase.addTimes(1, id);
             GroupMessageBroadcast.INSTANCE.broadcast(id, eGroup.getId(), text.trim());
-            if (CD < System.currentTimeMillis()) {
-                if (upMessage != null && upMessage.equals(text)) {
-                    try {
-                        Nudge nudge = member.nudge();
-                        nudge.sendTo(group);
-                        group.sendMessage(message);
-                    } catch (Exception e) {
-                    }
-                    CD = System.currentTimeMillis() + REPEAT_CD;
-                    upMessage = null;
-                } else {
-                    upMessage = text;
-                }
-            }
         });
     }
 

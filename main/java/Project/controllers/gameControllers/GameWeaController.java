@@ -43,7 +43,7 @@ public class GameWeaController {
         return sss;
     }
 
-    @Action("暗器背包")
+    @Action("武器背包")
     public String aqBgs(User qq, Group group) {
         String str = gameWeaService.aqBgs(qq.getId());
         return str;

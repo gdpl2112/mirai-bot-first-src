@@ -15,7 +15,7 @@ import java.util.Map;
 public class UseRestrictions {
     public static final Map<Integer, Integer> USE_INTEGER_MAP = new HashMap<>();
     public static final Map<Long, Integer> USE_RECORD = new HashMap<>();
-    public static final Integer MAX_MEET_C = 5;
+    public static final Integer MAX_MEET_C = 7;
 
     static {
         TimerController.ZERO_RUNS.add(() -> {

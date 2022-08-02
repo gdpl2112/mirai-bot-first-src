@@ -123,6 +123,13 @@ public class GameDetailServiceUtils {
         attGhostOrMan(sb, who, who2, v, true);
     }
 
+    /**
+     * @param sb
+     * @param who
+     * @param who2
+     * @param v
+     * @param k    show
+     */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v, Boolean k) {
         if (who2.longValue() == -2) {
             sb.append(attGho(who.longValue(), v, k, false, GhostLostBroadcast.KillType.SKILL_ATT));

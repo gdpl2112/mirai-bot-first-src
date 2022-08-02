@@ -40,7 +40,7 @@ public class GameSkillController {
 
     static {
         StringBuilder sb = new StringBuilder();
-        sb.append("光明圣龙新增第八魂技");
+        sb.append("无");
         m1 = sb.toString();
 
     }

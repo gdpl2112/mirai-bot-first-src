@@ -12,8 +12,8 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.dataBases.GameDataBase.addToBgs;
-import static Project.dataBases.GameDataBase.getNameById;
+import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.ID_2_WEA_O_NUM_MAPS;
 
 /**
  * @author github-kloping
@@ -34,7 +34,15 @@ public class GameObjServiceImpl implements IGameObjService {
         NEED_NUMS.put(1603, Tool.tool.getEntry(1602, 4));
         NEED_NUMS.put(1604, Tool.tool.getEntry(1603, 4));
         NEED_NUMS.put(1605, Tool.tool.getEntry(1604, 5));
-        NEED_NUMS.put(115, Tool.tool.getEntry(114, 8));
+        NEED_NUMS.put(115, Tool.tool.getEntry(114, 6));
+
+        NEED_NUMS.put(122, Tool.tool.getEntry(121, 4));
+        NEED_NUMS.put(123, Tool.tool.getEntry(121, 5));
+
+        NEED_NUMS.put(124, Tool.tool.getEntry(122, 13));
+        NEED_NUMS.put(125, Tool.tool.getEntry(123, 10));
+        NEED_NUMS.put(126, Tool.tool.getEntry(122, 13));
+        NEED_NUMS.put(127, Tool.tool.getEntry(123, 11));
     }
 
     @AutoStand
@@ -52,7 +60,11 @@ public class GameObjServiceImpl implements IGameObjService {
         int needNum = entry.getValue();
         if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
             GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
-            addToBgs(q, id, ObjType.got);
+            if (id >= 124 && id <= 127) {
+                addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
+            } else {
+                addToBgs(q, id, ObjType.got);
+            }
             return String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum
                     , getNameById(needId), SourceDataBase.getImgPathById(id));
         } else return String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id));

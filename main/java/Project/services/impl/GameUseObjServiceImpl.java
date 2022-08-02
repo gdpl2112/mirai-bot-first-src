@@ -5,8 +5,10 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IGameUseObjService;
+import Project.interfaces.Iservice.IGameWeaService;
 import Project.services.detailServices.shopItems.UseTool;
 import Project.services.player.UseRestrictions;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -135,7 +137,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
         if (enough) {
             String str = new UseTool().useObjNum(who, id, num);
-            if (! Tool.tool.findNumberFromString(str).isEmpty()) {
+            if (!Tool.tool.findNumberFromString(str).isEmpty()) {
                 putPerson(getInfo(who).setUk1(System.currentTimeMillis() + cd0));
             }
             return "批量使用" + getPic(id) + str;
@@ -293,10 +295,15 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
     }
 
+    @AutoStand
+    IGameWeaService gameWeaService;
+
     @Override
     public String objTo(Long who, int id, Long whos) {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
-        if (bgids.contains(id)) {
+        if (id > 1000 || (id <= 127 && id >= 124)) {
+            return gameWeaService.objTo(who, id, whos);
+        } else if (bgids.contains(id)) {
             GameDataBase.removeFromBgs(who, id, ObjType.transLost);
             GameDataBase.addToBgs(Long.valueOf(whos), id, ObjType.transGot);
             return "转让完成";

@@ -7,6 +7,7 @@ import Project.services.detailServices.GameWeaDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_THIS_AQ_IN_BG_TIPS;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -34,7 +36,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
     private static void init() {
         MENU += "\n#选择器(#为当前魂兽))";
         MENU += "\n使用暗器<暗器名><选择器>";
-        MENU += "\n暗器背包";
+        MENU += "\n武器背包";
         MENU += "\n制作暗器<暗器名>";
         MENU += "\n暗器制作表";
         MENU += "\n分解<暗器名>";
@@ -105,6 +107,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         List<String> list = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         for (Integer i : ID_2_WEA_MAPS.keySet()) {
+            if (i < 1000) continue;
             list.add("\"" + getNameById(i) + "\"需要" + ID_2_WEA_MAPS.get(i) + "个零件");
             sb.append("\"" + getNameById(i) + "\"需要" + ID_2_WEA_MAPS.get(i) + "个零件").append("\r\n");
         }
@@ -113,23 +116,55 @@ public class GameWeaServiceImpl implements IGameWeaService {
 
     @Override
     public String decomposition(long qid, Integer id) {
-        //源使用次数
-        int numc = ID_2_WEA_O_NUM_MAPS.get(id);
-        //需要数量
-        int num = ID_2_WEA_MAPS.get(id);
-        //每次的数量
-        int n = num / numc;
-        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(qid)) {
-            int oid = map.get("oid");
-            if (oid == id) {
-                int sl = map.get("num");
-                int e0 = sl * n;
-                e0 = (int) (e0 * 0.9f);
-                SpringBootResource.getAqBagMapper().delete(map.get("id"));
-                addToBgs(qid, 1000, e0, ObjType.un);
-                return "成功分解了" + getNameById(id) + "获得了" + e0 + "个暗器零件";
+        if (id > 1000) {
+            //源使用次数
+            int numc = ID_2_WEA_O_NUM_MAPS.get(id);
+            //需要数量
+            int num = ID_2_WEA_MAPS.get(id);
+            //每次的数量
+            int n = num / numc;
+            for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(qid)) {
+                int oid = map.get("oid");
+                if (oid == id) {
+                    int sl = map.get("num");
+                    int e0 = sl * n;
+                    e0 = (int) (e0 * 0.9f);
+                    SpringBootResource.getAqBagMapper().delete(map.get("id"));
+                    addToBgs(qid, 1000, e0, ObjType.un);
+                    return "成功分解了" + getNameById(id) + "获得了" + e0 + "个暗器零件";
+                }
+            }
+            return NOT_FOUND_THIS_AQ_IN_BG_TIPS;
+        } else if (id == 120) {
+            int r = Tool.tool.RANDOM.nextInt(10);
+            int oid;
+            if (r == 0) {
+                oid = 122;
+                addToBgs(qid, oid, 1, ObjType.un);
+                return "成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid);
+            } else if (r == 1 || r == 2) {
+                oid = 121;
+                addToBgs(qid, oid, 2, ObjType.un);
+                return "成功分解了" + getNameById(id) + "获得了2个" + ID_2_NAME_MAPS.get(oid);
+            } else {
+                oid = 121;
+                addToBgs(qid, oid, 1, ObjType.un);
+                return "成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid);
             }
         }
-        return NOT_FOUND_THIS_AQ_IN_BG_TIPS;
+        return ERR_TIPS;
+    }
+
+    @Override
+    public String objTo(Long q1, int id, Long q2) {
+        for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(q1)) {
+            int oid = map.get("oid");
+            if (oid == id) {
+                SpringBootResource.getAqBagMapper().delete(map.get("id"));
+                addToAqBgs(q2, id, map.get("num"));
+                return "转让完成";
+            }
+        }
+        return "您的背包里没有" + ID_2_NAME_MAPS.get(id);
     }
 }

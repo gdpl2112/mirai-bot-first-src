@@ -3,6 +3,7 @@ package Project.controllers.gameControllers.shoperController;
 
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameUseObjService;
+import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -29,6 +30,9 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class GameObjController {
     @AutoStand
     IGameUseObjService gameUseObiService;
+    @AutoStand
+    IGameWeaService gameWeaService;
+
     private String upShopPath = "";
 
     public GameObjController() {
@@ -48,12 +52,15 @@ public class GameObjController {
             String what = str.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
+                num = Integer.valueOf(Tool.tool.findNumberFromString(what));
                 what = what.replace(num.toString(), "");
             } catch (Exception e) {
             }
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
+            if (id <= 127 && id >= 124) {
+            return     gameWeaService.useAq(str, qq.getId());
+            }
             String sss = null;
             if (num == null) {
                 sss = gameUseObiService.useObj(qq.getId(), id);
@@ -98,7 +105,7 @@ public class GameObjController {
             String what = name.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
+                num = Integer.valueOf(Tool.tool.findNumberFromString(what));
                 what = what.replaceFirst(num + "", "");
             } catch (Exception e) {
             }
@@ -129,7 +136,7 @@ public class GameObjController {
             name = name.replace(String.format(AT_FORMAT, whos), "").replace("[@me]", "");
             Integer num = null;
             try {
-                num = Integer.valueOf( Tool.tool.findNumberFromString(name));
+                num = Integer.valueOf(Tool.tool.findNumberFromString(name));
                 name = name.replaceFirst(String.valueOf(num), "").replaceAll(",", "").replaceAll("个", "");
             } catch (Exception e) {
                 num = null;
@@ -150,7 +157,6 @@ public class GameObjController {
         }
     }
 
-
     @Action("出售<.{1,}=>name>")
     public Object sle(User qq, @Param("name") String name, Group group) {
         try {
@@ -160,7 +166,7 @@ public class GameObjController {
             String what = name.trim().replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
             try {
-                num = Integer.valueOf( Tool.tool.findNumberFromString(what));
+                num = Integer.valueOf(Tool.tool.findNumberFromString(what));
                 what = what.replaceFirst(num + "", "");
             } catch (Exception e) {
                 num = null;

@@ -97,12 +97,12 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(730, 40);
         BASE_PERCENT_MAP.put(731, 40);
         //==
-        BASE_PERCENT_MAP.put(1001, 60);
-        BASE_PERCENT_MAP.put(1002, 95);
+        BASE_PERCENT_MAP.put(1001, 54);
+        BASE_PERCENT_MAP.put(1002, 75);
         BASE_PERCENT_MAP.put(1003, 10);
-        BASE_PERCENT_MAP.put(1004, 100);
+        BASE_PERCENT_MAP.put(1004, 80);
         BASE_PERCENT_MAP.put(1005, 12);
-        BASE_PERCENT_MAP.put(1006, 15);
+        BASE_PERCENT_MAP.put(1006, 10);
         BASE_PERCENT_MAP.put(1007, 10);
         BASE_PERCENT_MAP.put(1008, 10);
         BASE_PERCENT_MAP.put(1009, 35);
@@ -110,7 +110,7 @@ public class GameSkillDetailService {
         //==
         BASE_PERCENT_MAP.put(8010, 20);
         BASE_PERCENT_MAP.put(8011, 10);
-        BASE_PERCENT_MAP.put(8021, 32);
+        BASE_PERCENT_MAP.put(8021, 37);
         BASE_PERCENT_MAP.put(8030, 32);
         BASE_PERCENT_MAP.put(8031, 40);
         BASE_PERCENT_MAP.put(8041, 42);
@@ -145,7 +145,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(8260, 30);
         BASE_PERCENT_MAP.put(8270, 33);
         BASE_PERCENT_MAP.put(8280, 15);
-        BASE_PERCENT_MAP.put(8290, 42);
+        BASE_PERCENT_MAP.put(8290, 48);
         BASE_PERCENT_MAP.put(8300, 36);
         BASE_PERCENT_MAP.put(8310, 33);
     }
