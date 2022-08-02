@@ -116,8 +116,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(123, "高级魂导材料");
         ID_2_NAME_MAPS.put(124, "魂导护盾");
         ID_2_NAME_MAPS.put(125, "高级魂导护盾");
-        ID_2_NAME_MAPS.put(125, "魂导炮");
-        ID_2_NAME_MAPS.put(126, "高级魂导炮");
+        ID_2_NAME_MAPS.put(126, "魂导炮");
+        ID_2_NAME_MAPS.put(127, "高级魂导炮");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
