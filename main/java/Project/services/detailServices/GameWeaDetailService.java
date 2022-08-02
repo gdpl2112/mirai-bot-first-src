@@ -266,7 +266,7 @@ public class GameWeaDetailService {
         int num = lps.size();
         StringBuilder sb = new StringBuilder();
         if (num < 2 && num > 0) {
-            long att = percentTo(50, getInfo(who).att());
+            long att = percentTo(50, getInfo(who).getAtt());
             for (String lp : lps) {
                 Long w2 = lp.equals("#") ? -2L : Long.parseLong(lp);
                 GameDetailServiceUtils.attGhostOrMan(sb, who, w2, att);
@@ -284,7 +284,7 @@ public class GameWeaDetailService {
         int num = lps.size();
         StringBuilder sb = new StringBuilder();
         if (num < 2 && num > 0) {
-            long att = percentTo(100, getInfo(who).att());
+            long att = percentTo(100, getInfo(who).getAtt());
             for (String lp : lps) {
                 Long w2 = lp.equals("#") ? -2L : Long.parseLong(lp);
                 GameDetailServiceUtils.attGhostOrMan(sb, who, w2, att);

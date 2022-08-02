@@ -585,7 +585,7 @@ public class PersonInfo implements BaseInfo {
         long v0 = getTagValue(myTag).longValue();
         if (v0 >= max.longValue()) {
             return this;
-        } else if (v0 + percent.longValue() > max.longValue()) {
+        } else if (v0 + percent.longValue() >= max.longValue()) {
             NormalTagPack pack = new NormalTagPack(myTag, t);
             pack.setValue(max.longValue() - v0);
             pack.setQ(getId().longValue());
