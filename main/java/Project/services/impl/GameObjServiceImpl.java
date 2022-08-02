@@ -37,7 +37,7 @@ public class GameObjServiceImpl implements IGameObjService {
         NEED_NUMS.put(115, Tool.tool.getEntry(114, 6));
 
         NEED_NUMS.put(122, Tool.tool.getEntry(121, 4));
-        NEED_NUMS.put(123, Tool.tool.getEntry(121, 5));
+        NEED_NUMS.put(123, Tool.tool.getEntry(122, 5));
 
         NEED_NUMS.put(124, Tool.tool.getEntry(122, 13));
         NEED_NUMS.put(125, Tool.tool.getEntry(123, 10));
