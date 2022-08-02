@@ -79,7 +79,7 @@ public class GameWeaController {
         if (id == null) {
             return "系统找不到=>" + name;
         }
-        if (!(isAnq(id))) {
+        if (!(isAnq(id)) && id != 120) {
             return name + "不可分解";
         }
         return gameWeaService.decomposition(user.getId(), id);
