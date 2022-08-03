@@ -1,6 +1,7 @@
 package Project.controllers.normalController;
 
 import Project.interfaces.http_api.*;
+import Project.interfaces.http_api.old.ApiIyk0;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -127,58 +128,6 @@ public class CallApiController {
         }
     }
 
-    @Action("随机男头像")
-    public String sjtx1() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[1]);
-            return Tool.tool.pathToImg(jo.getString("img"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("随机女头像")
-    public String sjtx2() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[0]);
-            return Tool.tool.pathToImg(jo.getString("img"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("随机情侣头像")
-    public String sjtx3() {
-        try {
-            JSONObject jo = apiIyk0.sjtx(SJTX_PARMS[3]);
-            return Tool.tool.pathToImg(jo.getString("img1")) + "\n" + Tool.tool.pathToImg(jo.getString("img2"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("疫情<.+=>name>")
-    public String yq0(@Param("name") String address) {
-        YiQing qing = apiIyk0.yq(address);
-        if (qing == null) {
-            return ERR_TIPS;
-        }
-        StringBuilder sb = new StringBuilder()
-                .append("地区:").append(qing.get查询地区()).append(NEWLINE)
-                .append("时间:").append(qing.getTime()).append(NEWLINE)
-                .append("新增确诊:").append(qing.get新增确诊()).append(NEWLINE)
-                .append("目前确诊:").append(qing.get目前确诊()).append(NEWLINE)
-                .append("现存确诊:").append(qing.get现存确诊()).append(NEWLINE)
-                .append("现存无症状:").append(qing.get现存无症状()).append(NEWLINE)
-                .append("治愈人数:").append(qing.get治愈人数()).append(NEWLINE)
-                .append("死亡人数:").append(qing.get死亡人数()).append(NEWLINE);
-
-        return sb.toString();
-    }
-
     @Action("QQ信息.*?")
     public Object info(@AllMess String mess, long q) {
         String str = Tool.tool.findNumberFromString(mess);
@@ -226,11 +175,6 @@ public class CallApiController {
             e.printStackTrace();
             return "获取失败";
         }
-    }
-
-    @Action("全国降水量")
-    public String lowWater() {
-        return Tool.tool.pathToImg(apiIyk0.getJyu().getImg());
     }
 
     @Action("卫星云图")
@@ -305,15 +249,6 @@ public class CallApiController {
                 e.printStackTrace();
                 return source.getName() + NEWLINE + "更新至" + source.getSt();
             }
-        }
-    }
-
-    @Action("IP:<.+=>ip>")
-    public String getAddressByIp(@Param("ip") String ip) {
-        try {
-            return apiIyk0.getAddressByIp(ip);
-        } catch (Exception e) {
-            return ERR_TIPS;
         }
     }
 }

@@ -1,14 +1,12 @@
 package Project.controllers.normalController;
 
 
-import Project.aSpring.SaverSpringStarter;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.Handlers.CapHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -18,9 +16,6 @@ import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.PlainText;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -34,7 +29,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class ManagerController {
-    private final static String[] sss = {"你好啊!", "嘿,老Baby", "在吗 ", "吃了没"};
     @AutoStand
     IManagerService managerService;
 
@@ -150,14 +144,6 @@ public class ManagerController {
         return "不想聊了";
     }
 
-    @Action(value = "与ta互动.{1,}", otherName = {"与他互动.{1,}", "与她互动.{1,}"})
-    public String talkWith(User qq, @AllMess String chain) {
-        long who = MessageTools.instance.getAtFromString(chain);
-        if (who == -1)
-            return new StringBuilder().append("谁?").toString();
-        return new StringBuilder().append(String.format("&[At:%s]", who)).append("\r\n").append(sss[ Tool.tool.RANDOM.nextInt(sss.length - 1)]).toString();
-    }
-
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
     public String out(long q, Group gr, @AllMess String chain) {
         Number[] numbers = getAllAt(chain);
@@ -239,7 +225,7 @@ public class ManagerController {
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             if (str.trim().matches("最近\\d+条")) {
                 int[] is;
-                int i =  Tool.tool.getInteagerFromStr(str);
+                int i = Tool.tool.getInteagerFromStr(str);
                 i = i > 15 ? 15 : i;
                 is = new int[i];
                 for (int i1 = 0; i1 < i; i1++) {
@@ -253,9 +239,8 @@ public class ManagerController {
         return ERR_TIPS;
     }
 
-    @Action(value = "yousend.+", otherName = {"[@me]跟我说<.+=>str>"})
+    @Action(value = "yousend.+")
     public String isay(@AllMess String str, Group group) {
         return str.substring(7);
     }
-
 }

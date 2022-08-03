@@ -2,12 +2,11 @@ package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.services.detailServices.CustomRandReplyService;
-import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Before;
+import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
 import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 
 import java.util.Map;
@@ -28,13 +27,14 @@ public class CustomRandController {
     @Before
     public void before(User qq) throws NoRunException {
         throw new NoRunException("not Open");
-    /*    if (qq.getId() == Long.parseLong(superQ)) {
+    }
+    /* *//*    if (qq.getId() == Long.parseLong(superQ)) {
             println("超级权限执行...");
             return;
         } else if (!DataBase.isFather(qq.getId())) {
             throw new NoRunException("无权限");
         }
-    */
+    *//*
     }
 
     @Action("/createRand")
@@ -94,5 +94,5 @@ public class CustomRandController {
     @Action("/applyRand")
     public Object apply(User user) {
         return service.save(rands.get(user.getId())) ? "ok" : "err";
-    }
+    }*/
 }

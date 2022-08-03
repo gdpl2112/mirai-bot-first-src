@@ -3,7 +3,7 @@ package Project.controllers.normalController;
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
-import Project.interfaces.http_api.ApiIyk0;
+import Project.interfaces.http_api.old.ApiIyk0;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

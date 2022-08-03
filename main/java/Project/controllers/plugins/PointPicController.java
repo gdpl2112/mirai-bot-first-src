@@ -1,7 +1,7 @@
 package Project.controllers.plugins;
 
 import Project.detailPlugin.SearchPic;
-import Project.interfaces.http_api.ApiIyk0;
+import Project.interfaces.http_api.old.ApiIyk0;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.commons.Group;
@@ -54,12 +54,6 @@ public class PointPicController {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
-    }
-
-    @Action("发张<.+=>name>")
-    public Object sendImg(@Param("name") String name, Group group) {
-        if (Tool.tool.isIlleg(name)) return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
-        return  Tool.tool.pathToImg(apiIyk0.getImgFromName(name));
     }
 
     @Action("百度搜图<.+=>name>")
@@ -120,7 +114,7 @@ public class PointPicController {
             String[] ss = PIC_HISTORY.get(user.getId());
             Object[] objects = new Object[ss.length];
             for (int n = 0; n < ss.length; n++) {
-                objects[n] =  Tool.tool.pathToImg(ss[n]);
+                objects[n] = Tool.tool.pathToImg(ss[n]);
             }
             return objects;
         }
@@ -137,7 +131,7 @@ public class PointPicController {
             }
         } else {
             try {
-                Integer n1 = Integer.valueOf( Tool.tool.findNumberFromString(str));
+                Integer n1 = Integer.valueOf(Tool.tool.findNumberFromString(str));
                 ns.add(n1);
             } catch (NumberFormatException e) {
                 ns.add(1);
@@ -148,7 +142,7 @@ public class PointPicController {
             StringBuilder sb = new StringBuilder();
             for (int n : ns) {
                 try {
-                    sb.append( Tool.tool.pathToImg(strings[n - 1])).append("\r\n");
+                    sb.append(Tool.tool.pathToImg(strings[n - 1])).append("\r\n");
                 } catch (Exception e) {
                     continue;
                 }
