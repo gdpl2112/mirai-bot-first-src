@@ -28,13 +28,13 @@ public class BotStarter2 {
         long t = System.currentTimeMillis();
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b2_err.log");
         Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b2_console.log");
-        Tool.tool.deleteDir(new File("./cache2"));
+        Tool.tool.deleteDir(new File("./cache"));
         abot = get(2);
         BotConfiguration botConfiguration = new BotConfiguration();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
-        botConfiguration.setCacheDir(new File("./cache2"));
-        botConfiguration.fileBasedDeviceInfo("./devices/device3.json");
+        botConfiguration.setCacheDir(new File("./cache"));
+        botConfiguration.fileBasedDeviceInfo("./devices/device2.json");
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         BOT = bot;
         datePath = "./Libs2";
@@ -42,7 +42,6 @@ public class BotStarter2 {
         setterStarterApplication(BotStarter2.class);
         SpringStarter.main(args);
         bot.login();
-//        pluginLoad();
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
