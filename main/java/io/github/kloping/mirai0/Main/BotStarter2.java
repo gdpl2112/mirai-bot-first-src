@@ -31,8 +31,8 @@ public class BotStarter2 {
         Tool.tool.deleteDir(new File("./cache2"));
         abot = get(2);
         BotConfiguration botConfiguration = new BotConfiguration();
-        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PAD);
-        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.REGISTER);
+        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache2"));
         botConfiguration.fileBasedDeviceInfo("./devices/device3.json");
         Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
