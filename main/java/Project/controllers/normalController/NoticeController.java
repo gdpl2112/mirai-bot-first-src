@@ -46,6 +46,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("8.4 :成就系统/其命令[成就列表<Page>,领取成就<Id>],详细信息更多信息").append("\n");
         UPDATE_LOG.append("8.3 :移除部分无用功能").append("\n");
         UPDATE_LOG.append("8.2 :部分(玩家,魂兽)魂技调整,遇魂兽使用上限改为7次,'暗器背包'更名为'武器背包',武器背包中物品可被转让,,新物品[变异魂环,普通魂导材料,中级魂导材料,高级魂导材料,魂导护盾,高级魂导护盾,魂导炮,高级魂导炮]详细作用请见说明").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");

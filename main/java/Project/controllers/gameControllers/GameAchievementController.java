@@ -7,6 +7,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.gameEntitys.AchievementEntity;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -34,10 +35,16 @@ public class GameAchievementController {
 
     @Action("成就列表<.*?=>n>")
     public Object list(long qid, @Param("n") String s) {
-        StringBuilder sb = new StringBuilder();
+        Integer n = Tool.tool.getInteagerFromStr(s);
+        n = n == null ? 1 : n;
+        n--;
+        StringBuilder sb = new StringBuilder("成就列表\n\n");
+        Integer finalN = n;
         AchievementDataBase.INSTANCE.entityMap.forEach((k, v) -> {
-            sb.append(k).append(".").append(v.intro(qid))
-                    .append(NEWLINE).append("\t\t  ").append(v.isFinish(qid) ? "已完成" : "未完成").append(NEWLINE);
+            if (v.getAid() >= finalN * 10 && v.getAid() <= (finalN + 1) * 10) {
+                sb.append(k).append(".").append(v.intro(qid))
+                        .append(NEWLINE).append("\t\t  ").append(v.isFinish(qid) ? "已完成" : "未完成").append(NEWLINE);
+            }
         });
         return sb.toString();
     }
