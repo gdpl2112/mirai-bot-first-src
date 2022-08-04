@@ -291,6 +291,7 @@ public class GameServiceImpl implements IGameService {
         List<String> list = new ArrayList<>();
         for (int i : getBgs(who)) {
             String str = getNameById(i);
+            if (str == null) continue;
             int n = -1;
             if ((n = Tool.tool.listEveStartWith(list, str)) != -1) {
                 String or = list.get(n);
