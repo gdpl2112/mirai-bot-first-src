@@ -291,7 +291,9 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     @Override
     public String objTo(Long who, int id, Long whos, Integer num) {
         if (num > TRANSFER_ONE_MAX) return TRANSFER_TOO_MUCH;
-        if (contiansBgsNum(who, id, num)) {
+        if ((id > 1000 && id <= 1007) || (id <= 127 && id >= 124)) {
+            return gameWeaService.objTo(who, id, whos);
+        } else if (contiansBgsNum(who, id, num)) {
             GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
             GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);
             return "批量 转让 完成";
@@ -306,7 +308,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     @Override
     public String objTo(Long who, int id, Long whos) {
         List<Integer> bgids = new ArrayList<>(Arrays.asList(GameDataBase.getBgs(who)));
-        if (id > 1000 || (id <= 127 && id >= 124)) {
+        if ((id > 1000 && id <= 1007) || (id <= 127 && id >= 124)) {
             return gameWeaService.objTo(who, id, whos);
         } else if (bgids.contains(id)) {
             GameDataBase.removeFromBgs(who, id, ObjType.transLost);
