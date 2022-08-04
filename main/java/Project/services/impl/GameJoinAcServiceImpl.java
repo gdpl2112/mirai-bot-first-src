@@ -8,6 +8,7 @@ import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -173,6 +174,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             ghostObj1.setWith(who);
                             saveGhostObjIn(whos, ghostObj1);
                             putPerson(getInfo(who).addHelpToC());
+                            GInfo.getInstance(who).addHelpc().apply();
+                            GInfo.getInstance(whos).addReqc().apply();
                             return HELP_SUCCEED;
                         case GhostObj.NEED_AND_YES:
                             return HELPED;

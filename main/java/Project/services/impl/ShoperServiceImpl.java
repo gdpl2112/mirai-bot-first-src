@@ -5,6 +5,7 @@ import Project.dataBases.ShopDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
@@ -103,6 +104,7 @@ public class ShoperServiceImpl implements IShoperService {
                 ));
                 addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
+                GInfo.getInstance(who).addBuyc().apply();
                 return BUY_SUCCESS;
             } else return NOT_ENOUGH_GOLD;
         } else

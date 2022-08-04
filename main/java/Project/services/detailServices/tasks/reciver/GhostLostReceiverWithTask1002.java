@@ -5,6 +5,7 @@ import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.TaskDetailService;
 import Project.services.detailServices.tasks.Task1002;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -52,6 +53,7 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
             MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
                     , task.getFromG().longValue(), task.getHost());
             addToBgs(who, id, ObjType.got);
+            GInfo.getInstance(who).addFtc().apply();
             GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
                 task.destroy();
             });

@@ -3,6 +3,7 @@ package Project.services.detailServices.tasks.reciver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.TaskDetailService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.task.Task;
@@ -35,6 +36,7 @@ public class GhostLostReceiverWithTask0
                             , task.getFromG().longValue(), task.getHost());
                     addToBgs(who, 1601, ObjType.got);
                     addToBgs(with.longValue(), 1601, ObjType.got);
+                    GInfo.getInstance(who).addFtc().apply();
                     GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
                 }
             }

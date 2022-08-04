@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.unitls.drawers;
 
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.skill.SkillDataBase;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
@@ -39,7 +40,9 @@ import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 public class Drawer {
     public static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
     private static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
-    private static final Font SMALL_FONT18 = new Font("宋体", Font.BOLD, 28);
+    private static final Font SMALL_FONT16 = new Font("宋体", Font.BOLD, 16);
+    private static final Font SMALL_FONT22 = new Font("宋体", Font.BOLD, 22);
+    private static final Font SMALL_FONT28 = new Font("宋体", Font.BOLD, 28);
     private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
     private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashMap<>();
     private static final Color[] COLORS = new Color[]{
@@ -111,7 +114,7 @@ public class Drawer {
         int y = 40;
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
-        g.setFont(SMALL_FONT18);
+        g.setFont(SMALL_FONT28);
         //==================================
         int x = 10;
         y = 2 * 40 - 10;
@@ -120,7 +123,7 @@ public class Drawer {
         g.setColor(xpColor);
         g.fillRect(x, y, (int) (toPercent(p.getXp(), p.getXpL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Tool.tool.filterBigNum(String.format("经验:%s/%s", p.getXp(), p.getXpL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("经验:%s/%s", p.getXp(), p.getXpL())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -133,7 +136,7 @@ public class Drawer {
             g.fillRect(x, y, (int) (toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
         }
         g.setColor(Color.black);
-        g.drawString(Tool.tool.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -141,7 +144,7 @@ public class Drawer {
         g.setColor(hlColor);
         g.fillRect(x, y, (int) (toPercent(p.getHl(), p.getHll()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Tool.tool.filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
@@ -149,21 +152,21 @@ public class Drawer {
         g.setColor(hjColor);
         g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Tool.tool.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT18.getSize());
+        g.drawString(Tool.tool.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT28.getSize());
         //==================================
         g.setFont(SMALL_FONT15);
         y = y + 60;
         g.drawImage(loadImage(getImgPathById(2001, false)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + SMALL_FONT15.getSize());
-        g.setFont(SMALL_FONT18);
-        g.drawString(Tool.tool.filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT18.getSize());
+        g.setFont(SMALL_FONT28);
+        g.drawString(Tool.tool.filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT28.getSize());
         g.setFont(SMALL_FONT15);
         //==================================
         y = y + 60;
         g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
-        g.setFont(SMALL_FONT18);
-        g.drawString(Tool.tool.filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT18.getSize());
+        g.setFont(SMALL_FONT28);
+        g.drawString(Tool.tool.filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT28.getSize());
         y = y + 85;
         g.setColor(levelColor);
         g.setFont(BIG_FONT35);
@@ -212,7 +215,7 @@ public class Drawer {
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
         g.setColor(BORDER_COLOR);
         g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
-        g.setFont(SMALL_FONT18);
+        g.setFont(SMALL_FONT28);
         //==================================
         int x = 10;
         int eve = 40;
@@ -222,19 +225,19 @@ public class Drawer {
         String m = null;
         m = k ? "无" : (" & " + MemberTools.getName(p.getBindQ().longValue()));
         g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("融合:" + m, x, y + SMALL_FONT18.getSize());
+        g.drawString("融合:" + m, x, y + SMALL_FONT28.getSize());
 
         y = y + eve;
         k = p.getMaster().longValue() == -1;
         m = k ? "无" : (" & " + MemberTools.getName(p.getMaster().longValue()));
         g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("师傅:" + m, x, y + SMALL_FONT18.getSize());
+        g.drawString("师傅:" + m, x, y + SMALL_FONT28.getSize());
 
         y = y + eve;
         k = p.getPrentice().longValue() == -1;
         m = k ? "无" : (" & " + MemberTools.getName(p.getPrentice().longValue()));
         g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("徒弟:" + m, x, y + SMALL_FONT18.getSize());
+        g.drawString("徒弟:" + m, x, y + SMALL_FONT28.getSize());
 
         y = y + eve;
         Integer id = qq2id.get(p.getId().longValue());
@@ -247,7 +250,7 @@ public class Drawer {
             m = " in " + zong.getName();
         }
         g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("所处宗门:" + m, x, y + SMALL_FONT18.getSize());
+        g.drawString("所处宗门:" + m, x, y + SMALL_FONT28.getSize());
         //==================================
         g.setColor(BORDER_COLOR);
         g.setFont(BIG_FONT35);
@@ -262,7 +265,7 @@ public class Drawer {
 
     public static final String drawGInfoWith(GInfo p, String tips) {
         int width = 400;
-        int height = 400;
+        int height = 500;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.setClip(0, 0, width, height);
@@ -276,35 +279,55 @@ public class Drawer {
         int y = (clip.height - (ascent + descent)) / 2 + ascent;
         g.setColor(BORDER_COLOR);
         g.drawString("※=★===?====$=====☆=?==*=※", 10, 40);
-        g.setFont(SMALL_FONT18);
+        Font font = SMALL_FONT22;
+        g.setFont(font);
         //==================================
         int x = 10;
-        int eve = 40;
+        int eve = 30;
         y = 2 * 40 - eve;
         String m = p.getMasterPoint() + "点";
         g.setColor(Color.BLUE);
-        g.drawString("名师点: " + m, x, y + SMALL_FONT18.getSize());
+        g.drawString("名师点: " + m, x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString("累计获得物品: " + p.getGotc() + " 个", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计获得物品:" + p.getGotc() + "个", x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString("累计使用/失去 物品:", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计使用/失去物品:" + p.getLostc() + "个", x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString(p.getLostc() + " 个", x, y + SMALL_FONT18.getSize());
+        g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + font.getSize());
         //========
         y = y + eve;
-        g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + SMALL_FONT18.getSize());
+        g.drawString("累计请求支援次:" + p.getReqc() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计支援次:" + p.getReqc() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计购买次:" + p.getBuyc() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计出售次:" + p.getSalec() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计完成任务次:" + p.getFtc() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计修炼次:" + p.getXlc() + "次", x, y + font.getSize());
+        //========
+        y = y + eve;
+        g.drawString("累计击杀魂兽次:" + SpringBootResource.getKillGhostMapper().getNum(p.getQid()) + "次", x, y + font.getSize());
+
         if (tips != null && !tips.isEmpty()) {
             y = y + eve;
-            g.drawString(tips, x, y + SMALL_FONT18.getSize());
+            g.drawString(tips, x, y + SMALL_FONT28.getSize());
         }
         //==================================
         g.setColor(BORDER_COLOR);

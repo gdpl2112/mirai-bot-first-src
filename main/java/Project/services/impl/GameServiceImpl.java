@@ -89,6 +89,7 @@ public class GameServiceImpl implements IGameService {
             if (is.getWh() != 0) {
                 sb.append(GameDataBase.getNameById(is.getWh()));
             }
+            GInfo.getInstance(who).addXlc().apply();
             sb.append(String.format("你花费了%s分钟修炼", tr)).append(",");
             sb.append(String.format("获得了%s点经验", xr)).append(",");
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");
@@ -127,7 +128,7 @@ public class GameServiceImpl implements IGameService {
             if (is.getWh() != 0) {
                 sb.append(GameDataBase.getNameById(is.getWh()));
             }
-
+            GInfo.getInstance(who).addXlc().apply();
             sb.append(String.format("你花费了%s分钟双修", tr)).append(",");
             sb.append(String.format("获得了%s点经验", xr)).append(",");
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");

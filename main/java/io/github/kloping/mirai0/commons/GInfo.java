@@ -56,6 +56,26 @@ public class GInfo {
      * 星级
      */
     private int star = 0;
+    /**
+     * 请求支援次数
+     */
+    private int reqc = 0;
+    /**
+     * 支援次数
+     */
+    private int helpc = 0;
+    /**
+     * 购买次数
+     */
+    private int buyc = 0;
+    /**
+     * 出售次数
+     */
+    private int salec = 0;
+    /**
+     * 完成任务次数
+     */
+    private int ftc = 0;
 
     public static GInfo getInstance(long qid) {
         if (getgInfoMapper() != null) {
@@ -78,6 +98,31 @@ public class GInfo {
                 }
             }
         }
+    }
+
+    public GInfo addReqc() {
+        reqc++;
+        return this;
+    }
+
+    public GInfo addHelpc() {
+        helpc++;
+        return this;
+    }
+
+    public GInfo addBuyc() {
+        buyc++;
+        return this;
+    }
+
+    public GInfo addSalec() {
+        salec++;
+        return this;
+    }
+
+    public GInfo addFtc() {
+        ftc++;
+        return this;
     }
 
     public GInfo addQid() {

@@ -98,9 +98,7 @@ public class GameBoneController {
 
     @Action("卸掉魂骨<.{1,}=>name>")
     public String unParseBone(@Param("name") String name, long qq, Group g) {
-        if (challengeDetailService.isTemping(qq)) {
-            return CHALLENGE_ING;
-        }
+        if (challengeDetailService.isTemping(qq)) return CHALLENGE_ING;
         int id = 0;
         try {
             id = NAME_2_ID_MAPS.get(name);

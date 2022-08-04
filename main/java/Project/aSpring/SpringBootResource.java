@@ -41,6 +41,11 @@ public class SpringBootResource {
     public static ZongMapper zongMapper;
     public static ZonMapper zonMapper;
     public static UpupMapper upupMapper;
+    public static AchievementMapper achievementMapper;
+
+    public static AchievementMapper getAchievementMapper() {
+        return achievementMapper;
+    }
 
     public static UpupMapper getUpupMapper() {
         return upupMapper;

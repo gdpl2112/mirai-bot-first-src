@@ -10,6 +10,7 @@ import Project.services.detailServices.shopItems.UseTool;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -185,6 +186,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                             .setDesc("购买" + num + "个\"" + getNameById(id) + "\"")
                             .setMany(wl)
                     ));
+            GInfo.getInstance(who).addBuyc().apply();
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
         } else {
             return BUY_NUM_NOT_ENOUGH_GOLD_TIPS;
@@ -218,6 +220,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                             .setDesc("购买" + getNameById(id) + "\"")
                             .setMany(l)
             ));
+            GInfo.getInstance(who).addBuyc().apply();
             return String.format(TIPS_BUY_SUCCEED, getPic(id));
         } else {
             return NOT_ENOUGH_GOLD;
@@ -244,6 +247,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                         .setDesc("出售\"" + getNameById(id) + "\"")
                         .setMany(l)
                 ));
+                GInfo.getInstance(who).addSalec().apply();
                 return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
             } else {
                 return "你的背包里没有" + getNameById(id);
@@ -277,6 +281,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                             .setDesc("出售" + num + "个\"" + getNameById(id) + "\"")
                             .setMany(l)
             ));
+            GInfo.getInstance(who).addSalec().apply();
             return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
         } else {
             return "你的背包里 没有足够的 " + getNameById(id);

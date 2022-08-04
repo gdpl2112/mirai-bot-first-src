@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 
+import static Project.controllers.auto.ControllerSource.gameService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
@@ -18,7 +19,11 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop;
 
+/**
+ * @author HRS-Computer
+ */
 public class UseTool {
 
     public PersonInfo personInfo;
@@ -277,6 +282,25 @@ public class UseTool {
         personInfo.cancelVertigo(5000);
         removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
         return "使用成功";
+    }
+
+    public String use128(long who) {
+        PersonInfo pInfo = getInfo(who);
+        if (isJTop(who)) {
+            return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
+        } else if (pInfo.getLevel() == 151) {
+            return "等级最大限制";
+        } else if (pInfo.getLevel() == 150) {
+            pInfo.addLevel(1);
+            pInfo.apply();
+            removeFromBgs(Long.valueOf(who), 128, 1, ObjType.use);
+            return "升级成功";
+        } else {
+            pInfo.addLevel(1);
+            String s0 = gameService.upTrue(who);
+            removeFromBgs(Long.valueOf(who), 128, 1, ObjType.use);
+            return "升级成功\n" + s0;
+        }
     }
 
     public String use1000(long who) {
