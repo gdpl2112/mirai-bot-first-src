@@ -109,7 +109,7 @@ public class GhostBehavior implements Runnable {
             SkillTemplate template;
             while (true) {
                 template = jid2skill.get(Tool.tool.getRandT(list));
-                if (!atomicJid.get().equals(template.getJid())) break;
+                if (atomicJid.get().intValue() != template.getJid().intValue()) break;
             }
             send("释放魂技:\n" + template.getIntro());
             Skill skill = template.create(null, -ghostObj.getWhoMeet());

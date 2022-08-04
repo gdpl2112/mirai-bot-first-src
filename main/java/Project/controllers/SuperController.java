@@ -19,7 +19,10 @@ import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.Father;
+import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -139,14 +142,14 @@ public class SuperController {
         if (who == -1) {
             return ("Are You True??");
         }
-        long num = Long.parseLong( Tool.tool.findNumberFromString(messages));
+        long num = Long.parseLong(Tool.tool.findNumberFromString(messages));
         DataBase.addScore(num, who);
         return new StringBuilder().append("给 =》 ").append(MemberTools.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
     }
 
     @Action("全体加积分.{1,}")
     public String addAllScore(@AllMess String messages, User qq) throws NoRunException {
-        long num = Long.parseLong( Tool.tool.findNumberFromString(messages));
+        long num = Long.parseLong(Tool.tool.findNumberFromString(messages));
         HIST_U_SCORE.forEach((k, v) -> {
             v.addScore(num);
             putInfo(v);
@@ -183,7 +186,7 @@ public class SuperController {
 
     @Action("更新宵禁<.+=>str>")
     public String a0(@Param("str") String str, Group group) {
-        
+
         return "ok";
     }
 
@@ -247,7 +250,7 @@ public class SuperController {
             HIST_U_SCORE.clear();
             HIST_INFOS.clear();
             SkillDataBase.reMap();
-             Tool.tool.deleteDir(new File("./temp"));
+            Tool.tool.deleteDir(new File("./temp"));
             MessageTools.instance.HIST_IMAGES.clear();
         }
     }
@@ -262,11 +265,12 @@ public class SuperController {
         String what = str.trim().replaceAll(",", "").replaceAll("个", "");
         Integer num = null;
         try {
-            num = Integer.valueOf( Tool.tool.findNumberFromString(what));
+            num = Integer.valueOf(Tool.tool.findNumberFromString(what));
             what = what.replaceFirst(num + "", "");
         } catch (Exception e) {
             num = null;
         }
+        num = num == null ? 1 : num > 20 ? 20 : num;
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
         if (id == null) return ERR_TIPS;
         for (Integer integer = 0; integer < num; integer++) {
