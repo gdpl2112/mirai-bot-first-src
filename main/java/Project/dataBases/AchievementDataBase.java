@@ -369,7 +369,7 @@ public class AchievementDataBase {
             @Override
             public boolean isFinish(long qid) {
                 Integer integer = SpringBootResource.getKillGhostMapper().getNum(qid);
-                return integer >= 1;
+                return integer != null && integer >= 1;
             }
         });
         entityMap.put(15, new AchievementEntity(15) {
