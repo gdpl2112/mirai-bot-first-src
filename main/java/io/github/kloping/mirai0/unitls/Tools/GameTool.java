@@ -63,6 +63,13 @@ public class GameTool {
         return k1 && k2;
     }
 
+    public static boolean isJTop0(Long who) {
+        long lev = GameDataBase.getInfo(who).getLevel();
+        lev++;
+        boolean k1 = lev % 10 == 0;
+        return k1;
+    }
+
     /**
      * 某人是否有魂环
      *

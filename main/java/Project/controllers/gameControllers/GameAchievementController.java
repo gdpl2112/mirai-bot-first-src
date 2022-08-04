@@ -41,7 +41,7 @@ public class GameAchievementController {
         StringBuilder sb = new StringBuilder("成就列表\n\n");
         Integer finalN = n;
         AchievementDataBase.INSTANCE.entityMap.forEach((k, v) -> {
-            if (v.getAid() >= finalN * 10 && v.getAid() <= (finalN + 1) * 10) {
+            if (v.getAid() > finalN * 10 && v.getAid() <= (finalN + 1) * 10) {
                 sb.append(k).append(".").append(v.intro(qid))
                         .append(NEWLINE).append("\t\t  ").append(v.isFinish(qid) ? "已完成" : "未完成").append(NEWLINE);
             }

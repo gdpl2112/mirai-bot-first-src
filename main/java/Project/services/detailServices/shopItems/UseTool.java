@@ -18,8 +18,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 
 /**
  * @author HRS-Computer
@@ -286,7 +285,7 @@ public class UseTool {
 
     public String use128(long who) {
         PersonInfo pInfo = getInfo(who);
-        if (isJTop(who)) {
+        if (isJTop0(who)) {
             return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
         } else if (pInfo.getLevel() == 151) {
             return "等级最大限制";
