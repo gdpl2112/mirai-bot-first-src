@@ -380,7 +380,7 @@ public class AchievementDataBase {
                 int num = 3;
                 GameDataBase.addToBgs(qid, 107, num, ObjType.got);
                 GameDataBase.addToBgs(qid, 108, num, ObjType.got);
-                GameDataBase.addToBgs(qid, 1015, num, ObjType.got);
+                GameDataBase.addToBgs(qid, 115, num, ObjType.got);
 
                 Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
                 SpringBootResource.getAchievementMapper().insert(achievement);
