@@ -167,7 +167,7 @@ public class ZongMenController {
     public String quiteOne(User qq, @AllMess String mess) {
         long who = MessageTools.instance.getAtFromString(mess);
         if (who < 0) {
-            return "谁?";
+            return NOT_FOUND_AT;
         }
         return zongMenService.quiteOne(qq.getId(), who);
     }

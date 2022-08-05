@@ -2,6 +2,7 @@ package Project.controllers.gameControllers.shoperController;
 
 
 import Project.dataBases.GameDataBase;
+import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IGameUseObjService;
 import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -60,7 +61,7 @@ public class GameObjController {
             String shopName = what.replace("使用", "").trim();
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             if (id <= 127 && id >= 124) {
-                return gameWeaService.useAq(str, qq.getId());
+                return SourceDataBase.getImgPathById(id) + gameWeaService.useAq(str, qq.getId());
             }
             String sss = null;
             if (num == null) {

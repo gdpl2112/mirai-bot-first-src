@@ -21,11 +21,9 @@ import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
-import net.mamoe.mirai.message.action.Nudge;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.eclipse.aether.spi.synccontext.SyncContextFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -152,6 +150,36 @@ public class MyHandler extends SimpleListenerHost {
         }
     }
 
+    @EventHandler
+    public void onMessage(@NotNull GroupTempMessageEvent event) throws Exception {
+        if (!Resource.Switch.AllK) {
+            return;
+        }
+        if (event.getSender() instanceof AnonymousMember) {
+            return;
+        }
+        String text = null;
+        io.github.kloping.mirai0.commons.Group eGroup = null;
+        Group group = null;
+        MessageChain chain = null;
+        long id = -1;
+        try {
+            chain = event.getMessage();
+            id = event.getSender().getId();
+            group = getCg(id);
+            eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
+            io.github.kloping.mirai0.commons.User eUser = getUser(id);
+            text = EventTools.getStringFromMessageChain(event.getMessage(), id);
+            if (INSTANCE.getActionManager().mather(text) != null) {
+                StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
+            } else {
+                event.getSender().sendMessage(EntertainmentController.otherService.talk(text));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private Group getCg(long id) {
         for (Group group : BOT.getGroups()) {
             if (group.contains(id)) {
@@ -170,7 +198,7 @@ public class MyHandler extends SimpleListenerHost {
             MessageChainBuilder builder = new MessageChainBuilder();
             joinRequestEvent = event;
             builder.append("收到加群申请:").append("\r\n");
-            builder.append(Contact.uploadImage(event.getGroup(), new URL(io.github.kloping.mirai0.unitls.Tools. Tool.tool.getTouUrl(event.getFromId())).openStream()))
+            builder.append(Contact.uploadImage(event.getGroup(), new URL(io.github.kloping.mirai0.unitls.Tools.Tool.tool.getTouUrl(event.getFromId())).openStream()))
                     .append("\r\n");
             builder.append("QQ号:").append(event.getFromId() + "")
                     .append("\r\n");
