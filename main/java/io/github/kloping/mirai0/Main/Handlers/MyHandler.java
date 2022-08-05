@@ -166,7 +166,7 @@ public class MyHandler extends SimpleListenerHost {
         try {
             chain = event.getMessage();
             id = event.getSender().getId();
-            group = getCg(id);
+            group = event.getGroup();
             eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             io.github.kloping.mirai0.commons.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
