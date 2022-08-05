@@ -122,7 +122,8 @@ public class ZongMenServiceImpl implements IZongMenService {
         sb.append("宗门宗主:").append(name).append("(").append(zong.getMain()).append(")").append("\r\n");
         sb.append("宗门人数:").append(zong.getMembers()).append("/").append(zong.getMaxP()).append("\r\n");
         sb.append("宗门长老:").append(zong.getElders()).append("/").append(zong.getElderNum()).append("\r\n");
-        return (icon.isEmpty() ? "" : Tool.tool.pathToImg(icon)) + getImageFromStrings(false, sb.toString().split("\\s+"));
+        return ((icon == null || icon.trim().isEmpty()) ? "" : Tool.tool.pathToImg(icon)) +
+                getImageFromStrings(false, sb.toString().split("\\s+"));
     }
 
     @Override
