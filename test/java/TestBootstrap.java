@@ -1,22 +1,21 @@
-import Project.services.detailServices.GameSkillDetailService;
+import Project.interfaces.http_api.KlopingWeb;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.iwanna.buy.api.Commodity;
-import io.github.kloping.iwanna.buy.api.Event;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.iwanna.buy.api.Player;
-import io.github.kloping.iwanna.buy.api.listener.NextListener;
-import io.github.kloping.iwanna.buy.api.listener.OnEventListener;
-import io.github.kloping.iwanna.buy.impl.Sys;
 import io.github.kloping.iwanna.buy.impl.simple.SimplePlayer;
 import io.github.kloping.iwanna.buy.impl.simple.SimpleSys;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.File;
-
-import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author github.kloping
@@ -26,46 +25,63 @@ public class TestBootstrap {
 
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
-        System.out.println(GameSkillDetailService.getAddP(8070, 207));
-        System.out.println(GameSkillDetailService.getAddP(8070, 206));
-        System.out.println(GameSkillDetailService.getAddP(8070, 205));
-        TestBootstrap testBootstrap = new TestBootstrap();
-        StarterApplication.Setting.INSTANCE.getContextManager().append(testBootstrap);
-        StarterApplication.Setting.INSTANCE.getActionManager().manager(testBootstrap);
-        System.err.println("all is ok");
-        System.out.println(getDuration(9));
-        Thread.sleep(2000L);
-        sys = SimpleSys.factory("./base");
-        SimpleSys.INSTANCE = sys;
-        sys.getShop().addListener(new OnEventListener() {
-            @Override
-            public void onEventBefore(Event event) {
-                send(event.getDesc());
-            }
+        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
+        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
+        byte[] bytes = FileUtils.getBytesFromFile(file.getAbsolutePath());
+        JSONObject object = new JSONObject();
+        object.put("data", bytes);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("content-type", "application/json");
+        String s0 = object.toString();
+        headers.put("content-length", String.valueOf(s0.length()));
+        headers.put("accept-encoding", "gzip,deflate");
+        headers.put("host", "localhost");
+        kloping.uploadImg(headers, "123", s0);
+//        Document doc = Jsoup.connect("http://localhost/uploadImg?key=123").ignoreContentType(true)
+//                .requestBody(s0).headers(headers).post();
 
-            @Override
-            public void onEventAfter(Event event) {
-
-            }
-        });
-        sys.addListener(new NextListener() {
-            @Override
-            public void onNexted(Sys sys) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("今日商品:\n");
-                int i = 1;
-                for (Commodity commodity : sys.getShop().all()) {
-                    sb.append(i++).append(".\"").append(commodity.getName()).append("\"当前价格:").append(commodity.getNowPrice()).append("\n");
-                }
-                send(sb.toString());
-            }
-
-            @Override
-            public void onNextBefore(Sys sys) {
-                send("昨日银行利率:" + sys.getBank().getInterestRate());
-            }
-        });
-        sys.getShop().map();
+//        System.out.println(doc);
+        System.out.println();
+//        System.out.println(GameSkillDetailService.getAddP(8070, 207));
+//        System.out.println(GameSkillDetailService.getAddP(8070, 206));
+//        System.out.println(GameSkillDetailService.getAddP(8070, 205));
+//        TestBootstrap testBootstrap = new TestBootstrap();
+//        StarterApplication.Setting.INSTANCE.getContextManager().append(testBootstrap);
+//        StarterApplication.Setting.INSTANCE.getActionManager().manager(testBootstrap);
+//        System.err.println("all is ok");
+//        System.out.println(getDuration(9));
+//        Thread.sleep(2000L);
+//        sys = SimpleSys.factory("./base");
+//        SimpleSys.INSTANCE = sys;
+//        sys.getShop().addListener(new OnEventListener() {
+//            @Override
+//            public void onEventBefore(Event event) {
+//                send(event.getDesc());
+//            }
+//
+//            @Override
+//            public void onEventAfter(Event event) {
+//
+//            }
+//        });
+//        sys.addListener(new NextListener() {
+//            @Override
+//            public void onNexted(Sys sys) {
+//                StringBuilder sb = new StringBuilder();
+//                sb.append("今日商品:\n");
+//                int i = 1;
+//                for (Commodity commodity : sys.getShop().all()) {
+//                    sb.append(i++).append(".\"").append(commodity.getName()).append("\"当前价格:").append(commodity.getNowPrice()).append("\n");
+//                }
+//                send(sb.toString());
+//            }
+//
+//            @Override
+//            public void onNextBefore(Sys sys) {
+//                send("昨日银行利率:" + sys.getBank().getInterestRate());
+//            }
+//        });
+//        sys.getShop().map();
     }
 
     @Action(".*?\\[@me].*?")

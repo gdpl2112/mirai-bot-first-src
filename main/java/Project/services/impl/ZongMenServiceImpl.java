@@ -3,8 +3,10 @@ package Project.services.impl;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
+import Project.detailPlugin.KlopingDetail;
 import Project.interfaces.Iservice.IZongMenService;
 import Project.services.detailServices.ZongDetailService;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
@@ -17,6 +19,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -127,6 +130,9 @@ public class ZongMenServiceImpl implements IZongMenService {
         return getImageFromStrings(getAllZongNames());
     }
 
+    @AutoStand
+    KlopingDetail detail;
+
     @Override
     public String setIcon(String imageUrl, Long who, Group group) {
         if (!qq2id.containsKey(who))
@@ -137,10 +143,11 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("仅宗主有权限修改宗门信息");
         if (zong.getMk() > System.currentTimeMillis())
             return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
-        String path = ZongMenDataBase.path + "/" + getZongInfo(who).getId() + "/icon.png";
+        String path = "./temp/" + UUID.randomUUID() + ".jpg";
         io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
         File file = filterImg(new File(path));
-        zong.setIcon(file.getPath()).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
+        String fn = detail.uploadImg(file);
+        zong.setIcon(fn).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return zongInfo(who, group);
     }

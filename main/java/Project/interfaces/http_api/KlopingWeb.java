@@ -1,15 +1,14 @@
 package Project.interfaces.http_api;
 
 import Project.detailPlugin.NetMain;
-import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
-import io.github.kloping.MySpringTool.annotations.http.GetPath;
-import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import io.github.kloping.MySpringTool.annotations.http.ParamName;
+import io.github.kloping.MySpringTool.annotations.http.*;
 import io.github.kloping.mirai0.commons.apiEntitys.PicData;
 import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 import io.github.kloping.mirai0.commons.apiEntitys.WeatherDetail;
 import io.github.kloping.mirai0.commons.apiEntitys.WeatherM;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
+
+import java.util.Map;
 
 /**
  * @author github.kloping
@@ -102,4 +101,15 @@ public interface KlopingWeb {
      */
     @GetPath("/verify0")
     String verify0(@ParamName("code") String code);
+
+    /**
+     * uploadImg
+     *
+     * @param headers
+     * @param key
+     * @param body
+     * @return
+     */
+    @PostPath("/uploadImg")
+    String uploadImg(@Headers Map<String, String> headers, @ParamName("key") String key, @RequestBody String body);
 }

@@ -101,7 +101,7 @@ public class SummonPicController {
                 .setWidth(w)
                 .setHeight(h)
                 .append(x, y, "https://q1.qlogo.cn/g?b=qq&nk=" + user.getId() + "&s=640");
-        return  Tool.tool.pathToImg(GameDrawer.drawerMap(builder.build()));
+        return Tool.tool.pathToImg(GameDrawer.drawerMap(builder.build()));
     }
 
     @Action("/爬.+")
@@ -126,13 +126,13 @@ public class SummonPicController {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
         }
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-zan.png");
             outFile = ImageDrawer.getZan(new File("./images/zan.jpg"), u, outFile);
-            return  Tool.tool.pathToImg(outFile.getAbsolutePath());
+            return Tool.tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
@@ -148,7 +148,7 @@ public class SummonPicController {
         Entry<String, String> e0 = Tool.tool.getEntry("c", msg);
         Entry<String, Boolean> e1 = Tool.tool.getEntry("t", true);
         Entry<String, String> e2 = Tool.tool.getEntry("b", "#000000");
-        byte[] bytes =  Tool.tool.getBase64Data(atoolbox.s0(e0, e1, e2));
+        byte[] bytes = Tool.tool.getBase64Data(atoolbox.s0(e0, e1, e2));
         MessageTools.instance.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
         return null;
     }
@@ -163,13 +163,13 @@ public class SummonPicController {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
         }
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-tui.png");
             outFile = ImageDrawer.getTuiGift(filesTui, u, outFile);
-            return  Tool.tool.pathToImg(outFile.getAbsolutePath());
+            return Tool.tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
@@ -186,13 +186,13 @@ public class SummonPicController {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
         }
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
             outFile = ImageDrawer.getWq(filesWq, u, outFile);
-            return  Tool.tool.pathToImg(outFile.getAbsolutePath());
+            return Tool.tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
@@ -209,13 +209,13 @@ public class SummonPicController {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
         }
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");
             outFile = ImageDrawer.getDui(fileDiu, u, outFile);
-            return  Tool.tool.pathToImg(outFile.getAbsolutePath());
+            return Tool.tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
@@ -232,13 +232,13 @@ public class SummonPicController {
                 return "目前只支@的形式、或携带图片";
             }
         } else {
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
         }
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-gc.png");
             outFile = ImageDrawer.getGunOnDirt(EMPTY_FILE, u, DIRT_FILE, 2, outFile);
-            return  Tool.tool.pathToImg(outFile.getAbsolutePath());
+            return Tool.tool.pathToImg(outFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return "error:for\n" + e.getMessage();
@@ -299,11 +299,11 @@ public class SummonPicController {
             }
         } else {
             mess = mess.replace(q.toString(), "");
-            urlStr =  Tool.tool.getTouUrl(q);
+            urlStr = Tool.tool.getTouUrl(q);
             urlStr = Image.queryUrl(MessageTools.instance.createImage(g, urlStr));
         }
         int i = 6;
-        Integer i1 =  Tool.tool.getInteagerFromStr(mess);
+        Integer i1 = Tool.tool.getInteagerFromStr(mess);
         i = i1 == null ? i : i1;
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
         BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
@@ -313,7 +313,7 @@ public class SummonPicController {
             io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.List e = iterator.next();
             try {
                 String title = getTitle(e.getFromUrl());
-                list.add( Tool.tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
+                list.add(Tool.tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
             } catch (Throwable ex) {
             }
         }
@@ -340,7 +340,7 @@ public class SummonPicController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    MessageTools.instance.sendMessageInGroup( Tool.tool.pathToImg(file.getAbsolutePath()), gid);
+                    MessageTools.instance.sendMessageInGroup(Tool.tool.pathToImg(file.getAbsolutePath()), gid);
                     return "ok";
                 }
                 return null;
