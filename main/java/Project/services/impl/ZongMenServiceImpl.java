@@ -152,7 +152,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         String path = "./temp/" + UUID.randomUUID() + ".jpg";
         downloadFile(imageUrl, path);
         File file = filterImg(new File(path));
-        String fn = NetMain.ROOT_PATH0 + "/" + detail.uploadImg(file);
+        String fn = NetMain.ROOT_PATH + "/" + detail.uploadImg(file);
         zong.setIcon(fn).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return zongInfo(who, group);
