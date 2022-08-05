@@ -4,10 +4,12 @@ import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.detailPlugin.KlopingDetail;
+import Project.detailPlugin.NetMain;
 import Project.interfaces.Iservice.IZongMenService;
 import Project.services.detailServices.ZongDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -17,8 +19,12 @@ import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.UUID;
 
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
@@ -144,12 +150,31 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zong.getMk() > System.currentTimeMillis())
             return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
         String path = "./temp/" + UUID.randomUUID() + ".jpg";
-        io.github.kloping.url.UrlUtils.downloadFile(imageUrl, path);
+        downloadFile(imageUrl, path);
         File file = filterImg(new File(path));
-        String fn = detail.uploadImg(file);
+        String fn = NetMain.ROOT_PATH0 + "/" + detail.uploadImg(file);
         zong.setIcon(fn).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
         putZongInfo(zong);
         return zongInfo(who, group);
+    }
+
+    private void downloadFile(String imageUrl, String path) {
+        try {
+            File file = new File(path);
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InputStream is = new URL(imageUrl).openStream();
+            byte[] bytes = new byte[1024 * 1024];
+            int len = -1;
+            while ((len = is.read(bytes)) != -1) {
+                baos.write(bytes, 0, len);
+            }
+            is.close();
+            FileUtils.writeBytesToFile(baos.toByteArray(), file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
