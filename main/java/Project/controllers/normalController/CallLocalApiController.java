@@ -35,7 +35,6 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Controller
 public class CallLocalApiController {
-
     public static final int PAGE_SIZE = 5;
     public static long upNewsId = 0;
     public PvpSkin skin = null;

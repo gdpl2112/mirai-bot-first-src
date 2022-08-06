@@ -75,13 +75,6 @@ public class PvpQq {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-//            list.add("皮肤语音");
-//            es = document.getElementsByClass("wrap-content");
-//            e = es.get(es.size() - 1);
-//            es = e.getElementsByTag("li");
-//            for (Element element : es) {
-//                list.add("<Audio:" + HTTPS_PRE + element.attr("data-voice") + ">");
-//            }
             return list.toArray();
         } catch (IOException e) {
             e.printStackTrace();

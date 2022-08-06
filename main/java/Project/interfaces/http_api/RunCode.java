@@ -8,9 +8,19 @@ import io.github.kloping.MySpringTool.annotations.http.RequestBody;
 import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeEntity;
 import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeResponse;
 
+/**
+ * @author HRS-Computer
+ */
 @HttpClient("https://glot.io")
 public interface RunCode {
-
+    /**
+     * run
+     *
+     * @param language
+     * @param codeEntity
+     * @param version
+     * @return
+     */
     @PostPath("run/")
     CodeResponse runAny(@PathValue String language,
                         @RequestBody(type = RequestBody.type.json) CodeEntity codeEntity,
