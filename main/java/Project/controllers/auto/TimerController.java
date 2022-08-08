@@ -96,24 +96,24 @@ public class TimerController {
         });
     }
 
-
+    private static final String TIPS0 = "星期一到星期五的上午10:10分到晚上22:20开启";
     private static long t = 759590727L;
 
     @CronSchedule("0 10 10 ? * 1-5")
     public static void testOn() {
         if (BotStarter.test) {
             Resource.Switch.AllK = true;
-            BOT.getGroups().get(t).sendMessage("星期一到星期五的上午10:10分到晚上22:10开启");
-            BOT.getGroups().get(t).sendMessage("开启");
+            BOT.getGroups().get(t).sendMessage(TIPS0);
+            BOT.getGroups().get(t).sendMessage("现已开机");
         }
     }
 
-    @CronSchedule("0 22 10 ? * 1-4")
+    @CronSchedule("0 20 22 ? * 1-4")
     public static void testOff() {
         if (BotStarter.test) {
             Resource.Switch.AllK = false;
-            BOT.getGroups().get(t).sendMessage("星期一到星期五的上午10:10分到晚上22:10开启");
-            BOT.getGroups().get(t).sendMessage("关闭");
+            BOT.getGroups().get(t).sendMessage(TIPS0);
+            BOT.getGroups().get(t).sendMessage("现已关机");
         }
     }
 
