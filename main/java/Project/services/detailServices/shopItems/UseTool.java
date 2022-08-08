@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
 import static Project.controllers.auto.ControllerSource.gameService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.*;
-import static Project.services.detailServices.GameSkillDetailService.getDuration;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
@@ -305,7 +304,7 @@ public class UseTool {
             BaseInfoTemp.VERTIGO_T1.get(q2).cancel(true);
         }
         removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
-        putPerson(getInfo(who).addTag(TAG_WD, 1, 500));
+        putPerson(getInfo(who).addTag(TAG_WD, 1, 800));
         return "使用成功";
     }
 

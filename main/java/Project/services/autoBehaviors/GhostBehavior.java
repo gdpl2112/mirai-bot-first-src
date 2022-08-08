@@ -121,6 +121,8 @@ public class GhostBehavior implements Runnable {
             jid2skill.put(jid, template);
         }
 
+//        jid2skill.put(1001,SkillFactory.factory100(1001, getHhByGh(ghostObj.getLevel())));
+
         StringBuilder sb = new StringBuilder("魂兽魂技:\n");
         int i = 1;
         for (SkillTemplate value : jid2skill.values()) {

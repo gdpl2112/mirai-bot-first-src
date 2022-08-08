@@ -99,7 +99,6 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             cd0 *= 5;
         }
         if (bgids.contains(id)) {
-//            USE_TOOL.getClass().getMethod("before", long.class).invoke(USE_TOOL, who);
             Method method = USE_TOOL.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(USE_TOOL, who));
             putPerson(getInfo(who).setUk1(System.currentTimeMillis() + cd0));
