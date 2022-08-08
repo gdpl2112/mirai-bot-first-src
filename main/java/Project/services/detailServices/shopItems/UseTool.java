@@ -4,11 +4,15 @@ import Project.controllers.recr.HasTimeActionController;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import static Project.controllers.auto.ControllerSource.gameService;
 import static Project.dataBases.GameDataBase.*;
@@ -18,7 +22,8 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop0;
 
 /**
  * @author HRS-Computer
@@ -279,6 +284,16 @@ public class UseTool {
             }
         }
         personInfo.cancelVertigo(5000);
+        List<Future> futures = AsynchronousThing.L_2_FS.get(who);
+        if (futures != null) {
+            for (Future future : futures) {
+                future.cancel(true);
+            }
+        }
+        Long q2 = BaseInfoTemp.VERTIGO_T2.get(who);
+        if (q2 != null) {
+            BaseInfoTemp.VERTIGO_T1.get(q2).cancel(true);
+        }
         removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
         return "使用成功";
     }

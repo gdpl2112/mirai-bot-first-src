@@ -61,36 +61,11 @@ public class GhostBehavior implements Runnable {
         return new GhostBehavior(who, group);
     }
 
-    AtomicReference<Integer> atomicJid;
-    AtomicReference<Future> atomicReference;
-    ScheduledFuture future = null;
+    private int jid = -1;
 
-    @Override
-    public void run() {
-        if (!updateGhost()) return;
-        Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
-        int num = getSkillNum(ghostObj.getLevel());
-
-        while (jid2skill.size() < num) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
-            int jid = 1001 + id0;
-            if (jid2skill.containsKey(jid)) continue;
-            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
-            jid2skill.put(jid, template);
-        }
-
-        StringBuilder sb = new StringBuilder("魂兽魂技:\n");
-        int i = 1;
-        for (SkillTemplate value : jid2skill.values()) {
-            sb.append(i++).append(",").append(value.getName()).append("\n");
-        }
-        List<Integer> list = new ArrayList<>(jid2skill.keySet());
-        send(sb.toString().trim());
-
-        atomicReference = new AtomicReference<>(null);
-        atomicJid = new AtomicReference<>(0);
-
-        future = FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
+    public Runnable r0 = new Runnable() {
+        @Override
+        public void run() {
             if (!updateGhost()) {
                 thisOver();
                 return;
@@ -109,8 +84,9 @@ public class GhostBehavior implements Runnable {
             SkillTemplate template;
             while (true) {
                 template = jid2skill.get(Tool.tool.getRandT(list));
-                if (atomicJid.get().intValue() != template.getJid().intValue()) break;
+                if (jid != template.getJid()) break;
             }
+            jid = template.getJid();
             if (!updateGhost()) {
                 thisOver();
                 return;
@@ -120,8 +96,40 @@ public class GhostBehavior implements Runnable {
             skill.setGroup(Group.get(MemberTools.getRecentSpeechesGid(ghostObj.getWhoMeet())));
             Future f0 = SkillDataBase.threads.submit(skill);
             atomicReference.set(f0);
-            BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);
-        }, 4, 14, TimeUnit.SECONDS);
+            int jid0 = template.getJid();
+            if (jid0 == 1001 || jid0 == 1002) {
+                BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true, ghostObj.getWhoMeet());
+            } else {
+                BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);
+            }
+        }
+    };
+
+    AtomicReference<Future> atomicReference = new AtomicReference<>(null);
+    ScheduledFuture future = null;
+    Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
+    List<Integer> list = new ArrayList<>();
+
+    @Override
+    public void run() {
+        if (!updateGhost()) return;
+        int num = getSkillNum(ghostObj.getLevel());
+        while (jid2skill.size() < num) {
+            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
+            int jid = 1001 + id0;
+            if (jid2skill.containsKey(jid)) continue;
+            SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
+            jid2skill.put(jid, template);
+        }
+
+        StringBuilder sb = new StringBuilder("魂兽魂技:\n");
+        int i = 1;
+        for (SkillTemplate value : jid2skill.values()) {
+            sb.append(i++).append(",").append(value.getName()).append("\n");
+        }
+        list = new ArrayList<>(jid2skill.keySet());
+        send(sb.toString().trim());
+        future = FrameUtils.SERVICE.scheduleWithFixedDelay(r0, 4, 14, TimeUnit.SECONDS);
         while (updateGhost()) {
             try {
                 Thread.sleep(500);

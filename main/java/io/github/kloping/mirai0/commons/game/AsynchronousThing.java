@@ -2,7 +2,12 @@ package io.github.kloping.mirai0.commons.game;
 
 import Project.services.detailServices.GameSkillDetailService;
 import io.github.kloping.date.FrameUtils;
+import io.github.kloping.map.MapUtils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -10,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author github.kloping
  */
 public abstract class AsynchronousThing implements Runnable {
+    public static final Map<Long, List<Future>> L_2_FS = new HashMap<>();
     public int n;
     public long q1;
     public long q2;
@@ -44,6 +50,7 @@ public abstract class AsynchronousThing implements Runnable {
 
     public void start() {
         future = FrameUtils.SERVICE.scheduleWithFixedDelay(this, eve, eve, TimeUnit.MILLISECONDS);
+        MapUtils.append(L_2_FS, q2, future);
     }
 
     public void over() {

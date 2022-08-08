@@ -4,13 +4,19 @@ import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.skill.SkillTemplate;
+import io.github.kloping.map.MapUtils;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
 
+import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
@@ -40,22 +46,51 @@ public class Skill1011 extends SkillTemplate {
             public void run() {
                 super.run();
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
-                for (int i = 0; i < 10; i++) {
-                    try {
-                        Thread.sleep(1000);
-                        int b = getAddP(getJid(), getId()).intValue();
-                        long v = percentTo(b, ghostObj.getAtt());
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
-                        sb.append(GameDetailService.beaten(-who.longValue(), -2, v));
-                        sb.append(NEWLINE);
-                        sb.append(GameController.gameService.info(-who.longValue()));
-                        setTips(sb.toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                int b = getAddP(getJid(), getId()).intValue();
+                long v = percentTo(b, ghostObj.getAtt());
+                AsynchronousAttack thing = new AsynchronousAttack(10, ghostObj.getId(), -who.longValue(), 0, 1000, getRecentSpeechesGid(-who.longValue()));
+                thing.setB(b);
+                thing.setV(v);
+                thing.start();
+                MapUtils.append(ASYNCHRONOUS_THING_MAP, who.longValue(), thing);
             }
         };
+    }
+
+
+    public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
+        private ScheduledFuture<?> future;
+        private int i = 0;
+
+        public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
+            super(n, q1, q2, value, eve, gid);
+            setType(AsynchronousThingType.ATTACK);
+        }
+
+        int b;
+        long v;
+
+        public void setB(int b) {
+            this.b = b;
+        }
+
+        public void setV(long v) {
+            this.v = v;
+        }
+
+        @Override
+        public void run() {
+            if (i++ >= n) {
+                future.cancel(true);
+                over();
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
+                sb.append(GameDetailService.beaten(q2, -2, v));
+                sb.append(NEWLINE);
+                sb.append(GameController.gameService.info(q2));
+                MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
+            }
+        }
     }
 }
