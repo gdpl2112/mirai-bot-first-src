@@ -270,7 +270,7 @@ public class SuperController {
         } catch (Exception e) {
             num = null;
         }
-        num = num == null ? 1 : num > 20 ? 20 : num;
+        num = num == null ? 1 : num > 50 ? 50 : num;
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
         if (id == null) return ERR_TIPS;
         for (Integer integer = 0; integer < num; integer++) {
