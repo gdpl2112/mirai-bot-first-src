@@ -96,8 +96,7 @@ public class GhostBehavior implements Runnable {
             skill.setGroup(Group.get(MemberTools.getRecentSpeechesGid(ghostObj.getWhoMeet())));
             Future f0 = SkillDataBase.threads.submit(skill);
             atomicReference.set(f0);
-            int jid0 = template.getJid();
-            if (jid0 == 1001 || jid0 == 1002) {
+            if (jid == 1001 || jid == 1002) {
                 BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true, ghostObj.getWhoMeet());
             } else {
                 BaseInfoTemp.append(-ghostObj.getWhoMeet(), f0, true);

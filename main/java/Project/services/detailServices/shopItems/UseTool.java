@@ -17,6 +17,7 @@ import java.util.concurrent.Future;
 import static Project.controllers.auto.ControllerSource.gameService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.*;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
@@ -30,15 +31,15 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop0;
  */
 public class UseTool {
 
-    public PersonInfo personInfo;
+//    public PersonInfo personInfo;
 
     public void remove(int id, long who) {
         removeFromBgs(who, id, ObjType.use);
     }
 
-    public void before(long who) {
-        personInfo = getInfo(who);
-    }
+//    public void before(long who) {
+//        personInfo = getInfo(who);
+//    }
 
     public String useObjNum(Long who, Integer id, Integer num) {
         PersonInfo personInfo = getInfo(who);
@@ -126,6 +127,7 @@ public class UseTool {
     }
 
     public String use102(long who) {
+        PersonInfo personInfo = getInfo(who);
         long m = personInfo.getHpL();
         long t = personInfo.getHp();
         long l = 0;
@@ -152,6 +154,7 @@ public class UseTool {
     }
 
     public String use103(long who) {
+        PersonInfo personInfo = getInfo(who);
         int c = (getRandXl(personInfo.getLevel()));
         long xr = personInfo.getXpL() / c;
         long mx = (long) (xr * 1.1f);
@@ -161,6 +164,7 @@ public class UseTool {
     }
 
     public String use104(long who) {
+        PersonInfo personInfo = getInfo(who);
         long att = personInfo.getLevel() * 25;
         putPerson(personInfo.addAtt(att));
         remove(104, who);
@@ -175,6 +179,7 @@ public class UseTool {
     }
 
     public String use106(long who) {
+        PersonInfo personInfo = getInfo(who);
         remove(106, who);
         UseRestrictions.record(who, 106);
         long m = personInfo.getHll();
@@ -198,6 +203,7 @@ public class UseTool {
     }
 
     public String use107(long who) {
+        PersonInfo personInfo = getInfo(who);
         int r = personInfo.getNextR1();
         if (r != -2) {
             remove(107, who);
@@ -209,6 +215,7 @@ public class UseTool {
     }
 
     public String use108(long who) {
+        PersonInfo personInfo = getInfo(who);
         Integer nr = personInfo.getNextR2();
         if (nr != -2) {
             remove(108, who);
@@ -220,6 +227,7 @@ public class UseTool {
     }
 
     public String use109(long who) {
+        PersonInfo personInfo = getInfo(who);
         remove(109, who);
         putPerson(getInfo(who).setHelpC(personInfo.getHelpC() - 1));
         UseRestrictions.record(who, 109);
@@ -227,6 +235,7 @@ public class UseTool {
     }
 
     public String use110(long who) {
+        PersonInfo personInfo = getInfo(who);
         remove(110, who);
         UseRestrictions.record(who, 110);
         putPerson(getInfo(who).setHelpToc(personInfo.getHelpToc() - 1));
@@ -247,6 +256,7 @@ public class UseTool {
     }
 
     public String use115(long who) {
+        PersonInfo personInfo = getInfo(who);
         Integer nr = personInfo.getNextR3();
         if (nr != -2) {
             remove(115, who);
@@ -295,6 +305,7 @@ public class UseTool {
             BaseInfoTemp.VERTIGO_T1.get(q2).cancel(true);
         }
         removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
+        putPerson(getInfo(who).addTag(TAG_WD, 1, 500));
         return "使用成功";
     }
 

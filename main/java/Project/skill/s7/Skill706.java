@@ -35,18 +35,6 @@ public class Skill706 extends SkillTemplate {
             public void before() {
                 putPerson(getInfo(who).addTag(TAG_WD, 1, getDuration(getJid())));
             }
-
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Thread.sleep(info.getAddPercent() * 1000);
-                    putPerson(getInfo(who).eddTag(TAG_WD, 0));
-                    setTips("无敌失效");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         };
     }
 }
