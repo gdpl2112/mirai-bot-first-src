@@ -96,7 +96,7 @@ public class TimerController {
         });
     }
 
-    private static final String TIPS0 = "星期一到星期五的上午10:10分到晚上22:20开启";
+    private static final String TIPS0 = "星期一到星期五的上午10:10分到晚上22:20开启,星期六,天全天开放";
     private static long t = 759590727L;
 
     @CronSchedule("0 10 10 ? * 1-5")
