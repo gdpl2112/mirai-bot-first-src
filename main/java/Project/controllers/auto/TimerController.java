@@ -5,7 +5,9 @@ import Project.dataBases.GameDataBase;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Schedule;
+import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.apiEntitys.iciba.Dsapi;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -94,6 +96,26 @@ public class TimerController {
         });
     }
 
+
+    private static long t = 759590727L;
+
+    @CronSchedule("0 10 10 ? * 1-5")
+    public static void testOn() {
+        if (BotStarter.test) {
+            Resource.Switch.AllK = true;
+            BOT.getGroups().get(t).sendMessage("星期一到星期五的上午10:10分到晚上22:10开启");
+            BOT.getGroups().get(t).sendMessage("开启");
+        }
+    }
+
+    @CronSchedule("0 22 10 ? * 1-4")
+    public static void testOff() {
+        if (BotStarter.test) {
+            Resource.Switch.AllK = false;
+            BOT.getGroups().get(t).sendMessage("星期一到星期五的上午10:10分到晚上22:10开启");
+            BOT.getGroups().get(t).sendMessage("关闭");
+        }
+    }
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
