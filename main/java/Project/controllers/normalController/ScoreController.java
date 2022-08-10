@@ -132,6 +132,7 @@ public class ScoreController {
 
     @Action(value = "捐款")
     public String donate(User qq, @AllMess String str) {
+        if (DataBase.getAllInfo(qq.getId()).getScore() < 140) return "积分不足";
         if (DataBase.isMaxEarnings(qq.getId())) {
             return MAX_EARNINGS_TIPS;
         }
