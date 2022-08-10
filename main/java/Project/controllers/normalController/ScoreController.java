@@ -20,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.dataBases.DataBase.addScore;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -129,6 +130,16 @@ public class ScoreController {
         }
     }
 
+    @Action(value = "捐款")
+    public String donate(User qq, @AllMess String str) {
+        long l = Tool.tool.RANDOM.nextInt(20) + 40;
+        long r = Tool.tool.RANDOM.nextInt(2) + 1;
+        addScore(-l, qq.getId());
+        DataBase.addFz(-r, qq.getId());
+        return String.format("捐款了%s积分,降低了%s点犯罪指数", l, r);
+    }
+
+
     @Action(value = "签到", otherName = {"冒泡", "早安"})
     public String sign(User qq, Group group) {
         String str = scoreService.sign(qq.getId());
@@ -227,7 +238,7 @@ public class ScoreController {
         Integer s0 = Tool.tool.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 20 ? 20 : s0;
-        List<UserScore> list = SpringBootResource.getScoreMapper().phScore( s0);
+        List<UserScore> list = SpringBootResource.getScoreMapper().phScore(s0);
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (UserScore score : list) {

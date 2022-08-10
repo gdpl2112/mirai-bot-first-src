@@ -226,11 +226,9 @@ public class SuperController {
 
     @Action("移除管理.{1,}")
     public String removeFather(@AllMess String message, User qq) throws NoRunException {
-        if (isSuperQ(qq.getId()))
-            throw new NoRunException();
+        if (isSuperQ(qq.getId())) throw new NoRunException();
         long who = MessageTools.instance.getAtFromString(message);
-        if (who == -1)
-            return "移除谁?";
+        if (who == -1) return "移除谁?";
         return managerService.removeFather(qq.getId(), who);
     }
 
