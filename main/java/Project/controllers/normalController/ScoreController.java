@@ -132,7 +132,7 @@ public class ScoreController {
 
     @Action(value = "捐款")
     public String donate(User qq, @AllMess String str) {
-        long l = Tool.tool.RANDOM.nextInt(20) + 40;
+        long l = Tool.tool.RANDOM.nextInt(40) + 80;
         long r = Tool.tool.RANDOM.nextInt(2) + 1;
         addScore(-l, qq.getId());
         putInfo(getAllInfo(qq.getId()).record(-l));
