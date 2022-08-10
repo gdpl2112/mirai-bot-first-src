@@ -132,14 +132,16 @@ public class ScoreController {
 
     @Action(value = "捐款")
     public String donate(User qq, @AllMess String str) {
-        long l = Tool.tool.RANDOM.nextInt(40) + 80;
+        if (DataBase.isMaxEarnings(qq.getId())) {
+            return MAX_EARNINGS_TIPS;
+        }
+        long l = Tool.tool.RANDOM.nextInt(60) + 80;
         long r = Tool.tool.RANDOM.nextInt(2) + 1;
         addScore(-l, qq.getId());
         putInfo(getAllInfo(qq.getId()).record(-l));
         DataBase.addFz(-r, qq.getId());
         return String.format("捐款了%s积分,降低了%s点犯罪指数", l, r);
     }
-
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
     public String sign(User qq, Group group) {
