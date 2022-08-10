@@ -59,91 +59,92 @@ public class GameJoinDetailService {
     /**
      * 攻击一个魂兽
      *
-     * @param who      攻击者 与 魂兽
-     * @param att      值
-     * @param show     返回攻击后的魂兽信息
-     * @param canAttMe 魂兽是否可攻击我
-     * @param bo       if false don't broadcast
+     * @param who       攻击者 与 魂兽
+     * @param att       值
+     * @param show      返回攻击后的魂兽信息
+     * @param canAttMe  魂兽是否可攻击我
+     * @param type      攻击类型
+     * @param mandatory 强制
+     * @param bo        if false don't broadcast
      * @return
      */
     public static String attGho(long who, long att, boolean show, boolean canAttMe,
                                 GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
-        if (ghostObj == null) {
-            return "\n没有遇到魂兽或 已过期,或已死亡";
-        }
-        try {
-            String whos = "";
-            boolean isHelp = false;
-            StringBuilder sb = new StringBuilder();
-            sb.append(NEWLINE);
-            if (ghostObj.getState() == GhostObj.HELPING) {
-                isHelp = true;
-                whos = ghostObj.getForWhoStr();
-                ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
+        Long o0 = -ghostObj.getWhoMeet();
+        synchronized (o0) {
+            if (ghostObj == null) {
+                return "\n没有遇到魂兽或 已过期,或已死亡";
             }
-            if (!mandatory && IDXS.contains(ghostObj.getIDX())) {
-                return "\n该魂兽,正在被攻击中";
-            }
-            IDXS.add(ghostObj.getIDX());
-            if (canAttMe) {
-                long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
-                at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
-                sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
-                        .append(GameDetailService.beaten(who, -2, at2));
-            }
-            long oNow = att;
-            Map<String, Object> maps = new ConcurrentHashMap<>();
-            for (Role r : BeatenRoles.RS) {
-                RoleResponse response = r.call(sb, -ghostObj.getWhoMeet(), who, att, oNow, ghostObj, maps);
-                if (response != null) {
-                    oNow = response.getNowV();
-                    if (!response.getArgs().isEmpty()) {
-                        maps.putAll(response.getArgs());
+            try {
+                String q2 = "";
+                boolean isHelp = false;
+                StringBuilder sb = new StringBuilder();
+                sb.append(NEWLINE);
+                if (ghostObj.getState() == GhostObj.HELPING) {
+                    isHelp = true;
+                    q2 = ghostObj.getForWhoStr();
+                    ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(q2));
+                }
+                if (!mandatory && IDXS.contains(ghostObj.getIDX())) {
+                    return "\n该魂兽,正在被攻击中";
+                }
+                IDXS.add(ghostObj.getIDX());
+                if (canAttMe) {
+                    long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
+                    at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
+                    sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
+                            .append(GameDetailService.beaten(who, -2, at2));
+                }
+                long oNow = att;
+                Map<String, Object> maps = new ConcurrentHashMap<>();
+                for (Role r : BeatenRoles.RS) {
+                    RoleResponse response = r.call(sb, -ghostObj.getWhoMeet(), who, att, oNow, ghostObj, maps);
+                    if (response != null) {
+                        oNow = response.getNowV();
+                        if (!response.getArgs().isEmpty()) {
+                            maps.putAll(response.getArgs());
+                        }
+                        if (response.getState() == RoleState.STOP) {
+                            break;
+                        }
                     }
-                    if (response.getState() == RoleState.STOP) {
-                        break;
+                }
+                if (oNow > 0) {
+                    ghostObj.updateHp(-oNow, getInfo(who));
+                    sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
+                }
+                boolean showY = false;
+                if (ghostObj.getHp() > 0) {
+                    showY = true;
+                    if (isHelp) GameJoinDetailService.saveGhostObjIn(Long.parseLong(q2), ghostObj);
+                    else GameJoinDetailService.saveGhostObjIn(who, ghostObj);
+                } else {
+                    sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
+                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                    sb.append(willGetXp(ghostObj, who, isHelp));
+                    ZongDetailService.onKilled(who, ghostObj.getXp());
+                    if (isHelp) {
+                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(q2), null);
+                        GameJoinDetailService.saveGhostObjIn(who, null);
+                    } else {
+                        GameJoinDetailService.saveGhostObjIn(who, null);
+                    }
+                    //广播
+                    if (!isHelp) {
+                        GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, type);
+                    } else {
+                        GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(q2), ghostObj, type);
                     }
                 }
-            }
-            if (oNow > 0) {
-                ghostObj.updateHp(-oNow, getInfo(who));
-                sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
-            }
-            boolean showY = false;
-            if (ghostObj.getHp() > 0) {
-                showY = true;
-                if (isHelp) {
-                    GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
-                } else {
-                    GameJoinDetailService.saveGhostObjIn(who, ghostObj);
+                if (showY && show) {
+                    sb.append(NEWLINE).append(willTips(who, ghostObj, false));
                 }
-            } else {
-                sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
-                sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
-                sb.append(willGetXp(ghostObj, who, isHelp));
-                ZongDetailService.onKilled(who, ghostObj.getXp());
-                if (isHelp) {
-                    GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
-                    GameJoinDetailService.saveGhostObjIn(who, null);
-                } else {
-                    GameJoinDetailService.saveGhostObjIn(who, null);
-                }
-                //广播
-                if (!isHelp) {
-                    GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, type);
-                } else {
-                    GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, type);
-                }
+                return sb.toString();
+            } finally {
+                IDXS.remove((Object) ghostObj.getIDX());
+                if (bo) SelectAttBroadcast.INSTANCE.broadcast(who, -2, att, 2);
             }
-            if (showY && show) {
-                sb.append(NEWLINE).append(willTips(who, ghostObj, false));
-            }
-            return sb.toString();
-        } finally {
-            IDXS.remove((Object) ghostObj.getIDX());
-            if (bo)
-                SelectAttBroadcast.INSTANCE.broadcast(who, -2, att, 2);
         }
     }
 
