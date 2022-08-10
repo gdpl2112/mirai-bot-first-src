@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.DataBase.addScore;
+import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
@@ -135,6 +135,7 @@ public class ScoreController {
         long l = Tool.tool.RANDOM.nextInt(20) + 40;
         long r = Tool.tool.RANDOM.nextInt(2) + 1;
         addScore(-l, qq.getId());
+        putInfo(getAllInfo(qq.getId()).record(-l));
         DataBase.addFz(-r, qq.getId());
         return String.format("捐款了%s积分,降低了%s点犯罪指数", l, r);
     }

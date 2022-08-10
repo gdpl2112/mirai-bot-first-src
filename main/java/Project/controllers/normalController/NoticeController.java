@@ -46,6 +46,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("8.10:'捐款'").append("\n");
         UPDATE_LOG.append("8.8 :商城上架净化药水,调整部分功能").append("\n");
         UPDATE_LOG.append("8.4 :成就系统/其命令[成就列表<Page>,领取成就<Id>],详细信息更多信息").append("\n");
         UPDATE_LOG.append("8.3 :移除部分无用功能").append("\n");
