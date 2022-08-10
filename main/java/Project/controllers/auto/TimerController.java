@@ -58,12 +58,15 @@ public class TimerController {
         Resource.Switch.AllK = false;
         startOnZeroTime();
         Resource.Switch.AllK = true;
-        try {
-            Resource.verify();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
+        THREADS.submit(() -> {
+            try {
+                int r = Tool.tool.RANDOM.nextInt(15);
+                Thread.sleep(r * 1000);
+                Resource.verify();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private static void startOnZeroTime() {
