@@ -82,7 +82,7 @@ public class OtherController {
         baseMenuStr.append("关系列表\n");
         baseMenuStr.append("收徒<At>\n");
         baseMenuStr.append("出师\n");
-        baseMenuStr.append("出徒\n");
+        baseMenuStr.append("出徒<N>\n");
         baseMenuStr.append("====");
         baseMenuStr.append("魂环吸收限制");
         baseMenuStr.append("精神力作用\n");

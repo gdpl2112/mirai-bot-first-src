@@ -202,7 +202,8 @@ public interface IGameService {
      * 出徒
      *
      * @param q
+     * @param n
      * @return
      */
-    String chuTu(long q);
+    String chuTu(long q, Integer i);
 }

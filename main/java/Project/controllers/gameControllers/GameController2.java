@@ -90,9 +90,9 @@ public class GameController2 {
         return service.chuShi(q);
     }
 
-    @Action(value = "出徒")
-    public String m4(long q) {
-        return service.chuTu(q);
+    @Action(value = "出徒.*?")
+    public String m4(long q, @AllMess String mess) {
+        return service.chuTu(q, Tool.tool.getInteagerFromStr(mess));
     }
 
     @Action("升级第<.+=>str>")

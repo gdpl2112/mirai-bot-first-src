@@ -822,12 +822,12 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String shouTu(long q, long q2) {
-        if (getWarp(q).getPrentice().longValue() != -1)
+        if (hasP(q))
             return "你已经有徒弟了";
         if (getWarp(q2).getMaster().longValue() != -1)
             return "他已经有师傅了";
-        if ((getWarp(q).getMaster().longValue() == q2) || (getWarp(q2).getPrentice().longValue() == q))
-            return "can't do that";
+        if ((getWarp(q).getMaster().longValue() == q2) || (getWarp(q2).allP().contains(q)))
+            return ILLEGAL_OPERATION;
         GInfo gInfo = GInfo.getInstance(q);
         if (gInfo.getMasterPoint() < st)
             return "名师点不足:需要=>" + st + "\n现在:" + gInfo.getMasterPoint();
@@ -840,13 +840,25 @@ public class GameServiceImpl implements IGameService {
         return "未知异常";
     }
 
+    private boolean hasP(long q) {
+        PersonInfo pInfo = getInfo(q);
+        Warp warp = getWarp(q);
+        if (pInfo.getLevel() <= 120)
+            return warp.allP().size() > 0;
+        else if (pInfo.getLevel() <= 150)
+            return warp.allP().size() > 1;
+        else if (pInfo.getLevel() <= 152)
+            return warp.allP().size() > 2;
+        return false;
+    }
+
     public String shouTuNow(long q, long q2) {
         Warp warp1 = getWarp(q);
         Warp warp2 = getWarp(q2);
-        warp1.setPrentice(q2);
+        warp1.addP(q2);
         warp2.setMaster(q);
-        setWarp(warp1);
-        setWarp(warp2);
+        warp1.apply();
+        warp2.apply();
         GInfo.getInstance(q).addMasterPoint(-st).apply();
         return Tool.tool.pathToImg(drawWarp(warp1));
     }
@@ -871,19 +883,20 @@ public class GameServiceImpl implements IGameService {
         Warp warp1 = getWarp(q);
         Warp warp2 = getWarp(warp1.getMaster());
         warp1.setMaster(-1L);
-        warp2.setPrentice(-1L);
-        setWarp(warp1);
-        setWarp(warp2);
+        warp2.removeP(q);
+        warp1.apply();
+        warp2.apply();
         return Tool.tool.pathToImg(drawWarp(warp1));
     }
 
-    public String chuTuNow(long q) {
+    public String chuTuNow(long q, int i) {
+        i--;
         Warp warp1 = getWarp(q);
-        Warp warp2 = getWarp(warp1.getPrentice());
-        warp1.setPrentice(-1L);
+        Warp warp2 = getWarp(warp1.allP().get(i));
+        warp1.removeP(warp2.getId());
         warp2.setMaster(-1L);
-        setWarp(warp1);
-        setWarp(warp2);
+        warp1.apply();
+        warp2.apply();
         return Tool.tool.pathToImg(drawWarp(warp1));
     }
 
@@ -946,12 +959,13 @@ public class GameServiceImpl implements IGameService {
     }
 
     @Override
-    public String chuTu(long q) {
-        if (getWarp(q).getPrentice().longValue() == -1) return "您没有徒弟";
+    public String chuTu(long q, Integer n) {
+        if (getWarp(q).isEmpty0()) return "您没有徒弟";
         try {
+            n = n == null ? 1 : n.intValue();
             ConfirmController.regConfirm(q,
-                    this.getClass().getDeclaredMethod("chuTuNow", long.class),
-                    this, new Object[]{q}
+                    this.getClass().getDeclaredMethod("chuTuNow", long.class,int.class),
+                    this, new Object[]{q, n}
             );
             return "您确定要解除徒弟吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (NoSuchMethodException e) {

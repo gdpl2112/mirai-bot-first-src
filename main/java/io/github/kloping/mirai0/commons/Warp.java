@@ -1,12 +1,16 @@
 package io.github.kloping.mirai0.commons;
 
 import Project.aSpring.SpringBootResource;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 import static Project.dataBases.GameDataBase.getWarp;
 
@@ -22,7 +26,7 @@ public class Warp {
     private Long id = -1L;
     private Long bindQ = -1L;
     private Long master = -1L;
-    private Long prentice = -1L;
+    private String prentice = "";
 
     public static Warp getInstance(long q) {
         return getWarp(q);
@@ -40,9 +44,41 @@ public class Warp {
         return this;
     }
 
+    public void addP(long q) {
+        if (!prentice.startsWith("[")) {
+            prentice = "[" + prentice + "]";
+        }
+        JSONArray array = JSON.parseArray(prentice);
+        List<Long> list = array.toJavaList(Long.class);
+        list.add(q);
+        prentice = JSON.toJSONString(list);
+    }
+    public List<Long> allP() {
+        if (!prentice.startsWith("[")) {
+            prentice = "[" + prentice + "]";
+        }
+        JSONArray array = JSON.parseArray(prentice);
+        List<Long> list = array.toJavaList(Long.class);
+        return list;
+    }
+
+    public void removeP(long q) {
+        if (!prentice.startsWith("[")) {
+            prentice = "[" + prentice + "]";
+        }
+        JSONArray array = JSON.parseArray(prentice);
+        List<Long> list = array.toJavaList(Long.class);
+        list.remove(q);
+        prentice = JSON.toJSONString(list);
+    }
+
     public void apply() {
         UpdateWrapper<Warp> qw = new UpdateWrapper<>();
         qw.eq("id", id);
         SpringBootResource.getWarpMapper().update(this, qw);
+    }
+
+    public boolean isEmpty0() {
+        return allP().isEmpty() || (allP().size()==1&&allP().contains(-1L));
     }
 }

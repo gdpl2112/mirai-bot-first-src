@@ -321,6 +321,7 @@ public class GameController {
     @Action("关系列表")
     public String warps(long q) {
         Warp warp = getWarp(q);
+        warp.apply();
         return Tool.tool.pathToImg(drawWarp(warp));
     }
 

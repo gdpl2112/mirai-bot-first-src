@@ -3,7 +3,6 @@ package Project.aSpring;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +12,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static Project.aSpring.SpringBootResource.*;
 
@@ -53,5 +55,19 @@ public class SpringStarter {
         template.setHashValueSerializer(jacksonSeial);
         template.afterPropertiesSet();
         return template;
+    }
+
+    @Bean("updateState")
+    public String m0(SqlSessionTemplate template) {
+        try {
+            PreparedStatement statement =
+                    template.getSqlSessionFactory().openSession().getConnection().prepareStatement(
+                            "ALTER TABLE `warp` CHANGE COLUMN `prentice` `prentice` VARCHAR(50) NULL DEFAULT NULL AFTER `master`;");
+            statement.execute();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "ok";
     }
 }

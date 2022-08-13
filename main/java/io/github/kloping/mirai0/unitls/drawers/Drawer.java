@@ -233,11 +233,13 @@ public class Drawer {
         g.setColor(k ? Color.RED : Color.GREEN);
         g.drawString("师傅:" + m, x, y + SMALL_FONT28.getSize());
 
-        y = y + eve;
-        k = p.getPrentice().longValue() == -1;
-        m = k ? "无" : (" & " + MemberTools.getName(p.getPrentice().longValue()));
-        g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("徒弟:" + m, x, y + SMALL_FONT28.getSize());
+        for (Long q0 : p.allP()) {
+            y = y + eve;
+            k = q0.longValue() == -1;
+            m = k ? "无" : (" & " + MemberTools.getName(q0.longValue()));
+            g.setColor(k ? Color.RED : Color.GREEN);
+            g.drawString("徒弟:" + m, x, y + SMALL_FONT28.getSize());
+        }
 
         y = y + eve;
         Integer id = qq2id.get(p.getId().longValue());
