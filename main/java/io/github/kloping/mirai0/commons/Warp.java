@@ -51,14 +51,17 @@ public class Warp {
         JSONArray array = JSON.parseArray(prentice);
         List<Long> list = array.toJavaList(Long.class);
         list.add(q);
+        list.remove(-1L);
         prentice = JSON.toJSONString(list);
     }
+
     public List<Long> allP() {
         if (!prentice.startsWith("[")) {
             prentice = "[" + prentice + "]";
         }
         JSONArray array = JSON.parseArray(prentice);
         List<Long> list = array.toJavaList(Long.class);
+        list.remove(-1L);
         return list;
     }
 
@@ -69,6 +72,7 @@ public class Warp {
         JSONArray array = JSON.parseArray(prentice);
         List<Long> list = array.toJavaList(Long.class);
         list.remove(q);
+        list.remove(-1L);
         prentice = JSON.toJSONString(list);
     }
 
@@ -79,6 +83,6 @@ public class Warp {
     }
 
     public boolean isEmpty0() {
-        return allP().isEmpty() || (allP().size()==1&&allP().contains(-1L));
+        return allP().isEmpty() || (allP().size() == 1 && allP().contains(-1L));
     }
 }
