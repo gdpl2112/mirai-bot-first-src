@@ -16,12 +16,12 @@ public class SearchSong {
     private KlopingWeb getSongs;
 
     public Songs netEase(String name) {
-        return getSongs.getSongs(name, "wy");
+        return getSongs.getSongs(name, "wy",2);
     }
 
     public Songs kugou(String name) {
         try {
-            Songs songs = getSongs.getSongs(name, "kugou");
+            Songs songs = getSongs.getSongs(name, "kugou",2);
             return songs;
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,6 +30,6 @@ public class SearchSong {
     }
 
     public Songs qq(String name) {
-        return getSongs.getSongs(name, "qq");
+        return getSongs.getSongs(name, "qq",2);
     }
 }

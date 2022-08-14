@@ -188,4 +188,33 @@ public class ImageDrawerUtils {
         encoder.finish();
         return outFile.getAbsolutePath();
     }
+
+    public static String image2giftIncrease(int delay, File outFile, String... images) {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(delay);
+        float f = 1.1f;
+        for (int i = 0; i < images.length; i++) {
+            String u0 = images[i];
+            f+=0.1;
+            int d0 = (int) (f * delay);
+            encoder.setDelay(d0);
+            BufferedImage main = null;
+            try {
+                if (u0 == null) continue;
+                else if (u0.startsWith("http")) {
+                    main = ImageIO.read(new URL(u0));
+                } else {
+                    main = ImageIO.read(new File(u0));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            encoder.addFrame(main);
+        }
+        encoder.finish();
+        return outFile.getAbsolutePath();
+    }
 }

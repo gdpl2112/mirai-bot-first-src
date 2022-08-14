@@ -23,7 +23,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("/api/search/song")
-    Songs getSongs(@ParamName("keyword") String keyword, @ParamName("type") String type);
+    Songs getSongs(@ParamName("keyword") String keyword, @ParamName("type") String type, @ParamName("n") Integer n);
 
     /**
      * 获取图片
