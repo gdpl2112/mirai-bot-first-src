@@ -253,6 +253,8 @@ public class SuperController {
         }
     }
 
+    private static final int MAX_GET = 300;
+
     @Action("/添加物品<.+=>str>")
     public Object add0(@Param("str") String str) {
         Long who = MessageTools.instance.getAtFromString(str);
@@ -268,7 +270,7 @@ public class SuperController {
         } catch (Exception e) {
             num = null;
         }
-        num = num == null ? 1 : num > 50 ? 50 : num;
+        num = num == null ? 1 : num > MAX_GET ? MAX_GET : num;
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
         if (id == null) return ERR_TIPS;
         for (Integer integer = 0; integer < num; integer++) {
