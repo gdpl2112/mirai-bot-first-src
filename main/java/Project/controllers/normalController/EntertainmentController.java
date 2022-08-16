@@ -215,12 +215,12 @@ public class EntertainmentController {
         Integer index = Tool.tool.getInteagerFromStr(sss[0]);
         Integer sc = Tool.tool.getInteagerFromStr(sss[1]);
         sc = sc == null ? 0 : sc;
-        if (sc > 1000) {
-            sc = 1000;
-            sb.append("最大竞猜1000自动转换");
+        if (sc > 10000) {
+            sc = 10000;
+            sb.append("最大竞猜1000自动转换\n");
         } else if (sc < 10) {
-            sc = 1000;
-            sb.append("最小竞猜10自动转换");
+            sc = 10;
+            sb.append("最小竞猜10自动转换\n");
         }
         if (Quiz.quiz.append(qid, index, sc)) {
             UserScore userScore = DataBase.getAllInfo(qid);

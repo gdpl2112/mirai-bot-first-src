@@ -276,6 +276,9 @@ public class ManagerController {
         Integer index = Tool.tool.getInteagerFromStr(all);
         index = index == null ? 0 : index;
         if (index == 0) {
+            for (Quiz.QuizSon quizSon : Quiz.quiz.getQuizSons()) {
+                DataBase.getAllInfo(quizSon.getQid()).addScore(quizSon.getSc());
+            }
             Quiz.quiz = null;
             return "强制结束";
         } else {
