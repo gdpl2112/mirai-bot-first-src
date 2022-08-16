@@ -302,7 +302,7 @@ public class ManagerController {
                     sb.append(quizSon.getQid()).append("获得").append(wg).append(NEWLINE);
                 }
             }
-
+            Quiz.quiz = null;
             return sb.toString();
         }
     }
