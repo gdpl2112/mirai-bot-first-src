@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Quiz {
     public static Quiz quiz = null;
+    private boolean processing = true;
     private Map<Integer, String> quizData = new HashMap<>();
     private List<QuizSon> quizSons = new ArrayList<>();
     private String title = "";
@@ -99,5 +100,13 @@ public class Quiz {
 
     public void setQuizData(Map<Integer, String> quizData) {
         this.quizData = quizData;
+    }
+
+    public boolean isProcessing() {
+        return processing;
+    }
+
+    public void setProcessing(boolean processing) {
+        this.processing = processing;
     }
 }

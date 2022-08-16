@@ -23,6 +23,7 @@ import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.*;
 import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -210,6 +211,8 @@ public class EntertainmentController {
 
     @Action("竞猜.+")
     public String s3(long qid, @AllMess String mess) {
+        if (!Quiz.quiz.isProcessing())
+            return "竞猜已停止";
         StringBuilder sb = new StringBuilder();
         String[] sss = mess.substring(2).split(",|，");
         Integer index = Tool.tool.getInteagerFromStr(sss[0]);
@@ -227,6 +230,7 @@ public class EntertainmentController {
             if (userScore.getScore() < sc) return "积分不足";
             userScore.addScore(-sc);
             int all = Quiz.quiz.getAll();
+            sb.append(Quiz.quiz.getTitle()).append(NEWLINE);
             Quiz.quiz.getQuizData().forEach((k, v) -> {
                 int a0 = Quiz.quiz.getAll(k);
                 int b = NumberUtils.toPercent(a0, all);

@@ -309,4 +309,11 @@ public class ManagerController {
             return sb.toString();
         }
     }
+
+    @Action("停止竞猜.+")
+    public String s5() {
+        if (Quiz.quiz == null) return "未开始竞猜";
+        Quiz.getQuiz().setProcessing(false);
+        return "已停止";
+    }
 }
