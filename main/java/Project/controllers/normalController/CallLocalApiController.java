@@ -207,7 +207,7 @@ public class CallLocalApiController {
             list.add(url0);
         }
         File outFile = new File("./temp/" + UUID.randomUUID() + "-gaoWen.gif");
-        ImageDrawerUtils.image2gift(400, outFile, list.toArray(new String[0]));
+        ImageDrawerUtils.image2giftIncrease(400, outFile, list.toArray(new String[0]));
         return Tool.tool.pathToImg(outFile.getAbsolutePath());
     }
 }

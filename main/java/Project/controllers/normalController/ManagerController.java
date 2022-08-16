@@ -12,8 +12,10 @@ import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.Quiz;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
 
@@ -242,5 +244,66 @@ public class ManagerController {
     @Action(value = "yousend.+")
     public String isay(@AllMess String str, Group group) {
         return str.substring(7);
+    }
+
+
+    @Action("创建竞猜.+")
+    public String s3(@AllMess String all) {
+        if (Quiz.quiz != null) return "竞猜中...";
+        Quiz.quiz = new Quiz();
+        String[] sss = all.substring(4).split(";");
+        int i = 0;
+        for (String s : sss) {
+            if (i == 0) {
+                Quiz.quiz.setTitle(s);
+            } else {
+                Quiz.quiz.getQuizData().put(i, s);
+            }
+            i++;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("创建成功\n").append(Quiz.quiz.getTitle()).append(NEWLINE);
+        Quiz.quiz.getQuizData().forEach((k, v) -> {
+            sb.append(k).append(".").append(v).append(NEWLINE);
+        });
+        sb.append("发'竞猜1,100' 来猜1并投注100积分");
+        return sb.toString();
+    }
+
+    @Action("结束竞猜.+")
+    public String s4(@AllMess String all) {
+        if (Quiz.quiz == null) return "未开始竞猜";
+        Integer index = Tool.tool.getInteagerFromStr(all);
+        index = index == null ? 0 : index;
+        if (index == 0) {
+            Quiz.quiz = null;
+            return "强制结束";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("竞猜结束\n").append(Quiz.quiz.getTitle()).append(NEWLINE)
+                    .append("结果为:").append(NEWLINE)
+                    .append(index).append(".")
+                    .append(Quiz.quiz.getQuizData().get(index)).append("==>>\n");
+            long win = 0;
+            long a0 = 0;
+            for (Quiz.QuizSon quizSon : Quiz.getQuiz().getQuizSons()) {
+                if (quizSon.getIndex() == index) {
+                    win += quizSon.getSc();
+                }
+                a0 += quizSon.getSc();
+            }
+
+            for (Quiz.QuizSon quizSon : Quiz.getQuiz().getQuizSons()) {
+                if (quizSon.getIndex() == index) {
+                    long s0 = quizSon.getSc();
+                    int b0 = NumberUtils.toPercent(s0, win);
+                    long wg = NumberUtils.percentTo(b0, a0);
+                    DataBase.getAllInfo(quizSon.getQid()).addScore(wg);
+                    sb.append(quizSon.getQid()).append("获得").append(wg).append(NEWLINE);
+                }
+            }
+
+            return sb.toString();
+        }
     }
 }

@@ -8,12 +8,10 @@ import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.GroupConf;
-import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.UserScore;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.number.NumberUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -87,7 +85,7 @@ public class EntertainmentController {
 
     @Action("时间")
     public Object nowTime() {
-        return  Tool.tool.getTimeYMdhms(System.currentTimeMillis());
+        return Tool.tool.getTimeYMdhms(System.currentTimeMillis());
     }
 
     @Action("2传话<.+=>str>")
@@ -104,7 +102,7 @@ public class EntertainmentController {
     public String flash(@AllMess String str, Group group) throws NoRunException {
         String url = MessageTools.instance.getFlashUrlFromMessageString(str);
         if (canBackShow(group.getId())) {
-            return  Tool.tool.pathToImg(url);
+            return Tool.tool.pathToImg(url);
         } else if (sendFlashToSuper) {
             try {
                 BOT.getGroup(794238572L).sendMessage(url);
@@ -126,11 +124,11 @@ public class EntertainmentController {
     @Action(value = "掷骰子", otherName = "摇骰子")
     public String rand(Group group) {
         StringBuilder builder = new StringBuilder();
-        int r =  Tool.tool.RANDOM.nextInt(6);
+        int r = Tool.tool.RANDOM.nextInt(6);
         String str = datePath + "/GameFile/Rt_";
         str += r;
         str += ".jpg";
-        return  Tool.tool.pathToImg(str);
+        return Tool.tool.pathToImg(str);
     }
 
     @Action("开始成语接龙")
@@ -208,5 +206,35 @@ public class EntertainmentController {
             }
         }
         return sb.toString();
+    }
+
+    @Action("竞猜.+")
+    public String s3(long qid, @AllMess String mess) {
+        StringBuilder sb = new StringBuilder();
+        String[] sss = mess.substring(2).split(",|，");
+        Integer index = Tool.tool.getInteagerFromStr(sss[0]);
+        Integer sc = Tool.tool.getInteagerFromStr(sss[1]);
+        sc = sc == null ? 0 : sc;
+        if (sc > 1000) {
+            sc = 1000;
+            sb.append("最大竞猜1000自动转换");
+        } else if (sc < 10) {
+            sc = 1000;
+            sb.append("最小竞猜10自动转换");
+        }
+        if (Quiz.quiz.append(qid, index, sc)) {
+            UserScore userScore = DataBase.getAllInfo(qid);
+            if (userScore.getScore() < sc) return "积分不足";
+            userScore.addScore(-sc);
+            int all = Quiz.quiz.getAll();
+            Quiz.quiz.getQuizData().forEach((k, v) -> {
+                int a0 = Quiz.quiz.getAll(k);
+                int b = NumberUtils.toPercent(a0, all);
+                sb.append(k).append(v).append(v).append("==>>").append(b).append("%").append("(").append(a0).append(")\n");
+            });
+            return sb.toString();
+        } else {
+            return "竞猜失败,最大三次竞猜";
+        }
     }
 }
