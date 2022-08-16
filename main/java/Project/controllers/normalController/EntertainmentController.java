@@ -230,7 +230,7 @@ public class EntertainmentController {
             Quiz.quiz.getQuizData().forEach((k, v) -> {
                 int a0 = Quiz.quiz.getAll(k);
                 int b = NumberUtils.toPercent(a0, all);
-                sb.append(k).append(v).append(v).append("==>>").append(b).append("%").append("(").append(a0).append(")\n");
+                sb.append(k).append(v).append("==>>").append(b).append("%").append("(").append(a0).append(")\n");
             });
             return sb.toString();
         } else {
