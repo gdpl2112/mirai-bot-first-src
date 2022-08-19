@@ -272,6 +272,16 @@ public class GameJoinDetailService {
         }
         return Tool.tool.RANDOM.nextInt(100) < 75;
     }
+    public static boolean randHh1(int level) {
+        if (level > 10000000) {
+            return Tool.tool.RANDOM.nextInt(100) < 38;
+        } else if (level > 1000000) {
+            return Tool.tool.RANDOM.nextInt(100) < 48;
+        } else if (level > 100000) {
+            return Tool.tool.RANDOM.nextInt(100) < 64;
+        }
+        return Tool.tool.RANDOM.nextInt(100) < 75;
+    }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
         long v = ghostObj.getXp();
@@ -288,7 +298,7 @@ public class GameJoinDetailService {
     }
 
     private static String willGetBone(int level, long who) {
-        if (randHh(level)) {
+        if (randHh1(level)) {
             Integer id = 0;
             int r1 = Tool.tool.RANDOM.nextInt(5) + 1;
             if (level > 5000) {

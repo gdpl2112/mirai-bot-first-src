@@ -116,8 +116,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         }
         if (UseRestrictions.cant(who.longValue(), id)) return USE_UPPER_LIMIT_TIPS;
         String[] sss = gameService.getBags(who);
-        if (num <= 0 || num > 50)
-            return NUM_TOO_MUCH;
+        if (num <= 0 || num > 50) return NUM_TOO_MUCH;
         boolean enough = false;
         long cd0 = (long) (7000 * num * 1.25f);
         //冷却药水

@@ -38,11 +38,11 @@ public class ManagerController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    private static Number[] getAllAt(String allMess) {
+    public static Number[] getAllAt(String allMess) {
         Set<Number> numbers = new HashSet<>();
         while (true) {
             Long l1 = MessageTools.instance.getAtFromString(allMess);
-            allMess = allMess.replaceFirst("\\[@" + l1 + "\\]", "");
+            allMess = allMess.replaceFirst("\\[@" + l1 + "]", "");
             if (l1 == -1) break;
             else numbers.add(l1);
         }
@@ -245,7 +245,6 @@ public class ManagerController {
     public String isay(@AllMess String str, Group group) {
         return str.substring(7);
     }
-
 
     @Action("创建竞猜.+")
     public String s3(@AllMess String all) {

@@ -26,9 +26,10 @@ public class JoinAcService {
     public static final int MIN_MEED = 60;
     public static final String[] TIPS0 = {
             "你去落日森林,欣赏了风景<Face:335>",
-            "你从花开<Face:64>看到了花落<Face:63>",
+            "你从花开<Face:63>看到了花落<Face:64>",
             "你去落日森林,溜达了一圈<Face:185>",
     };
+
     private static final int MUST_MEED = 70;
     private static final int MAX_RAND_2 = 150;
     private static final int MAX_RAND3 = 300;
@@ -58,14 +59,14 @@ public class JoinAcService {
             if (n < 33) {
                 ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 501, 521);
             } else {
-                r =  Tool.tool.RANDOM.nextInt(31);
+                r = Tool.tool.RANDOM.nextInt(31);
             }
         } else if (r0 == -1) {
-            r =  Tool.tool.RANDOM.nextInt(250);
+            r = Tool.tool.RANDOM.nextInt(250);
         } else {
             r = r0;
         }
-        getInfo(who).setNextR1( Tool.tool.RANDOM.nextInt(250)).apply();
+        getInfo(who).setNextR1(Tool.tool.RANDOM.nextInt(250)).apply();
         if (ghostObj == null) {
             if (r < 3) {
                 //十万年
@@ -95,13 +96,13 @@ public class JoinAcService {
                 addToBgs(who, 103, ObjType.got);
                 return "你去星斗森林,只捡到了一个大瓶经验已存入背包";
             } else if (r < 116) {
-                int r1 =  Tool.tool.RANDOM.nextInt(3) + 1;
+                int r1 = Tool.tool.RANDOM.nextInt(3) + 1;
                 for (int i = 0; i < r1; i++) {
                     addToBgs(who, 1000, ObjType.got);
                 }
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
-                int rr =  Tool.tool.RANDOM.nextInt(90) + 30;
+                int rr = Tool.tool.RANDOM.nextInt(90) + 30;
                 putPerson(getInfo(who).addGold((long) rr
                         , new TradingRecord()
                                 .setFrom(-1)
@@ -111,13 +112,13 @@ public class JoinAcService {
                                 .setType0(TradingRecord.Type0.gold)
                                 .setType1(TradingRecord.Type1.add)
                 ));
-                return "你去星斗森林,只捡到了" + rr + "个金魂币" +  Tool.tool.toFaceMes(String.valueOf(188));
-            } else if ( Tool.tool.RANDOM.nextInt(1000) == 0) {
+                return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.tool.toFaceMes(String.valueOf(188));
+            } else if (Tool.tool.RANDOM.nextInt(1000) == 0) {
                 int id = 111;
                 addToBgs(who, id, ObjType.got);
                 return "震惊!!!\n你去星斗森林捡到一个" + getNameById(id);
             } else {
-                return "你去星斗森林,只捡到了个寂寞!" +  Tool.tool.toFaceMes(String.valueOf(239));
+                return "你去星斗森林,只捡到了个寂寞!" + Tool.tool.toFaceMes(String.valueOf(239));
             }
         }
 
@@ -135,11 +136,11 @@ public class JoinAcService {
         int r = 0;
         r = getInfo(who).getNextR2();
         if (r == -1) {
-            r =  Tool.tool.RANDOM.nextInt(MAX_RAND_2);
+            r = Tool.tool.RANDOM.nextInt(MAX_RAND_2);
         } else if (r == -2) {
-            r =  Tool.tool.RANDOM.nextInt(MIN_MEED);
+            r = Tool.tool.RANDOM.nextInt(MIN_MEED);
         }
-        putPerson(getInfo(who).setNextR2( Tool.tool.RANDOM.nextInt(MAX_RAND_2)));
+        putPerson(getInfo(who).setNextR2(Tool.tool.RANDOM.nextInt(MAX_RAND_2)));
         GhostObj ghostObj = null;
         if (r < MUST_MEED) {
             if (r == 0) {
@@ -158,10 +159,10 @@ public class JoinAcService {
                 ghostObj = GhostObj.create(100, 601, 604);
             } else {
                 addToBgs(who, 112, ObjType.got);
-                return "你去极贝之地,捡到了一个精神神石已存入背包" +  Tool.tool.toFaceMes("318");
+                return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.tool.toFaceMes("318");
             }
         } else {
-            return "你去极北之地 ,只捡到了个寂寞。。" +  Tool.tool.toFaceMes(String.valueOf(271));
+            return "你去极北之地 ,只捡到了个寂寞。。" + Tool.tool.toFaceMes(String.valueOf(271));
         }
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
@@ -211,7 +212,7 @@ public class JoinAcService {
             GameDataBase.addToBgs(who, 114, ObjType.got);
             return "<Pic:./images/ac2.png>.\n你去落日森林捡到了一片落叶碎片\uD83C\uDF42已存入背包";
         } else {
-            return "<Pic:./images/ac2.png>.\n" +  Tool.tool.getRandT(TIPS0);
+            return "<Pic:./images/ac2.png>.\n" + Tool.tool.getRandT(TIPS0);
         }
         if (ghostObj != null) {
             ghostObj.setGroup(group);

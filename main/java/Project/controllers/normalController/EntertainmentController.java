@@ -83,7 +83,6 @@ public class EntertainmentController {
         }
     }
 
-
     @Action("时间")
     public Object nowTime() {
         return Tool.tool.getTimeYMdhms(System.currentTimeMillis());

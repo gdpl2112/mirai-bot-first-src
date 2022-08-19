@@ -1,6 +1,7 @@
 package Project.services.detailServices.shopItems;
 
 import Project.controllers.recr.HasTimeActionController;
+import Project.services.player.PlayerBehavioralManager;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static Project.controllers.auto.ControllerSource.gameService;
+import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
@@ -30,15 +32,9 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop0;
  */
 public class UseTool {
 
-//    public PersonInfo personInfo;
-
     public void remove(int id, long who) {
         removeFromBgs(who, id, ObjType.use);
     }
-
-//    public void before(long who) {
-//        personInfo = getInfo(who);
-//    }
 
     public String useObjNum(Long who, Integer id, Integer num) {
         PersonInfo personInfo = getInfo(who);
@@ -303,8 +299,9 @@ public class UseTool {
         if (q2 != null) {
             BaseInfoTemp.VERTIGO_T1.get(q2).cancel(true);
         }
-        removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
+        playerBehavioralManager.growths.remove(who);
         putPerson(getInfo(who).addTag(TAG_WD, 1, 800));
+        removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
         return "使用成功";
     }
 
