@@ -115,8 +115,8 @@ public class GhostBehavior implements Runnable {
         int num = getSkillNum(ghostObj.getLevel());
         while (jid2skill.size() < num) {
             int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
+            if (id0 > 11) continue;
             int jid = 1001 + id0;
-            if (jid > 1100) continue;
             if (jid2skill.containsKey(jid)) continue;
             SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
             jid2skill.put(jid, template);
@@ -124,8 +124,7 @@ public class GhostBehavior implements Runnable {
 
         if (ghostObj.getId() > 600 && ghostObj.getId() < 700) {
             if (ghostObj.getLevel().intValue() > 10000) {
-                int id0 = Tool.tool.RANDOM.nextInt(3);
-                int j0 = 1101 + id0;
+                int j0 = 1101 + Tool.tool.RANDOM.nextInt(3);
                 SkillTemplate template = SkillFactory.factory100(j0, getHhByGh(ghostObj.getLevel()));
                 jid2skill.put(j0, template);
             }

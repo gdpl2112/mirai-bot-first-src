@@ -23,7 +23,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Entity
 public class JoinAcService {
-    public static final int MIN_MEED = 60;
+    public static final int MIN_MEED = 75;
     public static final String[] TIPS0 = {
             "你去落日森林,欣赏了风景<Face:335>",
             "你从花开<Face:63>看到了花落<Face:64>",
@@ -148,10 +148,10 @@ public class JoinAcService {
             } else if (r < 3) {
                 //十万年0.5%
                 ghostObj = GhostObj.create(100000, 601, 604);
-            } else if (r < 16) {
+            } else if (r < 20) {
                 //万年2%
                 ghostObj = GhostObj.create(10000, 601, 604);
-            } else if (r < 31) {
+            } else if (r < 42) {
                 //千年5%
                 ghostObj = GhostObj.create(1000, 601, 604);
             } else if (r < MIN_MEED) {
@@ -191,11 +191,11 @@ public class JoinAcService {
         GhostWithGroup ghostObj = null;
         if (r == 0) {
             ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 706);
-        } else if (r < 3) {
+        } else if (r < 5) {
             ghostObj = GhostObj.create(1000000, 701, 706);
-        } else if (r < 16) {
+        } else if (r < 20) {
             ghostObj = GhostObj.create(100000, 701, 706);
-        } else if (r < 25) {
+        } else if (r < 30) {
             ghostObj = GhostObj.create(10000, 701, 706);
         } else if (r < MIN_MEET3) {
             ghostObj = GhostObj.create(1000, 701, 706);
