@@ -142,25 +142,23 @@ public class JoinAcService {
         }
         putPerson(getInfo(who).setNextR2(Tool.tool.RANDOM.nextInt(MAX_RAND_2)));
         GhostObj ghostObj = null;
-        if (r < MUST_MEED) {
-            if (r == 0) {
-                ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 601, 604);
-            } else if (r < 3) {
-                //十万年0.5%
-                ghostObj = GhostObj.create(100000, 601, 604);
-            } else if (r < 20) {
-                //万年2%
-                ghostObj = GhostObj.create(10000, 601, 604);
-            } else if (r < 42) {
-                //千年5%
-                ghostObj = GhostObj.create(1000, 601, 604);
-            } else if (r < MIN_MEED) {
-                //百年8%
-                ghostObj = GhostObj.create(100, 601, 604);
-            } else {
-                addToBgs(who, 112, ObjType.got);
-                return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.tool.toFaceMes("318");
-            }
+        if (r == 0) {
+            ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 601, 604);
+        } else if (r < 3) {
+            //十万年0.5%
+            ghostObj = GhostObj.create(100000, 601, 604);
+        } else if (r < 20) {
+            //万年2%
+            ghostObj = GhostObj.create(10000, 601, 604);
+        } else if (r < 42) {
+            //千年5%
+            ghostObj = GhostObj.create(1000, 601, 604);
+        } else if (r < MIN_MEED) {
+            //百年8%
+            ghostObj = GhostObj.create(100, 601, 604);
+        } else if (r < MIN_MEED + 30) {
+            addToBgs(who, 112, ObjType.got);
+            return "你去极贝之地,捡到了一个精神神石已存入背包" + Tool.tool.toFaceMes("318");
         } else {
             return "你去极北之地 ,只捡到了个寂寞。。" + Tool.tool.toFaceMes(String.valueOf(271));
         }
