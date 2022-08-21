@@ -272,6 +272,7 @@ public class GameJoinDetailService {
         }
         return Tool.tool.RANDOM.nextInt(100) < 75;
     }
+
     public static boolean randHh1(int level) {
         if (level > 10000000) {
             return Tool.tool.RANDOM.nextInt(100) < 38;
