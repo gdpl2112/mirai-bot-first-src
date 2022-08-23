@@ -133,9 +133,9 @@ public class OtherController {
         m0.append("发张 xx \n");
         m0.append("掷骰子\n");
         m0.append("随机头像\n");
-        m0.append("随机男头像\n");
-        m0.append("随机女头像\n");
-        m0.append("随机情侣头像\n");
+//        m0.append("随机男头像\n");
+//        m0.append("随机女头像\n");
+//        m0.append("随机情侣头像\n");
         m0.append("王者公告\n");
         m0.append("原神公告\n");
         m0.append("捡瓶子/捡漂流瓶\n");

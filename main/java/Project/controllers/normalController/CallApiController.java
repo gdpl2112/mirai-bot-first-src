@@ -37,7 +37,6 @@ public class CallApiController {
     public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
     public static final String S0 = "https://api.okjx.cc:3389/jx.php?url=";
-    private static final String[] SJTX_PARMS = {"女", "男", "动漫", "情侣"};
     private static final String SPLIT_POINT_STR = ",";
 
     @AutoStand
