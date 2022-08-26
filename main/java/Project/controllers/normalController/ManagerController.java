@@ -205,7 +205,7 @@ public class ManagerController {
     public String Ban(User qq, Group egroup, @Param("str") String str, @AllMess String chain) {
         long who = MessageTools.instance.getAtFromString(chain);
         if (who == -1)
-            return "谁？";
+            return NOT_FOUND_AT;
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         return managerService.notSpeak(group.get(who), str.replace(who + "", ""), group);
     }

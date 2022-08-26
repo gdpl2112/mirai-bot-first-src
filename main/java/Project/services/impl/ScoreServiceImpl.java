@@ -120,15 +120,15 @@ public class ScoreServiceImpl implements IScoreService {
     }
 
     @Override
-    public String sign(Long who) {
+    public synchronized String sign(Long who) {
         UserScore ls = DataBase.getAllInfo(who);
         int day = Tool.tool.getTodayInt();
         if (ls.getDay() == day) {
             return "签到失败,你今天已经签到过了!!";
         } else {
             ls.setFz(0L);
-            ls.setDay(Long.valueOf(Tool.tool.getToday()));
-            ls.setDays((long) (ls.getDays().intValue() + 1));
+            ls.setDay(Long.valueOf(day));
+            ls.setDays((ls.getDays().intValue() + 1L));
             ls.addScore(100);
             putInfo(ls);
             SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.tool.getTodayDetialString(), System.currentTimeMillis());

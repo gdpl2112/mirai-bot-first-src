@@ -186,14 +186,10 @@ public class DataBase {
     }
 
     public static UserScore getAllInfo(Long who) {
-        if (!exists(who)) {
-            regA(who);
-        }
+        if (!exists(who)) regA(who);
         UserScore uScore = null;
         try {
-            if (HIST_U_SCORE.containsKey(who.longValue())) {
-                return HIST_U_SCORE.get(who.longValue());
-            }
+            if (HIST_U_SCORE.containsKey(who.longValue())) return HIST_U_SCORE.get(who.longValue());
             uScore = SpringBootResource.getScoreMapper().selectById(who.longValue());
             HIST_U_SCORE.put(who.longValue(), uScore);
             return uScore;

@@ -70,13 +70,9 @@ public class ManagerServiceImpl implements IManagerService {
                 es = s;
             }
         }
-        if (es.isEmpty()) {
-            return NOT_FOUND_TIME_UNIT;
-        }
-        String s1 =  Tool.tool.findNumberFromString(what);
-        if (s1 == null || s1.isEmpty()) {
-            s1 = "1";
-        }
+        es = (es == null || es.isEmpty()) ? SECONDS : es;
+        String s1 = Tool.tool.findNumberFromString(what);
+        s1 = s1 == null || s1.isEmpty() ? "1" : s1;
         long t1 = Long.parseLong(s1);
         switch (es) {
             case SECONDS:
