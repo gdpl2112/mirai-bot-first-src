@@ -1,6 +1,7 @@
 package Project.controllers;
 
 import Project.aSpring.SaverSpringStarter;
+import Project.aSpring.SpringBootResource;
 import Project.controllers.auto.GameConfSource;
 import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
@@ -367,5 +368,36 @@ public class SuperController {
             e.printStackTrace();
         }
         return "not found";
+    }
+
+    @Action("/升级魂环<.+=>str>")
+    public Object l1(@Param("str") String str) {
+        Long q = MessageTools.instance.getAtFromString(str);
+        if (q == -1) {
+            return NOT_FOUND_AT;
+        }
+        str = str.replace("[@" + q.toString() + "]", "");
+        String what = str.trim().replaceAll("魂环", "").replaceAll("第", "");
+        Integer st = Tool.tool.getInteagerFromStr(what);
+        if (st == null) return ERR_TIPS;
+        st--;
+        Integer id = SpringBootResource.getHhpzMapper().select(q.longValue()).get(st);
+        if (id == 207) return "TOP";
+        else {
+            GameDataBase.upHh(q, st, ++id);
+            return "OK";
+        }
+    }
+
+    @Action("/跳过冷却<.+=>str>")
+    public Object l2(@Param("str") String str) {
+        Long q = MessageTools.instance.getAtFromString(str);
+        if (q == -1) {
+            return NOT_FOUND_AT;
+        }
+        getInfo(q).setK1(1L).setK2(1L).setGk1(1L)
+                .setCbk1(1L).setMk1(1L).setUk1(1L)
+                .setAk1(1L).setJak1(1L).apply();
+        return OK_TIPS;
     }
 }

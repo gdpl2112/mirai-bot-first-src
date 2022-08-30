@@ -3,6 +3,7 @@ package Project.services.impl;
 
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
+import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameJoinDetailService;
@@ -12,6 +13,7 @@ import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -221,6 +224,20 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                         "经验:" + ghostObj.getXp(),
                         "精神力:" + ghostObj.getHj()
                 ));
+        StringBuilder sb1 = new StringBuilder();
+        GhostObj finalGhostObj = ghostObj;
+        SkillDataBase.TAG2NAME.forEach((k, v) -> {
+            Number v0 = finalGhostObj.getTagValue(k);
+            if (v0 != null && v0.longValue() > 0) {
+                String s0 = v + v0.toString() + ",";
+                sb1.append(NEGATIVE_TAGS.contains(k) ? "负:" : "增:");
+                sb1.append(s0);
+                sb1.append(NEWLINE);
+            }
+        });
+        if (sb1.length()>0){
+           sb.append(Drawer.getImageFromStrings(sb1.toString().trim().split(NEWLINE)));
+        }
         return sb.toString();
     }
 }

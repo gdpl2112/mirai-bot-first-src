@@ -46,6 +46,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("8.30:探查时可见魂兽buff").append("\n");
         UPDATE_LOG.append("8.21:降低部分魂技伤害加成,修复已知问题").append("\n");
         UPDATE_LOG.append("8.19:极北之地 魂骨掉率提升,但极北魂兽新增极北特定魂技").append("\n");
         UPDATE_LOG.append("8.13:徒弟可收多个120级2个,150级3个,出徒<N> 出从上到下第N个徒弟").append("\n");
