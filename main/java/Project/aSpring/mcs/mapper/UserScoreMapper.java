@@ -15,6 +15,14 @@ import java.util.List;
 @Repository
 public interface UserScoreMapper extends BaseMapper<UserScore> {
     /**
+     * all
+     *
+     * @return
+     */
+    @Select("SELECT * FROM `user_score`")
+    List<UserScore> selectAll();
+
+    /**
      * 清除所有犯罪
      *
      * @return
@@ -57,5 +65,5 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      */
     @Select("select * from user_score order by `score` desc limit #{num};")
     List<UserScore> phScore(@Param("num") Integer num);
-
 }
+

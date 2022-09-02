@@ -20,10 +20,7 @@ import io.github.kloping.mirai0.Main.Handlers.AllMessage;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Father;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -155,6 +152,17 @@ public class SuperController {
             v.addScore(num);
             putInfo(v);
         });
+        return "完成!!";
+    }
+
+    @Action("全体加积分.{1,}")
+    public String addAllScore0(@AllMess String messages, User qq) throws NoRunException {
+        Long num = Long.parseLong(Tool.tool.findNumberFromString(messages));
+        num = num == null ? 1 : num;
+        for (UserScore score : SpringBootResource.getScoreMapper().selectAll()) {
+            score.addScore(num);
+            putInfo(score);
+        }
         return "完成!!";
     }
 
