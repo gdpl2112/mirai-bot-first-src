@@ -396,7 +396,7 @@ public class AchievementDataBase {
             @Override
             public boolean isFinish(long qid) {
                 Integer integer = SpringBootResource.getKillGhostMapper().getNum(qid);
-                return integer != null &&  integer >= 100;
+                return integer != null && integer >= 100;
             }
         });
         entityMap.put(16, new AchievementEntity(16) {
@@ -423,7 +423,7 @@ public class AchievementDataBase {
             @Override
             public boolean isFinish(long qid) {
                 Integer integer = SpringBootResource.getKillGhostMapper().getNum(qid);
-                return integer != null &&  integer >= 1000;
+                return integer != null && integer >= 1000;
             }
         });
         entityMap.put(17, new AchievementEntity(17) {

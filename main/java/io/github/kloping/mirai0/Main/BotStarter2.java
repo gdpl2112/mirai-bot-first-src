@@ -31,7 +31,7 @@ public class BotStarter2 {
         Tool.tool.deleteDir(new File("./cache"));
         abot = get(2);
         BotConfiguration botConfiguration = new BotConfiguration();
-        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PAD);
+        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
         botConfiguration.setCacheDir(new File("./cache"));
         botConfiguration.fileBasedDeviceInfo("./devices/device2.json");
