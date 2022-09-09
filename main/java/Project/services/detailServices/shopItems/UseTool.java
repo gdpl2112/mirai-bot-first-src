@@ -1,7 +1,6 @@
 package Project.services.detailServices.shopItems;
 
 import Project.controllers.recr.HasTimeActionController;
-import Project.services.player.PlayerBehavioralManager;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -355,5 +354,9 @@ public class UseTool {
     public String use7001(long who) {
         removeFromBgs(Long.valueOf(who), 7001, 1, ObjType.use);
         return HasTimeActionController.use(who);
+    }
+    public String use7003(long who) {
+        removeFromBgs(Long.valueOf(who), 7003, 1, ObjType.use);
+        return HasTimeActionController.use7003(who);
     }
 }

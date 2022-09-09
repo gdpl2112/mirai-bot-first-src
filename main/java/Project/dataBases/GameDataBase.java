@@ -187,6 +187,8 @@ public class GameDataBase {
         //==
         //临时活动物品
         ID_2_NAME_MAPS.put(7001, "粽子");
+        ID_2_NAME_MAPS.put(7002, "月饼");
+        ID_2_NAME_MAPS.put(7003, "月饼二");
 
         ID_2_NAME_MAPS.forEach((k, v) -> {
             NAME_2_ID_MAPS.put(v, k);

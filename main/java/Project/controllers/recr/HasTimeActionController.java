@@ -1,23 +1,28 @@
 package Project.controllers.recr;
 
+import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.GameDataBase.addToBgs;
+import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OPEN_STR;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -77,6 +82,28 @@ public class HasTimeActionController {
         }
     }
 
+    public static String use7003(long who) {
+        GameDataBase.addToBgs(who, 7002, ObjType.got);
+        GameDataBase.addToBgs(who, 7002, ObjType.got);
+        return "使用成功获得两个月饼";
+    }
+
+    public static void rand99(long qid) {
+        int r = Tool.tool.RANDOM.nextInt(100);
+        String msg = "";
+        if (r < 5) {
+            GameDataBase.addToBgs(qid, 7003, ObjType.got);
+            msg = "获得一个月饼二" + SourceDataBase.getImgPathById(7003);
+        } else if (r < 15) {
+            GameDataBase.addToBgs(qid, 7002, ObjType.got);
+            msg = "获得一个月饼" + SourceDataBase.getImgPathById(7002);
+        }
+        if (!msg.isEmpty()) {
+            long gid = MemberTools.getRecentSpeechesGid(qid);
+            MessageTools.instance.sendMessageInGroupWithAt(msg, gid, qid);
+        }
+    }
+
     @Before
     public void before(@AllMess String mess, Group group) throws NoRunException {
         if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
@@ -86,7 +113,7 @@ public class HasTimeActionController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
-//
+
 //    public static Set<Long> received = new HashSet<>();
 //
 //    static {
@@ -104,4 +131,55 @@ public class HasTimeActionController {
 //        }
 //    }
 
+
+    private static final Map<Integer, Map.Entry<Integer, Integer>> AC_ITEMS_MAP = new ConcurrentHashMap<>();
+
+    static {
+        AC_ITEMS_MAP.put(120, new AbstractMap.SimpleEntry<>(3,7002 ));
+        AC_ITEMS_MAP.put(123, new AbstractMap.SimpleEntry<>(10, 7002));
+        AC_ITEMS_MAP.put(124, new AbstractMap.SimpleEntry<>(38, 7002));
+        AC_ITEMS_MAP.put(125, new AbstractMap.SimpleEntry<>(54, 7002));
+        GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
+            @Override
+            public void onReceive(long who, Long with, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
+                HasTimeActionController.rand99(who);
+            }
+        });
+    }
+
+    @Action("兑换<.+=>str>")
+    public Object a1(@Param("str") String str, Long q) {
+        try {
+            int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
+            Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
+            if (entry == null) return "活动物品不存在";
+            int needId = entry.getKey().intValue();
+            int needNum = entry.getValue();
+            if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
+                GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
+                if (id >= 124 && id <= 127) {
+                    addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
+                } else {
+                    addToBgs(q, id, ObjType.got);
+                }
+                return String.format("兑换了%s用了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
+            } else return String.format("您需要%s个%s 才能兑换%s", needNum, getNameById(needId), getNameById(id));
+        } catch (Exception e) {
+            return "未找到相关物品";
+        }
+    }
+
+    private String a2 = "";
+
+    @Action("兑换列表")
+    private synchronized String a2() {
+        if (a2.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            AC_ITEMS_MAP.forEach((k, kv) -> {
+                sb.append(kv.getKey()).append("个").append(ID_2_NAME_MAPS.get(kv.getValue())).append("兑换")
+                        .append(ID_2_INTRO_MAPS.get(k)).append(NEWLINE);
+            });
+            return a2 = sb.toString();
+        } else return a2;
+    }
 }

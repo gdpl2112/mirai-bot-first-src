@@ -5,6 +5,7 @@ import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.Achievement;
 import io.github.kloping.mirai0.commons.gameEntitys.AchievementEntity;
@@ -512,7 +513,29 @@ public class AchievementDataBase {
                 return qq2id.containsKey(qid);
             }
         });
+        entityMap.put(20, new AchievementEntity(20) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 101;
+                int num = 3;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
 
+            @Override
+            public String intro(long qid) {
+                return "融合武魂;武魂融合激活双修;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return Warp.getInstance(qid).getBindQ() > 0;
+            }
+        });
     }
 
     public boolean finished(long qid, int aid) {

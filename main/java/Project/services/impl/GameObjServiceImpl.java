@@ -65,8 +65,7 @@ public class GameObjServiceImpl implements IGameObjService {
             } else {
                 addToBgs(q, id, ObjType.got);
             }
-            return String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum
-                    , getNameById(needId), SourceDataBase.getImgPathById(id));
+            return String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
         } else return String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id));
     }
 }

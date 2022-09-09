@@ -6,6 +6,7 @@ import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
 import Project.controllers.gameControllers.GameController2;
+import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -76,6 +77,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
+            HasTimeActionController.rand99(who);
             int tr = Tool.tool.RANDOM.nextInt(6) + 9;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
@@ -112,6 +114,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
+            HasTimeActionController.rand99(who);
             int tr = Tool.tool.RANDOM.nextInt(9) + 6;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();

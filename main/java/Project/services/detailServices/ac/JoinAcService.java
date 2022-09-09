@@ -1,5 +1,6 @@
 package Project.services.detailServices.ac;
 
+import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameDetailService;
@@ -40,10 +41,13 @@ public class JoinAcService {
 
     public String join(int id, long who, Group group) {
         if (id == 0) {
+            HasTimeActionController.rand99(who);
             return join0(who, group);
         } else if (id == 1) {
+            HasTimeActionController.rand99(who);
             return join1(who, group);
         } else if (id == 2) {
+            HasTimeActionController.rand99(who);
             return join2(who, group);
         } else {
             return "暂未实现";

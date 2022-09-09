@@ -2,6 +2,7 @@ package Project.controllers.gameControllers;
 
 
 import Project.controllers.normalController.ScoreController;
+import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.player.PlayerBehavioralManager;

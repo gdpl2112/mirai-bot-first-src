@@ -70,8 +70,7 @@ public class GameTaskDatabase {
         File file = new File(path, "list");
         String[] sss = FileUtils.getStringsFromFile(file.getAbsolutePath());
         long[] longs = new long[sss.length];
-        for (int i = 0; i < sss.length; i++)
-            longs[i] = Long.parseLong(sss[i].trim());
+        for (int i = 0; i < sss.length; i++) longs[i] = Long.parseLong(sss[i].trim());
         if (k) file.delete();
         return longs;
     }
