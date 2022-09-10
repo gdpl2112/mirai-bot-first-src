@@ -153,8 +153,8 @@ public class HasTimeActionController {
             int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
             Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
             if (entry == null) return "活动物品不存在";
-            int needId = entry.getKey().intValue();
-            int needNum = entry.getValue();
+            int needId = entry.getValue();
+            int needNum = entry.getKey();
             if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
                 GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
                 if (id >= 124 && id <= 127) {
