@@ -1,6 +1,8 @@
 package Project.controllers.gameControllers;
 
 
+import Project.aSpring.SpringBootResource;
+import Project.aSpring.mcs.controllers.DetailController;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
@@ -21,6 +23,7 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
@@ -169,14 +172,17 @@ public class GameController2 {
 
     @Action(value = "背包.*", otherName = "我的背包.*")
     public String bgs(User qq, Group group, @AllMess String s0) {
+        return getImageFromStrings(bgs0(qq, s0));
+    }
+
+    public String[] bgs0(User qq, @AllMess String s0) {
         List<String> list = gameService.getBags0(qq.getId());
         List<String> endList = new ArrayList<>();
         String str = null;
         Integer num = Tool.tool.getInteagerFromStr(s0);
         num = num == null ? 1 : num;
         if (num == 0) {
-            String[] sss = list.toArray(new String[0]);
-            return getImageFromStrings(sss);
+            return list.toArray(new String[0]);
         }
         Integer max = 0;
         int index = list.size();
@@ -195,8 +201,7 @@ public class GameController2 {
         } else {
             endList.addAll(list);
         }
-        String[] sss = endList.toArray(new String[0]);
-        return getImageFromStrings(sss);
+        return endList.toArray(new String[0]);
     }
 
     @Action("闭关")
@@ -241,5 +246,20 @@ public class GameController2 {
         } else {
             return "没有在闭关";
         }
+    }
+
+    @Action("信息预览")
+    public void messagePre(User user, Group group) {
+        Long q = null;
+        if (DetailController.RID2QID.containsKey(user.getId())) {
+            q = DetailController.RID2QID.get(user.getId());
+        } else {
+            Integer id = Tool.tool.RANDOM.nextInt(90000) + 1000;
+            DetailController.RID2QID.put(id, user.getId());
+            q = id.longValue();
+        }
+        BOT.getGroup(group.getId()).getMembers().get(user.getId()).sendMessage(
+                "点击=>" + String.format(SpringBootResource.address + "/detail.html?qid=" + q)
+        );
     }
 }

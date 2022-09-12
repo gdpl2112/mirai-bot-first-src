@@ -46,7 +46,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
-        UPDATE_LOG.append("9.9:中秋活动,<修炼><双修><进入><击败魂兽>都有几率获得月饼,月饼可用于限时活动的<兑换>,详情见<兑换列表>").append("\n");
+        UPDATE_LOG.append("9.12:中秋活动结束,<信息预览><扔/捡瓶子> 功能恢复 ").append("\n");
+        UPDATE_LOG.append("9.9 :中秋活动,<修炼><双修><进入><击败魂兽>都有几率获得月饼,月饼可用于限时活动的<兑换>,详情见<兑换列表>").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("8.30:探查时可见魂兽buff").append("\n");
         UPDATE_LOG.append("8.21:降低部分魂技伤害加成,修复已知问题").append("\n");

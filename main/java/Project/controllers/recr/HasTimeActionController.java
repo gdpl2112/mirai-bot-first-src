@@ -89,19 +89,19 @@ public class HasTimeActionController {
     }
 
     public static void rand99(long qid) {
-        int r = Tool.tool.RANDOM.nextInt(100);
-        String msg = "";
-        if (r < 2) {
-            GameDataBase.addToBgs(qid, 7003, ObjType.got);
-            msg = "获得一个月饼二" + SourceDataBase.getImgPathById(7003);
-        } else if (r < 10) {
-            GameDataBase.addToBgs(qid, 7002, ObjType.got);
-            msg = "获得一个月饼" + SourceDataBase.getImgPathById(7002);
-        }
-        if (!msg.isEmpty()) {
-            long gid = MemberTools.getRecentSpeechesGid(qid);
-            MessageTools.instance.sendMessageInGroupWithAt(msg, gid, qid);
-        }
+//        int r = Tool.tool.RANDOM.nextInt(100);
+//        String msg = "";
+//        if (r < 2) {
+//            GameDataBase.addToBgs(qid, 7003, ObjType.got);
+//            msg = "获得一个月饼二" + SourceDataBase.getImgPathById(7003);
+//        } else if (r < 10) {
+//            GameDataBase.addToBgs(qid, 7002, ObjType.got);
+//            msg = "获得一个月饼" + SourceDataBase.getImgPathById(7002);
+//        }
+//        if (!msg.isEmpty()) {
+//            long gid = MemberTools.getRecentSpeechesGid(qid);
+//            MessageTools.instance.sendMessageInGroupWithAt(msg, gid, qid);
+//        }
     }
 
     @Before
