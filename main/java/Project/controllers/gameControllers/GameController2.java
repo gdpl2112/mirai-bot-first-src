@@ -251,8 +251,13 @@ public class GameController2 {
     @Action("信息预览")
     public void messagePre(User user, Group group) {
         Long q = null;
-        if (DetailController.RID2QID.containsKey(user.getId())) {
-            q = DetailController.RID2QID.get(user.getId());
+        if (DetailController.RID2QID.values().contains(user.getId())) {
+            for (Integer e : DetailController.RID2QID.keySet()) {
+                if (DetailController.RID2QID.get(e) == user.getId()) {
+                    q = e.longValue();
+                    break;
+                }
+            }
         } else {
             Integer id = Tool.tool.RANDOM.nextInt(90000) + 1000;
             DetailController.RID2QID.put(id, user.getId());
