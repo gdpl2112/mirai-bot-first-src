@@ -58,6 +58,8 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         ONLY_SLE.put(1604, 720);
         //活动物品
         ONLY_SLE.put(7001, 3);
+        ONLY_SLE.put(7002, 15);
+        ONLY_SLE.put(7003, 35);
     }
 
     private final UseTool USE_TOOL = new UseTool();
