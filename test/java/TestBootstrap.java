@@ -25,23 +25,26 @@ public class TestBootstrap {
 
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
-        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
-        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
-        byte[] bytes = FileUtils.getBytesFromFile(file.getAbsolutePath());
-        JSONObject object = new JSONObject();
-        object.put("data", bytes);
-        Map<String, String> headers = new HashMap<>();
-        headers.put("content-type", "application/json");
-        String s0 = object.toString();
-        headers.put("content-length", String.valueOf(s0.length()));
-        headers.put("accept-encoding", "gzip,deflate");
-        headers.put("host", "localhost");
-        kloping.uploadImg(headers, "123", s0);
-//        Document doc = Jsoup.connect("http://localhost/uploadImg?key=123").ignoreContentType(true)
-//                .requestBody(s0).headers(headers).post();
+        for (String s : Tool.tool.getIllegal()) {
 
-//        System.out.println(doc);
-        System.out.println();
+        }
+//        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
+//        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
+//        byte[] bytes = FileUtils.getBytesFromFile(file.getAbsolutePath());
+//        JSONObject object = new JSONObject();
+//        object.put("data", bytes);
+//        Map<String, String> headers = new HashMap<>();
+//        headers.put("content-type", "application/json");
+//        String s0 = object.toString();
+//        headers.put("content-length", String.valueOf(s0.length()));
+//        headers.put("accept-encoding", "gzip,deflate");
+//        headers.put("host", "localhost");
+//        kloping.uploadImg(headers, "123", s0);
+////        Document doc = Jsoup.connect("http://localhost/uploadImg?key=123").ignoreContentType(true)
+////                .requestBody(s0).headers(headers).post();
+//
+////        System.out.println(doc);
+//        System.out.println();
 //        System.out.println(GameSkillDetailService.getAddP(8070, 207));
 //        System.out.println(GameSkillDetailService.getAddP(8070, 206));
 //        System.out.println(GameSkillDetailService.getAddP(8070, 205));

@@ -2,10 +2,7 @@ package Project.interfaces.http_api;
 
 import Project.detailPlugin.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.*;
-import io.github.kloping.mirai0.commons.apiEntitys.PicData;
-import io.github.kloping.mirai0.commons.apiEntitys.Songs;
-import io.github.kloping.mirai0.commons.apiEntitys.WeatherDetail;
-import io.github.kloping.mirai0.commons.apiEntitys.WeatherM;
+import io.github.kloping.mirai0.commons.apiEntitys.*;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
 
 import java.util.Map;
@@ -112,4 +109,30 @@ public interface KlopingWeb {
      */
     @PostPath("/uploadImg")
     String uploadImg(@Headers Map<String, String> headers, @ParamName("key") String key, @RequestBody String body);
+
+
+    /**
+     * throw
+     *
+     * @param gid
+     * @param sid
+     * @param message
+     * @param name
+     * @return
+     */
+    @GetPath("/api/throwBottle")
+    String throwBottle(
+            @ParamName("gid") Long gid,
+            @ParamName("sid") Long sid,
+            @ParamName("message") String message,
+            @ParamName("name") String name
+    );
+
+    /**
+     * pickUP
+     *
+     * @return
+     */
+    @GetPath("/api/pickUpBottle")
+    BottleMessage pickUpBottle();
 }

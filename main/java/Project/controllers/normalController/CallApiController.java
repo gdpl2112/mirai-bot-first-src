@@ -1,31 +1,33 @@
 package Project.controllers.normalController;
 
-import Project.interfaces.http_api.*;
+import Project.interfaces.http_api.ApiKit9;
+import Project.interfaces.http_api.Dzzui;
+import Project.interfaces.http_api.JuiLi;
+import Project.interfaces.http_api.KlopingWeb;
 import Project.interfaces.http_api.old.ApiIyk0;
-import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.apiEntitys.apiIyk0.YiQing;
+import io.github.kloping.mirai0.commons.apiEntitys.BottleMessage;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Data;
 import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeDetail;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.net.URLEncoder;
+import java.util.Date;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.GET_FAILED;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -67,34 +69,21 @@ public class CallApiController {
 
     @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
     public String getBottle() {
-        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
-//        PickupABottle pab = null;
-//        try {
-//            pab = apiIyk0.pickupBottle(2);
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getData().getGroup())
-//                    .append("\n的:").append(pab.getData().getUin())
-//                    .append("\n在:").append(pab.getData().getTime())
-//                    .append("\n写的:").append(pab.getData().getMsg());
-//            return sb.toString();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "没捡到瓶子...";
-//        }
+        BottleMessage pab = null;
+        pab = kloping.pickUpBottle();
+        StringBuilder sb = new StringBuilder();
+        sb.append("你捡到一个瓶子\n它来自QQ群:").append(pab.getGid())
+                .append("\n的:").append(pab.getSid()).append("(").append(pab.getName()).append(")")
+                .append("\n在:").append(Tool.tool.df4.format(new Date(pab.getTime())))
+                .append("\n写的:").append(pab.getMessage());
+        return sb.toString();
     }
 
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
     public String setBottle(long q, Group group, @Param("str") String str) {
-        return ResourceSet.FinalNormalString.FUNCTION_CLOSEING_TIPS;
-//        if (str == null || str.trim().isEmpty()) return "请携带内容~";
-//        try {
-//            ThrowABottle throwABottle = apiIyk0.throwBottle(1,
-//                    str, q, group.getId());
-//            return throwABottle.getData().getMsg();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "扔瓶子失败,大海不允许有敏感词汇的瓶子飘向远方";
-//        }
+        if (str == null || str.trim().isEmpty()) return "请携带内容~";
+        String name = MemberTools.getName(q);
+        return kloping.throwBottle(group.getId(), q, str, name);
     }
 
     @Action("未来天气<.+=>ms>")

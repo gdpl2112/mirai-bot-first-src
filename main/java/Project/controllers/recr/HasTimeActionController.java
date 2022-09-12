@@ -149,37 +149,39 @@ public class HasTimeActionController {
 
     @Action("兑换<.+=>str>")
     public Object a1(@Param("str") String str, Long q) {
-        try {
-            int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
-            Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
-            if (entry == null) return "活动物品不存在";
-            int needId = entry.getValue();
-            int needNum = entry.getKey();
-            if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
-                GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
-                if (id >= 124 && id <= 127) {
-                    addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
-                } else {
-                    addToBgs(q, id, ObjType.got);
-                }
-                return String.format("兑换了%s用了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
-            } else return String.format("您需要%s个%s 才能兑换%s", needNum, getNameById(needId), getNameById(id));
-        } catch (Exception e) {
-            return "未找到相关物品";
-        }
+        return "活动未开启";
+//        try {
+//            int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
+//            Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
+//            if (entry == null) return "活动物品不存在";
+//            int needId = entry.getValue();
+//            int needNum = entry.getKey();
+//            if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
+//                GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
+//                if (id >= 124 && id <= 127) {
+//                    addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
+//                } else {
+//                    addToBgs(q, id, ObjType.got);
+//                }
+//                return String.format("兑换了%s用了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
+//            } else return String.format("您需要%s个%s 才能兑换%s", needNum, getNameById(needId), getNameById(id));
+//        } catch (Exception e) {
+//            return "未找到相关物品";
+//        }
     }
 
     private String a2 = "";
 
     @Action("兑换列表")
     private synchronized String a2() {
-        if (a2.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            AC_ITEMS_MAP.forEach((k, kv) -> {
-                sb.append(kv.getKey()).append("个").append(ID_2_NAME_MAPS.get(kv.getValue())).append("兑换")
-                        .append(ID_2_INTRO_MAPS.get(k)).append(NEWLINE);
-            });
-            return a2 = sb.toString();
-        } else return a2;
+        return "活动未开启";
+//        if (a2.isEmpty()) {
+//            StringBuilder sb = new StringBuilder();
+//            AC_ITEMS_MAP.forEach((k, kv) -> {
+//                sb.append(kv.getKey()).append("个").append(ID_2_NAME_MAPS.get(kv.getValue())).append("兑换")
+//                        .append(ID_2_INTRO_MAPS.get(k)).append(NEWLINE);
+//            });
+//            return a2 = sb.toString();
+//        } else return a2;
     }
 }

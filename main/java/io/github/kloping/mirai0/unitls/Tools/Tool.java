@@ -32,7 +32,7 @@ public class Tool {
     private final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
     private final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-    private final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+    public final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
     private final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
     private final BigDecimal b2 = new BigDecimal(100000000L);
     private final BigDecimal be = new BigDecimal(1000000000000L);
