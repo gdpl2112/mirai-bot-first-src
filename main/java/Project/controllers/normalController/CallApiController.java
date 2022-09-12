@@ -83,7 +83,7 @@ public class CallApiController {
     public String setBottle(long q, Group group, @Param("str") String str) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
         String name = MemberTools.getName(q);
-        name = name.trim().isEmpty() ? "默认昵称" : name;
+        name = name.replaceAll("\\s", "").isEmpty() ? "默认昵称" : name;
         return kloping.throwBottle(group.getId(), q, str, name);
     }
 
