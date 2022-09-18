@@ -1,21 +1,15 @@
-import Project.interfaces.http_api.KlopingWeb;
-import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.StarterApplication;
+import Project.services.autoBehaviors.GhostBehavior;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.file.FileUtils;
 import io.github.kloping.iwanna.buy.api.Player;
 import io.github.kloping.iwanna.buy.impl.simple.SimplePlayer;
 import io.github.kloping.iwanna.buy.impl.simple.SimpleSys;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author github.kloping
@@ -25,9 +19,8 @@ public class TestBootstrap {
 
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
-        for (String s : Tool.tool.getIllegal()) {
 
-        }
+
 //        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
 //        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
 //        byte[] bytes = FileUtils.getBytesFromFile(file.getAbsolutePath());

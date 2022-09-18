@@ -114,11 +114,12 @@ public class GhostBehavior implements Runnable {
         if (!updateGhost()) return;
         int num = getSkillNum(ghostObj.getLevel());
         while (jid2skill.size() < num) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum);
-            if (id0 > 11) continue;
+            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum-3);
             int jid = 1001 + id0;
             if (jid2skill.containsKey(jid)) continue;
+            System.out.println("factory <=" + jid);
             SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
+            System.out.println("factory ok =>" + jid);
             jid2skill.put(jid, template);
         }
 
@@ -157,7 +158,7 @@ public class GhostBehavior implements Runnable {
                     future.cancel(true);
                 }
             }
-            if (atomicReference != null) {
+            if (atomicReference != null && atomicReference.get() != null) {
                 atomicReference.get().cancel(true);
                 if (!atomicReference.get().isCancelled()) {
                     atomicReference.get().cancel(true);
