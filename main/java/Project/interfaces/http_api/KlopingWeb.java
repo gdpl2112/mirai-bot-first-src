@@ -85,7 +85,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("api/search/video")
-    VideoAnimeSource[] videoSearch(@ParamName("keyword") String keyword
+    VideoAnimeSource videoSearch(@ParamName("keyword") String keyword
             , @ParamName("type") String type
             , @ParamName("url") String url
     );

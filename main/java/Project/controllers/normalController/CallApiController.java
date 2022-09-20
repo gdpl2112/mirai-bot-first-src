@@ -213,7 +213,8 @@ public class CallApiController {
         s0 = s0.replace(select0.toString(), "").replace(select1.toString(), "");
         select0--;
         select1--;
-        VideoAnimeSource[] sources = kloping.videoSearch(s0, "tp");
+        VideoAnimeSource[] sources = kloping.videoSearch(s0, "all");
+        if (sources == null || sources.length == 0) return "搜索失败";
         if (select0 < 0 && select1 < 0) {
             int i = 1;
             StringBuilder sb = new StringBuilder();
@@ -223,10 +224,16 @@ public class CallApiController {
             }
             return sb.toString().trim();
         } else if (select0 > 0 && select1 < 0) {
-            VideoAnimeSource source = kloping.videoSearch(s0, "tp", URLEncoder.encode(sources[select0].url))[0];
+            String u1 = sources[select0].url;
+            if (u1.contains("&"))
+                u1 = URLEncoder.encode(u1);
+            VideoAnimeSource source = kloping.videoSearch(s0, "tencent", u1);
             return source.getName() + NEWLINE + "更新至" + source.getSt();
         } else {
-            VideoAnimeSource source = kloping.videoSearch(s0, "tp", URLEncoder.encode(sources[select0].url))[0];
+            String u1 = sources[select0].url;
+            if (u1.contains("&"))
+                u1 = URLEncoder.encode(u1);
+            VideoAnimeSource source = kloping.videoSearch(s0, "tencent", u1);
             VideoAnimeDetail detail = source.details[select1];
             try {
                 if (detail.isVip) {
