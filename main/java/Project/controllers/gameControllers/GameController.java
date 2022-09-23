@@ -2,7 +2,6 @@ package Project.controllers.gameControllers;
 
 
 import Project.controllers.normalController.ScoreController;
-import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.player.PlayerBehavioralManager;
@@ -276,11 +275,16 @@ public class GameController {
         int r = 1;
         for (Map.Entry<String, Integer> entry : phGet(n)) {
             String sn = getFhName(Long.valueOf(entry.getKey()));
-            sb.append("第" + (r++)).append(":QQ:")
+            sb.append("第" + (r++)).append(":")
                     .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>\r").append(n <= 10 ? "" : "\n\t")
+                    .append("==>\r").append(n <= 10 ? "" : "\r\n\t")
                     .append(entry.getValue())
-                    .append("级\r\n");
+                    .append("级(");
+            if (entry.getValue() >= 150) {
+                sb.append(Tool.tool.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp())))
+                        .append(")");
+            }
+            sb.append("\r\n");
         }
         return n <= 10 ? getImageFromStrings(false, sb.toString().split("\r\n")) : sb.toString();
     }
