@@ -120,27 +120,29 @@ public class ScoreServiceImpl implements IScoreService {
     }
 
     @Override
-    public synchronized String sign(Long who) {
-        UserScore ls = DataBase.getAllInfo(who);
-        int day = Tool.tool.getTodayInt();
-        if (ls.getDay() == day) {
-            return "签到失败,你今天已经签到过了!!";
-        } else {
-            ls.setFz(0L);
-            ls.setDay(Long.valueOf(day));
-            ls.setDays((ls.getDays().intValue() + 1L));
-            ls.addScore(100);
-            putInfo(ls);
-            SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.tool.getTodayDetialString(), System.currentTimeMillis());
-            Object[] lines = regDay(who);
-            String line = lines[0].toString();
-            Integer st = Integer.valueOf(lines[1].toString());
-            if (line.isEmpty()) {
-                return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
+    public String sign(Long who) {
+        synchronized (who) {
+            UserScore ls = DataBase.getAllInfo(who);
+            int day = Tool.tool.getTodayInt();
+            if (ls.getDay() == day) {
+                return "签到失败,你今天已经签到过了!!";
             } else {
-                return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
-                        + getImageFromFontString("第" + Tool.tool.trans(st) + "签")
-                        + "\n" + line;
+                ls.setFz(0L);
+                ls.setDay(Long.valueOf(day));
+                ls.setDays((ls.getDays().intValue() + 1L));
+                ls.addScore(100);
+                putInfo(ls);
+                SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.tool.getTodayDetialString(), System.currentTimeMillis());
+                Object[] lines = regDay(who);
+                String line = lines[0].toString();
+                Integer st = Integer.valueOf(lines[1].toString());
+                if (line.isEmpty()) {
+                    return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
+                } else {
+                    return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
+                            + getImageFromFontString("第" + Tool.tool.trans(st) + "签")
+                            + "\n" + line;
+                }
             }
         }
     }

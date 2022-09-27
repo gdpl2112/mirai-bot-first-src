@@ -527,7 +527,7 @@ public class Tool {
      * @return
      */
     public String getToday() {
-        return today == null ? (today = new SimpleDateFormat("dd").format(new Date())) : today;
+        return today = new SimpleDateFormat("dd").format(new Date());
     }
 
     public Integer getTodayInt() {
