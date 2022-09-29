@@ -74,19 +74,19 @@ public class JoinAcService {
         if (ghostObj == null) {
             if (r < 3) {
                 //十万年
-                ghostObj = GhostObj.create(100000, 501, 521);
+                ghostObj = GhostObj.create(100000, 511, 515);
             } else if (r < 6) {
                 //万年
-                ghostObj = GhostObj.create(10000, 501, 521);
+                ghostObj = GhostObj.create(10000, 508, 511);
             } else if (r < 16) {
                 //千年
-                ghostObj = GhostObj.create(1000, 501, 521);
+                ghostObj = GhostObj.create(1000, 505, 508);
             } else if (r < 31) {
                 //百年
-                ghostObj = GhostObj.create(100, 501, 521);
+                ghostObj = GhostObj.create(100, 503, 505);
             } else if (r < 61) {
                 //十年
-                ghostObj = GhostObj.create(10, 501, 521);
+                ghostObj = GhostObj.create(10, 501, 503);
             } else if (r < 71) {
                 //时光胶囊5%
                 addToBgs(who, 101, ObjType.got);

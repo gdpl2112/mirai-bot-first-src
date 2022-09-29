@@ -17,8 +17,7 @@ import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.Lmax;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.randFloatByte1;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 
 /**
  * @author github-kloping
@@ -89,6 +88,7 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
+        balance1();
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
@@ -103,6 +103,38 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
+        balance1();
+    }
+
+    private void balance1() {
+        if (id <= 520) {
+            int i0 = getHhByGh(getL());
+            switch (i0) {
+                case 201:
+                    this.id = Tool.tool.randA(501, 503);
+                    return;
+                case 202:
+                    this.id = Tool.tool.randA(503, 505);
+                    return;
+                case 203:
+                    this.id = Tool.tool.randA(505, 507);
+                    return;
+                case 204:
+                    this.id = Tool.tool.randA(507, 510);
+                    return;
+                case 205:
+                    this.id = Tool.tool.randA(510, 514);
+                    return;
+                case 206:
+                    this.id = Tool.tool.randA(514, 518);
+                    return;
+                case 207:
+                    this.id = Tool.tool.randA(518, 521);
+                    return;
+                default:
+                    return;
+            }
+        }
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
