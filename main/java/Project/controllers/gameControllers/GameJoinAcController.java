@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -18,11 +19,11 @@ import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
+import static Project.dataBases.GameDataBase.ID_2_NAME_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.LIST_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -51,7 +52,7 @@ public class GameJoinAcController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            if ( Tool.tool.EveListStartWith(listFx, message) == -1) {
+            if (Tool.tool.EveListStartWith(listFx, message) == -1) {
                 MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException();
             }
@@ -125,5 +126,17 @@ public class GameJoinAcController {
                     .append("=>").append("击杀").append(num).append("只\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+    }
+
+    @Action("魂兽列表")
+    public Object listAll() {
+        StringBuilder sb = new StringBuilder();
+        for (int id = 500; id < 1000; id++) {
+            if (GameDataBase.ID_2_NAME_MAPS.containsKey(id)) {
+                String v = ID_2_NAME_MAPS.get(id);
+                sb.append(v).append("=>").append(GameTool.getLevelByGhostId(id)).append(NEWLINE);
+            }
+        }
+        return sb.toString().trim();
     }
 }

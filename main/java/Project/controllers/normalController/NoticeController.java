@@ -46,6 +46,9 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("10.1:活动,魂兽几率掉落抢券,可用来<抽奖>限时活动,<奖池>").append("\n");
+        UPDATE_LOG.append("9.30:星斗魂兽种类等级分类见'魂兽列表',新物品<魂兽挑战券>").append("\n");
+        UPDATE_LOG.append("[nextPage]").append("\n");
         UPDATE_LOG.append("9.23:等级排行显示优化").append("\n");
         UPDATE_LOG.append("9.18:调整修复部分功能").append("\n");
         UPDATE_LOG.append("9.12:中秋活动结束,<信息预览><扔/捡瓶子> 功能恢复 ").append("\n");

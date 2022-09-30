@@ -12,6 +12,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
@@ -173,8 +174,9 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             ghostObj = GhostObj.createHelp(String.valueOf(whos));
                             ghostObj.setState(GhostObj.HELPING);
                             saveGhostObjIn(who, ghostObj);
-                            ghostObj1.setState(GhostObj.NEED_AND_YES);
-                            ghostObj1.setWith(who);
+                            ghostObj1.getWiths().add(who);
+                            if (GameTool.getMaxHelpNumByGhostId(ghostObj1.getId()) >= ghostObj1.getWiths().size())
+                                ghostObj1.setState(GhostObj.NEED_AND_YES);
                             saveGhostObjIn(whos, ghostObj1);
                             putPerson(getInfo(who).addHelpToC());
                             GInfo.getInstance(who).addHelpc().apply();
@@ -235,8 +237,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                 sb1.append(NEWLINE);
             }
         });
-        if (sb1.length()>0){
-           sb.append(Drawer.getImageFromStrings(sb1.toString().trim().split(NEWLINE)));
+        if (sb1.length() > 0) {
+            sb.append(Drawer.getImageFromStrings(sb1.toString().trim().split(NEWLINE)));
         }
         return sb.toString();
     }

@@ -31,10 +31,10 @@ public class JoinAcService {
             "你去落日森林,溜达了一圈<Face:185>",
     };
 
-    private static final int MUST_MEED = 70;
-    private static final int MAX_RAND_2 = 150;
-    private static final int MAX_RAND3 = 300;
-    private static final int MIN_MEET3 = 50;
+    public static final int MUST_MEED = 70;
+    public static final int MAX_RAND_2 = 150;
+    public static final int MAX_RAND3 = 300;
+    public static final int MIN_MEET3 = 50;
 
     @AutoStand
     GameJoinDetailService gameJoinDetailService;

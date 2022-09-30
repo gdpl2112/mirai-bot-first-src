@@ -119,6 +119,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(126, "魂导炮");
         ID_2_NAME_MAPS.put(127, "高级魂导炮");
         ID_2_NAME_MAPS.put(128, "升级券");
+        ID_2_NAME_MAPS.put(129, "魂兽挑战券");
+        ID_2_NAME_MAPS.put(130, "奖券");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
@@ -232,6 +234,8 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(126, "魂导炮,使用魂导炮<选择器>.对指定敌人造成50%的伤害(不计算额外加成的攻击力)");
         ID_2_INTRO_MAPS.put(127, "高级魂导炮,使用高级魂导炮<选择器>.对指定敌人造成100%的伤害(不计算额外加成的攻击力)");
         ID_2_INTRO_MAPS.put(128, "升级券,立即提升1级,不可在等级瓶颈,151级时使用");
+        ID_2_INTRO_MAPS.put(129, "魂兽挑战券,挑战任意魂兽,见魂兽列表 例如:挑战枯木翼龙");
+        ID_2_INTRO_MAPS.put(130, "奖券,用来抽奖");
 
         ID_2_INTRO_MAPS.put(1000, "暗器零件,用于制作暗器;");
         ID_2_INTRO_MAPS.put(1001, "暗器,诸葛神弩,单体伤害,造成 500+攻击x0.9的伤害,需要选择某(所有暗器,不消耗魂力)");

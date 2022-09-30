@@ -51,14 +51,16 @@ public class Skill1009 extends SkillTemplate {
                     sb.append(NEWLINE);
                     sb.append(GameController.gameService.info(-who.longValue()));
                     setTips(sb.toString());
-                    if (ghostObj.getWith() > 0) {
-                        Thread.sleep(2000);
-                        sb = new StringBuilder();
-                        sb.append("对支援者造成").append(v).append("伤害").append(NEWLINE);
-                        sb.append(GameDetailService.beaten(ghostObj.getWith(), -2, v));
-                        sb.append(NEWLINE);
-                        sb.append(GameController.gameService.info(-who.longValue()));
-                        setTips(sb.toString());
+                    for (Long with : ghostObj.getWiths()) {
+                        if (ghostObj.getWiths().size() > 0) {
+                            Thread.sleep(2000);
+                            sb = new StringBuilder();
+                            sb.append("对支援者造成").append(v).append("伤害").append(NEWLINE);
+                            sb.append(GameDetailService.beaten(with, -2, v));
+                            sb.append(NEWLINE);
+                            sb.append(GameController.gameService.info(-who.longValue()));
+                            setTips(sb.toString());
+                        }
                     }
                 } catch (InterruptedException e) {
                     setTips(ATTACK_BREAK);

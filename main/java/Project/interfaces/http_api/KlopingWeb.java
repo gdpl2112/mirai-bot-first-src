@@ -135,4 +135,35 @@ public interface KlopingWeb {
      */
     @GetPath("/api/pickUpBottle")
     BottleMessage pickUpBottle();
+
+    /**
+     * save a value by pwd and key
+     *
+     * @param key
+     * @param value
+     * @param pwd
+     * @return
+     */
+    @GetPath("/put")
+    String put(@ParamName("key") String key, @ParamName("value") String value, @ParamName("pwd") String pwd);
+
+    /**
+     * get a value by pwd and key
+     *
+     * @param key
+     * @param pwd
+     * @return
+     */
+    @GetPath("/get")
+    String get(@ParamName("key") String key, @ParamName("pwd") String pwd);
+
+    /**
+     * delete a/all value by pwd or and key
+     *
+     * @param key
+     * @param pwd
+     * @return
+     */
+    @GetPath("/del")
+    String del(@ParamName("key") String key, @ParamName("pwd") String pwd);
 }

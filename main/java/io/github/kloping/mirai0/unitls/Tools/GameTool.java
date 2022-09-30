@@ -330,4 +330,22 @@ public class GameTool {
         }
         return list;
     }
+
+    public static String getLevelByGhostId(Integer id) {
+        if (id < 503) return "十";
+        else if (id < 505) return "百";
+        else if (id < 507) return "千";
+        else if (id < 510) return "千";
+        else if (id < 510) return "万";
+        else if (id < 514) return "十万";
+        else if (id < 518) return "百万";
+        else if (id < 521) return "神";
+        else if (id < 1000) return "全";
+        else return "未知";
+    }
+
+    public static int getMaxHelpNumByGhostId(Integer id) {
+        if (id < 800) return 1;
+        else return 0;
+    }
 }

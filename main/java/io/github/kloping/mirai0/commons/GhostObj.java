@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
@@ -59,7 +60,7 @@ public class GhostObj implements Serializable, BaseInfo {
     @Nullable
     private String name;
     @Nullable
-    private Long with = -1L;
+    private ArrayList<Long> withs = new ArrayList<>();
     private long whoMeet = -1;
     private Integer nc = 0;
     private String myTag = "";
@@ -139,7 +140,11 @@ public class GhostObj implements Serializable, BaseInfo {
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, boolean rand, float bl) {
         int id = (int) Tool.tool.randA(idMin, idMax);
-        if (idMin > 700) {
+        return create(hp, att, xp, id, l, rand, bl);
+    }
+
+    public static GhostObj create(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
+        if (id > 700) {
             switch (id) {
                 case 701:
                     return new Ghost701(hp, att, xp, id, l, rand, bl);
@@ -164,8 +169,12 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
-        if (idMin > 700) {
-            int id = (int) Tool.tool.randA(idMin, idMax);
+        int id = (int) Tool.tool.randA(idMin, idMax);
+        return create(level, id);
+    }
+
+    public static <T extends GhostObj> T create(int level, int id) {
+        if (id > 700) {
             switch (id) {
                 case 701:
                     return (T) new Ghost701(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
@@ -186,7 +195,7 @@ public class GhostObj implements Serializable, BaseInfo {
                     return null;
             }
         } else {
-            GhostObj ghostObj = new GhostObj(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level), Tool.tool.randA(idMin, idMax), Tool.tool.randA(level + 1, Lmax(level)));
+            GhostObj ghostObj = new GhostObj(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level), id, Tool.tool.randA(level + 1, Lmax(level)));
             return (T) ghostObj;
         }
     }
@@ -386,13 +395,12 @@ public class GhostObj implements Serializable, BaseInfo {
         return getHp();
     }
 
-    public Long getWith() {
-        return with;
+    public ArrayList<Long> getWiths() {
+        return withs;
     }
 
-    public GhostObj setWith(Long with) {
-        this.with = with;
-        return this;
+    public void setWiths(ArrayList<Long> withs) {
+        this.withs = withs;
     }
 
     @Override

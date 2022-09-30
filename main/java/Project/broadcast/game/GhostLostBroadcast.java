@@ -4,6 +4,7 @@ import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class GhostLostBroadcast extends Broadcast {
     public void broadcast(long who, GhostObj ghostObj, KillType type) {
         for (Receiver receiver : receivers) {
             if (receiver instanceof GhostLostReceiver)
-                ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWith(), ghostObj, type);
+                ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWiths(), ghostObj, type);
         }
         threads.submit(this::after);
     }
@@ -70,10 +71,11 @@ public class GhostLostBroadcast extends Broadcast {
          * receive
          *
          * @param who
-         * @param with
+         * @param withs
          * @param ghostObj
+         * @param killType
          */
-        void onReceive(long who, Long with, GhostObj ghostObj, KillType killType);
+        void onReceive(long who, ArrayList<Long> withs, GhostObj ghostObj, KillType killType);
     }
 
     public static abstract class AbstractGhostLostReceiverWith<T> implements GhostLostReceiver {

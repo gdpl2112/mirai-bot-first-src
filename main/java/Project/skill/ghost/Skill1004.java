@@ -37,7 +37,7 @@ public class Skill1004 extends SkillTemplate {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
                 TagPack pack = new NormalTagPack(TAG_STRENGTHEN_ATT, 20000);
                 long v = getAddP(getJid(), getId());
-                if (ghostObj.getWith() != 0) {
+                if (ghostObj.getWiths().size() > 0) {
                     v *= 2;
                 }
                 pack.setQ(who.longValue()).setValue(v);

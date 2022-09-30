@@ -1,5 +1,6 @@
 package Project.controllers.gameControllers;
 
+import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.services.impl.GameServiceImpl;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -15,11 +16,11 @@ import java.util.List;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+
 /**
  * @author github.kloping
  */
@@ -68,10 +69,13 @@ public class ChallengeController {
     }
 
     @Action("挑战.+")
-    private Object o4(User user, @AllMess String s) {
+    private Object o4(User user, @AllMess String s, Group group) {
         long qid = MessageTools.instance.getAtFromString(s);
         if (qid <= 0) {
-            return NOT_FOUND_AT;
+            s = s.replaceFirst("挑战", "");
+            if (GameDataBase.NAME_2_ID_MAPS.containsKey(s)) {
+                return service.joinChallenge(user.getId(), s, group);
+            } else return NOT_FOUND_AT;
         }
         return service.joinChallenge(user.getId(), qid);
     }

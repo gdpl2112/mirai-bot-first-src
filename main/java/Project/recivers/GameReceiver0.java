@@ -11,6 +11,8 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
 
+import java.util.ArrayList;
+
 import static Project.controllers.auto.ControllerSource.entertainmentController3;
 import static Project.controllers.normalController.NoticeController.LOWST;
 
@@ -34,10 +36,10 @@ public class GameReceiver0 {
     private static void init() {
         GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
             @Override
-            public void onReceive(long who, Long with, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
+            public void onReceive(long who, ArrayList<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
                 StarterApplication.logger.info(String.format("ghost losted by %s level=%s with %s",
-                        who, ghostObj.getL(), with));
-                if (with.longValue() == -1) {
+                        who, ghostObj.getL(), withs));
+                if (withs.size() < 0) {
                     if (ghostObj.getL() >= LOWST * 10000L) {
                         StarterApplication.logger.info(String.format("add master point %s ", who));
                         GInfo.getInstance(who).addMasterPoint().apply();

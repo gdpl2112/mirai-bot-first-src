@@ -1,4 +1,4 @@
-import Project.services.autoBehaviors.GhostBehavior;
+import Project.dataBases.SourceDataBase;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.iwanna.buy.api.Player;
@@ -6,10 +6,15 @@ import io.github.kloping.iwanna.buy.impl.simple.SimplePlayer;
 import io.github.kloping.iwanna.buy.impl.simple.SimpleSys;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
+import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 
 import java.io.File;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static Project.controllers.recr.HasTimeActionController.ID2JL;
 
 /**
  * @author github.kloping
@@ -20,6 +25,12 @@ public class TestBootstrap {
     public static void main(String[] args) throws Throwable {
         BotStarter.main(args);
 
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            int r = scanner.nextInt();
+            extracted(r);
+            System.out.println("ok");
+        }
 
 //        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
 //        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
@@ -78,6 +89,36 @@ public class TestBootstrap {
 //            }
 //        });
 //        sys.getShop().map();
+    }
+
+    private static void extracted(int n) throws Exception {
+        GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder();
+        builder.setWidth(5).setHeight(3);
+        int i = 0;
+        List<Integer> list = new LinkedList<>(ID2JL.keySet());
+        for (int i1 = 0; i1 < 5; i1++) {
+            builder.append(i1 + 1, 1, SourceDataBase.getImgPathById(list.get(i++), false));
+        }
+        builder.append(5, 2, SourceDataBase.getImgPathById(list.get(i++), false));
+        for (int i1 = 5; i1 > 0; i1--) {
+            builder.append(i1, 3, SourceDataBase.getImgPathById(list.get(i++), false));
+        }
+        builder.append(1, 2, SourceDataBase.getImgPathById(list.get(i++), false));
+        String name = UUID.randomUUID() + ".gif";
+        new File("./temp").mkdirs();
+        File file = new File("./temp/" + name);
+        AtomicInteger al = new AtomicInteger();
+        Map<Integer, Integer> am = new HashMap<>();
+        Map<Integer, Integer> ai = new HashMap<>();
+        AtomicInteger st = new AtomicInteger();
+        ID2JL.forEach((k, v) -> {
+            for (Integer integer = 0; integer < v; integer++) {
+                ai.put(al.get(), st.get());
+                am.put(al.getAndIncrement(), k);
+            }
+            st.getAndIncrement();
+        });
+        GameDrawer.drawerDynamic(builder.build(), n, SourceDataBase.getImgPathById(101, false), file);
     }
 
     @Action(".*?\\[@me].*?")

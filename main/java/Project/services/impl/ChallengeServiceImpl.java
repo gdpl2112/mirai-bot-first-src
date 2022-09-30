@@ -3,29 +3,39 @@ package Project.services.impl;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
+import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
+import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IChallengeService;
 import Project.interfaces.Iservice.IGameService;
+import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ChallengeDetailService;
 import Project.services.detailServices.GameBoneDetailService;
+import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
 import io.github.kloping.mirai0.commons.gameEntitys.challange.AbstractChallenge;
+import io.github.kloping.mirai0.unitls.Tools.GameTool;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ChallengeDetailService.TEMP_PERSON_INFOS;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CREATE_CHALLENGE_OK;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
+import static Project.services.detailServices.GameJoinDetailService.willTips;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github.kloping
@@ -102,7 +112,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                             deleteTempInfo(p1, p2);
                             return true;
                         }
-                        TrialChallengeEndBroadcast.INSTANCE.broadcast(from, who,1);
+                        TrialChallengeEndBroadcast.INSTANCE.broadcast(from, who, 1);
                         return false;
                     }
                 });
@@ -191,5 +201,95 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     private PersonInfo toMax(PersonInfo personInfo) {
         return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHj());
+    }
+
+    @AutoStand
+    GameJoinDetailService gameJoinDetailService;
+
+    @Override
+    public Object joinChallenge(long qid, String str, Group group) {
+        int ghostId = NAME_2_ID_MAPS.get(str);
+        if (ghostId < 500 || ghostId > 1000) return ERR_TIPS;
+        int needId = 129;
+        if (!GameDataBase.containsInBg(needId, qid)) return "您没有" + ID_2_NAME_MAPS.get(needId);
+        try {
+            Method method = this.getClass().getDeclaredMethod("joinChallengeNow", long.class, int.class, Group.class);
+            ConfirmController.regConfirm(qid, method, this, new Object[]{qid, ghostId, group});
+            return String.format("即将挑战魂兽'%s' \r\n它是一只'%s等级'魂兽\r\n请在30秒内回复 确定/确认/取消",
+                    ID_2_NAME_MAPS.get(ghostId), GameTool.getLevelByGhostId(ghostId));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return ERR_TIPS;
+    }
+
+    public Object joinChallengeNow(long qid, int ghostId, Group group) {
+        int r = -1;
+        GhostObj ghostObj = null;
+        if (ghostId < 600) {
+            r = Tool.tool.RANDOM.nextInt(10);
+            if (r <= 7) {
+                switch (GameTool.getLevelByGhostId(ghostId)) {
+                    case "十":
+                        ghostObj = GhostObj.create(10, ghostId);
+                        break;
+                    case "百":
+                        ghostObj = GhostObj.create(100, ghostId);
+                        break;
+                    case "千":
+                        ghostObj = GhostObj.create(1000, ghostId);
+                        break;
+                    case "万":
+                        ghostObj = GhostObj.create(10000, ghostId);
+                        break;
+                    case "十万":
+                        ghostObj = GhostObj.create(100000, ghostId);
+                        break;
+                    case "百万":
+                        ghostObj = GhostObj.create(1000000, ghostId);
+                        break;
+                    case "神":
+                        ghostObj = GhostObj.create(10000000, ghostId);
+                        break;
+                    default:
+                        ghostObj = null;
+                        break;
+                }
+            } else {
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
+            }
+        } else if (ghostId < 700) {
+            r = Tool.tool.RANDOM.nextInt(13);
+            if (r == 0) {
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
+            } else if (r <= 2) {
+                ghostObj = GhostObj.create(1000000, ghostId);
+            } else if (r <= 5) {
+                ghostObj = GhostObj.create(100000, ghostId);
+            } else if (r <= 8) {
+                ghostObj = GhostObj.create(10000, ghostId);
+            } else if (r <= 12) {
+                ghostObj = GhostObj.create(1000, ghostId);
+            }
+        } else if (ghostId < 800) {
+            r = Tool.tool.RANDOM.nextInt(13);
+            if (r == 0) {
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
+            } else if (r <= 2) {
+                ghostObj = GhostObj.create(1000000, ghostId);
+            } else if (r <= 5) {
+                ghostObj = GhostObj.create(100000, ghostId);
+            } else if (r <= 8) {
+                ghostObj = GhostObj.create(10000, ghostId);
+            } else if (r <= 12) {
+                ghostObj = GhostObj.create(1000, ghostId);
+            }
+        }
+        GameDataBase.removeFromBgs(qid, 129, ObjType.use);
+        ghostObj.setWhoMeet(qid);
+        GameJoinDetailService.saveGhostObjIn(qid, ghostObj);
+        if (ghostObj.getL() > 3000L)
+            GhostBehavior.exRun(new GhostBehavior(qid, group));
+        return willTips(qid, ghostObj, false);
     }
 }

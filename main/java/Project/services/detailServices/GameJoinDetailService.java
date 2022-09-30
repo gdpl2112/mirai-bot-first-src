@@ -376,13 +376,18 @@ public class GameJoinDetailService {
      * @return
      */
     public <T extends GhostObj> T summonFor(String who, int idMin, int idMax) {
+        int id = (int) Tool.tool.randA(idMin, idMax);
+        return summonFor(who, id);
+    }
+
+    public <T extends GhostObj> T summonFor(String who, int id) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
         GhostObj ghostObj = GhostObj.create(
                 (long) (personInfo.att() * bl),
                 personInfo.getHpL(),
                 (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
-                idMin, idMax,
+                id,
                 -1,
                 true, bl);
         return (T) ghostObj;
