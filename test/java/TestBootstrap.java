@@ -23,6 +23,7 @@ public class TestBootstrap {
     private static SimpleSys sys;
 
     public static void main(String[] args) throws Throwable {
+        System.out.println(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
         BotStarter.main(args);
 
         Scanner scanner = new Scanner(System.in);

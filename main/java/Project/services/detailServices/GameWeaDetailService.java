@@ -44,12 +44,6 @@ public class GameWeaDetailService {
     }
 
     public GameWeaDetailService() {
-        if (WEAPONS.isEmpty()) {
-            for (int id : ID_2_NAME_MAPS.keySet()) {
-                if (id > 1000 && id < 1200)
-                    WEAPONS.add(getNameById(id));
-            }
-        }
     }
 
     private synchronized void initAqs() {
