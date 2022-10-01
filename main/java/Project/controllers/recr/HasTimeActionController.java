@@ -213,18 +213,18 @@ public class HasTimeActionController {
     public static final Map<Integer, Integer> ID2JL = new LinkedHashMap<>();
 
     static {
-        ID2JL.put(101, 5);
-        ID2JL.put(102, 4);
+        ID2JL.put(101, 4);
+        ID2JL.put(102, 3);
         ID2JL.put(103, 3);
-        ID2JL.put(116, 3);
+        ID2JL.put(116, 2);
         ID2JL.put(1601, 1);//升级券
-        ID2JL.put(106, 5);
-        ID2JL.put(107, 4);
-        ID2JL.put(115, 4);
+        ID2JL.put(106, 4);
+        ID2JL.put(107, 2);
+        ID2JL.put(115, 3);
         ID2JL.put(120, 1);//变异魂环
         ID2JL.put(121, 1);//普材料
         ID2JL.put(129, 1);//挑战券
-        ID2JL.put(113, 4);
+        ID2JL.put(113, 3);
     }
 
     @Action("奖池")
