@@ -404,8 +404,10 @@ public class PersonInfo implements BaseInfo {
     }
 
     public Long getXpL() {
-        if (getLevel() >= 150) {
+        if (getLevel() > 150) {
             return 99999999999L;
+        } else if (getLevel() == 150) {
+            return 200000000L;
         }
         return xpL;
     }
@@ -762,7 +764,7 @@ public class PersonInfo implements BaseInfo {
     }
 
     public PersonInfo cancelVertigo(long t) {
-        BaseInfoTemp.removeVertigo(getId().longValue(),t);
+        BaseInfoTemp.removeVertigo(getId().longValue(), t);
         return this;
     }
 
