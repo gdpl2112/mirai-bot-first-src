@@ -74,6 +74,7 @@ public class GameObjController {
             }
             return sss;
         } catch (Exception e) {
+            e.printStackTrace();
             return "未发现相关物品或使用失败#" + str;
         }
     }

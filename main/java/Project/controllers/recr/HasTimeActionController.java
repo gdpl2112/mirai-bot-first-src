@@ -192,7 +192,7 @@ public class HasTimeActionController {
     }
 
     private static void rand101(long qid) {
-        String msg = null;
+        String msg = "";
         int r = Tool.tool.RANDOM.nextInt(10);
         if (r == 0) {
             GameDataBase.addToBgs(qid, 130, 2, ObjType.got);
