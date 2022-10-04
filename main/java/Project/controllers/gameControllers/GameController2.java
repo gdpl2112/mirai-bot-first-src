@@ -190,7 +190,7 @@ public class GameController2 {
             index -= PAGE_SIZE;
             max++;
         }
-        num = num >= max ? max : 1;
+        num = num >= max ? max : num;
         endList.add("PAGE: " + num + "/" + max);
         if (list.size() > PAGE_SIZE) {
             for (int i = 0; i < PAGE_SIZE; i++) {

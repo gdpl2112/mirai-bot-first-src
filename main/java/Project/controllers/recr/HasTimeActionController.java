@@ -193,7 +193,7 @@ public class HasTimeActionController {
 
     private static void rand101(long qid) {
         String msg = "";
-        int r = Tool.tool.RANDOM.nextInt(10);
+        int r = Tool.tool.RANDOM.nextInt(18);
         if (r == 0) {
             GameDataBase.addToBgs(qid, 130, 2, ObjType.got);
             msg = "获得两张奖券" + SourceDataBase.getImgPathById(130);
