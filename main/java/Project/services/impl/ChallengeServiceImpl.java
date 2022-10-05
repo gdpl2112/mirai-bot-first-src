@@ -16,6 +16,7 @@ import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Group;
@@ -73,14 +74,13 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     @Override
     public Object createTrialChallenge(long qid, long gid) {
-
+        if (!BotStarter.test) return "关闭调试中";
         try {
             testWill(qid);
         } catch (NoRunException e) {
             return e.getMessage();
         }
-
-        service0.challenges.create(qid, new AbstractChallenge() {
+        AbstractChallenge challenge = new AbstractChallenge() {
             @Override
             public boolean ready() {
                 return p1 > 0 && p2 > 0;
@@ -113,6 +113,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                             return true;
                         }
                         TrialChallengeEndBroadcast.INSTANCE.broadcast(from, who, 1);
+                        state = FINISHED;
                         return false;
                     }
                 });
@@ -120,7 +121,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 RECEIVER_MAP.put(p2, receiver);
 
                 MessageTools.instance.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
-
+                state = PROCESSING;
                 return this;
             }
 
@@ -128,7 +129,8 @@ public class ChallengeServiceImpl implements IChallengeService {
             public long getGid() {
                 return gid;
             }
-        });
+        };
+        service0.challenges.create(qid, challenge);
         return CREATE_CHALLENGE_OK;
     }
 
@@ -146,6 +148,8 @@ public class ChallengeServiceImpl implements IChallengeService {
     public Object destroy(long qid) {
         if (service0.challenges.contains(qid)) {
             deleteTempInfo(qid, service0.challenges.Q2Q.get(qid));
+        } else {
+            TEMP_PERSON_INFOS.remove(qid);
         }
         return "尝试结束";
     }
@@ -162,8 +166,16 @@ public class ChallengeServiceImpl implements IChallengeService {
         TEMP_PERSON_INFOS.remove(q1);
         TEMP_PERSON_INFOS.remove(q2);
 
-        service0.challenges.destroy(q1);
-        service0.challenges.destroy(q2);
+        try {
+            service0.challenges.destroy(q1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            service0.challenges.destroy(q2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q1));
         PlayerLostBroadcast.INSTANCE.remove(RECEIVER_MAP.get(q2));
@@ -188,20 +200,25 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     private PersonInfo copyBase(PersonInfo p1) {
-        return new PersonInfo()
-                .setName(p1.getName())
+        PersonInfo pInfo = new PersonInfo();
+        pInfo.setName(p1.getName())
                 .setWhType(p1.getWhType())
-                .setWh(p1.getWh()).setXpL(p1.getXpL()).setXp(0L)
+                .setWh(p1.getWh())
+                .setXpL(p1.getXpL()).setXp(0L)
+                .setHpl(p1.getHpL())
+                .setHjL(p1.getHjL())
+                .setHll(p1.getHll())
                 .setHelpC(99).setHelpToc(99).setGold(0L)
                 .setK1(Long.MAX_VALUE).setK2(Long.MAX_VALUE).setGk1(Long.MAX_VALUE)
                 .setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(System.currentTimeMillis())
-                .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis())
-                ;
+                .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis());
+        return pInfo;
     }
 
     private PersonInfo toMax(PersonInfo personInfo) {
-        return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHj());
+        return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHjL());
     }
+
 
     @AutoStand
     GameJoinDetailService gameJoinDetailService;

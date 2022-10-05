@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
@@ -60,7 +62,7 @@ public class GhostObj implements Serializable, BaseInfo {
     @Nullable
     private String name;
     @Nullable
-    private ArrayList<Long> withs = new ArrayList<>();
+    private Set<Long> withs = new HashSet<>();
     private long whoMeet = -1;
     private Integer nc = 0;
     private String myTag = "";
@@ -89,7 +91,6 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
-        balance1();
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
@@ -395,11 +396,11 @@ public class GhostObj implements Serializable, BaseInfo {
         return getHp();
     }
 
-    public ArrayList<Long> getWiths() {
+    public Set<Long> getWiths() {
         return withs;
     }
 
-    public void setWiths(ArrayList<Long> withs) {
+    public void setWiths(Set<Long> withs) {
         this.withs = withs;
     }
 

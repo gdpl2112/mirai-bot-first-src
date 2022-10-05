@@ -345,8 +345,9 @@ public class GameTool {
         else return "未知";
     }
 
-    public static int getMaxHelpNumByGhostId(Integer id) {
-        if (id < 800) return 1;
+    public static int getMaxHelpNumByGhostIdAndLevel(Integer id, Integer level) {
+        if (level >= 10000000) return 2;
+        else if (id < 800) return 1;
         else return 0;
     }
 }

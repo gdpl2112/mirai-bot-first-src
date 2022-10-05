@@ -146,7 +146,7 @@ public class HasTimeActionController {
         AC_ITEMS_MAP.put(125, new AbstractMap.SimpleEntry<>(54, 7002));
         GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
             @Override
-            public void onReceive(long who, ArrayList<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
+            public void onReceive(long who, Set<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
                 HasTimeActionController.rand99(who);
                 HasTimeActionController.rand101(who);
             }

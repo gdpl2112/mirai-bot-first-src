@@ -408,4 +408,24 @@ public class SuperController {
                 .setAk1(1L).setJak1(1L).apply();
         return OK_TIPS;
     }
+
+    @Action("/addBuff<.+=>str>")
+    public Object l3(@Param("str") String str) {
+        Long q = MessageTools.instance.getAtFromString(str);
+        if (q == -1) {
+            return NOT_FOUND_AT;
+        }
+        try {
+            str = str.replaceAll("/addBuff", "");
+            str = str.replace("[@" + q + "]", "");
+            String[] sss = str.split("\\|");
+            Integer v1 = Integer.valueOf(sss[1]);
+            Integer v2 = Integer.valueOf(sss[2]);
+            getInfo(q).addTag(sss[0], v1, v2).apply();
+            return OK_TIPS;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
 }

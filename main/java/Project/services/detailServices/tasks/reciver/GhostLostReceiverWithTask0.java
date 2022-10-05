@@ -9,6 +9,7 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.task.Task;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameTaskDatabase.deleteTask;
@@ -25,7 +26,7 @@ public class GhostLostReceiverWithTask0
     }
 
     @Override
-    public void onReceive(long who, ArrayList<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
+    public void onReceive(long who, Set<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
         Task task = getT();
         if (task.getHost().longValue() != who) {
             return;

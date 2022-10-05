@@ -75,7 +75,7 @@ public class GhostLostBroadcast extends Broadcast {
          * @param ghostObj
          * @param killType
          */
-        void onReceive(long who, ArrayList<Long> withs, GhostObj ghostObj, KillType killType);
+        void onReceive(long who, Set<Long> withs, GhostObj ghostObj, KillType killType);
     }
 
     public static abstract class AbstractGhostLostReceiverWith<T> implements GhostLostReceiver {

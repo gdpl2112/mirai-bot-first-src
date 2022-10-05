@@ -155,32 +155,34 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     }
 
     @Override
-    public String helpTo(long who, long whos) {
-        if (who == whos) return CANT_HELP_YOURSELF;
-        GhostObj ghostObj = getGhostObjFrom(who);
-        GhostObj ghostObj1 = getGhostObjFrom(whos);
+    public String helpTo(long q1, long q2) {
+        if (q1 == q2) return CANT_HELP_YOURSELF;
+        GhostObj ghostObj = getGhostObjFrom(q1);
+        GhostObj ghostObj1 = getGhostObjFrom(q2);
         if (ghostObj1 != null) {
             if (ghostObj != null && ghostObj.getTime() < System.currentTimeMillis()) {
                 return IN_SELECT;
             } else {
-                if (getInfo(who).getHelpToc() >= MAX_HELP_TO_C) {
+                if (getInfo(q1).getHelpToc() >= MAX_HELP_TO_C) {
                     return DAY_ONLY_HELP_TIPS;
                 } else {
                     switch (ghostObj1.getState()) {
                         case GhostObj.NOT_NEED:
                             return NOT_NEED_HELP;
                         case GhostObj.NEED_AND_NO:
-                            saveGhostObjIn(who, null);
-                            ghostObj = GhostObj.createHelp(String.valueOf(whos));
+                            saveGhostObjIn(q1, null);
+                            ghostObj = GhostObj.createHelp(String.valueOf(q2));
                             ghostObj.setState(GhostObj.HELPING);
-                            saveGhostObjIn(who, ghostObj);
-                            ghostObj1.getWiths().add(who);
-                            if (GameTool.getMaxHelpNumByGhostId(ghostObj1.getId()) >= ghostObj1.getWiths().size())
+                            saveGhostObjIn(q1, ghostObj);
+                            ghostObj1.getWiths().add(q1);
+                            int max = GameTool.getMaxHelpNumByGhostIdAndLevel(ghostObj1.getId(), ghostObj1.getLevel());
+                            int in = ghostObj1.getWiths().size();
+                            if (in >= max)
                                 ghostObj1.setState(GhostObj.NEED_AND_YES);
-                            saveGhostObjIn(whos, ghostObj1);
-                            putPerson(getInfo(who).addHelpToC());
-                            GInfo.getInstance(who).addHelpc().apply();
-                            GInfo.getInstance(whos).addReqc().apply();
+                            saveGhostObjIn(q2, ghostObj1);
+                            putPerson(getInfo(q1).addHelpToC());
+                            GInfo.getInstance(q1).addHelpc().apply();
+                            GInfo.getInstance(q2).addReqc().apply();
                             return HELP_SUCCEED;
                         case GhostObj.NEED_AND_YES:
                             return HELPED;
