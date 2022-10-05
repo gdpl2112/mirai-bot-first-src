@@ -46,6 +46,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append("\n");
+        UPDATE_LOG.append("10.5:<抽奖十连>").append("\n");
         UPDATE_LOG.append("10.1:活动,魂兽几率掉落抢券,可用来<抽奖>限时活动,<奖池>").append("\n");
         UPDATE_LOG.append("9.30:星斗魂兽种类等级分类见'魂兽列表',新物品<魂兽挑战券>").append("\n");
         UPDATE_LOG.append("[nextPage]").append("\n");
