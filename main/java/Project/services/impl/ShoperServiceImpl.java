@@ -45,7 +45,7 @@ public class ShoperServiceImpl implements IShoperService {
 
     @Override
     public String upItem(long id, Integer id1, long aLong, Long aLong1) {
-        if (GameDataBase.contiansBgsNum(id, id1, (int) aLong)) {
+        if (GameDataBase.containsBgsNum(id, id1, (int) aLong)) {
             GameDataBase.removeFromBgs(id, id1, (int) aLong, ObjType.sell);
             ShopItem item = new ShopItem()
                     .setItemId(id1).setWho(id).setPrice(aLong1)

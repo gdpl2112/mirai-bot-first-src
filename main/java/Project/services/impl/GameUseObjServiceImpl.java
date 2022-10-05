@@ -263,7 +263,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (num > SLE_ONE_MAX) {
             return SLE_TOO_MUCH;
         }
-        if (contiansBgsNum(who, id, num)) {
+        if (containsBgsNum(who, id, num)) {
             removeFromBgs(who, id, num, ObjType.sell);
             long l;
             if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
@@ -293,7 +293,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (num > TRANSFER_ONE_MAX) return TRANSFER_TOO_MUCH;
         if ((id > 1000 && id <= 1007) || (id <= 127 && id >= 124)) {
             return gameWeaService.objTo(who, id, whos);
-        } else if (contiansBgsNum(who, id, num)) {
+        } else if (containsBgsNum(who, id, num)) {
             GameDataBase.removeFromBgs(who, id, num, ObjType.transLost);
             GameDataBase.addToBgs(Long.valueOf(whos), id, num, ObjType.transGot);
             return "批量 转让 完成";

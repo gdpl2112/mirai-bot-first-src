@@ -119,6 +119,59 @@ public class GameDrawer {
         return file.getPath();
     }
 
+    public static String drawerDynamic(GameMap map) throws Exception {
+        String name = UUID.randomUUID() + ".gif";
+        new File("./temp").mkdirs();
+        File file = new File("./temp/" + name);
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(file.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        int rate = 800;
+        encoder.setFrameRate(rate);
+        int wc = map.getWidth();
+        int hc = map.getHeight();
+        int width = wc * 50;
+        int height = hc * 50;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics g = image.getGraphics();
+        g.setClip(0, 0, width, height);
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.setColor(Color.BLACK);
+        for (int x = 1; x <= wc; x++) {
+            g.drawString(String.valueOf(x), 50 * (x - 1), 10);
+            g.drawLine(50 * x, 0, 50 * x, height);
+        }
+        for (int y = 1; y <= hc; y++) {
+            g.drawString(String.valueOf(y), 0, 50 * (y - 1) + 10);
+            g.drawLine(0, 50 * y, width, 50 * y);
+        }
+        g.dispose();
+        for (MapPosition position : map.getPositions()) {
+            int x1;
+            int y1;
+            switch (position.getType()) {
+                case p:
+                    x1 = (position.getX() - 1) * 50;
+                    y1 = (position.getY() - 1) * 50;
+                    BufferedImage item0 = (BufferedImage) getImageByUrl2Size(new File(position.getArg().toString()).toURL(), 50, 50);
+                    image = ImageDrawerUtils.putImage(image, item0, x1, y1);
+                    encoder.addFrame(image);
+                    break;
+                default:
+                    break;
+            }
+        }
+        encoder.addFrame(image);
+        encoder.addFrame(image);
+        encoder.addFrame(image);
+        encoder.addFrame(image);
+        encoder.addFrame(image);
+        encoder.finish();
+        return file.getPath();
+    }
+
     private static final List<Map.Entry<Integer, Integer>> OR_LIST = new LinkedList<>();
     private static final List<Integer> RATE_LIST = new LinkedList<>();
 

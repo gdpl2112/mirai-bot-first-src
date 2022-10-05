@@ -456,7 +456,7 @@ public class GameDataBase {
      * @param num 有多少
      * @return
      */
-    public static boolean contiansBgsNum(Long who, int id, int num) {
+    public static boolean containsBgsNum(Long who, int id, int num) {
         Integer[] bis = getBgs(who);
         int n1 = 0;
         for (int i : bis) {

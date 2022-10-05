@@ -284,4 +284,41 @@ public class HasTimeActionController {
         GameDataBase.removeFromBgs(user.getId(), 130, ObjType.use);
         return Tool.tool.pathToImg(GameDrawer.drawerDynamic(builder.build(), n, SourceDataBase.getImgPathById(id, false), file));
     }
+
+    @Action("抽奖十连")
+    public String raffle10(User user) throws Exception {
+        if (!GameDataBase.containsBgsNum(user.getId(), 130, 10)) {
+            return "没有足够的奖券";
+        }
+        GameMap.GameMapBuilder builder = new GameMap.GameMapBuilder();
+        builder.setWidth(5)
+                .setHeight(2);
+        AtomicInteger al = new AtomicInteger();
+        //序号=>id
+        Map<Integer, Integer> am = new HashMap<>();
+        AtomicInteger st = new AtomicInteger();
+        ID2JL.forEach((k, v) -> {
+            for (Integer integer = 0; integer < v; integer++) {
+                am.put(al.getAndIncrement(), k);
+            }
+            st.getAndIncrement();
+        });
+        Map<Integer, Map.Entry<Integer, Integer>> i1toi2 = new HashMap<>();
+        int i1i2i = 0;
+        for (int i1 = 1; i1 <= 2; i1++) {
+            for (int i2 = 1; i2 <= 5; i2++) {
+                i1toi2.put(i1i2i++, new AbstractMap.SimpleEntry<>(i2, i1));
+            }
+        }
+        for (int i1 = 0; i1 < 10; i1++) {
+            int r = Tool.tool.RANDOM.nextInt(al.get());
+            int id = am.get(r);
+            GameDataBase.addToBgs(user.getId(), id, ObjType.got);
+            GameDataBase.removeFromBgs(user.getId(), 130, ObjType.use);
+            Map.Entry<Integer,Integer> entry = i1toi2.get(i1);
+            builder.append(entry.getKey(),entry.getValue(),SourceDataBase.getImgPathById(id, false));
+        }
+        return Tool.tool.pathToImg(GameDrawer.drawerDynamic(builder.build()));
+    }
+
 }

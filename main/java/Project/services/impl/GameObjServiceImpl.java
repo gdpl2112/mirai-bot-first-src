@@ -58,7 +58,7 @@ public class GameObjServiceImpl implements IGameObjService {
         if (entry == null) return "该物品 暂时不可合成!";
         int needId = entry.getKey().intValue();
         int needNum = entry.getValue();
-        if (GameDataBase.contiansBgsNum(q, needId, needNum)) {
+        if (GameDataBase.containsBgsNum(q, needId, needNum)) {
             GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
             if (id >= 124 && id <= 127) {
                 addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
