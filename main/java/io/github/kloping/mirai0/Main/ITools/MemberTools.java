@@ -26,6 +26,11 @@ public class MemberTools {
                             member.getNick()
                     );
                     return user;
+                }else{
+                    User user = User.create(q,
+                            group.getId(),"default","default"
+                    );
+                    return user;
                 }
             }
         }

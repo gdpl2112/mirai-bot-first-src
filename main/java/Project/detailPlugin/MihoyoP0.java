@@ -91,7 +91,7 @@ public class MihoyoP0 {
         return sb.toString();
     }
 
-    private boolean hasImgTag(Element element) {
+    public static boolean hasImgTag(Element element) {
         if (element.children() != null && element.children().size() > 0) {
             for (Element child : element.children()) {
                 if (IMG_TAG_STR.equals(child.tagName())) {

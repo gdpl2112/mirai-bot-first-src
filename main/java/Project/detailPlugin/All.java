@@ -16,6 +16,11 @@ import java.util.concurrent.atomic.AtomicReference;
  * @version 1.0
  */
 public class All {
+    public static Object sub(String str) {
+        return str.substring(str.indexOf("{"), str.lastIndexOf("}") + 1);
+    }
+
+
     public static Object getTalentDays(String json) {
         return JSON.parseObject(json).getJSONObject("data").getInteger("days");
     }

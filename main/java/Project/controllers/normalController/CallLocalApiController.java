@@ -1,6 +1,9 @@
 package Project.controllers.normalController;
 
 import Project.detailPlugin.*;
+import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.http_api.QZone;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
@@ -14,13 +17,13 @@ import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils;
 import net.mamoe.mirai.message.data.Message;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
@@ -209,5 +212,45 @@ public class CallLocalApiController {
         File outFile = new File("./temp/" + UUID.randomUUID() + "-gaoWen.gif");
         ImageDrawerUtils.image2giftIncrease(400, outFile, list.toArray(new String[0]));
         return Tool.tool.pathToImg(outFile.getAbsolutePath());
+    }
+
+    @AutoStand
+    QZone zone;
+
+    @AutoStand
+    KlopingWeb kloping;
+
+    @Action("QQ空间")
+    public Object qqZone(Long qid) {
+        String pskey = kloping.get("qzone-pskey-930204019", "4432120");
+        Map.Entry<String, String> uin = new AbstractMap.SimpleEntry<>("uin", "o930204019");
+        Map.Entry<String, String> puin = new AbstractMap.SimpleEntry<>("p_uin", "o930204019");
+        Map.Entry<String, String> p_skey = new AbstractMap.SimpleEntry<>("p_skey", pskey);
+        String p0 = String.format("3_%s_0%%7C8_8_%s_0_1_0_0_1%%7C15%%7C16", qid, 930204019L);
+        JSONObject o0 = zone.mainCgi(qid, null, p0, uin, puin, p_skey);
+        Integer SS = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("SS");
+        Integer RZ = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("RZ");
+        Integer XC = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("XC");
+        Document doc0 = zone.feedds(qid, 930204019L, 5, uin, puin, p_skey);
+        Elements es = doc0.getElementsByTag("ul");
+        List list = new LinkedList();
+        list.add("说说: " + SS);
+        list.add("日志: " + RZ);
+        list.add("相册: " + XC);
+        list.add("最近一条空间");
+        Elements e0 = es.get(0).getElementsByClass("f-item f-s-i");
+        Element e1 = es.get(0).getElementsByClass("f-like-cnt").get(0);
+        for (Element element : e0.get(0).children()) {
+            Elements ess = element.getElementsByTag("img");
+            if (ess.size() > 0) {
+                for (Element e : ess) {
+                    String href = e.attr("src");
+                    list.add(Tool.tool.pathToImg(href));
+                }
+            } else {
+                list.add(element.text());
+            }
+        }
+        return list.toArray();
     }
 }
