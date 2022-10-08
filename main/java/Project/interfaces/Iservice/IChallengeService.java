@@ -16,6 +16,15 @@ public interface IChallengeService {
     Object createTrialChallenge(long qid, long gid);
 
     /**
+     * 人机挑战
+     *
+     * @param qid
+     * @param gid
+     * @return
+     */
+    Object createTrial2Challenge(long qid, long gid);
+
+    /**
      * 移动
      *
      * @param id

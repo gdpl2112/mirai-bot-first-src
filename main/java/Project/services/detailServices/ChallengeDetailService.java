@@ -15,15 +15,15 @@ public class ChallengeDetailService {
     public Challenges challenges = new Challenges();
     public static final Map<Long, PersonInfo> TEMP_PERSON_INFOS = new HashMap<>();
 
-    public boolean isTemping(long q) {
+    public synchronized boolean isTemping(long q) {
         return TEMP_PERSON_INFOS.containsKey(q);
     }
 
-    public PersonInfo getTempInfo(long q) {
+    public synchronized PersonInfo getTempInfo(long q) {
         return TEMP_PERSON_INFOS.get(q);
     }
 
-    public PersonInfo setTempInfo(long q, PersonInfo personInfo) {
+    public synchronized PersonInfo setTempInfo(long q, PersonInfo personInfo) {
         return TEMP_PERSON_INFOS.put(q, personInfo);
     }
 }

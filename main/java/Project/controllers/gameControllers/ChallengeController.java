@@ -68,6 +68,11 @@ public class ChallengeController {
         return service.createTrialChallenge(user.getId(), group.getId());
     }
 
+    @Action("创建平衡挑战")
+    private Object o2(User user, Group group) {
+        return service.createTrial2Challenge(user.getId(), group.getId());
+    }
+
     @Action("挑战.+")
     private Object o4(User user, @AllMess String s, Group group) {
         long qid = MessageTools.instance.getAtFromString(s);

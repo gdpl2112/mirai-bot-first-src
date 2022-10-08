@@ -73,6 +73,7 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     @Override
+
     public Object createTrialChallenge(long qid, long gid) {
         if (!BotStarter.test) return "关闭调试中";
         try {
@@ -103,6 +104,54 @@ public class ChallengeServiceImpl implements IChallengeService {
                 TEMP_PERSON_INFOS.put(p1, p11);
                 TEMP_PERSON_INFOS.put(p2, p22);
 
+                Receiver receiver = null;
+                PlayerLostBroadcast.INSTANCE.add(receiver = new PlayerLostBroadcast.OncePlayerLostReceiver() {
+                    @Override
+                    public boolean onReceive(long who, long from) {
+                        if (who == p1 || who == p2) {
+                            MessageTools.instance.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
+                            deleteTempInfo(p1, p2);
+                            return true;
+                        }
+                        TrialChallengeEndBroadcast.INSTANCE.broadcast(from, who, 1);
+                        state = FINISHED;
+                        return false;
+                    }
+                });
+                RECEIVER_MAP.put(p1, receiver);
+                RECEIVER_MAP.put(p2, receiver);
+
+                MessageTools.instance.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
+                state = PROCESSING;
+                return this;
+            }
+
+            @Override
+            public long getGid() {
+                return gid;
+            }
+        };
+        service0.challenges.create(qid, challenge);
+        return CREATE_CHALLENGE_OK;
+    }
+
+    @Override
+    public Object createTrial2Challenge(long qid, long gid) {
+        if (!BotStarter.test) return "关闭调试中";
+        try {
+            testWill(qid);
+        } catch (NoRunException e) {
+            return e.getMessage();
+        }
+        AbstractChallenge challenge = new AbstractChallenge() {
+            @Override
+            public boolean ready() {
+                return p1 > 0 && p2 > 0;
+            }
+
+            @Override
+            public AbstractChallenge start() {
+                summonTempInfo(p1, p2);
                 Receiver receiver = null;
                 PlayerLostBroadcast.INSTANCE.add(receiver = new PlayerLostBroadcast.OncePlayerLostReceiver() {
                     @Override
@@ -188,7 +237,7 @@ public class ChallengeServiceImpl implements IChallengeService {
         PersonInfo p22 = copyBase(p2);
 
         Long hp = (p1.getHpL() + p2.getHpL()) / 2;
-        Long att = (p1.att() + p2.att()) / 2 / 2;
+        Long att = (p1.att() + p2.att()) / 2 / 4;
         Long hl = (p1.getHll() + p2.getHll()) / 2;
         Long hj = (p1.getHjL() + p2.getHjL()) / 2;
         Integer level = (p1.getLevel() + p2.getLevel()) / 2;
@@ -218,7 +267,6 @@ public class ChallengeServiceImpl implements IChallengeService {
     private PersonInfo toMax(PersonInfo personInfo) {
         return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHjL());
     }
-
 
     @AutoStand
     GameJoinDetailService gameJoinDetailService;
