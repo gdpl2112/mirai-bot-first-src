@@ -233,11 +233,11 @@ public class CallLocalApiController {
         Integer XC = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("XC");
         Document doc0 = zone.feedds(qid, 930204019L, 5, uin, puin, p_skey);
         Elements es = doc0.getElementsByTag("ul");
-        List list = new LinkedList();
-        list.add("说说: " + SS);
-        list.add("日志: " + RZ);
-        list.add("相册: " + XC);
-        list.add("最近一条空间");
+        Set set = new LinkedHashSet();
+        set.add("说说: " + SS);
+        set.add("日志: " + RZ);
+        set.add("相册: " + XC);
+        set.add("最近一条空间");
         Elements e0 = es.get(0).getElementsByClass("f-item f-s-i");
         Element e1 = es.get(0).getElementsByClass("f-like-cnt").get(0);
         for (Element element : e0.get(0).children()) {
@@ -245,12 +245,14 @@ public class CallLocalApiController {
             if (ess.size() > 0) {
                 for (Element e : ess) {
                     String href = e.attr("src");
-                    list.add(Tool.tool.pathToImg(href));
+                    set.add(Tool.tool.pathToImg(href));
                 }
             } else {
-                list.add(element.text());
+                set.add(element.text());
             }
         }
-        return list.toArray();
+        set.remove(null);
+        set.remove("");
+        return set.toArray();
     }
 }
