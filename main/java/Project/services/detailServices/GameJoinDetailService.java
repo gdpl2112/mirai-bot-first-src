@@ -388,8 +388,20 @@ public class GameJoinDetailService {
                 personInfo.getHpL(),
                 (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
                 id,
+                -1, bl, true);
+        return (T) ghostObj;
+    }
+
+    public <T extends GhostObj> T summonFor(String who, int id, boolean balance) {
+        PersonInfo personInfo = getInfo(who);
+        float bl = getAllHHBL(Long.valueOf(who));
+        GhostObj ghostObj = GhostObj.create(
+                (long) (personInfo.att() * bl),
+                personInfo.getHpL(),
+                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
+                id,
                 -1,
-                true, bl);
+                bl, balance);
         return (T) ghostObj;
     }
 

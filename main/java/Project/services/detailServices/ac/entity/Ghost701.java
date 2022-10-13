@@ -31,8 +31,8 @@ public class Ghost701 extends GhostWithGroup {
         init();
     }
 
-    public Ghost701(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
-        super(hp, att, xp, id, l, rand, bl);
+    public Ghost701(long hp, long att, long xp, int id, long l,  float bl) {
+        super(hp, att, xp, id, l,  bl);
         init();
     }
 

@@ -321,7 +321,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                         break;
                 }
             } else {
-                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId,false);
             }
         } else if (ghostId < 700) {
             r = Tool.tool.RANDOM.nextInt(13);

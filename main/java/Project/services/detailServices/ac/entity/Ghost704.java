@@ -20,8 +20,8 @@ public class Ghost704 extends GhostWithGroup {
         super(hp, att, id, l);
     }
 
-    public Ghost704(long hp, long att, long xp, int id, long l, boolean rand, float bl) {
-        super(hp, att, xp, id, l, rand, bl);
+    public Ghost704(long hp, long att, long xp, int id, long l,  float bl) {
+        super(hp, att, xp, id, l,  bl);
     }
 
     public boolean isK() {
