@@ -24,7 +24,6 @@ public class JsUtils {
                     "            }\n" +
                     "        }([]), n += o.length, n = i(n, 3 - n.toString().length), t.toString() + o + n\n" +
                     "    }");
-
         } catch (ScriptException e) {
             e.printStackTrace();
         }

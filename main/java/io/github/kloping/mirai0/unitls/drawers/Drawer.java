@@ -4,10 +4,7 @@ import Project.aSpring.SpringBootResource;
 import Project.dataBases.skill.SkillDataBase;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.commons.GInfo;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.Zong;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.commons.gameEntitys.WinStar;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -172,6 +169,75 @@ public class Drawer {
         g.setFont(BIG_FONT35);
         g.drawString("等级:" + p.getLevel() + "=>" + GameTool.getFH(p.getLevel().intValue()), x, y);
         drawStar(g, new WinStar(p.getWinC()));
+        //==================================
+        g.setColor(BORDER_COLOR);
+        g.setFont(BIG_FONT35);
+        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
+        g.dispose();
+        return saveTempImage(image).getPath();
+    }
+
+    public static final String drawGhostInfo(GhostObj p) {
+        int width = 600;
+        int height = 420;
+        BufferedImage image = null;
+        Graphics g = null;
+        if (INFO_BASE == null) {
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+            g = image.getGraphics();
+            g.setClip(0, 0, width, height);
+            g.setColor(BACKGROUND_COLOR);
+            g.fillRect(0, 0, width, height);
+        } else {
+            try {
+                image = (BufferedImage) image2Size(INFO_BASE, width, height);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            g = image.getGraphics();
+        }
+        g.setFont(BIG_FONT35);
+        int y = 40;
+        g.setColor(BORDER_COLOR);
+        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
+        g.setFont(SMALL_FONT28);
+        //==================================
+        int x = 10;
+        y = 2 * 40 - 10;
+        //==================================
+        g.setColor(xpColor);
+        g.setColor(Color.black);
+        g.drawString(Tool.tool.filterBigNum(String.format("经验:%s", p.getXp())), x, y + SMALL_FONT28.getSize());
+        //==================================
+        y = y + 60;
+        g.setColor(hpColor);
+        g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
+        if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
+            Number v0 = p.getTagValue(SkillDataBase.TAG_SHIELD);
+            g.setColor(shieldColor);
+            g.fillRect(x, y, (int) (toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
+        }
+        g.setColor(Color.black);
+        g.drawString(Tool.tool.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT28.getSize());
+        //==================================
+        y = y + 60;
+        g.setColor(Color.WHITE);
+        g.fillRect(x, y, width - x, 50);
+        g.setColor(hjColor);
+        g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
+        g.setColor(Color.black);
+        g.drawString(Tool.tool.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT28.getSize());
+        g.setFont(SMALL_FONT15);
+        //==================================
+        y = y + 60;
+        g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
+        g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
+        g.setFont(SMALL_FONT28);
+        g.drawString(Tool.tool.filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + SMALL_FONT28.getSize());
+        y = y + 85;
+        g.setColor(levelColor);
+        g.setFont(BIG_FONT35);
+        g.drawString(Tool.tool.filterBigNum(String.format("等级: %s => %s(%s)", p.getLevel(), p.getName(), GameTool.getLevelByGhostId(p.getId()))), x, y);
         //==================================
         g.setColor(BORDER_COLOR);
         g.setFont(BIG_FONT35);

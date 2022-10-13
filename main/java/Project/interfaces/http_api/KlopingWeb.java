@@ -17,10 +17,21 @@ public interface KlopingWeb {
      *
      * @param keyword
      * @param type
+     * @param n
      * @return
      */
     @GetPath("/api/search/song")
     Songs getSongs(@ParamName("keyword") String keyword, @ParamName("type") String type, @ParamName("n") Integer n);
+
+    /**
+     * 获取VIP歌曲
+     *
+     * @param keyword
+     * @param n
+     * @return
+     */
+    @GetPath("/api/search/vipSong")
+    Songs getVipSongs(@ParamName("keyword") String keyword, @ParamName("n") Integer n);
 
     /**
      * 获取图片

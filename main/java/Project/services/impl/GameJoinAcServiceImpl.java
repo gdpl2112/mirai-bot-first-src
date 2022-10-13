@@ -219,15 +219,21 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         }
         putPerson(getInfo(qq).addHj(-ev));
         sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
-        sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
-                .append(getImageFromStrings(
-                        "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                        "等级:" + ghostObj.getL(),
-                        "攻击:" + ghostObj.getAtt(),
-                        "生命:" + ghostObj.getHp(),
-                        "经验:" + ghostObj.getXp(),
-                        "精神力:" + ghostObj.getHj()
-                ));
+        sb.append(SourceDataBase.getImgPathById(ghostObj.getId()));
+        if (ghostObj.getHjL() > 1000) {
+            sb.append(Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj)));
+        }else{
+            sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
+                    .append(getImageFromStrings(
+                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
+                            "等级:" + ghostObj.getL(),
+                            "攻击:" + ghostObj.getAtt(),
+                            "生命:" + ghostObj.getHp(),
+                            "经验:" + ghostObj.getXp(),
+                            "精神力:" + ghostObj.getHj()
+                    ));
+        }
+
         StringBuilder sb1 = new StringBuilder();
         GhostObj finalGhostObj = ghostObj;
         SkillDataBase.TAG2NAME.forEach((k, v) -> {
@@ -240,7 +246,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             }
         });
         if (sb1.length() > 0) {
-            sb.append(Drawer.getImageFromStrings(sb1.toString().trim().split(NEWLINE)));
+            sb.append(getImageFromStrings(sb1.toString().trim().split(NEWLINE)));
         }
         return sb.toString();
     }

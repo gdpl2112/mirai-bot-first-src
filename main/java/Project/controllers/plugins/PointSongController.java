@@ -41,6 +41,7 @@ public class PointSongController {
         SB.append("5，QQ歌词 歌名").append("\r\n");
         SB.append("6，酷狗歌词 歌名").append("\r\n");
         SB.append("7，网易歌词 歌名").append("\r\n");
+        SB.append("8，点歌 歌名 #可听VIP").append("\r\n");
     }
 
     @AutoStand
@@ -69,16 +70,32 @@ public class PointSongController {
         return SB.toString();
     }
 
+    @Action("点歌<.+=>name>")
+    public void pointSong(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
+        Songs songs = searchSong.normal(name);
+        Group group = BOT.getGroup(gro.getId());
+        Song s1 = songs.getData()[0];
+        MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
+        group.sendMessage(share1);
+        try {
+            Song s2 = songs.getData()[1];
+            MusicShare share2 = new MusicShare(MusicKind.QQMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.top", s2.getImgUrl(), s2.getSongUrl());
+            group.sendMessage(share2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Action("QQ点歌<.+=>name>")
     public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
         Songs songs = searchSong.qq(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.QQMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.life", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.QQMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.top", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,11 +107,11 @@ public class PointSongController {
         Songs songs = searchSong.kugou(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.KugouMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.life", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.KugouMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.top", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,11 +123,11 @@ public class PointSongController {
         Songs songs = searchSong.netEase(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
-        MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
+        MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
         group.sendMessage(share1);
         try {
             Song s2 = songs.getData()[1];
-            MusicShare share2 = new MusicShare(MusicKind.NeteaseCloudMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.life", s2.getImgUrl(), s2.getSongUrl());
+            MusicShare share2 = new MusicShare(MusicKind.NeteaseCloudMusic, s2.getMedia_name(), s2.getAuthor_name(), "http://kloping.top", s2.getImgUrl(), s2.getSongUrl());
             group.sendMessage(share2);
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,7 +153,7 @@ public class PointSongController {
                 Songs songs = searchSong.netEase(reping163.getData().getSongName());
                 net.mamoe.mirai.contact.Group group = BOT.getGroup(gro.getId());
                 Song s1 = songs.getData()[0];
-                MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.life", s1.getImgUrl(), s1.getSongUrl());
+                MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
                 group.sendMessage(share1);
             }
         } catch (Exception e) {
