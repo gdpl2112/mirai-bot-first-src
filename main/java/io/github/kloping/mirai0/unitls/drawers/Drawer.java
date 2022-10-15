@@ -206,10 +206,13 @@ public class Drawer {
         y = 2 * 40 - 10;
         //==================================
         g.setColor(xpColor);
+        g.fillRect(x, y, (int) (1 * width) - x, 50);
         g.setColor(Color.black);
         g.drawString(Tool.tool.filterBigNum(String.format("经验:%s", p.getXp())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
+        g.setColor(Color.WHITE);
+        g.fillRect(x, y, width - x, 50);
         g.setColor(hpColor);
         g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
         if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
