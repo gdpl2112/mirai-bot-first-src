@@ -24,6 +24,7 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.List;
 import java.util.Map;
@@ -162,15 +163,19 @@ public class GameJoinDetailService {
         long v2 = ghostObj.getHj();
         int bv = toPercent(v1, v2);
         if (bv >= 90) {
-            return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
-                    getImageFromStrings(
-                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                            "等级:" + ghostObj.getL(),
-                            "攻击:" + ghostObj.getAtt(),
-                            "生命:" + ghostObj.getHp(),
-                            "经验:" + ghostObj.getXp(),
-                            "精神力:" + ghostObj.getHj()
-                    );
+            if (ghostObj.getHjL() > 1000) {
+                return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) + Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj));
+            } else {
+                return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
+                        getImageFromStrings(
+                                "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
+                                "等级:" + ghostObj.getL(),
+                                "攻击:" + ghostObj.getAtt(),
+                                "生命:" + ghostObj.getHp(),
+                                "经验:" + ghostObj.getXp(),
+                                "精神力:" + ghostObj.getHj()
+                        );
+            }
         } else {
             return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
                     getImageFromStrings(
