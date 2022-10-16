@@ -93,7 +93,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, float bl) {
-        this(hp, att, xp, id, l, l, true);
+        this(hp, att, xp, id, l, bl, true);
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, float bl, boolean balance) {
