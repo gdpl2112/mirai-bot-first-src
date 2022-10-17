@@ -17,9 +17,12 @@ public interface Role {
      * @param q2   被动
      * @param ov   原有伤害
      * @param nv   现有伤害
+     * @param type 伤害类型
      * @param p1   p1
      * @param args args
      * @return
      */
-    RoleResponse call(StringBuilder sb, Number q1, Number q2, final long ov, long nv, BaseInfo p1, Map<String, Object> args);
+    RoleResponse call(StringBuilder sb, Number q1, Number q2, final long ov, long nv,
+                      DamageType type,
+                      BaseInfo p1, Map<String, Object> args);
 }

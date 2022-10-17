@@ -10,10 +10,7 @@ import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.ac.JoinAcService;
 import Project.services.detailServices.ac.entity.*;
-import Project.services.detailServices.roles.BeatenRoles;
-import Project.services.detailServices.roles.Role;
-import Project.services.detailServices.roles.RoleResponse;
-import Project.services.detailServices.roles.RoleState;
+import Project.services.detailServices.roles.*;
 import Project.services.player.PlayerBehavioralManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -69,7 +66,7 @@ public class GameJoinDetailService {
      * @param bo        if false don't broadcast
      * @return
      */
-    public static String attGho(long who, long att, boolean show, boolean canAttMe,
+    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe,
                                 GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         Long o0 = -ghostObj.getWhoMeet();
@@ -95,12 +92,12 @@ public class GameJoinDetailService {
                     long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
                     at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
                     sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
-                            .append(GameDetailService.beaten(who, -2, at2));
+                            .append(GameDetailService.beaten(who, -2, at2, dType));
                 }
                 long oNow = att;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {
-                    RoleResponse response = r.call(sb, -ghostObj.getWhoMeet(), who, att, oNow, ghostObj, maps);
+                    RoleResponse response = r.call(sb, -ghostObj.getWhoMeet(), who, att, oNow, dType, ghostObj, maps);
                     if (response != null) {
                         oNow = response.getNowV();
                         if (!response.getArgs().isEmpty()) {
@@ -149,12 +146,12 @@ public class GameJoinDetailService {
         }
     }
 
-    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
-        return attGho(who, att, show, canAttMe, type, mandatory, true);
+    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
+        return attGho(who, att, dType, show, canAttMe, type, mandatory, true);
     }
 
-    public static String attGho(long who, long att, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
-        return attGho(who, att, show, canAttMe, type, false);
+    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
+        return attGho(who, att, dType, show, canAttMe, type, false);
     }
 
     public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
@@ -471,7 +468,7 @@ public class GameJoinDetailService {
                 long oNow = at1;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {
-                    RoleResponse response = r.call(sb, -2, who, at1, oNow, ghostObj, maps);
+                    RoleResponse response = r.call(sb, -2, who, at1, oNow,DamageType.AD, ghostObj, maps);
                     if (response != null) {
                         oNow = response.getNowV();
                         if (!response.getArgs().isEmpty()) maps.putAll(response.getArgs());
@@ -481,14 +478,14 @@ public class GameJoinDetailService {
                 if (oNow > 0) {
                     ghostObj.updateHp(-oNow, getInfo(who));
                     sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
-                    sb.append(GameDetailService.onAtt(who, -2, oNow));
+                    sb.append(GameDetailService.onAtt(who, -2, oNow,DamageType.AD));
                 }
             } else {
                 sb.append(HL_NOT_ENOUGH_TIPS0);
             }
             sb.append(NEWLINE);
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
-                    .append(GameDetailService.beaten(who, -2, at2));
+                    .append(GameDetailService.beaten(who, -2, at2,DamageType.AD));
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {

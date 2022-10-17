@@ -3,6 +3,7 @@ package Project.services.detailServices;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.GameDataBase;
+import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
@@ -131,17 +132,31 @@ public class GameDetailServiceUtils {
      * @param k    show
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v, Boolean k) {
+        attGhostOrMan(sb, who, who2, v, k, DamageType.AD);
+    }
+
+    /**
+     * att
+     *
+     * @param sb
+     * @param who
+     * @param who2
+     * @param v
+     * @param k
+     * @param type
+     */
+    public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v, Boolean k, DamageType type) {
         if (who2.longValue() == -2) {
-            sb.append(attGho(who.longValue(), v, k, false, GhostLostBroadcast.KillType.SKILL_ATT));
+            sb.append(attGho(who.longValue(), v,type, k, false, GhostLostBroadcast.KillType.SKILL_ATT));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
                 sb.append(PLAYER_NOT_REGISTERED);
                 return;
             }
-            sb.append(beaten(who2, who, v).trim());
+            sb.append(beaten(who2, who, v, type).trim());
             sb.append(NEWLINE).append(String.format(ATTACK_TIPS0, v));
             if (!sb.toString().contains(JUMP_STR_0)) {
-                sb.append(onAtt(who2, who, v));
+                sb.append(onAtt(who2, who, v, type));
             }
         }
     }

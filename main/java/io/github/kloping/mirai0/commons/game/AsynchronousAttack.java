@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
 import Project.services.detailServices.GameDetailService;
+import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.concurrent.ScheduledFuture;
@@ -17,13 +18,15 @@ public class AsynchronousAttack extends AsynchronousThing {
         setType(AsynchronousThingType.ATTACK);
     }
 
+    public DamageType type = DamageType.AD;
+
     @Override
     public void run() {
         if (i++ >= n) {
             future.cancel(true);
             over();
         } else {
-            String s0 = sFormat == null ? "" : String.format(sFormat, value) + GameDetailService.beaten(q1, q2, (int) value);
+            String s0 = sFormat == null ? "" : String.format(sFormat, value) + GameDetailService.beaten(q1, q2, (int) value, type);
             if (!s0.isEmpty()) MessageTools.instance.sendMessageInGroup(s0, gid);
         }
     }

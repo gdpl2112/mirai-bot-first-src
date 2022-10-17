@@ -2,6 +2,7 @@ package Project.services.detailServices.ac.entity;
 
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
@@ -57,7 +58,7 @@ public class Ghost701 extends GhostWithGroup {
                         v = v <= 0 ? 1 : v;
                         MessageTools.instance.sendMessageInGroupWithAt(
                                 getName() + "对你造成" + v + "伤害"
-                                        + GameDetailService.beaten(baseInfo.getId(), -1, v),
+                                        + GameDetailService.beaten(baseInfo.getId(), -1, v, DamageType.AD),
                                 group.getId(), baseInfo.getId().longValue()
                         );
                     }

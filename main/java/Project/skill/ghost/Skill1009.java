@@ -3,6 +3,7 @@ package Project.skill.ghost;
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.roles.DamageType;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
@@ -47,7 +48,7 @@ public class Skill1009 extends SkillTemplate {
                     long v = percentTo(b, ghostObj.getAtt());
                     StringBuilder sb = new StringBuilder();
                     sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
-                    sb.append(GameDetailService.beaten(-who.longValue(), -2, v));
+                    sb.append(GameDetailService.beaten(-who.longValue(), -2, v, DamageType.AD));
                     sb.append(NEWLINE);
                     sb.append(GameController.gameService.info(-who.longValue()));
                     setTips(sb.toString());
@@ -56,7 +57,7 @@ public class Skill1009 extends SkillTemplate {
                             Thread.sleep(2000);
                             sb = new StringBuilder();
                             sb.append("对支援者造成").append(v).append("伤害").append(NEWLINE);
-                            sb.append(GameDetailService.beaten(with, -2, v));
+                            sb.append(GameDetailService.beaten(with, -2, v, DamageType.AD));
                             sb.append(NEWLINE);
                             sb.append(GameController.gameService.info(-who.longValue()));
                             setTips(sb.toString());

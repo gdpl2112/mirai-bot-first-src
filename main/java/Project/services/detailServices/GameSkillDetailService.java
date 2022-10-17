@@ -3,6 +3,7 @@ package Project.services.detailServices;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
+import Project.services.detailServices.roles.DamageType;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skill.SkillFactory;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -418,10 +419,15 @@ public class GameSkillDetailService {
     }
 
     public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid, String format) {
+        addAttSchedule(n, q1, q2, value, eve, gid, format, DamageType.AD);
+    }
+
+    public static void addAttSchedule(int n, long q1, long q2, long value, long eve, long gid, String format, DamageType type) {
         if (q1 == q2) {
             return;
         }
-        AsynchronousThing thing = new AsynchronousAttack(n, q1, q2, value, eve, gid);
+        AsynchronousAttack thing = new AsynchronousAttack(n, q1, q2, value, eve, gid);
+        thing.type = type;
         thing.setFormatStr(format).start();
         MapUtils.append(ASYNCHRONOUS_THING_MAP, q1, thing);
     }

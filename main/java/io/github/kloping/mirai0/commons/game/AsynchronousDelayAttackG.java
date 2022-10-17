@@ -1,6 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.concurrent.ScheduledFuture;
@@ -25,10 +26,12 @@ public class AsynchronousDelayAttackG extends AsynchronousThing {
         setType(AsynchronousThingType.ATTACK);
     }
 
+    public DamageType type = DamageType.AD;
+
     @Override
     public void run() {
         StringBuilder sb = new StringBuilder();
-        sb.append(attGho(q1, value, false, false, GhostLostBroadcast.KillType.SKILL_ATT));
+        sb.append(attGho(q1, value, type, false, false, GhostLostBroadcast.KillType.SKILL_ATT));
         MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
         future.cancel(true);
         over();

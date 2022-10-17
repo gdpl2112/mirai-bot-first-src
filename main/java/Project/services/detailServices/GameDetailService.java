@@ -9,10 +9,7 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
-import Project.services.detailServices.roles.BeatenRoles;
-import Project.services.detailServices.roles.Role;
-import Project.services.detailServices.roles.RoleResponse;
-import Project.services.detailServices.roles.RoleState;
+import Project.services.detailServices.roles.*;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.Resource;
@@ -67,7 +64,7 @@ public class GameDetailService {
      * @param o   这么多  血量
      * @return
      */
-    public static String beaten(Number qq, Number qq2, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
+    public static String beaten(Number qq, Number qq2, DamageType dType, final long o, PlayerLostBroadcast.PlayerLostReceiver.LostType type) {
         if (getInfo(qq).isBg()) {
             return PLAYER_BG_TIPS;
         }
@@ -77,7 +74,7 @@ public class GameDetailService {
             PersonInfo p1 = GameDataBase.getInfo(qq);
             Map<String, Object> maps = new ConcurrentHashMap<>();
             for (Role r : BeatenRoles.RS) {
-                RoleResponse response = r.call(sb, qq, qq2, o, oNow, p1, maps);
+                RoleResponse response = r.call(sb, qq, qq2, o, oNow, dType, p1, maps);
                 if (response != null) {
                     oNow = response.getNowV();
                     if (!response.getArgs().isEmpty()) {
@@ -124,8 +121,8 @@ public class GameDetailService {
         }
     }
 
-    public static String beaten(Number qq, Number qq2, final long o) {
-        return beaten(qq, qq2, o, PlayerLostBroadcast.PlayerLostReceiver.LostType.att);
+    public static String beaten(Number qq, Number qq2, final long o, DamageType type) {
+        return beaten(qq, qq2, type, o, PlayerLostBroadcast.PlayerLostReceiver.LostType.att);
     }
 
     public static String consumedHl(long who, final long o) {
@@ -164,7 +161,7 @@ public class GameDetailService {
      * @param v
      * @return
      */
-    public static String onAtt(Number qq, Number qq2, Long v) {
+    public static String onAtt(Number qq, Number qq2, Long v, DamageType type) {
         if (qq2.longValue() > 0) {
             if (getInfo(qq2).isBg()) {
                 return PLAYER_BG_TIPS;
@@ -177,7 +174,7 @@ public class GameDetailService {
         long oNow = v;
         Map<String, Object> maps = new ConcurrentHashMap<>();
         for (Role r : BeatenRoles.ATT_RS) {
-            RoleResponse response = r.call(sb, qq, qq2, v, oNow, info, maps);
+            RoleResponse response = r.call(sb, qq, qq2, v, oNow, type, info, maps);
             if (response != null) {
                 oNow = response.getNowV();
                 if (!response.getArgs().isEmpty()) {
@@ -232,14 +229,14 @@ public class GameDetailService {
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
                 if (baseInfo instanceof GhostObj) {
-                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv2, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
+                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv2, DamageType.AP, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
                 } else {
                     int v = toPercent(nv2, baseInfo.getHpL());
                     v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;
                     long nv0 = percentTo(v, baseInfo.getHpL());
                     sb.append(NEWLINE);
                     sb.append("\n对其造成了").append(nv0).append("(").append(v).append("%)额外伤害");
-                    sb.append(beaten(q2, q, nv0)).append(NEWLINE);
+                    sb.append(beaten(q2, q, nv0, DamageType.AP)).append(NEWLINE);
                 }
             }
             p1.apply();

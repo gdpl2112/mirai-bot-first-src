@@ -4,6 +4,7 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.roles.DamageType;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.commons.Group;
@@ -58,7 +59,7 @@ public class Skill8210 extends SkillTemplate {
                                         false, false);
                             } else {
                                 setTips(GameJoinDetailService.attGho(
-                                        who.longValue(), att, true, false, GhostLostBroadcast.KillType.SKILL_ATT,
+                                        who.longValue(), att,  DamageType.AP,true, false, GhostLostBroadcast.KillType.SKILL_ATT,
                                         true
                                 ));
                             }

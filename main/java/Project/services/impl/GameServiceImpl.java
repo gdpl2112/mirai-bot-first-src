@@ -14,6 +14,7 @@ import Project.dataBases.ZongMenDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
+import Project.services.detailServices.roles.DamageType;
 import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -450,9 +451,9 @@ public class GameServiceImpl implements IGameService {
                                 l1 = percentTo(by, l1);
                                 if (!lose)
                                     tips.append(GameDetailService.consumedHl(who, l));
-                                tips.append(GameDetailService.beaten(q2, who, l1));
+                                tips.append(GameDetailService.beaten(q2, who, l1, DamageType.AD));
                                 if (!tips.toString().contains(THIS_DANGER_OVER_FLAG)) {
-                                    tips.append(GameDetailService.onAtt(who, q2, l1));
+                                    tips.append(GameDetailService.onAtt(who, q2, l1, DamageType.AD));
                                 }
                                 if (bo)
                                     SelectAttBroadcast.INSTANCE.broadcast(p1, p2, l1, 1);

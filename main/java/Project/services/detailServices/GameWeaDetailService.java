@@ -3,6 +3,7 @@ package Project.services.detailServices;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
@@ -96,7 +97,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -200,7 +201,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -319,7 +320,7 @@ public class GameWeaDetailService {
         for (String whos : lps) {
             if (whos.equals("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, n++ == lps.size(), false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, n++ == lps.size(), false, GhostLostBroadcast.KillType.ANQ_ATT);
                 if (ss.startsWith("你对"))
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");
@@ -341,9 +342,9 @@ public class GameWeaDetailService {
         long hps = getInfo(whos).getHp();
 
         if (hps <= ar)
-            sb.append(GameDetailService.beaten(whos, who, hps));
+            sb.append(GameDetailService.beaten(whos, who, hps, DamageType.AD));
         else
-            sb.append(GameDetailService.beaten(whos, who, ar));
+            sb.append(GameDetailService.beaten(whos, who, ar, DamageType.AD));
 
         if (!isAlive(Long.valueOf(whos))) {
             int l = (int) Tool.tool.randLong(250, 0.7f, 1.0f);

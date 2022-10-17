@@ -3,6 +3,7 @@ package Project.skill.ghost;
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.roles.DamageType;
 import Project.skill.SkillTemplate;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -86,7 +87,7 @@ public class Skill1011 extends SkillTemplate {
             } else {
                 StringBuilder sb = new StringBuilder();
                 sb.append("对你造成").append(v).append("伤害").append(NEWLINE);
-                sb.append(GameDetailService.beaten(q2, -2, v));
+                sb.append(GameDetailService.beaten(q2, -2, v, DamageType.AD));
                 sb.append(NEWLINE);
                 sb.append(GameController.gameService.info(q2));
                 MessageTools.instance.sendMessageInGroup(sb.toString(), gid);
