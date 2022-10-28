@@ -90,7 +90,7 @@ public class GameJoinAcController {
         }
         long whos = MessageTools.instance.getAtFromString(name);
         if (whos == -1) {
-            return "支援谁？";
+            return NOT_FOUND_AT;
         } else {
             if (!GameDataBase.exist(whos)) {
                 return PLAYER_NOT_REGISTERED;

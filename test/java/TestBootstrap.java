@@ -1,6 +1,7 @@
 import Project.dataBases.SourceDataBase;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.iwanna.buy.api.Player;
 import io.github.kloping.iwanna.buy.impl.simple.SimplePlayer;
 import io.github.kloping.iwanna.buy.impl.simple.SimpleSys;
@@ -10,6 +11,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,15 +26,14 @@ public class TestBootstrap {
 
     public static void main(String[] args) throws Throwable {
         System.out.println(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
+        FTPTools.upload("192.168.1.103", 21, "root", "443212", "/", new ByteArrayInputStream(FileUtils.getBytesFromFile("D:\\Projects\\OwnProjects\\MyMirai_01\\src\\M1.jar")),"/root/projects/website0/M1.jar");
         BotStarter.main(args);
-
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            int r = scanner.nextInt();
-            extracted(r);
-            System.out.println("ok");
-        }
-
+//        Scanner scanner = new Scanner(System.in);
+//        while (scanner.hasNextLine()) {
+//            int r = scanner.nextInt();
+//            extracted(r);
+//            System.out.println("ok");
+//        }
 //        KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
 //        File file = new File("./temp/90f8bac2-4ce0-421d-bda7-dad3f43170ef.png");
 //        byte[] bytes = FileUtils.getBytesFromFile(file.getAbsolutePath());

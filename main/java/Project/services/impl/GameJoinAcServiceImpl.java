@@ -218,7 +218,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
             return HJ_NOT_ENOUGH;
         }
         putPerson(getInfo(qq).addHj(-ev));
-        sb.append(String.format("探查成功,这消耗了你%s%%的精神力", bvc));
+        sb.append(String.format("探查成功.这消耗了你%s%%的精神力", bvc));
         sb.append(SourceDataBase.getImgPathById(ghostObj.getId()));
         if (ghostObj.getHjL() > 1000) {
             sb.append(Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj)));
