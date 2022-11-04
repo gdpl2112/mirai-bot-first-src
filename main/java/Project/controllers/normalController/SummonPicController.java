@@ -295,7 +295,32 @@ public class SummonPicController {
             urlStr = MessageTools.instance.getImageUrlFromMessageString(mess);
             mess = mess.replace(MessageTools.instance.getImageIdFromMessageString(mess), "");
             if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
+                MessageTools.instance.sendMessageInGroup("请在发送要变大的图片", group.getId());
+                PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
+                    @Override
+                    public Object onReceive(long qid, long gid, String pic, Object[] objects) {
+                        if (q1 == qid) {
+                            String urlStr = null;
+                            urlStr = MessageTools.instance.getImageUrlFromMessageString(pic);
+                            int i = 6;
+                            BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
+                            BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
+                            Iterator<io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
+                            List<String> list = new LinkedList();
+                            while (iterator.hasNext() && list.size() <= i) {
+                                io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.response.List e = iterator.next();
+                                try {
+                                    String title = getTitle(e.getFromUrl());
+                                    list.add(Tool.tool.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
+                                } catch (Throwable ex) {
+                                }
+                            }
+                            MessageTools.instance.sendMessageByForward(gid,list.toArray());
+                            return "ok";
+                        }
+                        return null;
+                    }
+                });
             }
         } else {
             mess = mess.replace(q.toString(), "");

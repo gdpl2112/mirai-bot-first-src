@@ -12,9 +12,10 @@ import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.cron.CronEntity;
-import io.ktor.util.collections.ConcurrentSet;
+
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import static io.github.kloping.mirai0.Main.Resource.THREADS;
 
@@ -25,7 +26,7 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
 public class InitBeans {
     @Bean("m100")
     public Set<RunnableWithOver> m500() {
-        Set<RunnableWithOver> rs = new ConcurrentSet<>();
+        Set<RunnableWithOver> rs = new CopyOnWriteArraySet<>();
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

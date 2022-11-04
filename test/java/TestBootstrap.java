@@ -2,12 +2,7 @@ import Project.dataBases.SourceDataBase;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.iwanna.buy.api.Player;
-import io.github.kloping.iwanna.buy.impl.simple.SimplePlayer;
-import io.github.kloping.iwanna.buy.impl.simple.SimpleSys;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 
@@ -22,11 +17,10 @@ import static Project.controllers.recr.HasTimeActionController.ID2JL;
  * @author github.kloping
  */
 public class TestBootstrap {
-    private static SimpleSys sys;
 
     public static void main(String[] args) throws Throwable {
         System.out.println(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30);
-        FTPTools.upload("192.168.1.103", 21, "root", "443212", "/", new ByteArrayInputStream(FileUtils.getBytesFromFile("D:\\Projects\\OwnProjects\\MyMirai_01\\src\\M1.jar")),"/root/projects/website0/M1.jar");
+        FTPTools.upload("192.168.1.103", 21, "root", "443212", "/", new ByteArrayInputStream(FileUtils.getBytesFromFile("D:\\Projects\\OwnProjects\\MyMirai_01\\src\\M1.jar")), "/root/projects/website0/M1.jar");
         BotStarter.main(args);
 //        Scanner scanner = new Scanner(System.in);
 //        while (scanner.hasNextLine()) {
@@ -126,42 +120,5 @@ public class TestBootstrap {
     @Action(".*?\\[@me].*?")
     public Object s0(@AllMess String all) {
         return "???";
-    }
-
-    @Action("我的存款")
-    public Object s0(long qid) {
-        Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
-        Number n0 = sys.getBank().selectMoney(player);
-        if (n0 == null) n0 = 0;
-        StringBuilder sb = new StringBuilder();
-        sb.append("现金:").append(player.getMoney()).append("\n")
-                .append("银行存款:").append(n0);
-        return sb.toString();
-
-    }
-
-    @Action("存钱.+")
-    public Object s1(long qid, @AllMess String mess) {
-        Integer i = Tool.tool.getInteagerFromStr(mess);
-        if (i == null) return null;
-        Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
-        player.save(i);
-        return s0(qid);
-    }
-
-    @Action("取钱.+")
-    public Object s2(long qid, @AllMess String mess) {
-        Integer i = Tool.tool.getInteagerFromStr(mess);
-        if (i == null) return null;
-        Player player = SimplePlayer.getInstance(qid, new File(sys.basePath(), sys.playersPath()));
-        try {
-            return sys.getBank().getMoney(player, i) ? "取钱成功" : "取钱失败";
-        } finally {
-            player.getSaver().apply(player);
-        }
-    }
-
-    public static void send(Object o) {
-        Resource.BOT.getGroup(759590727L).sendMessage(o.toString());
     }
 }

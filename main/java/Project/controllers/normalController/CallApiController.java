@@ -2,7 +2,6 @@ package Project.controllers.normalController;
 
 import Project.interfaces.http_api.ApiKit9;
 import Project.interfaces.http_api.Dzzui;
-import Project.interfaces.http_api.JuiLi;
 import Project.interfaces.http_api.KlopingWeb;
 import Project.interfaces.http_api.old.ApiIyk0;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -13,8 +12,6 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.apiEntitys.BottleMessage;
-import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Data;
-import io.github.kloping.mirai0.commons.apiEntitys.jiuli.tianqi.Weather;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeDetail;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -41,8 +38,8 @@ public class CallApiController {
     public static final String S0 = "https://api.okjx.cc:3389/jx.php?url=";
     private static final String SPLIT_POINT_STR = ",";
 
-    @AutoStand
-    JuiLi juiLi;
+//    @AutoStand
+//    JuiLi juiLi;
 
     @AutoStand
     private ApiIyk0 apiIyk0;
@@ -86,25 +83,25 @@ public class CallApiController {
         name = name.replaceAll("\\s", "").isEmpty() ? "默认昵称" : name;
         return kloping.throwBottle(group.getId(), q, str, name);
     }
-
-    @Action("未来天气<.+=>ms>")
-    public String weather1(@Param("ms") String mess, Group group) {
-        Weather weather = juiLi.weather(mess);
-        if (weather.getData() == null) {
-            return weather.getMsg();
-        } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(weather.getTips()).append(NEWLINE);
-            for (Data datum : weather.getData()) {
-                sb.append(datum.getDate())
-                        .append("\n\t").append(datum.getWeather())
-                        .append("\n\t").append(datum.getHigh())
-                        .append("\n\t").append(datum.getLow())
-                        .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
-            }
-            return sb.toString().trim();
-        }
-    }
+//
+//    @Action("未来天气<.+=>ms>")
+//    public String weather1(@Param("ms") String mess, Group group) {
+//        Weather weather = juiLi.weather(mess);
+//        if (weather.getData() == null) {
+//            return weather.getMsg();
+//        } else {
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(weather.getTips()).append(NEWLINE);
+//            for (Data datum : weather.getData()) {
+//                sb.append(datum.getDate())
+//                        .append("\n\t").append(datum.getWeather())
+//                        .append("\n\t").append(datum.getHigh())
+//                        .append("\n\t").append(datum.getLow())
+//                        .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
+//            }
+//            return sb.toString().trim();
+//        }
+//    }
 
     @Action("随机头像")
     public String sjtx0(Group group, User user) {
