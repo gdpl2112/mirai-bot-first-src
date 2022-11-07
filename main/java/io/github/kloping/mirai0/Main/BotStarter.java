@@ -10,11 +10,15 @@ import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.BotFactory;
+import net.mamoe.mirai.console.MiraiConsole;
+import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
+import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.utils.BotConfiguration;
 
-import java.io.File;
+import java.nio.file.Paths;
 
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -32,19 +36,29 @@ public class BotStarter {
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b1_err.log");
         Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b1_console.log");
         setterStarterApplication(BotStarter.class);
-        Tool.tool.deleteDir(new File("./cache"));
-        Tool.tool.deleteDir(new File("./cache1"));
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
-        BotConfiguration botConfiguration = new BotConfiguration();
-        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
-                StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
-        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
-        botConfiguration.setCacheDir(new File("./cache1"));
-        botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
-        Bot bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
+//        BotConfiguration botConfiguration = new BotConfiguration();
+//        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
+//                StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
+//        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
+//        botConfiguration.setCacheDir(new File("./cache1"));
+//        botConfiguration.fileBasedDeviceInfo("./devices/device1.json");
+        MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
+        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
+        Bot bot;
+        bot = MiraiConsole.INSTANCE.addBot(abot.getQq(), abot.getPassWord(), new Function1<BotConfiguration, Unit>() {
+            @Override
+            public Unit invoke(BotConfiguration botConfiguration) {
+                botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
+                        StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
+                botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
+                return null;
+            }
+        });
+//        bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         Resource.BOT = bot;
         datePath = "./Libs";
         init();
