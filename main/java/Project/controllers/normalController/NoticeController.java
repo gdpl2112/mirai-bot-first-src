@@ -47,6 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append("11.07:解析视频音频 解析图集音频 支持抖音快手").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append("10.13:尝试修复已知bug,优化魂兽信息显示").append(NEWLINE);
         UPDATE_LOG.append("10.5 :<抽奖十连>").append(NEWLINE);
         UPDATE_LOG.append("10.1 :活动,魂兽几率掉落抢券,可用来<抽奖>限时活动,<奖池>").append(NEWLINE);

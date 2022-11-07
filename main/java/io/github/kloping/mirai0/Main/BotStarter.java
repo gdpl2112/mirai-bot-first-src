@@ -58,7 +58,6 @@ public class BotStarter {
                 return null;
             }
         });
-//        bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         Resource.BOT = bot;
         datePath = "./Libs";
         init();

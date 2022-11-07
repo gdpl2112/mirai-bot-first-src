@@ -37,7 +37,7 @@ public class PointPicController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    private static String getUrl(String url) {
+    public final static String getUrl(String url) {
         try {
             Matcher matcher = PATTERN.matcher(url);
             if (matcher.find()) {

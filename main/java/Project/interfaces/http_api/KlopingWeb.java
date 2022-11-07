@@ -58,6 +58,15 @@ public interface KlopingWeb {
     String[] parsePic(@ParamName("url") String url, @ParamName("type") @DefaultValue("ks") String type);
 
     /**
+     * 解析图音频
+     *
+     * @param url
+     * @return
+     */
+    @GetPath("/api/search/parseVoice")
+    String parsePic(@ParamName("url") String url);
+
+    /**
      * 短时天气
      *
      * @param address

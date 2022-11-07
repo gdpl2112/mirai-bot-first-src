@@ -1,8 +1,10 @@
 package Project.controllers.normalController;
 
+import Project.controllers.plugins.PointPicController;
 import Project.detailPlugin.*;
 import Project.interfaces.http_api.KlopingWeb;
 import Project.interfaces.http_api.QZone;
+import Project.interfaces.http_api.XiaoaPi;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -16,17 +18,21 @@ import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils;
+import net.mamoe.mirai.internal.utils.ExternalResourceImplByByteArray;
 import net.mamoe.mirai.message.data.Message;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
@@ -255,4 +261,25 @@ public class CallLocalApiController {
         set.remove("");
         return set.toArray();
     }
+
+    @Action("解析图集音频<.+=>str>")
+    public Object parseVoiceFromPics(@Param("str") String str) {
+        String url = PointPicController.getUrl(str);
+        return kloping.parsePic(url);
+    }
+
+    @AutoStand
+    XiaoaPi xiaoaPi;
+
+    @Action("解析视频音频<.+=>str>")
+    public Object parseVoiceFromV(Group group, @Param("str") String str) throws Exception {
+        String url = PointPicController.getUrl(str);
+        JSONObject jo = xiaoaPi.parseV(url);
+        String u0 = jo.getString("url");
+        ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
+        BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3",
+                new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
+        return null;
+    }
+
 }

@@ -3,12 +3,18 @@ package Project.detailPlugin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.mirai0.commons.apiEntitys.ShiTu.Response;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.Frame;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -63,5 +69,41 @@ public class All {
         jo0.put("data", data.get());
         json = jo.toJSONString();
         return json;
+    }
+
+    public static ByteArrayOutputStream mp42mp3(InputStream is) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        FFmpegFrameGrabber frameGrabber1 = new FFmpegFrameGrabber(is);
+        Frame frame = null;
+        FFmpegFrameRecorder recorder = null;
+        try {
+            frameGrabber1.start();
+            Random random = new Random();
+            recorder = new FFmpegFrameRecorder(baos, frameGrabber1.getAudioChannels());
+            recorder.setFormat("mp3");
+            recorder.setSampleRate(frameGrabber1.getSampleRate());
+            recorder.setTimestamp(frameGrabber1.getTimestamp());
+            recorder.setAudioQuality(0);
+            recorder.start();
+            int index = 0;
+            while (true) {
+                frame = frameGrabber1.grab();
+                if (frame == null) {
+                    System.out.println("视频处理完成");
+                    break;
+                }
+                if (frame.samples != null) {
+                    recorder.recordSamples(frame.sampleRate, frame.audioChannels, frame.samples);
+                }
+                System.out.println("帧值=" + index);
+                index++;
+            }
+            recorder.stop();
+            recorder.release();
+            frameGrabber1.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return baos;
     }
 }
