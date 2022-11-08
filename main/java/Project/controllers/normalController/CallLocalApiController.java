@@ -279,6 +279,7 @@ public class CallLocalApiController {
         ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
         BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3",
                 new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
+        MessageTools.instance.sendVoiceMessageInGroup(baos.toByteArray(),group.getId());
         return null;
     }
 
