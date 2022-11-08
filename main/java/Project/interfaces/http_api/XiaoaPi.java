@@ -1,6 +1,7 @@
 package Project.interfaces.http_api;
 
 import com.alibaba.fastjson.JSONObject;
+import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
@@ -17,5 +18,6 @@ public interface XiaoaPi {
      * @return
      */
     @GetPath("API/zs_dspjx.php")
+    @Callback("Project.detailPlugin.All.replaceDouble2normal")
     JSONObject parseV(@ParamName("url") String url);
 }

@@ -31,6 +31,12 @@ public class All {
         return JSON.parseObject(json).getJSONObject("data").getInteger("days");
     }
 
+    public static String replaceDouble2normal(String json) {
+        json = json.replaceAll("\":\\s?\"\"", "\": \"\\\\\"");
+        json = json.replaceAll("\"\"", "\\\\\"\\\"");
+        return json;
+    }
+
     public static String shiTuParse(Document document) {
         Response response = new Response();
         Element element = document.getElementsByClass("ULSxyf").get(2);
