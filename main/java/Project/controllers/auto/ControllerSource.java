@@ -13,13 +13,17 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -48,6 +52,8 @@ public class ControllerSource {
     public static FirstController firstController;
     @AutoStand
     public static GameController2 gameController2;
+    @AutoStand
+    public static CopyOnWriteArraySet<RunnableWithOver> m100;
 
     @AutoStand(id = "gson0")
     public static Gson gson0;

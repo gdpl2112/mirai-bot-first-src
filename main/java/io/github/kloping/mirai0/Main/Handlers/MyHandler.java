@@ -262,6 +262,16 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }
 
+//    @EventHandler
+//    public void onEvent(BotInvitedJoinGroupRequestEvent event) {
+//        event.accept();
+//    }
+//
+//    @EventHandler
+//    public void onEvent(NewFriendRequestEvent event) {
+//        event.accept();
+//    }
+
     /*@EventHandler
     public void onMemberNameCardModify(MemberCardChangeEvent event) {
         if (!ControllerTool.CanGroup(event.getGroup().getId())) return;

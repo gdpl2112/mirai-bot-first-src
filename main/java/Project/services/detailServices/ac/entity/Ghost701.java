@@ -1,14 +1,12 @@
 package Project.services.detailServices.ac.entity;
 
+import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
-import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
-
-import java.util.Set;
 
 import static Project.dataBases.GameDataBase.getInfo;
 
@@ -32,15 +30,13 @@ public class Ghost701 extends GhostWithGroup {
         init();
     }
 
-    public Ghost701(long hp, long att, long xp, int id, long l,  float bl) {
-        super(hp, att, xp, id, l,  bl);
+    public Ghost701(long hp, long att, long xp, int id, long l, float bl) {
+        super(hp, att, xp, id, l, bl);
         init();
     }
 
     private void init() {
-        Set<RunnableWithOver> runnable = StarterApplication.Setting.INSTANCE
-                .getContextManager().getContextEntity(Set.class, "m100");
-        runnable.add(new RunnableWithOver() {
+        ControllerSource.m100.add(new RunnableWithOver() {
             private int index = 0;
 
             @Override

@@ -210,6 +210,7 @@ public class GameDetailService {
             }
             StringBuilder sb = new StringBuilder();
             BaseInfo baseInfo = getBaseInfoFromAny(q, q2);
+            if (baseInfo == null) return NOT_IN_SELECT;
             int b1 = toPercent(v2, baseInfo.getHjL());
             b1 = b1 > MAX_SA_LOSE_HJ_B ? MAX_SA_LOSE_HJ_B : b1;
             long ov2 = percentTo(b1, baseInfo.getHj());

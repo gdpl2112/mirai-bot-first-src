@@ -30,8 +30,6 @@ public class BotStarter2 {
 
     public static void main(String[] args) throws Exception {
         long t = System.currentTimeMillis();
-        Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b2_err.log");
-        Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b2_console.log");
         abot = get(2);
         MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console2"));
         MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
@@ -50,6 +48,8 @@ public class BotStarter2 {
                 return null;
             }
         });
+        Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b2_err.log");
+        Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b2_console.log");
         BOT = bot;
         datePath = "./Libs2";
         init();

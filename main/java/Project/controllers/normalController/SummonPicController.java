@@ -295,7 +295,7 @@ public class SummonPicController {
             urlStr = MessageTools.instance.getImageUrlFromMessageString(mess);
             mess = mess.replace(MessageTools.instance.getImageIdFromMessageString(mess), "");
             if (urlStr == null) {
-                MessageTools.instance.sendMessageInGroup("请在发送要变大的图片", group.getId());
+                MessageTools.instance.sendMessageInGroup("请在发送要搜索的图片", group.getId());
                 PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
                     @Override
                     public Object onReceive(long qid, long gid, String pic, Object[] objects) {
