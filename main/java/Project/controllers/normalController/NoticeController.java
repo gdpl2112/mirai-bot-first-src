@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append("11.20:成就更新").append(NEWLINE);
         UPDATE_LOG.append("11.19:修复部分魂兽丢失bug").append(NEWLINE);
         UPDATE_LOG.append("11.07:解析视频音频 解析图集音频 支持抖音快手").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static Project.dataBases.ZongMenDataBase.qq2id;
+import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_NOT_ACHIEVED;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_RECEIVED;
@@ -534,6 +535,98 @@ public class AchievementDataBase {
             @Override
             public boolean isFinish(long qid) {
                 return Warp.getInstance(qid).getBindQ() > 0;
+            }
+        });
+        entityMap.put(21, new AchievementEntity(21) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 113;
+                int num = 3;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "激活魂技;拥有一个魂技;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return getSkillInfo(qid).size() >= 1;
+            }
+        });
+        entityMap.put(22, new AchievementEntity(22) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 113;
+                int num = 5;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "激活魂技Ⅱ;拥有三个魂技;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return getSkillInfo(qid).size() >= 3;
+            }
+        });
+        entityMap.put(23, new AchievementEntity(23) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 113;
+                int num = 7;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "激活魂技Ⅲ;拥有五个魂技;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return getSkillInfo(qid).size() >= 5;
+            }
+        });
+        entityMap.put(24, new AchievementEntity(24) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 113;
+                int num = 12;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "激活魂技Ⅳ;拥有七个魂技;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return getSkillInfo(qid).size() >= 7;
             }
         });
     }
