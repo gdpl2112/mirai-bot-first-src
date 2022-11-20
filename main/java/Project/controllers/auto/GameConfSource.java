@@ -4,6 +4,6 @@ package Project.controllers.auto;
  * @author github.kloping
  */
 public class GameConfSource {
-    public static int DELETE_MAX = 5;
+    public static int DELETE_MAX = 10;
 
 }
