@@ -26,7 +26,8 @@ public class UtilsController0 {
     String pwd1;
 
     @GetMapping("/uploadImg")
-    public String uploadImg(@RequestParam("url") String url) {
+    public String uploadImg(@RequestParam("pwd") String pwd, @RequestParam("url") String url) {
+        if (!pwd.equals(pwd1)) return "";
         try {
             Friend friend = Resource.BOT.getBot().getAsFriend();
             Image image = Contact.uploadImage(friend, new URL(url).openStream());
