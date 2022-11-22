@@ -116,19 +116,19 @@ public class GhostObj implements Serializable, BaseInfo {
         if (id <= 520) {
             int i0 = getHhByGh(getL());
             switch (i0) {
-                case 201:
+                case 201://十
                     this.id = Tool.tool.randA(501, 503);
                     return;
-                case 202:
+                case 202://百
                     this.id = Tool.tool.randA(503, 505);
                     return;
-                case 203:
+                case 203://千
                     this.id = Tool.tool.randA(505, 507);
                     return;
-                case 204:
+                case 204://万
                     this.id = Tool.tool.randA(507, 510);
                     return;
-                case 205:
+                case 205://十万
                     this.id = Tool.tool.randA(510, 514);
                     return;
                 case 206:

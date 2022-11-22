@@ -550,13 +550,12 @@ public class Tool {
     /**
      * 从from到end随机一个数
      *
-     * @param from
-     * @param end
+     * @param from can
+     * @param end  can to this
      * @return
      */
     public long randA(int from, int end) {
-        int t1 = from, t2 = end;
-        return Long.valueOf(RANDOM.nextInt(t2 - t1) + t1);
+        return Long.valueOf(RANDOM.nextInt(end - from) + from);
     }
 
     /**

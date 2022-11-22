@@ -143,7 +143,9 @@ public class MyHandler extends SimpleListenerHost {
             if (INSTANCE.getActionManager().mather(text) != null) {
                 StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
             } else {
-                event.getSender().sendMessage(EntertainmentController.otherService.talk(text));
+                if (DataBase.canSpeak(group.getId())) {
+                    event.getSender().sendMessage(EntertainmentController.otherService.talk(text));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

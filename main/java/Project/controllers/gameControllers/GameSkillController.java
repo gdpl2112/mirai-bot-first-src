@@ -47,7 +47,6 @@ public class GameSkillController {
 
     static {
         listFx.add("我的第");
-        listFx.add("魂技");
         listFx.add("魂技菜单");
         listFx.add("魂技更新");
         listFx.add("我的魂技");
@@ -66,8 +65,7 @@ public class GameSkillController {
                 "5.忘掉第(几)魂技\r\n\t" +
                 "  示例:忘掉第一魂技#需要遗忘药水"
                 + "\n6.我的魂技"
-                + "\n7.魂技更新列表"
-        ;
+                + "\n7.魂技更新列表";
     }
 
     @AutoStand
@@ -114,8 +112,8 @@ public class GameSkillController {
 
     @Action(value = "第<.+=>str>", otherName = {"释放第<.+=>str>"})
     public String use(@Param("str") String str, User qq, Group group) {
-        if (str.contains("魂技")) {
-            str = str.replace("魂技", EMPTY_STR);
+        if (str.contains(HUN_SKILL)) {
+            str = str.replace(HUN_SKILL, EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
@@ -149,18 +147,18 @@ public class GameSkillController {
                 }
             }
             Number[] ats = numbers.toArray(new Number[0]);
-//            if (getGhostObjFrom(qq.getId()) != null && ats.length == 0)
-//                ats = new Number[]{-2};
             return String.valueOf(skillService.useSkill(qq.getId(), st, ats, str, group));
         } else {
             throw new NoRunException();
         }
     }
 
+    public static final String HUN_SKILL = "魂技";
+
     @Action(value = "魂技取名<.+=>str>", otherName = {"魂技起名<.+=>str>"})
     public String setName(@Param("str") String str, User qq, Group group) {
-        if (str.contains("魂技")) {
-            str = str.replaceFirst("魂技", EMPTY_STR).replaceFirst("第", EMPTY_STR);
+        if (str.contains(HUN_SKILL)) {
+            str = str.replaceFirst(HUN_SKILL, EMPTY_STR).replaceFirst("第", EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
             s1 = s1.substring(0, 1);
             Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
@@ -173,8 +171,8 @@ public class GameSkillController {
 
     @Action("我的第<.+=>str>")
     public String getIntro(@Param("str") String str, User qq, Group group) {
-        if (str.contains("魂技")) {
-            str = str.replace("魂技", EMPTY_STR);
+        if (str.contains(HUN_SKILL)) {
+            str = str.replace(HUN_SKILL, EMPTY_STR);
             String s1 = Tool.tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replace(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
@@ -186,9 +184,9 @@ public class GameSkillController {
 
     @Action("忘掉第<.+=>name>")
     public String forget(@Param("name") String str, User user) {
-        if (str.contains("魂技")) {
+        if (str.contains(HUN_SKILL)) {
             try {
-                str = str.replaceFirst("魂技", EMPTY_STR);
+                str = str.replaceFirst(HUN_SKILL, EMPTY_STR);
                 String s1 = Tool.tool.findNumberZh(str);
                 Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
                 str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
