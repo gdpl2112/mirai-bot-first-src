@@ -1,6 +1,9 @@
 package Project.services.detailServices.tasks;
 
+import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask1002;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
 
@@ -45,5 +48,23 @@ public class Task1002 extends Task {
 
         MessageTools.instance.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
         destroy();
+    }
+
+    @Override
+    public String getIntro() {
+        return "每周任务:进入列表中所有活动,并击败每个活动中的一只魂兽";
+    }
+
+    @Override
+    public String getFinish() {
+        return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽 完成\n奖励随机物品";
+    }
+
+    @Override
+    public Receiver registrationReceiver() {
+        Receiver receiver = null;
+        GhostLostBroadcast.INSTANCE.add(receiver
+                = new ReceiverWithTask1002(this));
+        return receiver;
     }
 }

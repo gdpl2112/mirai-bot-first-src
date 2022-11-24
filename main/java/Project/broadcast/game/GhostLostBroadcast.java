@@ -4,7 +4,6 @@ import Project.broadcast.Broadcast;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -15,7 +14,7 @@ import java.util.Set;
 public class GhostLostBroadcast extends Broadcast {
     public static final GhostLostBroadcast INSTANCE = new GhostLostBroadcast();
     private static int index = 0;
-    public Set<Runnable> AfterRunnable = new LinkedHashSet<>();
+    public Set<Runnable> afterRunnable = new LinkedHashSet<>();
 
     public GhostLostBroadcast() {
         super("GhostLostBroadcast");
@@ -41,9 +40,9 @@ public class GhostLostBroadcast extends Broadcast {
     }
 
     public synchronized void after() {
-        if (AfterRunnable.isEmpty())
+        if (afterRunnable.isEmpty())
             return;
-        Iterator<Runnable> runnableIterator = AfterRunnable.iterator();
+        Iterator<Runnable> runnableIterator = afterRunnable.iterator();
         while (runnableIterator.hasNext()) {
             runnableIterator.next().run();
             runnableIterator.remove();

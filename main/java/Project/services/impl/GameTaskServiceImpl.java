@@ -2,7 +2,6 @@ package Project.services.impl;
 
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
-import Project.services.detailServices.TaskDetailService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.Warp;
@@ -33,7 +32,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         Task task = getTask(id);
         task.setTaskId(id);
         task.setDeadline(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
-        task.setType(Task.Type.prentice);
+        task.setType(Task.Type.PRENTICE);
         task.setHost(q);
         task.getTasker().add(warp.getMaster().longValue());
         task.setUuid(UUID.randomUUID() + "-task.json");
@@ -42,7 +41,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         taskPoint.addPrenticeIndex().apply();
         StringBuilder sb = new StringBuilder();
         task.save();
-        sb.append(TaskDetailService.getIntro(task));
+        sb.append(task.getIntro());
         sb.append("\r\n时限:").append(Tool.tool.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();
@@ -60,7 +59,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         Task task = getTask(id);
         task.setTaskId(id);
         task.setDeadline((System.currentTimeMillis() + (1000 * 60 * 60 * 24)));
-        task.setType(Task.Type.week);
+        task.setType(Task.Type.WEEK);
         task.setHost(q);
         task.setUuid(UUID.randomUUID() + "-task.json");
         task.setFromG(group.getId());
@@ -68,7 +67,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         task.save();
         taskPoint.addNormalIndex().apply();
         StringBuilder sb = new StringBuilder();
-        sb.append(TaskDetailService.getIntro(task));
+        sb.append(task.getIntro());
         sb.append("\r\n时限:").append( Tool.tool.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();

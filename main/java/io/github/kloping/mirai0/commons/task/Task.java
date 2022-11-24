@@ -21,33 +21,61 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Data
 @Accessors(chain = true)
-public class Task {
-    public static final List<Runnable> taskRunnable = new LinkedList<>();
+public abstract class Task {
+    public static final List<Runnable> TASK_RUNNABLE = new LinkedList<>();
 
     static {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                taskRunnable.forEach(r -> THREADS.submit(r));
+                TASK_RUNNABLE.forEach(r -> THREADS.submit(r));
             }
         }, 15 * 1000, 10 * 60 * 1000);
     }
 
+    /**
+     * 任务被动接受者
+     */
     private Set<Long> tasker = new LinkedHashSet<>();
+    /**
+     * 任务主动接受者
+     */
     private Long host = -1L;
+    /**
+     * 群id
+     */
     private Long fromG = -1L;
+    /**
+     * 限时 时间戳
+     */
     private Long deadline = System.currentTimeMillis();
-    private Type type = Type.normal;
+    private Type type = Type.NORMAL;
+    /**
+     * 任务ID
+     */
     private Integer taskId = -1;
+    /**
+     * 任务状态
+     */
     private Integer state = -1;
+    /**
+     * 任务UID
+     */
     private String uuid = "";
+    /**
+     * 任务监听用来在广播中注册服务判断任务是否完成
+     */
     @JSONField(serialize = false, deserialize = false)
     private Receiver receiver;
+    /**
+     * 超时判断
+     */
     @JSONField(serialize = false, deserialize = false)
     private Runnable runnable;
 
+
     public Task() {
-        taskRunnable.add(runnable = new Runnable() {
+        TASK_RUNNABLE.add(runnable = new Runnable() {
             @Override
             public void run() {
                 if (System.currentTimeMillis() > getDeadline()) {
@@ -74,7 +102,7 @@ public class Task {
     public void destroy() {
         Broadcast.receivers.remove(getReceiver());
         deleteTask(Task.this);
-        taskRunnable.remove(this.runnable);
+        TASK_RUNNABLE.remove(this.runnable);
     }
 
     public void save() {
@@ -86,7 +114,28 @@ public class Task {
         FileInitializeValue.putValues(file.getAbsolutePath(), this, true);
     }
 
+    /**
+     * 获取任务介绍
+     *
+     * @return
+     */
+    public abstract String getIntro();
+
+    /**
+     * 获取任务完成tips
+     *
+     * @return
+     */
+    public abstract String getFinish();
+
+    /**
+     * 获取接收器
+     *
+     * @return
+     */
+    public abstract Receiver registrationReceiver();
+
     public static enum Type {
-        week, prentice, normal
+        WEEK, PRENTICE, NORMAL
     }
 }

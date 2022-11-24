@@ -1,10 +1,14 @@
 package Project.services.detailServices.tasks;
 
+import Project.broadcast.game.GhostLostBroadcast;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask1001;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import static Project.dataBases.GameDataBase.getNameById;
 import static Project.dataBases.GameTaskDatabase.CD1;
 
 /**
@@ -33,5 +37,23 @@ public class Task1001 extends Task {
 
         MessageTools.instance.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
         destroy();
+    }
+
+    @Override
+    public String getIntro() {
+        return "每周任务:击杀一只:" + getNameById(getNeedId());
+    }
+
+    @Override
+    public String getFinish() {
+        return "每周任务:\n以指定方式击杀魂兽 完成\n奖励随机物品";
+    }
+
+    @Override
+    public Receiver registrationReceiver() {
+        Receiver receiver = null;
+        GhostLostBroadcast.INSTANCE.add(receiver
+                = new ReceiverWithTask1001(this));
+        return receiver;
     }
 }

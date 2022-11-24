@@ -1,14 +1,12 @@
 package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.services.detailServices.TaskDetailService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.task.Task;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import static Project.dataBases.GameDataBase.addToBgs;
@@ -19,9 +17,9 @@ import static Project.dataBases.GameTaskDatabase.deleteTask;
  *
  * @author github-kloping
  */
-public class GhostLostReceiverWithTask0
+public class ReceiverWithTask0
         extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task> {
-    public GhostLostReceiverWithTask0(Task task) {
+    public ReceiverWithTask0(Task task) {
         super(task);
     }
 
@@ -36,12 +34,12 @@ public class GhostLostReceiverWithTask0
                 for (Long with : withs) {
                     if (task.getTasker().contains(with.longValue())) {
                         deleteTask(task);
-                        MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
+                        MessageTools.instance.sendMessageInGroupWithAt(task.getFinish()
                                 , task.getFromG().longValue(), task.getHost());
                         addToBgs(who, 1601, ObjType.got);
                         addToBgs(with.longValue(), 1601, ObjType.got);
                         GInfo.getInstance(who).addFtc().apply();
-                        GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
+                        GhostLostBroadcast.INSTANCE.afterRunnable.add(() -> task.destroy());
                     }
                 }
             }

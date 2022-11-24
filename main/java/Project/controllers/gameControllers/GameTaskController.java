@@ -4,7 +4,6 @@ import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
-import Project.services.detailServices.TaskDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -75,7 +74,7 @@ public class GameTaskController {
         int i = 1;
         try {
             for (Task task : GameTaskDatabase.TASKS.get(q)) {
-                sb.append(i++).append(".").append(TaskDetailService.getIntro(task));
+                sb.append(i++).append(".").append(task.getIntro());
                 sb.append("\r\n\t  主:").append(task.getHost()).append("\r\n");
             }
             return sb.toString().isEmpty() ? "暂无任务!" : sb.toString();

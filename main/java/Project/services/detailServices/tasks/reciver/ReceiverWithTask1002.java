@@ -2,7 +2,6 @@ package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.SourceDataBase;
-import Project.services.detailServices.TaskDetailService;
 import Project.services.detailServices.tasks.Task1002;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GInfo;
@@ -10,7 +9,6 @@ import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import static Project.dataBases.GameDataBase.addToBgs;
@@ -21,7 +19,7 @@ import static Project.dataBases.GameTaskDatabase.deleteTask;
  *
  * @author github-kloping
  */
-public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1002> {
+public class ReceiverWithTask1002 extends GhostLostBroadcast.AbstractGhostLostReceiverWith<Task1002> {
     public static final Integer[] T_1002_OBJS = new Integer[]{
             115,
             116,
@@ -32,7 +30,7 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
             1521,
     };
 
-    public GhostLostReceiverWithTask1002(Task1002 task1002) {
+    public ReceiverWithTask1002(Task1002 task1002) {
         super(task1002);
     }
 
@@ -53,11 +51,12 @@ public class GhostLostReceiverWithTask1002 extends GhostLostBroadcast.AbstractGh
         if (task.isFinish()) {
             deleteTask(task);
             int id = getRandObj1002();
-            MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task) + SourceDataBase.getImgPathById(id)
+            MessageTools.instance.sendMessageInGroupWithAt(
+                    task.getFinish() + SourceDataBase.getImgPathById(id)
                     , task.getFromG().longValue(), task.getHost());
             addToBgs(who, id, ObjType.got);
             GInfo.getInstance(who).addFtc().apply();
-            GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> {
+            GhostLostBroadcast.INSTANCE.afterRunnable.add(() -> {
                 task.destroy();
             });
         }

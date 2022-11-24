@@ -2,7 +2,6 @@ package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
-import Project.services.detailServices.TaskDetailService;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -16,9 +15,9 @@ import static Project.dataBases.GameTaskDatabase.deleteTask;
  *
  * @author github-kloping
  */
-public class GhostLostReceiverWithTask1
+public class ReceiverWithTask1
         extends TrialChallengeEndBroadcast.AbstractTrialChallengeReceiverWith<Task> {
-    public GhostLostReceiverWithTask1(Task task) {
+    public ReceiverWithTask1(Task task) {
         super(task);
     }
 
@@ -31,12 +30,12 @@ public class GhostLostReceiverWithTask1
         if (q2 == task.getHost().longValue()) {
             if (task.getTasker().contains(q1)) {
                 deleteTask(task);
-                MessageTools.instance.sendMessageInGroupWithAt(TaskDetailService.getFinish(task)
+                MessageTools.instance.sendMessageInGroupWithAt(task.getFinish()
                         , task.getFromG().longValue(), task.getHost());
                 addToBgs(q1, 1601, ObjType.got);
                 addToBgs(q2, 1601, ObjType.got);
                 GInfo.getInstance(q1).addFtc().apply();
-                GhostLostBroadcast.INSTANCE.AfterRunnable.add(() -> task.destroy());
+                GhostLostBroadcast.INSTANCE.afterRunnable.add(() -> task.destroy());
             }
         }
     }

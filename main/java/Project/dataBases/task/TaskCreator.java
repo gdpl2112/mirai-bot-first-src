@@ -1,13 +1,11 @@
 package Project.dataBases.task;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.services.detailServices.tasks.Task1000;
-import Project.services.detailServices.tasks.Task1001;
-import Project.services.detailServices.tasks.Task1002;
-import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask0;
-import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1000;
-import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1001;
-import Project.services.detailServices.tasks.reciver.GhostLostReceiverWithTask1002;
+import Project.services.detailServices.tasks.*;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask0;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask1000;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask1001;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask1002;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -31,7 +29,9 @@ public class TaskCreator {
 
     public static <T extends Task> T getTask(int id) {
         if (id == 0) {
-            return (T) new Task();
+            return (T) new Task0();
+        } else if (id == 1) {
+            return (T) new Task1();
         } else if (id == 1000) {
             return (T) new Task1000();
         } else if (id == 1001) {
@@ -42,50 +42,7 @@ public class TaskCreator {
         return null;
     }
 
-    public static Receiver create(final Task task) {
-        try {
-            int id = task.getTaskId();
-            Method method = TaskCreator.class.getDeclaredMethod("task" + id, Task.class);
-            method.setAccessible(true);
-            return (Receiver) method.invoke(null, task);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static synchronized Receiver task0(final Task taskN) {
-        Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver = new GhostLostReceiverWithTask0(taskN));
-        return receiver;
-    }
-
     public static int getRandObj1000() {
         return Tool.tool.getRandT(T_1000_OBJS);
     }
-
-    public static Receiver task1000(Task task) {
-        if (!(task instanceof Task1000)) return null;
-        Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1000((Task1000) task));
-        return receiver;
-    }
-
-    public static synchronized Receiver task1001(Task task) {
-        if (!(task instanceof Task1001)) return null;
-        Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1001((Task1001) task));
-        return receiver;
-    }
-
-    public static synchronized Receiver task1002(Task task) {
-        if (!(task instanceof Task1002)) return null;
-        Receiver receiver = null;
-        GhostLostBroadcast.INSTANCE.add(receiver
-                = new GhostLostReceiverWithTask1002((Task1002) task));
-        return receiver;
-    }
-
 }
