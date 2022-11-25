@@ -1,7 +1,7 @@
 package Project.services.player;
 
 import Project.controllers.auto.TimerController;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.mirai0.commons.GhostObj;
 
 import java.util.HashMap;

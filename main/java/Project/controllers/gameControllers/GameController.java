@@ -38,18 +38,18 @@ public class GameController {
 
     public static final float MAX_XP = 1.5f;
     public static final Map<Long, Integer> DELETE_C = new ConcurrentHashMap<>();
-    private static List<String> listFx = new ArrayList<>();
+    public static final List<String> LIST_FX = new ArrayList<>();
     private static String COM13 = "";
 
     static {
-        listFx.add("购买金魂币");
-        listFx.add("信息");
-        listFx.add("觉醒");
-        listFx.add("背包");
-        listFx.add("等级排行");
-        listFx.add("排行");
-        listFx.add("称号");
-        listFx.add("转生");
+        LIST_FX.add("购买金魂币");
+        LIST_FX.add("信息");
+        LIST_FX.add("觉醒");
+        LIST_FX.add("背包");
+        LIST_FX.add("等级排行");
+        LIST_FX.add("排行");
+        LIST_FX.add("称号");
+        LIST_FX.add("转生");
     }
 
     static {
@@ -138,7 +138,7 @@ public class GameController {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
+            if (Tool.tool.EveListStartWith(LIST_FX, mess) == -1) {
                 MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }

@@ -3,6 +3,7 @@ package Project.services.detailServices;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.controllers.gameControllers.GameConditionController;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -19,9 +20,10 @@ import java.util.Map;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
-import static Project.services.detailServices.GameJoinDetailService.attGho;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
+import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 
 /**
@@ -61,9 +63,11 @@ public class GameWeaDetailService {
 
     public synchronized String useAq(List<String> lps, long who, String name) {
         if (WEAPONS.isEmpty()) initAqs();
-        if (!WEAPONS.contains(name)) return "系统未找到 此暗器";
+        if (!WEAPONS.contains(name)) return ERR_TIPS;
+        if (GameConditionController.CONDITIONING.containsKey(who))
+            return "遇境中...";
         int id = NAME_2_ID_MAPS.get(name);
-        if (!exitsO(id, who)) return "你没有 " + name + "或已损坏";
+        if (!exitsO(id, who)) return "你没有'" + name + "'或已损坏";
         long at = getInfo(who).getAk1();
         if (at > System.currentTimeMillis()) {
             return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));

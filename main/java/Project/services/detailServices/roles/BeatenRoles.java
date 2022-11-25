@@ -3,7 +3,7 @@ package Project.services.detailServices.roles;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.services.detailServices.ac.entity.Ghost702;
 import io.github.kloping.mirai0.commons.GhostObj;

@@ -9,6 +9,7 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameBoneService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.*;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;

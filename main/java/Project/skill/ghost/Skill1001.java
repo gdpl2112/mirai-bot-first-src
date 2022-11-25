@@ -2,7 +2,7 @@ package Project.skill.ghost;
 
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;

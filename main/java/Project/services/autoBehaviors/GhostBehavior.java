@@ -2,7 +2,7 @@ package Project.services.autoBehaviors;
 
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.skill.SkillFactory;
 import Project.skill.SkillTemplate;
 import io.github.kloping.date.FrameUtils;

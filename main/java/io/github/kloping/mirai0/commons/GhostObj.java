@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.commons;
 
 
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.v1.TagManagers;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static Project.dataBases.GameDataBase.getNameById;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -62,6 +62,7 @@ public class GhostObj implements Serializable, BaseInfo {
     private String name;
     @Nullable
     private Set<Long> withs = new HashSet<>();
+    public Boolean canGet = true;
     private long whoMeet = -1;
     private Integer nc = 0;
     private String myTag = "";
@@ -80,6 +81,10 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public GhostObj(long hp, long att, long id, long l) {
+        this(hp, att, id, l, true);
+    }
+
+    public GhostObj(long hp, long att, long id, long l, boolean bal) {
         this.maxHp = this.hp = hp;
         this.att = att;
         this.xp = Tool.tool.randA((int) (1f * l), (int) (4 * l));
@@ -90,6 +95,8 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
+        if (bal)
+            balance1();
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, float bl) {
@@ -180,6 +187,10 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static <T extends GhostObj> T create(int level, int id) {
+        return create(level, id, true);
+    }
+
+    public static <T extends GhostObj> T create(int level, int id, boolean bal) {
         if (id > 700) {
             switch (id) {
                 case 701:
@@ -201,7 +212,9 @@ public class GhostObj implements Serializable, BaseInfo {
                     return null;
             }
         } else {
-            GhostObj ghostObj = new GhostObj(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level), id, Tool.tool.randA(level + 1, Lmax(level)));
+            GhostObj ghostObj = new GhostObj(Tool.tool.randA(4 * level, 7 * level),
+                    Tool.tool.randA(2 * level, 8 * level), id,
+                    Tool.tool.randA(level + 1, Lmax(level)), bal);
             return (T) ghostObj;
         }
     }

@@ -5,6 +5,7 @@ import Project.dataBases.DataBase;
 import Project.interfaces.http_api.Fuyhi;
 import Project.interfaces.http_api.KingApi;
 import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.http_api.XiaoQianDTianYi;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.FrameUtils;
@@ -32,6 +33,7 @@ public class Controller0 {
         all.add(291841860L);
         all.add(3597552450L);
         all.add(392801250L);
+        all.add(3565754729L);
     }
 
     @Before
@@ -57,7 +59,7 @@ public class Controller0 {
     }
 
     @AutoStand
-    public KingApi api;
+    public XiaoQianDTianYi api;
 
     public Map<Long, PayOutM> longPayOutMap = new ConcurrentHashMap<>();
 

@@ -3,6 +3,7 @@ package Project.services.detailServices;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.GameDataBase;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
@@ -10,7 +11,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.services.detailServices.GameDetailService.beaten;
 import static Project.services.detailServices.GameDetailService.onAtt;
-import static Project.services.detailServices.GameJoinDetailService.attGho;
+import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATTACK_TIPS0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 

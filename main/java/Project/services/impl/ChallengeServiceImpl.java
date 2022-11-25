@@ -11,7 +11,7 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ChallengeDetailService;
 import Project.services.detailServices.GameBoneDetailService;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -34,8 +34,8 @@ import java.util.Map;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ChallengeDetailService.TEMP_PERSON_INFOS;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
-import static Project.services.detailServices.GameJoinDetailService.willTips;
+import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**

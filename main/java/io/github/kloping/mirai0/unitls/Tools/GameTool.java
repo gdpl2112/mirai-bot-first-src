@@ -3,7 +3,7 @@ package io.github.kloping.mirai0.unitls.Tools;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 
@@ -336,7 +336,6 @@ public class GameTool {
         if (id < 503) return "十";
         else if (id < 505) return "百";
         else if (id < 507) return "千";
-        else if (id < 510) return "千";
         else if (id < 510) return "万";
         else if (id < 514) return "十万";
         else if (id < 518) return "百万";

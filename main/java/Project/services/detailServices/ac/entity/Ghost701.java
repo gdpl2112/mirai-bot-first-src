@@ -2,7 +2,7 @@ package Project.services.detailServices.ac.entity;
 
 import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.GameDetailService;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;

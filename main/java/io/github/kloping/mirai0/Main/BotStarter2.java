@@ -33,12 +33,6 @@ public class BotStarter2 {
         abot = get(2);
         MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console2"));
         MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
-//        BotConfiguration botConfiguration = new BotConfiguration();
-//        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
-//        botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
-//        botConfiguration.setCacheDir(new File("./cache"));
-//        botConfiguration.fileBasedDeviceInfo("./devices/device2.json");
-//        bot = BotFactory.INSTANCE.newBot(abot.getQq(), abot.getPassWord(), botConfiguration);
         Bot bot;
         bot = MiraiConsole.INSTANCE.addBot(abot.getQq(), abot.getPassWord(), new Function1<BotConfiguration, Unit>() {
             @Override

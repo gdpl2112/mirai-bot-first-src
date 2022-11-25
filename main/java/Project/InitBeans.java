@@ -25,7 +25,7 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
 @Entity
 public class InitBeans {
     @Bean("m100")
-    public Set<RunnableWithOver> m500() {
+    public Set<RunnableWithOver> m100() {
         Set<RunnableWithOver> rs = new CopyOnWriteArraySet<>();
         new Timer().schedule(new TimerTask() {
             @Override
@@ -44,6 +44,29 @@ public class InitBeans {
                 }
             }
         }, 100, 100);
+        return rs;
+    }
+
+    @Bean("m3000")
+    public Set<RunnableWithOver> m300() {
+        Set<RunnableWithOver> rs = new CopyOnWriteArraySet<>();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    rs.forEach(r -> THREADS.submit(r));
+                    Iterator<RunnableWithOver> iterator = rs.iterator();
+                    while (iterator.hasNext()) {
+                        RunnableWithOver o = iterator.next();
+                        if (o == null || o.over()) {
+                            rs.remove(o);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 3000, 3000);
         return rs;
     }
 

@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 

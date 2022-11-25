@@ -22,7 +22,7 @@ import java.util.List;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;

@@ -51,6 +51,7 @@ public class GameDataBase {
     }
 
     private static void initName() {
+        ID_2_NAME_MAPS.put(0, "武魂晶元");
         ID_2_NAME_MAPS.put(1, "蓝电霸王龙");
         ID_2_NAME_MAPS.put(2, "昊天锤");
         ID_2_NAME_MAPS.put(3, "六翼天使");
@@ -198,6 +199,7 @@ public class GameDataBase {
     }
 
     private static void initIntro() {
+        ID_2_INTRO_MAPS.put(0, "武魂晶元,功能后续更新.");
         ID_2_INTRO_MAPS.put(201, "十年魂环,使用=>吸收魂环 十年魂环");
         ID_2_INTRO_MAPS.put(202, "百年魂环,使用=>吸收魂环 百年魂环");
         ID_2_INTRO_MAPS.put(203, "千年魂环,使用=>吸收魂环 千年魂环");

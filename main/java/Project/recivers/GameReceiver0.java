@@ -2,6 +2,7 @@ package Project.recivers;
 
 import Project.broadcast.game.*;
 import Project.broadcast.normal.MemberJoinedBroadcast;
+import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -11,7 +12,6 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import static Project.controllers.auto.ControllerSource.entertainmentController3;
@@ -84,7 +84,8 @@ public class GameReceiver0 {
                 switch (type) {
                     case att:
                         if (from <= 0) {
-                            lost(who);
+                            if (!GameConditionController.CONDITIONING.containsKey(who))
+                                lost(who);
                         }
                         GInfo.getInstance(who).addDiedc().apply();
                         break;

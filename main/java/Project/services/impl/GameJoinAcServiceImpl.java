@@ -2,11 +2,12 @@ package Project.services.impl;
 
 
 import Project.controllers.gameControllers.ChallengeController;
+import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.services.autoBehaviors.GhostBehavior;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
@@ -24,8 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
-import static Project.services.detailServices.GameJoinDetailService.getGhostObjFrom;
-import static Project.services.detailServices.GameJoinDetailService.saveGhostObjIn;
+import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
+import static Project.services.detailServices.ac.GameJoinDetailService.saveGhostObjIn;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
@@ -70,6 +71,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
     @Override
     public String join(long who, String name, Group group) {
+        if (GameConditionController.CONDITIONING.containsKey(who))
+            return "遇境中...";
         if (System.currentTimeMillis() < getK2(who)) {
             return String.format(ACTIVITY_WAIT_TIPS, Tool.tool.getTimeTips(getK2(who)));
         }
@@ -117,6 +120,8 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
     @Override
     public String getHelp(long who) {
+        if (GameConditionController.CONDITIONING.containsKey(who))
+            return "遇境中...";
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getState() != GhostObj.HELPING) {
@@ -222,7 +227,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         sb.append(SourceDataBase.getImgPathById(ghostObj.getId()));
         if (ghostObj.getHjL() > 1000) {
             sb.append(Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj)));
-        }else{
+        } else {
             sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
                     .append(getImageFromStrings(
                             "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),

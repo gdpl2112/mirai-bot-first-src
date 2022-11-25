@@ -1,14 +1,16 @@
-package Project.services.detailServices;
+package Project.services.detailServices.ac;
 
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
+import Project.broadcast.game.SelectTaoPaoBroadcast;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameService;
-import Project.services.detailServices.ac.JoinAcService;
+import Project.services.detailServices.GameDetailService;
+import Project.services.detailServices.ZongDetailService;
 import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.*;
 import Project.services.player.PlayerBehavioralManager;
@@ -119,7 +121,7 @@ public class GameJoinDetailService {
                     else GameJoinDetailService.saveGhostObjIn(who, ghostObj);
                 } else {
                     sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
-                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                    sb.append(willGet(ghostObj, who, ghostObj.getId()));
                     sb.append(willGetXp(ghostObj, who, isHelp));
                     ZongDetailService.onKilled(who, ghostObj.getXp());
                     if (isHelp) {
@@ -243,7 +245,9 @@ public class GameJoinDetailService {
         return getGhostObjFrom(qq);
     }
 
-    public static String willGet(int level, long who, int id) {
+    public static String willGet(GhostObj ghostObj, long who, int id) {
+        if (!ghostObj.canGet) return "";
+        int level = ghostObj.getLevel();
         onKilled(who);
         if (RANDOM.nextInt(20) == 0) {
             int sid = 120;
@@ -287,6 +291,7 @@ public class GameJoinDetailService {
     }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
+        if (!ghostObj.canGet) return "";
         long v = ghostObj.getXp();
         long mxv = getInfo(who).getXpL();
         v = v > mxv / MAX_F ? mxv / MAX_F : v;
@@ -383,15 +388,7 @@ public class GameJoinDetailService {
     }
 
     public <T extends GhostObj> T summonFor(String who, int id) {
-        PersonInfo personInfo = getInfo(who);
-        float bl = getAllHHBL(Long.valueOf(who));
-        GhostObj ghostObj = GhostObj.create(
-                (long) (personInfo.att() * bl),
-                personInfo.getHpL(),
-                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
-                id,
-                -1, bl, true);
-        return (T) ghostObj;
+        return summonFor(who, id, true);
     }
 
     public <T extends GhostObj> T summonFor(String who, int id, boolean balance) {
@@ -441,6 +438,7 @@ public class GameJoinDetailService {
             ghostObj.dispose();
             GameJoinDetailService.saveGhostObjIn(who, null);
         }
+        SelectTaoPaoBroadcast.INSTANCE.broadcast(who, ghostObj);
         return "逃跑完成";
     }
 
@@ -468,7 +466,7 @@ public class GameJoinDetailService {
                 long oNow = at1;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {
-                    RoleResponse response = r.call(sb, -2, who, at1, oNow,DamageType.AD, ghostObj, maps);
+                    RoleResponse response = r.call(sb, -2, who, at1, oNow, DamageType.AD, ghostObj, maps);
                     if (response != null) {
                         oNow = response.getNowV();
                         if (!response.getArgs().isEmpty()) maps.putAll(response.getArgs());
@@ -478,14 +476,14 @@ public class GameJoinDetailService {
                 if (oNow > 0) {
                     ghostObj.updateHp(-oNow, getInfo(who));
                     sb.append("你对").append(getNameById(ghostObj.getId())).append("造成").append(oNow).append("点伤害");
-                    sb.append(GameDetailService.onAtt(who, -2, oNow,DamageType.AD));
+                    sb.append(GameDetailService.onAtt(who, -2, oNow, DamageType.AD));
                 }
             } else {
                 sb.append(HL_NOT_ENOUGH_TIPS0);
             }
             sb.append(NEWLINE);
             sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
-                    .append(GameDetailService.beaten(who, -2, at2,DamageType.AD));
+                    .append(GameDetailService.beaten(who, -2, at2, DamageType.AD));
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {
@@ -497,7 +495,7 @@ public class GameJoinDetailService {
                 } else {
                     showI = true;
                     sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
-                    sb.append(willGet(ghostObj.getL(), who, ghostObj.getId()));
+                    sb.append(willGet(ghostObj, who, ghostObj.getId()));
                     sb.append(willGetXp(ghostObj, who, isHelp));
                     ZongDetailService.onKilled(who, ghostObj.getXp());
                     if (isHelp) {

@@ -1,6 +1,6 @@
 package Project.skill.ghost;
 
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;

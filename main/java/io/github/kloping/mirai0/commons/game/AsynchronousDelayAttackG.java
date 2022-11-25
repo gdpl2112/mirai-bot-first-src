@@ -6,7 +6,7 @@ import io.github.kloping.mirai0.Main.ITools.MessageTools;
 
 import java.util.concurrent.ScheduledFuture;
 
-import static Project.services.detailServices.GameJoinDetailService.attGho;
+import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
 
 /**
  * @author github.kloping

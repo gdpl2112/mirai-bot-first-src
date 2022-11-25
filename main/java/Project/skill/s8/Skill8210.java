@@ -3,7 +3,7 @@ package Project.skill.s8;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.controllers.auto.ControllerSource;
-import Project.services.detailServices.GameJoinDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;

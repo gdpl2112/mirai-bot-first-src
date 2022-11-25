@@ -4,7 +4,6 @@ import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.GameDetailService;
-import Project.services.detailServices.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -15,7 +14,7 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.dataBases.GameDataBase.*;
-import static Project.services.detailServices.GameJoinDetailService.willTips;
+import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**

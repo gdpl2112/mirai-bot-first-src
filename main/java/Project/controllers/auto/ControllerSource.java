@@ -20,9 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
@@ -52,8 +50,13 @@ public class ControllerSource {
     public static FirstController firstController;
     @AutoStand
     public static GameController2 gameController2;
-    @AutoStand
+
+    @AutoStand(id = "m100")
     public static CopyOnWriteArraySet<RunnableWithOver> m100;
+
+    @AutoStand(id = "m3000")
+    public static CopyOnWriteArraySet<RunnableWithOver> m3000;
+
 
     @AutoStand(id = "gson0")
     public static Gson gson0;
