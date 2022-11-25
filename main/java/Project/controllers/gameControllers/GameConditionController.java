@@ -9,6 +9,7 @@ import Project.interfaces.http_api.KlopingWeb;
 import Project.services.detailServices.condition.GameConditionDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
@@ -38,6 +39,7 @@ public class GameConditionController {
 
     @Before
     public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+        if (!BotStarter.test) throw new NoRunException();
         gameController.before(qq, group, mess);
     }
 
