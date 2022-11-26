@@ -66,10 +66,12 @@ public class GameConditionDetailService {
                 @Override
                 public void onReceive(long qid, int jid, int st, SkillInfo info) {
                     try {
-                        if (Tool.tool.RANDOM.nextInt(4) == 0) {
-                            info.setTime(1L);
-                            long gid = MemberTools.getRecentSpeechesGid(qid);
-                            MessageTools.instance.sendMessageInGroupWithAt(TIPS0, gid, qid);
+                        if (P_OBJS0.contains(qid)) {
+                            if (Tool.tool.RANDOM.nextInt(4) == 0) {
+                                info.setTime(1L);
+                                long gid = MemberTools.getRecentSpeechesGid(qid);
+                                MessageTools.instance.sendMessageInGroupWithAt(TIPS0, gid, qid);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

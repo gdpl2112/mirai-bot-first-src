@@ -82,6 +82,8 @@ public class GameConditionController {
             PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
                 @Override
                 public void onReceive(long who, long from, LostType type) {
+                    if (!CONDITIONING.containsKey(who))
+                        return;
                     CONDITIONING.remove(who);
                     long gid = MemberTools.getRecentSpeechesGid(who);
                     MessageTools.instance.sendMessageInGroupWithAt("挑战失败", gid, who);
@@ -90,6 +92,8 @@ public class GameConditionController {
             SelectTaoPaoBroadcast.INSTANCE.add(new SelectTaoPaoBroadcast.SelectTaoPaoReceiver() {
                 @Override
                 public boolean onReceive(long q1, GhostObj ghostObj) {
+                    if (!CONDITIONING.containsKey(q1))
+                        return false;
                     CONDITIONING.remove(q1);
                     long gid = MemberTools.getRecentSpeechesGid(q1);
                     MessageTools.instance.sendMessageInGroupWithAt("挑战失败", gid, q1);

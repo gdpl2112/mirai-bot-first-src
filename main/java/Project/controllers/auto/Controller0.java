@@ -41,6 +41,8 @@ public class Controller0 {
         if (!all.contains(Resource.BOT.getId())) {
             throw new NoRunException("not open");
         }
+        if (!DataBase.canBack(group.getId()))
+            throw new NoRunException("not open");
     }
 
     private static final Long BOT_ID = 930204019L;
