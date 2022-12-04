@@ -56,12 +56,12 @@ public class GameConditionController {
                     if (!CONDITIONING.containsKey(who))
                         return;
                     int i = CONDITIONING.get(who);
-                    if (i >= 3) {
+                    if (i == 3) {
                         CONDITIONING.remove(who);
                         long gid = MemberTools.getRecentSpeechesGid(who);
                         MessageTools.instance.sendMessageInGroupWithAt("挑战成功", gid, who);
                         String iv = klopingWeb.get(String.valueOf(who), GameConditionDetailService.PWD);
-                        Integer c = Integer.valueOf(i);
+                        Integer c = Integer.valueOf(iv);
                         if (c >= 3) {
                             MessageTools.instance.sendMessageInGroupWithAt("奖励上限", gid, who);
                         } else {
@@ -70,11 +70,12 @@ public class GameConditionController {
                                     SourceDataBase.getImgPathById(0), gid, who);
                         }
                     } else {
+                        i = i + 1;
                         PersonInfo pInfo = getInfo(who);
                         long v = NumberUtils.percentTo(40, pInfo.getHpL());
                         pInfo.addHp(v);
                         pInfo.apply();
-                        detailService.run(who, ++i);
+                        detailService.run(who, i);
                         CONDITIONING.put(who, i);
                     }
                 }
@@ -107,15 +108,16 @@ public class GameConditionController {
 
     @Action("进入遇境")
     public Object join(long qid) {
+        int i = 1;
         if (CONDITIONING.containsKey(qid)) return ERR_TIPS;
-        CONDITIONING.put(qid, 1);
+        CONDITIONING.put(qid, i);
         GhostObj ghostObj = getGhostObjFrom(qid);
         if (ghostObj != null) {
             if (ghostObj.getTime() <= System.currentTimeMillis()) {
                 return IN_SELECT;
             }
         }
-        detailService.run(qid, 1);
+        detailService.run(qid, i);
         return TIPS0;
     }
 

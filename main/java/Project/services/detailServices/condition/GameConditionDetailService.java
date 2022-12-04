@@ -2,6 +2,8 @@ package Project.services.detailServices.condition;
 
 import Project.broadcast.game.SkillUseBroadcast;
 import Project.controllers.auto.ControllerSource;
+import Project.controllers.auto.TimerController;
+import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.http_api.KlopingWeb;
 import Project.services.autoBehaviors.GhostBehavior;
@@ -21,6 +23,7 @@ import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -43,6 +46,13 @@ public class GameConditionDetailService {
 
     public GameConditionDetailService() {
         Resource.START_AFTER.add(() -> {
+            TimerController.ZERO_RUNS.add(() -> {
+                if (Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
+                    klopingWeb.del("", PWD);
+                    PB = null;
+                    GB = null;
+                }
+            });
             ControllerSource.m3000.add(new RunnableWithOver() {
                 @Override
                 public boolean over() {
@@ -101,7 +111,8 @@ public class GameConditionDetailService {
             "3.遇境通过表现为打败连续出现的魂兽\n" +
             "4.遇境中无法使用武器\n" +
             "5.遇境中选择逃跑默认挑战失败\n" +
-            "6.遇境中每阶段恢复40%%的血量" +
+            "6.遇境中每阶段恢复40%%的血量\n" +
+            "7.所有魂技冷却为缩短40倍" +
             "<===============>\n本周BUFF:\n魂兽:%s\n魂师:%s";
 
     public String getBuffIntro() {
@@ -146,6 +157,8 @@ public class GameConditionDetailService {
 
     public void run(long qid, int n) {
         THREADS.submit(() -> {
+            MessageTools.instance.sendMessageInGroupWithAt(GameConditionController.TIPS0,
+                    MemberTools.getRecentSpeechesGid(qid), qid);
             try {
                 Thread.sleep(15000);
             } catch (InterruptedException e) {

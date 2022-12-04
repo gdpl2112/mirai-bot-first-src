@@ -1,6 +1,7 @@
 package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
+import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.roles.DamageType;
@@ -393,7 +394,7 @@ public class GameSkillDetailService {
     }
 
     public static long getCooling(Long qq, SkillInfo info) {
-        if (challengeDetailService.isTemping(qq.longValue())) {
+        if (challengeDetailService.isTemping(qq.longValue()) || GameConditionController.CONDITIONING.containsKey(qq.longValue())) {
             return System.currentTimeMillis() + info.getTimeL() / 40L;
         } else {
             return System.currentTimeMillis() + info.getTimeL();

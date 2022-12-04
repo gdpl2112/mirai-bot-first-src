@@ -3,6 +3,7 @@ package Project.controllers.normalController;
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
+import Project.interfaces.http_api.Suning;
 import Project.interfaces.http_api.old.ApiIyk0;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -83,9 +84,13 @@ public class EntertainmentController {
         }
     }
 
+    @AutoStand
+    Suning suning;
+
     @Action("时间")
     public Object nowTime() {
-        return Tool.tool.getTimeYMdhms(System.currentTimeMillis());
+        return Tool.tool.getTimeYMdhms(
+                suning.ct().getLong("currentTime"));
     }
 
     @Action("2传话<.+=>str>")

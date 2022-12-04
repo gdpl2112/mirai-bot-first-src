@@ -50,14 +50,12 @@ public class ChallengeServiceImpl implements IChallengeService {
         ChallengeSteppedBroadcast.INSTANCE.add(new ChallengeSteppedBroadcast.ChallengeSteppedReceiver() {
             @Override
             public void onReceive(ChallengeField field, String side) {
-
             }
         });
     }
 
     @AutoStand
     ChallengeDetailService service0;
-
 
     @AutoStand
     IGameService service;
