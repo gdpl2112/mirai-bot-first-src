@@ -14,10 +14,7 @@ import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -33,6 +30,7 @@ public class GhostBehavior implements Runnable {
     private Group group;
     private Long qq;
     private GhostObj ghostObj;
+    private List<Integer> nowAllowJid = new LinkedList<>();
 
     static {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
@@ -114,9 +112,10 @@ public class GhostBehavior implements Runnable {
         if (!updateGhost()) return;
         int num = getSkillNum(ghostObj.getLevel());
         while (jid2skill.size() < num) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum-3);
+            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum - 3);
             int jid = 1001 + id0;
             if (jid2skill.containsKey(jid)) continue;
+            if (getNowAllowJid().contains(jid)) continue;
             System.out.println("factory <=" + jid);
             SkillTemplate template = SkillFactory.factory100(jid, getHhByGh(ghostObj.getLevel()));
             System.out.println("factory ok =>" + jid);
@@ -193,5 +192,9 @@ public class GhostBehavior implements Runnable {
     private boolean updateGhost() {
         ghostObj = GameJoinDetailService.getGhostObjFrom(qq);
         return (forceOver && ghostObj != null && ghostObj.getHp() > 0);
+    }
+
+    public List<Integer> getNowAllowJid() {
+        return nowAllowJid;
     }
 }

@@ -8,6 +8,7 @@ import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.http_api.KlopingWeb;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ac.GameJoinDetailService;
+import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.judge.Judge;
@@ -108,11 +109,12 @@ public class GameConditionDetailService {
     public static final String INTRO = "遇境说明:\n" +
             "1.每周六0点刷新遇境魂兽与魂师的随机BUFF与奖励\n" +
             "2.每周前三次通过遇境获得奖励\n" +
-            "3.遇境通过表现为打败连续出现的魂兽\n" +
+            "3.遇境通过表现为打败连续出现的三只魂兽\n" +
             "4.遇境中无法使用武器\n" +
-            "5.遇境中选择逃跑默认挑战失败\n" +
+            "5.遇境中选择逃跑默认挑战失败(魂兽不会使用逃跑类技能)\n" +
             "6.遇境中每阶段恢复40%%的血量\n" +
-            "7.所有魂技冷却为缩短40倍" +
+            "7.遇境中每阶段恢复40%%的魂力\n" +
+            "8.所有魂技冷却为缩短40倍\n" +
             "<===============>\n本周BUFF:\n魂兽:%s\n魂师:%s";
 
     public String getBuffIntro() {
@@ -179,10 +181,15 @@ public class GameConditionDetailService {
             }
             ghostObj.canGet = false;
             ghostObj.setWhoMeet(qid);
-            GameJoinDetailService.saveGhostObjIn(qid, ghostObj);
             Group group = Group.get(MemberTools.getRecentSpeechesGid(qid));
-            if (ghostObj.getL() > 3000L)
-                GhostBehavior.exRun(new GhostBehavior(qid, group));
+            if (ghostObj instanceof GhostWithGroup) {
+                GhostWithGroup gwg = (GhostWithGroup) ghostObj;
+                gwg.setGroup(group);
+            }
+            GameJoinDetailService.saveGhostObjIn(qid, ghostObj);
+            GhostBehavior gb = new GhostBehavior(qid, group);
+            gb.getNowAllowJid().add(1006);
+            GhostBehavior.exRun(gb);
             MessageTools.instance.sendMessageInGroupWithAt(
                     willTips(qid, ghostObj, false), group.getId(), qid
             );

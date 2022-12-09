@@ -9,6 +9,7 @@ import Project.interfaces.http_api.KlopingWeb;
 import Project.services.detailServices.condition.GameConditionDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -61,6 +62,7 @@ public class GameConditionController {
                         long gid = MemberTools.getRecentSpeechesGid(who);
                         MessageTools.instance.sendMessageInGroupWithAt("挑战成功", gid, who);
                         String iv = klopingWeb.get(String.valueOf(who), GameConditionDetailService.PWD);
+                        if (Judge.isEmpty(iv)) iv = "0";
                         Integer c = Integer.valueOf(iv);
                         if (c >= 3) {
                             MessageTools.instance.sendMessageInGroupWithAt("奖励上限", gid, who);
@@ -68,12 +70,15 @@ public class GameConditionController {
                             GameDataBase.addToBgs(who, 0, 10, ObjType.got);
                             MessageTools.instance.sendMessageInGroupWithAt("获得奖励" +
                                     SourceDataBase.getImgPathById(0), gid, who);
+                            klopingWeb.put(String.valueOf(who), String.valueOf(c + 1), GameConditionDetailService.PWD);
                         }
                     } else {
                         i = i + 1;
                         PersonInfo pInfo = getInfo(who);
                         long v = NumberUtils.percentTo(40, pInfo.getHpL());
                         pInfo.addHp(v);
+                        long v1 = NumberUtils.percentTo(40, pInfo.getHll());
+                        pInfo.addHl(v1);
                         pInfo.apply();
                         detailService.run(who, i);
                         CONDITIONING.put(who, i);
@@ -118,7 +123,7 @@ public class GameConditionController {
             }
         }
         detailService.run(qid, i);
-        return TIPS0;
+        return "准备中...";
     }
 
     @AutoStand

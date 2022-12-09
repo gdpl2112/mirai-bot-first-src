@@ -278,8 +278,6 @@ public class GameSkillDetailService {
         long v1 = percentTo((int) bf, p1.getHll());
         PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
-        HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHl(),
-                p2.getHl() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
         p2.addHl(v1);
         putPerson(p2);
     }

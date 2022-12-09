@@ -90,7 +90,7 @@ public class GameTool {
     public static boolean isAlive(Long who) {
         GameDataBase.testMan(who);
         long is = GameDataBase.getInfo(who).getHp();
-        return is > 0;
+        return is > 0L;
     }
 
     /**
