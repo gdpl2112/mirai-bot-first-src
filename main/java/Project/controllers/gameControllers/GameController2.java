@@ -7,6 +7,7 @@ import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
+import Project.interfaces.http_api.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -204,12 +205,18 @@ public class GameController2 {
         return endList.toArray(new String[0]);
     }
 
+    @AutoStand
+    public KlopingWeb klopingWeb;
+
     @Action("闭关")
     public Object o3(User user) throws NoSuchMethodException {
         Method m0 = this.getClass().getDeclaredMethod("bg", Long.class);
         ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
-        return "确认闭关吗?\n闭关后不可做任何事,取消闭关后即可\n一小时后可取消";
+        return "确认闭关吗?\n闭关后不可做任何事,取消闭关后即可\n半小时后可取消\n闭关之后没分钟获得" + EVE_GET + "点经验,在取消闭关后结算";
     }
+
+    private static final Integer EVE_GET = 20;
+    private static final String BG_PWD = "挂机池进入时间戳";
 
     private Object bg(Long q) {
         PersonInfo p0 = getInfo(q);
@@ -223,6 +230,7 @@ public class GameController2 {
         p0.setBg(true);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
         p0.apply();
+        klopingWeb.put(q.toString(), String.valueOf(System.currentTimeMillis()), BG_PWD);
         return "闭关完成!";
     }
 
@@ -233,8 +241,13 @@ public class GameController2 {
         }
         p0.setBg(false);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
+        String t0 = klopingWeb.get(q.toString(), BG_PWD);
+        Long t = System.currentTimeMillis() - Long.valueOf(t0);
+        Long min = (t / 60000L);
+        Long v = EVE_GET * min;
+        p0.addXp(v);
         p0.apply();
-        return "取消闭关完成";
+        return String.format("取消闭关完成,此次闭关%s分钟,获得了%s点经验", min, v);
     }
 
     @Action("取消闭关")
@@ -242,7 +255,7 @@ public class GameController2 {
         if (getInfo(user.getId()).isBg()) {
             Method m0 = this.getClass().getDeclaredMethod("unBg", Long.class);
             ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
-            return "确认取消闭关吗?\n一小时后可再次闭关";
+            return "确认取消闭关吗?\n半小时后可再次闭关";
         } else {
             return "没有在闭关";
         }

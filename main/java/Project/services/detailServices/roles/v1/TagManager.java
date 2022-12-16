@@ -9,7 +9,7 @@ import java.util.*;
  * @author github.kloping
  */
 public class TagManager {
-    public static final HashSet EMPTY_HASH_SET = new HashSet();
+    public static final HashSet<TagPack> EMPTY_HASH_SET = new HashSet();
     private Long qid = -1L;
     private Map<String, Set<TagPack>> map = new HashMap<>();
 

@@ -43,7 +43,7 @@ public class Skill1001 extends SkillTemplate {
             @Override
             public void run() {
                 super.run();
-                int t0 = 14;
+                int t0 = 10;
                 try {
                     while (t0-- > 0) {
                         Thread.sleep(1000);

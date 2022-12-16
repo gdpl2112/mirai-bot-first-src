@@ -47,6 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append("12.16:闭关更新").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append("11.26:问题修复").append(NEWLINE);
         UPDATE_LOG.append("11.20:成就更新,转生上限修改").append(NEWLINE);
         UPDATE_LOG.append("11.19:修复部分魂兽丢失bug").append(NEWLINE);

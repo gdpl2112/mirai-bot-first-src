@@ -133,9 +133,6 @@ public class OtherController {
         m0.append("发张 xx \n");
         m0.append("掷骰子\n");
         m0.append("随机头像\n");
-//        m0.append("随机男头像\n");
-//        m0.append("随机女头像\n");
-//        m0.append("随机情侣头像\n");
         m0.append("王者公告\n");
         m0.append("原神公告\n");
         m0.append("捡瓶子/捡漂流瓶\n");
@@ -158,6 +155,8 @@ public class OtherController {
         m0.append("====");
         m0.append("解析快手图片<url>\n");
         m0.append("解析抖音图片<url>\n");
+        m0.append("解析视频音频<url>\n");
+        m0.append("解析图集音频<url>\n");
         m0.append("QQ信息<qq>\n");
         m0.append("QQ群信息<qq>\n");
         m0.append("/搜图<图片>\n");

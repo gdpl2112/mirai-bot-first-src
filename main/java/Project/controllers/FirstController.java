@@ -9,11 +9,12 @@ import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.ServiceMessage;
+import net.mamoe.mirai.message.data.SimpleServiceMessage;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static Project.skill.SkillFactory.ghostSkillNum;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -62,12 +63,7 @@ public class FirstController {
 
     @Action("测试")
     public Object c0(Group group, long who, User qq) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 100; i++) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum - 3);
-            sb.append(id0).append(NEWLINE);
-        }
-        return sb.toString();
+        return null;
     }
 
 }
