@@ -45,11 +45,11 @@ public class GameConditionController {
     }
 
     @AutoStand
-    KlopingWeb klopingWeb;
+    static KlopingWeb klopingWeb;
 
     public static final Map<Long, Integer> CONDITIONING = new HashMap<>();
 
-    {
+    static {
         Resource.START_AFTER.add(() -> {
             GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
                 @Override
@@ -127,7 +127,7 @@ public class GameConditionController {
     }
 
     @AutoStand
-    GameConditionDetailService detailService;
+    static GameConditionDetailService detailService;
 
     @Action("遇境说明")
     public String getIntro() {
