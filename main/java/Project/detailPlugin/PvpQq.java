@@ -2,19 +2,18 @@ package Project.detailPlugin;
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.PvpQQH0;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.PvpQQVoice;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yylb_34;
+import io.github.kloping.common.Public;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.Heroes;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.YzzYxs;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.HeroVoice;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,24 +30,13 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 @Entity
 public class PvpQq {
-    public static final Map<String, Yy_4e[]> NAME2VOICE = new ConcurrentHashMap<>();
-    public static final Map<String, io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data> NAME2DATA = new ConcurrentHashMap<>();
+    public static final Map<String, Dqpfyy5403> NAME2VOICE = new ConcurrentHashMap<>();
     public static final Map<String, Integer> NAME2ID = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID2NAME = new ConcurrentHashMap<>();
+    public static Heroes ALL;
+
     @AutoStand
-    Project.interfaces.http_api.PvpQq pvpQq;
-
-    public static String c1(String arg) {
-        int i1 = arg.indexOf("(");
-        int i2 = arg.lastIndexOf(")");
-        return arg.substring(i1 + 1, i2);
-    }
-
-    public static String c0(String arg) {
-        int i1 = arg.indexOf("(");
-        int i2 = arg.lastIndexOf(")");
-        return arg.substring(i1 + 1, i2).replaceAll("故事站-英雄列表-", "");
-    }
+    static Project.interfaces.http_api.PvpQq pvpQq;
 
     public Object getSkinPic(String arg) {
         List list = new LinkedList();
@@ -57,7 +45,7 @@ public class PvpQq {
                     .get();
             String picStr = document.getElementsByClass("banner").get(0).getElementsByTag("img").get(0).attr("src");
             picStr = HTTPS_PRE + picStr;
-            list.add("皮肤原画:" +  Tool.tool.pathToImg(picStr));
+            list.add("皮肤原画:" + Tool.tool.pathToImg(picStr));
             try {
                 Elements elements = document.getElementsByClass("relation-cont");
                 list.add("技能效果");
@@ -65,13 +53,13 @@ public class PvpQq {
                 Element e;
                 e = elements.get(elements.size() - 3);
                 es = e.getElementsByTag("img");
-                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add(Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
                 e = elements.get(elements.size() - 2);
                 es = e.getElementsByTag("img");
-                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add(Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
                 e = elements.get(elements.size() - 1);
                 es = e.getElementsByTag("img");
-                list.add( Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                list.add(Tool.tool.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -82,52 +70,58 @@ public class PvpQq {
         return "获取失败";
     }
 
-    public void m1() {
-        PvpQQH0 g = pvpQq.get1("createHeroList");
-        PvpQQVoice v = pvpQq.get0("createList");
-        FileInitializeValue.putValues("./data/pvpqq/hd.json", g, true);
-        FileInitializeValue.putValues("./data/pvpqq/vs.json", v, true);
+    public static synchronized void m1() {
+        if (ALL == null) {
+            ALL = pvpQq.heroList();
+            ID2NAME.clear();
+            NAME2ID.clear();
+        }
     }
 
-    public void m0() {
-        if (!new File("./data/pvpqq/hd.json").exists()) {
-            m1();
-        }
-        PvpQQH0 g = new PvpQQH0();
-        PvpQQVoice v = new PvpQQVoice();
-        g = FileInitializeValue.getValue("./data/pvpqq/hd.json", g, true);
-        v = FileInitializeValue.getValue("./data/pvpqq/vs.json", v, true);
-        for (Data datum : g.getData()) {
-            if (datum == null) continue;
-            String name = datum.getTitle().replace("故事站-英雄列表-", "");
-            int id = Integer.valueOf(datum.getHeroid()).intValue();
-            NAME2ID.put(name, id);
+    public static void m0() {
+        if (ALL == null) m1();
+        for (YzzYxs yzzYxs : ALL.getYzzyxs4880()) {
+            String name = yzzYxs.getYzzyxm4588();
+            String sName = yzzYxs.getYzzyxc4613();
+            Integer id = Integer.valueOf(yzzYxs.getYzzyxi2602());
             ID2NAME.put(id, name);
-            NAME2DATA.put(name, datum);
+            NAME2ID.put(name, id);
+            try {
+                HeroVoice voice = pvpQq.voice(id.toString());
+                if (voice == null) continue;
+                if (voice.isArray()) {
+                    for (Dqpfyy5403 dqpfyy5403 : voice.getArr()) {
+                        String kName = dqpfyy5403.getPfmczt7754();
+                        if (sName.trim().equals(kName.trim())) {
+                            NAME2VOICE.put(name, dqpfyy5403);
+                        } else {
+                            NAME2VOICE.put(name + kName, dqpfyy5403);
+                        }
+                    }
+                } else {
+                    NAME2VOICE.put(name, voice.getObj());
+                }
+            } catch (Exception e) {
+                System.err.println(String.format("%s(%s)语音获取失败",name,id));
+            }
         }
-        for (Yylb_34 yylb_34 : v.getYylb_34()) {
-            int id = Integer.parseInt(yylb_34.getYxid_a7());
-            NAME2VOICE.put(ID2NAME.get(id), yylb_34.getYy_4e());
-        }
+        System.out.println("英雄语音加载完成");
     }
 
-    public Yy_4e[] getY4e(String name) {
+    static {
+        Resource.START_AFTER.add(() -> {
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                m0();
+            });
+        });
+    }
+
+    public Dqpfyy5403 getY4e(String name) {
         if (NAME2VOICE.isEmpty()) {
-            m0();
+            return null;
         }
         if (NAME2VOICE.containsKey(name)) {
             return NAME2VOICE.get(name);
-        } else {
-            return null;
-        }
-    }
-
-    public io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data getD(String name) {
-        if (NAME2DATA.isEmpty()) {
-            m0();
-        }
-        if (NAME2DATA.containsKey(name)) {
-            return NAME2DATA.get(name);
         } else {
             return null;
         }

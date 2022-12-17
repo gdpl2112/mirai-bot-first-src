@@ -1,12 +1,11 @@
 package Project.interfaces.http_api;
 
-import io.github.kloping.MySpringTool.annotations.http.Callback;
+import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.PvpQQH0;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.PvpQQVoice;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.Heroes;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.HeroVoice;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
 
 /**
  * @author github kloping
@@ -18,12 +17,11 @@ public interface PvpQq {
     /**
      * get data voice
      *
-     * @param createList
+     * @param id
      * @return
      */
-    @GetPath("zlkdatasys/data_zlk_lb.json")
-    @Callback("Project.detailPlugin.PvpQq.c1")
-    PvpQQVoice get0(@ParamName("callback") String createList);
+    @GetPath("zlkdatasys/yuzhouzhan/herovoice/{id}.json")
+    HeroVoice voice(@PathValue("id") String id);
 
     /**
      * get data has hero id
@@ -31,9 +29,8 @@ public interface PvpQq {
      * @param createHeroList
      * @return
      */
-    @GetPath("webplat/info/news_version3/15592/18024/23901/24397/24398/m22352/index.shtml?callback=createHeroList")
-    @Callback("Project.detailPlugin.PvpQq.c1")
-    PvpQQH0 get1(@ParamName("callback") String createHeroList);
+    @GetPath("zlkdatasys/yuzhouzhan/list/heroList.json")
+    Heroes heroList();
 
     /**
      * get all skin

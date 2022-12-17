@@ -11,11 +11,11 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQH0.Data;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQQVoice.Yy_4e;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpQqCom.Response0;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.Pcblzlby_c6;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpSkin.PvpSkin;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Yylbzt9132;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpSkin.Pcblzlby_c6;
+import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils;
 import net.mamoe.mirai.internal.utils.ExternalResourceImplByByteArray;
@@ -133,21 +133,17 @@ public class CallLocalApiController {
         }
         a = a.replace(numStr, "");
         a = a.replaceFirst("王者语音", "");
-        Yy_4e[] yy4es = pvpQq.getY4e(a);
-        if (yy4es == null) return "未发现相关英雄";
-        Yy_4e yy4e = yy4es[0];
-        if (yy4es.length > i) {
-            yy4e = yy4es[i];
+        Dqpfyy5403 dq = pvpQq.getY4e(a);
+        if (dq == null) {
+            return "未发现相关英雄";
         }
-        MessageTools.instance.sendVoiceMessageInGroup("http:" + yy4e.getYyyp_9a(), group.getId());
-        return "&" + yy4e.getYywa1_f2();
-    }
-
-    @Action("王者图片.+")
-    public String pvpQqPic(@AllMess String a, Group group) {
-        a = a.replaceFirst("王者图片", "");
-        Data data = pvpQq.getD(a);
-        return Tool.tool.pathToImg("http:" + data.getHeroimg()) + "\n相关链接 " + data.getInfourl();
+        Yylbzt9132[] yys = dq.getYylbzt9132();
+        Yylbzt9132 yy = yys[0];
+        if (yys.length > i) {
+            yy = yys[i];
+        }
+        MessageTools.instance.sendVoiceMessageInGroup("http:" + yy.getYywjzt5304(), group.getId());
+        return "&" + yy.getYywbzt1517();
     }
 
     @Action("王者最新皮肤.*?")
@@ -279,7 +275,7 @@ public class CallLocalApiController {
         ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
         BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3",
                 new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
-        MessageTools.instance.sendVoiceMessageInGroup(baos.toByteArray(),group.getId());
+        MessageTools.instance.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
         return null;
     }
 
