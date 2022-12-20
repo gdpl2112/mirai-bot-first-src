@@ -3,8 +3,8 @@ package Project.services.detailServices.roles;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.GameSkillDetailService;
+import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.Ghost702;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -28,6 +28,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  */
 public class BeatenRoles {
     public static final String THIS_DANGER_OVER_FLAG = "$";
+
     public static final Role XG_VERTIGO_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         BaseInfo p2 = getBaseInfoFromAny(q1, q2);
         if (p2.isVertigo()) {
@@ -36,7 +37,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_WD_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_WD)) {
             sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("无敌效果,攻击无效");
@@ -45,7 +45,6 @@ public class BeatenRoles {
             return null;
         }
     };
-
     public static final Role TAG_MS_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
@@ -56,7 +55,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_XYS_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(TAG_XUAN_YU_S)) {
             putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
@@ -65,7 +63,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role HG_HF = (sb, q1, q2, ov, nv, type, p1, args) -> {
         SoulAttribute soulAttribute = gameBoneService.getSoulAttribute(q1.longValue());
         if (proZ(soulAttribute.getHpChance())) {
@@ -81,7 +78,6 @@ public class BeatenRoles {
         }
         return null;
     };
-
     public static final Role TAG_DAMAGE_REDUCTION = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_DAMAGE_REDUCTION)) {
             int r = p1.getTagValue(SkillDataBase.TAG_DAMAGE_REDUCTION).intValue();
@@ -226,7 +222,7 @@ public class BeatenRoles {
         if (p1.containsTag(TAG_LIGHT_ATT)) {
             Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
             long v = percentTo(b, ov);
-            GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n",DamageType.AP);
+            GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n", DamageType.AP);
         }
         return null;
     };

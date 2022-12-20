@@ -324,4 +324,11 @@ public class MyHandler extends SimpleListenerHost {
         builder.append(new Face(Face.SAO_RAO));
         event.getGroup().sendMessage(builder.build());
     }*/
+
+    @EventHandler
+    public void onEvent(BotOnlineEvent event) {
+        Resource.BOT = event.getBot();
+    }
+
+
 }
