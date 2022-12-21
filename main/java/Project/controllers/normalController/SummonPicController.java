@@ -311,7 +311,7 @@ public class SummonPicController {
             @Override
             public Object onReceive(long qid, long gid, String pic, Object[] objects) {
                 if (qId == qid) {
-                    String tips = MessageTools.instance.getImageUrlFromMessageString(mess);
+                    String tips = MessageTools.instance.getImageUrlFromMessageString(pic);
                     String end = "识别结果:\n" + All.getTextFromPic(tips);
                     MessageTools.instance.sendMessageInGroupWithAt(end, gid, qid);
                     return "ok";
