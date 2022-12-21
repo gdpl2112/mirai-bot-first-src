@@ -1,6 +1,7 @@
 package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
+import Project.detailPlugin.All;
 import Project.detailPlugin.BaiduShituDetail;
 import Project.interfaces.http_api.Atoolbox;
 import Project.interfaces.http_api.IBaiduShitu;
@@ -279,6 +280,40 @@ public class SummonPicController {
                     xmlStr = String.format(xmlStr, md5 + suffix, md5, size, size, size, size);
                     SimpleServiceMessage simpleServiceMessage = new SimpleServiceMessage(5, xmlStr);
                     MessageTools.instance.sendMessageInGroup(simpleServiceMessage, group.getId());
+                    return "ok";
+                }
+                return null;
+            }
+        });
+    }
+    @Action("识别.*+")
+    public void a1(@AllMess String mess, Group group, long qId) {
+        int size0 = 1200;
+        if (mess.contains(COM_PRE)) {
+            String[] ss = mess.split("-");
+            Map<String, Integer> maps = new HashMap<>();
+            for (String s : ss) {
+                if (s.trim().isEmpty() || !s.contains("=")) {
+                    continue;
+                }
+                try {
+                    String[] s2 = s.split("=");
+                    maps.put(s2[0], Integer.valueOf(s2[1]));
+                } catch (NumberFormatException e) {
+                }
+            }
+            size0 = maps.containsKey("size") ? maps.get("size") : size0;
+            size0 = size0 >= 2000 ? 2000 : size0;
+        }
+        MessageTools.instance.sendMessageInGroup("请在发送要识别的图片", group.getId());
+        int size = size0;
+        PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
+            @Override
+            public Object onReceive(long qid, long gid, String pic, Object[] objects) {
+                if (qId == qid) {
+                    String tips = MessageTools.instance.getImageUrlFromMessageString(mess);
+                    String end = "识别结果:\n" + All.getTextFromPic(tips);
+                    MessageTools.instance.sendMessageInGroupWithAt(end, gid, qid);
                     return "ok";
                 }
                 return null;

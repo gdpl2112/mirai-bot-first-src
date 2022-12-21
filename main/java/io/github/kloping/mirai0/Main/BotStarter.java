@@ -43,6 +43,7 @@ public class BotStarter {
         test = t0 == null ? false : t0;
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
+        startRegisterListenerHost(args);
         MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
         MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b1_err.log");
@@ -62,7 +63,6 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
 //        bot.login();
-        startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());

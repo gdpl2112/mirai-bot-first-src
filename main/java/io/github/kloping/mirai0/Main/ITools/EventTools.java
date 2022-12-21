@@ -47,7 +47,7 @@ public class EventTools {
                     sb.append(((PlainText) o).getContent());
             } else if (o instanceof At) {
                 At at = (At) o;
-                if (at.getTarget() == Resource.qq.getQq())
+                if (at.getTarget() == Resource.BOT.getId())
                     sb.append("[@me]");
                 else
                     sb.append("[@").append(at.getTarget()).append("]");
@@ -81,7 +81,7 @@ public class EventTools {
                     sb.append(((PlainText) o).getContent());
             } else if (o instanceof At) {
                 At at = (At) o;
-                if (at.getTarget() == Resource.qq.getQq())
+                if (at.getTarget() == Resource.BOT.getId())
                     sb.append("[@me]");
                 else
                     sb.append("[@").append(at.getTarget()).append("]");

@@ -3,19 +3,24 @@ package Project.detailPlugin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.mirai0.commons.apiEntitys.ShiTu.Response;
+import io.github.kloping.url.UrlUtils;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -111,5 +116,31 @@ public class All {
             e.printStackTrace();
         }
         return baos;
+    }
+
+
+    public static final String getTextFromPic(String url) {
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(UrlUtils.getBytesFromHttpUrl(url));
+            Connection connection = Jsoup.connect("http://www.iinside.cn:7001/api_req")
+                    .method(Connection.Method.POST)
+                    .ignoreHttpErrors(true).ignoreContentType(true)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54")
+                    .data("image_ocr_pp", "wx.png", bais)
+                    .data("password", "8907")
+                    .data("reqmode", "ocr_pp");
+            Connection.Response response = connection.execute();
+            String json = response.body();
+            JSONObject jo = JSON.parseObject(json);
+            if (!jo.containsKey("data")) return "未能识别出出文字";
+            StringBuilder sb = new StringBuilder();
+            for (Object o : jo.getJSONArray("data")) {
+                sb.append(o).append(NEWLINE);
+            }
+            return sb.toString().trim();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
