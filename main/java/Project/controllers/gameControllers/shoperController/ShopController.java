@@ -27,7 +27,7 @@ public class ShopController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    private static Long[] getNumAndPrice(String str) {
+    public static Long[] getNumAndPrice(String str) {
         try {
             String[] ss = str.split("个");
             if (ss.length > 1) {

@@ -6,12 +6,9 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
@@ -23,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.gameControllers.shoperController.ShopController.getNumAndPrice;
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 import static io.github.kloping.mirai0.Main.Resource.println;
@@ -135,7 +133,6 @@ public class HasTimeActionController {
 //            return "领取成功,已发放至背包" + SourceDataBase.getImgPathById(7001);
 //        }
 //    }
-
 
     private static final Map<Integer, Map.Entry<Integer, Integer>> AC_ITEMS_MAP = new ConcurrentHashMap<>();
 
@@ -315,10 +312,109 @@ public class HasTimeActionController {
             int id = am.get(r);
             GameDataBase.addToBgs(user.getId(), id, ObjType.got);
             GameDataBase.removeFromBgs(user.getId(), 130, ObjType.use);
-            Map.Entry<Integer,Integer> entry = i1toi2.get(i1);
-            builder.append(entry.getKey(),entry.getValue(),SourceDataBase.getImgPathById(id, false));
+            Map.Entry<Integer, Integer> entry = i1toi2.get(i1);
+            builder.append(entry.getKey(), entry.getValue(), SourceDataBase.getImgPathById(id, false));
         }
         return Tool.tool.pathToImg(GameDrawer.drawerDynamic(builder.build()));
     }
 
+    public static RedPacket REDPACKET = null;
+
+    @Action("发红包<.+=>str>")
+    public Object sendRedPacket(@Param("str") String str, Group group, long qid) {
+        Long[] ll = getNumAndPrice(str);
+        if (ll == null || ll.length < 2) return "发红包示例:\n 发红包10个1000<积分>\n 积分可替换为'金魂币','大瓶经验'";
+        int num = ll[0].intValue();
+        int value = ll[1].intValue();
+        if (value > 100000) return "红包最大值10w";
+        if (value < num) return "总值不得小于总数";
+        if (num <= 0 || num > 10) return "非法的总数";
+        if (REDPACKET != null) return "当前尚有红包未领取";
+        String name = str.replace(ll[0] + "个", "")
+                .replace(ll[1] + "", "");
+        RedPacket.IdType type = RedPacket.IdType.SCORE;
+        switch (name) {
+            case "积分":
+                type = RedPacket.IdType.SCORE;
+                break;
+            case "金魂币":
+                type = RedPacket.IdType.GOLD;
+                break;
+            case "大瓶经验":
+                type = RedPacket.IdType.OBJ0;
+                break;
+            default:
+                type = RedPacket.IdType.SCORE;
+                break;
+        }
+        if (!RedPacket.judge(qid, type, value)) return "未拥有足够数量的物品";
+        REDPACKET = new RedPacket(num, value, qid, group.getId(), type) {
+            @Override
+            public void finish() {
+                REDPACKET = null;
+                MessageTools.instance
+                        .sendMessageInGroupWithAt(
+                                "红包全部领取,手气最佳=>" + Tool.tool.at(getMax()), group.getId(), qid);
+            }
+        };
+        RedPacket.app(qid, type, value);
+        return "发红包成功,发送\"抢红包\"即可参与";
+    }
+
+    @Action("抢红包")
+    public Object getRedPacket(long qid) {
+        if (REDPACKET == null) return "无红包!";
+        String name = REDPACKET.getName();
+        if (REDPACKET.getRecord().containsKey(qid)) {
+            return String.format("已经抢到%s个%s了哦",
+                    REDPACKET.getRecord().get(qid), name);
+        }
+        Integer n0 = REDPACKET.getN0();
+        RedPacket.IdType type = REDPACKET.getId();
+        Integer val = REDPACKET.getOne(qid);
+        RedPacket.add(qid, type, val);
+        return String.format("成功抢到%s个%s,红包剩余%s个",
+                val, name, n0 - 1);
+    }
+
+    @CronSchedule("0 0 6-22/1 25 12 ? ")
+    public void redPacket0() {
+        int r = Tool.tool.RANDOM.nextInt(3);
+        RedPacket.IdType type = RedPacket.IdType.SCORE;
+        int value = 0;
+        switch (r) {
+            case 0:
+                type = RedPacket.IdType.SCORE;
+                value = Tool.tool.RANDOM.nextInt(50000) + 50000;
+                break;
+            case 1:
+                type = RedPacket.IdType.GOLD;
+                value = Tool.tool.RANDOM.nextInt(5000) + 5000;
+                break;
+            case 2:
+                type = RedPacket.IdType.OBJ0;
+                value = Tool.tool.RANDOM.nextInt(50) + 50;
+                break;
+            default:
+                break;
+        }
+        Group group = null;
+        if (Resource.BOT.getGroups().contains(278681553L))
+            group = Group.get(278681553L);
+        else if (Resource.BOT.getGroups().contains(954303690L))
+            group = Group.get(954303690L);
+        Group finalGroup = group;
+        long qid = Resource.BOT.getId();
+        REDPACKET = new RedPacket(10, value, qid, finalGroup.getId(), type) {
+            @Override
+            public void finish() {
+                REDPACKET = null;
+                MessageTools.instance
+                        .sendMessageInGroupWithAt(
+                                "红包全部领取,手气最佳=>" + Tool.tool.at(getMax()), finalGroup.getId(), qid);
+            }
+        };
+        MessageTools.instance
+                .sendMessageInGroup("发红包成功,发送\"抢红包\"即可参与\n圣诞活动,活动当天6-22时,每小时随机发放随机红包", group.getId());
+    }
 }
