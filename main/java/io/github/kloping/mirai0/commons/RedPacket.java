@@ -166,7 +166,7 @@ public abstract class RedPacket {
                 DataBase.putInfo(DataBase.getAllInfo(qid).addScore(num));
                 break;
             case GOLD:
-                GameDataBase.getInfo(qid).addGold((long) -num, new TradingRecord()
+                GameDataBase.getInfo(qid).addGold((long) num, new TradingRecord()
                         .setType1(TradingRecord.Type1.lost)
                         .setType0(TradingRecord.Type0.gold)
                         .setTo(-1L)
