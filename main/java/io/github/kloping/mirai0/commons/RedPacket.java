@@ -8,8 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -44,6 +43,8 @@ public abstract class RedPacket {
     private IdType id;
     private Map<Long, Integer> record = new LinkedHashMap<>();
 
+    private Iterator<Integer> iteratore = null;
+
     public RedPacket(Integer num, Integer value, Long sender, Long gid, IdType id) {
         this.num = num;
         this.value = value;
@@ -52,31 +53,45 @@ public abstract class RedPacket {
         this.sender = sender;
         this.gid = gid;
         this.id = id;
+        List<Integer> list = new ArrayList<>();
+        for (Integer i = 0; i < num; i++) {
+            int v0 = getOne0();
+            list.add(v0);
+        }
+        Collections.shuffle(list);
+        iteratore = list.iterator();
+        v0 = value;
+        n0 = num;
+    }
+
+    private Integer getOne0() {
+        int v = 0;
+        if (n0 == 1) {
+            v = v0;
+        } else {
+            int max = v0 - n0 + 1;
+            int min = 1;
+            if (max == min) {
+                v = max;
+            } else {
+                v = Tool.tool.RANDOM.nextInt(max - min) + min;
+            }
+        }
+        v0 -= v;
+        n0--;
+        return v;
     }
 
     public Integer getOne(long qid) {
         try {
-            int v = 0;
-            if (n0 == 1) {
-                v = v0;
-            } else {
-                int max = v0 - n0 + 1;
-                int min = 1;
-                if (max == min) {
-                    v = max;
-                } else {
-                    v = Tool.tool.RANDOM.nextInt(max - min) + min;
-                }
-            }
-            v0 -= v;
-            n0--;
+            int v = iteratore.next();
             record.put(qid, v);
+            n0--;
             return v;
         } finally {
-            if (n0 == 0)
+            if (!iteratore.hasNext())
                 finish();
         }
-
     }
 
     /**
