@@ -31,7 +31,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
  * @author github.kloping
  */
 @Controller
-public class Controller0 {
+public class ControllerWhereIsMyWife {
 
     /**
      * 群号 => qid => qid
@@ -52,7 +52,7 @@ public class Controller0 {
         });
     }
 
-    public Controller0() {
+    public ControllerWhereIsMyWife() {
         println(this.getClass().getSimpleName() + "构建");
     }
 

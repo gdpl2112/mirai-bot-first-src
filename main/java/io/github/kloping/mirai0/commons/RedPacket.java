@@ -40,7 +40,9 @@ public abstract class RedPacket {
     private Integer n0;
     private Long sender;
     private Long gid;
+    private Long qid;
     private IdType id;
+    private Integer hour = getHour();
     private Map<Long, Integer> record = new LinkedHashMap<>();
 
     private Iterator<Integer> iteratore = null;
@@ -90,14 +92,14 @@ public abstract class RedPacket {
             return v;
         } finally {
             if (!iteratore.hasNext())
-                finish();
+                finish("");
         }
     }
 
     /**
      * 完
      */
-    public abstract void finish();
+    public abstract void finish(String tips);
 
     public Long getMax() {
         AtomicReference<Long> qid = new AtomicReference<>(-1L);
@@ -122,6 +124,14 @@ public abstract class RedPacket {
             default:
                 return "未知物品";
         }
+    }
+
+    public void sendBack() {
+        while (iteratore.hasNext()) {
+            int v = iteratore.next();
+            add(qid, getId(), v);
+        }
+        finish("未抢的部分已退还");
     }
 
     public static boolean judge(long qid, IdType type, int value) {

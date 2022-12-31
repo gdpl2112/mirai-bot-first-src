@@ -4,18 +4,19 @@ package Project.controllers.gameControllers;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
+import Project.interfaces.http_api.KlopingWeb;
 import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
-import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,6 +51,7 @@ public class GameController {
         LIST_FX.add("排行");
         LIST_FX.add("称号");
         LIST_FX.add("转生");
+        LIST_FX.add("魂师签到");
     }
 
     static {
@@ -146,6 +148,32 @@ public class GameController {
         if (getInfo(qq.getId()).isBg()) {
             MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
+        }
+    }
+
+    @AutoStand
+    KlopingWeb klopingWeb;
+
+    public static final String PWD_FORMAT = "hsgameqd:%s:b:%s";
+
+    private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
+
+    @Action("魂师签到")
+    public String qd(Long qq, Group group) {
+        String pwd = String.format(PWD_FORMAT, dfn.format(new Date()), Resource.BOT.getId());
+        String v = klopingWeb.get(qq.toString(), pwd);
+        if (v == null || v.isEmpty()) {
+            klopingWeb.put(qq.toString(), "true", pwd);
+            getInfo(qq).addGold(100L, new TradingRecord()
+                    .setFrom(-1)
+                    .setMain(qq).setDesc("签到获得")
+                    .setTo(qq)
+                    .setMany(100)
+                    .setType0(TradingRecord.Type0.gold)
+                    .setType1(TradingRecord.Type1.add)).apply();
+            return "签到成功!获得100金魂币";
+        } else {
+            return "签到失败!";
         }
     }
 

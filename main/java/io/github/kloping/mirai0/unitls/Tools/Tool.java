@@ -262,6 +262,13 @@ public class Tool {
         return df3.format(new Date(t));
     }
 
+
+    private static final SimpleDateFormat SF_0 = new SimpleDateFormat("HH");
+
+    public Integer getHour() {
+        return Integer.parseInt(SF_0.format(new Date()));
+    }
+
     /**
      * 获取从现在到某刻的时间
      *
