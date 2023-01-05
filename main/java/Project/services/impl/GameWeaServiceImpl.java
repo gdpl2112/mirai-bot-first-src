@@ -10,8 +10,10 @@ import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,12 +73,24 @@ public class GameWeaServiceImpl implements IGameWeaService {
     public String aqBgs(Long who) {
         List<String> list = new ArrayList<>();
         Map<Integer, Map.Entry<Integer, Integer>> maps = getBgsw(who);
+        Map<Integer, Integer> oid2num = new LinkedHashMap<>();
         if (maps.isEmpty()) {
             return "你没有暗器!";
         }
         for (Integer i : maps.keySet()) {
-            list.add(i + "=>" + getNameById(maps.get(i).getKey()) + ":剩余" + maps.get(i).getValue() + "次");
+            int oid = maps.get(i).getKey();
+            int num = maps.get(i).getValue();
+            if (oid2num.containsKey(oid)) {
+                oid2num.put(oid,
+                        oid2num.get(oid) + num);
+            } else {
+                oid2num.put(oid, num);
+            }
         }
+        AtomicReference<Integer> i = new AtomicReference<>(1);
+        oid2num.forEach((k, v) -> {
+            list.add(i.getAndSet(i.get() + 1) + "=>" + getNameById(k) + ":剩余" + v + "次");
+        });
         return getImageFromStrings(list.toArray(new String[0]));
     }
 

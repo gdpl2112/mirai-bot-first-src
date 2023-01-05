@@ -23,12 +23,12 @@ public class Skill9010 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("使用后,所有攻击都会附带雷电, 造成2次额外的%s%%的攻击的值", getAddP(getJid(), getId()));
+        return String.format("使用后,对指定敌人造成[雷]元素,造成%s的攻击加成", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙第八魂技") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙第九魂技") {
             @Override
             public void before() {
                 GameSkillDetailService.addTagPack(new NormalTagPack(TAG_LIGHT_ATT, getDuration(getJid()))

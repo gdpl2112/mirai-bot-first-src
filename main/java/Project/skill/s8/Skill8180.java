@@ -27,7 +27,9 @@ public class Skill8180 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蛇杖第八魂技,对指定敌人造成%s%%的伤害,并标记该敌人,标记存在1分钟,若该敌人已经存在该标记(蛇矛第八魂技),则额外造成%s%%的伤害",
+        return String.format(
+                "蛇杖第八魂技,对指定敌人造成%s%%的伤害,并标记该敌人,标记存在1分钟,若该敌人已经存在该标记(蛇矛第八魂技),则额外造成%s%%的伤害"
+                ,
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId())
         );
