@@ -14,10 +14,12 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.MiraiConsole;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
+import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.nio.file.Paths;
 
+import static io.github.kloping.mirai0.Main.BotStarter.startRegisterListenerHost;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
@@ -56,14 +58,4 @@ public class BotStarter2 {
         println("运行的线程=》" + Thread.activeCount());
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
     }
-
-    private static void startRegisterListenerHost(String[] args) {
-        BOT.getEventChannel().registerListenerHost(new MyHandler());
-        BOT.getEventChannel().registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        BOT.getEventChannel().registerListenerHost(
-                StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
-        );
-        BOT.getEventChannel().registerListenerHost(new SaveHandler(args));
-    }
-
 }

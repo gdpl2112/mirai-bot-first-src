@@ -6,6 +6,7 @@ import Project.listeners.NbListener;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.MySpringTool.interfaces.AutomaticWiringParams;
+import io.github.kloping.common.Public;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.Handlers.LittleHandler;
 import io.github.kloping.mirai0.Main.Handlers.MyHandler;
@@ -36,33 +37,24 @@ public class BotStarter {
     public static boolean test = false;
     private static BotConf abot = null;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         long t = System.currentTimeMillis();
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
+            MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
+        });
+
         setterStarterApplication(BotStarter.class);
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;
         initBot();
         System.out.println(test ? "=============测试=============" : "长运行....................");
         startRegisterListenerHost(args);
-        MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
-        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b1_err.log");
         Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b1_console.log");
-//        Bot bot;
-//        bot = MiraiConsole.INSTANCE.addBot(abot.getQq(), abot.getPassWord(), new Function1<BotConfiguration, Unit>() {
-//            @Override
-//            public Unit invoke(BotConfiguration botConfiguration) {
-//                botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(
-//                        StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(String.class, "bot.protocol")));
-//                botConfiguration.setHeartbeatStrategy(BotConfiguration.HeartbeatStrategy.STAT_HB);
-//                return null;
-//            }
-//        });
-//        Resource.BOT = bot;
         datePath = "./Libs";
         init();
         SpringStarter.main(args);
-//        bot.login();
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
@@ -83,12 +75,12 @@ public class BotStarter {
         abot = Resource.get(test ? 3 : 1);
     }
 
-    private static void startRegisterListenerHost(String[] args) {
-       GlobalEventChannel.INSTANCE.registerListenerHost(new MyHandler());
-       GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-       GlobalEventChannel.INSTANCE.registerListenerHost(
+    public static void startRegisterListenerHost(String[] args) {
+        GlobalEventChannel.INSTANCE.registerListenerHost(new MyHandler());
+        GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+        GlobalEventChannel.INSTANCE.registerListenerHost(
                 StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class)
         );
-       GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
+        GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
     }
 }

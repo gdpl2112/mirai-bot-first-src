@@ -182,7 +182,12 @@ public class MyHandler extends SimpleListenerHost {
         }
     }
 
-    private Group getCg(long id) {
+    /**
+     * 遍历群判断是否存在指定用户存在则返回
+     * @param id
+     * @return
+     */
+    public static Group getCg(long id) {
         for (Group group : BOT.getGroups()) {
             if (group.contains(id)) {
                 return group;
@@ -264,71 +269,9 @@ public class MyHandler extends SimpleListenerHost {
         event.getGroup().sendMessage(builder.build());
     }
 
-//    @EventHandler
-//    public void onEvent(BotInvitedJoinGroupRequestEvent event) {
-//        event.accept();
-//    }
-//
-//    @EventHandler
-//    public void onEvent(NewFriendRequestEvent event) {
-//        event.accept();
-//    }
-
-    /*@EventHandler
-    public void onMemberNameCardModify(MemberCardChangeEvent event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
-        MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("有个靓仔偷偷改了群昵称,还以为我不知道").append(new Face(Face.XIE_YAN_XIAO)).append("\n");
-        builder.append("谁: ").append(event.getMember().getId() + "").append("\n");
-        builder.append("旧: ").append(event.getOrigin()).append("\n");
-        builder.append("新: ").append(event.getNew()).append("");
-        event.getGroup().sendMessage(builder.build());
-    }*/
-
-    /*
-    private static final Map<GroupHonorType, String> gs = new ConcurrentHashMap<>();
-
-    static {
-        gs.put(GroupHonorType.TALKATIVE, "龙王");
-        gs.put(GroupHonorType.PERFORMER, "群聊之火");
-        gs.put(GroupHonorType.LEGEND, "群聊炽焰");
-        gs.put(GroupHonorType.STRONG_NEWBIE, "冒尖小春笋");
-        gs.put(GroupHonorType.EMOTION, "快乐源泉");
-        gs.put(GroupHonorType.ACTIVE, "活跃头衔");
-        gs.put(GroupHonorType.EXCLUSIVE, "特殊头衔");
-        gs.put(GroupHonorType.MANAGE, "管理头衔");
-    }
-
-    @EventHandler
-    public void onMemberHonorChangeEvent_Achieve(MemberHonorChangeEvent.Achieve event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
-        MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("恭喜恭喜\n");
-        String nameCard = event.getMember().getId() == event.getBot().getId() ? "我"
-                : "\"" + event.getMember().getNameCard() + "\"";
-        builder.append("快来祝贺 ").append(nameCard).append("\n");
-        builder.append("ta 获得了").append(gs.get(event.getHonorType())).append("\n");
-        builder.append(new Face(Face.QING_ZHU));
-        event.getGroup().sendMessage(builder.build());
-    }*/
-
-    /*
-    @EventHandler
-    public void onMemberHonorChangeEvent_Lose(MemberHonorChangeEvent.Lose event) {
-        if (!ControllerTool.CanGroup(event.getGroup().getId())) return;
-        MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append("哦吼..\n");
-        String nameCard = event.getMember().getId() == event.getBot().getId() ? "我"
-                : "\"" + event.getMember().getNameCard() + "\"";
-        builder.append("ta 失去了").append(gs.get(event.getHonorType())).append("\n");
-        builder.append(new Face(Face.SAO_RAO));
-        event.getGroup().sendMessage(builder.build());
-    }*/
-
     @EventHandler
     public void onEvent(BotOnlineEvent event) {
         Resource.BOT = event.getBot();
     }
-
 
 }
