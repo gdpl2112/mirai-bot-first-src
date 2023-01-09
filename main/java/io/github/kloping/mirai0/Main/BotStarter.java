@@ -29,8 +29,6 @@ public class BotStarter {
 
     public static void main(String[] args) {
         long t = System.currentTimeMillis();
-        MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
-        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         setterStarterApplication(BotStarter.class);
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;
@@ -43,6 +41,8 @@ public class BotStarter {
         init();
         SpringStarter.main(args);
         startedAfter();
+        MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
+        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");
         Resource.println("运行的线程=》" + Thread.activeCount());
         System.out.println("耗时: " + (System.currentTimeMillis() - t) + "豪秒");
