@@ -48,11 +48,6 @@ public class MyHandler extends SimpleListenerHost {
     public static MemberJoinRequestEvent joinRequestEvent;
 
     static {
-//        Resource.START_AFTER.add(() -> {
-//            io.github.kloping.mirai0.commons.User.create(BOT.getId()
-//                    , BOT.getGroups().stream().iterator().next().getId()
-//                    , BOT.getNick(), BOT.getNick());
-//        });
     }
 
     public MyHandler() {
