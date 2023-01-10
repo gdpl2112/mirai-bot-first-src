@@ -52,6 +52,7 @@ public class BotStarter2 {
         init();
         setterStarterApplication(BotStarter2.class);
         SpringStarter.main(args);
+        GlobalEventChannel.INSTANCE.registerListenerHost(new MyHandler());
         startRegisterListenerHost(args);
         startedAfter();
         System.out.println("==============================" + qq.getQq() + ":启动完成=======================================");

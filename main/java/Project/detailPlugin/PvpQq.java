@@ -103,7 +103,7 @@ public class PvpQq {
                 } else {
                     NAME2VOICE.put(name, voice.getObj());
                 }
-                StarterApplication.logger.info(String.format("%s(%s)语音获取完成",name,id));
+//                StarterApplication.logger.info(String.format("%s(%s)语音获取完成",name,id));
             } catch (Exception e) {
                 System.err.println(String.format("%s(%s)语音获取失败",name,id));
             }
