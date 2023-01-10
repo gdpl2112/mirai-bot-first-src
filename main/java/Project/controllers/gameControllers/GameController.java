@@ -3,8 +3,8 @@ package Project.controllers.gameControllers;
 
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
+import Project.e0.KlopingWebDataBaseBoolean;
 import Project.interfaces.Iservice.IGameService;
-import Project.interfaces.http_api.KlopingWeb;
 import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.Main.ITools.MemberTools;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.*;
+import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
+import static io.github.kloping.mirai0.unitls.Tools.Tool.DAY_LONG;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -151,27 +153,79 @@ public class GameController {
         }
     }
 
-    @AutoStand
-    KlopingWeb klopingWeb;
-
     public static final String PWD_FORMAT = "hsgameqd:%s:b:%s";
 
     private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
 
+    private Integer getThisWeekDays(Long qq) {
+        int e = 0;
+        int n = Tool.tool.getOldestWeekOne();
+        for (int i = 0; i <= n; i++) {
+            String pwd = String.format(PWD_FORMAT, dfn.format(new Date(
+                    System.currentTimeMillis() - (DAY_LONG * i)
+            )), Resource.BOT.getId());
+            KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
+            if (dbb.getValue(qq))
+                e++;
+        }
+        return e;
+    }
+
+    private String jl(Integer n, Long qq) {
+        switch (n) {
+            case 1:
+                getInfo(qq).addGold(100L, new TradingRecord()
+                        .setFrom(-1)
+                        .setMain(qq).setDesc("签到获得")
+                        .setTo(qq)
+                        .setMany(100)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setType1(TradingRecord.Type1.add)).apply();
+                return "签到成功!\n本周签到1天\n获得100金魂币";
+            case 2:
+                addToBgs(qq, 107, 2, ObjType.got);
+                return "签到成功!\n本周签到2天\n获得2个仙品花瓣";
+            case 3:
+                getInfo(qq).addGold(200L, new TradingRecord()
+                        .setFrom(-1)
+                        .setMain(qq).setDesc("签到获得")
+                        .setTo(qq)
+                        .setMany(100)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setType1(TradingRecord.Type1.add)).apply();
+                return "签到成功!\n本周签到3天\n获得200金魂币";
+            case 4:
+                addToBgs(qq, 103, 3, ObjType.got);
+                return "签到成功!\n本周签到4天\n获得3个大瓶经验";
+            case 5:
+                addToBgs(qq, 130, 3, ObjType.got);
+                return "签到成功!\n本周签到5天\n获得3个奖券";
+            case 6:
+                getInfo(qq).addGold(500L, new TradingRecord()
+                        .setFrom(-1)
+                        .setMain(qq).setDesc("签到获得")
+                        .setTo(qq)
+                        .setMany(100)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setType1(TradingRecord.Type1.add)).apply();
+                return "签到成功!\n本周签到6天\n获得500金魂币";
+            case 7:
+                addToBgs(qq, 1601, 1, ObjType.got);
+                return "签到成功!\n本周签到6天\n获得白升级券";
+            default:
+                return "未知异常";
+        }
+    }
+
     @Action("魂师签到")
     public String qd(Long qq, Group group) {
         String pwd = String.format(PWD_FORMAT, dfn.format(new Date()), Resource.BOT.getId());
-        String v = klopingWeb.get(qq.toString(), pwd);
-        if (v == null || v.isEmpty()) {
-            klopingWeb.put(qq.toString(), "true", pwd);
-            getInfo(qq).addGold(100L, new TradingRecord()
-                    .setFrom(-1)
-                    .setMain(qq).setDesc("签到获得")
-                    .setTo(qq)
-                    .setMany(100)
-                    .setType0(TradingRecord.Type0.gold)
-                    .setType1(TradingRecord.Type1.add)).apply();
-            return "签到成功!获得100金魂币";
+        KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
+        Boolean v = dbb.getValue(qq);
+        if (!v) {
+            dbb.setValue(qq, true);
+            Integer n = getThisWeekDays(qq);
+            return jl(n, qq);
         } else {
             return "签到失败!";
         }

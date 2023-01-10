@@ -47,6 +47,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 1.10:每周魂师签到连续奖励").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append("12.31:红包退还功能;魂师签到").append(NEWLINE);
         UPDATE_LOG.append("12.24:抢红包功能更新,圣诞活动(12.25),活动当天6-22时,每小时随机发放随机红包,当前若存在红包将覆盖").append(NEWLINE);
         UPDATE_LOG.append("12.17:王者语音更新").append(NEWLINE);

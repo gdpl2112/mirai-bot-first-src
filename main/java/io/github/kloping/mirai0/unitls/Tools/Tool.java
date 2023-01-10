@@ -27,8 +27,7 @@ public class Tool {
      * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
      */
     private final String singlePattern = "[0-9|a-f|A-F]";
-    private final String pattern = singlePattern + singlePattern +
-            singlePattern + singlePattern;
+    private final String pattern = singlePattern + singlePattern + singlePattern + singlePattern;
     private final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
     private final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
@@ -55,6 +54,19 @@ public class Tool {
             char2int.put(c, i);
             i++;
         }
+    }
+
+    public static final long DAY_LONG = 1000L * 60 * 60 * 24;
+
+    public Integer getOldestWeekOne() {
+        int r = -1;
+        for (int i = 0; i < 7; i++) {
+            String s0 = getWeekOfDate(new Date(System.currentTimeMillis() - DAY_LONG * i));
+            if (s0.equals(WEEK_DAYS[1])) {
+                r = i;
+            }
+        }
+        return r;
     }
 
     public byte[] getBase64Data(String base64) {
@@ -101,8 +113,7 @@ public class Tool {
      * @return
      */
     private String ustartToCn(final String str) {
-        StringBuilder sb = new StringBuilder().append("0x")
-                .append(str.substring(2, 6));
+        StringBuilder sb = new StringBuilder().append("0x").append(str.substring(2, 6));
         Integer codeInteger = Integer.decode(sb.toString());
         int code = codeInteger.intValue();
         char c = (char) code;
@@ -363,11 +374,9 @@ public class Tool {
      * @return 第几个
      */
     public int listEveStartWith(List<String> list, String withs) {
-        if (withs != null)
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).startsWith(withs))
-                    return i;
-            }
+        if (withs != null) for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).startsWith(withs)) return i;
+        }
         return -1;
     }
 
@@ -380,8 +389,7 @@ public class Tool {
      */
     public int EveListStartWith(List<String> list, String withs) {
         for (int i = 0; i < list.size(); i++) {
-            if (withs.startsWith(list.get(i).replace("*", "")) || withs.equals(list.get(i)))
-                return i;
+            if (withs.startsWith(list.get(i).replace("*", "")) || withs.equals(list.get(i))) return i;
         }
         return -1;
     }
@@ -523,8 +531,7 @@ public class Tool {
         long l1 = 10000;
         Double d3 = (double) l / (double) l1;
         String s = d3.toString();
-        if (s.length() >= s.indexOf(".") + 3)
-            s = s.substring(0, s.indexOf(".") + 3);
+        if (s.length() >= s.indexOf(".") + 3) s = s.substring(0, s.indexOf(".") + 3);
         return s + "w";
     }
 
@@ -694,10 +701,7 @@ public class Tool {
      */
     public String trans(int num) {
         StringBuilder builder = new StringBuilder();
-        builder.append(numeric[num / 1000] + "千").
-                append(numeric[num / 100 % 10] + "百").
-                append(numeric[num / 10 % 10] + "十").
-                append(numeric[num % 10]);
+        builder.append(numeric[num / 1000] + "千").append(numeric[num / 100 % 10] + "百").append(numeric[num / 10 % 10] + "十").append(numeric[num % 10]);
         int index = -1;
         while ((index = builder.indexOf(numeric[0], index + 1)) != -1) {
             if (index < builder.length() - 1) {
@@ -788,8 +792,7 @@ public class Tool {
             File file = new File(path);
             if (file.exists()) return true;
             File pf = file.getParentFile();
-            if (pf != null && !pf.exists())
-                pf.mkdirs();
+            if (pf != null && !pf.exists()) pf.mkdirs();
             file.createNewFile();
             return true;
         } catch (IOException e) {
@@ -1024,9 +1027,7 @@ public class Tool {
     public String[] getIllegalSend() {
         String s0 = contextManager.getContextEntity(String.class, "Illegal.send");
         if (s0 != null) {
-            return illegalSends == null ?
-                    illegalSends = contextManager.getContextEntity(String.class, "Illegal.send").trim().split("\\s+") :
-                    illegalSends;
+            return illegalSends == null ? illegalSends = contextManager.getContextEntity(String.class, "Illegal.send").trim().split("\\s+") : illegalSends;
         } else {
             return new String[]{};
         }
@@ -1040,16 +1041,14 @@ public class Tool {
      */
     public boolean isIlleg(String s) {
         for (String s1 : getIllegal()) {
-            if (s.toUpperCase().contains(s1.toUpperCase()))
-                return true;
+            if (s.toUpperCase().contains(s1.toUpperCase())) return true;
         }
         return false;
     }
 
     public boolean isIllegSend(String s) {
         for (String s1 : getIllegalSend()) {
-            if (s.toUpperCase().contains(s1.toUpperCase()))
-                return true;
+            if (s.toUpperCase().contains(s1.toUpperCase())) return true;
         }
         return false;
     }

@@ -4,6 +4,7 @@ import Project.controllers.FirstController;
 import Project.controllers.gameControllers.GameController2;
 import Project.controllers.normalController.SummonPicController;
 import Project.detailPlugin.AiBaiduDetail;
+import Project.interfaces.http_api.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
@@ -49,8 +50,12 @@ public class ControllerSource {
     public static GameServiceImpl gameService;
     @AutoStand
     public static FirstController firstController;
+
     @AutoStand
     public static GameController2 gameController2;
+
+    @AutoStand
+    public static KlopingWeb klopingWeb;
 
     @AutoStand(id = "m100")
     public static Set<RunnableWithOver> m100;
