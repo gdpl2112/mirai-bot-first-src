@@ -379,6 +379,7 @@ public class HasTimeActionController {
 
     @CronSchedule("0 0 6-20/12 * * ?")
     public void redPacket0() {
+        if (REDPACKET == null) return;
         int h0 = REDPACKET.getHour();
         int h1 = Tool.tool.getHour();
         h1 = h1 < h0 ? h1 + 24 : h1;
