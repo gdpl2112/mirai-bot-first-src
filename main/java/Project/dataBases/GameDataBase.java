@@ -5,6 +5,7 @@ import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.kloping.common.Public;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
@@ -443,8 +444,7 @@ public class GameDataBase {
         List<Integer> list = new ArrayList<>();
         for (String s : Tool.tool.getStringsFromFile(file.getPath())) {
             s = s.trim();
-            if (s.startsWith("//") || s.startsWith("#") || s.contains(":") || s.equals("0"))
-                continue;
+            if (s.startsWith("//") || s.startsWith("#") || s.contains(":") || s.equals("0")) continue;
             list.add(Integer.valueOf(s));
         }
         return list.toArray(new Integer[list.size()]);
@@ -609,8 +609,7 @@ public class GameDataBase {
                     Method method = cls.getMethod("valueOf", String.class);
                     field.set(obj, method.invoke(null, v));
                 } catch (Exception e) {
-                    if (cls == Number.class)
-                        field.set(obj, Long.valueOf(v.toString()));
+                    if (cls == Number.class) field.set(obj, Long.valueOf(v.toString()));
                     else if (cls == boolean.class || cls == Boolean.class)
                         field.set(obj, Boolean.valueOf(v.toString()));
                     else field.set(obj, v);
@@ -635,7 +634,9 @@ public class GameDataBase {
         }
         testMan(Long.valueOf(personInfo.getName()));
         HIST_INFOS.put(Long.parseLong(personInfo.getName()), personInfo);
-        SpringBootResource.getPersonInfoMapper().updateById(personInfo);
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            SpringBootResource.getPersonInfoMapper().updateById(personInfo);
+        });
     }
 
     /**
@@ -664,7 +665,9 @@ public class GameDataBase {
     }
 
     public static Warp setWarp(Warp warp) {
-        SpringBootResource.getWarpMapper().updateById(warp);
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            SpringBootResource.getWarpMapper().updateById(warp);
+        });
         return warp;
     }
 
@@ -700,7 +703,9 @@ public class GameDataBase {
      */
     public static void upHh(Long who, Integer st, Integer oid) {
         Integer id = SpringBootResource.getHhpzMapper().selectIds(who.longValue()).get(st);
-        SpringBootResource.getHhpzMapper().update(id, oid);
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            SpringBootResource.getHhpzMapper().update(id, oid);
+        });
     }
 
     /**
@@ -768,16 +773,6 @@ public class GameDataBase {
     }
 
     /**
-     * 获取介绍
-     *
-     * @param name
-     * @return
-     */
-    public static String getIntroById(String name) {
-        return "";
-    }
-
-    /**
      * 获取商店字符数组
      *
      * @return
@@ -820,9 +815,10 @@ public class GameDataBase {
      * @return
      */
     public static String addToBgs(Long who, int id, ObjType type) {
-        SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
-        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
-                type);
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
+        });
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1, type);
         return "OK";
     }
 
@@ -835,10 +831,11 @@ public class GameDataBase {
      */
     public static String addToBgs(Long who, int id, Integer num, ObjType type) {
         for (Integer j = 0; j < num; j++) {
-            SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                SpringBootResource.getBagMapper().insert(id, who.longValue(), System.currentTimeMillis());
+            });
         }
-        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num,
-                type);
+        GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, num, type);
         return "OK";
     }
 
@@ -851,8 +848,7 @@ public class GameDataBase {
      */
     public static String removeFromBgs(Long who, int id, ObjType type) {
         if (SpringBootResource.getBagMapper().update(SpringBootResource.getBagMapper().selectId(who.longValue(), id)) > 0) {
-            GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1,
-                    type);
+            GotOrLostObjBroadcast.INSTANCE.broadcast(who, id, 1, type);
             return "OK";
         }
         return "err";
@@ -882,7 +878,9 @@ public class GameDataBase {
      * @return
      */
     public static String addToAqBgs(Long who, Integer oid, Integer num) {
-        SpringBootResource.getAqBagMapper().insert(oid, who.longValue(), num, System.currentTimeMillis());
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            SpringBootResource.getAqBagMapper().insert(oid, who.longValue(), num, System.currentTimeMillis());
+        });
         return "OK";
     }
 
