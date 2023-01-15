@@ -211,7 +211,7 @@ public class GameController {
                 return "签到成功!\n本周签到6天\n获得500金魂币";
             case 7:
                 addToBgs(qq, 1601, 1, ObjType.got);
-                return "签到成功!\n本周签到6天\n获得白升级券";
+                return "签到成功!\n本周签到7天\n获得白升级券";
             default:
                 return "未知异常";
         }
