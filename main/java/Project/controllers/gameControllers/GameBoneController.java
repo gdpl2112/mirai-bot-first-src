@@ -2,6 +2,7 @@ package Project.controllers.gameControllers;
 
 
 import Project.interfaces.Iservice.IGameBoneService;
+import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
@@ -12,14 +13,18 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -109,5 +114,51 @@ public class GameBoneController {
         }
         String str = gameBoneService.unInstallBone(id, qq);
         return str;
+    }
+
+    @AutoStand
+    ISkillService skillService;
+
+    @Action("头部魂骨技能<.{1,}=>str>")
+    private Object t0(@Param("str") String str, long qq, Group g) {
+        String idp = "151";
+        for (SoulBone soulBone : gameBoneService.getSoulBones(qq)) {
+            if (soulBone.getOid().toString().startsWith(idp)) {
+                if (soulBone.hasSkill()) {
+                    Set<Number> numbers = new HashSet<>();
+                    while (true) {
+                        if (str.contains("#")) {
+                            str = str.replaceAll("#", EMPTY_STR);
+                            numbers.add(-2);
+                        }
+                        Long l1 = MessageTools.instance.getAtFromString(str);
+                        str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
+                        if (l1 <= 0) {
+                            break;
+                        } else {
+                            //过滤挑战
+                            if (challengeDetailService.isTemping(l1)) {
+                                if (challengeDetailService.isTemping(qq)) {
+                                    if (challengeDetailService.challenges.Q2Q.get(qq) == l1.longValue()) {
+                                        numbers.add(l1);
+                                    }
+                                }
+                            } else if (challengeDetailService.isTemping(qq)) {
+                                if (challengeDetailService.isTemping(l1)) {
+                                    if (challengeDetailService.challenges.Q2Q.get(qq) == l1.longValue()) {
+                                        numbers.add(l1);
+                                    }
+                                }
+                            } else {
+                                numbers.add(l1);
+                            }
+                        }
+                    }
+                    Number[] ats = numbers.toArray(new Number[0]);
+                    return String.valueOf(skillService.useSkill(qq, -1, ats, str, g));
+                }
+            }
+        }
+        return "您的头部魂骨尚不附带技能!";
     }
 }

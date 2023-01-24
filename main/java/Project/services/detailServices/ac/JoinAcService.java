@@ -24,11 +24,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 @Entity
 public class JoinAcService {
     public static final int MIN_MEED = 75;
-    public static final String[] TIPS0 = {
-            "你去落日森林,欣赏了风景<Face:335>",
-            "你从花开<Face:63>看到了花落<Face:64>",
-            "你去落日森林,溜达了一圈<Face:185>",
-    };
+    public static final String[] TIPS0 = {"你去落日森林,欣赏了风景<Face:335>", "你从花开<Face:63>看到了花落<Face:64>", "你去落日森林,溜达了一圈<Face:185>",};
 
     public static final int MUST_MEED = 70;
     public static final int MAX_RAND_2 = 150;
@@ -106,15 +102,7 @@ public class JoinAcService {
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
                 int rr = Tool.tool.RANDOM.nextInt(90) + 30;
-                putPerson(getInfo(who).addGold((long) rr
-                        , new TradingRecord()
-                                .setFrom(-1)
-                                .setMain(who).setDesc("从星斗森林捡到")
-                                .setTo(who)
-                                .setMany(rr)
-                                .setType0(TradingRecord.Type0.gold)
-                                .setType1(TradingRecord.Type1.add)
-                ));
+                putPerson(getInfo(who).addGold((long) rr, new TradingRecord().setFrom(-1).setMain(who).setDesc("从星斗森林捡到").setTo(who).setMany(rr).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add)));
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.tool.toFaceMes(String.valueOf(188));
             } else if (Tool.tool.RANDOM.nextInt(1000) == 0) {
                 int id = 111;
@@ -128,8 +116,7 @@ public class JoinAcService {
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-            if (ghostObj.getL() > 3000L)
-                GhostBehavior.exRun(new GhostBehavior(who, group));
+            if (ghostObj.getL() > 3000L) GhostBehavior.exRun(new GhostBehavior(who, group));
             return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -169,8 +156,7 @@ public class JoinAcService {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             int id = ghostObj.getId();
-            if (ghostObj.getL() > 3000L)
-                GhostBehavior.exRun(new GhostBehavior(who, group));
+            if (ghostObj.getL() > 3000L) GhostBehavior.exRun(new GhostBehavior(who, group));
             return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -191,6 +177,8 @@ public class JoinAcService {
         getInfo(who).setNextR3(Tool.tool.RANDOM.nextInt(MAX_RAND3)).apply();
         GhostWithGroup ghostObj = null;
         if (r == 0) {
+            ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 710, 712);
+        } else if (r < 2) {
             ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 701, 706);
         } else if (r < 5) {
             ghostObj = GhostObj.create(1000000, 701, 706);

@@ -48,7 +48,8 @@ public abstract class SkillTemplate {
 
     public String getContent() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("第%s魂技", Tool.tool.trans(getSt()))).append("\r\n");
+        if (getSt() > 0)
+            sb.append(String.format("第%s魂技", Tool.tool.trans(getSt()))).append("\r\n");
         sb.append("冷却时间:").append(getCoolTime(getId(), getJid(), getWh(), getSt())).append("分钟").append("\r\n");
         sb.append("魂力消耗:").append(getUserPercent(getSt(), getJid())).append("%\r\n");
         if (getHasTime() > 0)

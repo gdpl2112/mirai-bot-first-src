@@ -167,27 +167,19 @@ public class GameTool {
 
     public static String getFhName(Long who) {
         PersonInfo personInfo = GameDataBase.getInfo(who);
-        if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty())
-            return "";
-        if (personInfo.getLevel() < 100)
-            return personInfo.getSname() + " 斗罗";
-        else if (personInfo.getLevel() < 150)
-            return personInfo.getSname() + " 神";
-        else if (personInfo.getLevel() >= 150)
-            return personInfo.getSname() + " 神王";
+        if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty()) return "";
+        if (personInfo.getLevel() < 100) return personInfo.getSname() + " 斗罗";
+        else if (personInfo.getLevel() < 150) return personInfo.getSname() + " 神";
+        else if (personInfo.getLevel() >= 150) return personInfo.getSname() + " 神王";
         return "";
     }
 
     public static String getFhName(Long who, boolean tr) {
         PersonInfo personInfo = GameDataBase.getInfo(who);
-        if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty())
-            return who + "";
-        if (personInfo.getLevel() < 100)
-            return personInfo.getSname() + "斗罗";
-        else if (personInfo.getLevel() < 150)
-            return personInfo.getSname() + "神";
-        else if (personInfo.getLevel() >= 150)
-            return personInfo.getSname() + "神王";
+        if (personInfo.getLevel() < 90 || personInfo.getSname().isEmpty()) return who + "";
+        if (personInfo.getLevel() < 100) return personInfo.getSname() + "斗罗";
+        else if (personInfo.getLevel() < 150) return personInfo.getSname() + "神";
+        else if (personInfo.getLevel() >= 150) return personInfo.getSname() + "神王";
         return who + "";
     }
 
@@ -311,8 +303,7 @@ public class GameTool {
      * @return
      */
     public static boolean isATrue(Long who) {
-        GhostObj ghostObj =
-                GameJoinDetailService.getGhostObjFrom(who);
+        GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         if (ghostObj != null) {
             if (ghostObj.getTime() > System.currentTimeMillis()) {
                 return true;
@@ -344,6 +335,13 @@ public class GameTool {
         else return "未知";
     }
 
+    /**
+     * 获取 魂兽最大支援数量
+     *
+     * @param id
+     * @param level
+     * @return
+     */
     public static int getMaxHelpNumByGhostIdAndLevel(Integer id, Integer level) {
         if (level >= 10000000) return 2;
         else if (id < 800) return 1;

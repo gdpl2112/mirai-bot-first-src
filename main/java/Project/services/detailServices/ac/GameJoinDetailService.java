@@ -253,6 +253,14 @@ public class GameJoinDetailService {
             int sid = 120;
             addToBgs(who, sid, ObjType.got);
             return "\n你获得了" + getNameById(sid);
+        } else if (id == 710) {
+            int oid = 1514;
+            addToBgs(who, oid, ObjType.got);
+            return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
+        }else if (id == 711) {
+            int oid = 1515;
+            addToBgs(who, oid, ObjType.got);
+            return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
         } else if (id > 700) {
             return willGetLr(level, who);
         } else if (id > 600) {

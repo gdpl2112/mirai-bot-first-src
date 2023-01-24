@@ -113,6 +113,9 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(1101, 1);
         BASE_PERCENT_MAP.put(1102, 3);
         BASE_PERCENT_MAP.put(1103, 30);
+        //==魂骨加成
+        BASE_PERCENT_MAP.put(1514, 60);
+        BASE_PERCENT_MAP.put(1515, 10);
         //==
         BASE_PERCENT_MAP.put(8010, 20);
         BASE_PERCENT_MAP.put(8011, 10);
@@ -226,6 +229,8 @@ public class GameSkillDetailService {
      * @return
      */
     public static Number getCoolTime(int id, int jid, int wh, int st) {
+        if (st < 0)
+            return 10;
         if (st == 7) {
             if (wh == 6) {
                 return 30;
@@ -242,6 +247,7 @@ public class GameSkillDetailService {
     }
 
     public static Number getUserPercent(int st, int jid) {
+        if (st < 0) return 5;
         return (6 + (st - 1));
     }
 
@@ -259,8 +265,7 @@ public class GameSkillDetailService {
             long v1 = percentTo((int) bf, p1.getHpL());
             PersonInfo p2 = GameDataBase.getInfo(who2);
             v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
-            HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(),
-                    p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
+            HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(), p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
             p2.addHp(v1);
             putPerson(p2);
         }

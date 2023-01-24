@@ -153,6 +153,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(703, "熔岩烈兽");
         ID_2_NAME_MAPS.put(704, "狱火岩魔龙");
         ID_2_NAME_MAPS.put(705, "地魁岩兽");
+        ID_2_NAME_MAPS.put(710, "泰坦巨猿");
+        ID_2_NAME_MAPS.put(711, "天青牛蟒");
         //===================
         ID_2_NAME_MAPS.put(1000, "暗器零件");
         ID_2_NAME_MAPS.put(1001, "诸葛神弩");
@@ -166,6 +168,8 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(1511, "低级头部魂骨");
         ID_2_NAME_MAPS.put(1512, "中级头部魂骨");
         ID_2_NAME_MAPS.put(1513, "高级头部魂骨");
+        ID_2_NAME_MAPS.put(1514, "泰坦巨猿头部魂骨");
+        ID_2_NAME_MAPS.put(1515, "天青牛蟒头部魂骨");
         //===
         ID_2_NAME_MAPS.put(1521, "低级左臂魂骨");
         ID_2_NAME_MAPS.put(1522, "中级左臂魂骨");
@@ -280,6 +284,8 @@ public class GameDataBase {
         ID_2_INTRO_MAPS.put(703, "被攻击时随50%几率造成攻击的15%的反弹伤害");
         ID_2_INTRO_MAPS.put(704, "来自地狱魔魔兽,免疫一次死亡");
         ID_2_INTRO_MAPS.put(705, "吸收大地之力,血量低于25%时恢复已损失18%的生命值,冷却30秒");
+        ID_2_INTRO_MAPS.put(710, "泰坦巨猿,自身含有15%的免伤");
+        ID_2_INTRO_MAPS.put(711, "天青牛蟒,每次受到伤害对敌人造成1s的眩晕");
 
         ID_2_INTRO_MAPS.put(19, "蓝银花,蓝银草的变异,拥有艳丽的花瓣,在拥有蓝银草顽强的生命力的同时也含有毒性");
 

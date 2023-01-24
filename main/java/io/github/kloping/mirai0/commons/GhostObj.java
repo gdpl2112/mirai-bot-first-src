@@ -169,6 +169,11 @@ public class GhostObj implements Serializable, BaseInfo {
                     return new Ghost704(hp, att, xp, id, l, bl);
                 case 705:
                     return new Ghost705(hp, att, xp, id, l, bl);
+                case 710:
+                    return new Ghost710(hp, att, xp, id, l, bl);
+                case 711:
+                    return new Ghost711(hp, att, xp, id, l, bl);
+
                 default:
                     return null;
             }

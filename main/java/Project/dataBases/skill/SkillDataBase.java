@@ -275,7 +275,10 @@ public class SkillDataBase {
             List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
             for (SkillInfo info : list) {
                 info.setState(0);
-                info.setAddPercent((int) (getBasePercent(info.getJid()) * GameTool.getAHBl_(info.getId())));
+                double add = (getBasePercent(info.getJid()));
+                if (info.getSt() > 0)
+                    add *= GameTool.getAHBl_(info.getId());
+                info.setAddPercent((int) add);
                 info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                 appendInfo(info);
             }

@@ -4,9 +4,12 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
+import Project.e0.KlopingWebDataBase;
+import Project.e0.KlopingWebDataBaseBoolean;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -21,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.gameControllers.shoperController.ShopController.getNumAndPrice;
 import static Project.dataBases.GameDataBase.addToBgs;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
@@ -428,4 +432,18 @@ public class HasTimeActionController {
 //        MessageTools.instance
 //                .sendMessageInGroup("发红包成功,发送\"抢红包\"即可参与\n圣诞活动,活动当天6-22时,每小时随机发放随机红包", group.getId());
 //    }
+
+    @Action("领取补偿")
+    public String got(Long qid) {
+        if (Resource.BOT.getId() == 291841860L || Resource.BOT.getId() == 392801250L) {
+            KlopingWebDataBaseBoolean db0 = new KlopingWebDataBaseBoolean("compensate", false);
+            if (!db0.getValue(qid)) {
+                db0.setValue(qid, true);
+                DataBase.getAllInfo(qid).addScore(100000);
+                return "领取成功!";
+            } else {
+                return "已经领取!";
+            }
+        } else return null;
+    }
 }

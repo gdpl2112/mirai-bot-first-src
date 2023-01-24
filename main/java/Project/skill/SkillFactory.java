@@ -34,6 +34,8 @@ public class SkillFactory {
                     Integer jid = Integer.valueOf(Tool.tool.findNumberFromString(nStr));
                     if (jid >= 8000) {
                         CLASS_MAP2.put(jid, c0);
+                    } else if (jid > 1500) {
+                        CLASS_MAP.put(jid, c0);
                     } else if (jid > 1000) {
                         CLASS_MAP100.put(jid, c0);
                         ghostSkillNum++;
