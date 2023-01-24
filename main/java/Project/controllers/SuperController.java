@@ -240,8 +240,8 @@ public class SuperController {
         return managerService.removeFather(qq.getId(), who);
     }
 
-    @Action("/即时公告.+")
-    public String announcement(@AllMess String str) {
+    @Action("/即时公告<.+=>str>")
+    public String announcement(@Param("str") String str) {
         for (net.mamoe.mirai.contact.Group group : BOT.getGroups()) {
             group.sendMessage(str);
         }
