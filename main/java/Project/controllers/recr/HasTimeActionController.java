@@ -388,7 +388,7 @@ public class HasTimeActionController {
         int h1 = Tool.tool.getHour();
         h1 = h1 < h0 ? h1 + 24 : h1;
         if (h1 - h0 >= 12) {
-
+            REDPACKET.back();
         }
     }
 //
@@ -436,7 +436,7 @@ public class HasTimeActionController {
     @Action("领取补偿")
     public String got(Long qid) {
         if (Resource.BOT.getId() == 291841860L || Resource.BOT.getId() == 392801250L) {
-            KlopingWebDataBaseBoolean db0 = new KlopingWebDataBaseBoolean("compensate", false);
+            KlopingWebDataBaseBoolean db0 = new KlopingWebDataBaseBoolean("compensate:" + Resource.BOT.getId(), false);
             if (!db0.getValue(qid)) {
                 db0.setValue(qid, true);
                 DataBase.getAllInfo(qid).addScore(100000);

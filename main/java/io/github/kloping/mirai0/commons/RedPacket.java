@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @EqualsAndHashCode
 public abstract class RedPacket {
 
+
     public enum IdType {
         /**
          * 积分
@@ -31,10 +32,11 @@ public abstract class RedPacket {
         /**
          * 大瓶经验
          */
-        OBJ0
+        OBJ0;
     }
 
     private final Integer num;
+
     private final Integer value;
     private Integer v0;
     private Integer n0;
@@ -44,7 +46,6 @@ public abstract class RedPacket {
     private IdType id;
     private Integer hour = getHour();
     private Map<Long, Integer> record = new LinkedHashMap<>();
-
     private Iterator<Integer> iteratore = null;
 
     public RedPacket(Integer num, Integer value, Long sender, Long gid, IdType id) {
@@ -64,6 +65,16 @@ public abstract class RedPacket {
         iteratore = list.iterator();
         v0 = value;
         n0 = num;
+    }
+
+    public void back() {
+        Integer sv = 0;
+        while (iteratore.hasNext()) {
+            int v = iteratore.next();
+            sv += v;
+            app(sender, this.id, -sv);
+        }
+        finish("");
     }
 
     private Integer getOne0() {
@@ -164,7 +175,11 @@ public abstract class RedPacket {
                 ).apply();
                 break;
             case OBJ0:
-                GameDataBase.removeFromBgs(qid, 103, value, ObjType.use);
+                if (value < 0) {
+                    GameDataBase.addToBgs(qid, 103, value, ObjType.got);
+                } else {
+                    GameDataBase.removeFromBgs(qid, 103, value, ObjType.use);
+                }
                 break;
             default:
         }
