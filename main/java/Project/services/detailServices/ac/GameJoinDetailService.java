@@ -68,8 +68,7 @@ public class GameJoinDetailService {
      * @param bo        if false don't broadcast
      * @return
      */
-    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe,
-                                GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
+    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         Long o0 = -ghostObj.getWhoMeet();
         synchronized (o0) {
@@ -93,8 +92,7 @@ public class GameJoinDetailService {
                 if (canAttMe) {
                     long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
                     at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
-                    sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n")
-                            .append(GameDetailService.beaten(who, -2, at2, dType));
+                    sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2, dType));
                 }
                 long oNow = att;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
@@ -165,25 +163,10 @@ public class GameJoinDetailService {
             if (ghostObj.getHjL() > 1000) {
                 return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) + Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj));
             } else {
-                return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
-                        getImageFromStrings(
-                                "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                                "等级:" + ghostObj.getL(),
-                                "攻击:" + ghostObj.getAtt(),
-                                "生命:" + ghostObj.getHp(),
-                                "经验:" + ghostObj.getXp(),
-                                "精神力:" + ghostObj.getHj()
-                        );
+                return "!!!\n你遇到了魂兽\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) + getImageFromStrings("名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()), "等级:" + ghostObj.getL(), "攻击:" + ghostObj.getAtt(), "生命:" + ghostObj.getHp(), "经验:" + ghostObj.getXp(), "精神力:" + ghostObj.getHj());
             }
         } else {
-            return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) +
-                    getImageFromStrings(
-                            "名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()),
-                            "等级:" + getLevelTips(ghostObj.getL()),
-                            "攻击:??",
-                            "生命:??",
-                            "经验:??",
-                            "精神力:??");
+            return "!!!\n你遇到了魂兽且无法探查真正实力\n做出你的选择(选择 攻击/逃跑)\n" + SourceDataBase.getImgPathById(id) + getImageFromStrings("名字:" + ID_2_NAME_MAPS.get(ghostObj.getId()), "等级:" + getLevelTips(ghostObj.getL()), "攻击:??", "生命:??", "经验:??", "精神力:??");
         }
     }
 
@@ -257,7 +240,7 @@ public class GameJoinDetailService {
             int oid = 1514;
             addToBgs(who, oid, ObjType.got);
             return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
-        }else if (id == 711) {
+        } else if (id == 711) {
             int oid = 1515;
             addToBgs(who, oid, ObjType.got);
             return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
@@ -402,13 +385,7 @@ public class GameJoinDetailService {
     public <T extends GhostObj> T summonFor(String who, int id, boolean balance) {
         PersonInfo personInfo = getInfo(who);
         float bl = getAllHHBL(Long.valueOf(who));
-        GhostObj ghostObj = GhostObj.create(
-                (long) (personInfo.att() * bl),
-                personInfo.getHpL(),
-                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
-                id,
-                -1,
-                bl, balance);
+        GhostObj ghostObj = GhostObj.create((long) (personInfo.att() * bl), personInfo.getHpL(), (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3), id, -1, bl, balance);
         return (T) ghostObj;
     }
 
@@ -418,10 +395,10 @@ public class GameJoinDetailService {
         Object s0 = null;
         switch (id) {
             case 0:
-                s0 = att(who, ghostObj);
+                s0 = selectAtt(who, ghostObj);
                 break;
             case 1:
-                s0 = taoPao(ghostObj, who);
+                s0 = selectTaoPao(ghostObj, who);
                 break;
             default:
                 break;
@@ -429,18 +406,17 @@ public class GameJoinDetailService {
         return s0;
     }
 
-    private String taoPao(GhostObj ghostObj, long who) {
+    private String selectTaoPao(GhostObj ghostObj, long who) {
         if (ghostObj.getState() == GhostObj.HELPING) {
-            String whos = ghostObj.getForWhoStr();
+            Long fw = Long.valueOf(ghostObj.getForWhoStr());
             GameJoinDetailService.saveGhostObjIn(who, null);
             GhostObj ghostObj1 = null;
             ghostObj1 = GameJoinDetailService.getGhostObjFrom(who);
             ghostObj1.setState(GhostObj.NOT_NEED);
-            GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj1);
+            GameJoinDetailService.saveGhostObjIn(fw, ghostObj1);
         } else {
             PersonInfo personInfo = getInfo(who);
-            if (Tool.tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt()
-                    >= personInfo.att() && personInfo.getHp() <= ghostObj.getHp()) {
+            if (Tool.tool.RANDOM.nextInt(10) < 7 && ghostObj.getHp() > ghostObj.getMaxHp() / 2 && ghostObj.getAtt() >= personInfo.att() && personInfo.getHp() <= ghostObj.getHp()) {
                 return ghostObj.getName() + "觉得 还有再战之力 ，ta跳到了你面前\n逃跑失败";
             }
             ghostObj.dispose();
@@ -450,15 +426,17 @@ public class GameJoinDetailService {
         return "逃跑完成";
     }
 
-    private String att(long who, GhostObj ghostObj) {
-        if (getInfo(who).getJak1() > System.currentTimeMillis()) return ATT_WAIT_TIPS;
+    private String selectAtt(long who, GhostObj ghostObj) {
+        PersonInfo pInfo = getInfo(who);
+        if (pInfo.isVertigo()) return VERTIGO_ING;
+        if (pInfo.getJak1() > System.currentTimeMillis()) return ATT_WAIT_TIPS;
         try {
-            getInfo(who).setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2).apply();
+            pInfo.setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2).apply();
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
-            String whos = "";
+            Long fw = null;
             if (isHelp) {
-                whos = ghostObj.getForWhoStr();
-                ghostObj = GameJoinDetailService.getGhostObjFrom(Long.parseLong(whos));
+                fw = Long.parseLong(ghostObj.getForWhoStr());
+                ghostObj = GameJoinDetailService.getGhostObjFrom(fw);
             }
             if (IDXS.contains(ghostObj.getIDX())) return SYNC_GHOST_TIPS;
             IDXS.add(ghostObj.getIDX());
@@ -467,6 +445,7 @@ public class GameJoinDetailService {
             long at1 = Tool.tool.randLong(personInfo.att(), 0.35f, 0.48f);
             long at2 = Tool.tool.randLong(ghostObj.getAtt(), 0.25f, 0.48f);
             at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
+            at1 = percentTo(personInfo.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at1);
             StringBuilder sb = new StringBuilder();
             sb.append(NEWLINE);
             if (personInfo.getHl() > hl1) {
@@ -491,15 +470,14 @@ public class GameJoinDetailService {
                 sb.append(HL_NOT_ENOUGH_TIPS0);
             }
             sb.append(NEWLINE);
-            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害")
-                    .append(GameDetailService.beaten(who, -2, at2, DamageType.AD));
+            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害").append(GameDetailService.beaten(who, -2, at2, DamageType.AD));
             boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {
                 if (ghostObj.getHp() > 0L) {
                     showY = true;
                     showI = true;
-                    if (isHelp) GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
+                    if (isHelp) GameJoinDetailService.saveGhostObjIn(fw, ghostObj);
                     else GameJoinDetailService.saveGhostObjIn(who, ghostObj);
                 } else {
                     showI = true;
@@ -508,9 +486,9 @@ public class GameJoinDetailService {
                     sb.append(willGetXp(ghostObj, who, isHelp));
                     ZongDetailService.onKilled(who, ghostObj.getXp());
                     if (isHelp) {
-                        GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), null);
+                        GameJoinDetailService.saveGhostObjIn(fw, null);
                         GameJoinDetailService.saveGhostObjIn(who, null);
-                        GhostLostBroadcast.INSTANCE.broadcast(Long.parseLong(whos), ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
+                        GhostLostBroadcast.INSTANCE.broadcast(fw, ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
                     } else {
                         GameJoinDetailService.saveGhostObjIn(who, null);
                         GhostLostBroadcast.INSTANCE.broadcast(who, ghostObj, GhostLostBroadcast.KillType.NORMAL_ATT);
@@ -528,7 +506,7 @@ public class GameJoinDetailService {
                 showI = true;
                 if (isHelp) {
                     ghostObj.setState(GhostObj.NOT_NEED);
-                    GameJoinDetailService.saveGhostObjIn(Long.parseLong(whos), ghostObj);
+                    GameJoinDetailService.saveGhostObjIn(fw, ghostObj);
                 }
                 GameJoinDetailService.saveGhostObjIn(who, null);
             }

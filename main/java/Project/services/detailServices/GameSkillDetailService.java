@@ -11,9 +11,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.game.AsynchronousAttack;
-import io.github.kloping.mirai0.commons.game.AsynchronousHf;
-import io.github.kloping.mirai0.commons.game.AsynchronousThing;
+import io.github.kloping.mirai0.commons.game.*;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -53,7 +51,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(10, 15);
         BASE_PERCENT_MAP.put(11, 25);
         BASE_PERCENT_MAP.put(12, 8);
-        BASE_PERCENT_MAP.put(13, 15);
+        BASE_PERCENT_MAP.put(13, 7);
         BASE_PERCENT_MAP.put(15, 18);
         BASE_PERCENT_MAP.put(16, 50);
         BASE_PERCENT_MAP.put(17, 9);
@@ -64,7 +62,7 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(22, 16);
         BASE_PERCENT_MAP.put(23, 5000);
         BASE_PERCENT_MAP.put(24, 240000);
-        BASE_PERCENT_MAP.put(25, 2500);
+        BASE_PERCENT_MAP.put(25, 16);
         BASE_PERCENT_MAP.put(26, 3500);
         //=====
         BASE_PERCENT_MAP.put(701, 42);
@@ -318,8 +316,15 @@ public class GameSkillDetailService {
         return ls.toArray(new Long[0]);
     }
 
-    public static void addTagPack(TagPack tagPack) {
-        TagManagers.getTagManager(tagPack.getQ()).addTag(tagPack);
+    public static void addTagPack(NormalTagPack tagPack) {
+        if (tagPack instanceof NormalWithWhoTagPack) {
+            NormalWithWhoTagPack tag = (NormalWithWhoTagPack) tagPack;
+            if (tag.getQ() < 0) {
+                TagManagers.getTagManager(-tag.getWho()).addTag(tagPack);
+            }
+        } else {
+            TagManagers.getTagManager(tagPack.getQ()).addTag(tagPack);
+        }
     }
 
     /**

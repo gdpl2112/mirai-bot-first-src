@@ -13,8 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static Project.services.detailServices.GameSkillDetailService.getBasePercent;
-import static Project.services.detailServices.GameSkillDetailService.getUserPercent;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github-kloping
@@ -275,10 +274,10 @@ public class SkillDataBase {
             List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
             for (SkillInfo info : list) {
                 info.setState(0);
-                double add = (getBasePercent(info.getJid()));
-                if (info.getSt() > 0)
-                    add *= GameTool.getAHBl_(info.getId());
-                info.setAddPercent((int) add);
+//                double add = (getBasePercent(info.getJid()));
+//                if (info.getSt() > 0)
+//                    add *= GameTool.getAHBl_(info.getId());
+                info.setAddPercent(getAddP(info.getJid(), info.getId()).intValue());
                 info.setUsePercent(getUserPercent(info.getSt(), info.getJid()).intValue());
                 appendInfo(info);
             }

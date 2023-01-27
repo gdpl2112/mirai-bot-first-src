@@ -1,12 +1,10 @@
 package Project.skill.normal;
 
-import Project.controllers.auto.ControllerSource;
-import Project.services.player.Growth;
-import Project.services.player.PlayerBehavioralManager;
+import Project.dataBases.skill.SkillDataBase;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -24,19 +22,19 @@ public class Skill25 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("缩减指定人自身%s秒的攻击后摇,后摇最小1s", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("强化下次选择攻击伤害,伤害为原本的+%s%%", getAddP(getJid(), getId()));
     }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
-        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "减cd") {
+        return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "强普") {
             @Override
             public void before() {
-                long q = nearest(1, who.longValue(), nums)[0];
-                ControllerSource.playerBehavioralManager.add(
-                        new Growth().setQid(q).setTime(System.currentTimeMillis() + getDuration(getJid()))
-                                .setType(PlayerBehavioralManager.ATTACK_AFTER).setValue(-info.getAddPercent()));
-                setTips("作用于:" + q);
+                long v = 100;
+                v += info.getAddPercent();
+                NormalTagPack tagPack = new NormalTagPack(SkillDataBase.TAG_STRENGTHEN_ATT, getDuration(getJid()));
+                tagPack.setQ(who.longValue()).setValue(v).setTime(getDuration(getJid()));
+                addTagPack(tagPack);
             }
         };
     }

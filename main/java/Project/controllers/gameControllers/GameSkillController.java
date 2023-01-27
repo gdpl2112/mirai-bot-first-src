@@ -2,6 +2,8 @@ package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
+import Project.e0.GameUtils;
+import Project.e0.bao.SelectResult;
 import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -40,9 +42,10 @@ public class GameSkillController {
 
     static {
         StringBuilder sb = new StringBuilder();
-        sb.append("无");
+        sb.append("替换<减少指定魂力>魂技为<领指定减伤>").append(NEWLINE);
+        sb.append("替换<使指定人的后摇减少冷却>魂技为<立刻刷新攻击冷却>").append(NEWLINE);
+        sb.append("替换<使指定人的后摇减少N秒>魂技为<强化下次选择攻击伤害>").append(NEWLINE);
         m1 = sb.toString();
-
     }
 
     static {
@@ -117,37 +120,9 @@ public class GameSkillController {
             String s1 = Tool.tool.findNumberZh(str);
             Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
             str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
-            Set<Number> numbers = new HashSet<>();
-            while (true) {
-                if (str.contains("#")) {
-                    str = str.replaceAll("#", EMPTY_STR);
-                    numbers.add(-2);
-                }
-                Long l1 = MessageTools.instance.getAtFromString(str);
-                str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
-                if (l1 <= 0) {
-                    break;
-                } else {
-                    //过滤挑战
-                    if (challengeDetailService.isTemping(l1)) {
-                        if (challengeDetailService.isTemping(qq.getId())) {
-                            if (challengeDetailService.challenges.Q2Q.get(qq.getId()) == l1.longValue()) {
-                                numbers.add(l1);
-                            }
-                        }
-                    } else if (challengeDetailService.isTemping(qq.getId())) {
-                        if (challengeDetailService.isTemping(l1)) {
-                            if (challengeDetailService.challenges.Q2Q.get(qq.getId()) == l1.longValue()) {
-                                numbers.add(l1);
-                            }
-                        }
-                    } else {
-                        numbers.add(l1);
-                    }
-                }
-            }
-            Number[] ats = numbers.toArray(new Number[0]);
-            return String.valueOf(skillService.useSkill(qq.getId(), st, ats, str, group));
+            SelectResult result = GameUtils.getAllSelect(qq.getId(), str);
+            str = result.getStr();
+            return String.valueOf(skillService.useSkill(qq.getId(), st, result.getAts(), str, group));
         } else {
             throw new NoRunException();
         }

@@ -1,7 +1,9 @@
 package Project.skill.normal;
 
+import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
+import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -10,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_CANT_HIDE;
+import static Project.dataBases.skill.SkillDataBase.TAG_EDD_ATT;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -39,8 +42,13 @@ public class Skill14 extends SkillTemplate {
                     return;
                 }
                 q = nums[0].longValue();
-                putPerson(getInfo(q).addTag(TAG_CANT_HIDE, 1, getDuration(getJid())));
-                setTips("作用于 " +  Tool.tool.at(q));
+                NormalWithWhoTagPack tagPack = new NormalWithWhoTagPack(TAG_CANT_HIDE, getDuration(getJid()));
+                tagPack.setWho(who.longValue()).setQ(q).setValue(1L);
+                long w = who.longValue();
+                if (q < 0)
+                    w = -w;
+                TagManagers.getTagManager(w).addTag(tagPack);
+                setTips("作用于" + Tool.tool.at(q));
             }
         };
     }

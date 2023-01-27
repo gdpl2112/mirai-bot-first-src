@@ -8,6 +8,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -33,7 +34,7 @@ public class Skill8060 extends SkillTemplate {
 
             @Override
             public void run() {
-                GameBoneDetailService.addForAttr(who.longValue(), info.getAddPercent(), GameBoneDetailService.Type.HIDE_PRO);
+                GameBoneDetailService.addForAttr(who.longValue(), info.getAddPercent(), GameBoneDetailService.Type.HIDE_PRO, getDuration(getJid()));
             }
         };
     }

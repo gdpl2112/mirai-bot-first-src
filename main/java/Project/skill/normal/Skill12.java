@@ -36,19 +36,13 @@ public class Skill12 extends SkillTemplate {
             public void before() {
                 q = oneNearest(who, nums);
                 v = Long.valueOf(info.getAddPercent());
-                GameBoneDetailService.addForAttr(q, v, GameBoneDetailService.Type.HIDE_PRO);
-                setTips("作用于 " +  Tool.tool.at(q));
+                GameBoneDetailService.addForAttr(q, v, GameBoneDetailService.Type.HIDE_PRO, 120000);
+                setTips("作用于" + Tool.tool.at(q));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    GameBoneDetailService.addForAttr(q, -v, GameBoneDetailService.Type.HIDE_PRO);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

@@ -10,8 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_XX;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.getDuration;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping

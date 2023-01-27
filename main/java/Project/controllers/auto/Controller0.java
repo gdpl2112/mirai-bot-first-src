@@ -3,9 +3,8 @@ package Project.controllers.auto;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.DataBase;
 import Project.interfaces.http_api.Fuyhi;
-import Project.interfaces.http_api.KingApi;
 import Project.interfaces.http_api.KlopingWeb;
-import Project.interfaces.http_api.XiaoQianDTianYi;
+import Project.interfaces.http_api.Ovooa;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.FrameUtils;
@@ -15,7 +14,6 @@ import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.User;
 import io.github.kloping.mirai0.commons.entity.PayOut;
 import io.github.kloping.mirai0.commons.entity.PayOutM;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,22 +25,25 @@ import java.util.concurrent.TimeUnit;
 @Controller
 public class Controller0 {
 
-    private static final Set<Long> all = new HashSet<>();
+    /**
+     * 允许被充值的机器人
+     */
+    private static final Set<Long> ALL = new HashSet<>();
 
     static {
-        all.add(291841860L);
-        all.add(3597552450L);
-        all.add(392801250L);
-        all.add(3565754729L);
+        ALL.add(291841860L);
+        ALL.add(3597552450L);
+        ALL.add(392801250L);
+        ALL.add(3565754729L);
+        ALL.add(930204019L);
     }
 
     @Before
     public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
-        if (!all.contains(Resource.BOT.getId())) {
+        if (!ALL.contains(Resource.BOT.getId())) {
             throw new NoRunException("not open");
         }
-        if (!DataBase.canBack(group.getId()))
-            throw new NoRunException("not open");
+        if (!DataBase.canBack(group.getId())) throw new NoRunException("not open");
     }
 
     private static final Long BOT_ID = 930204019L;
@@ -61,7 +62,7 @@ public class Controller0 {
     }
 
     @AutoStand
-    public XiaoQianDTianYi api;
+    public Ovooa api;
 
     public Map<Long, PayOutM> longPayOutMap = new ConcurrentHashMap<>();
 
@@ -101,8 +102,7 @@ public class Controller0 {
     }
 
     private synchronized void test0(PayOutM outM) {
-        if (api.pay("", PS_KEY, 0f,
-                outM.getGid(), outM.getQid(), outM.getBid(), outM.getOut().getPay_id(), 2).getText().equals("已支付")) {
+        if (api.pay("", SKEY, PS_KEY, 0f, outM.getGid(), outM.getQid(), outM.getBid(), outM.getOut().getData().getPayId(), 2).getText().equals("已支付")) {
             DataBase.addScore(Q2C.get(outM.getValue()), outM.getQid());
             longPayOutMap.remove(outM.getQid());
             String s0 = outM.getQid() + "在群:" + outM.getGid() + "完成订单:" + outM.getValue();
@@ -123,8 +123,7 @@ public class Controller0 {
             if (longPayOutMap.containsKey(senderId)) {
                 return "\n订单处理中...";
             } else {
-                PayOut out = api.pay("充值支付", PS_KEY, v.floatValue(), groupId,
-                        senderId, botId, "", 1);
+                PayOut out = api.pay("充值支付", SKEY, PS_KEY, v.floatValue(), groupId, botId, senderId, "", 1);
                 PayOutM m = new PayOutM();
                 m.setOut(out);
                 m.setGid(groupId);
@@ -147,8 +146,7 @@ public class Controller0 {
         long botId = BOT_ID;
         if (longPayOutMap.containsKey(senderId)) {
             PayOutM m = longPayOutMap.get(senderId);
-            PayOut out = api.pay("", PS_KEY, 0f,
-                    groupId, senderId, botId, m.getOut().getPay_id(), 4);
+            PayOut out = api.pay("充值支付", SKEY, PS_KEY, m.getValue().floatValue(), groupId, botId, senderId, m.getOut().getData().getPayId(), 3);
             longPayOutMap.remove(senderId);
             return out.getText();
         } else {
@@ -166,9 +164,8 @@ public class Controller0 {
         long botId = BOT_ID;
         if (longPayOutMap.containsKey(senderId)) {
             PayOutM m = longPayOutMap.get(senderId);
-            PayOut out = api.pay("", PS_KEY, 0f,
-                    groupId, senderId, botId, m.getOut().getPay_id(), 2);
-            if ("已支付".equals(out.getText())) {
+            PayOut out = api.pay("充值支付", SKEY, PS_KEY, m.getValue().floatValue(), groupId, botId, senderId, m.getOut().getData().getPayId(), 2);
+            if ("支付成功".equals(out.getText())) {
                 DataBase.addScore(Q2C.get(m.getValue()), senderId);
                 longPayOutMap.remove(senderId);
                 String s0 = senderId + "在群:" + groupId + "完成订单:" + m.getValue();

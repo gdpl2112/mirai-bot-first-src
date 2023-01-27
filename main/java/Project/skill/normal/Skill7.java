@@ -33,11 +33,11 @@ public class Skill7 extends SkillTemplate {
             @Override
             public void before() {
                 Long q = oneNearest(who.longValue(), nums);
-                if (!exist(q)) {
+                if (q < 0 || !exist(q)) {
                     return;
                 }
                 putPerson(getInfo(q).addTag(TAG_FJ, info.getAddPercent(), getDuration(getJid())));
-                setTips("作用于 " +  Tool.tool.at(who.longValue()));
+                setTips("作用于 " + Tool.tool.at(who.longValue()));
             }
 
             @Override

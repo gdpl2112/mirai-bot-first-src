@@ -36,6 +36,18 @@ public class NormalTagPack extends TagPack {
     }
 
     @Override
+    public NormalTagPack setValue(Long value) {
+        super.setValue(value);
+        return this;
+    }
+
+    @Override
+    public NormalTagPack setQ(Long q) {
+        super.setQ(q);
+        return this;
+    }
+
+    @Override
     public boolean over() {
         return System.currentTimeMillis() >= time || getValue() <= 0;
     }

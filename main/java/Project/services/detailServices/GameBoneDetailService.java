@@ -1,5 +1,6 @@
 package Project.services.detailServices;
 
+import io.github.kloping.common.Public;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
 
@@ -13,7 +14,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameBoneDetailService {
     public static final Map<Long, Map<Type, Number>> TEMP_ATTR = new ConcurrentHashMap<>();
 
-    public static void addForAttr(long q, Number v, Type type) {
+    /**
+     * 给 q 增加 v 点 type 属性 t 毫秒
+     *
+     * @param q
+     * @param v
+     * @param type
+     * @param t
+     */
+    public static void addForAttr(long q, final Number v, Type type, long t) {
         Number oldV = 0;
         if (TEMP_ATTR.containsKey(q)) {
             if (TEMP_ATTR.get(q).containsKey(type)) {
@@ -25,6 +34,16 @@ public class GameBoneDetailService {
             MapUtils.append(TEMP_ATTR, q, type, nv);
         } else {
             TEMP_ATTR.get(q).remove(type);
+        }
+        if (t > 0) {
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                try {
+                    Thread.sleep(t);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                TEMP_ATTR.get(q).remove(type);
+            });
         }
     }
 
@@ -41,7 +60,7 @@ public class GameBoneDetailService {
         return attribute;
     }
 
-    public static enum Type {
+    public enum Type {
         /**
          * 闪避率
          */
@@ -70,7 +89,7 @@ public class GameBoneDetailService {
          * 精神力回复效果
          */
         HJ_REC_EFF("hjEffect");
-        String value;
+        final String value;
 
         Type(String value) {
             this.value = value;

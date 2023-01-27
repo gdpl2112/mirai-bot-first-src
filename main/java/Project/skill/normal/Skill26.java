@@ -24,7 +24,7 @@ public class Skill26 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("使指定人的后摇,减少%s秒冷却", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("使指定人的攻击冷却立刻刷新", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override
@@ -35,8 +35,8 @@ public class Skill26 extends SkillTemplate {
                 long t0 = info.getAddPercent();
                 for (Long q : nearest(2, who.longValue(), nums)) {
                     PersonInfo pInfo = getInfo(q);
-                    pInfo.setJak1(pInfo.getJak1() - t0)
-                            .setAk1(pInfo.getAk1() - t0).apply();
+                    pInfo.setJak1(1L)
+                            .setAk1(1L).apply();
                     setTips("作用于:" + q);
                 }
             }

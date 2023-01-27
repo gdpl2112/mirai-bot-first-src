@@ -1,6 +1,8 @@
 package Project.controllers.gameControllers;
 
 
+import Project.e0.GameUtils;
+import Project.e0.bao.SelectResult;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -125,37 +127,8 @@ public class GameBoneController {
         for (SoulBone soulBone : gameBoneService.getSoulBones(qq)) {
             if (soulBone.getOid().toString().startsWith(idp)) {
                 if (soulBone.hasSkill()) {
-                    Set<Number> numbers = new HashSet<>();
-                    while (true) {
-                        if (str.contains("#")) {
-                            str = str.replaceAll("#", EMPTY_STR);
-                            numbers.add(-2);
-                        }
-                        Long l1 = MessageTools.instance.getAtFromString(str);
-                        str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
-                        if (l1 <= 0) {
-                            break;
-                        } else {
-                            //过滤挑战
-                            if (challengeDetailService.isTemping(l1)) {
-                                if (challengeDetailService.isTemping(qq)) {
-                                    if (challengeDetailService.challenges.Q2Q.get(qq) == l1.longValue()) {
-                                        numbers.add(l1);
-                                    }
-                                }
-                            } else if (challengeDetailService.isTemping(qq)) {
-                                if (challengeDetailService.isTemping(l1)) {
-                                    if (challengeDetailService.challenges.Q2Q.get(qq) == l1.longValue()) {
-                                        numbers.add(l1);
-                                    }
-                                }
-                            } else {
-                                numbers.add(l1);
-                            }
-                        }
-                    }
-                    Number[] ats = numbers.toArray(new Number[0]);
-                    return String.valueOf(skillService.useSkill(qq, -1, ats, str, g));
+                    SelectResult result = GameUtils.getAllSelect(qq, str);
+                    return String.valueOf(skillService.useSkill(qq, -1, result.getAts(), result.getStr(), g));
                 }
             }
         }

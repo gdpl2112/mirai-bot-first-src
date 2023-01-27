@@ -624,6 +624,11 @@ public class PersonInfo implements BaseInfo {
         return TagManagers.getTagManager(getId().longValue()).getValue(tag);
     }
 
+    public Number getTagValueOrDefault(String tag, Number d) {
+        Number v = TagManagers.getTagManager(getId().longValue()).getValue(tag);
+        return v == null || v.longValue() <= 0 ? d : v;
+    }
+
     public Integer getHelpToc() {
         return helpToc;
     }

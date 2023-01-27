@@ -47,18 +47,12 @@ public class Skill721 extends SkillTemplate {
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v2, getJid()));
                 q1 = who.longValue();
                 v = Long.valueOf(info.getAddPercent());
-                GameBoneDetailService.addForAttr(q1, v, GameBoneDetailService.Type.HIDE_PRO);
+                GameBoneDetailService.addForAttr(q1, v, GameBoneDetailService.Type.HIDE_PRO, getDuration(getJid()));
             }
 
             @Override
             public void run() {
                 super.run();
-                try {
-                    Thread.sleep(getDuration(getJid()));
-                    GameBoneDetailService.addForAttr(q1, -v, GameBoneDetailService.Type.HIDE_PRO);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         };
     }

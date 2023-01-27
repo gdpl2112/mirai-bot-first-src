@@ -136,8 +136,8 @@ public class ScoreController {
         if (DataBase.isMaxEarnings(qq.getId())) {
             return MAX_EARNINGS_TIPS;
         }
-        long l = Tool.tool.RANDOM.nextInt(60) + 80;
-        long r = Tool.tool.RANDOM.nextInt(2) + 1;
+        long l = Tool.tool.RANDOM.nextInt(40) + 40;
+        long r = Tool.tool.RANDOM.nextInt(3) + 1;
         addScore(-l, qq.getId());
         putInfo(getAllInfo(qq.getId()).record(-l));
         DataBase.addFz(-r, qq.getId());

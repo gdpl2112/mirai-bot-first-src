@@ -1,4 +1,4 @@
-package Project.interfaces.http_api;
+package Project.interfaces.http_api.old;
 
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;

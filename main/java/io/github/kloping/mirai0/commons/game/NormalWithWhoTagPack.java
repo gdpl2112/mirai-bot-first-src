@@ -8,7 +8,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
  *
  * @author github.kloping
  */
-public class NormalWithWhoTagPack extends TagPack {
+public class NormalWithWhoTagPack extends NormalTagPack {
     public long time;
     private long who;
 
@@ -17,8 +17,7 @@ public class NormalWithWhoTagPack extends TagPack {
      * @param t   current + t
      */
     public NormalWithWhoTagPack(String tag, long t) {
-        super(tag);
-        time = System.currentTimeMillis() + t;
+        super(tag,t);
     }
 
     @Override

@@ -3,19 +3,7 @@ package io.github.kloping.mirai0.commons.entity;
 import lombok.Data;
 
 /**
- * <table class="layui-table" lay-size="sm">
- * <thead>
- * <tr><th>名称</th><th>类型</th><th>说明</th></tr>
- * </thead>
- * <tbody>
- * <tr><td>code</td><td>Int</td><td>状态码</td></tr>
- * <tr><td>text</td><td>String</td><td>返回提示</td></tr>
- * <tr><td>money</td><td>Int</td><td>发起金额</td></tr>
- * <tr><td>uin</td><td>Int</td><td>操作者QQ</td></tr>
- * <tr><td>payuin</td><td>Int</td><td>付款者QQ</td></tr>
- * <tr><td>payid</td><td>Int</td><td>订单号</td></tr>
- * </tbody>
- * </table>
+ * <table class="mdui-table mdui-table-hoverable"><thead><tr><th>参数名称</th> <th>参数类型</th> <th>参数说明</th></tr></thead> <tbody><tr><td><code>code</code></td> <td><code>int</code></td> <td>状态码</td></tr><tr><td><code>text</code></td> <td><code>string</code></td> <td>返回提示</td></tr><tr><td><code>data</code></td> <td><code>string</code></td> <td>返回数据</td></tr><tr><td><code>uin</code></td> <td><code>int</code></td> <td>发起订单账号</td></tr><tr><td><code>payuin</code></td> <td><code>int</code></td> <td>付款人账号</td></tr><tr><td><code>Time</code></td> <td><code>string</code></td> <td>付款时间</td></tr><tr><td><code>pay_id</code></td> <td><code>bigint</code></td> <td>订单号</td></tr></tbody></table>
  *
  * @author github.kloping
  */
@@ -23,8 +11,9 @@ import lombok.Data;
 public class PayOut {
     private Integer code;
     private String text;
-    private String money;
+    private PayOutData data;
     private String uin;
-    private String pay_uin;
-    private String pay_id;
+    private String payuin;
+    private String payid;
+    private String time;
 }
