@@ -1,6 +1,5 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
-import Project.aSpring.SaverSpringStarter;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -14,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 public class SaveHandler extends SimpleListenerHost {
 
     public SaveHandler(String[] args) {
-        SaverSpringStarter.main(args);
     }
 
     @Override

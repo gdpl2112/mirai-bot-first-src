@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main.Handlers;
 
-import Project.aSpring.SaverSpringStarter;
+import Project.aSpring.SpringBootResource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -188,7 +188,7 @@ public class AllMessage {
             return;
         }
         DEA_THREADS.submit(() -> {
-            SaverSpringStarter.saveMapper.insert(this);
+            SpringBootResource.getSaveMapper().insert(this);
         });
     }
 

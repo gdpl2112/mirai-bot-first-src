@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 public class SpringBootResource {
     private static final String PUBLIC_IP = getPublicIp();
     public static String address;
-    public static ConfigurableApplicationContext configuration;
     public static ConfigurableEnvironment environment;
 
     public static UserScoreMapper scoreMapper;
@@ -42,6 +41,7 @@ public class SpringBootResource {
     public static ZonMapper zonMapper;
     public static UpupMapper upupMapper;
     public static AchievementMapper achievementMapper;
+    public static SaveMapper saveMapper;
 
     public static AchievementMapper getAchievementMapper() {
         return achievementMapper;
@@ -100,7 +100,7 @@ public class SpringBootResource {
     }
 
     public static ConfigurableApplicationContext getConfiguration() {
-        return configuration;
+        return  SpringStarter.configuration;
     }
 
     public static ConfigurableEnvironment getEnvironment() {
@@ -139,6 +139,10 @@ public class SpringBootResource {
         return shopItemMapper;
     }
 
+    public static SaveMapper getSaveMapper() {
+        return saveMapper;
+    }
+
     public static String getAddress() {
         return address;
     }
@@ -155,7 +159,7 @@ public class SpringBootResource {
                                 continue;
                             }
                             Class<? extends BaseMapper> c1 = c0;
-                            Object o0 = configuration.getBean(c1);
+                            Object o0 =  SpringStarter.configuration.getBean(c1);
                             declaredField.set(null, o0);
                         }
                     }
@@ -164,7 +168,7 @@ public class SpringBootResource {
                 e.printStackTrace();
             }
             System.out.println("==============spring papered=================");
-            address = "http://" + PUBLIC_IP + ":" + configuration.getEnvironment().getProperty("server.port");
+            address = "http://" + PUBLIC_IP + ":" +  SpringStarter.configuration.getEnvironment().getProperty("server.port");
         } catch (Exception e) {
             e.printStackTrace();
         }

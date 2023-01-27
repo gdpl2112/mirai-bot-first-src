@@ -46,12 +46,12 @@ public class BotStarter2 {
         });
         Tool.tool.setOnErrInFIle(Tool.tool.getLogTimeFormat() + "b2_err.log");
         Tool.tool.setOnOutInFIle(Tool.tool.getLogTimeFormat() + "b2_console.log");
-        SpringStarter.main(args);
         bot.login();
         BOT = bot;
         datePath = "./Libs2";
         init();
         setterStarterApplication(BotStarter2.class);
+        SpringStarter.main(args);
         GlobalEventChannel.INSTANCE.registerListenerHost(new MyHandler());
         startRegisterListenerHost(args);
         startedAfter();

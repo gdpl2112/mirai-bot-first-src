@@ -1,6 +1,5 @@
 package Project.controllers;
 
-import Project.aSpring.SaverSpringStarter;
 import Project.aSpring.SpringBootResource;
 import Project.controllers.auto.GameConfSource;
 import Project.controllers.auto.TimerController;
@@ -110,7 +109,7 @@ public class SuperController {
             return ERR_TIPS;
         }
         int n = Integer.parseInt(Tool.tool.findNumberFromString(str.replace(Long.toString(q0), "")));
-        for (AllMessage allMessage : SaverSpringStarter.saveMapper.selectMessage(group.getId(), q0, n)) {
+        for (AllMessage allMessage : SpringBootResource.getSaveMapper().selectMessage(group.getId(), q0, n)) {
             String s0 = allMessage.getContent();
             Message message;
             try {

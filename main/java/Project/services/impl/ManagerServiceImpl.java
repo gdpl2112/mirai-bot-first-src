@@ -1,7 +1,7 @@
 package Project.services.impl;
 
 
-import Project.aSpring.SaverSpringStarter;
+import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -138,7 +138,7 @@ public class ManagerServiceImpl implements IManagerService {
             return PERMISSION_DENIED;
         }
         String tips = RECALL_SUCCEED;
-        List<AllMessage> messages = SaverSpringStarter.saveMapper.selectMessage(g, who, ns.length);
+        List<AllMessage> messages = SpringBootResource.getSaveMapper().selectMessage(g, who, ns.length);
         for (AllMessage message : messages) {
             try {
                 MessageSourceBuilder builder = new MessageSourceBuilder();
@@ -152,7 +152,7 @@ public class ManagerServiceImpl implements IManagerService {
                 UpdateWrapper<AllMessage> updateWrapper = new UpdateWrapper<>();
                 updateWrapper.eq("internal_id", message.getInternalId());
                 message.setRecalled(1);
-                SaverSpringStarter.saveMapper.update(message, updateWrapper);
+                SpringBootResource.getSaveMapper().update(message, updateWrapper);
             } catch (Exception e) {
                 e.printStackTrace();
                 tips = RECALL_FAIL;
