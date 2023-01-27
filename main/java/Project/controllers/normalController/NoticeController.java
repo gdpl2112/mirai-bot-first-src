@@ -47,6 +47,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 1.27:宗门更新;见<宗门系统>").append(NEWLINE);
         UPDATE_LOG.append(" 1.27:修复部分已知bug,见<魂技更新列表>").append(NEWLINE);
         UPDATE_LOG.append(" 1.19:落日魂兽新增 泰坦巨猿 天青牛蟒 及专属魂骨,魂技技能").append(NEWLINE);
         UPDATE_LOG.append(" 1.10:每周魂师签到连续奖励").append(NEWLINE);

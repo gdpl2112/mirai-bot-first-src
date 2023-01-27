@@ -28,7 +28,8 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 public class GameTaskController {
     static {
         MORNING_RUNNABLE.add(() -> {
-            if ( Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
+            //周六早刷新CD
+            if (Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
                 SpringBootResource.getTaskPointMapper().updateAll();
                 SpringBootResource.getScoreMapper().updateEarnings();
             }

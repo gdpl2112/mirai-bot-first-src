@@ -61,10 +61,10 @@ public class OtherController {
         baseMenuStr.append("列表\n");
         baseMenuStr.append("进入 #见列表\n");
         baseMenuStr.append("====");
-        baseMenuStr.append("请求支援(遇到魂兽时请求)\n");
+        baseMenuStr.append("请求支援 #遇到魂兽时请求\n");
         baseMenuStr.append("支援<At>\n");
         baseMenuStr.append("探查 #查看当前魂兽信息\n");
-        baseMenuStr.append("吸收(十/百/千..)年魂环\n");
+        baseMenuStr.append("吸收<N>年魂环\n");
         baseMenuStr.append("魂环配置 #展示魂环\n");
         baseMenuStr.append("购买金魂币(值) #2积分1个\n");
         baseMenuStr.append("精神冲击<Any>\n");
@@ -73,10 +73,10 @@ public class OtherController {
         baseMenuStr.append("取名封号<名字>\n");
         baseMenuStr.append("====");
         baseMenuStr.append("选择<攻击/逃跑>\r\n\t#当遇到魂兽时使用\n");
-        baseMenuStr.append("换积分<value>\r\n\t#(用金魂币换积分)1金魂币1.5积分(多出500的金魂币才能换)\n");
+        baseMenuStr.append("换积分<Value>\r\n\t#用金魂币换积分1金魂币1.5积分(多出500的金魂币才能换)\n");
         baseMenuStr.append("等级排行\n");
-        baseMenuStr.append("称号 #(查看所有称号)\n");
-        baseMenuStr.append("武魂类型 #查看自己的武魂类型是什么)\n");
+        baseMenuStr.append("称号 #查看所有称号\n");
+        baseMenuStr.append("武魂类型 #查看自己的武魂类型是什么\n");
         baseMenuStr.append("融合武魂 <At>  # 需要融合戒指\n");
         baseMenuStr.append("魂兽击杀排行\n");
         baseMenuStr.append("关系列表\n");
@@ -87,8 +87,9 @@ public class OtherController {
         baseMenuStr.append("魂环吸收限制");
         baseMenuStr.append("精神力作用\n");
         baseMenuStr.append("新机制\n");
-        baseMenuStr.append("怎么获得名师点\n");
-        baseMenuStr.append("我的buff/我的效果\n");
+        baseMenuStr.append("名师点怎么获得\n");
+        baseMenuStr.append("我的<buff/效果>\n");
+        baseMenuStr.append("新机制\n");
         baseMenuStr.append("创建试炼挑战\n");
         baseMenuStr.append("====");
         baseMenuStr.append("#任务相关\n");
@@ -113,13 +114,13 @@ public class OtherController {
         baseMenuStr.append("我的收益\n");
         baseMenuStr.append("====");
         baseMenuStr.append("#管理相关 #需要权限\n");
-        baseMenuStr.append("禁言(@xx)(值)(单位,秒,分..)\n");
-        baseMenuStr.append("解除禁言(@xx)\n");
+        baseMenuStr.append("禁言<At><Value><单位,秒,分..>\n");
+        baseMenuStr.append("解除禁言<At>\n");
         baseMenuStr.append("开启/说话\n");
         baseMenuStr.append("关闭/闭嘴\n");
-        baseMenuStr.append("(开启/关闭)闪照破解\n");
-        baseMenuStr.append("获取 @xx \n");
-        baseMenuStr.append("撤回 <@> <index...> \n");
+        baseMenuStr.append("<开启/关闭>闪照破解\n");
+        baseMenuStr.append("获取<At> \n");
+        baseMenuStr.append("撤回<At><index...> \n");
         String baseMenuString = baseMenuStr.toString();
         BaseMenuStrings = baseMenuString.split("====");
     }
@@ -197,7 +198,7 @@ public class OtherController {
 
     @Action("娱乐功能.*?")
     public String m0(@AllMess String m) {
-        Integer i1 =  Tool.tool.getInteagerFromStr(m);
+        Integer i1 = Tool.tool.getInteagerFromStr(m);
         int n = 1;
         n = i1 == null ? n : i1;
         n = n > E_MENUS.length ? 1 : n;
@@ -230,8 +231,8 @@ public class OtherController {
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
         sb.append("群内名:").append(MemberTools.getNameFromGroup(qq, group)).append("\r\n");
         sb.append("QQ名:").append(member.getNick()).append("\r\n");
-        sb.append("加入时间:").append( Tool.tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
-        sb.append("最后发言:").append( Tool.tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
+        sb.append("加入时间:").append(Tool.tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
+        sb.append("最后发言:").append(Tool.tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
         sb.append("头衔:").append(member.getSpecialTitle()).append("\r\n");
         sb.append("禁言时长:").append(member.getMuteTimeRemaining()).append("\r\n");
         sb.append("头像链接:").append(member.getAvatarUrl()).append("\r\n");
@@ -263,7 +264,7 @@ public class OtherController {
                 }
                 return controller.close(group);
             } else if (DataBase.canSpeak(group.getId())) {
-                if (! Tool.tool.isIlleg(str)) {
+                if (!Tool.tool.isIlleg(str)) {
                     if (cd0 < System.currentTimeMillis()) {
                         cd0 = System.currentTimeMillis() + CD;
                         String talk = otherService.talk(str);

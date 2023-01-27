@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.commons.apiEntitys.iciba.Dsapi;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.BufferedReader;
@@ -37,7 +38,7 @@ public class TimerController {
     private static Gson gson;
     private static int ts = 10;
 
-    public static void appendOneDay(MessageChainBuilder builder, Group group) {
+    public static void appendOneDay(MessageChainBuilder builder) {
         try {
             URL url = new URL("http://open.iciba.com/dsapi");
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -83,13 +84,14 @@ public class TimerController {
     public static void onSix() {
         Tool.tool.updateToday();
         THREADS.submit(() -> {
+            MessageChainBuilder builder = new MessageChainBuilder();
+            appendOneDay(builder);
+            Message message = builder.build();
             for (Group group : BOT.getGroups()) {
                 if (!ControllerTool.canGroup(group.getId())) {
                     continue;
                 }
-                MessageChainBuilder builder = new MessageChainBuilder();
-                appendOneDay(builder, group);
-                group.sendMessage(builder.build());
+                group.sendMessage(message);
             }
             THREADS.submit(() -> {
                 for (Runnable runnable : MORNING_RUNNABLE) {

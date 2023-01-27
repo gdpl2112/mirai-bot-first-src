@@ -9,6 +9,7 @@ import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
 import Project.services.impl.GameServiceImpl;
+import Project.services.impl.ZongMenServiceImpl;
 import Project.services.player.PlayerBehavioralManager;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.gson.Gson;
@@ -56,6 +57,9 @@ public class ControllerSource {
 
     @AutoStand
     public static KlopingWeb klopingWeb;
+
+    @AutoStand
+    public static ZongMenServiceImpl zongMenService;
 
     @AutoStand(id = "m100")
     public static Set<RunnableWithOver> m100;

@@ -23,8 +23,6 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
 @Entity
 public class ZongDetailService {
 
-    private static ExecutorService threads = Executors.newFixedThreadPool(10);
-
     static {
         Resource.START_AFTER.add(() -> {
             ZERO_RUNS.add(() -> {

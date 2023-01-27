@@ -30,7 +30,7 @@ public class ZongMenDataBase {
             file.mkdirs();
         }
         Resource.START_AFTER.add(() -> {
-            initMap();
+            reInitMap();
         });
     }
 
@@ -146,7 +146,7 @@ public class ZongMenDataBase {
         return sb.toString().split("\\s+");
     }
 
-    private void initMap() {
+    private void reInitMap() {
         try {
             for (Zong zong : getZongMapper().selectAll()) {
                 for (Number number : zong.getMember()) {

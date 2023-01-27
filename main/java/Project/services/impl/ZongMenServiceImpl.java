@@ -1,6 +1,8 @@
 package Project.services.impl;
 
+import Project.aSpring.SpringBootResource;
 import Project.controllers.auto.ConfirmController;
+import Project.controllers.auto.ControllerTool;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
 import Project.detailPlugin.KlopingDetail;
@@ -18,6 +20,8 @@ import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,12 +29,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
+import static io.github.kloping.mirai0.Main.Resource.BOT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
@@ -42,12 +50,86 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
 
+    static {
+        MORNING_RUNNABLE.add(() -> {
+            if (Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
+                List<Zong> zongs = SpringBootResource.getZongMapper().selectAllSortByActive();
+                MessageChainBuilder builder = new MessageChainBuilder();
+                if (zongs.size() > 0) {
+                    Zong z1 = zongs.get(0);
+                    builder.append("上周最活跃宗门:\n\t").append(z1.getName()).append(NEWLINE);
+                    builder.append("活跃点数:").append(z1.getActive().toString()).append(NEWLINE);
+                    builder.append("宗主奖励8000金魂币\n长老奖励5000金魂币\n成员奖励2000金魂币").append(NEWLINE);
+                    reward(z1, 8000, 5000, 2000);
+                }
+                if (zongs.size() > 1) {
+                    Zong z2 = zongs.get(1);
+                    builder.append("上周次活跃宗门:\n\t").append(z2.getName()).append(NEWLINE);
+                    builder.append("活跃点数:").append(z2.getActive().toString()).append(NEWLINE);
+                    builder.append("宗主奖励6000金魂币\n长老奖励3500金魂币\n成员奖励1500金魂币").append(NEWLINE);
+                    reward(z2, 60000, 3500, 1500);
+                }
+                SpringBootResource.getZongMapper().updateAll();
+                SpringBootResource.getZonMapper().updateAll();
+                Message message = builder.build();
+                for (net.mamoe.mirai.contact.Group group : BOT.getGroups()) {
+                    if (!ControllerTool.canGroup(group.getId())) {
+                        continue;
+                    }
+                    group.sendMessage(message);
+                }
+            }
+        });
+    }
+
+    private static void reward(Zong z1, long i, long i1, long i2) {
+        long q1 = z1.getMain();
+        long i0 = i - i2;
+        getInfo(q1).addGold(i0, new TradingRecord()
+                .setFrom(-1)
+                .setMain(q1).setDesc("宗门奖励")
+                .setTo(q1)
+                .setMany(i0)
+                .setType0(TradingRecord.Type0.gold)
+                .setType1(TradingRecord.Type1.add));
+        long i3 = i1 - i2;
+        for (Number q : z1.getElder()) {
+            getInfo(q.longValue()).addGold(i3, new TradingRecord()
+                    .setFrom(-1)
+                    .setMain(q.longValue()).setDesc("宗门奖励")
+                    .setTo(q.longValue())
+                    .setMany(i3)
+                    .setType0(TradingRecord.Type0.gold)
+                    .setType1(TradingRecord.Type1.add));
+        }
+        for (Number q : z1.getMember()) {
+            getInfo(q.longValue()).addGold(i2, new TradingRecord()
+                    .setFrom(-1)
+                    .setMain(q.longValue()).setDesc("宗门奖励")
+                    .setTo(q.longValue())
+                    .setMany(i2)
+                    .setType0(TradingRecord.Type0.gold)
+                    .setType1(TradingRecord.Type1.add));
+        }
+    }
+
+    public synchronized void addActivePoint(Long qid, int point) {
+        if (qq2id.containsKey(qid)) {
+            int id = qq2id.get(qid).intValue();
+            Zong zong = getZongInfo(id);
+            zong.setActive(zong.getActive() + point);
+            putZongInfo(zong);
+            Zon zon = getZonInfo(qid);
+            zon.setActive(zon.getActive() + point);
+            putZonInfo(zon);
+        }
+    }
+
     public static final int GV = 50;
 
     public long isJkOk(Long qq) {
         PersonInfo info = GameDataBase.getInfo(qq);
-        if (info.getJk1() <= System.currentTimeMillis())
-            return 0;
+        if (info.getJk1() <= System.currentTimeMillis()) return 0;
         return info.getJk1();
     }
 
@@ -58,20 +140,14 @@ public class ZongMenServiceImpl implements IZongMenService {
         long t1 = -1;
         if ((t1 = isJkOk(who)) > 0) return "宗门活动冷却中...==>" + Tool.tool.getTimeDDHHMM(t1);
         //=================
-        if (qq2id.containsKey(who))
-            return "你已经在宗门之中";
+        if (qq2id.containsKey(who)) return "你已经在宗门之中";
         PersonInfo info = GameDataBase.getInfo(who);
-        if (info.getGold() < 500)
-            return "创建,至少需要500金魂币才能出创建宗门";
-        if (info.getLevel() < 50)
-            return "威望不足，50级以上才可创建宗门";
+        if (info.getGold() < 500) return "创建,至少需要500金魂币才能出创建宗门";
+        if (info.getLevel() < 50) return "威望不足，50级以上才可创建宗门";
         try {
             Method method = this.getClass().getDeclaredMethod("createNow", Long.class, String.class, Group.class);
             method.setAccessible(true);
-            ConfirmController.regConfirm(who,
-                    method, this, new Object[]{
-                            who, name, group}
-            );
+            ConfirmController.regConfirm(who, method, this, new Object[]{who, name, group});
             return "确定要创建宗门 ' " + name + " ' 吗,\r\n这将花费450金魂币\r\n请在30秒内回复(确定/确认/取消)";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -80,18 +156,9 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     public String createNow(Long who, String name, Group group) {
-        if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name))
-            return ("创建异常..");
+        if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name)) return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
-        GameDataBase.putPerson(GameDataBase.getInfo(who).addGold(-450L, new TradingRecord()
-                .setType1(TradingRecord.Type1.lost)
-                .setType0(TradingRecord.Type0.gold)
-                .setTo(-1)
-                .setMain(who)
-                .setFrom(who)
-                .setDesc("创建宗门")
-                .setMany(450)
-        ));
+        GameDataBase.putPerson(GameDataBase.getInfo(who).addGold(-450L, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("创建宗门").setMany(450)));
         GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12).apply();
         return zongInfo(who, group);
     }
@@ -99,10 +166,9 @@ public class ZongMenServiceImpl implements IZongMenService {
     @Override
     public String zongInfo(Long qq, Group group) {
         if (qq2id.containsKey(qq)) {
-            Integer id = Integer.valueOf(qq2id.get(qq) + "");
+            Integer id = qq2id.get(qq).intValue();
             return zongInfo(id, group);
-        } else
-            return ("你没有加入任何宗门");
+        } else return ("你没有加入任何宗门");
     }
 
     @Override
@@ -122,8 +188,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         sb.append("宗门宗主:").append(name).append("(").append(zong.getMain()).append(")").append("\r\n");
         sb.append("宗门人数:").append(zong.getMembers()).append("/").append(zong.getMaxP()).append("\r\n");
         sb.append("宗门长老:").append(zong.getElders()).append("/").append(zong.getElderNum()).append("\r\n");
-        return ((icon == null || icon.trim().isEmpty()) ? "" : Tool.tool.pathToImg(icon)) +
-                getImageFromStrings(false, sb.toString().split("\\s+"));
+        return ((icon == null || icon.trim().isEmpty()) ? "" : Tool.tool.pathToImg(icon)) + getImageFromStrings(false, sb.toString().split("\\s+"));
     }
 
     @Override
@@ -142,12 +207,10 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String setIcon(String imageUrl, Long who, Group group) {
-        if (!qq2id.containsKey(who))
-            return ("你没有加入任何宗门");
+        if (!qq2id.containsKey(who)) return ("你没有加入任何宗门");
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
-        if (zon.getLevel() != 2)
-            return ("仅宗主有权限修改宗门信息");
+        if (zon.getLevel() != 2) return ("仅宗主有权限修改宗门信息");
         if (zong.getMk() > System.currentTimeMillis())
             return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
         String path = "./temp/" + UUID.randomUUID() + ".jpg";
@@ -180,16 +243,12 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String invite(long who, long qq, Group group) {
-        if (!qq2id.containsKey(who))
-            return ("你没有加入任何宗门");
-        if (qq2id.containsKey(qq))
-            return ("ta已经加入宗门");
-        if (!GameDataBase.exist(qq))
-            return (PLAYER_NOT_REGISTERED);
+        if (!qq2id.containsKey(who)) return ("你没有加入任何宗门");
+        if (qq2id.containsKey(qq)) return ("ta已经加入宗门");
+        if (!GameDataBase.exist(qq)) return (PLAYER_NOT_REGISTERED);
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
-        if (zon.getLevel() < 1)
-            return ("仅宗主和长老有权限邀请成员");
+        if (zon.getLevel() < 1) return ("仅宗主和长老有权限邀请成员");
         try {
             Method method = this.getClass().getDeclaredMethod("join", Long.class, Long.class, Group.class);
             if (zong.getMembers() >= zong.getMaxP()) {
@@ -216,8 +275,7 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String listPer(Long who, Group group) {
-        if (!qq2id.containsKey(who))
-            return ("你没有加入任何宗门");
+        if (!qq2id.containsKey(who)) return ("你没有加入任何宗门");
         Zong zong = getZongInfo(who);
         StringBuilder sb = new StringBuilder();
         sb.append(zong.getName()).append("\r\n==================\r\n");
@@ -225,12 +283,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         for (Number z1 : zong.getMember()) {
             try {
                 Zon zon = getZonInfo(z1.longValue());
-                sb.append(i).
-                        append(":").
-                        append(getFhName(z1.longValue(), true))
-                        .append("(").append(
-                                zon.getLevel() == 1 ? "长老" :
-                                        zon.getLevel() == 2 ? "宗主" : "").append("\r\n\t  ");
+                sb.append(i).append(":").append(getFhName(z1.longValue(), true)).append("(").append(zon.getLevel() == 1 ? "长老" : zon.getLevel() == 2 ? "宗主" : "").append("\r\n\t  ");
                 sb.append(zon.getXper()).append("点贡献").append("\r\n");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -245,12 +298,10 @@ public class ZongMenServiceImpl implements IZongMenService {
     @Override
     public String setName(String name, long who, Group group) {
         if (Tool.tool.isIlleg(name)) return ("存在敏感字符");
-        if (!qq2id.containsKey(who))
-            return ("你没有加入任何宗门");
+        if (!qq2id.containsKey(who)) return ("你没有加入任何宗门");
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
-        if (zon.getLevel() == 0)
-            return ("仅宗主和长老有权限修改宗门名字");
+        if (zon.getLevel() == 0) return ("仅宗主和长老有权限修改宗门名字");
         if (zong.getMk() > System.currentTimeMillis())
             return ("宗门修改信息 冷却中 =>" + Tool.tool.getTimeDDHHMM(zong.getMk()));
         zong.setName(name).setMk(System.currentTimeMillis() + 1000 * 60 * 60 * 2);
@@ -260,27 +311,17 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String cob(Long who) {
-        if (!qq2id.containsKey(who))
-            return "你没有加入任何宗门";
+        if (!qq2id.containsKey(who)) return "你没有加入任何宗门";
         Zong zong = getZongInfo(who);
         Zon zon = getZonInfo(who);
         PersonInfo info = GameDataBase.getInfo(who);
-        if (info.getGold() < info.getLevel())
-            return "金魂币不足";
+        if (info.getGold() < info.getLevel()) return "金魂币不足";
         if (info.getCbk1() > System.currentTimeMillis())
             return "贡献时间未到 => " + Tool.tool.getTimeDDHHMM(info.getCbk1());
         zon.setXper(zon.getXper() + info.getLevel());
         zong.setXp(zong.getXp() + info.Level);
         info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * COB_CD);
-        info.addGold((long) -info.getLevel(), new TradingRecord()
-                .setType1(TradingRecord.Type1.lost)
-                .setType0(TradingRecord.Type0.gold)
-                .setTo(-1)
-                .setMain(who)
-                .setFrom(who)
-                .setDesc("宗门贡献")
-                .setMany(info.getLevel())
-        );
+        info.addGold((long) -info.getLevel(), new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("宗门贡献").setMany(info.getLevel()));
         putZonInfo(zon);
         putZongInfo(zong);
         putPerson(info);
@@ -289,22 +330,17 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String help(long qq, long who) {
-        if (!qq2id.containsKey(qq))
-            return "你没有加入任何宗门";
-        if (!qq2id.containsKey(who))
-            return "ta没有加入任何宗门";
-        if (!GameDataBase.exist(who))
-            return PLAYER_NOT_REGISTERED;
+        if (!qq2id.containsKey(qq)) return "你没有加入任何宗门";
+        if (!qq2id.containsKey(who)) return "ta没有加入任何宗门";
+        if (!GameDataBase.exist(who)) return PLAYER_NOT_REGISTERED;
         Long l1 = Long.valueOf(qq2id.get(qq) + "");
         Long l2 = Long.valueOf(qq2id.get(who) + "");
-        if (l1 != l2)
-            return "你们不在同一个宗门";
+        if (l1 != l2) return "你们不在同一个宗门";
         Zong zong = getZongInfo(qq);
         Zon zon = getZonInfo(qq);
         PersonInfo info = GameDataBase.getInfo(qq);
         PersonInfo info1 = GameDataBase.getInfo(who);
-        if (info1.getHp() > 0)
-            return "ta仍有状态";
+        if (info1.getHp() > 0) return "ta仍有状态";
         if (zon.getTimes() > 0) {
             putPerson(info1.setHp(100L).addHl(100L));
             zon.setTimes(zon.getTimes() - 1);
@@ -334,8 +370,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (zong.getElders() >= zong.getElderNum()) {
             return "长老数量上线";
         } else {
-            if (zon.getLevel() != 2)
-                return "仅宗主可设置长老";
+            if (zon.getLevel() != 2) return "仅宗主可设置长老";
             else {
                 if (zong.getElder().contains(who)) return "ta 本来就是长老";
                 zong.setElders(zong.getElders() + 1);
@@ -349,12 +384,9 @@ public class ZongMenServiceImpl implements IZongMenService {
     }
 
     private String setUpElderPermission(long id, long who) {
-        if (!qq2id.containsKey(id))
-            return "你没有加入任何宗门";
-        if (!qq2id.containsKey(who))
-            return "ta没有加入任何宗门";
-        if (!GameDataBase.exist(who))
-            return PLAYER_NOT_REGISTERED;
+        if (!qq2id.containsKey(id)) return "你没有加入任何宗门";
+        if (!qq2id.containsKey(who)) return "ta没有加入任何宗门";
+        if (!GameDataBase.exist(who)) return PLAYER_NOT_REGISTERED;
         Long l1 = Long.valueOf(qq2id.get(who).toString());
         Long l2 = Long.valueOf(qq2id.get(who).toString());
         if (!l1.equals(l2)) return "你们不在同一个宗门";
@@ -443,13 +475,11 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     @Override
     public String quite(long id) {
-        if (!qq2id.containsKey(id))
-            return ("你没有加入任何宗门");
+        if (!qq2id.containsKey(id)) return ("你没有加入任何宗门");
         Zon zon = getZonInfo(id);
         try {
             Method method = this.getClass().getDeclaredMethod("quiteNow", Long.class);
-            ConfirmController.regConfirm(id,
-                    method, this, new Object[]{Long.valueOf(id)});
+            ConfirmController.regConfirm(id, method, this, new Object[]{Long.valueOf(id)});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return ("退出异常");
@@ -502,8 +532,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             Method method = this.getClass().getDeclaredMethod("addMaxNow", long.class);
             ConfirmController.regConfirm(id, method, this, new Object[]{id});
             StringBuilder sb = new StringBuilder();
-            sb.append("确定要扩增宗门吗\n扩增后最大人数增加到").append(zong.getMaxP() + 10)
-                    .append("\n但将花费").append(max).append("金魂币");
+            sb.append("确定要扩增宗门吗\n扩增后最大人数增加到").append(zong.getMaxP() + 10).append("\n但将花费").append(max).append("金魂币");
             return sb.toString();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -518,14 +547,7 @@ public class ZongMenServiceImpl implements IZongMenService {
         max *= GV;
         PersonInfo personInfo = getInfo(qid);
         if (personInfo.getGold() >= max) {
-            personInfo.addGold((long) -max, new TradingRecord()
-                    .setType1(TradingRecord.Type1.lost)
-                    .setType0(TradingRecord.Type0.gold)
-                    .setTo(-1)
-                    .setMain(qid)
-                    .setFrom(qid)
-                    .setDesc("扩建宗门")
-                    .setMany(max));
+            personInfo.addGold((long) -max, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(qid).setFrom(qid).setDesc("扩建宗门").setMany(max));
             personInfo.apply();
             zong.setMaxP(zong.getMaxP() + 10);
             ZongMenDataBase.putZongInfo(zong);

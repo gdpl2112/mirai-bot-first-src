@@ -5,6 +5,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -31,4 +32,10 @@ public interface ZonMapper extends BaseMapper<Zon> {
     @Select("SELECT * FROM `zon` WHERE `id`=#{id} and `level`>0")
     List<Zon> selectEldersByZongId(@Param("id") Integer id);
 
+    /***
+     * 更新
+     * @return
+     */
+    @Update("UPDATE `zon` SET `active`=0;")
+    int updateAll();
 }

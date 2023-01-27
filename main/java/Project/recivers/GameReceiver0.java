@@ -2,6 +2,7 @@ package Project.recivers;
 
 import Project.broadcast.game.*;
 import Project.broadcast.normal.MemberJoinedBroadcast;
+import Project.controllers.auto.ControllerSource;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
@@ -46,6 +47,7 @@ public class GameReceiver0 {
                         GInfo.getInstance(who).addMasterPoint().apply();
                     }
                 }
+                ControllerSource.zongMenService.addActivePoint(who, 3);
             }
         });
     }
@@ -126,6 +128,7 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long who, int type) {
                 GInfo.getInstance(who).addJoinc().apply();
+                ControllerSource.zongMenService.addActivePoint(who, 2);
             }
         });
     }

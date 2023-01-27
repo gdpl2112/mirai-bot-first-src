@@ -79,7 +79,7 @@ public class Zong implements Serializable {
     /**
      * 宗门等级
      */
-    private Integer Level = 1;
+    private Integer level = 1;
 
     /**
      * 宗门图标
@@ -110,6 +110,11 @@ public class Zong implements Serializable {
      * 共用救援次数
      */
     private Integer pub = 0;
+
+    /**
+     * 活跃点数
+     */
+    private Integer active = 0;
 
     public Integer getMembers() {
         return getMember().size();

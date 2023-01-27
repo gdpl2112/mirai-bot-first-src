@@ -68,6 +68,8 @@ public class GameServiceImpl implements IGameService {
     GameController2 gameController2;
     @AutoStand
     PlayerBehavioralManager behavioral;
+    @AutoStand
+    ZongMenServiceImpl zongMenService;
 
     @Override
     public String xl(Long who) {
@@ -93,11 +95,14 @@ public class GameServiceImpl implements IGameService {
                 sb.append(GameDataBase.getNameById(is.getWh()));
             }
             GInfo.getInstance(who).addXlc().apply();
+            zongMenService.addActivePoint(who, 1);
+
             sb.append(String.format("你花费了%s分钟修炼", tr)).append(",");
             sb.append(String.format("获得了%s点经验", xr)).append(",");
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");
             sb.append(String.format("恢复了%s点魂力", ll2)).append(",");
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
+
             return is.getWh() == 0 ?
                     getImageFromStrings(sb.toString().split(",")) :
                     SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
@@ -133,6 +138,7 @@ public class GameServiceImpl implements IGameService {
                 sb.append(GameDataBase.getNameById(is.getWh()));
             }
             GInfo.getInstance(who).addXlc().apply();
+            zongMenService.addActivePoint(who, 1);
             sb.append(String.format("你花费了%s分钟双修", tr)).append(",");
             sb.append(String.format("获得了%s点经验", xr)).append(",");
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");
@@ -183,6 +189,7 @@ public class GameServiceImpl implements IGameService {
                 if (isJTop(who)) {
                     return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
                 }
+                zongMenService.addActivePoint(who, 5);
                 StringBuilder sb = new StringBuilder();
                 sb.append("升级成功");
                 is.addLevel(1).addXp(-xpL);
@@ -968,7 +975,7 @@ public class GameServiceImpl implements IGameService {
         try {
             n = n == null ? 1 : n.intValue();
             ConfirmController.regConfirm(q,
-                    this.getClass().getDeclaredMethod("chuTuNow", long.class,int.class),
+                    this.getClass().getDeclaredMethod("chuTuNow", long.class, int.class),
                     this, new Object[]{q, n}
             );
             return "您确定要解除徒弟吗?\r\n请在30秒内回复\r\n确定/取消";
