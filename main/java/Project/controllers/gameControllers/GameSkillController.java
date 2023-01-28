@@ -45,6 +45,7 @@ public class GameSkillController {
         sb.append("替换<减少指定魂力>魂技为<领指定减伤>").append(NEWLINE);
         sb.append("替换<使指定人的后摇减少冷却>魂技为<立刻刷新攻击冷却>").append(NEWLINE);
         sb.append("替换<使指定人的后摇减少N秒>魂技为<强化下次选择攻击伤害>").append(NEWLINE);
+        sb.append("添加<立刻刷新攻击冷却>效果<刷新下%s次选择攻击冷却>").append(NEWLINE);
         m1 = sb.toString();
     }
 

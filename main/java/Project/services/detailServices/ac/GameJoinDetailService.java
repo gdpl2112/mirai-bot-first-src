@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.skill.SkillDataBase.TAG_REF_ATT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
@@ -237,13 +238,17 @@ public class GameJoinDetailService {
             addToBgs(who, sid, ObjType.got);
             return "\n你获得了" + getNameById(sid);
         } else if (id == 710) {
-            int oid = 1514;
-            addToBgs(who, oid, ObjType.got);
-            return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
+            if (randSpecial(ghostObj.getLevel())) {
+                int oid = 1514;
+                addToBgs(who, oid, ObjType.got);
+                return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
+            } else return willGetHh(level, who);
         } else if (id == 711) {
-            int oid = 1515;
-            addToBgs(who, oid, ObjType.got);
-            return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
+            if (randSpecial(ghostObj.getLevel())) {
+                int oid = 1515;
+                addToBgs(who, oid, ObjType.got);
+                return "\n你获得了 " + getNameById(oid) + SourceDataBase.getImgPathById(oid);
+            } else return willGetHh(level, who);
         } else if (id > 700) {
             return willGetLr(level, who);
         } else if (id > 600) {
@@ -251,6 +256,16 @@ public class GameJoinDetailService {
         } else {
             return willGetHh(level, who);
         }
+    }
+
+    private static boolean randSpecial(Integer level) {
+        if (level > 10000000) {
+            return Tool.tool.RANDOM.nextInt(100) < 90;
+        } else if (level > 1000000) {
+            return Tool.tool.RANDOM.nextInt(100) < 60;
+        } else if (level > 100000) {
+            return Tool.tool.RANDOM.nextInt(100) < 28;
+        } else return false;
     }
 
     /**
@@ -266,19 +281,17 @@ public class GameJoinDetailService {
             return Tool.tool.RANDOM.nextInt(100) < 38;
         } else if (level > 100000) {
             return Tool.tool.RANDOM.nextInt(100) < 54;
-        }
-        return Tool.tool.RANDOM.nextInt(100) < 75;
+        } else return Tool.tool.RANDOM.nextInt(100) < 75;
     }
 
-    public static boolean randHh1(int level) {
+    public static boolean randBone(int level) {
         if (level > 10000000) {
             return Tool.tool.RANDOM.nextInt(100) < 38;
         } else if (level > 1000000) {
             return Tool.tool.RANDOM.nextInt(100) < 48;
         } else if (level > 100000) {
             return Tool.tool.RANDOM.nextInt(100) < 64;
-        }
-        return Tool.tool.RANDOM.nextInt(100) < 75;
+        } else return Tool.tool.RANDOM.nextInt(100) < 75;
     }
 
     public static String willGetXp(GhostObj ghostObj, long who, boolean isHelp) {
@@ -297,7 +310,7 @@ public class GameJoinDetailService {
     }
 
     private static String willGetBone(int level, long who) {
-        if (randHh1(level)) {
+        if (randBone(level)) {
             Integer id = 0;
             int r1 = Tool.tool.RANDOM.nextInt(5) + 1;
             if (level > 5000) {
@@ -431,7 +444,7 @@ public class GameJoinDetailService {
         if (pInfo.isVertigo()) return VERTIGO_ING;
         if (pInfo.getJak1() > System.currentTimeMillis()) return ATT_WAIT_TIPS;
         try {
-            pInfo.setJak1(System.currentTimeMillis() + manager.getAttPost(who) / 2).apply();
+            postAttCd(who, pInfo);
             boolean isHelp = ghostObj.getState() == GhostObj.HELPING;
             Long fw = null;
             if (isHelp) {
@@ -515,6 +528,19 @@ public class GameJoinDetailService {
             return sb.toString();
         } finally {
             IDXS.remove((Object) ghostObj.getIDX());
+        }
+    }
+
+    private void postAttCd(long who, PersonInfo pInfo) {
+        int c = -1;
+        if ((c = pInfo.getTagValueOrDefault(TAG_REF_ATT, 0).intValue()) > 0) {
+            pInfo.setJak1(1L).eddTag(TAG_REF_ATT);
+            if (c - 1 > 0) {
+                pInfo.addTag(TAG_REF_ATT, c - 1, 120000);
+            }
+            pInfo.apply();
+        } else {
+            pInfo.setJak1(System.currentTimeMillis() + manager.getAttPost(who)).apply();
         }
     }
 }

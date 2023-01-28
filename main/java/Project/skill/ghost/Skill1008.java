@@ -11,7 +11,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.skill.SkillDataBase.TAG_HJ_IMMUNITY;
+import static Project.dataBases.skill.SkillDataBase.TAG_REF_ATT;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
@@ -35,7 +35,7 @@ public class Skill1008 extends SkillTemplate {
             @Override
             public void before() {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
-                TagPack pack = new NormalTagPack(TAG_HJ_IMMUNITY, 1000 * getAddP(getJid(), getId()));
+                TagPack pack = new NormalTagPack(TAG_REF_ATT, 1000 * getAddP(getJid(), getId()));
                 pack.setQ(who.longValue()).setValue(1L);
                 TagManagers.getTagManager(who.longValue()).addTag(pack);
             }

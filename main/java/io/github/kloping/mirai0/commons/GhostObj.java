@@ -173,7 +173,6 @@ public class GhostObj implements Serializable, BaseInfo {
                     return new Ghost710(hp, att, xp, id, l, bl);
                 case 711:
                     return new Ghost711(hp, att, xp, id, l, bl);
-
                 default:
                     return null;
             }
@@ -212,6 +211,12 @@ public class GhostObj implements Serializable, BaseInfo {
                             , id, Tool.tool.randA(level + 1, Lmax(level)));
                 case 705:
                     return (T) new Ghost705(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
+                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                case 710:
+                    return (T) new Ghost710(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
+                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                case 711:
+                    return (T) new Ghost711(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
                             , id, Tool.tool.randA(level + 1, Lmax(level)));
                 default:
                     return null;

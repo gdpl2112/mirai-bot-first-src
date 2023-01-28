@@ -9,8 +9,9 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.services.detailServices.GameSkillDetailService.nearest;
+import static Project.dataBases.skill.SkillDataBase.TAG_REF_ATT;
+import static Project.services.detailServices.GameSkillDetailService.*;
+import static io.github.kloping.mirai0.unitls.Tools.GameTool.getAHBl_;
 
 /**
  * @author github.kloping
@@ -21,10 +22,9 @@ public class Skill26 extends SkillTemplate {
         super(26);
     }
 
-
     @Override
     public String getIntro() {
-        return String.format("使指定人的攻击冷却立刻刷新", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
+        return String.format("使指定2人的攻击冷却立刻刷新,并刷新下%s次选择攻击冷却", getAddP(getJid(), getId()));
     }
 
     @Override
@@ -35,8 +35,7 @@ public class Skill26 extends SkillTemplate {
                 long t0 = info.getAddPercent();
                 for (Long q : nearest(2, who.longValue(), nums)) {
                     PersonInfo pInfo = getInfo(q);
-                    pInfo.setJak1(1L)
-                            .setAk1(1L).apply();
+                    pInfo.setJak1(1L).setAk1(1L).addTag(TAG_REF_ATT, getAddP(getJid(), getId()), getDuration(getJid())).apply();
                     setTips("作用于:" + q);
                 }
             }

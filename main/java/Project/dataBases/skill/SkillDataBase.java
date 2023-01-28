@@ -101,6 +101,10 @@ public class SkillDataBase {
      * 精神护罩
      */
     public static final String TAG_HJ_IMMUNITY = "t";
+    /**
+     * 刷新下次CD
+     */
+    public static final String TAG_REF_ATT = "u";
 
     public static final Map<String, String> TAG2NAME = new HashMap<>();
     /**
@@ -116,7 +120,7 @@ public class SkillDataBase {
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
 
     static {
-        TAG2NAME.put(TAG_HJ_IMMUNITY, "精神护罩");
+        TAG2NAME.put(TAG_REF_ATT, "精神护罩");
         TAG2NAME.put(TAG_STRENGTHEN_ATT, "强击");
         TAG2NAME.put(TAG_ADD_ATT, "增伤");
         TAG2NAME.put(TAG_EDD_ATT, "减伤");
@@ -136,6 +140,7 @@ public class SkillDataBase {
         TAG2NAME.put(TAG_LIGHT_ATT, "雷电攻击");
         TAG2NAME.put(TAG_LIGHT_F, "雷电反甲");
         TAG2NAME.put(TAG_CANT_USE, "魂技限制");
+        TAG2NAME.put(TAG_REF_ATT, "攻击刷新");
     }
 
     static {

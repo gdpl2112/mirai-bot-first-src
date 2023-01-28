@@ -142,7 +142,7 @@ public class GameTool {
             case 207:
                 return 3.0;
         }
-        return -1;
+        return 1;
     }
 
     public static int Lmax(int level) {

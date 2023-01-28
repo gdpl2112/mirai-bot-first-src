@@ -3,6 +3,7 @@ package Project.controllers.auto;
 
 import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.BotStarter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,9 @@ public class ControllerTool {
     private final static Map<Long, Boolean> KS = new ConcurrentHashMap<>();
 
     public static boolean opened(long gid, Class<?> cla) {
-        if (!AllK) {
+        if (BotStarter.test) {
+            return gid == 759590727L;
+        } else if (!AllK) {
             throw new NoRunException("总关闭");
         } else {
             if (canGroup(gid)) {
@@ -29,8 +32,7 @@ public class ControllerTool {
     }
 
     public static boolean canGroup(long id) {
-        if (!KS.containsKey(id))
-            KS.put(id, DataBase.canBack(id));
+        if (!KS.containsKey(id)) KS.put(id, DataBase.canBack(id));
         return KS.get(id);
     }
 

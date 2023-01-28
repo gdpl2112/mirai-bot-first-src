@@ -224,7 +224,7 @@ public class GameDetailService {
             sb.append(NEWLINE);
             sb.append("\n对其造成了ta的").append(ov2).append("(").append(b1).append("%)精神力的损失");
             long nv2 = v2 - ov2;
-            if (baseInfo.containsTag(SkillDataBase.TAG_HJ_IMMUNITY)) {
+            if (baseInfo.containsTag(SkillDataBase.TAG_REF_ATT)) {
                 nv2 = 0;
                 sb.append("\n免疫精神攻击");
             }
