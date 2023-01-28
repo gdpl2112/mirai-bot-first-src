@@ -410,7 +410,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             zong.getElder().remove(id);
             zon1.setLevel(0);
             putZongInfo(zong);
-            putZonInfo(zon);
+            putZonInfo(zon1);
             return "取消设置成功";
         }
     }
