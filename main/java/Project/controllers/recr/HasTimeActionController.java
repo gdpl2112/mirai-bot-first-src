@@ -433,17 +433,17 @@ public class HasTimeActionController {
 //                .sendMessageInGroup("发红包成功,发送\"抢红包\"即可参与\n圣诞活动,活动当天6-22时,每小时随机发放随机红包", group.getId());
 //    }
 
-    @Action("领取补偿")
-    public String got(Long qid) {
-        if (Resource.BOT.getId() == 291841860L || Resource.BOT.getId() == 392801250L) {
-            KlopingWebDataBaseBoolean db0 = new KlopingWebDataBaseBoolean("compensate:" + Resource.BOT.getId(), false);
-            if (!db0.getValue(qid)) {
-                db0.setValue(qid, true);
-                DataBase.getAllInfo(qid).addScore(100000);
-                return "领取成功!";
-            } else {
-                return "已经领取!";
-            }
-        } else return null;
-    }
+//    @Action("领取补偿")
+//    public String got(Long qid) {
+//        if (Resource.BOT.getId() == 291841860L || Resource.BOT.getId() == 392801250L) {
+//            KlopingWebDataBaseBoolean db0 = new KlopingWebDataBaseBoolean("compensate:" + Resource.BOT.getId(), false);
+//            if (!db0.getValue(qid)) {
+//                db0.setValue(qid, true);
+//                DataBase.getAllInfo(qid).addScore(100000);
+//                return "领取成功!";
+//            } else {
+//                return "已经领取!";
+//            }
+//        } else return null;
+//    }
 }
