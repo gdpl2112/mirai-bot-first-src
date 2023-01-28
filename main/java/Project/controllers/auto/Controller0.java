@@ -87,9 +87,9 @@ public class Controller0 {
         Q2C.put(1, 52000);
         Q2C.put(2, 110000);
         Q2C.put(3, 160000);
-        Q2C.put(5, 315000);
-        Q2C.put(10, 625000);
-        Q2C.put(20, 1205000);
+        Q2C.put(5, 325000);
+        Q2C.put(10, 628000);
+        Q2C.put(20, 1215000);
     }
 
     private void test(PayOutM outM) {
