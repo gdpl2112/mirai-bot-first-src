@@ -55,7 +55,7 @@ public class ZongMenDataBase {
                     .setElder(new HashSet<>())
                     .setIcon("")
                     .setMain(qq);
-            Zon zon = new Zon().setId(id).setXper(0).setQq(qq).setTimes(1).setLevel(2);
+            Zon zon = new Zon().setId(id).setXper(0).setQq(qq).setTimes(1).setLevel(2).setActive(0);
             zong.getMember().add(qq);
             getZongMapper().insert(zong);
             getZonMapper().insert(zon);

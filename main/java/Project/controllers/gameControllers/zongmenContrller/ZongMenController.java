@@ -20,7 +20,6 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.Main.Resource.qq;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
@@ -33,24 +32,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class ZongMenController {
 
     public static final int COB_CD = 6;
-    private static final String MENU =
-            "1.创建宗门<Name>\n" +
-                    "2.宗门信息\n" +
-                    "3.宗门列表     #列出所有宗门\n" +
-                    "4.设置宗门图标<Pic>\n" +
-                    "5.设置宗门名称<Name>\n" +
-                    "6.邀请<At>  #邀请加入宗门\n" +
-                    "7.宗门人数    #查看宗门人数\n" +
-                    "8.宗门升级\n" +
-                    "9.退出宗门\n" +
-                    "10.设置长老<At>\n" +
-                    "11.取消长老<At>\n" +
-                    "12.移除成员<At>\n" +
-                    "13.宗门扩增\n" +
-                    "14.活跃排行\n" +
-                    "15.宗门活跃排行\n" +
-                    "15.宗门转让<At> #将清除活跃值贡献值\n" +
-                    "宗门的作用请见'宗门作用'";
+    private static final String MENU = "1.创建宗门<Name>\n" + "2.宗门信息\n" + "3.宗门列表     #列出所有宗门\n" + "4.设置宗门图标<Pic>\n" + "5.设置宗门名称<Name>\n" + "6.邀请<At>  #邀请加入宗门\n" + "7.宗门人数    #查看宗门人数\n" + "8.宗门升级\n" + "9.退出宗门\n" + "10.设置长老<At>\n" + "11.取消长老<At>\n" + "12.移除成员<At>\n" + "13.宗门扩增\n" + "14.活跃排行\n" + "15.宗门活跃排行\n" + "15.宗门转让<At> #将清除活跃值贡献值\n" + "宗门的作用请见'宗门作用'";
     private static String line2 = "";
 
     static {
@@ -250,6 +232,9 @@ public class ZongMenController {
         Zong zong = getZongInfo(qq2id.get(q1));
         zong.setMain(q2);
         putZongInfo(zong);
+        Zon zon = new Zon().setId(zong.getId()).setXper(0).setQq(q2).setTimes(1).setLevel(2).setActive(0);
+        zong.getMember().add(q2);
+        getZonMapper().insert(zon);
         getZonMapper().deleteById(q1);
         qq2id.remove(q1);
         qq2id.put(q2, zong.getId());
