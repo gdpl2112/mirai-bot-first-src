@@ -89,7 +89,7 @@ public class ShoperServiceImpl implements IShoperService {
                                 .setTo(who)
                                 .setMain(who)
                                 .setFrom(id)
-                                .setDesc("市场被购买" + item.getNum() + "个\"" + getNameById(item.getId()) + "\"")
+                                .setDesc("市场被购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
                 ));
                 putPerson(getInfo(id).addGold(-price
@@ -99,7 +99,7 @@ public class ShoperServiceImpl implements IShoperService {
                                 .setTo(who)
                                 .setMain(id)
                                 .setFrom(id)
-                                .setDesc("市场购买" + item.getNum() + "个\"" + getNameById(item.getId()) + "\"")
+                                .setDesc("市场购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
                 ));
                 addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);

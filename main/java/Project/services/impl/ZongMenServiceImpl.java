@@ -84,7 +84,7 @@ public class ZongMenServiceImpl implements IZongMenService {
 
     private static void reward(Zong z1, long i, long i1, long i2) {
         long q1 = z1.getMain();
-        long i0 = i - i2;
+        long i0 = i - i2 - i1;
         getInfo(q1).addGold(i0, new TradingRecord()
                 .setFrom(-1)
                 .setMain(q1).setDesc("宗门奖励")
