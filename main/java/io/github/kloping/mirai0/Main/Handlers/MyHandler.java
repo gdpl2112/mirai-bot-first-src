@@ -233,10 +233,6 @@ public class MyHandler extends SimpleListenerHost {
         if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1) {
             join(event.getMember().getId(), event.getGroup());
         }
-        MessageTools.instance.sendMessageInGroup(
-                Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + event.getUser().getId() + "&exit=off"),
-                event.getGroupId()
-        );
     }
 
     @EventHandler

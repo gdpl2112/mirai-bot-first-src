@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Set;
 
@@ -166,9 +167,10 @@ public class GameReceiver0 {
         MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
             @Override
             public void onReceive(long q, long g) {
-                String m = entertainmentController3.o3("/赞[@" + q + "]", Group.get(g), q).toString();
                 try {
-                    MessageTools.instance.sendMessageInGroupWithAt(m, g, q);
+                    MessageTools.instance.sendMessageInGroupWithAt(
+                            Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + q + "&exit=off")
+                            , g, q);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

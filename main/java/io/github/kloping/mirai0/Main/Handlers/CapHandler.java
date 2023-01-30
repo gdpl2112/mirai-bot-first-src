@@ -34,7 +34,8 @@ public class CapHandler {
             String capCode = o[1].toString();
             Image image = MessageTools.instance.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(MessageTools.instance.getAt(qid)).append("\n请在").append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
+            builder.append(MessageTools.instance.getAt(qid)).append("\n请在")
+                    .append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
             CAPING.put(qid, capCode);
