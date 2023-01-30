@@ -73,10 +73,9 @@ public class ZongMenServiceImpl implements IZongMenService {
                 SpringBootResource.getZonMapper().updateAll();
                 Message message = builder.build();
                 for (net.mamoe.mirai.contact.Group group : BOT.getGroups()) {
-                    if (!ControllerTool.canGroup(group.getId())) {
-                        continue;
+                    if (ControllerTool.opened(group.getId(), ZongMenServiceImpl.class)) {
+                        group.sendMessage(message);
                     }
-                    group.sendMessage(message);
                 }
             }
         });
@@ -85,31 +84,13 @@ public class ZongMenServiceImpl implements IZongMenService {
     private static void reward(Zong z1, long i, long i1, long i2) {
         long q1 = z1.getMain();
         long i0 = i - i2 - i1;
-        getInfo(q1).addGold(i0, new TradingRecord()
-                .setFrom(-1)
-                .setMain(q1).setDesc("宗门奖励")
-                .setTo(q1)
-                .setMany(i0)
-                .setType0(TradingRecord.Type0.gold)
-                .setType1(TradingRecord.Type1.add));
+        getInfo(q1).addGold(i0, new TradingRecord().setFrom(-1).setMain(q1).setDesc("宗门奖励").setTo(q1).setMany(i0).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
         long i3 = i1 - i2;
         for (Number q : z1.getElder()) {
-            getInfo(q.longValue()).addGold(i3, new TradingRecord()
-                    .setFrom(-1)
-                    .setMain(q.longValue()).setDesc("宗门奖励")
-                    .setTo(q.longValue())
-                    .setMany(i3)
-                    .setType0(TradingRecord.Type0.gold)
-                    .setType1(TradingRecord.Type1.add));
+            getInfo(q.longValue()).addGold(i3, new TradingRecord().setFrom(-1).setMain(q.longValue()).setDesc("宗门奖励").setTo(q.longValue()).setMany(i3).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
         }
         for (Number q : z1.getMember()) {
-            getInfo(q.longValue()).addGold(i2, new TradingRecord()
-                    .setFrom(-1)
-                    .setMain(q.longValue()).setDesc("宗门奖励")
-                    .setTo(q.longValue())
-                    .setMany(i2)
-                    .setType0(TradingRecord.Type0.gold)
-                    .setType1(TradingRecord.Type1.add));
+            getInfo(q.longValue()).addGold(i2, new TradingRecord().setFrom(-1).setMain(q.longValue()).setDesc("宗门奖励").setTo(q.longValue()).setMany(i2).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
         }
     }
 

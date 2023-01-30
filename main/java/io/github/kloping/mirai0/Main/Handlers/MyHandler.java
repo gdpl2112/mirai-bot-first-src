@@ -11,7 +11,9 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.Main.ITools.EventTools;
 import io.github.kloping.mirai0.Main.ITools.MemberTools;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
@@ -179,6 +181,7 @@ public class MyHandler extends SimpleListenerHost {
 
     /**
      * 遍历群判断是否存在指定用户存在则返回
+     *
      * @param id
      * @return
      */
@@ -230,6 +233,10 @@ public class MyHandler extends SimpleListenerHost {
         if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1) {
             join(event.getMember().getId(), event.getGroup());
         }
+        MessageTools.instance.sendMessageInGroup(
+                Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + event.getUser().getId() + "&exit=off"),
+                event.getGroupId()
+        );
     }
 
     @EventHandler
@@ -243,6 +250,10 @@ public class MyHandler extends SimpleListenerHost {
                 .append("位成员了\n");
         builder.append("(" + event.getUser().getId() + ")");
         event.getGroup().sendMessage(builder.build());
+        MessageTools.instance.sendMessageInGroup(
+                Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + event.getUser().getId() + "&exit=on"),
+                event.getGroupId()
+        );
     }
 
     @EventHandler
@@ -262,6 +273,10 @@ public class MyHandler extends SimpleListenerHost {
                 .append("位成员了\n");
         builder.append("(" + event.getUser().getId() + ")");
         event.getGroup().sendMessage(builder.build());
+        MessageTools.instance.sendMessageInGroup(
+                Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + event.getUser().getId() + "&exit=on"),
+                event.getGroupId()
+        );
     }
 
     @EventHandler
