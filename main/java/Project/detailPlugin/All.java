@@ -130,12 +130,13 @@ public class All {
             Connection.Response response = connection.execute();
             String json = response.body();
             JSONObject jo = JSON.parseObject(json);
-            if (!jo.containsKey("data")) return "未能识别出出文字";
+            JSONObject data = jo.getJSONObject("data");
+            if (!data.containsKey("comment")) return "未能识别出出文字";
+            JSONArray comment = data.getJSONArray("comment");
             StringBuilder sb = new StringBuilder();
-            JSONArray comment = jo.getJSONObject("data").getJSONArray("comment");
             for (Object oe : comment) {
                 JSONArray e = (JSONArray) oe;
-                sb.append("\"").append(e.get(1).toString()).append("\"可信度:").append(e.get(2).toString().substring(0,4)).append(NEWLINE);
+                sb.append("\"").append(e.get(1).toString()).append("\"可信度:").append(e.get(2).toString().substring(0, 4)).append(NEWLINE);
             }
             return sb.toString().trim();
         } catch (IOException e) {
