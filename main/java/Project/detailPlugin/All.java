@@ -131,7 +131,7 @@ public class All {
             String json = response.body();
             JSONObject jo = JSON.parseObject(json);
             JSONObject data = jo.getJSONObject("data");
-            if (!data.containsKey("comment")) return "未能识别出出文字";
+            if (!data.containsKey("comment")) return "未能识别出出文字!";
             JSONArray comment = data.getJSONArray("comment");
             StringBuilder sb = new StringBuilder();
             for (Object oe : comment) {
