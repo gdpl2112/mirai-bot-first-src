@@ -26,8 +26,9 @@ public class GhostLostBroadcast extends Broadcast {
 
     public void broadcast(long who, GhostObj ghostObj, KillType type) {
         for (Receiver receiver : receivers) {
-            if (receiver instanceof GhostLostReceiver)
+            if (receiver instanceof GhostLostReceiver) {
                 ((GhostLostReceiver) receiver).onReceive(who, ghostObj.getWiths(), ghostObj, type);
+            }
         }
         threads.submit(this::after);
     }

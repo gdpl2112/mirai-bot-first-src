@@ -42,7 +42,7 @@ public class GameReceiver0 {
             public void onReceive(long who, Set<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
                 StarterApplication.logger.info(String.format("ghost losted by %s level=%s with %s",
                         who, ghostObj.getL(), withs));
-                if (withs.size() < 0) {
+                if (withs.size() == 0) {
                     if (ghostObj.getL() >= LOWST * 10000L) {
                         StarterApplication.logger.info(String.format("add master point %s ", who));
                         GInfo.getInstance(who).addMasterPoint().apply();
