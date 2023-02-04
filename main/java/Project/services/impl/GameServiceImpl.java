@@ -103,9 +103,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点魂力", ll2)).append(",");
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
 
-            return is.getWh() == 0 ?
-                    getImageFromStrings(sb.toString().split(",")) :
-                    SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
+            return is.getWh() == 0 ? getImageFromStrings(sb.toString().split(",")) : SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(XL_WAIT_TIPS, Tool.tool.getTimeTips(l));
         }
@@ -144,9 +142,7 @@ public class GameServiceImpl implements IGameService {
             sb.append(String.format("恢复了%s点血量", ll1)).append(",");
             sb.append(String.format("恢复了%s点魂力", ll2)).append(",");
             sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
-            return is.getWh() == 0 ?
-                    getImageFromStrings(sb.toString().split(",")) :
-                    SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
+            return is.getWh() == 0 ? getImageFromStrings(sb.toString().split(",")) : SourceDataBase.getImgPathById(is.getWh()) + "\r\n" + getImageFromStrings(sb.toString().split(","));
         } else {
             return String.format(TXL_WAIT_TIPS, Tool.tool.getTimeTips(l));
         }
@@ -232,15 +228,7 @@ public class GameServiceImpl implements IGameService {
         personInfo.addHjL(ir4).addHj(ir4);
         sb.append("\r\n增加了:").append(ir4).append("最大精神力");
 
-        personInfo.addGold(50L, new TradingRecord()
-                .setType1(TradingRecord.Type1.lost)
-                .setType0(TradingRecord.Type0.gold)
-                .setTo(-1)
-                .setMain(who)
-                .setFrom(who)
-                .setDesc("升级")
-                .setMany(50L)
-        );
+        personInfo.addGold(50L, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("升级").setMany(50L));
 
         if (L == 1) {
             sb.append("\r\n请觉醒武魂后再进行修炼(觉醒)");
@@ -329,16 +317,7 @@ public class GameServiceImpl implements IGameService {
         long is = DataBase.getAllInfo(who).getScore();
         if (is >= num * 2) {
             DataBase.addScore(-(num * 2), who);
-            putPerson(getInfo(who).addGold(num,
-                    new TradingRecord()
-                            .setType1(TradingRecord.Type1.add)
-                            .setType0(TradingRecord.Type0.gold)
-                            .setTo(-1)
-                            .setMain(who)
-                            .setFrom(who)
-                            .setDesc("购买金魂币" + num)
-                            .setMany(num)
-            ));
+            putPerson(getInfo(who).addGold(num, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买金魂币" + num).setMany(num)));
             return BUY_SUCCESS;
         } else {
             return getImageFromStrings("积分不足", "你需要" + num * 2 + "积分", "才能购买" + num + "个金魂币");
@@ -391,9 +370,7 @@ public class GameServiceImpl implements IGameService {
                 if (id1.equals(id2)) {
                     try {
                         Method method = this.getClass().getDeclaredMethod("attNow", Long.class, Long.class, Group.class, Integer.class);
-                        ConfirmController.regConfirm(who,
-                                method, this, new Object[]{who, q2, group, 2}
-                        );
+                        ConfirmController.regConfirm(who, method, this, new Object[]{who, q2, group, 2});
                         return "即将攻击 宗门内成员 \r\n你确定要攻击ta吗？这将减少你的10点贡献点\r\n请在30秒内回复 确定/确认/取消";
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
@@ -456,27 +433,17 @@ public class GameServiceImpl implements IGameService {
                                 long l1 = Tool.tool.randLong(iper.att(), 0.2f, 0.25f);
                                 if (i == 1) l1 *= 0.9f;
                                 l1 = percentTo(by, l1);
-                                if (!lose)
-                                    tips.append(GameDetailService.consumedHl(who, l));
+                                if (!lose) tips.append(GameDetailService.consumedHl(who, l));
                                 tips.append(GameDetailService.beaten(q2, who, l1, DamageType.AD));
                                 if (!tips.toString().contains(THIS_DANGER_OVER_FLAG)) {
                                     tips.append(GameDetailService.onAtt(who, q2, l1, DamageType.AD));
                                 }
-                                if (bo)
-                                    SelectAttBroadcast.INSTANCE.broadcast(p1, p2, l1, 1);
+                                if (bo) SelectAttBroadcast.INSTANCE.broadcast(p1, p2, l1, 1);
                                 if (getInfo(q2).getHp() > 0) {
                                     tips.append("\n你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害\r\n消耗了").append(l).append("点魂力\n").append(i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                                 } else {
                                     long lg = Tool.tool.randLong(240, 0.6f, 0.9f);
-                                    putPerson(getInfo(who).addGold(lg,
-                                            new TradingRecord()
-                                                    .setType1(TradingRecord.Type1.add)
-                                                    .setType0(TradingRecord.Type0.gold)
-                                                    .setTo(-1)
-                                                    .setMain(who)
-                                                    .setFrom(who)
-                                                    .setDesc("击败" + q2)
-                                                    .setMany(lg)
+                                    putPerson(getInfo(who).addGold(lg, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("击败" + q2).setMany(lg)
 
                                     ));
                                     tips.append("你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害剩余了 0 点血 ").append("\r\n消耗了").append(l).append("点魂力\n").append("\r\n你获得了").append(lg).append("个金魂币");
@@ -512,16 +479,7 @@ public class GameServiceImpl implements IGameService {
         }
         if (is.getGold() - 500 >= num) {
             DataBase.addScore((long) (num * 1.5f), who);
-            putPerson(is.addGold(-num,
-                    new TradingRecord()
-                            .setType1(TradingRecord.Type1.lost)
-                            .setType0(TradingRecord.Type0.gold)
-                            .setTo(-1)
-                            .setMain(who)
-                            .setFrom(who)
-                            .setDesc("换积分" + num)
-                            .setMany(num)
-            ));
+            putPerson(is.addGold(-num, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("换积分" + num).setMany(num)));
             return "转换成功\r\n获得" + (num * 1.5f) + "积分";
         } else {
             return getImageFromStrings("金魂币不足", "你需要" + (num + 500) + " 个金魂币", "才能换" + num * 1.5f + "积分");
@@ -595,8 +553,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo personInfo = getInfo(who);
         long hpl = personInfo.getHpL();
         long hp = personInfo.getHp();
-        if (hp >= hpl)
-            return 0;
+        if (hp >= hpl) return 0;
         if (hp > hpl) {
             putPerson(personInfo.setHp(personInfo.getHpL()));
             return hpl - hp;
@@ -618,8 +575,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo personInfo = getInfo(who);
         long vL = personInfo.getHll();
         long v = personInfo.getHl();
-        if (v >= vL)
-            return 0;
+        if (v >= vL) return 0;
         if (v > vL) {
             putPerson(personInfo.setHl(personInfo.getHll()));
             return vL - v;
@@ -641,8 +597,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo personInfo = getInfo(who);
         long vL = personInfo.getHjL();
         long v = personInfo.getHj();
-        if (v >= vL)
-            return 0;
+        if (v >= vL) return 0;
         if (v > vL) {
             putPerson(personInfo.setHj(personInfo.getHjL()));
             return vL - v;
@@ -671,8 +626,7 @@ public class GameServiceImpl implements IGameService {
                 if (personInfo.getMk1() > System.currentTimeMillis())
                     return "修改称号 冷却中..." + Tool.tool.getTimeDDHHMM(personInfo.getMk1());
                 Method method = this.getClass().getDeclaredMethod("makeName", Long.class, String.class, Group.class);
-                ConfirmController.regConfirm(who,
-                        method, this, new Object[]{who, name, group});
+                ConfirmController.regConfirm(who, method, this, new Object[]{who, name, group});
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
@@ -790,8 +744,7 @@ public class GameServiceImpl implements IGameService {
         if (containsInBg(111, q1)) {
             try {
                 if (q1.longValue() == q2.longValue()) return "Cant Do this";
-                if (sameTypeWh(q1, q2))
-                    return "武魂种类相同,不能融合";
+                if (sameTypeWh(q1, q2)) return "武魂种类相同,不能融合";
                 Method method = this.getClass().getDeclaredMethod("fusionNow", Long.class, Long.class);
                 ConfirmController.regAgree(q2, method, this, q1, q2);
                 return MemberTools.getNameFromGroup(q2, group) + "\r\n请在30秒内回复\r\n同意/不同意";
@@ -799,8 +752,7 @@ public class GameServiceImpl implements IGameService {
                 e.printStackTrace();
                 return "融合异常";
             }
-        } else
-            return "您没有 融合戒指";
+        } else return "您没有 融合戒指";
     }
 
     private boolean sameTypeWh(Long q1, Long q2) {
@@ -833,15 +785,11 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String shouTu(long q, long q2) {
-        if (hasP(q))
-            return "你已经有徒弟了";
-        if (getWarp(q2).getMaster().longValue() != -1)
-            return "他已经有师傅了";
-        if ((getWarp(q).getMaster().longValue() == q2) || (getWarp(q2).allP().contains(q)))
-            return ILLEGAL_OPERATION;
+        if (hasP(q)) return "你已经有徒弟了";
+        if (getWarp(q2).getMaster().longValue() != -1) return "他已经有师傅了";
+        if ((getWarp(q).getMaster().longValue() == q2) || (getWarp(q2).allP().contains(q))) return ILLEGAL_OPERATION;
         GInfo gInfo = GInfo.getInstance(q);
-        if (gInfo.getMasterPoint() < st)
-            return "名师点不足:需要=>" + st + "\n现在:" + gInfo.getMasterPoint();
+        if (gInfo.getMasterPoint() < st) return "名师点不足:需要=>" + st + "\n现在:" + gInfo.getMasterPoint();
         try {
             ConfirmController.regAgree(q2, this.getClass().getDeclaredMethod("shouTuNow", long.class, long.class), this, q, q2);
             return "收徒ing...\n\'" + MemberTools.getName(q2) + "\'请在30秒内回复同意/不同意";
@@ -854,12 +802,9 @@ public class GameServiceImpl implements IGameService {
     private boolean hasP(long q) {
         PersonInfo pInfo = getInfo(q);
         Warp warp = getWarp(q);
-        if (pInfo.getLevel() <= 120)
-            return warp.allP().size() > 0;
-        else if (pInfo.getLevel() <= 150)
-            return warp.allP().size() > 1;
-        else if (pInfo.getLevel() <= 152)
-            return warp.allP().size() > 2;
+        if (pInfo.getLevel() <= 120) return warp.allP().size() > 0;
+        else if (pInfo.getLevel() <= 150) return warp.allP().size() > 1;
+        else if (pInfo.getLevel() <= 152) return warp.allP().size() > 2;
         return false;
     }
 
@@ -876,13 +821,9 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String chuShi(long q) {
-        if (getWarp(q).getMaster().longValue() == -1)
-            return "您没有师傅";
+        if (getWarp(q).getMaster().longValue() == -1) return "您没有师傅";
         try {
-            ConfirmController.regConfirm(q,
-                    this.getClass().getDeclaredMethod("chuShiNow", long.class),
-                    this, new Object[]{q}
-            );
+            ConfirmController.regConfirm(q, this.getClass().getDeclaredMethod("chuShiNow", long.class), this, new Object[]{q});
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -974,10 +915,7 @@ public class GameServiceImpl implements IGameService {
         if (getWarp(q).isEmpty0()) return "您没有徒弟";
         try {
             n = n == null ? 1 : n.intValue();
-            ConfirmController.regConfirm(q,
-                    this.getClass().getDeclaredMethod("chuTuNow", long.class, int.class),
-                    this, new Object[]{q, n}
-            );
+            ConfirmController.regConfirm(q, this.getClass().getDeclaredMethod("chuTuNow", long.class, int.class), this, new Object[]{q, n});
             return "您确定要解除徒弟吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

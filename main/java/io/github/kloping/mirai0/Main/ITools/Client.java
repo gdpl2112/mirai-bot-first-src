@@ -13,6 +13,8 @@ import static io.github.kloping.mirai0.Main.BotStarter.test;
 import static io.github.kloping.mirai0.Main.Resource.*;
 
 /**
+ * mc
+ *
  * @author github.kloping
  */
 public class Client implements Runnable {

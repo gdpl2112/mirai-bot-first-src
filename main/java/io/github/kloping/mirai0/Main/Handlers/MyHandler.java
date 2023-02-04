@@ -40,6 +40,7 @@ import static io.github.kloping.mirai0.Main.Handlers.CapHandler.CAP_2;
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.join;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
+import static io.github.kloping.mirai0.Main.Resource.qq;
 
 /**
  * @author github-kloping
@@ -133,7 +134,7 @@ public class MyHandler extends SimpleListenerHost {
         try {
             chain = event.getMessage();
             id = event.getSender().getId();
-            group = getCg(id);
+            group = BOT.getGroup(MemberTools.getRecentSpeechesGid(id));
             eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             io.github.kloping.mirai0.commons.User eUser = getUser(id);
             text = EventTools.getStringFromMessageChain(event.getMessage(), id);
@@ -177,21 +178,6 @@ public class MyHandler extends SimpleListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 遍历群判断是否存在指定用户存在则返回
-     *
-     * @param id
-     * @return
-     */
-    public static Group getCg(long id) {
-        for (Group group : BOT.getGroups()) {
-            if (group.contains(id)) {
-                return group;
-            }
-        }
-        return null;
     }
 
     @EventHandler
