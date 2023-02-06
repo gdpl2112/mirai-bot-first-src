@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.addHFSchedule;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
@@ -18,12 +17,6 @@ public class Skill8050 extends SkillTemplate {
     public Skill8050() {
         super(8050);
         setHasTime(60000L);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("蓝银皇,令自己每秒回复%s%%的生命", getAddP(getJid(), getId()));
     }
 
     @Override

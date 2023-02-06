@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.skill.SkillDataBase.AVAILABLE_IN_CONTROL;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
@@ -26,12 +25,6 @@ public class Skill8260 extends SkillTemplate {
         super(8260);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("海神第八魂技,解除自身所有负面控制,并对指定敌人造成%s%%的伤害",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

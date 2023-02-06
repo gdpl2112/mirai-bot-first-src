@@ -23,10 +23,7 @@ public class Skill706 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("柔骨兔无敌真身,持续%s秒", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.RANDOM;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -23,11 +22,6 @@ public class Skill8130 extends SkillTemplate {
         super(8130);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("奇茸通天菊第八魂技,对指定敌人连续造成4次%s%%伤害,且每次都有25%%的几率造成持续流血伤害", getAddP(getJid(), getId()));
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

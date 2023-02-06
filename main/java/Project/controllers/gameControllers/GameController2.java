@@ -5,6 +5,7 @@ import Project.aSpring.SpringBootResource;
 import Project.aSpring.mcs.controllers.DetailController;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
+import Project.e0.VelocityUtils;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.http_api.KlopingWeb;
@@ -212,7 +213,7 @@ public class GameController2 {
     public Object o3(User user) throws NoSuchMethodException {
         Method m0 = this.getClass().getDeclaredMethod("bg", Long.class);
         ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
-        return "确认闭关吗?\n闭关后不可做任何事,取消闭关后即可\n半小时后可取消\n闭关之后没分钟获得" + EVE_GET + "点经验,在取消闭关后结算";
+        return VelocityUtils.getTemplateToString("retreat.tips", EVE_GET);
     }
 
     private static final Integer EVE_GET = 20;
@@ -247,7 +248,7 @@ public class GameController2 {
         Long v = EVE_GET * min;
         p0.addXp(v);
         p0.apply();
-        return String.format("取消闭关完成,此次闭关%s分钟,获得了%s点经验", min, v);
+        return VelocityUtils.getTemplateToString("un.retreat.tips", min, v);
     }
 
     @Action("取消闭关")

@@ -18,7 +18,6 @@ public class Skill8121 extends SkillTemplate {
 
     public static final int F0 = 3;
 
-
     public Skill8121() {
         super(8121);
     }

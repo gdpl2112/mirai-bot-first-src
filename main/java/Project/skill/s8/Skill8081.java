@@ -17,7 +17,6 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
@@ -27,12 +26,6 @@ public class Skill8081 extends SkillTemplate {
 
     public Skill8081() {
         super(8081);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("邪火凤凰第八魂技,对指定敌人每5秒造成%s%%+指定敌人已损失7%%生命值的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

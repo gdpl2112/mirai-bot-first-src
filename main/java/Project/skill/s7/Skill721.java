@@ -26,10 +26,7 @@ public class Skill721 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放幽冥真身,令自身 增加%s点闪避,并增加%s的攻击", getAddP(getJid(), getId()), getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

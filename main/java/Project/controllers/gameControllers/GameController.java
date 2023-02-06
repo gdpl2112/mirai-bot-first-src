@@ -210,8 +210,8 @@ public class GameController {
                         .setType1(TradingRecord.Type1.add)).apply();
                 return "签到成功!\n本周签到6天\n获得500金魂币";
             case 7:
-                addToBgs(qq, 1601, 1, ObjType.got);
-                return "签到成功!\n本周签到7天\n获得白升级券";
+                addToBgs(qq, 1601, 2, ObjType.got);
+                return "签到成功!\n本周签到7天\n获得两白升级券";
             default:
                 return "未知异常";
         }

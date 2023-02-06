@@ -22,10 +22,7 @@ public class Skill26 extends SkillTemplate {
         super(26);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("使指定2人的攻击冷却立刻刷新,并刷新下%s次选择攻击冷却", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

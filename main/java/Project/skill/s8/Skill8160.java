@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -29,8 +30,7 @@ public class Skill8160 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("蛇矛八魂技,向指定敌人扔出矛,0.5倍前摇后,对指定敌人造成%s%%的伤害," +
-                        "该此伤害附带%s%%的吸血效果,且自身血量越低吸血效果越强,最多%s%%",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId()) / F0, MAX
         );

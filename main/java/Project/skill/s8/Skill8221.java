@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.TAG2NAME;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
@@ -22,12 +21,6 @@ public class Skill8221 extends SkillTemplate {
         super(8221);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("光明圣龙第八魂技,清除指定敌人的所有增益效果,并对其造成%s%%的伤害",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

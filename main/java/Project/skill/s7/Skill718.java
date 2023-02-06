@@ -24,10 +24,7 @@ public class Skill718 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("蛇杖真身,为自己增加%s%%的攻击,同时增加%s的吸血", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 8);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

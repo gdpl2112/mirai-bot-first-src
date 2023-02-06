@@ -26,10 +26,7 @@ public class Skill705 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("强大的蓝银皇,增加%s%%的攻击力,拥有强大的生命力,每10秒恢复%s%%的生命值", getAddP(getJid(), getId()) * 4, getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

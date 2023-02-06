@@ -23,10 +23,7 @@ public class Skill717 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("骨龙真身,为自己增加%s%%的攻击,增加一个最大生命值的%s%%的护盾", getAddP(getJid(), getId()), getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

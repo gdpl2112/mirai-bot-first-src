@@ -25,11 +25,6 @@ public class Skill1008 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,精神护罩,%s秒内免疫精神攻击", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

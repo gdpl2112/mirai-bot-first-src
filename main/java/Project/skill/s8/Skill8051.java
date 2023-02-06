@@ -12,7 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.dataBases.skill.SkillDataBase.TAG_CANT_USE;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.addTagPack;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
@@ -21,12 +20,6 @@ public class Skill8051 extends SkillTemplate {
 
     public Skill8051() {
         super(8051);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("蓝银皇,发动突击限制对手的行动,被限制时不可使用魂技%s秒,其值受精神精神力改变", getAddP(getJid(), getId()));
     }
 
     @Override

@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.addAttSchedule;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
@@ -20,13 +19,6 @@ public class Skill8280 extends SkillTemplate {
         super(8280);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("落日神弓第八魂技,连续射出3支箭矢,每支对指定敌人造成%s%%的伤害",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

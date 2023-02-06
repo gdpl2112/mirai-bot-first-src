@@ -13,7 +13,6 @@ import java.util.concurrent.ScheduledFuture;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
@@ -25,11 +24,6 @@ public class Skill8100 extends SkillTemplate {
         super(8100);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("碧灵蛇皇毒第八魂技,使指定一个人受到%s%%的攻击,并在接下来的两分钟内持续受到递减的伤害,最小3%%的攻击", getAddP(getJid(), getId()));
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

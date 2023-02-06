@@ -25,10 +25,7 @@ public class Skill728 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("落日神弓,武魂真身,增加%s%%攻击,清空并缩减一半前后摇CD", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

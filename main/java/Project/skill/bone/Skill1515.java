@@ -26,11 +26,6 @@ public class Skill1515 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("头部魂骨技能;对指定1~3个人造成*%s%%秒眩晕但命中率在80~40之间选择的目标越多概率越低", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "魂骨技能") {
             @Override

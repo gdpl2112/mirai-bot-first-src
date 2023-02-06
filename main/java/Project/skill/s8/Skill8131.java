@@ -8,7 +8,8 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -19,11 +20,6 @@ public class Skill8131 extends SkillTemplate {
         super(8131);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("奇茸通天草第八魂技,金刚不坏之身,立刻增加%s%%的免伤", getAddP(getJid(), getId()));
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

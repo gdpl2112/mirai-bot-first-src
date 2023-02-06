@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -18,16 +19,13 @@ public class Skill8120 extends SkillTemplate {
 
     public static final int F0 = 3;
 
-
     public Skill8120() {
         super(8120);
     }
 
-    @Override
     public String getIntro() {
-        return String.format("大力金刚熊第八魂技,增加%s%%的免伤,并增加%s%%最大生命值得护盾",
-                getAddP(getJid(), getId()), getAddP(getJid(), getId()) * F0
-        );
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
+                getAddP(getJid(), getId()), getAddP(getJid(), getId()) * F0);
     }
 
     @Override

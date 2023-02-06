@@ -28,10 +28,7 @@ public class Skill13 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("令指定减伤,减少其%s%%的伤害", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

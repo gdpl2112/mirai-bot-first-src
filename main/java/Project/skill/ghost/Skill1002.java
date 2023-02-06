@@ -24,12 +24,6 @@ public class Skill1002 extends SkillTemplate {
         super(1002);
         setName("蓄力重击");
     }
-
-    @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,蓄力重击,蓄力倒计时结束后对玩家造成%s%%的伤害", getAddP(getJid(), getId()));
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓄力重击") {

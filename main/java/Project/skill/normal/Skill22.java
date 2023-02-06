@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.e0.VelocityUtils;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
@@ -24,7 +25,7 @@ public class Skill22 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("血量低于%s%%时恢复%s%%的生命值,血量高于30%%时增加当前生命值得%s%%点护盾", LOWEST, getAddP(getJid(), getId()), getAddP(getJid(), getId()));
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),  LOWEST, getAddP(getJid(), getId()), getAddP(getJid(), getId()));
     }
 
     @Override

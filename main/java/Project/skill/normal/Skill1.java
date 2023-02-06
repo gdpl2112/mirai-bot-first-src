@@ -18,11 +18,6 @@ public class Skill1 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("对指定几个人恢复%s%%的血量", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "群体加血") {
 

@@ -27,10 +27,7 @@ public class Skill730 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("魔神剑,令自身变真实伤害,增加%s%%的攻击,且神魔一体,窃取某的精神力,为自己恢复状态", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -18,16 +19,6 @@ public class Skill8200 extends SkillTemplate {
 
     public Skill8200() {
         super(8200);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("玄龟第八魂技,使用后立即获得%s%%的免伤与%s%%的护盾,血量低于30%%时额外获得%s%%免伤",
-                getAddP(getJid(), getId()),
-                getAddP(getJid(), getId()),
-                getAddP(getJid(), getId())
-        );
     }
 
     @Override

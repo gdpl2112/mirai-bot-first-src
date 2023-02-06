@@ -22,10 +22,7 @@ public class Skill8 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("对指定敌人造成 攻击%s%%的伤害", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

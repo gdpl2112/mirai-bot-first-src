@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
@@ -19,14 +18,6 @@ public class Skill8300 extends SkillTemplate {
 
     public Skill8300() {
         super(8300);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("魔神剑第八魂技,以自身当前30%%生命值为引,引血越多伤害越高,对指定敌人造成%s%%+的伤害",
-                getAddP(getJid(), getId())
-        );
     }
 
     @Override

@@ -23,11 +23,6 @@ public class Skill1101 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("极北魂兽特有技能,冷域迟缓,延长%s倍的玩家前后摇", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

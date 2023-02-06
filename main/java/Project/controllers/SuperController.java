@@ -194,7 +194,6 @@ public class SuperController {
 
     @Action("更新宵禁<.+=>str>")
     public String a0(@Param("str") String str, Group group) {
-
         return "ok";
     }
 

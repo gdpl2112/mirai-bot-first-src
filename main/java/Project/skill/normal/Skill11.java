@@ -23,10 +23,7 @@ public class Skill11 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("狂热,让指定一人伤害变为真实伤害持续%s%%秒", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

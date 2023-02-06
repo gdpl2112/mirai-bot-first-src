@@ -33,7 +33,7 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 @Controller
 public class ScoreController {
     public static final List<Long> CLOSED = new CopyOnWriteArrayList<>();
-    public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L}));
+    public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L, 392801250L}));
     @AutoStand
     IOtherService otherService;
     @AutoStand
@@ -62,8 +62,7 @@ public class ScoreController {
 
     @Action("取积分<\\d{1,}=>str>")
     public String getScore(long qq, @Param("str") String str) {
-        if (CLOSED.contains(qq))
-            return "账户锁定中...\r\n退出客户端登录后重试";
+        if (CLOSED.contains(qq)) return "账户锁定中...\r\n退出客户端登录后重试";
         Long num = null;
         try {
             num = Long.valueOf(str);
@@ -75,8 +74,7 @@ public class ScoreController {
 
     @Action("存积分<\\d{1,}=>str>")
     public String putScore(long qq, @Param("str") String str) {
-        if (CLOSED.contains(qq))
-            return "账户锁定中...\r\n退出客户端登录后重试";
+        if (CLOSED.contains(qq)) return "账户锁定中...\r\n退出客户端登录后重试";
         Long num = null;
         try {
             num = Long.valueOf(str);
@@ -126,7 +124,7 @@ public class ScoreController {
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             return scoreService.robbery(qq.getId(), who);
         } catch (NumberFormatException e) {
-            return "格式错误(例: 打劫 @我 )";
+            return "格式错误(例: 打劫<At>)";
         }
     }
 

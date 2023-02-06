@@ -22,12 +22,6 @@ public class Skill8070 extends SkillTemplate {
         super(8070);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("白虎第八魂技,技能使用后,增加%s%%的攻击,护盾和免伤", getAddP(getJid(), getId()));
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "白虎第八魂技") {
@@ -37,9 +31,7 @@ public class Skill8070 extends SkillTemplate {
                 long a = getPersonInfo().att();
                 addShield(who.longValue(), percentTo(v, a));
                 addTagPack(new NormalTagPack(TAG_DAMAGE_REDUCTION, v).setQ(who.longValue()).setValue((long) v));
-                addAttHasTime(who.longValue(), new SkillDataBase.HasTimeAdder(
-                        System.currentTimeMillis() + getDuration(getJid()), who.longValue(), percentTo(v, a), getJid()
-                ));
+                addAttHasTime(who.longValue(), new SkillDataBase.HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), percentTo(v, a), getJid()));
             }
         };
     }

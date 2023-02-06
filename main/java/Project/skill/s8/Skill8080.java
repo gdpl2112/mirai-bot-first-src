@@ -11,7 +11,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 
 /**
@@ -21,12 +20,6 @@ public class Skill8080 extends SkillTemplate {
 
     public Skill8080() {
         super(8080);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("邪火凤凰第八魂技,在两倍的攻击前摇之后,对指定敌人造成%s-+10%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

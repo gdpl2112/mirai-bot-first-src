@@ -21,10 +21,7 @@ public class Skill20 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("控制型技能,指定敌人,2秒后 对其 眩晕 %s 秒 其值受攻击者和被攻击者的精神力影响", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

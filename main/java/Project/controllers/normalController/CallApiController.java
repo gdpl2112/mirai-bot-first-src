@@ -83,25 +83,6 @@ public class CallApiController {
         name = name.replaceAll("\\s", "").isEmpty() ? "默认昵称" : name;
         return kloping.throwBottle(group.getId(), q, str, name);
     }
-//
-//    @Action("未来天气<.+=>ms>")
-//    public String weather1(@Param("ms") String mess, Group group) {
-//        Weather weather = juiLi.weather(mess);
-//        if (weather.getData() == null) {
-//            return weather.getMsg();
-//        } else {
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(weather.getTips()).append(NEWLINE);
-//            for (Data datum : weather.getData()) {
-//                sb.append(datum.getDate())
-//                        .append("\n\t").append(datum.getWeather())
-//                        .append("\n\t").append(datum.getHigh())
-//                        .append("\n\t").append(datum.getLow())
-//                        .append("\n\t").append(datum.getFx()).append(datum.getFl()).append(NEWLINE);
-//            }
-//            return sb.toString().trim();
-//        }
-//    }
 
     @Action("随机头像")
     public String sjtx0(Group group, User user) {

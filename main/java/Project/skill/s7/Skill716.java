@@ -22,10 +22,7 @@ public class Skill716 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放蛇矛真身,为自己增加%s%%的攻击,同时增加%s的吸血", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 8);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

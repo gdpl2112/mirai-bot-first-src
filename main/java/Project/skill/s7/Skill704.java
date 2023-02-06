@@ -28,10 +28,7 @@ public class Skill704 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放噬魂真身,吸取敌人%s%%的攻击力,恢复 吸取值得一半 的生命值", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

@@ -3,6 +3,7 @@ package Project.controllers.gameControllers.shoperController;
 
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
+import Project.e0.VelocityUtils;
 import Project.interfaces.Iservice.IGameUseObjService;
 import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
@@ -20,6 +21,7 @@ import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.Main.Resource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -75,7 +77,7 @@ public class GameObjController {
             return sss;
         } catch (Exception e) {
             e.printStackTrace();
-            return "未发现相关物品或使用失败#" + str;
+            return VelocityUtils.getTemplateToString("not.found.or.use.failed", str);
         }
     }
 
@@ -83,7 +85,6 @@ public class GameObjController {
     public Object intro(User qq, @Param("str") String str, Group group) {
         try {
             String what = str;
-            what = what.replace("说明", "");
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what.trim());
             if (id == null) {
                 return NOT_FOUND_ABOUT_OBJ;
@@ -99,7 +100,7 @@ public class GameObjController {
     public Object shop(Group group) {
         if (upShopPath.isEmpty() || !new File(upShopPath).exists())
             upShopPath = getImageFromStrings(GameDataBase.getShop());
-        return (upShopPath + "\r\n用=>出售=>来出售物品\r\n回收价为原价值的1/3但最高不会超过" + maxSle);
+        return VelocityUtils.getTemplateToString("tips.shop.0", upShopPath, maxSle);
     }
 
     @Action("购买<.{1,}=>name>")
@@ -128,7 +129,7 @@ public class GameObjController {
     }
 
     @Action(value = "物品转让<.{1,}=>name>", otherName = {"转让物品<.{1,}=>name>", "转让<.{1,}=>name>"})
-    public String transfer(User qq, @Param("name") String name, @AllMess String message) {
+    public String transfer(User qq, @Param("name") String name, @AllMess String message, Group group) {
         try {
             if (longs.contains(qq.getId())) return ERR_TIPS;
             long whos = MessageTools.instance.getAtFromString(message);
@@ -152,7 +153,7 @@ public class GameObjController {
             if (num == null || num.intValue() == 1) {
                 s = gameUseObiService.objTo(qq.getId(), id, whos);
             } else {
-                s = gameUseObiService.objTo(qq.getId(), id, whos, num);
+                s = gameUseObiService.objTo(qq.getId(), id, whos, num, group);
             }
             return s;
         } catch (Exception e) {
@@ -176,9 +177,10 @@ public class GameObjController {
             }
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(what);
             if (id == null) return NOT_FOUND_ABOUT_OBJ;
-            String mess = "";
-            if (num == null || num.intValue() == 1) mess = gameUseObiService.sleObj(qq.getId(), id);
-            else mess = gameUseObiService.sleObj(qq.getId(), id, num);
+            String mess = EMPTY_STR;
+            if (num == null || num.intValue() == 1)
+                mess = gameUseObiService.sleObj(qq.getId(), id);
+            else mess = gameUseObiService.sleObj(qq.getId(), id, num, group);
             return mess;
         } catch (Exception e) {
             e.printStackTrace();

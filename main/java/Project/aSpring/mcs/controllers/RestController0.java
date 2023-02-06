@@ -84,8 +84,7 @@ public class RestController0 {
     }
 
     @GetMapping("authorization0")
-    public String authorization0(@RequestParam("pwd") String pwd,
-                                 @RequestParam("qid") Long qid) {
+    public String authorization0(@RequestParam("pwd") String pwd, @RequestParam("qid") Long qid) {
         if (pwd.equals(pwd0)) {
             String code0 = getCode();
             MessageTools.instance.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
@@ -94,8 +93,7 @@ public class RestController0 {
     }
 
     @GetMapping("AuthCap0")
-    public String authCap0(@RequestParam("canId") String canId
-            , @RequestParam("code") String code, @RequestParam("qid") String qid) {
+    public String authCap0(@RequestParam("canId") String canId, @RequestParam("code") String code, @RequestParam("qid") String qid) {
         if (!CANS.contains(canId)) return "err";
         if (!CAPING.containsKey(qid)) return "err";
         if (CAPING.get(qid).toLowerCase().equals(code.toLowerCase())) {

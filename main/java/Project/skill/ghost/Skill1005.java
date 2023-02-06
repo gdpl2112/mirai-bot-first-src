@@ -24,10 +24,6 @@ public class Skill1005 extends SkillTemplate {
         setName("弱化技能");
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,弱化技能,生命值每损失2%%额外增加1%%的免伤,基础免伤%s%%", getAddP(getJid(), getId()));
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

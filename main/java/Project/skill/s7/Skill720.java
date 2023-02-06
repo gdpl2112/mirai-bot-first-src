@@ -23,10 +23,7 @@ public class Skill720 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放玄龟真身,为自己增加一个最大生命值的%s%%的护盾,长久护盾", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

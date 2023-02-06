@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
@@ -24,14 +25,14 @@ public class Skill8140 extends SkillTemplate {
         super(8140);
     }
 
-
     @Override
     public String getIntro() {
-        return String.format("鬼魅第八魂技,令指定敌人受到的所有伤害额外增加%s%%,并在2秒后对其造成%s%%的伤害",
-                getAddP(getJid(), getId()),
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid())
+                , getAddP(getJid(), getId()),
                 getAddP(getJid(), getId()) * F0
         );
     }
+
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

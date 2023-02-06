@@ -25,10 +25,7 @@ public class Skill724 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("修罗神剑,令自身变真实伤害,增加%s%%的攻击,并恢复%s%%的魂力", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 3);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

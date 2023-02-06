@@ -10,7 +10,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.skill.SkillDataBase.TAG_EXTRA_DAMAGE;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 
@@ -23,13 +24,6 @@ public class Skill8290 extends SkillTemplate {
         super(8290);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("杀神昊天锤弓第八魂技,挥动巨大的昊天锤,在1.5倍攻击前摇之后,对指定敌人造成%s%%的巨大伤害,但之后使用者将额外受伤20%%",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

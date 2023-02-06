@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
 /**
  * @author github.kloping
@@ -18,12 +17,6 @@ public class Skill8061 extends SkillTemplate {
 
     public Skill8061() {
         super(8061);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("柔骨兔第八魂技,连续对指定敌人造成8次伤害,每次造成%s%%的攻击", getAddP(getJid(), getId()));
     }
 
     @Override

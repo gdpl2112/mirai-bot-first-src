@@ -26,11 +26,6 @@ public class Skill1001 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,蓄力一击,蓄力倒计时结束后对玩家造成%s%%的伤害", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓄力一击") {
             GhostObj ghostObj;

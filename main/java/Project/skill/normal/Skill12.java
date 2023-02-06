@@ -21,10 +21,7 @@ public class Skill12 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("令自身 增加%s点闪避", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

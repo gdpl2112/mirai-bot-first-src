@@ -25,11 +25,6 @@ public class Skill1103 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("极北魂兽特有技能,极冰•护盾,为自身增加%s生命值得护盾,持续15秒", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

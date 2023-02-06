@@ -10,7 +10,10 @@ import Project.services.detailServices.shopItems.UseTool;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.common.Public;
+import io.github.kloping.mirai0.Main.ITools.MessageTools;
 import io.github.kloping.mirai0.commons.GInfo;
+import io.github.kloping.mirai0.commons.Group;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -235,7 +238,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 long l = 0;
                 if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
                 else if (ONLY_SLE.containsKey(id)) l = ONLY_SLE.get(id).longValue() / 3;
-                else return "商城中为发现此物品";
+                else return NOT_FOUND_ABOUT_OBJ;
                 GameDataBase.removeFromBgs(who, id, ObjType.sell);
                 l = l > maxSle ? maxSle : l;
                 putPerson(getInfo(who).addGold(l, new TradingRecord()
@@ -254,21 +257,38 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "出售 异常 ";
+            return ERR_TIPS;
         }
     }
 
     @Override
-    public String sleObj(Long who, int id, Integer num) {
+    public String sleObj(Long who, int id, Integer num, Group group) {
         if (num > SLE_ONE_MAX) {
-            return SLE_TOO_MUCH;
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                final int END = num;
+                int r = 0;
+                StringBuilder sb = new StringBuilder();
+                while (true) {
+                    if (END - r >= SLE_ONE_MAX) {
+                        sb.append(sleObj(who, id, SLE_ONE_MAX, group)).append(NEWLINE);
+                        r += SLE_ONE_MAX;
+                    } else {
+                        int n = END - r;
+                        sb.append(sleObj(who, id, n, group)).append(NEWLINE);
+                        r += n;
+                        break;
+                    }
+                }
+                MessageTools.instance.sendMessageInGroupWithAt(sb.toString(), group.getId(), who);
+            });
+            return ASYNCHRONOUS_SLE;
         }
         if (containsBgsNum(who, id, num)) {
             removeFromBgs(who, id, num, ObjType.sell);
             long l;
             if (ID_2_SHOP_MAPS.containsKey(id)) l = GameDataBase.ID_2_SHOP_MAPS.get(id) / 3;
             else if (ONLY_SLE.containsKey(id)) l = ONLY_SLE.get(id).longValue() / 3;
-            else return "商城中为发现此物品";
+            else return NOT_FOUND_ABOUT_OBJ;
             l = l > maxSle ? maxSle : l;
             l *= num;
             putPerson(getInfo(who).addGold(l
@@ -289,8 +309,27 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
     }
 
     @Override
-    public String objTo(Long who, int id, Long whos, Integer num) {
-        if (num > TRANSFER_ONE_MAX) return TRANSFER_TOO_MUCH;
+    public String objTo(Long who, int id, Long whos, Integer num, Group group) {
+        if (num > TRANSFER_ONE_MAX) {
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                final int END = num;
+                int r = 0;
+                StringBuilder sb = new StringBuilder();
+                while (true) {
+                    if (END - r >= TRANSFER_ONE_MAX) {
+                        sb.append(objTo(who, id, whos, TRANSFER_ONE_MAX, group)).append(NEWLINE);
+                        r += TRANSFER_ONE_MAX;
+                    } else {
+                        int n = END - r;
+                        sb.append(objTo(who, id, whos, n, group)).append(NEWLINE);
+                        r += n;
+                        break;
+                    }
+                }
+                MessageTools.instance.sendMessageInGroupWithAt(sb.toString(), group.getId(), who);
+            });
+            return ASYNCHRONOUS_TRANSFER;
+        }
         if ((id > 1000 && id <= 1007) || (id <= 127 && id >= 124)) {
             return gameWeaService.objTo(who, id, whos);
         } else if (containsBgsNum(who, id, num)) {

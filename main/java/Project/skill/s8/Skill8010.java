@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_LIGHT_ATT;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -19,11 +18,6 @@ public class Skill8010 extends SkillTemplate {
 
     public Skill8010() {
         super(8010);
-    }
-
-    @Override
-    public String getIntro() {
-        return String.format("使用后,所有攻击都会附带雷电, 造成2次额外的%s%%的攻击的值", getAddP(getJid(), getId()));
     }
 
     @Override

@@ -60,7 +60,7 @@ public class GameSkillServiceImpl implements ISkillService {
     @Override
     public String initSkill(long qq, Group group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
-        if (is.length < st || is[0] == 0) return NOT_GET_POSSTION_HH;
+        if (is.length < st || is[0] == 0) return NOT_GET_LOCATION_HH;
         Map<Integer, SkillInfo> skinfo = getSkillInfo(qq);
         if (skinfo.containsKey(st)) {
             return ("已经激活了这个魂技");
@@ -121,7 +121,9 @@ public class GameSkillServiceImpl implements ISkillService {
         if (System.currentTimeMillis() < info.getTime())
             return String.format(USE_SKILL_WAIT_TIPS, Tool.tool.getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
-        if (personInfo.isVertigo()) return VERTIGO_ING;
+        if (personInfo.isVertigo()) {
+            if (!AVAILABLE_IN_CONTROL.contains(info.getJid())) return VERTIGO_ING;
+        }
         if (personInfo.containsTag(TAG_CANT_USE)) return CANT_USE_ING;
         long v = personInfo.getHll();
         long v1 = personInfo.getHl();

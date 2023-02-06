@@ -26,10 +26,7 @@ public class Skill703 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放天使真身,每10秒恢复5%%的魂力,增加%s%%的攻击力", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

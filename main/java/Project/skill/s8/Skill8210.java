@@ -26,14 +26,6 @@ public class Skill8210 extends SkillTemplate {
         super(8210);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("幽冥灵猫第八魂技,召唤一个影分身,分身复制使用者 选择攻击,攻击 行为 但伤害造成原伤害的%s%%",
-                getAddP(getJid(), getId())
-        );
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
@@ -59,7 +51,7 @@ public class Skill8210 extends SkillTemplate {
                                         false, false);
                             } else {
                                 setTips(GameJoinDetailService.attGho(
-                                        who.longValue(), att,  DamageType.AP,true, false, GhostLostBroadcast.KillType.SKILL_ATT,
+                                        who.longValue(), att, DamageType.AP, true, false, GhostLostBroadcast.KillType.SKILL_ATT,
                                         true
                                 ));
                             }

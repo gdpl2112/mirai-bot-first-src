@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
@@ -25,12 +24,6 @@ public class Skill8240 extends SkillTemplate {
         super(8240);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("修罗神剑第八魂技,发出致命一击,对指定敌人造成%s%%的伤害,若指定敌人生命值低于50%%则额外造成50%%的伤害",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

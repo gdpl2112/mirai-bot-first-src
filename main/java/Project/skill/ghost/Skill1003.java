@@ -25,11 +25,6 @@ public class Skill1003 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,锁定魂技,下一次攻击无法躲避,锁定时间%s", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "锁定魂技") {
             @Override

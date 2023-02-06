@@ -25,11 +25,6 @@ public class Skill1102 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("极北魂兽特有技能,极致冰冻,使玩家无法使用魂技持续%s秒", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

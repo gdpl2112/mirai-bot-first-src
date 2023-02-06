@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 
 /**
@@ -19,12 +18,6 @@ public class Skill8031 extends SkillTemplate {
 
     public Skill8031() {
         super(8031);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("以炽热的天使圣剑,吸收太阳真火在短时间内为自己和指定一人回复%s%%魂力", getAddP(getJid(), getId()));
     }
 
     @Override

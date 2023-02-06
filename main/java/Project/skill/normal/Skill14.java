@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.e0.VelocityUtils;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
@@ -13,6 +14,7 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_CANT_HIDE;
 import static Project.dataBases.skill.SkillDataBase.TAG_EDD_ATT;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -28,7 +30,7 @@ public class Skill14 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("令指定一个人无法躲避下次的攻击");
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()));
     }
 
     @Override

@@ -25,11 +25,6 @@ public class Skill1004 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,强击魂技,强化下次被动攻击伤害,造成%s%%的伤害,当存在支援者时效果翻倍", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

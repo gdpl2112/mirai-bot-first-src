@@ -8,7 +8,8 @@ import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addAttSchedule;
+import static Project.services.detailServices.GameSkillDetailService.addHFSchedule;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 
@@ -21,13 +22,6 @@ public class Skill8190 extends SkillTemplate {
         super(8190);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("蓝银花第八魂技,对指定敌人持续 累计造成%s%%的伤害,伤害存在期间,自身持续恢复生命值",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

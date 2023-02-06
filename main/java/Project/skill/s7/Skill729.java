@@ -24,10 +24,7 @@ public class Skill729 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("杀神昊天锤,奥义炸环第一魂环,第一魂技进入冷却,增加%s%%^^的攻击(随第一魂环品质提升而提升)", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

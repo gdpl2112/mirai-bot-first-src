@@ -24,11 +24,6 @@ public class Skill1006 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,逃跑技能,生命值每损失2%%额外增加1%%的逃跑几率,基础逃跑几率%s%%", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

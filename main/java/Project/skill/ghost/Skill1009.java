@@ -27,11 +27,6 @@ public class Skill1009 extends SkillTemplate {
     }
 
     @Override
-    public String getIntro() {
-        return String.format("魂兽普通技能,主动出击,5秒后对所有玩家对自己有威胁的玩家造成%s%%的伤害(包括支援的玩家2秒后)", getAddP(getJid(), getId()));
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
             @Override

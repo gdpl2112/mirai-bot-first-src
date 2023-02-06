@@ -19,10 +19,7 @@ public class Skill21 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("令自身增加%s%%的免伤", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

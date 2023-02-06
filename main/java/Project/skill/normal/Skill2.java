@@ -20,12 +20,6 @@ public class Skill2 extends SkillTemplate {
         super(2);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("对指定一个人恢复%s%%的魂力", getAddP(getJid(), getId()));
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "单体加魂力技能") {

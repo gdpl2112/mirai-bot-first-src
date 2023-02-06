@@ -1,5 +1,6 @@
 package Project.controllers.normalController;
 
+import Project.e0.VelocityUtils;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
@@ -20,33 +21,12 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 @Controller
 public class NoticeController {
     public static final int LOWST = 5;
-    private static final String HJ_INTRO = "精神力有什么用:\r\n\t" +
-            "   1.精神力高于80%时格挡10%的伤害,同时消耗精神力\r\n\t" +
-            "   2.精神力低于45%时额外受到10%的伤害\r\n\t" +
-            "   3.魂兽也存在精神力,若魂兽的精神力与你精神力差不多,魂兽可凭借精神力隐藏自己的实力,可使用(探查)消耗精神力探查其状态" +
-            "   \n==========\n" +
-            "   4.可使用 精神攻击@某 随机发射 12~20%(可指定) 的最大精神力的值 对目标造成同等值的精神损失 最大造成 " + MAX_SA_LOSE_HJ_B + "%的精神力" +
-            "若目标不足及承受发射的精神力 则将额外造成 剩余可作用的精神力的值的" + HJ_LOSE_1_X +
-            "倍的伤害最大造成目标" + MAX_SA_LOSE_HP_B + "%的最大生命值,魂兽不受其最大生命值限制";
     private static final StringBuilder UPDATE_LOG = new StringBuilder();
-    private static final String MORA_STR_2 = "特别的,魂环吸收最低等级限制:\r\n\t" +
-            "   9级不能吸收万年及以上\n\t" +
-            "   49级不能吸收十万年及以上\n\t" +
-            "   69级不能吸收百万年及以上\n\t";
-
-    private static final String STRING = "每个人 今日首次 无状态时(血量为0)>清空经验,\n" +
-            "再次 无状态时 下降一级,\n" +
-            "之后都 清空经验\n" +
-            "===============\n" +
-            "每日最多下降一级\n" +
-            "整10级(10,20...)时不会下降等级\n" +
-            "请保证自己的血量健康";
-
-    private static final String STRING2 = "在面对魂兽时仅能使用" + UseRestrictions.MAX_MEET_C + "次,增幅物品";
     private static String[] UPDATE_LOGS;
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 2. 6:异步转让与异步出售#不在有出售/转让数量限制").append(NEWLINE);
         UPDATE_LOG.append(" 2. 2:修复已知bug").append(NEWLINE);
         UPDATE_LOG.append(" 1.29:修复已知bug").append(NEWLINE);
         UPDATE_LOG.append(" 1.28:修复部分bug;魂技更新;<宗门转让>功能").append(NEWLINE);
@@ -300,7 +280,7 @@ public class NoticeController {
 
     @Action("精神力作用")
     public Object more1() {
-        return HJ_INTRO;
+        return VelocityUtils.getTemplateToString("hj.intro", MAX_SA_LOSE_HJ_B, HJ_LOSE_1_X, MAX_SA_LOSE_HP_B);
     }
 
     @Action("更新日志.*?")
@@ -313,31 +293,16 @@ public class NoticeController {
 
     @Action("魂环吸收限制")
     public Object more2() {
-        return MORA_STR_2;
+        return VelocityUtils.getTemplateToString("hh.join.intro.vm", MAX_SA_LOSE_HJ_B, HJ_LOSE_1_X, MAX_SA_LOSE_HP_B);
     }
 
-    @Action("新机制")
+    @Action(value = ".*?机制.*?", otherName = {".*?规则.*?"})
     public String m1() {
-        return STRING;
+        return VelocityUtils.getTemplateToString("rule.intro.0", UseRestrictions.MAX_MEET_C, LOWST);
     }
-
-    @Action("新机制2")
-    public String m3() {
-        return STRING2;
-    }
-
-    @Action(value = "怎么获得名师点", otherName = {"名师点.+"})
-    public String m2() {
-        return "每单独击杀 一只" + LOWST + "w 或 以上级别的魂兽 增加一点名师点";
-    }
-
-    private static final String M4 = "管理通过'创建竞猜;(竞猜标题);竞猜选项;竞猜选项..' 创建竞猜\n" +
-            "竞猜者通过 '竞猜(竞猜选项数字),(押注积分值)' 来竞猜 同一竞猜 只能参与3次\n" +
-            "管理员通过 '停止竞猜' 可停止 竞猜 但 不结算,可用于 限时竞猜\n" +
-            "管理员通过 '结束竞猜(竞猜结果选项)' 来结算该竞猜 胜者所得 所有竞猜的积分总和*(竞猜者单个投注/猜对选项的积分总和)";
 
     @Action("竞猜说明")
     private String m4() {
-        return M4;
+        return VelocityUtils.getTemplateToString("quiz.intro.vm");
     }
 }

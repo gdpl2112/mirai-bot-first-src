@@ -22,10 +22,7 @@ public class Skill7 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("给予指定一个人反甲,在接下来的一段时间内,任何攻击者,将额外受到攻击的%s%%的伤害(不可叠加))", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

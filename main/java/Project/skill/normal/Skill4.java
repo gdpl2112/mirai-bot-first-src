@@ -26,10 +26,7 @@ public class Skill4 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("对指定一个人增加%s%%的攻击", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

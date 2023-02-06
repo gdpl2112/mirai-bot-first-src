@@ -119,7 +119,7 @@ public class CallLocalApiController {
 
     @Action("/init_pvp")
     public String p() {
-        pvpQq.m1();
+        PvpQq.m1();
         return "ok";
     }
 
@@ -156,10 +156,7 @@ public class CallLocalApiController {
         int[] ints = {i * PAGE_SIZE, i * PAGE_SIZE + 1, i * PAGE_SIZE + 2, i * PAGE_SIZE + 3, i * PAGE_SIZE + 4};
         for (int i1 : ints) {
             Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i1];
-            sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE)
-                    .append("预览图:").append(NEWLINE).append(Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b()))
-                    .append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2))
-                    .append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
+            sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE).append("预览图:").append(NEWLINE).append(Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b())).append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2)).append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
         }
         return sb.toString();
     }
@@ -191,8 +188,7 @@ public class CallLocalApiController {
 
     private static final SimpleDateFormat SF_HH = new SimpleDateFormat("HH");
 
-    public static final String WENDY_URL =
-            "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
+    public static final String WENDY_URL = "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
 
     @Action("高温天气图")
     public Object gaowen() {
@@ -273,8 +269,7 @@ public class CallLocalApiController {
         JSONObject jo = xiaoaPi.parseV(url);
         String u0 = jo.getString("url");
         ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
-        BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3",
-                new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
+        BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3", new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
         MessageTools.instance.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
         return null;
     }

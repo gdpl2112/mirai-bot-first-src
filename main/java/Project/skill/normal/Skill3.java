@@ -19,12 +19,6 @@ public class Skill3 extends SkillTemplate {
         super(3);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("对指定几个人恢复%s%%的魂力", getAddP(getJid(), getId()));
-    }
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "群体加魂力") {

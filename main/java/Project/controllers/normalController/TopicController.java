@@ -1,29 +1,7 @@
 package Project.controllers.normalController;
 
 
-import Project.interfaces.http_api.JiaKaoBaoDian;
-import com.alibaba.fastjson.JSON;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.Data;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.QuestionData;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.Record;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.pre.QuestionIdData;
-import io.github.kloping.mirai0.unitls.Tools.JsUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.judge.Judge.isNotEmpty;
-import static io.github.kloping.mirai0.Main.Resource.DEA_THREADS;
-import static io.github.kloping.mirai0.Main.Resource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CE_CA;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import io.github.kloping.MySpringTool.annotations.Controller;
 
 /**
  * @author github kloping

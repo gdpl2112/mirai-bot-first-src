@@ -1,5 +1,6 @@
 package Project.skill;
 
+import Project.e0.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -7,8 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import static Project.services.detailServices.GameSkillDetailService.getCoolTime;
-import static Project.services.detailServices.GameSkillDetailService.getUserPercent;
+import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
  * @author github.kloping
@@ -34,7 +34,9 @@ public abstract class SkillTemplate {
      *
      * @return
      */
-    public abstract String getIntro();
+    public String getIntro() {
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()));
+    }
 
     /**
      * create a skill

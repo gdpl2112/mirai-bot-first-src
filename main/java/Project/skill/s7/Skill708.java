@@ -27,10 +27,7 @@ public class Skill708 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放邪火凤凰真身,增加(%s + 魂力剩余百分比的一半)%% 的攻击力", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

@@ -1,5 +1,6 @@
 package Project.skill.bone;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -21,11 +22,6 @@ public class Skill1514 extends SkillTemplate {
 
     public Skill1514() {
         super(1514);
-    }
-
-    @Override
-    public String getIntro() {
-        return String.format("头部魂骨技能;对指定1~3个人造成攻击*%s%%伤害但命中率在80~40之间选择的目标越多概率越低", getAddP(getJid(), getId()));
     }
 
     @Override

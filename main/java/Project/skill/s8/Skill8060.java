@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -17,12 +16,6 @@ public class Skill8060 extends SkillTemplate {
 
     public Skill8060() {
         super(8060);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("柔骨兔第八魂技,增加%s%%的闪避率", getAddP(getJid(), getId()));
     }
 
     @Override

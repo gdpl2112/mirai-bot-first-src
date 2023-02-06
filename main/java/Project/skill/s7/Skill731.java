@@ -25,10 +25,7 @@ public class Skill731 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("暗金恐爪熊,发挥恐怖的威力增加%s%%的攻击和%s%%的临时护盾", getAddP(getJid(), getId()), getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

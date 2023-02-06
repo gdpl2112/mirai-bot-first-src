@@ -28,10 +28,7 @@ public class Skill19 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("蓄力型技能,指定敌人,蓄力1.5倍攻击前摇秒后对其造成 攻击的%s +- 10%% 的 伤害", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

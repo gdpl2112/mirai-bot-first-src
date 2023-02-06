@@ -26,10 +26,7 @@ public class Skill722 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("光明圣龙,增加%s%%的攻击,和恢复%s%%的 血量,魂力,精神力", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 2);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

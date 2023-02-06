@@ -25,10 +25,7 @@ public class Skill712 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放大力金刚熊真身,增加%s%%的攻击力", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

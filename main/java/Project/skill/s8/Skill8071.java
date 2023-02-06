@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 
@@ -18,12 +17,6 @@ public class Skill8071 extends SkillTemplate {
 
     public Skill8071() {
         super(8071);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("白虎第八魂技,向指定敌人发起攻击,造成攻击%s%%的伤害,1.5秒后命中,命中回复该攻击值的15%%的血量", getAddP(getJid(), getId()));
     }
 
     @Override

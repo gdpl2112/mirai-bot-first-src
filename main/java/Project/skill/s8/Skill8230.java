@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
@@ -26,7 +27,7 @@ public class Skill8230 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("黑暗圣龙第八魂技,减少指定敌人%s%%的输出,并对其造成%s%%的伤害",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId()) * V0
         );

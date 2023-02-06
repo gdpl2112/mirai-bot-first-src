@@ -1,6 +1,7 @@
 package Project.skill.normal;
 
 import Project.controllers.auto.ControllerSource;
+import Project.e0.VelocityUtils;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skill.SkillTemplate;
@@ -24,7 +25,8 @@ public class Skill23 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("缩减指定人自身%s秒的攻击前摇,前摇最小0.5s", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
+                Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override
@@ -33,9 +35,7 @@ public class Skill23 extends SkillTemplate {
             @Override
             public void before() {
                 long q = nearest(1, who.longValue(), nums)[0];
-                ControllerSource.playerBehavioralManager.add(
-                        new Growth().setQid(q).setTime(System.currentTimeMillis() + getDuration(getJid()))
-                                .setType(PlayerBehavioralManager.ATTACK_PRE).setValue(-info.getAddPercent()));
+                ControllerSource.playerBehavioralManager.add(new Growth().setQid(q).setTime(System.currentTimeMillis() + getDuration(getJid())).setType(PlayerBehavioralManager.ATTACK_PRE).setValue(-info.getAddPercent()));
                 setTips("作用于:" + q);
             }
         };

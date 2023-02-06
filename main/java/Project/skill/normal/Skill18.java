@@ -25,10 +25,7 @@ public class Skill18 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("攻击指定敌人,对血量越少的敌人造成的伤害越高 已损失50%%时加成为攻击x%s%%", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

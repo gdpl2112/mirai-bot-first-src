@@ -22,10 +22,7 @@ public class Skill16 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("对指定,增加一个最大生命值的%s%%的临时护盾持续时间%s秒", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 4);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

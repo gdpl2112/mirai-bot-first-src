@@ -11,7 +11,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
@@ -21,12 +20,6 @@ public class Skill8041 extends SkillTemplate {
 
     public Skill8041() {
         super(8041);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("噬魂蛛皇,向指定敌人发起突击,造成攻击%s%%的伤害,对精神力低于70%%的敌人造成额外的10%%的伤害,对精神力低于自己的敌人额外造成6%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

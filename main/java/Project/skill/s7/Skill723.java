@@ -25,10 +25,7 @@ public class Skill723 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("黑暗圣龙,增加%s%%的攻击,和恢复%s%%的 精神力,并增加 %s%%的吸血", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 2, getAddP(getJid(), getId()) / 5);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

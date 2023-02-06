@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 
@@ -21,12 +20,6 @@ public class Skill8030 extends SkillTemplate {
 
     public Skill8030() {
         super(8030);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("以炽热的天使圣剑,对敌人造成%s%%的伤害,额外对魂力低于60%%的敌人造成8%%的伤害,对魂兽额外造成15%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

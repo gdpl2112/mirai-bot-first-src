@@ -22,10 +22,7 @@ public class Skill701 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("释放雷霆之力,对指定2个敌人造成%s%%攻击的伤害,10秒后在造成30%%的伤害,10秒后造成10%%的伤害", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

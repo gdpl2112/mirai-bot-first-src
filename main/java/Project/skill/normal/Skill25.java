@@ -20,10 +20,7 @@ public class Skill25 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("强化下次选择攻击伤害,伤害为原本的+%s%%", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

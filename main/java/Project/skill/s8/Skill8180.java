@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
@@ -27,8 +28,7 @@ public class Skill8180 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format(
-                "蛇杖第八魂技,对指定敌人造成%s%%的伤害,并标记该敌人,标记存在1分钟,若该敌人已经存在该标记(蛇矛第八魂技),则额外造成%s%%的伤害",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId())
         );

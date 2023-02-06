@@ -9,7 +9,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_LIGHT_F;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
@@ -19,12 +18,6 @@ public class Skill8011 extends SkillTemplate {
 
     public Skill8011() {
         super(8011);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("使自身带电,效果时间内,被攻击时攻击者受到两次雷电伤害,值为%s%%的攻击的值", getAddP(getJid(), getId()));
     }
 
     @Override

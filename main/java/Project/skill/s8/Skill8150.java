@@ -1,6 +1,7 @@
 package Project.skill.s8;
 
 import Project.broadcast.game.HpChangeBroadcast;
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -29,10 +30,9 @@ public class Skill8150 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("刺豚第八魂技,10秒内将收到的第一次伤害以%s%%的量返还给攻击者,若10秒未收到攻击则增加%s%%的护盾",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
-                getAddP(getJid(), getId()) / 2
-        );
+                getAddP(getJid(), getId()) / 2);
     }
 
     @Override

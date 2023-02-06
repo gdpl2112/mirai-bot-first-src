@@ -1,6 +1,8 @@
 package Project.interfaces.Iservice;
 
 
+import io.github.kloping.mirai0.commons.Group;
+
 import java.lang.reflect.InvocationTargetException;
 
 public interface IGameUseObjService {
@@ -17,9 +19,9 @@ public interface IGameUseObjService {
 
     String sleObj(Long who, int id);
 
-    String sleObj(Long who, int id, Integer num);
+    String sleObj(Long who, int id, Integer num, Group group);
 
     String objTo(Long who, int id, Long whos);
 
-    String objTo(Long who, int id, Long whos, Integer num);
+    String objTo(Long who, int id, Long whos, Integer num,Group group);
 }

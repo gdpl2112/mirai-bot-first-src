@@ -1,5 +1,6 @@
 package Project.skill.s7;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -9,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
+import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 
 /**
@@ -21,10 +23,8 @@ public class Skill710 extends SkillTemplate {
         super(710);
     }
 
-
-    @Override
     public String getIntro() {
-        return String.format("释放碧灵蛇皇毒,对指定2个敌人造成30%%攻击的伤害,10秒后在造成30%%的伤害,10秒后造成30%%的伤害");
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()));
     }
 
     @Override

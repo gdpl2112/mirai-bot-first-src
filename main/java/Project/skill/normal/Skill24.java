@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -22,10 +23,8 @@ public class Skill24 extends SkillTemplate {
         super(24);
     }
 
-
-    @Override
     public String getIntro() {
-        return String.format("减少指定人对应该魂技的位置的魂技%s秒的冷却", Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),Tool.tool.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

@@ -23,10 +23,7 @@ public class Skill17 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("%s秒内,躲避下次攻击", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

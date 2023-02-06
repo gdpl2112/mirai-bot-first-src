@@ -1,5 +1,6 @@
 package Project.skill.s8;
 
+import Project.e0.VelocityUtils;
 import Project.services.detailServices.GameDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
@@ -26,7 +27,7 @@ public class Skill8220 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("光明圣龙第八魂技,增加指定%s%%的输出,并对其恢复%s%%的生命",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId()) * V0
         );

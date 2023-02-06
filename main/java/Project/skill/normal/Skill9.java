@@ -24,10 +24,7 @@ public class Skill9 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("给予指定一个人,在接下来的来两分钟内,每24秒恢复%s%%的生命值", getAddP(getJid(), getId()));
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

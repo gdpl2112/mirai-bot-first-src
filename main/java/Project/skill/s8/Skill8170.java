@@ -1,6 +1,7 @@
 package Project.skill.s8;
 
 import Project.broadcast.game.HpChangeBroadcast;
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -26,7 +27,7 @@ public class Skill8170 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return String.format("骨龙第八魂技,1倍前摇后,对指定敌人造成%s%%的伤害,并在魂技时间内,将所受到的伤害的%s%%的值转化为护盾",
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
                 getAddP(getJid(), getId()),
                 getAddP(getJid(), getId())
         );

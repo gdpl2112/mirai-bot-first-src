@@ -1,5 +1,6 @@
 package Project.skill.s7;
 
+import Project.e0.VelocityUtils;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
@@ -21,10 +22,8 @@ public class Skill719 extends SkillTemplate {
         super(719);
     }
 
-
-    @Override
     public String getIntro() {
-        return String.format("蓝银花,每10秒恢复最大生命值得%s%%的生命值,并对指定敌人每10秒造成攻击的%s%%的伤害"
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid())
                 , getAddP(getJid(), getId())
                 , getAddP(getJid(), getId())
         );

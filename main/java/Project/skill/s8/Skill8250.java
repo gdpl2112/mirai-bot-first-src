@@ -8,7 +8,8 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_FJ;
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
@@ -23,13 +24,6 @@ public class Skill8250 extends SkillTemplate {
         super(8250);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("青龙第八魂技,每损失1%%的生命值增加1%%的反甲效果最多%s%%,最少%s%%",
-                getAddP(getJid(), getId()) * V0,
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

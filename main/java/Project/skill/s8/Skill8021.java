@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 
@@ -21,12 +20,6 @@ public class Skill8021 extends SkillTemplate {
 
     public Skill8021() {
         super(8021);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("昊天锤第八魂技,对指定敌人发动强力攻击造成%s%%的伤害,对血量高于90%%的敌人额外造成8%%的伤害", getAddP(getJid(), getId()));
     }
 
     @Override

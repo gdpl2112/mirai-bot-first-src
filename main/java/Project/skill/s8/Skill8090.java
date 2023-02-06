@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
 
@@ -24,12 +23,6 @@ public class Skill8090 extends SkillTemplate {
 
     public Skill8090() {
         super(8090);
-    }
-
-
-    @Override
-    public String getIntro() {
-        return String.format("七杀剑第八魂技,2秒内对敌人(最多3个)造成%s次的伤害,每次造成攻击的2%%伤害", getAddP(getJid(), getId()));
     }
 
     @Override

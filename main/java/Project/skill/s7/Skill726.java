@@ -22,10 +22,7 @@ public class Skill726 extends SkillTemplate {
     }
 
 
-    @Override
-    public String getIntro() {
-        return String.format("海神,千载空悠,武魂真身时间内,增加%s%%的攻击,对有护盾的敌人造成额外的%s%%伤害,", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 8);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

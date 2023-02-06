@@ -7,7 +7,6 @@ import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.RANDOM;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
@@ -21,12 +20,6 @@ public class Skill8310 extends SkillTemplate {
         super(8310);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("暗金恐爪熊第八魂技,连续辉出两爪,每爪对指定敌人造成%s%%的伤害,但其弹道之窄每爪只有40%%的命中率",
-                getAddP(getJid(), getId())
-        );
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

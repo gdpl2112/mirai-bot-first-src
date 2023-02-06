@@ -13,7 +13,6 @@ import java.util.concurrent.ScheduledFuture;
 
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
-import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
 
 /**
@@ -25,11 +24,6 @@ public class Skill8110 extends SkillTemplate {
         super(8110);
     }
 
-
-    @Override
-    public String getIntro() {
-        return String.format("破魂枪第八魂技,以破魂枪贯穿指定敌人,造成%s%%的伤害,并造成持续的流血伤害", getAddP(getJid(), getId()));
-    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

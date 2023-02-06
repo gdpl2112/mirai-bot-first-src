@@ -21,13 +21,6 @@ public class Skill8270 extends SkillTemplate {
 
 
     @Override
-    public String getIntro() {
-        return String.format("九心海棠第八魂技,为自己和其他指定4人恢复最大生命值得%s%%的血量和护盾",
-                getAddP(getJid(), getId())
-        );
-    }
-
-    @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
 
@@ -43,7 +36,7 @@ public class Skill8270 extends SkillTemplate {
                 for (long qid : nearest(5, who.longValue(), nums)) {
                     addHp(who, qid, info.getAddPercent());
                     addShield(qid, v);
-                    setTips("作用于:" +  Tool.tool.at(who.longValue()));
+                    setTips("作用于:" + Tool.tool.at(who.longValue()));
                 }
             }
         };

@@ -24,10 +24,7 @@ public class Skill725 extends SkillTemplate {
         super(725);
     }
 
-    @Override
-    public String getIntro() {
-        return String.format("青龙真身,增加%s%%的攻击,并为自己增加%s%%的反甲效果", getAddP(getJid(), getId()), getAddP(getJid(), getId()) / F0);
-    }
+    
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
