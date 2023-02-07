@@ -7,8 +7,8 @@ import static io.github.kloping.mirai0.commons.uitls.FileDirUtils.copyEves;
  */
 public class Temp {
     public static void main(String[] args) {
-        copyEves("D:\\Projects\\OwnProjects\\MyMirai_01\\src\\main\\resource",
-                "D:\\Projects\\OwnProjects\\MyMirai_01\\target\\classes", true);
+        copyEves("D:\\Projects\\TeamProjects\\gdpl2112\\main-bot\\src\\main\\resource",
+                "D:\\Projects\\TeamProjects\\gdpl2112\\main-bot\\target\\classes", true);
         BotStarter.main(new String[]{});
     }
 }

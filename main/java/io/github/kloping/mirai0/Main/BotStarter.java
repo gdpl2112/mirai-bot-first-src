@@ -11,13 +11,11 @@ import io.github.kloping.mirai0.Main.Handlers.MyHandler;
 import io.github.kloping.mirai0.Main.Handlers.SaveHandler;
 import io.github.kloping.mirai0.Main.ITools.Client;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.event.GlobalEventChannel;
 
 import java.nio.file.Paths;
-import java.util.concurrent.CountDownLatch;
 
 import static io.github.kloping.mirai0.Main.Resource.*;
 
@@ -66,7 +64,10 @@ public class BotStarter {
 
     public static void startRegisterListenerHost(String[] args) {
         GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        GlobalEventChannel.INSTANCE.registerListenerHost(StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class));
         GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
+        StarterApplication.STARTED_RUNNABLE.add(() -> {
+            GlobalEventChannel.INSTANCE.registerListenerHost(
+                    StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class));
+        });
     }
 }
