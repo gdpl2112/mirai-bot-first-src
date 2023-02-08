@@ -16,10 +16,7 @@ import io.github.kloping.mirai0.Main.Resource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.contact.AnonymousMember;
-import net.mamoe.mirai.contact.Contact;
-import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.contact.Member;
+import net.mamoe.mirai.contact.*;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.*;
@@ -40,7 +37,6 @@ import static io.github.kloping.mirai0.Main.Handlers.CapHandler.CAP_2;
 import static io.github.kloping.mirai0.Main.Handlers.CapHandler.join;
 import static io.github.kloping.mirai0.Main.ITools.MemberTools.getUser;
 import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.qq;
 
 /**
  * @author github-kloping
@@ -151,33 +147,14 @@ public class MyHandler extends SimpleListenerHost {
     }
 
     @EventHandler
-    public void onMessage(@NotNull GroupTempMessageEvent event) throws Exception {
-        if (!Resource.Switch.AllK) {
-            return;
-        }
-        if (event.getSender() instanceof AnonymousMember) {
-            return;
-        }
-        String text = null;
-        io.github.kloping.mirai0.commons.Group eGroup = null;
-        Group group = null;
-        MessageChain chain = null;
-        long id = -1;
-        try {
-            chain = event.getMessage();
-            id = event.getSender().getId();
-            group = event.getGroup();
-            eGroup = io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP);
-            io.github.kloping.mirai0.commons.User eUser = getUser(id);
-            text = EventTools.getStringFromMessageChain(event.getMessage(), id);
-            if (INSTANCE.getActionManager().mather(text) != null) {
-                StarterApplication.executeMethod(id, text, id, eUser, eGroup, 1);
-            } else {
-                event.getSender().sendMessage(EntertainmentController.otherService.talk(text));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void onEvent(@NotNull SignEvent event) {
+        NormalMember member = (NormalMember) event.getUser();
+        long id = member.getId();
+        Group group = member.getGroup();
+        StarterApplication.executeMethod(id,
+                "签到", id, getUser(id), io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP), 0);
+        StarterApplication.executeMethod(id,
+                "魂师签到", id, getUser(id), io.github.kloping.mirai0.commons.Group.create(group.getId(), group.getName(), HIST_GROUP_MAP), 0);
     }
 
     @EventHandler

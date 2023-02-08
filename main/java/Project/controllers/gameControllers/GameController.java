@@ -165,8 +165,7 @@ public class GameController {
                     System.currentTimeMillis() - (DAY_LONG * i)
             )), Resource.BOT.getId());
             KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
-            if (dbb.getValue(qq))
-                e++;
+            if (dbb.getValue(qq)) e++;
         }
         return e;
     }

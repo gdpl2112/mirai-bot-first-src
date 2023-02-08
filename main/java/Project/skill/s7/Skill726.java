@@ -1,5 +1,6 @@
 package Project.skill.s7;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
@@ -16,13 +17,14 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.per
  */
 public class Skill726 extends SkillTemplate {
 
-
     public Skill726() {
         super(726);
     }
 
-
-    
+    @Override
+    public String getIntro() {
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()),getAddP(getJid(), getId())/8);
+    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

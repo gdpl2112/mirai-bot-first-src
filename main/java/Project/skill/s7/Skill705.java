@@ -1,5 +1,6 @@
 package Project.skill.s7;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
@@ -20,13 +21,14 @@ import static Project.services.detailServices.GameSkillDetailService.getDuration
  */
 public class Skill705 extends SkillTemplate {
 
-
     public Skill705() {
         super(705);
     }
 
-
-    
+    public String getIntro() {
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),
+                getAddP(getJid(), getId()) * 4, getAddP(getJid(), getId()));
+    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

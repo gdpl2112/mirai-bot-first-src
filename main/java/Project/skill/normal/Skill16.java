@@ -1,5 +1,6 @@
 package Project.skill.normal;
 
+import Project.e0.VelocityUtils;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
@@ -21,8 +22,9 @@ public class Skill16 extends SkillTemplate {
         super(16);
     }
 
-
-    
+    public String getIntro() {
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 4);
+    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {

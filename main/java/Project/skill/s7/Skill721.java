@@ -1,5 +1,6 @@
 package Project.skill.s7;
 
+import Project.e0.VelocityUtils;
 import Project.services.detailServices.GameBoneDetailService;
 import Project.skill.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
@@ -26,7 +27,9 @@ public class Skill721 extends SkillTemplate {
     }
 
 
-    
+    public String getIntro() {
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()), getAddP(getJid(), getId()));
+    }
 
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
