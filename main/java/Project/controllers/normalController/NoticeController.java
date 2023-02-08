@@ -29,6 +29,7 @@ public class NoticeController {
         UPDATE_LOG.append(" 2. 8:修复部分部分魂技介绍异常的的问题;每日打卡自动[签到|魂师签到]").append(NEWLINE);
         UPDATE_LOG.append(" 2. 6:异步转让与异步出售#不在有出售/转让数量限制").append(NEWLINE);
         UPDATE_LOG.append(" 2. 2:修复已知bug").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 1.29:修复已知bug").append(NEWLINE);
         UPDATE_LOG.append(" 1.28:修复部分bug;魂技更新;<宗门转让>功能").append(NEWLINE);
         UPDATE_LOG.append(" 1.27:宗门更新;见<宗门系统>").append(NEWLINE);
