@@ -168,6 +168,28 @@ public interface KlopingWeb {
     String put(@ParamName("key") String key, @ParamName("value") String value, @ParamName("pwd") String pwd);
 
     /**
+     * get num from
+     *
+     * @param keys
+     * @param value
+     * @param pwd
+     * @return
+     */
+    @GetPath("/containsKeys")
+    Integer containsKeys(@ParamName("keys") String keys, @ParamName("value") String value, @ParamName("pwd") String pwd);
+
+    /**
+     * get num from
+     *
+     * @param keys
+     * @param value
+     * @param pwds
+     * @return
+     */
+    @GetPath("/containsPwds")
+    String containsPwds(@ParamName("key") String key, @ParamName("value") String value, @ParamName("pwds") String pwds);
+
+    /**
      * get a value by pwd and key
      *
      * @param key

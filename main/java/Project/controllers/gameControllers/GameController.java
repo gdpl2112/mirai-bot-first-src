@@ -1,6 +1,7 @@
 package Project.controllers.gameControllers;
 
 
+import Project.controllers.auto.ControllerSource;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.e0.KlopingWebDataBaseBoolean;
@@ -158,16 +159,23 @@ public class GameController {
     private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
 
     private Integer getThisWeekDays(Long qq) {
-        int e = 0;
+        StringBuilder sb = new StringBuilder();
         int n = Tool.tool.getOldestWeekOne();
         for (int i = 0; i <= n; i++) {
             String pwd = String.format(PWD_FORMAT, dfn.format(new Date(
                     System.currentTimeMillis() - (DAY_LONG * i)
             )), Resource.BOT.getId());
-            KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
-            if (dbb.getValue(qq)) e++;
+            sb.append(pwd).append(",");
         }
-        return e;
+        String pwd = sb.toString();
+        pwd = pwd.substring(0, pwd.length() - 1);
+        String countStr = ControllerSource.klopingWeb.containsPwds(qq.toString(), "true", pwd);
+        try {
+            Integer count = Integer.valueOf(countStr);
+            return count;
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String jl(Integer n, Long qq) {
