@@ -61,7 +61,7 @@ public class GameObjController {
         }
         String result = ERR_TIPS;
         try {
-            if (num == null) {
+            if (num == null || num.intValue() == 1) {
                 result = gameUseObiService.useObj(qq.getId(), id);
             } else {
                 if (challengeDetailService.isTemping(qq.getId())) {
