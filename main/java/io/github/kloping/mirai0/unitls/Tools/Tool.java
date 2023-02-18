@@ -414,6 +414,17 @@ public class Tool {
     }
 
     /**
+     * @param str
+     * @param de
+     * @return
+     */
+    public String findNumberFromString(String str, Object de) {
+        String a = findNumberFromString(str);
+        if (a.equalsIgnoreCase("")) return de.toString();
+        else return a;
+    }
+
+    /**
      * 过滤大数字
      *
      * @param line

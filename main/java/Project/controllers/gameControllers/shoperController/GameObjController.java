@@ -52,7 +52,7 @@ public class GameObjController {
     @Action("使用<.{1,}=>str>")
     public Object use(SpUser qq, @Param("str") String str, SpGroup g) {
         String shopName = str.replaceAll(",", "").replaceAll("个", "").replaceAll("(\\[@\\d+]|#)", "");
-        Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(shopName));
+        Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(shopName, 1));
         shopName = shopName.replace(num.toString(), "");
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
         if (id == null) return VelocityUtils.getTemplateToString("not.found.or.use.failed", str);
@@ -102,11 +102,8 @@ public class GameObjController {
         try {
             String shopName = name.replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
-            try {
-                num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(shopName));
-                shopName = shopName.replaceFirst(num + "", "");
-            } catch (Exception e) {
-            }
+            num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(shopName, 1));
+            shopName = shopName.replaceFirst(num.toString(), "");
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(shopName);
             String result = null;
             if (num == null || num.intValue() == 1) {
@@ -131,7 +128,7 @@ public class GameObjController {
             if (challengeDetailService.isTemping(qq.getId())) return ILLEGAL_OPERATION;
             name = name.replace(String.format(AT_FORMAT, q2), "").replace("[@me]", "");
             Integer num = null;
-            num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name));
+            num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, 1));
             name = name.replaceFirst(num.toString(), "").replaceAll(",", "").replaceAll("个", "");
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             String result;
@@ -157,8 +154,8 @@ public class GameObjController {
             }
             name = name.trim().replaceAll(",", "").replaceAll("个", "");
             Integer num = null;
-            num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name));
-            name = name.replaceFirst(num + "", "");
+            num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, 1));
+            name = name.replaceFirst(num.toString(), "");
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name);
             if (id == null) return NOT_FOUND_ABOUT_OBJ;
             String result = EMPTY_STR;
