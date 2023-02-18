@@ -63,16 +63,16 @@ public class NoGroupHandler extends SimpleListenerHost {
 
     @EventHandler
     public void friendEvent(FriendMessageEvent event) {
-        String content = EventUtils.messageChain2String(event.getMessage());
         long fid = event.getSender().getId();
+        String content = EventUtils.messageChain2String(event.getMessage(), fid);
         APPLICATION.executeMethod(fid, content, event, event.getSender(), fid);
         talk(content, event);
     }
 
     @EventHandler
     public void friendEvent(TempMessageEvent event) {
-        String content = EventUtils.messageChain2String(event.getMessage());
         long fid = event.getSender().getId();
+        String content = EventUtils.messageChain2String(event.getMessage(), fid);
         APPLICATION.executeMethod(fid, content, event, event.getSender(), fid);
         talk(content, event);
     }

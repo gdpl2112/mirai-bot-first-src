@@ -30,7 +30,7 @@ public class FriendDefaultController0 {
         if (q2 == -1) return ERR_TIPS;
         long count = Long.parseLong(Tool.INSTANCE.findNumberFromString(content));
         DataBase.addScore(count, q2);
-        return new StringBuilder().append("给 =》 ").append(count).append("增加了\r\n=>").append(count + "").append("积分").toString();
+        return new StringBuilder().append("给 =》 ").append(q2).append("增加了\r\n=>").append(count + "").append("积分").toString();
     }
 
     @Action("开启聊天")
