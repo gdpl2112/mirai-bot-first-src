@@ -1,9 +1,9 @@
 package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
-import Project.skill.SkillFactory;
+import Project.skills.SkillFactory;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
@@ -275,7 +275,7 @@ public class SkillDataBase {
     }
 
     private void initMap() {
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             List<SkillInfo> list = SpringBootResource.getSkillInfoMapper().selectAll();
             for (SkillInfo info : list) {
                 info.setState(0);

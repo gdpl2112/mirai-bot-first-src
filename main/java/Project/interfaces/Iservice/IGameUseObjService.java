@@ -1,10 +1,13 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author HRS-Computer
+ */
 public interface IGameUseObjService {
 
     String getIntro(int id);
@@ -19,9 +22,9 @@ public interface IGameUseObjService {
 
     String sleObj(Long who, int id);
 
-    String sleObj(Long who, int id, Integer num, Group group);
+    String sleObj(Long who, int id, Integer num, SpGroup group);
 
     String objTo(Long who, int id, Long whos);
 
-    String objTo(Long who, int id, Long whos, Integer num,Group group);
+    String objTo(Long who, int id, Long whos, Integer num, SpGroup group);
 }

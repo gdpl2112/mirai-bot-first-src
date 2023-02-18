@@ -1,7 +1,7 @@
 package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -34,7 +34,7 @@ public class ReceiverWithTask0
                 for (Long with : withs) {
                     if (task.getTasker().contains(with.longValue())) {
                         deleteTask(task);
-                        MessageTools.instance.sendMessageInGroupWithAt(task.getFinish()
+                        MessageUtils.INSTANCE.sendMessageInGroupWithAt(task.getFinish()
                                 , task.getFromG().longValue(), task.getHost());
                         addToBgs(who, 1601, ObjType.got);
                         addToBgs(with.longValue(), 1601, ObjType.got);

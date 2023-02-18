@@ -448,7 +448,7 @@ public class GameDataBase {
         String pathN = path + "/dates/users/" + who;
         File file = new File(pathN + "/bgs");
         List<Integer> list = new ArrayList<>();
-        for (String s : Tool.tool.getStringsFromFile(file.getPath())) {
+        for (String s : Tool.INSTANCE.getStringsFromFile(file.getPath())) {
             s = s.trim();
             if (s.startsWith("//") || s.startsWith("#") || s.contains(":") || s.equals("0")) continue;
             list.add(Integer.valueOf(s));
@@ -568,7 +568,7 @@ public class GameDataBase {
             if (HIST_INFOS.containsKey(who)) {
                 personInfo = HIST_INFOS.get(who);
             } else {
-                lines = Tool.tool.getStringFromFile(file.getPath());
+                lines = Tool.INSTANCE.getStringFromFile(file.getPath());
                 if (lines == null || lines.isEmpty()) {
                     return null;
                 }
@@ -910,10 +910,10 @@ public class GameDataBase {
      */
     private static boolean putData(Long who, String dataName, Object data) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.tool.testFile(pathN);
+        Tool.INSTANCE.testFile(pathN);
         try {
             if (data == null) {
-                return Tool.tool.putStringInFile("", pathN);
+                return Tool.INSTANCE.putStringInFile("", pathN);
             } else {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(pathN));
                 oos.writeObject(data);
@@ -936,9 +936,9 @@ public class GameDataBase {
      */
     public static boolean putDataString(Long who, String dataName, Object data) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.tool.testFile(pathN);
+        Tool.INSTANCE.testFile(pathN);
         try {
-            return Tool.tool.putStringInFile(data == null ? "" : data.toString(), pathN);
+            return Tool.INSTANCE.putStringInFile(data == null ? "" : data.toString(), pathN);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -954,7 +954,7 @@ public class GameDataBase {
      */
     private static Object getData(Long who, String dataName) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.tool.testFile(pathN);
+        Tool.INSTANCE.testFile(pathN);
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(pathN));
             Object o = ois.readObject();
@@ -975,7 +975,7 @@ public class GameDataBase {
      */
     public static Object getDataString(Long who, String dataName) {
         String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.tool.testFile(pathN);
+        Tool.INSTANCE.testFile(pathN);
         try {
             StringBuffer sb = new StringBuffer();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pathN)));
@@ -992,12 +992,12 @@ public class GameDataBase {
 
     public static String getStringFromData(Long who, String DataName) {
         String pathN = path + "/dates/users/" + who + "/" + DataName;
-        return Tool.tool.getStringFromFile(pathN, "utf-8");
+        return Tool.INSTANCE.getStringFromFile(pathN, "utf-8");
     }
 
     public static boolean putStringFromData(Long who, String DataName, String line) {
         String pathN = path + "/dates/users/" + who + "/" + DataName;
-        return Tool.tool.putStringInFile(line, pathN, "utf-8");
+        return Tool.INSTANCE.putStringInFile(line, pathN, "utf-8");
     }
 
 }

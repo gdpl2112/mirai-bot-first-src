@@ -4,10 +4,10 @@ package Project.services.impl;
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
+import Project.listeners.SaveHandler;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.Handlers.AllMessage;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Father;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
@@ -19,7 +19,8 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 
 import java.util.List;
 
-import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.isSuperQ;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.TRY_MUTE_SECONDS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
@@ -71,7 +72,7 @@ public class ManagerServiceImpl implements IManagerService {
             }
         }
         es = (es == null || es.isEmpty()) ? SECONDS : es;
-        String s1 = Tool.tool.findNumberFromString(what);
+        String s1 = Tool.INSTANCE.findNumberFromString(what);
         s1 = s1 == null || s1.isEmpty() ? "1" : s1;
         long t1 = Long.parseLong(s1);
         switch (es) {
@@ -113,10 +114,10 @@ public class ManagerServiceImpl implements IManagerService {
                 break;
 
         }
-        if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
+        if (group.get(BOT.getId()).getPermission().getLevel() == 0) {
             return NOT_MANAGER;
         }
-        if (group.get(who.getId()).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
+        if (group.get(who.getId()).getPermission().getLevel() > group.get(BOT.getId()).getPermission().getLevel()) {
             return PERMISSION_DENIED;
         } else {
             NormalMember m1 = (NormalMember) who;
@@ -131,15 +132,16 @@ public class ManagerServiceImpl implements IManagerService {
 
     @Override
     public String backMess(Group group, long who, long g, int... ns) {
-        if (group.get(Resource.qq.getQq()).getPermission().getLevel() == 0) {
+        if (group.get(BootstarpResource.BOT.getId()).getPermission().getLevel() == 0) {
             return NOT_MANAGER;
         }
-        if (group.get(who).getPermission().getLevel() > group.get(Resource.qq.getQq()).getPermission().getLevel()) {
+        if (group.get(who).getPermission().getLevel() >
+                group.get(BootstarpResource.BOT.getId()).getPermission().getLevel()) {
             return PERMISSION_DENIED;
         }
         String tips = RECALL_SUCCEED;
-        List<AllMessage> messages = SpringBootResource.getSaveMapper().selectMessage(g, who, ns.length);
-        for (AllMessage message : messages) {
+        List<SaveHandler.AllMessage> messages = SpringBootResource.getSaveMapper().selectMessage(g, who, ns.length);
+        for (SaveHandler.AllMessage message : messages) {
             try {
                 MessageSourceBuilder builder = new MessageSourceBuilder();
                 builder.setInternalIds(new int[]{message.getInternalId()});
@@ -149,7 +151,7 @@ public class ManagerServiceImpl implements IManagerService {
                 builder.setTargetId(message.getFromId());
                 MessageSource source = builder.build(message.getBotId(), MessageSourceKind.GROUP);
                 MessageSource.recall(source);
-                UpdateWrapper<AllMessage> updateWrapper = new UpdateWrapper<>();
+                UpdateWrapper<SaveHandler.AllMessage> updateWrapper = new UpdateWrapper<>();
                 updateWrapper.eq("internal_id", message.getInternalId());
                 message.setRecalled(1);
                 SpringBootResource.getSaveMapper().update(message, updateWrapper);

@@ -190,19 +190,19 @@ public class GameTool {
      * @return
      */
     public static long getLtoGhsL(long l) {
-        if (l < 10) return Tool.tool.randA(100, 200);
-        else if (l < 20) return Tool.tool.randA(200, 1000);
-        else if (l < 30) return Tool.tool.randA(1000, 10000);
-        else if (l < 40) return Tool.tool.randA(10000, 20000);
-        else if (l < 60) return Tool.tool.randA(20000, 40000);
-        else if (l < 80) return Tool.tool.randA(40000, 80000);
-        else if (l < 90) return Tool.tool.randA(80000, 120000);
-        else if (l < 95) return Tool.tool.randA(120000, 200000);
-        else if (l < 100) return Tool.tool.randA(200000, 1000000);
-        else if (l < 110) return Tool.tool.randA(300000, 1500000);
-        else if (l < 120) return Tool.tool.randA(800000, 2000000);
-        else if (l < 130) return Tool.tool.randA(900000, 3000000);
-        else if (l <= 151) return Tool.tool.randA(990000, 10010000);
+        if (l < 10) return Tool.INSTANCE.randA(100, 200);
+        else if (l < 20) return Tool.INSTANCE.randA(200, 1000);
+        else if (l < 30) return Tool.INSTANCE.randA(1000, 10000);
+        else if (l < 40) return Tool.INSTANCE.randA(10000, 20000);
+        else if (l < 60) return Tool.INSTANCE.randA(20000, 40000);
+        else if (l < 80) return Tool.INSTANCE.randA(40000, 80000);
+        else if (l < 90) return Tool.INSTANCE.randA(80000, 120000);
+        else if (l < 95) return Tool.INSTANCE.randA(120000, 200000);
+        else if (l < 100) return Tool.INSTANCE.randA(200000, 1000000);
+        else if (l < 110) return Tool.INSTANCE.randA(300000, 1500000);
+        else if (l < 120) return Tool.INSTANCE.randA(800000, 2000000);
+        else if (l < 130) return Tool.INSTANCE.randA(900000, 3000000);
+        else if (l <= 151) return Tool.INSTANCE.randA(990000, 10010000);
         else return 1L;
     }
 
@@ -213,16 +213,16 @@ public class GameTool {
      * @return
      */
     public static long getAArtt(int level) {
-        if (level < 10) return Tool.tool.randA(80, 120);
-        else if (level < 40) return Tool.tool.randA(290, 315);
-        else if (level < 60) return Tool.tool.randA(900, 1100);
-        else if (level < 80) return Tool.tool.randA(2500, 2600);
-        else if (level < 90) return Tool.tool.randA(3900, 4000);
-        else if (level < 95) return Tool.tool.randA(39000, 40000);
-        else if (level < 100) return Tool.tool.randA(95000, 100000);
-        else if (level < 110) return Tool.tool.randA(179500, 190000);
-        else if (level < 120) return Tool.tool.randA(280000, 285000);
-        else return Tool.tool.randA(160000, 166667);
+        if (level < 10) return Tool.INSTANCE.randA(80, 120);
+        else if (level < 40) return Tool.INSTANCE.randA(290, 315);
+        else if (level < 60) return Tool.INSTANCE.randA(900, 1100);
+        else if (level < 80) return Tool.INSTANCE.randA(2500, 2600);
+        else if (level < 90) return Tool.INSTANCE.randA(3900, 4000);
+        else if (level < 95) return Tool.INSTANCE.randA(39000, 40000);
+        else if (level < 100) return Tool.INSTANCE.randA(95000, 100000);
+        else if (level < 110) return Tool.INSTANCE.randA(179500, 190000);
+        else if (level < 120) return Tool.INSTANCE.randA(280000, 285000);
+        else return Tool.INSTANCE.randA(160000, 166667);
     }
 
     /**
@@ -293,7 +293,7 @@ public class GameTool {
      * @return
      */
     public static Long randFloatByte1(Long v) {
-        return Long.valueOf(Tool.tool.randLong(v, 0.87f, 1.18f));
+        return Long.valueOf(Tool.INSTANCE.randLong(v, 0.87f, 1.18f));
     }
 
     /**
@@ -318,7 +318,7 @@ public class GameTool {
     public static List<Map.Entry<String, Integer>> phGet(int num) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>();
         for (PersonInfo personInfo : SpringBootResource.getPersonInfoMapper().getOrderByLevel(num)) {
-            list.add(Tool.tool.getEntry(personInfo.getName(), personInfo.getLevel()));
+            list.add(Tool.INSTANCE.getEntry(personInfo.getName(), personInfo.getLevel()));
         }
         return list;
     }

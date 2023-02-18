@@ -1,6 +1,6 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class ShopDataBase {
     private static Integer anID = 0;
 
     public ShopDataBase(String mainPath) {
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             initList();
         });
     }

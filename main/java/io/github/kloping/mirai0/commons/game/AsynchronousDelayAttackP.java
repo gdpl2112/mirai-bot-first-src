@@ -2,7 +2,7 @@ package io.github.kloping.mirai0.commons.game;
 
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 
 import java.util.concurrent.ScheduledFuture;
 
@@ -29,7 +29,7 @@ public class AsynchronousDelayAttackP extends AsynchronousThing {
 
     @Override
     public void run() {
-        MessageTools.instance.sendMessageInGroup(GameDetailService.beaten(q1, q2, (int) value, type), gid);
+        MessageUtils.INSTANCE.sendMessageInGroup(GameDetailService.beaten(q1, q2, (int) value, type), gid);
         future.cancel(true);
         over();
     }

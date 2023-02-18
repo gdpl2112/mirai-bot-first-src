@@ -6,9 +6,9 @@ import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -29,7 +29,7 @@ public class GameTaskController {
     static {
         MORNING_RUNNABLE.add(() -> {
             //周六早刷新CD
-            if (Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
+            if (Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[Tool.INSTANCE.WEEK_DAYS.length - 1])) {
                 SpringBootResource.getTaskPointMapper().updateAll();
                 SpringBootResource.getScoreMapper().updateEarnings();
             }
@@ -44,27 +44,27 @@ public class GameTaskController {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
             throw new NoRunException("无状态");
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
 
     @Action("接徒弟任务")
-    public Object m1(long q, Group group) {
+    public Object m1(long q, SpGroup group) {
         return gameTaskService.m1(q, group);
     }
 
     @Action(value = "接每周任务", otherName = {"接周任务"})
-    public Object m2(long q, Group group) {
+    public Object m2(long q, SpGroup group) {
         Object o = gameTaskService.m2(q, group);
         return o;
     }

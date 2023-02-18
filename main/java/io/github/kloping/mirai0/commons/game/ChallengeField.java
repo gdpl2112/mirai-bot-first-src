@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
@@ -27,10 +27,10 @@ public class ChallengeField {
     public static final String RED_SIDE = "RED", BLUE_SIDE = "BLUE";
 
     static {
-        MOVE_CHAR.put('上', Tool.tool.getEntry(0, -1));
-        MOVE_CHAR.put('下', Tool.tool.getEntry(0, 1));
-        MOVE_CHAR.put('左', Tool.tool.getEntry(-1, 0));
-        MOVE_CHAR.put('右', Tool.tool.getEntry(1, 0));
+        MOVE_CHAR.put('上', Tool.INSTANCE.getEntry(0, -1));
+        MOVE_CHAR.put('下', Tool.INSTANCE.getEntry(0, 1));
+        MOVE_CHAR.put('左', Tool.INSTANCE.getEntry(-1, 0));
+        MOVE_CHAR.put('右', Tool.INSTANCE.getEntry(1, 0));
     }
 
     private int id;
@@ -122,6 +122,6 @@ public class ChallengeField {
     }
 
     private void broadcastStepped() {
-        ChallengeSteppedBroadcast.INSTANCE.broadcast(this, Group.get(gid), now);
+        ChallengeSteppedBroadcast.INSTANCE.broadcast(this, SpGroup.get(gid), now);
     }
 }

@@ -1,11 +1,11 @@
 package Project.controllers.plugins;
 
-import Project.detailPlugin.SearchPic;
-import Project.interfaces.http_api.old.ApiIyk0;
+import Project.plugins.SearchPic;
+import Project.interfaces.httpApi.old.ApiIyk0;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ALL_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -50,15 +50,15 @@ public class PointPicController {
     }
 
     @Before
-    public void before(io.github.kloping.mirai0.commons.Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 
     @Action("百度搜图<.+=>name>")
-    public String searchPic(@Param("name") String name, User user) {
-        if (Tool.tool.isIlleg(name)) {
+    public String searchPic(@Param("name") String name, SpUser user) {
+        if (Tool.INSTANCE.isIlleg(name)) {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
@@ -73,8 +73,8 @@ public class PointPicController {
     }
 
     @Action("搜图<.+=>name>")
-    public String searchPicM(@Param("name") String name, User user) {
-        if (Tool.tool.isIlleg(name)) {
+    public String searchPicM(@Param("name") String name, SpUser user) {
+        if (Tool.INSTANCE.isIlleg(name)) {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
@@ -89,8 +89,8 @@ public class PointPicController {
     }
 
     @Action("堆糖搜图<.+=>name>")
-    public String searchPic2(@Param("name") String name, User user) {
-        if (Tool.tool.isIlleg(name)) {
+    public String searchPic2(@Param("name") String name, SpUser user) {
+        if (Tool.INSTANCE.isIlleg(name)) {
             return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         try {
@@ -105,7 +105,7 @@ public class PointPicController {
     }
 
     @Action("发第<.+=>str>")
-    public Object sendSt(@Param("str") String str, Group group, User user) {
+    public Object sendSt(@Param("str") String str, SpGroup group, SpUser user) {
         str = str.replaceAll("个|张", "");
         if (!PIC_HISTORY.containsKey(user.getId())) {
             return ResourceSet.FinalString.ILLEGAL_OPERATION;
@@ -114,7 +114,7 @@ public class PointPicController {
             String[] ss = PIC_HISTORY.get(user.getId());
             Object[] objects = new Object[ss.length];
             for (int n = 0; n < ss.length; n++) {
-                objects[n] = Tool.tool.pathToImg(ss[n]);
+                objects[n] = Tool.INSTANCE.pathToImg(ss[n]);
             }
             return objects;
         }
@@ -131,7 +131,7 @@ public class PointPicController {
             }
         } else {
             try {
-                Integer n1 = Integer.valueOf(Tool.tool.findNumberFromString(str));
+                Integer n1 = Integer.valueOf(Tool.INSTANCE.findNumberFromString(str));
                 ns.add(n1);
             } catch (NumberFormatException e) {
                 ns.add(1);
@@ -142,7 +142,7 @@ public class PointPicController {
             StringBuilder sb = new StringBuilder();
             for (int n : ns) {
                 try {
-                    sb.append(Tool.tool.pathToImg(strings[n - 1])).append("\r\n");
+                    sb.append(Tool.INSTANCE.pathToImg(strings[n - 1])).append("\r\n");
                 } catch (Exception e) {
                     continue;
                 }
@@ -155,7 +155,7 @@ public class PointPicController {
     }
 
     @Action("解析快手图片<.+=>str>")
-    public String parseKs(@Param("str") String urlStr, User user) {
+    public String parseKs(@Param("str") String urlStr, SpUser user) {
         try {
             String u1 = getUrl(urlStr);
             String[] strings = searchPic.parseKsImgs(u1);
@@ -169,7 +169,7 @@ public class PointPicController {
     }
 
     @Action("解析抖音图片<.+=>str>")
-    public String parseDy(@Param("str") String urlStr, User user) {
+    public String parseDy(@Param("str") String urlStr, SpUser user) {
         try {
             String[] strings = searchPic.parseDyImgs(getUrl(urlStr));
             PIC_HISTORY.remove(user.getId());

@@ -4,11 +4,11 @@ import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 
-import static io.github.kloping.mirai0.Main.Resource.isSuperQ;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.isSuperQ;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
  * @author github-kloping
@@ -23,7 +23,7 @@ public class GameSuperController {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
         if (tempSuperL != -1L) {
             if (qq.getId() == tempSuperL) {
                 tempSuperL = -1L;

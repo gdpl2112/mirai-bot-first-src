@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 public interface IOtherService {
 
@@ -25,11 +25,11 @@ public interface IOtherService {
     /**
      * 2传话
      */
-    String trans2(String str, Group group, Long qq);
+    String trans2(String str, SpGroup group, Long qq);
 
     /**
      * 传话
      */
-    String trans(String str, Group group, Long qq);
+    String trans(String str, SpGroup group, Long qq);
 
 }

@@ -5,13 +5,13 @@ import Project.aSpring.SpringBootResource;
 import Project.aSpring.mcs.controllers.DetailController;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
-import Project.e0.VelocityUtils;
+import Project.utils.VelocityUtils;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
-import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -25,8 +25,8 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
@@ -52,14 +52,14 @@ public class GameController2 {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String str) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String str) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 
     @Action(value = "购买金魂币<\\d{1,}=>num>", otherName = {"兑换金魂币<\\d{1,}=>num>"})
-    public String buyGold(User qq, @Param("num") String num, Group group) {
+    public String buyGold(SpUser qq, @Param("num") String num, SpGroup group) {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
@@ -73,7 +73,7 @@ public class GameController2 {
     }
 
     @Action(value = "魂环配置", otherName = {"我的魂环"})
-    public String showHh(User qq, String num, Group group) {
+    public String showHh(SpUser qq, String num, SpGroup group) {
         String str = gameService.showHh(qq.getId());
         return str;
     }
@@ -97,23 +97,23 @@ public class GameController2 {
 
     @Action(value = "出徒.*?")
     public String m4(long q, @AllMess String mess) {
-        return service.chuTu(q, Tool.tool.getInteagerFromStr(mess));
+        return service.chuTu(q, Tool.INSTANCE.getInteagerFromStr(mess));
     }
 
     @Action("升级第<.+=>str>")
     public String upda(@Param("str") String str, long q) {
         if (str.contains("魂环")) {
             str = str.replace("魂环", "").replace("第", "");
-            String s1 = Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
+            String s1 = Tool.INSTANCE.findNumberZh(str);
+            Integer st = Integer.valueOf(Tool.INSTANCE.chineseNumber2Int(s1));
             return service.upHh(q, st);
         }
         throw new NoRunException();
     }
 
     @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
-    public String fusion(@Param("str") String str, Group group, User qq) {
-        Long q2 = MessageTools.instance.getAtFromString(str);
+    public String fusion(@Param("str") String str, SpGroup group, SpUser qq) {
+        Long q2 = MessageUtils.INSTANCE.getAtFromString(str);
         if (q2 == -1)
             throw new RuntimeException();
         String s1 = gameService.fusion(qq.getId(), q2, group);
@@ -137,12 +137,12 @@ public class GameController2 {
     }
 
     @Action("取名封号<.+=>name>")
-    public String makeSName(@Param("name") String name, Group group, User qq) {
+    public String makeSName(@Param("name") String name, SpGroup group, SpUser qq) {
         return gameService.makeSname(qq.getId(), name, group);
     }
 
     @Action("解除武魂融合")
-    public String removeFusion(User qq) {
+    public String removeFusion(SpUser qq) {
         try {
             Method method = this.getClass().getDeclaredMethod("removeFusionNow", Long.class);
             ConfirmController.regConfirm(qq.getId(), method, this, new Object[]{qq.getId()});
@@ -173,15 +173,15 @@ public class GameController2 {
     private static final Integer PAGE_SIZE = 12;
 
     @Action(value = "背包.*", otherName = "我的背包.*")
-    public String bgs(User qq, Group group, @AllMess String s0) {
+    public String bgs(SpUser qq, SpGroup group, @AllMess String s0) {
         return getImageFromStrings(bgs0(qq, s0));
     }
 
-    public String[] bgs0(User qq, @AllMess String s0) {
+    public String[] bgs0(SpUser qq, @AllMess String s0) {
         List<String> list = gameService.getBags0(qq.getId());
         List<String> endList = new ArrayList<>();
         String str = null;
-        Integer num = Tool.tool.getInteagerFromStr(s0);
+        Integer num = Tool.INSTANCE.getInteagerFromStr(s0);
         num = num == null ? 1 : num;
         if (num == 0) {
             return list.toArray(new String[0]);
@@ -210,7 +210,7 @@ public class GameController2 {
     public KlopingWeb klopingWeb;
 
     @Action("闭关")
-    public Object o3(User user) throws NoSuchMethodException {
+    public Object o3(SpUser user) throws NoSuchMethodException {
         Method m0 = this.getClass().getDeclaredMethod("bg", Long.class);
         ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
         return VelocityUtils.getTemplateToString("retreat.tips", EVE_GET);
@@ -222,7 +222,7 @@ public class GameController2 {
     private Object bg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(BG_WAIT_TIPS, Tool.tool.getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, Tool.INSTANCE.getTimeTips(p0.getBgk()));
         }
         GhostObj ghostObj = getGhostObjFrom(q);
         if (ghostObj != null) {
@@ -238,7 +238,7 @@ public class GameController2 {
     private Object unBg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
-            return String.format(BG_WAIT_TIPS, Tool.tool.getTimeTips(p0.getBgk()));
+            return String.format(BG_WAIT_TIPS, Tool.INSTANCE.getTimeTips(p0.getBgk()));
         }
         p0.setBg(false);
         p0.setBgk(System.currentTimeMillis() + ResourceSet.FinalValue.BG_CD);
@@ -252,7 +252,7 @@ public class GameController2 {
     }
 
     @Action("取消闭关")
-    public Object o4(User user) throws NoSuchMethodException {
+    public Object o4(SpUser user) throws NoSuchMethodException {
         if (getInfo(user.getId()).isBg()) {
             Method m0 = this.getClass().getDeclaredMethod("unBg", Long.class);
             ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
@@ -263,7 +263,7 @@ public class GameController2 {
     }
 
     @Action("信息预览")
-    public void messagePre(User user, Group group) {
+    public void messagePre(SpUser user, SpGroup group) {
         Long q = null;
         if (DetailController.RID2QID.values().contains(user.getId())) {
             for (Integer e : DetailController.RID2QID.keySet()) {
@@ -273,7 +273,7 @@ public class GameController2 {
                 }
             }
         } else {
-            Integer id = Tool.tool.RANDOM.nextInt(90000) + 1000;
+            Integer id = Tool.INSTANCE.RANDOM.nextInt(90000) + 1000;
             DetailController.RID2QID.put(id, user.getId());
             q = id.longValue();
         }

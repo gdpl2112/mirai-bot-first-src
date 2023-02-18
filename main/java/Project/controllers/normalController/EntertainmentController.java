@@ -2,15 +2,13 @@ package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
 import Project.dataBases.DataBase;
-import Project.detailPlugin.All;
 import Project.interfaces.Iservice.IOtherService;
-import Project.interfaces.http_api.Api2888655;
-import Project.interfaces.http_api.Suning;
-import Project.interfaces.http_api.old.ApiIyk0;
+import Project.interfaces.httpApi.Suning;
+import Project.interfaces.httpApi.old.ApiIyk0;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -23,9 +21,9 @@ import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.Resource.*;
-import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
-import static io.github.kloping.mirai0.Main.Resource.Switch.sendFlashToSuper;
+import static io.github.kloping.mirai0.Main.BootstarpResource.*;
+import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
@@ -50,7 +48,7 @@ public class EntertainmentController {
     }
 
     @Before
-    public void before(Group group, @AllMess String mess) throws NoRunException {
+    public void before(SpGroup group, @AllMess String mess) throws NoRunException {
         if (!AllK) {
             throw new NoRunException();
         }
@@ -64,7 +62,7 @@ public class EntertainmentController {
     }
 
     @Action("\\[Pic:.+")
-    public String onPic(@AllMess String mess, Group group, Object[] objects, long qq) {
+    public String onPic(@AllMess String mess, SpGroup group, Object[] objects, long qq) {
         PicBroadcast.INSTANCE.broadcast(qq, group.getId(), mess, objects);
         if (QLIST.containsKey(qq)) {
             String str = QLIST.get(qq);
@@ -91,25 +89,25 @@ public class EntertainmentController {
 
     @Action("时间")
     public Object nowTime() {
-        return Tool.tool.getTimeYMdhms(
+        return Tool.INSTANCE.getTimeYMdhms(
                 suning.ct().getLong("currentTime"));
     }
 
     @Action("2传话<.+=>str>")
-    public Object transTo2(@Param("str") String str, Group group, Long qq) {
+    public Object transTo2(@Param("str") String str, SpGroup group, Long qq) {
         return otherService.trans2(str, group, qq);
     }
 
     @Action("传话<.+=>str>")
-    public Object transTo(@Param("str") String str, Group group, Long qq) {
+    public Object transTo(@Param("str") String str, SpGroup group, Long qq) {
         return otherService.trans(str, group, qq);
     }
 
     @Action("\\[闪照<.+=>s1>")
-    public String flash(@AllMess String str, Group group) throws NoRunException {
-        String url = MessageTools.instance.getFlashUrlFromMessageString(str);
+    public String flash(@AllMess String str, SpGroup group) throws NoRunException {
+        String url = MessageUtils.INSTANCE.getFlashUrlFromMessageString(str);
         if (canBackShow(group.getId())) {
-            return Tool.tool.pathToImg(url);
+            return Tool.INSTANCE.pathToImg(url);
         } else if (sendFlashToSuper) {
             try {
                 BOT.getGroup(794238572L).sendMessage(url);
@@ -121,7 +119,7 @@ public class EntertainmentController {
     }
 
     @Action("语音")
-    public String a1(Group group) {
+    public String a1(SpGroup group) {
         GroupConf conf = getConf(group.getId());
         conf.setVoiceK(conf.getVoiceK() ? false : true);
         setConf(conf);
@@ -129,17 +127,17 @@ public class EntertainmentController {
     }
 
     @Action(value = "掷骰子", otherName = "摇骰子")
-    public String rand(Group group) {
+    public String rand(SpGroup group) {
         StringBuilder builder = new StringBuilder();
-        int r = Tool.tool.RANDOM.nextInt(6);
+        int r = Tool.INSTANCE.RANDOM.nextInt(6);
         String str = datePath + "/GameFile/Rt_";
         str += r;
         str += ".jpg";
-        return Tool.tool.pathToImg(str);
+        return Tool.INSTANCE.pathToImg(str);
     }
 
     @Action("开始成语接龙")
-    public String s1(Group group) {
+    public String s1(SpGroup group) {
         if (longIdiomMap.containsKey(group.getId())) {
             return "游戏已经开始了哦~";
         }
@@ -154,7 +152,7 @@ public class EntertainmentController {
     }
 
     @Action("我接<.+=>str>")
-    public String s2(@Param("str") String str, Group group, User user) {
+    public String s2(@Param("str") String str, SpGroup group, SpUser user) {
         Idiom idiom = longIdiomMap.get(group.getId());
         if (idiom == null) {
             return "游戏未开始:请说 开始成语接龙";
@@ -221,8 +219,8 @@ public class EntertainmentController {
             return "竞猜已停止";
         StringBuilder sb = new StringBuilder();
         String[] sss = mess.substring(2).split(",|，");
-        Integer index = Tool.tool.getInteagerFromStr(sss[0]);
-        Integer sc = Tool.tool.getInteagerFromStr(sss[1]);
+        Integer index = Tool.INSTANCE.getInteagerFromStr(sss[0]);
+        Integer sc = Tool.INSTANCE.getInteagerFromStr(sss[1]);
         sc = sc == null ? 0 : sc;
         if (sc > 10000) {
             sc = 10000;

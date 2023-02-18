@@ -1,12 +1,13 @@
 package Project.controllers.plugins;
 
-import Project.detailPlugin.SearchSong;
-import Project.interfaces.http_api.Empty;
-import Project.interfaces.http_api.MuXiaoGuo;
+import Project.plugins.SearchSong;
+import Project.interfaces.httpApi.Empty;
+import Project.interfaces.httpApi.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.apiEntitys.Song;
 import io.github.kloping.mirai0.commons.apiEntitys.Songs;
 import io.github.kloping.mirai0.commons.apiEntitys.reping163.Reping163;
@@ -15,8 +16,8 @@ import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -53,13 +54,13 @@ public class PointSongController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    public static void sing(String name, io.github.kloping.mirai0.commons.Group group) {
+    public static void sing(String name, SpGroup group) {
         Songs songs = searchSong.kugou(name);
-        MessageTools.instance.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
+        MessageUtils.INSTANCE.sendVoiceMessageInGroup(songs.getData()[0].getSongUrl(), group.getId());
     }
 
     @Before
-    public void before(io.github.kloping.mirai0.commons.Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
@@ -71,7 +72,7 @@ public class PointSongController {
     }
 
     @Action("点歌<.+=>name>")
-    public void pointSong(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
+    public void pointSong(@Param("name") String name, SpUser qq, SpGroup gro) {
         Songs songs = searchSong.normal(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -87,7 +88,7 @@ public class PointSongController {
     }
 
     @Action("QQ点歌<.+=>name>")
-    public void pointSongQQ(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
+    public void pointSongQQ(@Param("name") String name, SpUser qq, SpGroup gro) {
         Songs songs = searchSong.qq(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -103,7 +104,7 @@ public class PointSongController {
     }
 
     @Action("酷狗点歌<.+=>name>")
-    public void pointSongKugou(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
+    public void pointSongKugou(@Param("name") String name, SpUser qq, SpGroup gro) {
         Songs songs = searchSong.kugou(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -119,7 +120,7 @@ public class PointSongController {
     }
 
     @Action("网易点歌<.+=>name>")
-    public void pointSongNetEase(@Param("name") String name, User qq, io.github.kloping.mirai0.commons.Group gro) {
+    public void pointSongNetEase(@Param("name") String name, SpUser qq, SpGroup gro) {
         Songs songs = searchSong.netEase(name);
         Group group = BOT.getGroup(gro.getId());
         Song s1 = songs.getData()[0];
@@ -135,7 +136,7 @@ public class PointSongController {
     }
 
     @Action("网易云热评")
-    public String reping163(io.github.kloping.mirai0.commons.Group gro) {
+    public String reping163(SpGroup gro) {
         try {
             Reping163 reping163 = muXiaoGuo.reping();
             StringBuilder sb = new StringBuilder();
@@ -163,11 +164,11 @@ public class PointSongController {
     }
 
     @Action("QQ歌词<.+=>name>")
-    public Object mq(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
+    public Object mq(@Param("name") String name, SpGroup group) {
         try {
             Songs songs = searchSong.qq(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageUtils.INSTANCE.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,11 +177,11 @@ public class PointSongController {
     }
 
     @Action("酷狗歌词<.+=>name>")
-    public Object mk(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
+    public Object mk(@Param("name") String name, SpGroup group) {
         try {
             Songs songs = searchSong.kugou(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageUtils.INSTANCE.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,11 +190,11 @@ public class PointSongController {
     }
 
     @Action("网易歌词<.+=>name>")
-    public Object mw(@Param("name") String name, io.github.kloping.mirai0.commons.Group group) {
+    public Object mw(@Param("name") String name, SpGroup group) {
         try {
             Songs songs = searchSong.netEase(name);
             String lyric = songs.getData()[0].getLyric();
-            MessageTools.instance.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
+            MessageUtils.INSTANCE.sendMessageByForward(group.getId(), lyric.split("\r|\n"));
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -202,7 +203,7 @@ public class PointSongController {
     }
 
     @Action("随机唱鸭")
-    public Object cy(io.github.kloping.mirai0.commons.Group group) {
+    public Object cy(SpGroup group) {
         String s0 = null;
         s0 = empty.empty("http://api.weijieyue.cn/api/changba/changya.php").body().text();
         int i1 = s0.indexOf(BASE0);

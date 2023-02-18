@@ -3,8 +3,8 @@ package Project.controllers.auto;
 import Project.controllers.FirstController;
 import Project.controllers.gameControllers.GameController2;
 import Project.controllers.normalController.SummonPicController;
-import Project.detailPlugin.AiBaiduDetail;
-import Project.interfaces.http_api.KlopingWeb;
+import Project.plugins.AiBaiduDetail;
+import Project.interfaces.httpApi.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -84,7 +83,7 @@ public class ControllerSource {
     public static String getCode() {
         char[] chars = new char[4];
         for (int i = 0; i < chars.length; i++) {
-            chars[i] = cs[Tool.tool.RANDOM.nextInt(cs.length)];
+            chars[i] = cs[Tool.INSTANCE.RANDOM.nextInt(cs.length)];
         }
         String caps = new String(chars);
         return caps;

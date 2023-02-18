@@ -70,7 +70,7 @@ public class GameWeaDetailService {
         if (!exitsO(id, who)) return "你没有'" + name + "'或已损坏";
         long at = getInfo(who).getAk1();
         if (at > System.currentTimeMillis()) {
-            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));
+            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, Tool.INSTANCE.getTimeTips(at));
         }
         if (challengeDetailService.isTemping(who)) {
             getInfo(who).setAk1(System.currentTimeMillis() + playerBehavioralManager.getAttPost(who) * 2).apply();
@@ -351,7 +351,7 @@ public class GameWeaDetailService {
             sb.append(GameDetailService.beaten(whos, who, ar, DamageType.AD));
 
         if (!isAlive(Long.valueOf(whos))) {
-            int l = (int) Tool.tool.randLong(250, 0.7f, 1.0f);
+            int l = (int) Tool.INSTANCE.randLong(250, 0.7f, 1.0f);
             putPerson(getInfo(who).addGold((long) l
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)

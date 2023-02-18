@@ -3,9 +3,9 @@ package Project.controllers.gameControllers;
 import Project.dataBases.AchievementDataBase;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.gameEntitys.AchievementEntity;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -23,19 +23,19 @@ import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.Fina
 public class GameAchievementController {
 
     @Before
-    public void before(User qq, Group group, @AllMess String str) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String str) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
 
     @Action("成就列表<.*?=>n>")
     public Object list(long qid, @Param("n") String s) {
-        Integer n = Tool.tool.getInteagerFromStr(s);
+        Integer n = Tool.INSTANCE.getInteagerFromStr(s);
         n = n == null ? 1 : n;
         n--;
         StringBuilder sb = new StringBuilder("成就列表\n\n");

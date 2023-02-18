@@ -2,7 +2,7 @@ package Project.services.detailServices.tasks;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.tasks.reciver.ReceiverWithTask1001;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
@@ -22,7 +22,7 @@ public class Task1001 extends Task {
     public int needId;
 
     public Task1001() {
-        this.needId = Tool.tool.getRandT(ids);
+        this.needId = Tool.INSTANCE.getRandT(ids);
     }
 
     public int getNeedId() {
@@ -35,7 +35,7 @@ public class Task1001 extends Task {
                 .setNextCan(System.currentTimeMillis() + (CD1))
                 .addNormalIndex(-1).apply();
 
-        MessageTools.instance.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt("任务过期,未完成", getFromG().longValue(), getHost());
         destroy();
     }
 

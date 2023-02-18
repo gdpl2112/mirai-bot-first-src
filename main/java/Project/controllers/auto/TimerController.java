@@ -8,7 +8,7 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.apiEntitys.iciba.Dsapi;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github-kloping
@@ -53,17 +53,17 @@ public class TimerController {
 
     @Schedule("00:00:00")
     public static void onZero() {
-        Tool.tool.updateToday();
+        Tool.INSTANCE.updateToday();
         GameDataBase.HIST_INFOS.clear();
         DataBase.HIST_U_SCORE.clear();
-        Resource.Switch.AllK = false;
+        BootstarpResource.Switch.AllK = false;
         startOnZeroTime();
-        Resource.Switch.AllK = true;
+        BootstarpResource.Switch.AllK = true;
         THREADS.submit(() -> {
             try {
-                int r = Tool.tool.RANDOM.nextInt(15);
+                int r = Tool.INSTANCE.RANDOM.nextInt(15);
                 Thread.sleep(r * 1000);
-                Resource.verify();
+                BootstarpResource.verify();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -82,7 +82,7 @@ public class TimerController {
 
     @Schedule("06:10:00")
     public static void onSix() {
-        Tool.tool.updateToday();
+        Tool.INSTANCE.updateToday();
         THREADS.submit(() -> {
             MessageChainBuilder builder = new MessageChainBuilder();
             appendOneDay(builder);
@@ -107,7 +107,7 @@ public class TimerController {
     @CronSchedule("0 10 10 ? * 2-6")
     public static void testOn() {
         if (BotStarter.test) {
-            Resource.Switch.AllK = true;
+            BootstarpResource.Switch.AllK = true;
             BOT.getGroups().get(t).sendMessage(TIPS0);
             BOT.getGroups().get(t).sendMessage("现已开机");
         }
@@ -116,7 +116,7 @@ public class TimerController {
     @CronSchedule("0 20 22 ? * 2-5")
     public static void testOff() {
         if (BotStarter.test) {
-            Resource.Switch.AllK = false;
+            BootstarpResource.Switch.AllK = false;
             BOT.getGroups().get(t).sendMessage(TIPS0);
             BOT.getGroups().get(t).sendMessage("现已关机");
         }
@@ -124,12 +124,12 @@ public class TimerController {
 
     @Schedule("12:00:00")
     public static void onMidTwe() {
-        Tool.tool.updateToday();
+        Tool.INSTANCE.updateToday();
     }
 
 
     @Schedule("17:50:00")
     public static void onNightSix() {
-        Tool.tool.updateToday();
+        Tool.INSTANCE.updateToday();
     }
 }

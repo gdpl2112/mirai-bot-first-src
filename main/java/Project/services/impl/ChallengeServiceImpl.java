@@ -17,9 +17,9 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -107,7 +107,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                     @Override
                     public boolean onReceive(long who, long from) {
                         if (who == p1 || who == p2) {
-                            MessageTools.instance.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
+                            MessageUtils.INSTANCE.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
                             deleteTempInfo(p1, p2);
                             return true;
                         }
@@ -119,7 +119,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 RECEIVER_MAP.put(p1, receiver);
                 RECEIVER_MAP.put(p2, receiver);
 
-                MessageTools.instance.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
+                MessageUtils.INSTANCE.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
                 state = PROCESSING;
                 return this;
             }
@@ -155,7 +155,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                     @Override
                     public boolean onReceive(long who, long from) {
                         if (who == p1 || who == p2) {
-                            MessageTools.instance.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
+                            MessageUtils.INSTANCE.sendMessageInGroup("挑战结束\r\n<At:" + from + "> 胜利\n<At:" + who + "> 失败", getGid());
                             deleteTempInfo(p1, p2);
                             return true;
                         }
@@ -167,7 +167,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 RECEIVER_MAP.put(p1, receiver);
                 RECEIVER_MAP.put(p2, receiver);
 
-                MessageTools.instance.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
+                MessageUtils.INSTANCE.sendMessageInGroup("一方无状态后,挑战结束,缓存信息清除", getGid());
                 state = PROCESSING;
                 return this;
             }
@@ -270,13 +270,13 @@ public class ChallengeServiceImpl implements IChallengeService {
     GameJoinDetailService gameJoinDetailService;
 
     @Override
-    public Object joinChallenge(long qid, String str, Group group) {
+    public Object joinChallenge(long qid, String str, SpGroup group) {
         int ghostId = NAME_2_ID_MAPS.get(str);
         if (ghostId < 500 || ghostId > 1000) return ERR_TIPS;
         int needId = 129;
         if (!GameDataBase.containsInBg(needId, qid)) return "您没有" + ID_2_NAME_MAPS.get(needId);
         try {
-            Method method = this.getClass().getDeclaredMethod("joinChallengeNow", long.class, int.class, Group.class);
+            Method method = this.getClass().getDeclaredMethod("joinChallengeNow", long.class, int.class, SpGroup.class);
             ConfirmController.regConfirm(qid, method, this, new Object[]{qid, ghostId, group});
             return String.format("即将挑战魂兽'%s' \r\n它是一只'%s等级'魂兽\r\n请在30秒内回复 确定/确认/取消",
                     ID_2_NAME_MAPS.get(ghostId), GameTool.getLevelByGhostId(ghostId));
@@ -286,11 +286,11 @@ public class ChallengeServiceImpl implements IChallengeService {
         return ERR_TIPS;
     }
 
-    public Object joinChallengeNow(long qid, int ghostId, Group group) {
+    public Object joinChallengeNow(long qid, int ghostId, SpGroup group) {
         int r = -1;
         GhostObj ghostObj = null;
         if (ghostId < 600) {
-            r = Tool.tool.RANDOM.nextInt(10);
+            r = Tool.INSTANCE.RANDOM.nextInt(10);
             if (r <= 7) {
                 switch (GameTool.getLevelByGhostId(ghostId)) {
                     case "十":
@@ -322,7 +322,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId,false);
             }
         } else if (ghostId < 700) {
-            r = Tool.tool.RANDOM.nextInt(13);
+            r = Tool.INSTANCE.RANDOM.nextInt(13);
             if (r == 0) {
                 ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
             } else if (r <= 2) {
@@ -335,7 +335,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                 ghostObj = GhostObj.create(1000, ghostId);
             }
         } else if (ghostId < 800) {
-            r = Tool.tool.RANDOM.nextInt(13);
+            r = Tool.INSTANCE.RANDOM.nextInt(13);
             if (r == 0) {
                 ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId);
             } else if (r <= 2) {

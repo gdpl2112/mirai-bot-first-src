@@ -1,17 +1,17 @@
 package Project.controllers.normalController;
 
-import Project.e0.VelocityUtils;
 import Project.services.player.UseRestrictions;
+import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 
@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 2.18:代码重构").append(NEWLINE);
         UPDATE_LOG.append(" 2. 8:修复部分部分魂技介绍异常的的问题;每日打卡自动[签到|魂师签到]").append(NEWLINE);
         UPDATE_LOG.append(" 2. 6:异步转让与异步出售#不在有出售/转让数量限制").append(NEWLINE);
         UPDATE_LOG.append(" 2. 2:修复已知bug").append(NEWLINE);
@@ -274,7 +275,7 @@ public class NoticeController {
     }
 
     @Before
-    public void before(Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
@@ -288,7 +289,7 @@ public class NoticeController {
     @Action("更新日志.*?")
     public String updateLog(@AllMess String m) {
         Integer i = 0;
-        i = Tool.tool.getInteagerFromStr(m);
+        i = Tool.INSTANCE.getInteagerFromStr(m);
         i = i == null || i >= UPDATE_LOGS.length ? 0 : i;
         return UPDATE_LOGS[i];
     }

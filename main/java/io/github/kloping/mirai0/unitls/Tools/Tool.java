@@ -15,11 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import static io.github.kloping.date.DateUtils.*;
-import static io.github.kloping.mirai0.Main.Resource.contextManager;
+import static io.github.kloping.mirai0.Main.BootstarpResource.contextManager;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
-    public static Tool tool = new Tool();
+    public static Tool INSTANCE = new Tool();
     public final String[] WEEK_DAYS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
     public final Random RANDOM = new SecureRandom();
     public final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};

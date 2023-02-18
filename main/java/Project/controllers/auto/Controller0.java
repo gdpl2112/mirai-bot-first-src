@@ -2,16 +2,16 @@ package Project.controllers.auto;
 
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.DataBase;
-import Project.interfaces.http_api.Fuyhi;
-import Project.interfaces.http_api.KlopingWeb;
-import Project.interfaces.http_api.Ovooa;
+import Project.interfaces.httpApi.Fuyhi;
+import Project.interfaces.httpApi.KlopingWeb;
+import Project.interfaces.httpApi.Ovooa;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.FrameUtils;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.Main.BootstarpResource;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.entity.PayOut;
 import io.github.kloping.mirai0.commons.entity.PayOutM;
 
@@ -39,8 +39,8 @@ public class Controller0 {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
-        if (!ALL.contains(Resource.BOT.getId())) {
+    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
+        if (!ALL.contains(BootstarpResource.BOT.getId())) {
             throw new NoRunException("not open");
         }
         if (!DataBase.canBack(group.getId())) throw new NoRunException("not open");
@@ -75,7 +75,7 @@ public class Controller0 {
                 if (outM.getTime() < System.currentTimeMillis()) {
                     test(outM);
                     longPayOutMap.remove(qid);
-                    MessageTools.instance.sendMessageInGroupWithAt("订单过期", outM.getGid(), outM.getQid());
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt("订单过期", outM.getGid(), outM.getQid());
                 }
             }
         }, 3, 3, TimeUnit.SECONDS);
@@ -106,14 +106,14 @@ public class Controller0 {
             DataBase.addScore(Q2C.get(outM.getValue()), outM.getQid());
             longPayOutMap.remove(outM.getQid());
             String s0 = outM.getQid() + "在群:" + outM.getGid() + "完成订单:" + outM.getValue();
-            Resource.BOT.getFriend(SUPER_Q).sendMessage(s0);
-            MessageTools.instance.sendMessageInGroupWithAt(scoreController.selectScore(outM.getQid()), outM.getGid(), outM.getQid());
+            BootstarpResource.BOT.getFriend(SUPER_Q).sendMessage(s0);
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(scoreController.selectScore(outM.getQid()), outM.getGid(), outM.getQid());
             throw new RuntimeException();
         }
     }
 
     @Action("充值<.+=>str>")
-    public synchronized Object pay0(@Param("str") String str, User user, io.github.kloping.mirai0.commons.Group group) {
+    public synchronized Object pay0(@Param("str") String str, SpUser user, SpGroup group) {
         long senderId = user.getId();
         long groupId = group.getId();
         long botId = BOT_ID;
@@ -140,7 +140,7 @@ public class Controller0 {
     }
 
     @Action("取消订单")
-    public synchronized String pay1(User user, io.github.kloping.mirai0.commons.Group group) {
+    public synchronized String pay1(SpUser user, SpGroup group) {
         long senderId = user.getId();
         long groupId = group.getId();
         long botId = BOT_ID;
@@ -158,7 +158,7 @@ public class Controller0 {
     ScoreController scoreController;
 
     @Action("完成订单")
-    public synchronized Object pay2(User user, io.github.kloping.mirai0.commons.Group group) {
+    public synchronized Object pay2(SpUser user, SpGroup group) {
         long senderId = user.getId();
         long groupId = group.getId();
         long botId = BOT_ID;
@@ -169,7 +169,7 @@ public class Controller0 {
                 DataBase.addScore(Q2C.get(m.getValue()), senderId);
                 longPayOutMap.remove(senderId);
                 String s0 = senderId + "在群:" + groupId + "完成订单:" + m.getValue();
-                Resource.BOT.getFriend(SUPER_Q).sendMessage(s0);
+                BootstarpResource.BOT.getFriend(SUPER_Q).sendMessage(s0);
                 return scoreController.selectScore(senderId);
             } else {
                 return out.getText();

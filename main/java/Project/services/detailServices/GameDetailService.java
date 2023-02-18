@@ -13,7 +13,7 @@ import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.*;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
@@ -44,7 +44,7 @@ public class GameDetailService {
     public static IGameBoneService gameBoneService;
 
     static {
-        Resource.START_AFTER.add(new Runnable() {
+        BootstarpResource.START_AFTER.add(new Runnable() {
             @Override
             public void run() {
                 ZERO_RUNS.add(() -> {
@@ -152,7 +152,7 @@ public class GameDetailService {
     }
 
     public static boolean proZ(Integer n) {
-        int i = Tool.tool.RANDOM.nextInt(100) + 1;
+        int i = Tool.INSTANCE.RANDOM.nextInt(100) + 1;
         return n >= i;
     }
 

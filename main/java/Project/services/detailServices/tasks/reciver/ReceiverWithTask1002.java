@@ -3,7 +3,7 @@ package Project.services.detailServices.tasks.reciver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.tasks.Task1002;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -51,7 +51,7 @@ public class ReceiverWithTask1002 extends GhostLostBroadcast.AbstractGhostLostRe
         if (task.isFinish()) {
             deleteTask(task);
             int id = getRandObj1002();
-            MessageTools.instance.sendMessageInGroupWithAt(
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                     task.getFinish() + SourceDataBase.getImgPathById(id)
                     , task.getFromG().longValue(), task.getHost());
             addToBgs(who, id, ObjType.got);
@@ -63,6 +63,6 @@ public class ReceiverWithTask1002 extends GhostLostBroadcast.AbstractGhostLostRe
     }
 
     private int getRandObj1002() {
-        return Tool.tool.getRandT(T_1002_OBJS);
+        return Tool.INSTANCE.getRandT(T_1002_OBJS);
     }
 }

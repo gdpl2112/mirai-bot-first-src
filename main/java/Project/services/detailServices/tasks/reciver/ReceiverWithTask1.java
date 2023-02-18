@@ -2,7 +2,7 @@ package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.task.Task;
@@ -30,7 +30,7 @@ public class ReceiverWithTask1
         if (q2 == task.getHost().longValue()) {
             if (task.getTasker().contains(q1)) {
                 deleteTask(task);
-                MessageTools.instance.sendMessageInGroupWithAt(task.getFinish()
+                MessageUtils.INSTANCE.sendMessageInGroupWithAt(task.getFinish()
                         , task.getFromG().longValue(), task.getHost());
                 addToBgs(q1, 1601, ObjType.got);
                 addToBgs(q2, 1601, ObjType.got);

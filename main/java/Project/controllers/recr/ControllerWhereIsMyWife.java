@@ -1,17 +1,15 @@
 package Project.controllers.recr;
 
-import Project.controllers.auto.ControllerSource;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.spt.RedisOperate;
 import net.mamoe.mirai.contact.Member;
 
 import java.util.HashMap;
@@ -19,8 +17,8 @@ import java.util.Map;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WHERE_MEMBER_IS_MY_WIFE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WHERE_MEMBER_IS_MY_WIFE1;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
@@ -57,7 +55,7 @@ public class ControllerWhereIsMyWife {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group) throws NoRunException {
         if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
             return;
         }
@@ -67,7 +65,7 @@ public class ControllerWhereIsMyWife {
     }
 
     @Action(value = "哪个群友是我老婆", otherName = {"娶群友"})
-    public String s0(Group group, User user) {
+    public String s0(SpGroup group, SpUser user) {
         Long qid = null;
         long uid = user.getId();
         long gid = group.getId();
@@ -91,21 +89,21 @@ public class ControllerWhereIsMyWife {
         return s0;
     }
 
-    private String toView(long id, Long qid, Group group) {
-        String name0 = MemberTools.getNameFromGroup(id, group);
-        String name1 = MemberTools.getNameFromGroup(qid, group);
+    private String toView(long id, Long qid, SpGroup group) {
+        String name0 = MemberUtils.getNameFromGroup(id, group);
+        String name1 = MemberUtils.getNameFromGroup(qid, group);
         return String.format(WHERE_MEMBER_IS_MY_WIFE, qid, name1, qid);
     }
 
-    private String toView1(long id, Long qid, Group group) {
-        String name0 = MemberTools.getNameFromGroup(id, group);
-        String name1 = MemberTools.getNameFromGroup(qid, group);
+    private String toView1(long id, Long qid, SpGroup group) {
+        String name0 = MemberUtils.getNameFromGroup(id, group);
+        String name1 = MemberUtils.getNameFromGroup(qid, group);
         return String.format(WHERE_MEMBER_IS_MY_WIFE1, qid, name1, qid);
     }
 
-    private long getRandQid(long mid, Group group) {
+    private long getRandQid(long mid, SpGroup group) {
         Member member;
-        member = (Member) Tool.tool.getRandT(BOT.getGroup(group.getId()).getMembers());
+        member = (Member) Tool.INSTANCE.getRandT(BOT.getGroup(group.getId()).getMembers());
         long qid = member.getId();
         if (WIFE.containsKey(group.getId())) {
             if (WIFE.get(group.getId()).keySet().contains(qid) || WIFE.get(group.getId()).values().contains(qid)) {

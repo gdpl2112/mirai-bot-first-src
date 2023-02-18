@@ -1,32 +1,28 @@
 package Project.controllers.gameControllers;
 
 
-import Project.e0.GameUtils;
-import Project.e0.bao.SelectResult;
+import Project.utils.GameUtils;
+import Project.utils.bao.SelectResult;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -51,23 +47,23 @@ public class GameBoneController {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String str) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String str) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.tool.EveListStartWith(listFx, str) == -1) {
+            if (Tool.INSTANCE.EveListStartWith(listFx, str) == -1) {
                 throw new NoRunException();
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
 
     @Action("魂骨菜单")
-    public String boneMenu(long qq, Group g) {
+    public String boneMenu(long qq, SpGroup g) {
         return getImageFromStrings(
                 "吸收魂骨 (魂骨名)",
                 "我的属性 #查看属性",
@@ -79,18 +75,18 @@ public class GameBoneController {
     }
 
     @Action(value = "我的属性", otherName = "属性信息")
-    public String myAttribute(long qq, Group g) {
+    public String myAttribute(long qq, SpGroup g) {
         return gameBoneService.getInfoAttributes(qq);
     }
 
     @Action("我的魂骨")
-    public String myBones(long qq, Group g) {
+    public String myBones(long qq, SpGroup g) {
         List<SoulBone> list = gameBoneService.getSoulBones(qq);
-        return list.isEmpty() ? "没有魂骨!" : Tool.tool.pathToImg(Drawer.drawBoneMap(list));
+        return list.isEmpty() ? "没有魂骨!" : Tool.INSTANCE.pathToImg(Drawer.drawBoneMap(list));
     }
 
     @Action("吸收魂骨<.{1,}=>name>")
-    public String parseBone(@Param("name") String name, long qq, Group g) {
+    public String parseBone(@Param("name") String name, long qq, SpGroup g) {
         int id = 0;
         try {
             id = NAME_2_ID_MAPS.get(name);
@@ -104,7 +100,7 @@ public class GameBoneController {
     }
 
     @Action("卸掉魂骨<.{1,}=>name>")
-    public String unParseBone(@Param("name") String name, long qq, Group g) {
+    public String unParseBone(@Param("name") String name, long qq, SpGroup g) {
         if (challengeDetailService.isTemping(qq)) return CHALLENGE_ING;
         int id = 0;
         try {
@@ -122,7 +118,7 @@ public class GameBoneController {
     ISkillService skillService;
 
     @Action("头部魂骨技能<.{1,}=>str>")
-    private Object t0(@Param("str") String str, long qq, Group g) {
+    private Object t0(@Param("str") String str, long qq, SpGroup g) {
         String idp = "151";
         for (SoulBone soulBone : gameBoneService.getSoulBones(qq)) {
             if (soulBone.getOid().toString().startsWith(idp)) {

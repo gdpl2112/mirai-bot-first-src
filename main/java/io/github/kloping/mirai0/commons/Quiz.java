@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 竞猜
+ *
  * @author github.kloping
  */
 public class Quiz {

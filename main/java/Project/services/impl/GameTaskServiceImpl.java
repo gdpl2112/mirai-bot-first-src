@@ -3,7 +3,7 @@ package Project.services.impl;
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
@@ -19,14 +19,14 @@ import static Project.dataBases.task.TaskCreator.*;
 @Entity
 public class GameTaskServiceImpl implements IGameTaskService {
     @Override
-    public String m1(long q, Group group) {
+    public String m1(long q, SpGroup group) {
         Warp warp = Warp.getInstance(q);
         if (warp.getMaster().longValue() == -1) return "您没有师傅";
         if (GameTaskDatabase.TASKS.containsKey(q)
                 && !GameTaskDatabase.TASKS.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
-            return "接任务冷却中=>" +  Tool.tool.getTimeDDHHMM(taskPoint.getNextCan());
+            return "接任务冷却中=>" +  Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
         if (taskPoint.getPrenticeIndex() >= MAX_PRENTICE_INDEX) return "暂无更多任务..";
         int id = taskPoint.getPrenticeIndex();
         Task task = getTask(id);
@@ -42,18 +42,18 @@ public class GameTaskServiceImpl implements IGameTaskService {
         StringBuilder sb = new StringBuilder();
         task.save();
         sb.append(task.getIntro());
-        sb.append("\r\n时限:").append(Tool.tool.getTimeDDHHMM(task.getDeadline()));
+        sb.append("\r\n时限:").append(Tool.INSTANCE.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();
     }
 
     @Override
-    public Object m2(long q, Group group) {
+    public Object m2(long q, SpGroup group) {
         if (GameTaskDatabase.TASKS.containsKey(q)
                 && !GameTaskDatabase.TASKS.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
-            return "接任务冷却中=>" +  Tool.tool.getTimeDDHHMM(taskPoint.getNextCan());
+            return "接任务冷却中=>" +  Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
         if (taskPoint.getNormalIndex() >= MAX_INDEX) return "暂无更多任务..";
         int id = taskPoint.getNormalIndex();
         Task task = getTask(id);
@@ -68,7 +68,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         taskPoint.addNormalIndex().apply();
         StringBuilder sb = new StringBuilder();
         sb.append(task.getIntro());
-        sb.append("\r\n时限:").append( Tool.tool.getTimeDDHHMM(task.getDeadline()));
+        sb.append("\r\n时限:").append( Tool.INSTANCE.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();
     }

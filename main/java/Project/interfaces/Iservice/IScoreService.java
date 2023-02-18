@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 /**
  * @author github-kloping
@@ -22,7 +22,7 @@ public interface IScoreService {
 
     String workLong(Long who);
 
-    String todayList(Group group);
+    String todayList(SpGroup group);
 
     String earnings(long id);
 }

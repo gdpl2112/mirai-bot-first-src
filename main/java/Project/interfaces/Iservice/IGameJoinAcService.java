@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 /**
  * @author github-kloping
@@ -10,7 +10,7 @@ public interface IGameJoinAcService {
 
     String[] list();
 
-    String join(long who, String name, Group group);
+    String join(long who, String name, SpGroup group);
 
     Object startSelect(long who, String select);
 

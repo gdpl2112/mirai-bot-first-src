@@ -1,26 +1,26 @@
 package Project.interfaces.Iservice;
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Zong;
 
 public interface IZongMenService {
-    String create(String name, Long who, Group group);
+    String create(String name, Long who, SpGroup group);
 
-    String zongInfo(Long qq, Group group);
+    String zongInfo(Long qq, SpGroup group);
 
-    String zongInfo(Zong zong, Group group);
+    String zongInfo(Zong zong, SpGroup group);
 
-    String zongInfo(Integer id, Group group);
+    String zongInfo(Integer id, SpGroup group);
 
-    String list(Group group);
+    String list(SpGroup group);
 
-    String setIcon(String imgUrl, Long who, Group group);
+    String setIcon(String imgUrl, Long who, SpGroup group);
 
-    String invite(long who, long qq, Group group);
+    String invite(long who, long qq, SpGroup group);
 
-    String listPer(Long who, Group group);
+    String listPer(Long who, SpGroup group);
 
-    String setName(String name, long id, Group group);
+    String setName(String name, long id, SpGroup group);
 
     String cob(Long qq);
 
@@ -30,7 +30,7 @@ public interface IZongMenService {
 
     String cancelElder(long id, long who);
 
-    String upUp(long id, Group group);
+    String upUp(long id, SpGroup group);
 
     String quite(long id);
 

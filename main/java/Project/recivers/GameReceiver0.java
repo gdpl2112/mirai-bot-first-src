@@ -7,7 +7,7 @@ import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
 import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -16,7 +16,6 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Set;
 
-import static Project.controllers.auto.ControllerSource.entertainmentController3;
 import static Project.controllers.normalController.NoticeController.LOWST;
 
 /**
@@ -168,8 +167,8 @@ public class GameReceiver0 {
             @Override
             public void onReceive(long q, long g) {
                 try {
-                    MessageTools.instance.sendMessageInGroupWithAt(
-                            Tool.tool.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + q + "&exit=off")
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt(
+                            Tool.INSTANCE.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + q + "&exit=off")
                             , g, q);
                 } catch (Exception e) {
                     e.printStackTrace();

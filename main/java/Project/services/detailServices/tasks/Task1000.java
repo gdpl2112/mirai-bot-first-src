@@ -15,7 +15,7 @@ public class Task1000 extends Task {
     private GhostLostBroadcast.KillType needType;
 
     public Task1000() {
-        this.needType = Tool.tool.getRandT(GhostLostBroadcast.KillType.values());
+        this.needType = Tool.INSTANCE.getRandT(GhostLostBroadcast.KillType.values());
     }
 
     public GhostLostBroadcast.KillType getNeedType() {

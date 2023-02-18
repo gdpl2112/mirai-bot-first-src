@@ -5,18 +5,18 @@ import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.TimerController;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.skill.SkillDataBase;
-import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.httpApi.KlopingWeb;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.judge.Judge;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github.kloping
@@ -46,9 +46,9 @@ public class GameConditionDetailService {
     };
 
     public GameConditionDetailService() {
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             TimerController.ZERO_RUNS.add(() -> {
-                if (Tool.tool.getWeekOfDate(new Date()).equals(Tool.tool.WEEK_DAYS[Tool.tool.WEEK_DAYS.length - 1])) {
+                if (Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[Tool.INSTANCE.WEEK_DAYS.length - 1])) {
                     klopingWeb.del("", PWD);
                     PB = null;
                     GB = null;
@@ -78,10 +78,10 @@ public class GameConditionDetailService {
                 public void onReceive(long qid, int jid, int st, SkillInfo info) {
                     try {
                         if (P_OBJS0.contains(qid)) {
-                            if (Tool.tool.RANDOM.nextInt(4) == 0) {
+                            if (Tool.INSTANCE.RANDOM.nextInt(4) == 0) {
                                 info.setTime(1L);
-                                long gid = MemberTools.getRecentSpeechesGid(qid);
-                                MessageTools.instance.sendMessageInGroupWithAt(TIPS0, gid, qid);
+                                long gid = MemberUtils.getRecentSpeechesGid(qid);
+                                MessageUtils.INSTANCE.sendMessageInGroupWithAt(TIPS0, gid, qid);
                             }
                         }
                     } catch (Exception e) {
@@ -121,12 +121,12 @@ public class GameConditionDetailService {
         if (GB == null || PB == null) {
             GB = klopingWeb.get(GHOST_BUFF, PWD);
             if (Judge.isEmpty(GB)) {
-                GB = Tool.tool.getRandT(GHOST_BUFFS);
+                GB = Tool.INSTANCE.getRandT(GHOST_BUFFS);
                 klopingWeb.put(GHOST_BUFF, GB, PWD);
             }
             PB = klopingWeb.get(P_BUFF, PWD);
             if (Judge.isEmpty(PB)) {
-                PB = Tool.tool.getRandT(P_BUFFS);
+                PB = Tool.INSTANCE.getRandT(P_BUFFS);
                 klopingWeb.put(P_BUFF, PB, PWD);
             }
         }
@@ -159,8 +159,8 @@ public class GameConditionDetailService {
 
     public void run(long qid, int n) {
         THREADS.submit(() -> {
-            MessageTools.instance.sendMessageInGroupWithAt(GameConditionController.TIPS0,
-                    MemberTools.getRecentSpeechesGid(qid), qid);
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(GameConditionController.TIPS0,
+                    MemberUtils.getRecentSpeechesGid(qid), qid);
             try {
                 Thread.sleep(15000);
             } catch (InterruptedException e) {
@@ -169,19 +169,19 @@ public class GameConditionDetailService {
             GhostObj ghostObj = null;
             switch (n) {
                 case 1:
-                    ghostObj = GhostObj.create(100000, Tool.tool.getRandT(GHOST_IDS), false);
+                    ghostObj = GhostObj.create(100000, Tool.INSTANCE.getRandT(GHOST_IDS), false);
                     break;
                 case 2:
-                    ghostObj = GhostObj.create(1000000, Tool.tool.getRandT(GHOST_IDS), false);
+                    ghostObj = GhostObj.create(1000000, Tool.INSTANCE.getRandT(GHOST_IDS), false);
                     break;
                 case 3:
-                    ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), Tool.tool.getRandT(GHOST_IDS));
+                    ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), Tool.INSTANCE.getRandT(GHOST_IDS));
                     break;
                 default:
             }
             ghostObj.canGet = false;
             ghostObj.setWhoMeet(qid);
-            Group group = Group.get(MemberTools.getRecentSpeechesGid(qid));
+            SpGroup group = SpGroup.get(MemberUtils.getRecentSpeechesGid(qid));
             if (ghostObj instanceof GhostWithGroup) {
                 GhostWithGroup gwg = (GhostWithGroup) ghostObj;
                 gwg.setGroup(group);
@@ -190,7 +190,7 @@ public class GameConditionDetailService {
             GhostBehavior gb = new GhostBehavior(qid, group);
             gb.getNowAllowJid().add(1006);
             GhostBehavior.exRun(gb);
-            MessageTools.instance.sendMessageInGroupWithAt(
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                     willTips(qid, ghostObj, false), group.getId(), qid
             );
         });

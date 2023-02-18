@@ -4,12 +4,9 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
-import Project.e0.KlopingWebDataBase;
-import Project.e0.KlopingWebDataBaseBoolean;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -26,7 +23,7 @@ import static Project.controllers.gameControllers.shoperController.ShopControlle
 import static Project.dataBases.GameDataBase.addToBgs;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.task.TaskCreator.getRandObj1000;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CLOSE_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OPEN_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -55,12 +52,12 @@ public class HasTimeActionController {
      */
     public static String use(long who) {
         int r = 0;
-        switch (Tool.tool.RANDOM.nextInt(10)) {
+        switch (Tool.INSTANCE.RANDOM.nextInt(10)) {
             case 0:
                 GameDataBase.addToBgs(who, 7001, ObjType.got);
                 return "使用成功获得一个粽子";
             case 1:
-                r = Tool.tool.RANDOM.nextInt(900) + 100;
+                r = Tool.INSTANCE.RANDOM.nextInt(900) + 100;
                 GameDataBase.getInfo(who).addGold((long) r, new TradingRecord()
                         .setFrom(-1)
                         .setMain(who).setDesc("从粽子获得")
@@ -74,15 +71,15 @@ public class HasTimeActionController {
                 addToBgs(who, id, ObjType.got);
                 return "获得" + SourceDataBase.getImgPathById(id);
             case 4:
-                r = Tool.tool.RANDOM.nextInt(9900) + 100;
+                r = Tool.INSTANCE.RANDOM.nextInt(9900) + 100;
                 GameDataBase.getInfo(who).addXp((long) r).apply();
                 return "获得" + r + "点经验";
             case 5:
-                r = Tool.tool.RANDOM.nextInt(4) + 201;
+                r = Tool.INSTANCE.RANDOM.nextInt(4) + 201;
                 addToBgs(who, r, ObjType.got);
                 return "获得" + SourceDataBase.getImgPathById(r);
             default:
-                r = Tool.tool.RANDOM.nextInt(900) + 100;
+                r = Tool.INSTANCE.RANDOM.nextInt(900) + 100;
                 DataBase.addScore(r, who);
                 return "获得" + r + "积分";
         }
@@ -111,7 +108,7 @@ public class HasTimeActionController {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group) throws NoRunException {
         if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
             return;
         }
@@ -242,11 +239,11 @@ public class HasTimeActionController {
             builder.append(i1, 3, SourceDataBase.getImgPathById(list.get(i++), false));
         }
         builder.append(1, 2, SourceDataBase.getImgPathById(list.get(i++), false));
-        return Tool.tool.pathToImg(GameDrawer.drawerStatic(builder.build()));
+        return Tool.INSTANCE.pathToImg(GameDrawer.drawerStatic(builder.build()));
     }
 
     @Action("抽奖")
-    public String raffle(User user) throws Exception {
+    public String raffle(SpUser user) throws Exception {
         if (!GameDataBase.containsInBg(130, user.getId())) {
             return "没有足够的奖券";
         }
@@ -277,16 +274,16 @@ public class HasTimeActionController {
             }
             st.getAndIncrement();
         });
-        int r = Tool.tool.RANDOM.nextInt(al.get());
+        int r = Tool.INSTANCE.RANDOM.nextInt(al.get());
         int id = am.get(r);
         int n = ai.get(r);
         GameDataBase.addToBgs(user.getId(), id, ObjType.got);
         GameDataBase.removeFromBgs(user.getId(), 130, ObjType.use);
-        return Tool.tool.pathToImg(GameDrawer.drawerDynamic(builder.build(), n, SourceDataBase.getImgPathById(id, false), file));
+        return Tool.INSTANCE.pathToImg(GameDrawer.drawerDynamic(builder.build(), n, SourceDataBase.getImgPathById(id, false), file));
     }
 
     @Action("抽奖十连")
-    public String raffle10(User user) throws Exception {
+    public String raffle10(SpUser user) throws Exception {
         if (!GameDataBase.containsBgsNum(user.getId(), 130, 10)) {
             return "没有足够的奖券";
         }
@@ -311,20 +308,20 @@ public class HasTimeActionController {
             }
         }
         for (int i1 = 0; i1 < 10; i1++) {
-            int r = Tool.tool.RANDOM.nextInt(al.get());
+            int r = Tool.INSTANCE.RANDOM.nextInt(al.get());
             int id = am.get(r);
             GameDataBase.addToBgs(user.getId(), id, ObjType.got);
             GameDataBase.removeFromBgs(user.getId(), 130, ObjType.use);
             Map.Entry<Integer, Integer> entry = i1toi2.get(i1);
             builder.append(entry.getKey(), entry.getValue(), SourceDataBase.getImgPathById(id, false));
         }
-        return Tool.tool.pathToImg(GameDrawer.drawerDynamic(builder.build()));
+        return Tool.INSTANCE.pathToImg(GameDrawer.drawerDynamic(builder.build()));
     }
 
     public static RedPacket REDPACKET = null;
 
     @Action("发红包<.+=>str>")
-    public Object sendRedPacket(@Param("str") String str, Group group, long qid) {
+    public Object sendRedPacket(@Param("str") String str, SpGroup group, long qid) {
         Long[] ll = getNumAndPrice(str);
         if (ll == null || ll.length < 2) return "发红包示例:\n 发红包10个1000<积分>\n 积分可替换为'金魂币','大瓶经验'";
         int num = ll[0].intValue();
@@ -355,8 +352,8 @@ public class HasTimeActionController {
             @Override
             public void finish(String tips) {
                 REDPACKET = null;
-                String t = "红包全部领取,手气最佳=>" + Tool.tool.at(getMax()) + "\n" + tips;
-                MessageTools.instance
+                String t = "红包全部领取,手气最佳=>" + Tool.INSTANCE.at(getMax()) + "\n" + tips;
+                MessageUtils.INSTANCE
                         .sendMessageInGroupWithAt(t.trim(), group.getId(), qid);
             }
         };
@@ -385,7 +382,7 @@ public class HasTimeActionController {
     public void redPacket0() {
         if (REDPACKET == null) return;
         int h0 = REDPACKET.getHour();
-        int h1 = Tool.tool.getHour();
+        int h1 = Tool.INSTANCE.getHour();
         h1 = h1 < h0 ? h1 + 24 : h1;
         if (h1 - h0 >= 12) {
             REDPACKET.back();

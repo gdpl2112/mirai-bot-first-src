@@ -8,7 +8,7 @@ import io.github.kloping.mirai0.Main.BotStarter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
 
 /**
  * @author github-kloping

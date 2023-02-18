@@ -1,6 +1,6 @@
 package Project.interfaces.Iservice;
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 /**
  * @author github.kloping
@@ -41,7 +41,7 @@ public interface IChallengeService {
      * @param group
      * @return
      */
-    Object joinChallenge(long id, String str, Group group);
+    Object joinChallenge(long id, String str, SpGroup group);
 
     /**
      * destroy

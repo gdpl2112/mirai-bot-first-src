@@ -1,16 +1,16 @@
 package Project.controllers.normalController;
 
 import Project.controllers.plugins.PointPicController;
-import Project.detailPlugin.*;
-import Project.interfaces.http_api.KlopingWeb;
-import Project.interfaces.http_api.QZone;
-import Project.interfaces.http_api.XiaoaPi;
+import Project.plugins.*;
+import Project.interfaces.httpApi.KlopingWeb;
+import Project.interfaces.httpApi.QZone;
+import Project.interfaces.httpApi.XiaoaPi;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Yylbzt9132;
 import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
@@ -32,8 +32,8 @@ import java.util.*;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
@@ -54,7 +54,7 @@ public class CallLocalApiController {
     @AutoStand
     PvpQq pvpQq;
     @AutoStand
-    Project.interfaces.http_api.PvpQq pvpQqi;
+    Project.interfaces.httpApi.PvpQq pvpQqi;
     @AutoStand
     BaiduBaiKe baiduBaiKe;
     @AutoStand
@@ -65,7 +65,7 @@ public class CallLocalApiController {
     }
 
     @Before
-    public void before(Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
@@ -82,10 +82,10 @@ public class CallLocalApiController {
     }
 
     @Action(value = "王者荣耀最新公告.*", otherName = {"王者公告.*"})
-    public Object m3(Group group, @AllMess String str) throws Exception {
+    public Object m3(SpGroup group, @AllMess String str) throws Exception {
         Response0 r0 = getPvpNews.m1();
         Message message;
-        String numStr = Tool.tool.findNumberFromString(str);
+        String numStr = Tool.INSTANCE.findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
@@ -99,9 +99,9 @@ public class CallLocalApiController {
     }
 
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
-    public Object m4(Group group, @AllMess String str) throws Exception {
+    public Object m4(SpGroup group, @AllMess String str) throws Exception {
         io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
-        String numStr = Tool.tool.findNumberFromString(str);
+        String numStr = Tool.INSTANCE.findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
             int n = Integer.parseInt(numStr);
@@ -114,7 +114,7 @@ public class CallLocalApiController {
         if (!sss[0].startsWith("http")) {
             sss[0] = "https://ys.mihoyo.com" + sss[0];
         }
-        return Tool.tool.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
+        return Tool.INSTANCE.pathToImg(sss[0]) + "\n" + sss[1] + "\n===========\n" + sss[2];
     }
 
     @Action("/init_pvp")
@@ -124,8 +124,8 @@ public class CallLocalApiController {
     }
 
     @Action("王者语音.+")
-    public String m0(@AllMess String a, Group group) {
-        String numStr = Tool.tool.findNumberFromString(a);
+    public String m0(@AllMess String a, SpGroup group) {
+        String numStr = Tool.INSTANCE.findNumberFromString(a);
         int i = 0;
         try {
             i = Integer.parseInt(numStr);
@@ -142,7 +142,7 @@ public class CallLocalApiController {
         if (yys.length > i) {
             yy = yys[i];
         }
-        MessageTools.instance.sendVoiceMessageInGroup("http:" + yy.getYywjzt5304(), group.getId());
+        MessageUtils.INSTANCE.sendVoiceMessageInGroup("http:" + yy.getYywjzt5304(), group.getId());
         return "&" + yy.getYywbzt1517();
     }
 
@@ -150,13 +150,13 @@ public class CallLocalApiController {
     public Object pvpQqSkin(@AllMess String m) {
         PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
         skin = pvpSkin;
-        Integer i = Tool.tool.getInteagerFromStr(m);
+        Integer i = Tool.INSTANCE.getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         StringBuilder sb = new StringBuilder();
         int[] ints = {i * PAGE_SIZE, i * PAGE_SIZE + 1, i * PAGE_SIZE + 2, i * PAGE_SIZE + 3, i * PAGE_SIZE + 4};
         for (int i1 : ints) {
             Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i1];
-            sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE).append("预览图:").append(NEWLINE).append(Tool.tool.pathToImg("https:" + c6.getPcblzlbydt_8b())).append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2)).append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
+            sb.append("皮肤名:").append(c6.getPcblzlbybt_d3()).append(NEWLINE).append("预览图:").append(NEWLINE).append(Tool.INSTANCE.pathToImg("https:" + c6.getPcblzlbydt_8b())).append(NEWLINE).append("相关链接:").append(c6.getPcblzlbyxqydz_c4().substring(2)).append(NEWLINE).append(SPLIT_LINE_0).append(NEWLINE);
         }
         return sb.toString();
     }
@@ -166,7 +166,7 @@ public class CallLocalApiController {
         PvpSkin pvpSkin = skin == null ? pvpQqi.getSkins() : skin;
         skin = pvpSkin;
         String name = m.replace("王者皮肤", "");
-        Integer i = Tool.tool.getInteagerFromStr(m);
+        Integer i = Tool.INSTANCE.getInteagerFromStr(m);
         i = i == null || i >= (pvpSkin.getPcblzlby_c6().length / 5) ? 0 : i;
         Pcblzlby_c6 c6 = pvpSkin.getPcblzlby_c6()[i];
         return pvpQq.getSkinPic("https:" + c6.getPcblzlbyxqydz_c4());
@@ -178,10 +178,10 @@ public class CallLocalApiController {
     }
 
     @Action("天气<.+=>name>")
-    public String weather0(@Param("name") String name, Group group) {
+    public String weather0(@Param("name") String name, SpGroup group) {
         String line = weatherGetter.detail(name);
         if (getConf(group.getId()).getVoiceK()) {
-            MessageTools.instance.speak(line, group);
+            MessageUtils.INSTANCE.speak(line, group);
         }
         return line;
     }
@@ -209,7 +209,7 @@ public class CallLocalApiController {
         }
         File outFile = new File("./temp/" + UUID.randomUUID() + "-gaoWen.gif");
         ImageDrawerUtils.image2giftIncrease(400, outFile, list.toArray(new String[0]));
-        return Tool.tool.pathToImg(outFile.getAbsolutePath());
+        return Tool.INSTANCE.pathToImg(outFile.getAbsolutePath());
     }
 
     @AutoStand
@@ -243,7 +243,7 @@ public class CallLocalApiController {
             if (ess.size() > 0) {
                 for (Element e : ess) {
                     String href = e.attr("src");
-                    set.add(Tool.tool.pathToImg(href));
+                    set.add(Tool.INSTANCE.pathToImg(href));
                 }
             } else {
                 set.add(element.text());
@@ -264,13 +264,13 @@ public class CallLocalApiController {
     XiaoaPi xiaoaPi;
 
     @Action("解析视频音频<.+=>str>")
-    public Object parseVoiceFromV(Group group, @Param("str") String str) throws Exception {
+    public Object parseVoiceFromV(SpGroup group, @Param("str") String str) throws Exception {
         String url = PointPicController.getUrl(str);
         JSONObject jo = xiaoaPi.parseV(url);
         String u0 = jo.getString("url");
         ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
         BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3", new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
-        MessageTools.instance.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
+        MessageUtils.INSTANCE.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
         return null;
     }
 

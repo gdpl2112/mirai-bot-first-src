@@ -1,14 +1,14 @@
 package io.github.kloping.mirai0.commons;
 
 
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github-kloping
@@ -19,7 +19,7 @@ public abstract class Skill implements Runnable {
     private Number qq = 0;
     private String name = null;
     private String tips = "";
-    private Group group = null;
+    private SpGroup group = null;
     private Object[] args = null;
     private PersonInfo personInfo = null;
 
@@ -54,11 +54,11 @@ public abstract class Skill implements Runnable {
      */
     public abstract void before();
 
-    public Group getGroup() {
+    public SpGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(SpGroup group) {
         this.group = group;
     }
 
@@ -74,7 +74,7 @@ public abstract class Skill implements Runnable {
     public void setTips(String tips) {
         this.tips = (tips == null || tips.trim().isEmpty()) ? tips : this.tips + "\n" + tips;
         if (group != null) {
-            THREADS.submit(() -> MessageTools.instance.
+            THREADS.submit(() -> MessageUtils.INSTANCE.
                     sendMessageInGroupWithAt(tips, group.getId(), qq.longValue() > 0 ? qq.longValue() : -qq.longValue()));
         }
     }

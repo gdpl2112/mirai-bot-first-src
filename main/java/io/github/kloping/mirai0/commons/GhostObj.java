@@ -87,7 +87,7 @@ public class GhostObj implements Serializable, BaseInfo {
     public GhostObj(long hp, long att, long id, long l, boolean bal) {
         this.maxHp = this.hp = hp;
         this.att = att;
-        this.xp = Tool.tool.randA((int) (1f * l), (int) (4 * l));
+        this.xp = Tool.INSTANCE.randA((int) (1f * l), (int) (4 * l));
         this.id = id;
         L = l;
         time = System.currentTimeMillis() + 1000 * 60 * 7;
@@ -124,25 +124,25 @@ public class GhostObj implements Serializable, BaseInfo {
             int i0 = getHhByGh(getL());
             switch (i0) {
                 case 201://十
-                    this.id = Tool.tool.randA(501, 503);
+                    this.id = Tool.INSTANCE.randA(501, 503);
                     return;
                 case 202://百
-                    this.id = Tool.tool.randA(503, 505);
+                    this.id = Tool.INSTANCE.randA(503, 505);
                     return;
                 case 203://千
-                    this.id = Tool.tool.randA(505, 507);
+                    this.id = Tool.INSTANCE.randA(505, 507);
                     return;
                 case 204://万
-                    this.id = Tool.tool.randA(507, 510);
+                    this.id = Tool.INSTANCE.randA(507, 510);
                     return;
                 case 205://十万
-                    this.id = Tool.tool.randA(510, 514);
+                    this.id = Tool.INSTANCE.randA(510, 514);
                     return;
                 case 206:
-                    this.id = Tool.tool.randA(514, 518);
+                    this.id = Tool.INSTANCE.randA(514, 518);
                     return;
                 case 207:
-                    this.id = Tool.tool.randA(518, 521);
+                    this.id = Tool.INSTANCE.randA(518, 521);
                     return;
                 default:
                     return;
@@ -152,7 +152,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, float bl, boolean balance) {
-        int id = (int) Tool.tool.randA(idMin, idMax);
+        int id = (int) Tool.INSTANCE.randA(idMin, idMax);
         return create(hp, att, xp, id, l, bl, balance);
     }
 
@@ -186,7 +186,7 @@ public class GhostObj implements Serializable, BaseInfo {
     }
 
     public static <T extends GhostObj> T create(int level, int idMin, int idMax) {
-        int id = (int) Tool.tool.randA(idMin, idMax);
+        int id = (int) Tool.INSTANCE.randA(idMin, idMax);
         return create(level, id);
     }
 
@@ -198,33 +198,33 @@ public class GhostObj implements Serializable, BaseInfo {
         if (id > 700) {
             switch (id) {
                 case 701:
-                    return (T) new Ghost701(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost701(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 702:
-                    return (T) new Ghost702(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost702(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 703:
-                    return (T) new Ghost703(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost703(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 704:
-                    return (T) new Ghost704(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost704(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 705:
-                    return (T) new Ghost705(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost705(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 710:
-                    return (T) new Ghost710(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost710(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 711:
-                    return (T) new Ghost711(Tool.tool.randA(4 * level, 7 * level), Tool.tool.randA(2 * level, 8 * level)
-                            , id, Tool.tool.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost711(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
+                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 default:
                     return null;
             }
         } else {
-            GhostObj ghostObj = new GhostObj(Tool.tool.randA(4 * level, 7 * level),
-                    Tool.tool.randA(2 * level, 8 * level), id,
-                    Tool.tool.randA(level + 1, Lmax(level)), bal);
+            GhostObj ghostObj = new GhostObj(Tool.INSTANCE.randA(4 * level, 7 * level),
+                    Tool.INSTANCE.randA(2 * level, 8 * level), id,
+                    Tool.INSTANCE.randA(level + 1, Lmax(level)), bal);
             return (T) ghostObj;
         }
     }
@@ -255,7 +255,7 @@ public class GhostObj implements Serializable, BaseInfo {
 
     private Long summonL(float bl) {
         long vv = (long) ((hp / bl + att) / 2);
-        vv = Tool.tool.randLong(vv, 0.56f, 0.82f);
+        vv = Tool.INSTANCE.randLong(vv, 0.56f, 0.82f);
         vv = vv <= 0 ? 1 : vv;
         return vv;
     }

@@ -3,20 +3,20 @@ package Project.controllers.normalController;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
-import Project.e0.VelocityUtils;
+import Project.utils.VelocityUtils;
 import Project.interfaces.Iservice.IOtherService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -70,7 +70,7 @@ public class OtherController {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group) throws NoRunException {
         if (mess.contains(OPEN_STR) || mess.contains(CLOSE_STR)) {
             return;
         }
@@ -86,7 +86,7 @@ public class OtherController {
 
     @Action("娱乐功能.*?")
     public String m0(@AllMess String m) {
-        Integer i1 = Tool.tool.getInteagerFromStr(m);
+        Integer i1 = Tool.INSTANCE.getInteagerFromStr(m);
         int n = 1;
         n = i1 == null ? n : i1;
         n = n > E_MENUS.length ? 1 : n;
@@ -110,17 +110,17 @@ public class OtherController {
     }
 
     @Action("获取<.+=>str>")
-    public Object getAllInfo(Group group, @Param("str") String str) {
-        long qq = MessageTools.instance.getAtFromString(str);
+    public Object getAllInfo(SpGroup group, @Param("str") String str) {
+        long qq = MessageUtils.INSTANCE.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
         NormalMember member = BOT.getGroup(group.getId()).get(qq);
         StringBuilder sb = new StringBuilder();
         sb.append("QQ:").append(qq).append("\r\n");
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
-        sb.append("群内名:").append(MemberTools.getNameFromGroup(qq, group)).append("\r\n");
+        sb.append("群内名:").append(MemberUtils.getNameFromGroup(qq, group)).append("\r\n");
         sb.append("QQ名:").append(member.getNick()).append("\r\n");
-        sb.append("加入时间:").append(Tool.tool.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
-        sb.append("最后发言:").append(Tool.tool.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
+        sb.append("加入时间:").append(Tool.INSTANCE.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
+        sb.append("最后发言:").append(Tool.INSTANCE.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
         sb.append("头衔:").append(member.getSpecialTitle()).append("\r\n");
         sb.append("禁言时长:").append(member.getMuteTimeRemaining()).append("\r\n");
         sb.append("头像链接:").append(member.getAvatarUrl()).append("\r\n");
@@ -133,9 +133,9 @@ public class OtherController {
     }
 
     @Action("\\[@me]<.{1,}=>str>")
-    public Object atMe(long qq, Group group, @Param("str") String str) {
+    public Object atMe(long qq, SpGroup group, @Param("str") String str) {
         if (str.startsWith(SPEAK_STR)) {
-            MessageTools.instance.speak(str.substring(1), group);
+            MessageUtils.INSTANCE.speak(str.substring(1), group);
             return null;
         } else if (str.startsWith(SING_STR)) {
             sing(str.substring(1), group);
@@ -152,11 +152,11 @@ public class OtherController {
                 }
                 return controller.close(group);
             } else if (DataBase.canSpeak(group.getId())) {
-                if (!Tool.tool.isIlleg(str)) {
+                if (!Tool.INSTANCE.isIlleg(str)) {
                     if (cd0 < System.currentTimeMillis()) {
                         cd0 = System.currentTimeMillis() + CD;
-                        String talk = otherService.talk(str);
-                        return talk;
+                        String result = otherService.talk(str);
+                        return result;
                     }
                 }
             }

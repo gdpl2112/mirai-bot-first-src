@@ -30,19 +30,19 @@ public class GameObjServiceImpl implements IGameObjService {
     private static final Map<Integer, Map.Entry<Integer, Integer>> NEED_NUMS = new ConcurrentHashMap<>();
 
     static {
-        NEED_NUMS.put(1602, Tool.tool.getEntry(1601, 3));
-        NEED_NUMS.put(1603, Tool.tool.getEntry(1602, 4));
-        NEED_NUMS.put(1604, Tool.tool.getEntry(1603, 4));
-        NEED_NUMS.put(1605, Tool.tool.getEntry(1604, 5));
-        NEED_NUMS.put(115, Tool.tool.getEntry(114, 6));
+        NEED_NUMS.put(1602, Tool.INSTANCE.getEntry(1601, 3));
+        NEED_NUMS.put(1603, Tool.INSTANCE.getEntry(1602, 4));
+        NEED_NUMS.put(1604, Tool.INSTANCE.getEntry(1603, 4));
+        NEED_NUMS.put(1605, Tool.INSTANCE.getEntry(1604, 5));
+        NEED_NUMS.put(115, Tool.INSTANCE.getEntry(114, 6));
 
-        NEED_NUMS.put(122, Tool.tool.getEntry(121, 4));
-        NEED_NUMS.put(123, Tool.tool.getEntry(122, 5));
+        NEED_NUMS.put(122, Tool.INSTANCE.getEntry(121, 4));
+        NEED_NUMS.put(123, Tool.INSTANCE.getEntry(122, 5));
 
-        NEED_NUMS.put(124, Tool.tool.getEntry(122, 13));
-        NEED_NUMS.put(125, Tool.tool.getEntry(123, 10));
-        NEED_NUMS.put(126, Tool.tool.getEntry(122, 13));
-        NEED_NUMS.put(127, Tool.tool.getEntry(123, 11));
+        NEED_NUMS.put(124, Tool.INSTANCE.getEntry(122, 13));
+        NEED_NUMS.put(125, Tool.INSTANCE.getEntry(123, 10));
+        NEED_NUMS.put(126, Tool.INSTANCE.getEntry(122, 13));
+        NEED_NUMS.put(127, Tool.INSTANCE.getEntry(123, 11));
     }
 
     @AutoStand

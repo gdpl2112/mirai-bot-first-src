@@ -5,25 +5,26 @@ import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
+import Project.listeners.CapHandler;
+import Project.listeners.DefaultHandler;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.Handlers.CapHandler;
-import io.github.kloping.mirai0.Main.Handlers.MyHandler;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.BootstarpResource;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Quiz;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
+import net.mamoe.mirai.event.events.MessageEvent;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
@@ -41,7 +42,7 @@ public class ManagerController {
     public static Number[] getAllAt(String allMess) {
         Set<Number> numbers = new HashSet<>();
         while (true) {
-            Long l1 = MessageTools.instance.getAtFromString(allMess);
+            Long l1 = MessageUtils.INSTANCE.getAtFromString(allMess);
             allMess = allMess.replaceFirst("\\[@" + l1 + "]", "");
             if (l1 == -1) break;
             else numbers.add(l1);
@@ -50,7 +51,7 @@ public class ManagerController {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
         if (isSuperQ(qq.getId())) {
             println("超级权限执行...");
             return;
@@ -66,7 +67,7 @@ public class ManagerController {
     @Action("跳过验证.+")
     public String o3(@AllMess String mess) {
         try {
-            String numStr = Tool.tool.findNumberFromString(mess);
+            String numStr = Tool.INSTANCE.findNumberFromString(mess);
             long qid = Long.parseLong(numStr);
             CapHandler.ok(qid);
             return null;
@@ -77,77 +78,77 @@ public class ManagerController {
     }
 
     @Action("通过")
-    public Object ace(User user, Group group) {
-        Member qq = Resource.BOT.getGroup(group.getId()).get(user.getId());
+    public Object ace(SpUser user, SpGroup group) {
+        Member qq = BootstarpResource.BOT.getGroup(group.getId()).get(user.getId());
         if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
-            if (MyHandler.joinRequestEvent != null) {
-                MyHandler.joinRequestEvent.accept();
-                MyHandler.joinRequestEvent = null;
+            if (DefaultHandler.joinRequestEvent != null) {
+                DefaultHandler.joinRequestEvent.accept();
+                DefaultHandler.joinRequestEvent = null;
                 return "已通过!!";
             }
         throw new NoRunException();
     }
 
     @Action("不通过")
-    public Object rej(User user, Group group) {
-        Member qq = Resource.BOT.getGroup(group.getId()).get(user.getId());
+    public Object rej(SpUser user, SpGroup group) {
+        Member qq = BootstarpResource.BOT.getGroup(group.getId()).get(user.getId());
         if (qq.getPermission().getLevel() >= 1 || DataBase.isFather(qq.getId(), group.getId()))
-            if (MyHandler.joinRequestEvent != null) {
-                MyHandler.joinRequestEvent.reject();
-                MyHandler.joinRequestEvent = null;
+            if (DefaultHandler.joinRequestEvent != null) {
+                DefaultHandler.joinRequestEvent.reject();
+                DefaultHandler.joinRequestEvent = null;
                 return "已拒绝!!";
             }
         throw new NoRunException();
     }
 
     @Action(value = OPEN_STR, otherName = "说话")
-    public String open(io.github.kloping.mirai0.commons.Group group) {
+    public String open(SpGroup group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.openGroup(group.getId()) ? "已经开启" : "开启成功";
     }
 
     @Action(value = CLOSE_STR, otherName = "闭嘴")
-    public String close(io.github.kloping.mirai0.commons.Group group) {
+    public String close(SpGroup group) {
         ControllerTool.removeGroup(group.getId());
         return DataBase.closeGroup(group.getId()) ? "关闭成功" : "已经关闭";
     }
 
     @Action("开启验证")
-    private String m1(Group group) {
+    private String m1(SpGroup group) {
         DataBase.setCap(group.getId(), true);
         return "开启完成";
     }
 
     @Action("关闭验证")
-    private String m2(Group group) {
+    private String m2(SpGroup group) {
         DataBase.setCap(group.getId(), false);
         return "关闭完成";
     }
 
     @Action("开启闪照破解")
-    public String openFlash(Group group) {
+    public String openFlash(SpGroup group) {
         return DataBase.openShow(group.getId()) ? "开启闪照破解成功" : "已经开启闪照破解";
     }
 
     @Action("关闭闪照破解")
-    public String closeFlash(Group group) {
+    public String closeFlash(SpGroup group) {
         return DataBase.closeShow(group.getId()) ? "关闭闪照破解成功" : "已经关闭闪照破解";
     }
 
     @Action("开启聊天")
-    public String openTalk(Group group) {
+    public String openTalk(SpGroup group) {
         DataBase.setSpeak(group.getId(), true);
         return "来吧聊天";
     }
 
     @Action("关闭聊天")
-    public String closeTalk(Group group) {
+    public String closeTalk(SpGroup group) {
         DataBase.setSpeak(group.getId(), false);
         return "不想聊了";
     }
 
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
-    public String out(long q, Group gr, @AllMess String chain) {
+    public String out(long q, SpGroup gr, @AllMess String chain, MessageEvent event) {
         Number[] numbers = getAllAt(chain);
         if (numbers.length == 0) {
             return NOT_FOUND_AT;
@@ -155,7 +156,7 @@ public class ManagerController {
         if (numbers.length == 1) {
             long who = numbers[0].longValue();
             net.mamoe.mirai.contact.Group group = BOT.getGroup(gr.getId());
-            NormalMember m1 = group.get(Resource.qq.getQq());
+            NormalMember m1 = group.get(event.getBot().getId());
             NormalMember m2 = group.get(who);
             if (m1.getPermission().getLevel() == 0) {
                 return PERMISSION_DENIED;
@@ -173,7 +174,7 @@ public class ManagerController {
             }
         } else {
             try {
-                Method method = this.getClass().getDeclaredMethod("kickNum", Number[].class, Group.class);
+                Method method = this.getClass().getDeclaredMethod("kickNum", Number[].class, SpGroup.class);
                 ConfirmController.regConfirm(q, method, this, new Object[]{numbers, gr});
                 return "批量踢,请确认";
             } catch (Exception e) {
@@ -183,7 +184,7 @@ public class ManagerController {
         }
     }
 
-    private String kickNum(Number[] numbers, Group g) {
+    private String kickNum(Number[] numbers, SpGroup g) {
         try {
             net.mamoe.mirai.contact.Group group = BOT.getGroup(g.getId());
             for (Number n : numbers) {
@@ -202,8 +203,8 @@ public class ManagerController {
     }
 
     @Action("禁言<.{1,}=>str>")
-    public String Ban(User qq, Group egroup, @Param("str") String str, @AllMess String chain) {
-        long who = MessageTools.instance.getAtFromString(chain);
+    public String Ban(SpUser qq, SpGroup egroup, @Param("str") String str, @AllMess String chain) {
+        long who = MessageUtils.INSTANCE.getAtFromString(chain);
         if (who == -1)
             return NOT_FOUND_AT;
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
@@ -211,8 +212,8 @@ public class ManagerController {
     }
 
     @Action("解除禁言.{1,}")
-    public String UnBan(User qq, Group egroup, @AllMess String chain) {
-        long who = MessageTools.instance.getAtFromString(chain);
+    public String UnBan(SpUser qq, SpGroup egroup, @AllMess String chain) {
+        long who = MessageUtils.INSTANCE.getAtFromString(chain);
         if (who == -1)
             return "谁？";
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
@@ -221,13 +222,13 @@ public class ManagerController {
     }
 
     @Action("撤回.+")
-    public String recall(@AllMess String str, Group group) {
+    public String recall(@AllMess String str, SpGroup group) {
         try {
-            long at = MessageTools.instance.getAtFromString(str);
+            long at = MessageUtils.INSTANCE.getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             if (str.trim().matches("最近\\d+条")) {
                 int[] is;
-                int i = Tool.tool.getInteagerFromStr(str);
+                int i = Tool.INSTANCE.getInteagerFromStr(str);
                 i = i > 15 ? 15 : i;
                 is = new int[i];
                 for (int i1 = 0; i1 < i; i1++) {
@@ -242,7 +243,7 @@ public class ManagerController {
     }
 
     @Action(value = "yousend.+")
-    public String isay(@AllMess String str, Group group) {
+    public String isay(@AllMess String str, SpGroup group) {
         return str.substring(7);
     }
 
@@ -272,7 +273,7 @@ public class ManagerController {
     @Action("结束竞猜.+")
     public String s4(@AllMess String all) {
         if (Quiz.quiz == null) return "未开始竞猜";
-        Integer index = Tool.tool.getInteagerFromStr(all);
+        Integer index = Tool.INSTANCE.getInteagerFromStr(all);
         index = index == null ? 0 : index;
         if (index == 0) {
             for (Quiz.QuizSon quizSon : Quiz.quiz.getQuizSons()) {

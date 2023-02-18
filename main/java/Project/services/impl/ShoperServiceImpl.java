@@ -6,7 +6,7 @@ import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -31,7 +31,7 @@ public class ShoperServiceImpl implements IShoperService {
             "市场购买 (序号) 来购买 物品";
 
     @Override
-    public String allInfo(Group group) {
+    public String allInfo(SpGroup group) {
         StringBuilder sb = new StringBuilder();
         for (Integer id : ShopDataBase.ITEM_MAP.keySet()) {
             ShopItem item = ShopDataBase.ITEM_MAP.get(id);
@@ -58,13 +58,13 @@ public class ShoperServiceImpl implements IShoperService {
     }
 
     @Override
-    public synchronized String downItem(long id, int ids) {
+    public synchronized String downItem(long qid, int ids) {
         if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
             ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             Long who = item.getWho().longValue();
-            if (who == id) {
+            if (who == qid) {
                 ShopDataBase.deleteItem(item.getId());
-                addToBgs(id, item.getItemId(), item.getNum(), ObjType.un);
+                addToBgs(qid, item.getItemId(), item.getNum(), ObjType.un);
                 return DOWN_SHOP_ITEM_OK;
             } else {
                 return SHOP_ITEM_NOT_IS_YOU;
@@ -75,10 +75,10 @@ public class ShoperServiceImpl implements IShoperService {
     }
 
     @Override
-    public synchronized String buy(long id, Integer ids) {
+    public synchronized String buy(long qid, Integer ids) {
         if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
             ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
-            PersonInfo info = getInfo(id);
+            PersonInfo info = getInfo(qid);
             Long price = item.getPrice().longValue();
             if (info.getGold() >= price) {
                 Long who = item.getWho().longValue();
@@ -88,21 +88,21 @@ public class ShoperServiceImpl implements IShoperService {
                                 .setType0(TradingRecord.Type0.gold)
                                 .setTo(who)
                                 .setMain(who)
-                                .setFrom(id)
+                                .setFrom(qid)
                                 .setDesc("市场被购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
                 ));
-                putPerson(getInfo(id).addGold(-price
+                putPerson(getInfo(qid).addGold(-price
                         , new TradingRecord()
                                 .setType1(TradingRecord.Type1.lost)
                                 .setType0(TradingRecord.Type0.gold)
                                 .setTo(who)
-                                .setMain(id)
-                                .setFrom(id)
+                                .setMain(qid)
+                                .setFrom(qid)
                                 .setDesc("市场购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
                 ));
-                addToBgs(id, item.getItemId(), item.getNum(), ObjType.buy);
+                addToBgs(qid, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
                 GInfo.getInstance(who).addBuyc().apply();
                 return BUY_SUCCESS;
@@ -112,7 +112,7 @@ public class ShoperServiceImpl implements IShoperService {
     }
 
     @Override
-    public String intro(long id, Integer ids, Group group) {
+    public String intro(long id, Integer ids, SpGroup group) {
         if (ShopDataBase.ITEM_MAP.containsKey(ids)) {
             ShopItem item = ShopDataBase.ITEM_MAP.get(ids);
             StringBuilder sb = new StringBuilder();
@@ -122,7 +122,7 @@ public class ShoperServiceImpl implements IShoperService {
             sb.append("上架人:").append(item.getWho()).append("\r\n");
             sb.append("数量:").append(item.getNum()).append("\r\n");
             sb.append("价格:").append(item.getPrice()).append("金魂币\r\n");
-            sb.append("上架时间:").append(Tool.tool.getTimeYMdhms(item.getTime()));
+            sb.append("上架时间:").append(Tool.INSTANCE.getTimeYMdhms(item.getTime()));
             return sb.toString();
         } else {
             return NOT_FOUND_SHOP_ITEM;

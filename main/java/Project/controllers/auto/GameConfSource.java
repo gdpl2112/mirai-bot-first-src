@@ -5,5 +5,4 @@ package Project.controllers.auto;
  */
 public class GameConfSource {
     public static int DELETE_MAX = 10;
-
 }

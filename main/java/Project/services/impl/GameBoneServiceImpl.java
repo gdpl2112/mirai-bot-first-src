@@ -11,8 +11,8 @@ import Project.services.detailServices.GameBoneDetailService;
 import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
@@ -64,7 +64,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
         list.add("魂力恢复效果:" + attributeBone.getHlEffect() + "%");
         list.add("精神力恢复率:" + attributeBone.getHjChance() + "%");
         list.add("精神力恢复效果:" + attributeBone.getHjEffect() + "%");
-        list.add("攻击前/后摇:" + Tool.tool.device(manager.getAttPre(who), 1000f, 1) + "/" + Tool.tool.device(manager.getAttPost(who), 1000f, 1) + "s");
+        list.add("攻击前/后摇:" + Tool.INSTANCE.device(manager.getAttPre(who), 1000f, 1) + "/" + Tool.INSTANCE.device(manager.getAttPost(who), 1000f, 1) + "s");
         list.add("魂力节省比:" + toPercent(getInfo(who).getLevel(), 150) / 2 + "%");
         return getImageFromStrings(list.toArray(new String[0]));
     }
@@ -109,7 +109,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
                 String[] vv = ss[1].split(":");
                 String v1 = vv[0];
                 Integer v2 = Integer.valueOf(vv[1]);
-                map.put(k, Tool.tool.getEntry(v1, v2));
+                map.put(k, Tool.INSTANCE.getEntry(v1, v2));
             }
             return map;
         } catch (Exception e) {
@@ -146,10 +146,10 @@ public class GameBoneServiceImpl implements IGameBoneService {
 
             SkillDataBase.saveSkillInfo(info);
             String intro = GameSkillServiceImpl.getIntro(id, id, st, getInfo(qq).getWh());
-            MessageTools.instance.sendMessageInGroupWithAt(
-                    "您激活了魂骨技能:\n" + intro, MemberTools.getRecentSpeechesGid(qq), qq);
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(
+                    "您激活了魂骨技能:\n" + intro, MemberUtils.getRecentSpeechesGid(qq), qq);
         }
-        int r1 = Tool.tool.RANDOM.nextInt(7);
+        int r1 = Tool.INSTANCE.RANDOM.nextInt(7);
         switch (r1) {
             case 0:
                 nu = i * 3;

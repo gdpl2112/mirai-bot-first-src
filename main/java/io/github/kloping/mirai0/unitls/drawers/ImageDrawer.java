@@ -148,7 +148,7 @@ public class ImageDrawer {
         if (oImage.getHeight() - oImage.getWidth() > 30) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
         oImage = roundImage(oImage, 9999);
         oImage = (BufferedImage) image2Size(oImage, 150, 150);
-        oImage = (BufferedImage) rotateImage(oImage, Tool.tool.RANDOM.nextInt(160) + 60);
+        oImage = (BufferedImage) rotateImage(oImage, Tool.INSTANCE.RANDOM.nextInt(160) + 60);
         BufferedImage bgImage = ImageIO.read(file);
         bgImage = (BufferedImage) image2Size(bgImage, 512, 512);
         BufferedImage image = putImage(bgImage, oImage, 10, 175);

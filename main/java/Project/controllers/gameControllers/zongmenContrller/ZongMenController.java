@@ -3,13 +3,13 @@ package Project.controllers.gameControllers.zongmenContrller;
 
 import Project.aSpring.SpringBootResource;
 import Project.controllers.auto.ConfirmController;
-import Project.e0.VelocityUtils;
+import Project.utils.VelocityUtils;
 import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 
@@ -20,7 +20,7 @@ import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.ZongMenDataBase.*;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
@@ -42,15 +42,15 @@ public class ZongMenController {
     }
 
     @Before
-    public void before(Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 
     @Action("救援.+")
-    public String help(@AllMess String mess, User qq, Group group) {
-        long who = MessageTools.instance.getAtFromString(mess);
+    public String help(@AllMess String mess, SpUser qq, SpGroup group) {
+        long who = MessageUtils.INSTANCE.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -63,44 +63,44 @@ public class ZongMenController {
     }
 
     @Action("创建宗门<.+=>name>")
-    public String create(@Param("name") String name, User qq, Group group) {
+    public String create(@Param("name") String name, SpUser qq, SpGroup group) {
         if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name)) return "名字 不可为空";
         if (longs.contains(qq.getId())) return "Can't";
         return zongMenService.create(name, qq.getId(), group);
     }
 
     @Action("宗门信息")
-    public String info(User qq, Group group) {
+    public String info(SpUser qq, SpGroup group) {
         return zongMenService.zongInfo(qq.getId(), group);
     }
 
     @Action("宗门列表")
-    public String list(Group g) {
+    public String list(SpGroup g) {
         return zongMenService.list(g);
     }
 
     @Action("设置宗门图标<.+=>name>")
-    public String setIcon(@AllMess String message, Group group, User qq) {
-        String img = MessageTools.instance.getImageUrlFromMessageString(message);
+    public String setIcon(@AllMess String message, SpGroup group, SpUser qq) {
+        String img = MessageUtils.INSTANCE.getImageUrlFromMessageString(message);
         if (img == null) return ("请携带图片");
         return zongMenService.setIcon(img, qq.getId(), group);
     }
 
     @Action("设置宗门名称<.+=>name>")
-    public String setName(@Param("name") String name, Group group, User qq) {
+    public String setName(@Param("name") String name, SpGroup group, SpUser qq) {
         return zongMenService.setName(name, qq.getId(), group);
     }
 
     @Action("邀请.+")
-    public Object invite(@AllMess String mess, User qq, Group group) {
-        long l1 = MessageTools.instance.getAtFromString(mess);
+    public Object invite(@AllMess String mess, SpUser qq, SpGroup group) {
+        long l1 = MessageUtils.INSTANCE.getAtFromString(mess);
         if (l1 < 0) return NOT_FOUND_AT;
         if (longs.contains(l1)) return "Can't";
         return zongMenService.invite(qq.getId(), l1, group);
     }
 
     @Action("宗门人数")
-    public String listPer(User qq, Group group) {
+    public String listPer(SpUser qq, SpGroup group) {
         return zongMenService.listPer(qq.getId(), group);
     }
 
@@ -110,13 +110,13 @@ public class ZongMenController {
     }
 
     @Action("宗门贡献")
-    public String cob(User qq) {
+    public String cob(SpUser qq) {
         return zongMenService.cob(qq.getId());
     }
 
     @Action("设置长老.+")
-    public String setElder(User qq, @AllMess String mess) {
-        long who = MessageTools.instance.getAtFromString(mess);
+    public String setElder(SpUser qq, @AllMess String mess) {
+        long who = MessageUtils.INSTANCE.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -124,8 +124,8 @@ public class ZongMenController {
     }
 
     @Action("取消长老.+")
-    public String cancelElder(User qq, @AllMess String mess) {
-        long who = MessageTools.instance.getAtFromString(mess);
+    public String cancelElder(SpUser qq, @AllMess String mess) {
+        long who = MessageUtils.INSTANCE.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -133,18 +133,18 @@ public class ZongMenController {
     }
 
     @Action("宗门升级")
-    public String upUp(User qq, Group group) {
+    public String upUp(SpUser qq, SpGroup group) {
         return zongMenService.upUp(qq.getId(), group);
     }
 
     @Action("退出宗门")
-    public String quiteZong(User qq) {
+    public String quiteZong(SpUser qq) {
         return zongMenService.quite(qq.getId());
     }
 
     @Action("移除成员.+")
-    public String quiteOne(User qq, @AllMess String mess) {
-        long who = MessageTools.instance.getAtFromString(mess);
+    public String quiteOne(SpUser qq, @AllMess String mess) {
+        long who = MessageUtils.INSTANCE.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -152,7 +152,7 @@ public class ZongMenController {
     }
 
     @Action("宗门扩增")
-    public String addMax(User user) {
+    public String addMax(SpUser user) {
         return zongMenService.addMax(user.getId());
     }
 
@@ -202,7 +202,7 @@ public class ZongMenController {
 
     @Action("宗门转让.+")
     public String trans(long qid, @AllMess String mess) {
-        long q2 = MessageTools.instance.getAtFromString(mess);
+        long q2 = MessageUtils.INSTANCE.getAtFromString(mess);
         if (q2 < 0) {
             return NOT_FOUND_AT;
         }

@@ -6,10 +6,10 @@ import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.ISkillService;
 import Project.services.detailServices.GameDetailService;
-import Project.skill.SkillFactory;
-import Project.skill.SkillTemplate;
+import Project.skills.SkillFactory;
+import Project.skills.SkillTemplate;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -25,8 +25,8 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static Project.skill.SkillFactory.factory8id;
-import static Project.skill.SkillFactory.normalSkillNum;
+import static Project.skills.SkillFactory.factory8id;
+import static Project.skills.SkillFactory.normalSkillNum;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.*;
@@ -58,7 +58,7 @@ public class GameSkillServiceImpl implements ISkillService {
     }
 
     @Override
-    public String initSkill(long qq, Group group, Integer st) {
+    public String initSkill(long qq, SpGroup group, Integer st) {
         Integer[] is = GameDataBase.getHhs(qq);
         if (is.length < st || is[0] == 0) return NOT_GET_LOCATION_HH;
         Map<Integer, SkillInfo> skinfo = getSkillInfo(qq);
@@ -81,7 +81,7 @@ public class GameSkillServiceImpl implements ISkillService {
             jid = Integer.valueOf(7 + toStr(2, getInfo(qq).getWh()));
         } else {
             while (true) {
-                jid = Tool.tool.RANDOM.nextInt(normalSkillNum);
+                jid = Tool.INSTANCE.RANDOM.nextInt(normalSkillNum);
                 boolean k = false;
                 for (SkillInfo i : skinfo.values()) {
                     if (i.getJid().intValue() == jid.intValue()) {
@@ -113,13 +113,13 @@ public class GameSkillServiceImpl implements ISkillService {
     }
 
     @Override
-    public String useSkill(long qq, Integer st, Number[] allAt, String arg, Group group) {
+    public String useSkill(long qq, Integer st, Number[] allAt, String arg, SpGroup group) {
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (!infos.containsKey(st)) return DONT_HAVE_SKILL;
         SkillInfo info = infos.get(st);
         if (info.getState() < 0) return THIS_SKILL_CANT_USE;
         if (System.currentTimeMillis() < info.getTime())
-            return String.format(USE_SKILL_WAIT_TIPS, Tool.tool.getTimeTips(info.getTime()));
+            return String.format(USE_SKILL_WAIT_TIPS, Tool.INSTANCE.getTimeTips(info.getTime()));
         PersonInfo personInfo = getInfo(qq);
         if (personInfo.isVertigo()) {
             if (!AVAILABLE_IN_CONTROL.contains(info.getJid())) return VERTIGO_ING;
@@ -153,19 +153,19 @@ public class GameSkillServiceImpl implements ISkillService {
 
     @Override
     public String setName(long qq, Integer st, String str) {
-        if (Tool.tool.isIlleg(str)) return IS_ILLEGAL_TIPS_1;
+        if (Tool.INSTANCE.isIlleg(str)) return IS_ILLEGAL_TIPS_1;
         if (str.length() > 6) return STR_TOO_MUCH_LEN;
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         if (infos.containsKey(st)) {
             SkillInfo info = infos.get(st);
             if (info.getMdTime() >= System.currentTimeMillis()) {
-                return String.format(SKILL_INFO_WAIT_TIPS, Tool.tool.getTimeTips(info.getMdTime()));
+                return String.format(SKILL_INFO_WAIT_TIPS, Tool.INSTANCE.getTimeTips(info.getMdTime()));
             } else {
                 updateSkillInfo(info.setName(str).setMdTime(System.currentTimeMillis() + 1000 * 60 * 60 * 2));
             }
             if (info.getName() != null && !info.getName().isEmpty()) {
                 info = infos.get(st);
-                return "您的第" + Tool.tool.trans(info.getSt()) + "魂技,名字是:" + info.getName();
+                return "您的第" + Tool.INSTANCE.trans(info.getSt()) + "魂技,名字是:" + info.getName();
             }
         } else {
             return DONT_HAVE_SKILL;
@@ -179,7 +179,7 @@ public class GameSkillServiceImpl implements ISkillService {
         if (infos.containsKey(st)) {
             SkillInfo info = infos.get(st);
             info = infos.get(st);
-            return "^您的第" + Tool.tool.trans(info.getSt()) + "魂技:" +
+            return "^您的第" + Tool.INSTANCE.trans(info.getSt()) + "魂技:" +
                     ((info.getName() == null || info.getName().isEmpty()) ? "" : info.getName()) +
                     "\r\n===============\r\n介绍:" + getIntro(info.getId(), info.getJid(), info.getSt(), getInfo(id).getWh());
         } else {
@@ -193,6 +193,6 @@ public class GameSkillServiceImpl implements ISkillService {
         removeFromBgs(qq, 113, ObjType.use);
         Map<Integer, SkillInfo> infos = getSkillInfo(qq);
         remove(infos.get(st));
-        return "你忘掉了您的第" + Tool.tool.cnArr[st - 1] + "魂技";
+        return "你忘掉了您的第" + Tool.INSTANCE.cnArr[st - 1] + "魂技";
     }
 }

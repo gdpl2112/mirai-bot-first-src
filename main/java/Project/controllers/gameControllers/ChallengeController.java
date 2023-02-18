@@ -5,9 +5,9 @@ import Project.interfaces.Iservice.IChallengeService;
 import Project.services.impl.GameServiceImpl;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -51,31 +51,31 @@ public class ChallengeController {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.tool.EveListStartWith(listFx, mess) == -1) {
-                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+            if (Tool.INSTANCE.EveListStartWith(listFx, mess) == -1) {
+                MessageUtils.INSTANCE.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
     }
 
     @Action("创建试炼挑战")
-    private Object o1(User user, Group group) {
+    private Object o1(SpUser user, SpGroup group) {
         return service.createTrialChallenge(user.getId(), group.getId());
     }
 
     @Action("创建平衡挑战")
-    private Object o2(User user, Group group) {
+    private Object o2(SpUser user, SpGroup group) {
         return service.createTrial2Challenge(user.getId(), group.getId());
     }
 
     @Action("挑战.+")
-    private Object o4(User user, @AllMess String s, Group group) {
-        long qid = MessageTools.instance.getAtFromString(s);
+    private Object o4(SpUser user, @AllMess String s, SpGroup group) {
+        long qid = MessageUtils.INSTANCE.getAtFromString(s);
         if (qid <= 0) {
             s = s.replaceFirst("挑战", "");
             if (GameDataBase.NAME_2_ID_MAPS.containsKey(s)) {
@@ -86,7 +86,7 @@ public class ChallengeController {
     }
 
     @Action("结束挑战")
-    private Object o5(User user) {
+    private Object o5(SpUser user) {
         return service.destroy(user.getId());
     }
 
@@ -98,9 +98,9 @@ public class ChallengeController {
     public Object o3(long qid) {
         long at = getInfo(qid).getAk1();
         if (at > System.currentTimeMillis())
-            return String.format(ATT_WAIT_TIPS, Tool.tool.getTimeTips(at));
+            return String.format(ATT_WAIT_TIPS, Tool.INSTANCE.getTimeTips(at));
         return gameService.attNow(qid, challengeDetailService.challenges.Q2Q.get(qid),
-                Group.get(challengeDetailService.challenges.Q2C.get(qid).getGid()), 0);
+                SpGroup.get(challengeDetailService.challenges.Q2C.get(qid).getGid()), 0);
     }
 
     @Action("挑战说明")

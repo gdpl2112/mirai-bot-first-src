@@ -1,15 +1,15 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 /**
  * @author github-kloping
  * @version 1.0
  */
 public class GhostWithGroup extends GhostObj {
-    protected Group group;
+    protected SpGroup group;
 
     public GhostWithGroup() {
     }
@@ -26,19 +26,19 @@ public class GhostWithGroup extends GhostObj {
         super(hp, att, xp, id, l, bl);
     }
 
-    public Group getGroup() {
+    public SpGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(SpGroup group) {
         this.group = group;
     }
 
     protected void sendMessage(String str) {
-        MessageTools.instance.sendMessageInGroup(str, group.getId());
+        MessageUtils.INSTANCE.sendMessageInGroup(str, group.getId());
     }
 
     protected void sendMessage(String str, long q) {
-        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), q);
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(str, group.getId(), q);
     }
 }

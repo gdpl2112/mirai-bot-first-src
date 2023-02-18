@@ -1,16 +1,8 @@
 package Project.dataBases.task;
 
-import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.tasks.*;
-import Project.services.detailServices.tasks.reciver.ReceiverWithTask0;
-import Project.services.detailServices.tasks.reciver.ReceiverWithTask1000;
-import Project.services.detailServices.tasks.reciver.ReceiverWithTask1001;
-import Project.services.detailServices.tasks.reciver.ReceiverWithTask1002;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-
-import java.lang.reflect.Method;
 
 
 /**
@@ -43,6 +35,6 @@ public class TaskCreator {
     }
 
     public static int getRandObj1000() {
-        return Tool.tool.getRandT(T_1000_OBJS);
+        return Tool.INSTANCE.getRandT(T_1000_OBJS);
     }
 }

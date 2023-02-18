@@ -1,8 +1,9 @@
 package Project.listeners;
 
-import Project.interfaces.http_api.Magiconch;
+import Project.interfaces.httpApi.Magiconch;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
 import io.github.kloping.mirai0.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 import kotlin.coroutines.CoroutineContext;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.kloping.mirai0.Main.ITools.EventTools.getStringFromGroupMessageEvent;
+import static io.github.kloping.mirai0.Main.iutils.EventUtils.messageEvent2String;
 
 /**
  * @author github.kloping
@@ -56,7 +57,7 @@ public class NbListener extends SimpleListenerHost {
         if (guessCd > System.currentTimeMillis()) {
             return;
         }
-        String a = getStringFromGroupMessageEvent(event);
+        String a = EventUtils.messageEvent2String(event);
         if (a.matches("[a-z]+")) {
             MagiconchNbnhhshResponse[] responses = magiconch.trans(new MagiconchNbnhhshRequest(a), HEADER);
             guessCd = System.currentTimeMillis() + 10000L;

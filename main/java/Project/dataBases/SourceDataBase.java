@@ -24,7 +24,7 @@ public class SourceDataBase {
         if (!ID2FILE.isEmpty()) return;
         for (File file : new File("images/game").listFiles()) {
             String fn = file.getName();
-            Integer id = Integer.valueOf(Tool.tool.findNumberFromString(fn));
+            Integer id = Integer.valueOf(Tool.INSTANCE.findNumberFromString(fn));
             ID2FILE.put(id, file);
         }
     }
@@ -32,7 +32,7 @@ public class SourceDataBase {
     public static String getImgPathById(Integer id, Boolean k) {
         if (ID2FILE.isEmpty()) init();
         if (ID2FILE.containsKey(id))
-            return k ? Tool.tool.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) :
+            return k ? Tool.INSTANCE.pathToImg(ID2FILE.get(id.intValue()).getAbsolutePath()) :
                     ID2FILE.get(id.intValue()).getAbsolutePath();
         else return null;
     }

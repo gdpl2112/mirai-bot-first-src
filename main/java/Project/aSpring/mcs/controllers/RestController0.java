@@ -7,8 +7,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,7 +76,7 @@ public class RestController0 {
             CANS.add(uuid);
             String code0 = getCode();
             CAPING.put(qid, code0);
-            MessageTools.instance.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
+            MessageUtils.INSTANCE.sendMessageInOneFromGroup("您当前正在查看记录,若没有请忽略此条消息\r\n您的验证码是:" + code0, Long.parseLong(qid));
             return uuid;
         } else {
             return "err";
@@ -87,7 +87,7 @@ public class RestController0 {
     public String authorization0(@RequestParam("pwd") String pwd, @RequestParam("qid") Long qid) {
         if (pwd.equals(pwd0)) {
             String code0 = getCode();
-            MessageTools.instance.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
+            MessageUtils.INSTANCE.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
             return code0;
         } else return "-1";
     }
@@ -107,7 +107,7 @@ public class RestController0 {
 
     @GetMapping("getName")
     public String name(@RequestParam("qid") Long qid) {
-        return MemberTools.getName(qid);
+        return MemberUtils.getName(qid);
     }
 
     @GetMapping("addScore")

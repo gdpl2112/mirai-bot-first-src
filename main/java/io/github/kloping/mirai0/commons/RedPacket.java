@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicReference;
 @EqualsAndHashCode
 public abstract class RedPacket {
 
-
     public enum IdType {
         /**
          * 积分
@@ -87,7 +86,7 @@ public abstract class RedPacket {
             if (max == min) {
                 v = max;
             } else {
-                v = Tool.tool.RANDOM.nextInt(max - min) + min;
+                v = Tool.INSTANCE.RANDOM.nextInt(max - min) + min;
             }
         }
         v0 -= v;

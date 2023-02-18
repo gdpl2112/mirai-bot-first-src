@@ -2,15 +2,15 @@ package Project.controllers.gameControllers;
 
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
-import Project.e0.GameUtils;
-import Project.e0.bao.SelectResult;
+import Project.utils.GameUtils;
+import Project.utils.bao.SelectResult;
 import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
@@ -23,8 +23,7 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
-import static io.github.kloping.mirai0.Main.Resource.BOT;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
@@ -80,24 +79,24 @@ public class GameSkillController {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String str) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String str) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (GameDataBase.getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.tool.EveListStartWith(listFx, str) == -1) {
-                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+            if (Tool.INSTANCE.EveListStartWith(listFx, str) == -1) {
+                MessageUtils.INSTANCE.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
 
     @Action("激活魂技<.+=>st>")
-    public String initSkill(User qq, Group group, @Param("st") String st) {
+    public String initSkill(SpUser qq, SpGroup group, @Param("st") String st) {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
@@ -106,7 +105,7 @@ public class GameSkillController {
             i = Integer.parseInt(st);
         } catch (Exception e) {
             try {
-                i = Tool.tool.chineseNumber2Int(Tool.tool.findNumberZh(st));
+                i = Tool.INSTANCE.chineseNumber2Int(Tool.INSTANCE.findNumberZh(st));
             } catch (Exception ex) {
                 return ("错误!\r\n示例:激活魂技1");
             }
@@ -115,12 +114,12 @@ public class GameSkillController {
     }
 
     @Action(value = "第<.+=>str>", otherName = {"释放第<.+=>str>"})
-    public String use(@Param("str") String str, User qq, Group group) {
+    public String use(@Param("str") String str, SpUser qq, SpGroup group) {
         if (str.contains(HUN_SKILL)) {
             str = str.replace(HUN_SKILL, EMPTY_STR);
-            String s1 = Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
+            String s1 = Tool.INSTANCE.findNumberZh(str);
+            Integer st = Integer.valueOf(Tool.INSTANCE.chineseNumber2Int(s1));
+            str = str.replaceFirst(Tool.INSTANCE.trans(st), EMPTY_STR);
             SelectResult result = GameUtils.getAllSelect(qq.getId(), str);
             str = result.getStr();
             return String.valueOf(skillService.useSkill(qq.getId(), st, result.getAts(), str, group));
@@ -132,13 +131,13 @@ public class GameSkillController {
     public static final String HUN_SKILL = "魂技";
 
     @Action(value = "魂技取名<.+=>str>", otherName = {"魂技起名<.+=>str>"})
-    public String setName(@Param("str") String str, User qq, Group group) {
+    public String setName(@Param("str") String str, SpUser qq, SpGroup group) {
         if (str.contains(HUN_SKILL)) {
             str = str.replaceFirst(HUN_SKILL, EMPTY_STR).replaceFirst("第", EMPTY_STR);
-            String s1 = Tool.tool.findNumberZh(str);
+            String s1 = Tool.INSTANCE.findNumberZh(str);
             s1 = s1.substring(0, 1);
-            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
-            str = str.replaceFirst(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
+            Integer st = Integer.valueOf(Tool.INSTANCE.chineseNumber2Int(s1));
+            str = str.replaceFirst(Tool.INSTANCE.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.setName(qq.getId(), st, str));
         } else {
             return "格式错误";
@@ -146,12 +145,12 @@ public class GameSkillController {
     }
 
     @Action("我的第<.+=>str>")
-    public String getIntro(@Param("str") String str, User qq, Group group) {
+    public String getIntro(@Param("str") String str, SpUser qq, SpGroup group) {
         if (str.contains(HUN_SKILL)) {
             str = str.replace(HUN_SKILL, EMPTY_STR);
-            String s1 = Tool.tool.findNumberZh(str);
-            Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
-            str = str.replace(Tool.tool.trans(st) + EMPTY_STR, EMPTY_STR);
+            String s1 = Tool.INSTANCE.findNumberZh(str);
+            Integer st = Integer.valueOf(Tool.INSTANCE.chineseNumber2Int(s1));
+            str = str.replace(Tool.INSTANCE.trans(st) + EMPTY_STR, EMPTY_STR);
             return String.valueOf(skillService.getIntro(qq.getId(), st, str));
         } else {
             throw new NoRunException();
@@ -159,13 +158,13 @@ public class GameSkillController {
     }
 
     @Action("忘掉第<.+=>name>")
-    public String forget(@Param("name") String str, User user) {
+    public String forget(@Param("name") String str, SpUser user) {
         if (str.contains(HUN_SKILL)) {
             try {
                 str = str.replaceFirst(HUN_SKILL, EMPTY_STR);
-                String s1 = Tool.tool.findNumberZh(str);
-                Integer st = Integer.valueOf(Tool.tool.chineseNumber2Int(s1));
-                str = str.replaceFirst(Tool.tool.trans(st), EMPTY_STR);
+                String s1 = Tool.INSTANCE.findNumberZh(str);
+                Integer st = Integer.valueOf(Tool.INSTANCE.chineseNumber2Int(s1));
+                str = str.replaceFirst(Tool.INSTANCE.trans(st), EMPTY_STR);
                 return skillService.forget(user.getId(), st);
             } catch (Exception e) {
                 return "未知异常.";
@@ -186,7 +185,7 @@ public class GameSkillController {
     }
 
     @Action("我的魂技")
-    public String m2(User user) {
+    public String m2(SpUser user) {
         StringBuilder sb = new StringBuilder();
         sb.append("只会发送有名字的魂技\n");
         Map<Integer, SkillInfo> infos = getSkillInfo(user.getId());
@@ -200,7 +199,7 @@ public class GameSkillController {
     }
 
     @Action(value = "我的buff", otherName = {"我的效果"})
-    public String my(User user) {
+    public String my(SpUser user) {
         StringBuilder sb = new StringBuilder();
         PersonInfo pInfo = getInfo(user.getId());
         SkillDataBase.TAG2NAME.forEach((k, v) -> {

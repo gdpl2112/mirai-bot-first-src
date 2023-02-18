@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github-kloping

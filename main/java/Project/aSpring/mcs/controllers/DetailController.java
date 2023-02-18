@@ -3,7 +3,7 @@ package Project.aSpring.mcs.controllers;
 import Project.controllers.auto.ControllerSource;
 import Project.dataBases.GameDataBase;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +44,6 @@ public class DetailController {
 
     @GetMapping("/getBag")
     public Object getBagById(@RequestParam("qid") Integer qid) {
-        return ControllerSource.gameController2.bgs0(User.get(RID2QID.get(qid)), "0");
+        return ControllerSource.gameController2.bgs0(SpUser.get(RID2QID.get(qid)), "0");
     }
 }

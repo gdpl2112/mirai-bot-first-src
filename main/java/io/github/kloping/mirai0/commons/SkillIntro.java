@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class SkillIntro {
 
-    public static enum Type {
+    public enum Type {
         Err("未定义"),
         OneTime("一次性"),
         HasTime("持续性"),

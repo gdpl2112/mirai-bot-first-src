@@ -1,6 +1,6 @@
 package Project.controllers.normalController;
 
-import Project.detailPlugin.RunAll;
+import Project.plugins.RunAll;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;

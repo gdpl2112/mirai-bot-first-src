@@ -12,7 +12,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
@@ -70,11 +70,11 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
     }
 
     @Override
-    public String join(long who, String name, Group group) {
+    public String join(long who, String name, SpGroup group) {
         if (GameConditionController.CONDITIONING.containsKey(who))
             return "遇境中...";
         if (System.currentTimeMillis() < getK2(who)) {
-            return String.format(ACTIVITY_WAIT_TIPS, Tool.tool.getTimeTips(getK2(who)));
+            return String.format(ACTIVITY_WAIT_TIPS, Tool.INSTANCE.getTimeTips(getK2(who)));
         }
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {
@@ -226,7 +226,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         sb.append(String.format("探查成功.这消耗了你%s%%的精神力", bvc));
         sb.append(SourceDataBase.getImgPathById(ghostObj.getId()));
         if (ghostObj.getHjL() > 1000) {
-            sb.append(Tool.tool.pathToImg(Drawer.drawGhostInfo(ghostObj)));
+            sb.append(Tool.INSTANCE.pathToImg(Drawer.drawGhostInfo(ghostObj)));
         } else {
             sb.append(SourceDataBase.getImgPathById(ghostObj.getId()))
                     .append(getImageFromStrings(

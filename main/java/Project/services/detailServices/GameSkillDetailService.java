@@ -6,14 +6,13 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.roles.DamageType;
 import Project.services.detailServices.roles.v1.TagManagers;
-import Project.skill.SkillFactory;
+import Project.skills.SkillFactory;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.*;
 import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.object.ObjectUtils;
 

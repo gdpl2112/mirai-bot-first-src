@@ -4,14 +4,14 @@ package Project.controllers.gameControllers;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
-import Project.e0.KlopingWebDataBaseBoolean;
+import Project.utils.KlopingWebDataBaseBoolean;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.player.PlayerBehavioralManager;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.*;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -27,8 +27,8 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
-import static io.github.kloping.mirai0.Main.Resource.START_AFTER;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.START_AFTER;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -138,18 +138,18 @@ public class GameController {
     }
 
     @Before
-    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
         if (getInfo(qq.getId()).getHp() <= 0) {
-            if (Tool.tool.EveListStartWith(LIST_FX, mess) == -1) {
-                MessageTools.instance.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
+            if (Tool.INSTANCE.EveListStartWith(LIST_FX, mess) == -1) {
+                MessageUtils.INSTANCE.sendMessageInGroupWithAt("无状态", group.getId(), qq.getId());
                 throw new NoRunException("无状态");
             }
         }
         if (getInfo(qq.getId()).isBg()) {
-            MessageTools.instance.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(BG_TIPS, group.getId(), qq.getId());
             throw new NoRunException(BG_TIPS);
         }
     }
@@ -160,11 +160,11 @@ public class GameController {
 
     private Integer getThisWeekDays(Long qq) {
         StringBuilder sb = new StringBuilder();
-        int n = Tool.tool.getOldestWeekOne();
+        int n = Tool.INSTANCE.getOldestWeekOne();
         for (int i = 0; i <= n; i++) {
             String pwd = String.format(PWD_FORMAT, dfn.format(new Date(
                     System.currentTimeMillis() - (DAY_LONG * i)
-            )), Resource.BOT.getId());
+            )), BootstarpResource.BOT.getId());
             sb.append(pwd).append(",");
         }
         String pwd = sb.toString();
@@ -225,8 +225,8 @@ public class GameController {
     }
 
     @Action("魂师签到")
-    public String qd(Long qq, Group group) {
-        String pwd = String.format(PWD_FORMAT, dfn.format(new Date()), Resource.BOT.getId());
+    public String qd(Long qq, SpGroup group) {
+        String pwd = String.format(PWD_FORMAT, dfn.format(new Date()), BootstarpResource.BOT.getId());
         KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
         Boolean v = dbb.getValue(qq);
         if (!v) {
@@ -239,31 +239,31 @@ public class GameController {
     }
 
     @Action("修炼")
-    public String Xl(User qq, Group group) {
+    public String Xl(SpUser qq, SpGroup group) {
         String str = gameService.xl(qq.getId());
         return str;
     }
 
     @Action("信息")
-    public String info(User qq, Group group) {
+    public String info(SpUser qq, SpGroup group) {
         String str = gameService.info(qq.getId());
         return str;
     }
 
     @Action("升级")
-    public String newLevel(User qq, Group group) {
+    public String newLevel(SpUser qq, SpGroup group) {
         String str = gameService.upUp(qq.getId());
         return str;
     }
 
     @Action(value = "觉醒", otherName = {"武魂觉醒", "觉醒武魂"})
-    public String openEye(User qq, Group group) {
+    public String openEye(SpUser qq, SpGroup group) {
         String str = gameService.openEyeWh(qq.getId());
         return str;
     }
 
     @Action("转生")
-    public String delete(User qq) {
+    public String delete(SpUser qq) {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
@@ -280,23 +280,23 @@ public class GameController {
     }
 
     @Action("双修打工进入.*+")
-    public Object o1(User user, Group group, @AllMess String s0) {
-        MessageTools.instance.sendMessageInGroupWithAt(Xl2(user, group), group.getId(), user.getId());
-        MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+    public Object o1(SpUser user, SpGroup group, @AllMess String s0) {
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(Xl2(user, group), group.getId(), user.getId());
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("双修", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
     }
 
     @Action("修炼打工进入.*+")
-    public Object o2(User user, Group group, @AllMess String s0) {
-        MessageTools.instance.sendMessageInGroupWithAt(Xl(user, group), group.getId(), user.getId());
-        MessageTools.instance.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
+    public Object o2(SpUser user, SpGroup group, @AllMess String s0) {
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(Xl(user, group), group.getId(), user.getId());
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(c1.aJob(user, group), group.getId(), user.getId());
         String name = s0.replace("修炼", "").replace("打工", "").replace("进入", "");
         return c2.com1(group, name, user);
     }
 
     @Action("吸收魂环<.{0,}=>name>")
-    public String joinHh(User qq, @Param("name") String name, Group group) {
+    public String joinHh(SpUser qq, @Param("name") String name, SpGroup group) {
         try {
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
             String sss = gameService.parseHh(qq.getId(), id);
@@ -321,8 +321,8 @@ public class GameController {
 //    }
 
     @Action("侦查.+")
-    public String Look(User qq, @AllMess String chain, Group group) {
-        long who = MessageTools.instance.getAtFromString(chain);
+    public String Look(SpUser qq, @AllMess String chain, SpGroup group) {
+        long who = MessageUtils.INSTANCE.getAtFromString(chain);
         if (who == -1) return NOT_FOUND_AT;
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = getInfo(qq.getId());
@@ -331,7 +331,7 @@ public class GameController {
             putPerson(getInfo(qq.getId()).addHl(-10L));
             StringBuilder m1 = new StringBuilder();
             m1.append("侦查成功,消耗十点魂力\n");
-            m1.append(MemberTools.getNameFromGroup(who, group));
+            m1.append(MemberUtils.getNameFromGroup(who, group));
             m1.append("的信息\n");
             String sss = gameService.info(who);
             m1.append(sss);
@@ -342,8 +342,8 @@ public class GameController {
     }
 
     @Action("换积分<\\d{1,}=>num>")
-    public String getScore(@Param("num") String num, User qq, Group group) {
-        String ll = Tool.tool.findNumberFromString(num);
+    public String getScore(@Param("num") String num, SpUser qq, SpGroup group) {
+        String ll = Tool.INSTANCE.findNumberFromString(num);
         if (ll == null || ll.isEmpty()) return NOT_FOUND_VALUE;
         long l = Long.parseLong(ll);
         String sss = gameService.getScoreFromGold(qq.getId(), l);
@@ -353,7 +353,7 @@ public class GameController {
     @Action("等级排行.*?")
     public String pH(@AllMess String num) {
         int n;
-        String ll = Tool.tool.findNumberFromString(num);
+        String ll = Tool.INSTANCE.findNumberFromString(num);
         if (ll == null || ll.isEmpty()) {
             n = 10;
         } else {
@@ -370,7 +370,7 @@ public class GameController {
                     .append(entry.getValue())
                     .append("级(");
             if (entry.getValue() >= 150) {
-                sb.append(Tool.tool.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp())))
+                sb.append(Tool.INSTANCE.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp())))
                         .append(")");
             }
             sb.append("\r\n");
@@ -384,7 +384,7 @@ public class GameController {
     }
 
     @Action("吸收<.{0,}=>str>")
-    public String Xsh(@AllMess String message, Group group, @Param("str") String str, User qq) {
+    public String Xsh(@AllMess String message, SpGroup group, @Param("str") String str, SpUser qq) {
         try {
             Integer id = GameDataBase.NAME_2_ID_MAPS.get(str);
             if (id > 200 && id < 210) {
@@ -405,7 +405,7 @@ public class GameController {
     }
 
     @Action("双修")
-    public String Xl2(User qq, Group group) {
+    public String Xl2(SpUser qq, SpGroup group) {
         if (getWarp(qq.getId()).getBindQ().longValue() == -1)
             return "未融合";
         String str = gameService.xl2(qq.getId());
@@ -416,12 +416,12 @@ public class GameController {
     public String warps(long q) {
         Warp warp = getWarp(q);
         warp.apply();
-        return Tool.tool.pathToImg(drawWarp(warp));
+        return Tool.INSTANCE.pathToImg(drawWarp(warp));
     }
 
     @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})
     public String SpAtt(long q, @AllMess String mss) {
-        long at = MessageTools.instance.getAtFromString(mss);
+        long at = MessageUtils.INSTANCE.getAtFromString(mss);
         if (at == -1) {
             if (mss.contains("#")) {
                 at = -2;
@@ -431,8 +431,8 @@ public class GameController {
             }
         }
         mss = mss.replace("[@" + at + "]", "");
-        int br = (int) Tool.tool.randA(12, 20);
-        String m = Tool.tool.findNumberFromString(mss);
+        int br = (int) Tool.INSTANCE.randA(12, 20);
+        String m = Tool.INSTANCE.findNumberFromString(mss);
         try {
             br = Integer.parseInt(m);
         } catch (Exception e) {

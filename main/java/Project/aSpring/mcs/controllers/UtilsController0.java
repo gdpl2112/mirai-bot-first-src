@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.controllers;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.message.data.Image;
@@ -29,7 +29,7 @@ public class UtilsController0 {
     public String uploadImg(@RequestParam("pwd") String pwd, @RequestParam("url") String url) {
         if (!pwd.equals(pwd1)) return "";
         try {
-            Friend friend = Resource.BOT.getBot().getAsFriend();
+            Friend friend = BootstarpResource.BOT.getBot().getAsFriend();
             Image image = Contact.uploadImage(friend, new URL(url).openStream());
             return Image.queryUrl(image);
         } catch (IOException e) {

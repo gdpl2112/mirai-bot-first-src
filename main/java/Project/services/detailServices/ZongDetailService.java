@@ -2,20 +2,17 @@ package Project.services.detailServices;
 
 import Project.dataBases.GameDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github-kloping
@@ -24,7 +21,7 @@ import static io.github.kloping.mirai0.Main.Resource.THREADS;
 public class ZongDetailService {
 
     static {
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             ZERO_RUNS.add(() -> {
                 for (Zong zong : getZongMapper().selectAll()) {
                     ZongDetailService.update(zong);

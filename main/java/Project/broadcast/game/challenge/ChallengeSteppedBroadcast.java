@@ -1,7 +1,7 @@
 package Project.broadcast.game.challenge;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
 
@@ -19,7 +19,7 @@ public class ChallengeSteppedBroadcast extends Broadcast {
         super("challengeStepped");
     }
 
-    public void broadcast(ChallengeField field, Group group, String side) {
+    public void broadcast(ChallengeField field, SpGroup group, String side) {
         for (ChallengeSteppedReceiver receiver : receivers) {
             receiver.onReceive(field, side);
         }

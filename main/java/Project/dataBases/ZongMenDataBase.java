@@ -1,6 +1,6 @@
 package Project.dataBases;
 
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Zong;
 import io.github.kloping.mirai0.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
@@ -29,7 +29,7 @@ public class ZongMenDataBase {
         if (!file.exists()) {
             file.mkdirs();
         }
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             reInitMap();
         });
     }
@@ -74,7 +74,7 @@ public class ZongMenDataBase {
     public static Zong getZongInfoFromFile(Integer id) {
         try {
             File file = new File(path + "/" + id + "/main.json");
-            String line = Tool.tool.getStringFromFile(file.getPath());
+            String line = Tool.INSTANCE.getStringFromFile(file.getPath());
             Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
             System.out.println(zong);
             return zong;
@@ -106,7 +106,7 @@ public class ZongMenDataBase {
         try {
             Integer id = qq2id.get(qq);
             File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
-            String line = Tool.tool.getStringFromFile(file.getPath());
+            String line = Tool.INSTANCE.getStringFromFile(file.getPath());
             Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
             return zon;
         } catch (Exception e) {

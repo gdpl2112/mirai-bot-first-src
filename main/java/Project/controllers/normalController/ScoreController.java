@@ -7,10 +7,10 @@ import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
@@ -44,14 +44,14 @@ public class ScoreController {
     }
 
     @Before
-    public void before(Group group) throws NoRunException {
+    public void before(SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
     }
 
     @Action("猜拳<.+=>str>")
-    public String mora(User qq, @Param("str") String str) {
+    public String mora(SpUser qq, @Param("str") String str) {
         return otherService.mora(qq.getId(), str);
     }
 
@@ -85,16 +85,16 @@ public class ScoreController {
     }
 
     @Action(value = "积分转让.{0,}", otherName = {"转让积分.{0,}"})
-    public String transfer(User qq, @AllMess String str) {
+    public String transfer(SpUser qq, @AllMess String str) {
         Long num = null;
         try {
             if (longs.contains(qq.getId())) return ILLEGAL_OPERATION;
-            long who = MessageTools.instance.getAtFromString(str);
+            long who = MessageUtils.INSTANCE.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             str = str.replaceFirst(Long.toString(who), "");
-            num = Long.valueOf(Tool.tool.findNumberFromString(str));
+            num = Long.valueOf(Tool.INSTANCE.findNumberFromString(str));
             num = num <= 0 ? 0L : num;
             return scoreService.getScoreTo(qq.getId(), who, num);
         } catch (NumberFormatException e) {
@@ -103,12 +103,12 @@ public class ScoreController {
     }
 
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
-    public String robbery(User qq, @AllMess String str) {
+    public String robbery(SpUser qq, @AllMess String str) {
         try {
-            long who = MessageTools.instance.getAtFromString(str);
+            long who = MessageUtils.INSTANCE.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
-            String numStr = Tool.tool.findNumberFromString(str.replace(String.valueOf(who), ""));
+            String numStr = Tool.INSTANCE.findNumberFromString(str.replace(String.valueOf(who), ""));
             if (numStr != null && !numStr.trim().isEmpty()) {
                 int n = Integer.parseInt(numStr);
                 if (n > MAX_ROBBERY_TIMES) {
@@ -129,13 +129,13 @@ public class ScoreController {
     }
 
     @Action(value = "捐款")
-    public String donate(User qq, @AllMess String str) {
+    public String donate(SpUser qq, @AllMess String str) {
         if (DataBase.getAllInfo(qq.getId()).getScore() < 140) return "积分不足";
         if (DataBase.isMaxEarnings(qq.getId())) {
             return MAX_EARNINGS_TIPS;
         }
-        long l = Tool.tool.RANDOM.nextInt(40) + 40;
-        long r = Tool.tool.RANDOM.nextInt(3) + 1;
+        long l = Tool.INSTANCE.RANDOM.nextInt(40) + 40;
+        long r = Tool.INSTANCE.RANDOM.nextInt(3) + 1;
         addScore(-l, qq.getId());
         putInfo(getAllInfo(qq.getId()).record(-l));
         DataBase.addFz(-r, qq.getId());
@@ -143,26 +143,26 @@ public class ScoreController {
     }
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
-    public String sign(User qq, Group group) {
+    public String sign(SpUser qq, SpGroup group) {
         String str = scoreService.sign(qq.getId());
         return str;
     }
 
     @Action(value = "今日签榜", otherName = {"签榜"})
-    public String todayList(Group group) {
+    public String todayList(SpGroup group) {
         return scoreService.todayList(group);
     }
 
     @Action("我的发言")
-    public String getSpeaks(User qq) {
+    public String getSpeaks(SpUser qq) {
         UserScore ls = DataBase.getAllInfo(qq.getId());
         return "你今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次";
     }
 
     @Action(value = "积分侦查.{1,}", otherName = "侦查积分.{1,}")
-    public String showScore(User qq, @AllMess String mess) {
+    public String showScore(SpUser qq, @AllMess String mess) {
         try {
-            long who = MessageTools.instance.getAtFromString(mess);
+            long who = MessageUtils.INSTANCE.getAtFromString(mess);
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UserScore ls = DataBase.getAllInfo(who);
             return "ta的积分剩余:" + ls.getScore();
@@ -172,7 +172,7 @@ public class ScoreController {
     }
 
     @Action(WORK_LONG_STR)
-    public String aJob(User qq, Group group) {
+    public String aJob(SpUser qq, SpGroup group) {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
@@ -180,10 +180,10 @@ public class ScoreController {
     }
 
     @Action(value = "他的发言.{1,}", otherName = {"她的发言.{1,}", "ta的发言.{1,}"})
-    public String getSpeaks(User qq, @AllMess String str) {
+    public String getSpeaks(SpUser qq, @AllMess String str) {
         StringBuilder builder = new StringBuilder();
         try {
-            long who = MessageTools.instance.getAtFromString(str);
+            long who = MessageUtils.INSTANCE.getAtFromString(str);
             if (who == -1)
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
@@ -195,8 +195,8 @@ public class ScoreController {
     }
 
     @Action("发言排行.?")
-    public String ph(@AllMess String s, Group group) {
-        Integer s0 = Tool.tool.getInteagerFromStr(s);
+    public String ph(@AllMess String s, SpGroup group) {
+        Integer s0 = Tool.INSTANCE.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
         List<UserScore> list = SpringBootResource.getScoreMapper().ph(s0);
@@ -206,38 +206,38 @@ public class ScoreController {
             ++na;
             Long qid = score.getWho();
             Integer num = score.getSTimes().intValue();
-            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
                     .append("=>").append("累计发言了").append(num).append("次\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
 
     @Action("今日发言排行.?")
-    public String ph0(@AllMess String s, Group group) {
-        Integer s0 = Tool.tool.getInteagerFromStr(s);
+    public String ph0(@AllMess String s, SpGroup group) {
+        Integer s0 = Tool.INSTANCE.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 50 ? 50 : s0;
-        List<UserScore> list = SpringBootResource.getScoreMapper().toDay(Tool.tool.getTodayInt(), s0);
+        List<UserScore> list = SpringBootResource.getScoreMapper().toDay(Tool.INSTANCE.getTodayInt(), s0);
         StringBuilder sb = new StringBuilder();
         int na = 0;
         for (UserScore score : list) {
             ++na;
             Long qid = score.getWho();
             Integer num = score.getTimes().intValue();
-            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
                     .append("=>").append("今日发言了").append(num).append("次\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
 
     @Action(value = "我的收益", otherName = {"收益详情", "积分收益"})
-    public String earnings(User user) {
+    public String earnings(SpUser user) {
         return scoreService.earnings(user.getId());
     }
 
     @Action("积分排行.*?")
-    public String scorePh(@AllMess String s, Group group) {
-        Integer s0 = Tool.tool.getInteagerFromStr(s);
+    public String scorePh(@AllMess String s, SpGroup group) {
+        Integer s0 = Tool.INSTANCE.getInteagerFromStr(s);
         s0 = s0 == null ? 10 : s0;
         s0 = s0 > 20 ? 20 : s0;
         List<UserScore> list = SpringBootResource.getScoreMapper().phScore(s0);
@@ -246,7 +246,7 @@ public class ScoreController {
         for (UserScore score : list) {
             ++na;
             Long qid = score.getWho();
-            sb.append("第").append(na).append(": ").append(MemberTools.getNameFromGroup(qid, group))
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
                     .append("=>\n\t").append(score.getScore()).append("积分\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();

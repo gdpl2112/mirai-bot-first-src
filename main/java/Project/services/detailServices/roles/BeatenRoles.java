@@ -18,7 +18,7 @@ import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
-import static io.github.kloping.mirai0.Main.ITools.MemberTools.getRecentSpeechesGid;
+import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 

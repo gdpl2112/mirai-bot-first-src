@@ -4,7 +4,7 @@ import Project.broadcast.Broadcast;
 import Project.dataBases.GameTaskDatabase;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.broadcast.Receiver;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.*;
 
 import static Project.dataBases.GameTaskDatabase.*;
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.TASK_OVER_TIME;
 
 /**
@@ -95,7 +95,7 @@ public abstract class Task {
                 .setNextCan(System.currentTimeMillis() + (CD0 * 2))
                 .addPrenticeIndex(-1).apply();
 
-        MessageTools.instance.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());
         destroy();
     }
 

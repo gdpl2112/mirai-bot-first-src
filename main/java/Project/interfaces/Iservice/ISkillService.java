@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 /**
  * @author github-kloping
@@ -15,7 +15,7 @@ public interface ISkillService {
      * @param st
      * @return
      */
-    String initSkill(long qq, Group group, Integer st);
+    String initSkill(long qq, SpGroup group, Integer st);
 
     /**
      * use skill
@@ -27,7 +27,7 @@ public interface ISkillService {
      * @param group
      * @return
      */
-    String useSkill(long qq, Integer st, Number[] allAt, String arg, Group group);
+    String useSkill(long qq, Integer st, Number[] allAt, String arg, SpGroup group);
 
     /**
      * set Skill Name

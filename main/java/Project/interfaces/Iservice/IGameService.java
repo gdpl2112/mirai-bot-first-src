@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 
 import java.util.List;
 
@@ -107,7 +107,7 @@ public interface IGameService {
      * @param group
      * @return
      */
-    String att(Long who, Long whos, Group group);
+    String att(Long who, Long whos, SpGroup group);
 
     /**
      * 换积分
@@ -126,7 +126,7 @@ public interface IGameService {
      * @param group
      * @return
      */
-    String makeSname(Long who, String name, Group group);
+    String makeSname(Long who, String name, SpGroup group);
 
     /**
      * 转生
@@ -152,7 +152,7 @@ public interface IGameService {
      * @param group
      * @return
      */
-    String fusion(Long q1, Long q2, Group group);
+    String fusion(Long q1, Long q2, SpGroup group);
 
     /**
      * 详细信息

@@ -3,7 +3,7 @@ package Project.services.detailServices.tasks.reciver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.tasks.Task1000;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
@@ -33,7 +33,7 @@ public class ReceiverWithTask1000
             if (killType == task.getNeedType()) {
                 deleteTask(task);
                 int id = getRandObj1000();
-                MessageTools.instance.sendMessageInGroupWithAt(
+                MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                         task.getFinish() + SourceDataBase.getImgPathById(id)
                         , task.getFromG().longValue(), task.getHost());
                 addToBgs(who, id, ObjType.got);

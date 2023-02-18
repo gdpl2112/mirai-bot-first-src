@@ -3,8 +3,8 @@ package Project.services.detailServices;
 import Project.broadcast.normal.MessageBroadcast;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
 import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
 import io.github.kloping.serialize.HMLObject;
@@ -24,7 +24,7 @@ public class CustomRandReplyService {
     private static Integer ID = 0;
 
     public CustomRandReplyService() {
-        path = new File(Resource.datePath, "customRandReply").getAbsolutePath();
+        path = new File(BootstarpResource.datePath, "customRandReply").getAbsolutePath();
         init();
     }
 
@@ -54,7 +54,7 @@ public class CustomRandReplyService {
                     for (CustomElement key : customReplyGroup.getKeys()) {
                         if (key.getContext().equals(context)) {
                             CustomElement customElement = customReplyGroup.get();
-                            MessageTools.instance.sendMessageInGroupWithAt(customElement.getContext(), gid, qid);
+                            MessageUtils.INSTANCE.sendMessageInGroupWithAt(customElement.getContext(), gid, qid);
                             break;
                         }
                     }

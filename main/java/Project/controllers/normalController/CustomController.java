@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
 import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -23,8 +23,8 @@ import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
-import static io.github.kloping.mirai0.Main.Resource.Switch.AllK;
-import static io.github.kloping.mirai0.Main.Resource.*;
+import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
+import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
@@ -50,12 +50,12 @@ public class CustomController {
         MessageBroadcast.INSTANCE.add(new MessageBroadcast.MessageReceiver() {
             @Override
             public void onReceive(long qid, long gid, String context) {
-                action(qid, context, Group.get(gid));
+                action(qid, context, SpGroup.get(gid));
             }
         });
     }
 
-    public static final String action(long qq, String s, Group group) {
+    public static final String action(long qq, String s, SpGroup group) {
         if (MAP.isEmpty()) {
             MAP = getAllAutoReply();
         }
@@ -66,13 +66,13 @@ public class CustomController {
             }
             if (cd > System.currentTimeMillis()) return null;
             if (MAP.containsKey(s)) {
-                AutoReply reply = Tool.tool.getRandT(MAP.get(s));
+                AutoReply reply = Tool.INSTANCE.getRandT(MAP.get(s));
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.getV().startsWith("at")) {
                     String content = reply.getV().replaceFirst("at", "");
-                    MessageTools.instance.sendMessageInGroupWithAt(content, group.getId(), qq);
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt(content, group.getId(), qq);
                 } else {
-                    MessageTools.instance.sendMessageInGroup(reply.getV(), group.getId());
+                    MessageUtils.INSTANCE.sendMessageInGroup(reply.getV(), group.getId());
                 }
                 cd = System.currentTimeMillis() + CD;
                 return reply.getV();
@@ -132,7 +132,7 @@ public class CustomController {
     }
 
     @Before
-    public void before(Group group, long qq, @AllMess String s) throws NoRunException {
+    public void before(SpGroup group, long qq, @AllMess String s) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
@@ -152,7 +152,7 @@ public class CustomController {
     @Action("添加<.+=>str>")
     public String add(@Param("str") String str, long qq) {
         if (!isSuperQ(qq)) {
-            if ( Tool.tool.isIlleg(str))
+            if ( Tool.INSTANCE.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
@@ -215,7 +215,7 @@ public class CustomController {
             StringBuilder sb = new StringBuilder();
             for (AutoReply reply : MAP.get(name)) {
                 sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.getK(), reply.getV(),
-                         Tool.tool.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
+                         Tool.INSTANCE.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
             }
             return sb.toString();
         } else {

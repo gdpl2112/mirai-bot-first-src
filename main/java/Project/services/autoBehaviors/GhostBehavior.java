@@ -3,13 +3,13 @@ package Project.services.autoBehaviors;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.ac.GameJoinDetailService;
-import Project.skill.SkillFactory;
-import Project.skill.SkillTemplate;
+import Project.skills.SkillFactory;
+import Project.skills.SkillTemplate;
 import io.github.kloping.date.FrameUtils;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static Project.skill.SkillFactory.ghostSkillNum;
+import static Project.skills.SkillFactory.ghostSkillNum;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 
 /**
@@ -27,7 +27,7 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 public class GhostBehavior implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
     public static final Map<Long, GhostBehavior> MAP = new HashMap<>();
-    private Group group;
+    private SpGroup group;
     private Long qq;
     private GhostObj ghostObj;
     private List<Integer> nowAllowJid = new LinkedList<>();
@@ -45,7 +45,7 @@ public class GhostBehavior implements Runnable {
         });
     }
 
-    public GhostBehavior(Long qq, Group group) {
+    public GhostBehavior(Long qq, SpGroup group) {
         this.qq = qq;
         this.group = group;
         MAP.put(qq, this);
@@ -55,7 +55,7 @@ public class GhostBehavior implements Runnable {
         THREADS.submit(ghostBehavior);
     }
 
-    public static GhostBehavior create(long who, Group group, Integer level) {
+    public static GhostBehavior create(long who, SpGroup group, Integer level) {
         return new GhostBehavior(who, group);
     }
 
@@ -81,7 +81,7 @@ public class GhostBehavior implements Runnable {
             }
             SkillTemplate template;
             while (true) {
-                template = jid2skill.get(Tool.tool.getRandT(list));
+                template = jid2skill.get(Tool.INSTANCE.getRandT(list));
                 if (jid != template.getJid()) break;
             }
             jid = template.getJid();
@@ -91,7 +91,7 @@ public class GhostBehavior implements Runnable {
             }
             send("释放魂技:\n" + template.getIntro());
             Skill skill = template.create(null, -ghostObj.getWhoMeet());
-            skill.setGroup(Group.get(MemberTools.getRecentSpeechesGid(ghostObj.getWhoMeet())));
+            skill.setGroup(SpGroup.get(MemberUtils.getRecentSpeechesGid(ghostObj.getWhoMeet())));
             Future f0 = SkillDataBase.threads.submit(skill);
             atomicReference.set(f0);
             if (jid == 1001 || jid == 1002) {
@@ -112,7 +112,7 @@ public class GhostBehavior implements Runnable {
         if (!updateGhost()) return;
         int num = getSkillNum(ghostObj.getLevel());
         while (jid2skill.size() < num) {
-            int id0 = Tool.tool.RANDOM.nextInt(ghostSkillNum - 3);
+            int id0 = Tool.INSTANCE.RANDOM.nextInt(ghostSkillNum - 3);
             int jid = 1001 + id0;
             if (jid2skill.containsKey(jid)) continue;
             if (getNowAllowJid().contains(jid)) continue;
@@ -124,7 +124,7 @@ public class GhostBehavior implements Runnable {
 
         if (ghostObj.getId() > 600 && ghostObj.getId() < 700) {
             if (ghostObj.getLevel().intValue() > 10000) {
-                int j0 = 1101 + Tool.tool.RANDOM.nextInt(3);
+                int j0 = 1101 + Tool.INSTANCE.RANDOM.nextInt(3);
                 SkillTemplate template = SkillFactory.factory100(j0, getHhByGh(ghostObj.getLevel()));
                 jid2skill.put(j0, template);
             }
@@ -171,7 +171,7 @@ public class GhostBehavior implements Runnable {
     }
 
     private void send(String str) {
-        MessageTools.instance.sendMessageInGroupWithAt(str, group.getId(), qq);
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(str, group.getId(), qq);
     }
 
     public static int getSkillNum(int level) {

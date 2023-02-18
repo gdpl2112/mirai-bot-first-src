@@ -6,18 +6,14 @@ import com.google.code.kaptcha.util.Config;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.date.CronUtils;
-import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
-import io.github.kloping.mirai0.commons.cron.CronEntity;
 
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static io.github.kloping.mirai0.Main.Resource.THREADS;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
 /**
  * @author github-kloping
@@ -72,7 +68,7 @@ public class InitBeans {
 
     @Bean("dataPath")
     public String dataPath() {
-        return Resource.datePath;
+        return BootstarpResource.datePath;
     }
 
     @Bean

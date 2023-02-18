@@ -4,7 +4,7 @@ import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 
@@ -52,7 +52,7 @@ public class Ghost701 extends GhostWithGroup {
                     if (baseInfo != null) {
                         long v = Ghost701.this.getHpL() / 100;
                         v = v <= 0 ? 1 : v;
-                        MessageTools.instance.sendMessageInGroupWithAt(
+                        MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                                 getName() + "对你造成" + v + "伤害"
                                         + GameDetailService.beaten(baseInfo.getId(), -1, v, DamageType.AD),
                                 group.getId(), baseInfo.getId().longValue()

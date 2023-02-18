@@ -6,8 +6,8 @@ import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
@@ -29,7 +29,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class ScoreServiceImpl implements IScoreService {
 
     private static final Object[] regDay(Number l) {
-        int r = SpringBootResource.getSingListMapper().selectCountByDay(Tool.tool.getTodayDetialString());
+        int r = SpringBootResource.getSingListMapper().selectCountByDay(Tool.INSTANCE.getTodayDetialString());
         switch (r) {
             case 1:
                 addScore(100, l.longValue());
@@ -101,7 +101,7 @@ public class ScoreServiceImpl implements IScoreService {
         if (lI > 60) {
             if (lY > 60) {
                 if (fI < 12) {
-                    long l = Tool.tool.RANDOM.nextInt(20) + 40;
+                    long l = Tool.INSTANCE.RANDOM.nextInt(20) + 40;
                     addScore(l, who);
                     addScore(-l, whos);
                     putInfo(getAllInfo(who).record(l));
@@ -123,7 +123,7 @@ public class ScoreServiceImpl implements IScoreService {
     public String sign(Long who) {
         synchronized (who) {
             UserScore ls = DataBase.getAllInfo(who);
-            int day = Tool.tool.getTodayInt();
+            int day = Tool.INSTANCE.getTodayInt();
             if (ls.getDay() == day) {
                 return "签到失败,你今天已经签到过了!!";
             } else {
@@ -132,15 +132,15 @@ public class ScoreServiceImpl implements IScoreService {
                 ls.setDays((ls.getDays().intValue() + 1L));
                 ls.addScore(100);
                 putInfo(ls);
-                SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.tool.getTodayDetialString(), System.currentTimeMillis());
+                SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.INSTANCE.getTodayDetialString(), System.currentTimeMillis());
                 Object[] lines = regDay(who);
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
                 if (line.isEmpty()) {
-                    return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
+                    return Tool.INSTANCE.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
                 } else {
-                    return Tool.tool.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
-                            + getImageFromFontString("第" + Tool.tool.trans(st) + "签")
+                    return Tool.INSTANCE.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
+                            + getImageFromFontString("第" + Tool.INSTANCE.trans(st) + "签")
                             + "\n" + line;
                 }
             }
@@ -151,8 +151,8 @@ public class ScoreServiceImpl implements IScoreService {
     public String workLong(Long who) {
         setK(who, getK(who));
         if (getK(who) <= System.currentTimeMillis()) {
-            int tr = Tool.tool.RANDOM.nextInt(26) + 12;
-            int nr = Tool.tool.RANDOM.nextInt(45) + 25;
+            int tr = Tool.INSTANCE.RANDOM.nextInt(26) + 12;
+            int nr = Tool.INSTANCE.RANDOM.nextInt(45) + 25;
             int s = tr * 5;
             addScore(s, who);
             putPerson(GameDataBase.getInfo(who).addGold((long) nr
@@ -169,24 +169,24 @@ public class ScoreServiceImpl implements IScoreService {
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");
         } else {
-            return String.format(WORK_WAIT_TIPS, Tool.tool.getTimeTips(getK(who)));
+            return String.format(WORK_WAIT_TIPS, Tool.INSTANCE.getTimeTips(getK(who)));
         }
     }
 
     @Override
-    public String todayList(Group group) {
-        List<Long> list = SpringBootResource.getSingListMapper().selectDay(Tool.tool.getTodayDetialString());
+    public String todayList(SpGroup group) {
+        List<Long> list = SpringBootResource.getSingListMapper().selectDay(Tool.INSTANCE.getTodayDetialString());
         int n = 1;
         StringBuilder sb = new StringBuilder();
-        sb.append("今日" + Tool.tool.getToday() + "号:VV\r\n");
+        sb.append("今日" + Tool.INSTANCE.getToday() + "号:VV\r\n");
         for (Long aLong : list) {
             String name = null;
             try {
-                name = MemberTools.getNameFromGroup(aLong, group);
+                name = MemberUtils.getNameFromGroup(aLong, group);
             } catch (Exception e) {
                 name = aLong.toString();
             }
-            sb.append("第").append(Tool.tool.trans(n++)).append(":\r\n=>").append(name).append("\r\n");
+            sb.append("第").append(Tool.INSTANCE.trans(n++)).append(":\r\n=>").append(name).append("\r\n");
         }
         return sb.toString();
     }

@@ -152,7 +152,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
         } else if (id == 120) {
             if (!containsInBg(id, qid)) return "你的背包里没有" + getNameById(id);
             removeFromBgs(qid, id, 1, ObjType.un);
-            int r = Tool.tool.RANDOM.nextInt(10);
+            int r = Tool.INSTANCE.RANDOM.nextInt(10);
             int oid;
             if (r == 0) {
                 oid = 122;

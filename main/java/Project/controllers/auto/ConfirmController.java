@@ -3,8 +3,8 @@ package Project.controllers.auto;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.invokes.MethodCanCall;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.*;
 
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
  * @author github-kloping
@@ -30,34 +30,34 @@ public class ConfirmController {
         println(this.getClass().getSimpleName() + "构建");
     }
 
-    public static void regConfirm(Long who, Method method, Object o, Object... args) {
+    public static void regConfirm(Long qid, Method method, Object o, Object... args) {
         MethodCanCall canCall = new MethodCanCall().setMethod(method).setObjThis(o).setArgs(args);
-        ConfirmMap.put(who, canCall);
-        startTime(who, CONFIRMING);
+        ConfirmMap.put(qid, canCall);
+        startTime(qid, CONFIRMING);
     }
 
     /**
      * 提交同意
      *
-     * @param who    唯一QQ
+     * @param qid    唯一QQ
      * @param method method
      * @param o      method this object
      * @param args   args
      */
-    public static void regAgree(Long who, Method method, Object o, Object... args) {
+    public static void regAgree(Long qid, Method method, Object o, Object... args) {
         MethodCanCall canCall = new MethodCanCall().setMethod(method).setObjThis(o).setArgs(args);
-        AgreeMap.put(who, canCall);
-        startTime(who, AGREEING);
+        AgreeMap.put(qid, canCall);
+        startTime(qid, AGREEING);
     }
 
-    private static void startTime(Long who, int type1) {
-        startTime(who, type1, 40);
+    private static void startTime(Long qid, int type1) {
+        startTime(qid, type1, 40);
     }
 
-    private static void startTime(Long who, int type1, Integer wait) {
+    private static void startTime(Long qid, int type1, Integer wait) {
         THREAD_POOL_EXECUTOR.execute(new Runnable() {
             private int t = wait.intValue();
-            private Long id = who;
+            private Long id = qid;
             private int type = type1;
 
             @Override
@@ -87,7 +87,7 @@ public class ConfirmController {
     }
 
     @Action(value = "确定", otherName = "确认")
-    public Object confirm(User qq, Group group) throws NoRunException {
+    public Object confirm(SpUser qq, SpGroup group) throws NoRunException {
         if (ConfirmMap.keySet().contains(qq.getId())) {
             MethodCanCall mcc = ConfirmMap.get(qq.getId());
             Object result = null;
@@ -107,7 +107,7 @@ public class ConfirmController {
     }
 
     @Action("取消")
-    public Object cancel(User qq, Group group) throws NoRunException {
+    public Object cancel(SpUser qq, SpGroup group) throws NoRunException {
         if (ConfirmMap.keySet().contains(qq.getId())) {
             Long id = qq.getId();
             ConfirmMap.remove(id);
@@ -117,7 +117,7 @@ public class ConfirmController {
     }
 
     @Action("同意")
-    public Object agree(User qq, Group group) throws NoRunException {
+    public Object agree(SpUser qq, SpGroup group) throws NoRunException {
         if (AgreeMap.keySet().contains(qq.getId())) {
             MethodCanCall mcc = AgreeMap.get(qq.getId());
             Object result = null;
@@ -137,7 +137,7 @@ public class ConfirmController {
     }
 
     @Action("不同意")
-    public String noAgree(User qq, Group group) throws NoRunException {
+    public String noAgree(SpUser qq, SpGroup group) throws NoRunException {
         if (AgreeMap.keySet().contains(qq.getId())) {
             Long id = qq.getId();
             AgreeMap.remove(id);

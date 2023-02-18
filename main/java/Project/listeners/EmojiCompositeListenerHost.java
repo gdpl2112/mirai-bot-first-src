@@ -1,8 +1,8 @@
 package Project.listeners;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.ITools.EventTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
+import io.github.kloping.mirai0.Main.iutils.EventUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
@@ -278,7 +278,7 @@ public class EmojiCompositeListenerHost {
     }
 
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        String mess = EventTools.getStringFromMessageChain(event.getMessage());
+        String mess = EventUtils.messageChain2String(event.getMessage());
         if (mess.matches(P0)) {
             try {
                 String[] ss = mess.split("");
@@ -305,7 +305,7 @@ public class EmojiCompositeListenerHost {
                 if (!checkUrl(url0)) {
 //                    MessageTools.instance.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
                 } else {
-                    MessageTools.instance.sendMessageInGroupWithAt( Tool.tool.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt( Tool.INSTANCE.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
                 }
             } catch (Exception e) {
 //                MessageTools.instance.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());

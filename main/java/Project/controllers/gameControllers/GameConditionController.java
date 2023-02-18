@@ -5,19 +5,19 @@ import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.game.SelectTaoPaoBroadcast;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
-import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.httpApi.KlopingWeb;
 import Project.services.detailServices.condition.GameConditionDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.ITools.MemberTools;
-import io.github.kloping.mirai0.Main.ITools.MessageTools;
-import io.github.kloping.mirai0.Main.Resource;
+import io.github.kloping.mirai0.Main.iutils.MemberUtils;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.User;
+import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.number.NumberUtils;
 
@@ -39,7 +39,7 @@ public class GameConditionController {
     GameController gameController;
 
     @Before
-    public void before(User qq, Group group, @AllMess String mess) throws NoRunException {
+    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
         if (!BotStarter.test) throw new NoRunException();
         gameController.before(qq, group, mess);
     }
@@ -50,7 +50,7 @@ public class GameConditionController {
     public static final Map<Long, Integer> CONDITIONING = new HashMap<>();
 
     static {
-        Resource.START_AFTER.add(() -> {
+        BootstarpResource.START_AFTER.add(() -> {
             GhostLostBroadcast.INSTANCE.add(new GhostLostBroadcast.GhostLostReceiver() {
                 @Override
                 public void onReceive(long who, Set<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
@@ -59,16 +59,16 @@ public class GameConditionController {
                     int i = CONDITIONING.get(who);
                     if (i == 3) {
                         CONDITIONING.remove(who);
-                        long gid = MemberTools.getRecentSpeechesGid(who);
-                        MessageTools.instance.sendMessageInGroupWithAt("挑战成功", gid, who);
+                        long gid = MemberUtils.getRecentSpeechesGid(who);
+                        MessageUtils.INSTANCE.sendMessageInGroupWithAt("挑战成功", gid, who);
                         String iv = klopingWeb.get(String.valueOf(who), GameConditionDetailService.PWD);
                         if (Judge.isEmpty(iv)) iv = "0";
                         Integer c = Integer.valueOf(iv);
                         if (c >= 3) {
-                            MessageTools.instance.sendMessageInGroupWithAt("奖励上限", gid, who);
+                            MessageUtils.INSTANCE.sendMessageInGroupWithAt("奖励上限", gid, who);
                         } else {
                             GameDataBase.addToBgs(who, 0, 10, ObjType.got);
-                            MessageTools.instance.sendMessageInGroupWithAt("获得奖励" +
+                            MessageUtils.INSTANCE.sendMessageInGroupWithAt("获得奖励" +
                                     SourceDataBase.getImgPathById(0), gid, who);
                             klopingWeb.put(String.valueOf(who), String.valueOf(c + 1), GameConditionDetailService.PWD);
                         }
@@ -91,8 +91,8 @@ public class GameConditionController {
                     if (!CONDITIONING.containsKey(who))
                         return;
                     CONDITIONING.remove(who);
-                    long gid = MemberTools.getRecentSpeechesGid(who);
-                    MessageTools.instance.sendMessageInGroupWithAt("挑战失败", gid, who);
+                    long gid = MemberUtils.getRecentSpeechesGid(who);
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt("挑战失败", gid, who);
                 }
             });
             SelectTaoPaoBroadcast.INSTANCE.add(new SelectTaoPaoBroadcast.SelectTaoPaoReceiver() {
@@ -101,8 +101,8 @@ public class GameConditionController {
                     if (!CONDITIONING.containsKey(q1))
                         return false;
                     CONDITIONING.remove(q1);
-                    long gid = MemberTools.getRecentSpeechesGid(q1);
-                    MessageTools.instance.sendMessageInGroupWithAt("挑战失败", gid, q1);
+                    long gid = MemberUtils.getRecentSpeechesGid(q1);
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt("挑战失败", gid, q1);
                     return false;
                 }
             });

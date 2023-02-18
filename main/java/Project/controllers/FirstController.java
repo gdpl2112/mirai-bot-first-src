@@ -2,17 +2,13 @@ package Project.controllers;
 
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
-import Project.interfaces.http_api.KlopingWeb;
+import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.Resource;
-import io.github.kloping.mirai0.commons.Group;
-import io.github.kloping.mirai0.commons.User;
-import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.ServiceMessage;
-import net.mamoe.mirai.message.data.SimpleServiceMessage;
+import io.github.kloping.mirai0.Main.BootstarpResource;
+import io.github.kloping.mirai0.commons.SpGroup;
+import io.github.kloping.mirai0.commons.SpUser;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 
@@ -23,7 +19,7 @@ import static Project.controllers.auto.TimerController.ZERO_RUNS;
 public class FirstController {
 
     @Before
-    public void before(@AllMess String mess, Group group, User qq) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
         if (!BotStarter.test) {
             throw new NoRunException("not test");
         }
@@ -36,9 +32,6 @@ public class FirstController {
     static KlopingWeb klopingWeb;
 
     static {
-        Resource.START_AFTER.add(() -> {
-            klopingWeb.del("", PWD);
-        });
         ZERO_RUNS.add(() -> {
             klopingWeb.del("", PWD);
         });
@@ -46,7 +39,7 @@ public class FirstController {
 
 
     @Action("领取积分")
-    public synchronized String a0(User user) {
+    public synchronized String a0(SpUser user) {
         String qid = String.valueOf(user.getId());
         String oid = klopingWeb.get(qid, PWD);
         if (oid.equals(C0)) {
@@ -62,7 +55,7 @@ public class FirstController {
     IGameJoinAcService gameJoinAcService;
 
     @Action("测试")
-    public Object c0(Group group, long who, User qq) {
+    public Object c0(SpGroup group, long who, SpUser qq) {
         return null;
     }
 

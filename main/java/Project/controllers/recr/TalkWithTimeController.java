@@ -6,11 +6,11 @@ import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
-import io.github.kloping.mirai0.commons.Group;
+import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.opened;
-import static io.github.kloping.mirai0.Main.Resource.println;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -25,7 +25,7 @@ public class TalkWithTimeController {
     }
 
     @Before
-    public void before(@AllMess String mess, Group group) throws NoRunException {
+    public void before(@AllMess String mess, SpGroup group) throws NoRunException {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
@@ -44,7 +44,7 @@ public class TalkWithTimeController {
     @Action(".*?元旦.*?")
     public String yuanDan11() {
         if (DateUtils.getMonth() == 1 && DateUtils.getDay() == 1) {
-            return Tool.tool.getRandT(YD11);
+            return Tool.INSTANCE.getRandT(YD11);
         }
         return null;
     }
