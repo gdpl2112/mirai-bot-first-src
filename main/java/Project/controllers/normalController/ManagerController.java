@@ -18,7 +18,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.event.events.BotEvent;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -58,8 +58,7 @@ public class ManagerController {
         } else if (DataBase.isFather(qq.getId(), group.getId())) {
             return;
         } else if (mess.contains("通过")) {
-            if (BOT.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0)
-                return;
+            if (BOT.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0) return;
         }
         throw new NoRunException("无权限");
     }
@@ -148,7 +147,7 @@ public class ManagerController {
     }
 
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
-    public String out(long q, SpGroup gr, @AllMess String chain, MessageEvent event) {
+    public String out(long q, SpGroup gr, @AllMess String chain, BotEvent event) {
         Number[] numbers = getAllAt(chain);
         if (numbers.length == 0) {
             return NOT_FOUND_AT;
@@ -205,8 +204,7 @@ public class ManagerController {
     @Action("禁言<.{1,}=>str>")
     public String Ban(SpUser qq, SpGroup egroup, @Param("str") String str, @AllMess String chain) {
         long who = MessageUtils.INSTANCE.getAtFromString(chain);
-        if (who == -1)
-            return NOT_FOUND_AT;
+        if (who == -1) return NOT_FOUND_AT;
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         return managerService.notSpeak(group.get(who), str.replace(who + "", ""), group);
     }
@@ -214,8 +212,7 @@ public class ManagerController {
     @Action("解除禁言.{1,}")
     public String UnBan(SpUser qq, SpGroup egroup, @AllMess String chain) {
         long who = MessageUtils.INSTANCE.getAtFromString(chain);
-        if (who == -1)
-            return "谁？";
+        if (who == -1) return "谁？";
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         String str = managerService.notSpeak(group.get(who), "0秒", group);
         return TRY_UNMUTE;
@@ -283,10 +280,7 @@ public class ManagerController {
             return "强制结束";
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append("竞猜结束\n").append(Quiz.quiz.getTitle()).append(NEWLINE)
-                    .append("结果为:").append(NEWLINE)
-                    .append(index).append(".")
-                    .append(Quiz.quiz.getQuizData().get(index)).append("==>>\n");
+            sb.append("竞猜结束\n").append(Quiz.quiz.getTitle()).append(NEWLINE).append("结果为:").append(NEWLINE).append(index).append(".").append(Quiz.quiz.getQuizData().get(index)).append("==>>\n");
             long win = 0;
             long a0 = 0;
             for (Quiz.QuizSon quizSon : Quiz.getQuiz().getQuizSons()) {

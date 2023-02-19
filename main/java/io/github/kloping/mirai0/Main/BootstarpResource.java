@@ -18,7 +18,7 @@ import io.github.kloping.object.ObjectUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.GlobalEventChannel;
-import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.event.events.BotEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -94,7 +94,7 @@ public class BootstarpResource {
     protected static void setterStarterApplication(Class<?> cla) {
         StarterApplication.setMainKey(Long.class);
         StarterApplication.setWaitTime(test ? 600000L : 30 * 1000L);
-        StarterApplication.setAccessTypes(Long.class, SpUser.class, SpGroup.class, Integer.class, MessageEvent.class);
+        StarterApplication.setAccessTypes(Long.class, SpUser.class, SpGroup.class, Integer.class, BotEvent.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
             public void run(Object t, Object[] objects) throws NoRunException {
