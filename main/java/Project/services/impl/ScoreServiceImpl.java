@@ -5,6 +5,9 @@ import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
+import Project.interfaces.httpApi.YiMin;
+import com.alibaba.fastjson.JSONObject;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.commons.SpGroup;
@@ -12,6 +15,7 @@ import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import static Project.dataBases.DataBase.*;
@@ -119,10 +123,13 @@ public class ScoreServiceImpl implements IScoreService {
         }
     }
 
+    @AutoStand
+    YiMin yiMin;
+
     @Override
-    public String sign(Long who) {
-        synchronized (who) {
-            UserScore ls = DataBase.getAllInfo(who);
+    public String sign(Long qid, SpGroup group) {
+        synchronized (qid) {
+            UserScore ls = DataBase.getAllInfo(qid);
             int day = Tool.INSTANCE.getTodayInt();
             if (ls.getDay() == day) {
                 return "签到失败,你今天已经签到过了!!";
@@ -132,16 +139,31 @@ public class ScoreServiceImpl implements IScoreService {
                 ls.setDays((ls.getDays().intValue() + 1L));
                 ls.addScore(100);
                 putInfo(ls);
-                SpringBootResource.getSingListMapper().insert(who.longValue(), Tool.INSTANCE.getTodayDetialString(), System.currentTimeMillis());
-                Object[] lines = regDay(who);
+                SpringBootResource.getSingListMapper().insert(qid.longValue(), Tool.INSTANCE.getTodayDetialString(), System.currentTimeMillis());
+                Object[] lines = regDay(qid);
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
-                if (line.isEmpty()) {
-                    return Tool.INSTANCE.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
-                } else {
-                    return Tool.INSTANCE.getTou(who) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
-                            + getImageFromFontString("第" + Tool.INSTANCE.trans(st) + "签")
-                            + "\n" + line;
+
+//                try {
+//                    JSONObject jo = yiMin.qian(
+//                            URLEncoder.encode(Tool.INSTANCE.getTouUrl(qid),"UTF-8"),
+//                            MemberUtils.getNameFromGroup(qid, group),
+//                            "100积分",
+//                            "累计签到:" + ls.getDays() + "次",
+//                            "0号",
+//                            "第" + Tool.INSTANCE.trans(st) + "签"
+//                    );
+//                    String url = jo.getString("url");
+//                    return Tool.INSTANCE.pathToImg(url);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+                    if (line.isEmpty()) {
+                        return Tool.INSTANCE.getTou(qid) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
+                    } else {
+                        return Tool.INSTANCE.getTou(qid) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
+                                + getImageFromFontString("第" + Tool.INSTANCE.trans(st) + "签")
+                                + "\n" + line;
+//                    }
                 }
             }
         }

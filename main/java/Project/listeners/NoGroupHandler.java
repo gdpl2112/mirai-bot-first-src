@@ -45,7 +45,7 @@ public class NoGroupHandler extends SimpleListenerHost {
 
     static {
         APPLICATION.setMainKey(Long.class);
-        APPLICATION.setWaitTime(12000L);
+        APPLICATION.setWaitTime(25000L);
         APPLICATION.setAccessTypes(MessageEvent.class, Friend.class, Long.class);
         APPLICATION.setAllAfter((t, objs) -> {
             MessageEvent event = (MessageEvent) objs[2];
@@ -83,7 +83,8 @@ public class NoGroupHandler extends SimpleListenerHost {
             StringBuilder data = new StringBuilder();
             data.append("Human:").append(str);
             String rqBody = "{\"prompt\":\"" + data.toString() + "\",\"tokensLength\":0}";
-            Connection connection = Jsoup.connect("https://api.forchange.cn").ignoreContentType(true).ignoreHttpErrors(true).method(Connection.Method.POST).requestBody(rqBody).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.41").header("Accept", "application/json, text/plain, */*").header("Accept-Encoding", "gzip, deflate, br").header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6").header("Access-Control-Allow-Origin", "*").header("Connection", "keep-alive").header("Content-Type", "application/json").header("Host", "api.forchange.cn").header("Origin", "https://chat.forchange.cn").header("Referer", "https://chat.forchange.cn/").header("Content-Length", String.valueOf(rqBody.getBytes().length));
+            Connection connection = Jsoup.connect("https://api.forchange.cn")
+                    .timeout(240000).ignoreContentType(true).ignoreHttpErrors(true).method(Connection.Method.POST).requestBody(rqBody).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.41").header("Accept", "application/json, text/plain, */*").header("Accept-Encoding", "gzip, deflate, br").header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6").header("Access-Control-Allow-Origin", "*").header("Connection", "keep-alive").header("Content-Type", "application/json").header("Host", "api.forchange.cn").header("Origin", "https://chat.forchange.cn").header("Referer", "https://chat.forchange.cn/").header("Content-Length", String.valueOf(rqBody.getBytes().length));
             Document doc0 = connection.post();
             JSONObject result = JSON.parseObject(doc0.body().text());
             String text = result.getJSONArray("choices").getJSONObject(0).getString("text");

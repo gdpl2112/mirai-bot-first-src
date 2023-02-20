@@ -144,7 +144,7 @@ public class ScoreController {
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
     public String sign(SpUser qq, SpGroup group) {
-        String str = scoreService.sign(qq.getId());
+        String str = scoreService.sign(qq.getId(),group);
         return str;
     }
 

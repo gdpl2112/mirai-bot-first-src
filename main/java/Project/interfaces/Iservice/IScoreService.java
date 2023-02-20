@@ -18,7 +18,7 @@ public interface IScoreService {
 
     String robbery(Long who, Long whos);
 
-    String sign(Long who);
+    String sign(Long who, SpGroup group);
 
     String workLong(Long who);
 

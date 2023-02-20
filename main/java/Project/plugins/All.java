@@ -117,7 +117,6 @@ public class All {
         return baos;
     }
 
-
     public static final String getTextFromPic(String url) {
         try {
             Connection connection = Jsoup.connect("https://api.wer.plus/api/yocr")
