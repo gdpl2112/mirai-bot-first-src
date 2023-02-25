@@ -25,6 +25,7 @@ import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
+import net.mamoe.mirai.event.events.BotEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
@@ -217,14 +218,14 @@ public class SuperController {
     }
 
     @Action("/execute.+")
-    public String o1(@AllMess String str, SpGroup group) {
+    public String o1(@AllMess String str, SpGroup group, BotEvent event) {
         long q = MessageUtils.INSTANCE.getAtFromString(str);
         if (q == -1) {
             throw new NoRunException("");
         }
         String qStr = q == BOT.getId() ? "me" : String.valueOf(q);
         str = str.replaceFirst("/execute\\[@" + qStr + "]", "");
-        StarterApplication.executeMethod(q, str, q, getUser(q), SpGroup.get(group.getId()), 0);
+        StarterApplication.executeMethod(q, str, q, getUser(q), SpGroup.get(group.getId()), 0, event);
         return null;
     }
 

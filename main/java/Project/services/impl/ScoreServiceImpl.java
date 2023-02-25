@@ -144,26 +144,28 @@ public class ScoreServiceImpl implements IScoreService {
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
 
-//                try {
-//                    JSONObject jo = yiMin.qian(
-//                            URLEncoder.encode(Tool.INSTANCE.getTouUrl(qid),"UTF-8"),
-//                            MemberUtils.getNameFromGroup(qid, group),
-//                            "100积分",
-//                            "累计签到:" + ls.getDays() + "次",
-//                            "0号",
-//                            "第" + Tool.INSTANCE.trans(st) + "签"
-//                    );
-//                    String url = jo.getString("url");
-//                    return Tool.INSTANCE.pathToImg(url);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
+                try {
+                    Integer s0 = 100;
+                    s0 += Tool.INSTANCE.getInteagerFromStr(line, 0);
+                    JSONObject jo = yiMin.qian(
+                            URLEncoder.encode(Tool.INSTANCE.getTouUrl(qid), "UTF-8"),
+                            URLEncoder.encode(MemberUtils.getNameFromGroup(qid, group), "UTF-8"),
+                            s0 + "积分",
+                            "累计签到:" + ls.getDays() + "次",
+                            "0号",
+                            "第" + Tool.INSTANCE.trans(st) + "签"
+                    );
+                    String url = jo.getString("url");
+                    return Tool.INSTANCE.pathToImg(url);
+                } catch (Exception e) {
+                    System.err.println("API sign call error");
                     if (line.isEmpty()) {
                         return Tool.INSTANCE.getTou(qid) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
                     } else {
                         return Tool.INSTANCE.getTou(qid) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次\n"
                                 + getImageFromFontString("第" + Tool.INSTANCE.trans(st) + "签")
                                 + "\n" + line;
-//                    }
+                    }
                 }
             }
         }

@@ -179,6 +179,21 @@ public class Tool {
         }
     }
 
+    /**
+     * get int
+     *
+     * @param str
+     * @return
+     */
+    public Integer getInteagerFromStr(String str, Integer default_) {
+        String s1 = findNumberFromString(str);
+        if (s1 == null || s1.trim().isEmpty()) {
+            return default_;
+        } else {
+            return Integer.parseInt(s1);
+        }
+    }
+
     public void setOnErrInFIle(String path) {
         try {
             PrintStream oldPrintStream = System.err;
