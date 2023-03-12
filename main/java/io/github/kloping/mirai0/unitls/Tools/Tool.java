@@ -389,8 +389,14 @@ public class Tool {
      * @return 第几个
      */
     public int listEveStartWith(List<String> list, String withs) {
-        if (withs != null) for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).startsWith(withs)) return i;
+        if (withs != null) {
+            int i = 0;
+            for (String s : list) {
+                if (list.get(i).startsWith(withs)) {
+                    return i;
+                }
+                i++;
+            }
         }
         return -1;
     }

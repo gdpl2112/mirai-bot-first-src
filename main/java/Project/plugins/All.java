@@ -62,8 +62,7 @@ public class All {
     }
 
     public static String getTitle(String url) throws IOException {
-        return Jsoup.connect(url).ignoreContentType(true).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.43")
-                .get().title();
+        return Jsoup.connect(url).ignoreContentType(true).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36 Edg/98.0.1108.43").get().title();
     }
 
     public static String sjc0(String json) {
@@ -119,11 +118,7 @@ public class All {
 
     public static final String getTextFromPic(String url) {
         try {
-            Connection connection = Jsoup.connect("https://api.wer.plus/api/yocr")
-                    .method(Connection.Method.POST)
-                    .ignoreHttpErrors(true).ignoreContentType(true)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54")
-                    .requestBody("{\"data\":\"" + url + "\"}");
+            Connection connection = Jsoup.connect("https://api.wer.plus/api/yocr").method(Connection.Method.POST).ignoreHttpErrors(true).ignoreContentType(true).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54").requestBody("{\"data\":\"" + url + "\"}");
             Connection.Response response = connection.execute();
             String json = response.body();
             JSONObject jo = JSON.parseObject(json);
@@ -131,11 +126,13 @@ public class All {
             if (!data.containsKey("comment")) return "未能识别出出文字!";
             JSONArray comment = data.getJSONArray("comment");
             StringBuilder sb = new StringBuilder();
+            StringBuilder sb1 = new StringBuilder();
             for (Object oe : comment) {
                 JSONArray e = (JSONArray) oe;
                 sb.append("\"").append(e.get(1).toString()).append("\"可信度:").append(e.get(2).toString().substring(0, 4)).append(NEWLINE);
+                sb1.append(e.get(1).toString());
             }
-            return sb.toString().trim();
+            return sb.append(sb1.toString()).toString().trim();
         } catch (IOException e) {
             e.printStackTrace();
         }

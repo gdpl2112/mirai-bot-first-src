@@ -162,7 +162,7 @@ public class GameServiceImpl implements IGameService {
             str1.append(Tool.INSTANCE.pathToImg(createFont(getFhName(who))));
         }
         long n = is.getWh();
-        if (n == 0) {
+        if (n <= 0) {
             str1.append("你的武魂:暂未获得").append("\r\n");
         } else {
             str1.append("你的武魂:" + GameDataBase.getNameById(n)).append("\r\n");
