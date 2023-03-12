@@ -88,11 +88,11 @@ public abstract class Task {
     public void over() {
         for (Long aLong : getTasker()) {
             TaskPoint.getInstance(aLong.longValue())
-                    .setNextCan(System.currentTimeMillis() + (CD0 * 2)).apply();
+                    .setNextCan(System.currentTimeMillis() + (CD1 * 2)).apply();
         }
 
         TaskPoint.getInstance(getHost().longValue())
-                .setNextCan(System.currentTimeMillis() + (CD0 * 2))
+                .setNextCan(System.currentTimeMillis() + (CD1 * 2))
                 .addPrenticeIndex(-1).apply();
 
         MessageUtils.INSTANCE.sendMessageInGroupWithAt(TASK_OVER_TIME, getFromG().longValue(), getHost());

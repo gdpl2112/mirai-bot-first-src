@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.task.Task;
+import io.github.kloping.mirai0.commons.task.TaskPoint;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Date;
@@ -17,8 +18,11 @@ import java.util.Date;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameTaskDatabase.CD1;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.OK_TIPS;
+import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.TASK_OVER_TIME;
 import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
@@ -82,5 +86,20 @@ public class GameTaskController {
         } catch (Exception e) {
             return "没有任务!";
         }
+    }
+
+    @Action(value = "放弃任务")
+    public Object m3(long q) {
+        if (!GameTaskDatabase.TASKS.containsKey(q) || GameTaskDatabase.TASKS.get(q).isEmpty()) return "当前无任务";
+        Task task = GameTaskDatabase.TASKS.get(q).get(0);
+        for (Long aLong : task.getTasker()) {
+            TaskPoint.getInstance(aLong.longValue()).setNextCan(System.currentTimeMillis() + (CD1 * 2)).apply();
+        }
+
+        TaskPoint.getInstance(task.getHost().longValue()).setNextCan(System.currentTimeMillis() + (CD1)).addPrenticeIndex(-1).apply();
+
+        MessageUtils.INSTANCE.sendMessageInGroupWithAt(TASK_OVER_TIME, task.getFromG().longValue(), task.getHost());
+        task.destroy();
+        return OK_TIPS;
     }
 }

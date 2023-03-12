@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 3.12:放弃任务功能").append(NEWLINE);
         UPDATE_LOG.append(" 2.18:代码重构").append(NEWLINE);
         UPDATE_LOG.append(" 2. 8:修复部分部分魂技介绍异常的的问题;每日打卡自动[签到|魂师签到]").append(NEWLINE);
         UPDATE_LOG.append(" 2. 6:异步转让与异步出售#不在有出售/转让数量限制").append(NEWLINE);
