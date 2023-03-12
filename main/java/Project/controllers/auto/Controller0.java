@@ -4,13 +4,11 @@ import Project.controllers.normalController.ScoreController;
 import Project.dataBases.DataBase;
 import Project.interfaces.httpApi.Fuyhi;
 import Project.interfaces.httpApi.KlopingWeb;
-import Project.interfaces.httpApi.Ovooa;
-import Project.interfaces.httpApi.XiaoBapi;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.FrameUtils;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.entity.PayOut;
@@ -63,7 +61,7 @@ public class Controller0 {
     }
 
     @AutoStand
-    public XiaoBapi api;
+    public KlopingWeb api;
 
     public Map<Long, PayOutM> longPayOutMap = new ConcurrentHashMap<>();
 
@@ -102,13 +100,13 @@ public class Controller0 {
         }
     }
 
-    private synchronized void test0(PayOutM outM) {
-        if (api.pay("", PS_KEY, 0f, outM.getGid(), outM.getQid(), outM.getBid(), outM.getOut().getData().getPayId(), 2).getText().equals("已支付")) {
-            DataBase.addScore(Q2C.get(outM.getValue()), outM.getQid());
-            longPayOutMap.remove(outM.getQid());
-            String s0 = outM.getQid() + "在群:" + outM.getGid() + "完成订单:" + outM.getValue();
+    private synchronized void test0(PayOutM m) {
+        if (api.pay(SKEY, PS_KEY, m.getQid(), BOT_ID, 2, m.getValue().floatValue(), "充值支付", m.getOut().getPayid(), m.getGid()).getText().equals("已支付")) {
+            DataBase.addScore(Q2C.get(m.getValue()), m.getQid());
+            longPayOutMap.remove(m.getQid());
+            String s0 = m.getQid() + "在群:" + m.getGid() + "完成订单:" + m.getValue();
             BootstarpResource.BOT.getFriend(SUPER_Q).sendMessage(s0);
-            MessageUtils.INSTANCE.sendMessageInGroupWithAt(scoreController.selectScore(outM.getQid()), outM.getGid(), outM.getQid());
+            MessageUtils.INSTANCE.sendMessageInGroupWithAt(scoreController.selectScore(m.getQid()), m.getGid(), m.getQid());
             throw new RuntimeException();
         }
     }
@@ -124,7 +122,7 @@ public class Controller0 {
             if (longPayOutMap.containsKey(senderId)) {
                 return "\n订单处理中...";
             } else {
-                PayOut out = api.pay("充值支付", PS_KEY, v.floatValue(), groupId, botId, senderId, "", 1);
+                PayOut out = api.pay(SKEY, PS_KEY, senderId, BOT_ID, 1, v.floatValue(), "充值支付", "", groupId);
                 PayOutM m = new PayOutM();
                 m.setOut(out);
                 m.setGid(groupId);
@@ -147,7 +145,7 @@ public class Controller0 {
         long botId = BOT_ID;
         if (longPayOutMap.containsKey(senderId)) {
             PayOutM m = longPayOutMap.get(senderId);
-            PayOut out = api.pay("充值支付", PS_KEY, m.getValue().floatValue(), groupId, botId, senderId, m.getOut().getData().getPayId(), 3);
+            PayOut out = api.pay(SKEY, PS_KEY, senderId, BOT_ID, 3, m.getValue().floatValue(), "充值支付", m.getOut().getPayid(), groupId);
             longPayOutMap.remove(senderId);
             return out.getText();
         } else {
@@ -165,7 +163,7 @@ public class Controller0 {
         long botId = BOT_ID;
         if (longPayOutMap.containsKey(senderId)) {
             PayOutM m = longPayOutMap.get(senderId);
-            PayOut out = api.pay("充值支付", PS_KEY, m.getValue().floatValue(), groupId, botId, senderId, m.getOut().getData().getPayId(), 2);
+            PayOut out = api.pay(SKEY, PS_KEY, senderId, BOT_ID, 2, m.getValue().floatValue(), "充值支付", m.getOut().getPayid(), groupId);
             if ("支付成功".equals(out.getText())) {
                 DataBase.addScore(Q2C.get(m.getValue()), senderId);
                 longPayOutMap.remove(senderId);

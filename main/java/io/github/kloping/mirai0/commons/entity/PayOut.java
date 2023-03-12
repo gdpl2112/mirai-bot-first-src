@@ -11,9 +11,8 @@ import lombok.Data;
 public class PayOut {
     private Integer code;
     private String text;
-    private PayOutData data;
-    private String uin;
-    private String payuin;
+    private Long uin;
+    private Long payuin;
     private String payid;
-    private String time;
+    private Long time;
 }

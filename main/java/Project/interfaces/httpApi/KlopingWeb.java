@@ -4,6 +4,7 @@ import Project.plugins.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.*;
 import io.github.kloping.mirai0.commons.apiEntitys.*;
 import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
+import io.github.kloping.mirai0.commons.entity.PayOut;
 
 import java.util.Map;
 
@@ -208,4 +209,29 @@ public interface KlopingWeb {
      */
     @GetPath("/del")
     String del(@ParamName("key") String key, @ParamName("pwd") String pwd);
+
+    /**
+     * a
+     *
+     * @param skey
+     * @param pskey
+     * @param uin
+     * @param qq
+     * @param select
+     * @param jie
+     * @param title
+     * @param payId
+     * @param gid
+     * @return
+     */
+    @GetPath("/api/group/pay")
+    PayOut pay(@ParamName("skey") String skey,
+               @ParamName("pskey") String pskey,
+               @ParamName("uin") Long uin,
+               @ParamName("qq") Long qq,
+               @ParamName("select") Integer select,
+               @ParamName("jie") Float jie,
+               @ParamName("title") String title,
+               @ParamName("payId") String payId,
+               @ParamName("gid") Long gid);
 }
