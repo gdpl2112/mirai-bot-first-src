@@ -211,6 +211,15 @@ public interface KlopingWeb {
     String del(@ParamName("key") String key, @ParamName("pwd") String pwd);
 
     /**
+     * pa
+     *
+     * @param qq
+     * @return
+     */
+    @GetPath("/api/image/pa")
+    String pa(@ParamName("qid") Long qq);
+
+    /**
      * a
      *
      * @param skey

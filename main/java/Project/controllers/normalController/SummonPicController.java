@@ -1,11 +1,11 @@
 package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
-import Project.plugins.All;
-import Project.plugins.BaiduShituDetail;
 import Project.interfaces.httpApi.Atoolbox;
 import Project.interfaces.httpApi.IBaiduShitu;
-import Project.interfaces.httpApi.Ovooa;
+import Project.interfaces.httpApi.KlopingWeb;
+import Project.plugins.All;
+import Project.plugins.BaiduShituDetail;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
@@ -48,7 +48,7 @@ public class SummonPicController {
     }
 
     @AutoStand
-    Ovooa ovooa;
+    KlopingWeb klopingWeb;
 
     @AutoStand
     Atoolbox atoolbox;
@@ -97,9 +97,8 @@ public class SummonPicController {
         if (q == -1) {
             return "目前只支@的形式";
         }
-        byte[] bytes = ovooa.pa(q);
-        MessageUtils.INSTANCE.sendImageByBytesOnGroupWithAt(bytes, group.getId(), q1);
-        return null;
+        String url = klopingWeb.pa(q);
+        return Tool.INSTANCE.pathToImg(url);
     }
 
     @Action("/赞.+")
