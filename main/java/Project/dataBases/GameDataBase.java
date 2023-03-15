@@ -634,6 +634,7 @@ public class GameDataBase {
      * @param personInfo
      */
     public static synchronized void putPerson(PersonInfo personInfo) {
+        if (personInfo.getTemp()) return;
         if (challengeDetailService.isTemping(personInfo.getId().longValue())) {
             challengeDetailService.setTempInfo(personInfo.getId().intValue(), personInfo);
             return;

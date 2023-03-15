@@ -71,9 +71,7 @@ public class ChallengeServiceImpl implements IChallengeService {
     }
 
     @Override
-
     public Object createTrialChallenge(long qid, long gid) {
-        if (!BotStarter.test) return "关闭调试中";
         try {
             testWill(qid);
         } catch (NoRunException e) {
@@ -98,6 +96,9 @@ public class ChallengeServiceImpl implements IChallengeService {
 
                 p11 = toMax(p11);
                 p22 = toMax(p22);
+
+                p11.setTemp(true);
+                p22.setTemp(true);
 
                 TEMP_PERSON_INFOS.put(p1, p11);
                 TEMP_PERSON_INFOS.put(p2, p22);
@@ -135,7 +136,6 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     @Override
     public Object createTrial2Challenge(long qid, long gid) {
-        if (!BotStarter.test) return "关闭调试中";
         try {
             testWill(qid);
         } catch (NoRunException e) {
@@ -233,6 +233,9 @@ public class ChallengeServiceImpl implements IChallengeService {
         PersonInfo p2 = getInfo(q2);
         PersonInfo p11 = copyBase(p1);
         PersonInfo p22 = copyBase(p2);
+
+        p11.setTemp(true);
+        p22.setTemp(true);
 
         Long hp = (p1.getHpL() + p2.getHpL()) / 2;
         Long att = (p1.att() + p2.att()) / 2 / 4;

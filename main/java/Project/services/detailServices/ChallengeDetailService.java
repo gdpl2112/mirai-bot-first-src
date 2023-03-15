@@ -16,7 +16,7 @@ public class ChallengeDetailService {
     public static final Map<Long, PersonInfo> TEMP_PERSON_INFOS = new HashMap<>();
 
     public synchronized boolean isTemping(long q) {
-        return TEMP_PERSON_INFOS.containsKey(q);
+        return TEMP_PERSON_INFOS.containsKey(q) ;
     }
 
     public synchronized PersonInfo getTempInfo(long q) {
