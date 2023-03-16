@@ -53,6 +53,7 @@ public class BootstarpResource {
     public static GameTaskDatabase gameTaskDatabase = null;
     public static OtherDatabase otherDatabase = null;
     public static ContextManager contextManager;
+    public static final Long CAP_GID = 570700910L;
 
     static {
         ZERO_RUNS.add(() -> {

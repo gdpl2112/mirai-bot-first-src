@@ -1,12 +1,13 @@
 package Project.controllers;
 
+import Project.aSpring.SpringStarter;
+import Project.aSpring.mcs.controllers.RestController0;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.SpUser;
 
@@ -59,4 +60,9 @@ public class FirstController {
         return null;
     }
 
+    @Action("通过帖子<.+=>id>")
+    public Object ok(@Param("id") Integer id) {
+        RestController0 c0 = SpringStarter.configuration.getBean(RestController0.class);
+        return c0.accept(id);
+    }
 }

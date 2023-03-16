@@ -2,7 +2,6 @@ package io.github.kloping.mirai0.Main.iutils;
 
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
@@ -23,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
 import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
-import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 
 
 /**
@@ -196,6 +195,21 @@ public class MessageUtils {
             Group group = BOT.getGroup(id);
             Message message = MessageUtils.INSTANCE.getMessageFromString(str, group);
             group.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 直接发送字符串
+     *
+     * @param str
+     * @param id
+     */
+    public void sendMessageInGroupI(String str, long id) {
+        try {
+            Group group = BOT.getGroup(id);
+            group.sendMessage(str);
         } catch (Exception e) {
             e.printStackTrace();
         }
