@@ -17,10 +17,9 @@ import io.github.kloping.url.UrlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -112,15 +111,25 @@ public class RestController0 {
         }
     }
 
-    @GetMapping("uploadTips")
-    public Object uploadTips(@RequestParam("data") String data) {
-        Notice notice = JSON.parseObject(data, Notice.class);
-        MessageUtils.INSTANCE.sendMessageInGroup("有新的帖子上传成功", CAP_GID);
-        MessageUtils.INSTANCE.sendMessageInGroupI(JSON.toJSONString(notice), CAP_GID);
-        Document doc = Jsoup.parse(notice.getHtml());
-        doc.outputSettings().prettyPrint(true);
-        String ds = doc.toString();
-        MessageUtils.INSTANCE.sendMessageInGroupI(ds, CAP_GID);
+    @PostMapping("uploadTips")
+    public Object uploadTips(@RequestBody String data) {
+        try {
+            MessageUtils.INSTANCE.sendMessageInGroup("有新的帖子上传成功", CAP_GID);
+            data = URLDecoder.decode(data);
+            if (!data.endsWith("}")) {
+                int i = data.lastIndexOf("}");
+                data = data.substring(0, i + 1);
+            }
+            MessageUtils.INSTANCE.sendMessageInGroupI(data, CAP_GID);
+            Notice notice = JSON.parseObject(data, Notice.class);
+            MessageUtils.INSTANCE.sendMessageInGroupI(JSON.toJSONString(notice), CAP_GID);
+            Document doc = Jsoup.parse(notice.getHtml());
+            doc.outputSettings().prettyPrint(true);
+            String ds = doc.toString();
+            MessageUtils.INSTANCE.sendMessageInGroupI(ds, CAP_GID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return "ok";
     }
 
@@ -156,6 +165,6 @@ public class RestController0 {
     String webPwd;
 
     public String accept(Integer id) {
-       return UrlUtils.getStringFromHttpUrl(webUrl + "/accept?id=" + id + "&pwd=" + webPwd);
+        return UrlUtils.getStringFromHttpUrl(webUrl + "/accept?id=" + id + "&pwd=" + webPwd);
     }
 }
