@@ -143,7 +143,6 @@ public class ScoreServiceImpl implements IScoreService {
                 Object[] lines = regDay(qid);
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
-
                 try {
                     Integer s0 = 100;
                     s0 += Tool.INSTANCE.getInteagerFromStr(line, 0);

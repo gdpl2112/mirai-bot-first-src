@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Notice;
 import io.github.kloping.mirai0.commons.SpUser;
 import io.github.kloping.mirai0.commons.TradingRecord;
+import io.github.kloping.mirai0.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import org.jsoup.Jsoup;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,7 +37,6 @@ public class RestController0 {
     public static final Set<String> CANS = new LinkedHashSet<>();
     public static final Map<String, String> CAPING = new ConcurrentHashMap<>();
     private static final Map<String, String> UCAP = new ConcurrentHashMap<>();
-    private static final Map<String, Integer> CAPING_ERR = new ConcurrentHashMap<>();
 
     @AutoStand
     static ControllerSource controllerSource;
@@ -59,19 +60,6 @@ public class RestController0 {
         return jo.toString();
     }
 
-    @GetMapping("authCap1")
-    public String authCap(@RequestParam("id") String id, @RequestParam("code") String code) {
-        if (!UCAP.containsKey(id)) {
-            return "err";
-        }
-        if (UCAP.get(id).toLowerCase().equals(code.toLowerCase())) {
-            UCAP.remove(id);
-            return "ok";
-        } else {
-            return "err";
-        }
-    }
-
     @GetMapping("AuthCap")
     public String authCap(@RequestParam("id") String id, @RequestParam("code") String code, @RequestParam("qid") String qid) {
         if (!UCAP.containsKey(id)) {
@@ -87,15 +75,6 @@ public class RestController0 {
         } else {
             return "err";
         }
-    }
-
-    @GetMapping("authorization0")
-    public String authorization0(@RequestParam("pwd") String pwd, @RequestParam("qid") Long qid) {
-        if (pwd.equals(pwd0)) {
-            String code0 = getCode();
-            MessageUtils.INSTANCE.sendMessageInOneFromGroup("您当前正在评论,若没有请忽略此条消息\r\n您的验证码是:" + code0, qid);
-            return code0;
-        } else return "-1";
     }
 
     @GetMapping("requestCode0")
@@ -115,7 +94,7 @@ public class RestController0 {
     public Object uploadTips(@RequestBody String data) {
         try {
             MessageUtils.INSTANCE.sendMessageInGroup("有新的帖子上传成功", CAP_GID);
-            data = URLDecoder.decode(data);
+            data = URLDecoder.decode(data, Charset.forName("UTF-8"));
             if (!data.endsWith("}")) {
                 int i = data.lastIndexOf("}");
                 data = data.substring(0, i + 1);
@@ -156,6 +135,12 @@ public class RestController0 {
         if (!pwd.equals(pwd1)) return "err";
         DataBase.addScore(score, qid);
         return "ok";
+    }
+
+    @GetMapping("getUser")
+    public UserScore get(@RequestParam("qid") Long qid, @RequestParam("pwd") String pwd) {
+        if (!pwd.equals(pwd1)) return null;
+        return DataBase.getAllInfo(qid);
     }
 
     @Value("${web.url:http://localhost}")
