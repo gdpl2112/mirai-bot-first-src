@@ -27,6 +27,7 @@ public class LewisHandler extends SimpleListenerHost {
     }
 
     private String host = null;
+    private Number bid = null;
 
     @EventHandler
     public void onEvent(GroupMessageEvent event) {
@@ -34,23 +35,20 @@ public class LewisHandler extends SimpleListenerHost {
             if (host == null) {
                 host = BootstarpResource.contextManager.getContextEntity(String.class, "lewis.host");
             }
+            if (bid == null) {
+                bid = BootstarpResource.contextManager.getContextEntity(Number.class, "lewis.bot");
+            }
             // 分群处理
             if (isAllowGroupId(event.getGroup().getId(), "main")) {
                 JSONObject param = new JSONObject();
                 param.put("key", event.getMessage().serializeToMiraiCode());
                 param.put("qq", event.getSender().getId());
                 param.put("groupId", event.getGroup().getId());
-                param.put("botQq", event.getBot().getId());
+                param.put("botQq", bid);
                 String body = param.toJSONString();
                 Document doc = null;
                 try {
-                    doc = Jsoup.connect(String.format("http://%s/api/getM2Result", host))
-                            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44")
-                            .ignoreHttpErrors(true)
-                            .ignoreContentType(true)
-                            .header("Content-Type", "application/json")
-                            .header("Authorization", null)
-                            .requestBody(body).post();
+                    doc = Jsoup.connect(String.format("http://%s/api/getM2Result", host)).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44").ignoreHttpErrors(true).ignoreContentType(true).header("Content-Type", "application/json").header("Authorization", null).requestBody(body).post();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
