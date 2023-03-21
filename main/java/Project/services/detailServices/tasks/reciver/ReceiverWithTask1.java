@@ -21,14 +21,17 @@ public class ReceiverWithTask1
         super(task);
     }
 
+    /**
+     *
+     * @param q1 玩家1 胜者
+     * @param q2 玩家2
+     * @param w  0.玩家1胜,1.玩家2胜
+     */
     @Override
     public void onReceive(long q1, long q2, int w) {
         Task task = getT();
-        if (task.getHost().longValue() != q2) {
-            return;
-        }
-        if (q2 == task.getHost().longValue()) {
-            if (task.getTasker().contains(q1)) {
+        if (q1 == task.getHost().longValue()) {
+            if (task.getTasker().contains(q2)) {
                 deleteTask(task);
                 MessageUtils.INSTANCE.sendMessageInGroupWithAt(task.getFinish()
                         , task.getFromG().longValue(), task.getHost());

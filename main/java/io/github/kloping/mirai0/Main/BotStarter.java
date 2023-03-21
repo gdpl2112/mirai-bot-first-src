@@ -3,6 +3,7 @@ package io.github.kloping.mirai0.Main;
 import Project.aSpring.SpringBootResource;
 import Project.aSpring.SpringStarter;
 import Project.listeners.DefaultHandler;
+import Project.listeners.LewisHandler;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.common.Public;
@@ -33,6 +34,7 @@ public class BotStarter {
             Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_console.log");
         });
         GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());
+        GlobalEventChannel.INSTANCE.registerListenerHost(new LewisHandler());
         setterStarterApplication(BotStarter.class);
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;

@@ -30,7 +30,7 @@ public class TrialChallengeEndBroadcast extends Broadcast {
         return false;
     }
 
-    public static interface TrialChallengeReceiver extends Receiver {
+    public interface TrialChallengeReceiver extends Receiver {
         /**
          * receive
          *
