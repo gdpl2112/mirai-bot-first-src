@@ -16,6 +16,7 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.services.player.PlayerBehavioralManager;
+import Project.utils.KlopingWebDataBaseInteger;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
@@ -514,7 +515,10 @@ public class GameServiceImpl implements IGameService {
         }
     }
 
+    private static final String FORMATRH = "%s-in-%s";
+
     private boolean randHh(Integer id, long who, int level) {
+        KlopingWebDataBaseInteger kw = new KlopingWebDataBaseInteger(String.format(FORMATRH, who, level), 0);
         boolean k1 = (id >= 204 && level < 10);
         boolean k2 = (id >= 205 && level < 50);
         boolean k3 = (id >= 206 && level < 70);
@@ -529,6 +533,9 @@ public class GameServiceImpl implements IGameService {
         if (personInfo.getLevel() > 60) r1--;
         if (personInfo.getLevel() > 90) r1--;
         if (personInfo.getLevel() > 120) r1--;
+        int r0 = kw.getValue(id);
+        r1 -= r0;
+        kw.setValue(id, r0 + 1);
         switch (id) {
             case 201:
                 return true;

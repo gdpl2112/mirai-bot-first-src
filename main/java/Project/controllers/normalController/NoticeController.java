@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 3.24:修改魂环吸收概率,每次吸收失败增加10%").append(NEWLINE);
         UPDATE_LOG.append(" 3.15:开放'创建试炼挑战','创建平衡挑战'").append(NEWLINE);
         UPDATE_LOG.append(" 3.12:放弃任务功能").append(NEWLINE);
         UPDATE_LOG.append(" 2.18:代码重构").append(NEWLINE);
