@@ -7,6 +7,8 @@ import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import java.util.*;
 
 /**
+ * 前/后 摇控制
+ *
  * @author github.kloping
  */
 @Entity

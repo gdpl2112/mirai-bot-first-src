@@ -60,9 +60,4 @@ public class FirstController {
         return null;
     }
 
-    @Action("通过帖子<.+=>id>")
-    public Object ok(@Param("id") Integer id) {
-        RestController0 c0 = SpringStarter.configuration.getBean(RestController0.class);
-        return c0.accept(id);
-    }
 }

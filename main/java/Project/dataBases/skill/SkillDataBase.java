@@ -151,6 +151,12 @@ public class SkillDataBase {
         NEGATIVE_TAGS.add(TAG_CANT_USE);
     }
 
+    /**
+     * 雷元素
+     */
+    public static final String TAG_E_A = "A";
+
+
     public SkillDataBase(String path) {
         initMap();
     }
@@ -158,8 +164,7 @@ public class SkillDataBase {
     public static final Map<Integer, SkillInfo> getSkillInfo(Long qq) {
         if (!QQ_2_ST_2_MAP.containsKey(qq)) return new ConcurrentHashMap<>();
         Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null)
-            map = new ConcurrentHashMap<>();
+        if (map == null) map = new ConcurrentHashMap<>();
         return map;
     }
 
@@ -185,10 +190,8 @@ public class SkillDataBase {
     public static final void remove(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
         Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null)
-            map = new ConcurrentHashMap<>();
-        if (map.containsKey(info.getSt()))
-            map.remove(info.getSt());
+        if (map == null) map = new ConcurrentHashMap<>();
+        if (map.containsKey(info.getSt())) map.remove(info.getSt());
         QQ_2_ST_2_MAP.put(qq, map);
         SpringBootResource.getSkillInfoMapper().deleteById(info.getUuid());
     }
@@ -224,8 +227,7 @@ public class SkillDataBase {
     public static final void appendInfo(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
         Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null)
-            map = new ConcurrentHashMap<>();
+        if (map == null) map = new ConcurrentHashMap<>();
         map.put(info.getSt(), info);
         QQ_2_ST_2_MAP.put(qq, map);
     }
