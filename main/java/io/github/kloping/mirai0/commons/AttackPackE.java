@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.commons;
 
+import Project.dataBases.GameDataBase;
 import Project.interfaces.entities.AttackPack;
 
 /**
@@ -44,5 +45,13 @@ public abstract class AttackPackE implements AttackPack {
     @Override
     public Integer getState() {
         return state;
+    }
+
+    protected PersonInfo getInfo() {
+        return GameDataBase.getInfo(initiator);
+    }
+
+    protected PersonInfo getTargetInfo() {
+        return GameDataBase.getInfo(target);
     }
 }
