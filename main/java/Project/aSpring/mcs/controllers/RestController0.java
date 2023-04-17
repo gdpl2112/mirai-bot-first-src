@@ -140,7 +140,7 @@ public class RestController0 {
     @GetMapping("getUser")
     public UserScore get(@RequestParam("qid") Long qid, @RequestParam("pwd") String pwd) {
         if (!pwd.equals(pwd1)) return null;
-        return DataBase.getAllInfo(qid);
+        return DataBase.getUserInfo(qid);
     }
 
     @Value("${web.url:http://localhost}")

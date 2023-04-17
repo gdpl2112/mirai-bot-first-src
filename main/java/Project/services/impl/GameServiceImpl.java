@@ -317,7 +317,7 @@ public class GameServiceImpl implements IGameService {
 
     @Override
     public String buyGold(Long who, long num) {
-        long is = DataBase.getAllInfo(who).getScore();
+        long is = DataBase.getUserInfo(who).getScore();
         if (is >= num * 2) {
             DataBase.addScore(-(num * 2), who);
             putPerson(getInfo(who).addGold(num, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买金魂币" + num).setMany(num)));

@@ -161,7 +161,7 @@ public class EntertainmentController {
         if (idiom == null) {
             return "游戏未开始:请说 开始成语接龙";
         }
-        UserScore score = DataBase.getAllInfo(user.getId());
+        UserScore score = DataBase.getUserInfo(user.getId());
         if (score.getScore() < eveS1) {
             return "您的积分不足...";
         }
@@ -234,7 +234,7 @@ public class EntertainmentController {
             sb.append("最小竞猜10自动转换\n");
         }
         if (Quiz.quiz.append(qid, index, sc)) {
-            UserScore userScore = DataBase.getAllInfo(qid);
+            UserScore userScore = DataBase.getUserInfo(qid);
             if (userScore.getScore() < sc) return "积分不足";
             userScore.addScore(-sc);
             int all = Quiz.quiz.getAll();

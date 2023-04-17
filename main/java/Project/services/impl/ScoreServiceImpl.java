@@ -55,7 +55,7 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public String selectInfo(Long who) {
         StringBuilder str = new StringBuilder();
-        UserScore lll = DataBase.getAllInfo(who);
+        UserScore lll = DataBase.getUserInfo(who);
         str.append("剩的积分:").append(lll.getScore()).append("\r\n");
         str.append("存的积分:").append(lll.getSScore());
         return str.toString();
@@ -63,7 +63,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String getScore(Long who, long num) {
-        long l1 = DataBase.getAllInfo(who).getSScore().longValue();
+        long l1 = DataBase.getUserInfo(who).getSScore().longValue();
         if (l1 >= num) {
             DataBase.addScore_(-num, who);
             addScore(num, who);
@@ -75,7 +75,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String putScore(Long who, long num) {
-        long l1 = DataBase.getAllInfo(who).getScore();
+        long l1 = DataBase.getUserInfo(who).getScore();
         if (l1 >= num) {
             addScore_(num, who);
             addScore(-num, who);
@@ -87,7 +87,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String getScoreTo(Long who, Long whos, long num) {
-        long l1 = DataBase.getAllInfo(who).getScore();
+        long l1 = DataBase.getUserInfo(who).getScore();
         if (l1 >= num) {
             addScore(-num, who);
             addScore(num, whos);
@@ -99,17 +99,17 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String robbery(Long who, Long whos) {
-        long lI = DataBase.getAllInfo(who).getScore();
-        long lY = DataBase.getAllInfo(whos).getScore();
-        long fI = DataBase.getAllInfo(who).getFz();
+        long lI = DataBase.getUserInfo(who).getScore();
+        long lY = DataBase.getUserInfo(whos).getScore();
+        long fI = DataBase.getUserInfo(who).getFz();
         if (lI > 60) {
             if (lY > 60) {
                 if (fI < 12) {
                     long l = Tool.INSTANCE.RANDOM.nextInt(20) + 40;
                     addScore(l, who);
                     addScore(-l, whos);
-                    putInfo(getAllInfo(who).record(l));
-                    putInfo(getAllInfo(whos).record(-l));
+                    putInfo(getUserInfo(who).record(l));
+                    putInfo(getUserInfo(whos).record(-l));
                     DataBase.addFz(1, who);
                     return "成功抢劫了" + l + "积分!\n增加1指数";
                 } else {
@@ -129,7 +129,7 @@ public class ScoreServiceImpl implements IScoreService {
     @Override
     public String sign(Long qid, SpGroup group) {
         synchronized (qid) {
-            UserScore ls = DataBase.getAllInfo(qid);
+            UserScore ls = DataBase.getUserInfo(qid);
             int day = Tool.INSTANCE.getTodayInt();
             if (ls.getDay() == day) {
                 return "签到失败,你今天已经签到过了!!";
@@ -188,7 +188,7 @@ public class ScoreServiceImpl implements IScoreService {
                             .setDesc(WORK_LONG_STR)
                             .setMany(nr)
             ));
-            putInfo(getAllInfo(who).record(s));
+            putInfo(getUserInfo(who).record(s));
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");
         } else {
@@ -216,7 +216,7 @@ public class ScoreServiceImpl implements IScoreService {
 
     @Override
     public String earnings(long id) {
-        UserScore score = getAllInfo(id);
+        UserScore score = getUserInfo(id);
         return String.format(EARNINGS_TIPS_FORMAT, score.getEarnings(), score.getDebuffs());
     }
 }

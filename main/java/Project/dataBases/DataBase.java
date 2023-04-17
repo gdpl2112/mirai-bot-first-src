@@ -138,7 +138,7 @@ public class DataBase {
         return SpringBootResource.getScoreMapper().selectById(who.longValue()) != null;
     }
 
-    public static UserScore getAllInfo(Long who) {
+    public synchronized static UserScore getUserInfo(Long who) {
         if (!exists(who)) regA(who);
         UserScore uScore = null;
         try {
@@ -151,7 +151,7 @@ public class DataBase {
         }
     }
 
-    public static void putInfo(UserScore score) {
+    public synchronized static void putInfo(UserScore score) {
         HIST_U_SCORE.put(score.getWho().longValue(), score);
         long who = score.getWho().longValue();
         UpdateWrapper<UserScore> q = new UpdateWrapper<>();
@@ -160,33 +160,33 @@ public class DataBase {
     }
 
     public static boolean isMaxEarnings(long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         return score.getEarnings() + score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
     }
 
     public static long addScore(long l, Long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         score.addScore(l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long addFz(long l, Long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         score.setFz(score.getFz() + l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long addScore_(long l, Long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         score.setSScore(score.getSScore() + l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long addTimes(long l, Long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         try {
             int today = Integer.parseInt(Tool.INSTANCE.getToday());
             if (score.getTimesDay().intValue() != today) {
@@ -204,19 +204,19 @@ public class DataBase {
     }
 
     private static long addTimes_(long l, Long who) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         score.setSTimes(score.getSTimes() + l);
         putInfo(score);
         return score.getScore();
     }
 
     public static long getK(Long who) {
-        long l = getAllInfo(who).getK();
+        long l = getUserInfo(who).getK();
         return l;
     }
 
     public static void setK(Long who, long l) {
-        UserScore score = getAllInfo(who);
+        UserScore score = getUserInfo(who);
         score.setK(l);
         putInfo(score);
     }

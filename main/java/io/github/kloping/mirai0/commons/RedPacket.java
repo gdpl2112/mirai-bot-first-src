@@ -148,7 +148,7 @@ public abstract class RedPacket {
     public static boolean judge(long qid, IdType type, int value) {
         switch (type) {
             case SCORE:
-                return DataBase.getAllInfo(qid).getScore() >= value;
+                return DataBase.getUserInfo(qid).getScore() >= value;
             case GOLD:
                 return GameDataBase.getInfo(qid).getGold() >= value;
             case OBJ0:
@@ -161,7 +161,7 @@ public abstract class RedPacket {
     public static void app(long qid, IdType type, int value) {
         switch (type) {
             case SCORE:
-                DataBase.putInfo(DataBase.getAllInfo(qid).addScore(-value));
+                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(-value));
                 break;
             case GOLD:
                 GameDataBase.getInfo(qid).addGold((long) -value, new TradingRecord()
@@ -188,7 +188,7 @@ public abstract class RedPacket {
     public static void add(long qid, IdType type, int num) {
         switch (type) {
             case SCORE:
-                DataBase.putInfo(DataBase.getAllInfo(qid).addScore(num));
+                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(num));
                 break;
             case GOLD:
                 GameDataBase.getInfo(qid).addGold((long) num, new TradingRecord()

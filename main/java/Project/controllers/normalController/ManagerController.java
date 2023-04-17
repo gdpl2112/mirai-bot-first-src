@@ -273,7 +273,7 @@ public class ManagerController {
         index = index == null ? 0 : index;
         if (index == 0) {
             for (Quiz.QuizSon quizSon : Quiz.quiz.getQuizSons()) {
-                DataBase.getAllInfo(quizSon.getQid()).addScore(quizSon.getSc());
+                DataBase.getUserInfo(quizSon.getQid()).addScore(quizSon.getSc());
             }
             Quiz.quiz = null;
             return "强制结束";
@@ -294,7 +294,7 @@ public class ManagerController {
                     long s0 = quizSon.getSc();
                     int b0 = NumberUtils.toPercent(s0, win);
                     long wg = NumberUtils.percentTo(b0, a0);
-                    DataBase.getAllInfo(quizSon.getQid()).addScore(wg);
+                    DataBase.getUserInfo(quizSon.getQid()).addScore(wg);
                     sb.append(quizSon.getQid()).append("获得").append(wg).append(NEWLINE);
                 }
             }

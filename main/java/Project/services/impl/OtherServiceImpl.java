@@ -42,7 +42,7 @@ public class OtherServiceImpl implements IOtherService {
 
     @Override
     public String mora(Long who, String what) {
-        long li = DataBase.getAllInfo(who).getScore();
+        long li = DataBase.getUserInfo(who).getScore();
         String num = Tool.INSTANCE.findNumberFromString(what);
         long l1 = num.isEmpty() ? 0 : Long.parseLong(num);
         Mora mora1 = Mora.findMora(what, 0);
@@ -63,11 +63,11 @@ public class OtherServiceImpl implements IOtherService {
             return "平局 我出的是" + i.getValue();
         } else if (p == -1) {
             DataBase.addScore(-l1, Long.valueOf(who));
-            putInfo(getAllInfo(who).record(-l1));
+            putInfo(getUserInfo(who).record(-l1));
             return "你输了 我出的是" + i.getValue() + "\n你输掉了:" + l1 + "积分";
         } else if (p == 1) {
             long l = DataBase.addScore(l1, Long.valueOf(who));
-            putInfo(getAllInfo(who).record(l1));
+            putInfo(getUserInfo(who).record(l1));
             return "你赢了 我出的是" + i.getValue() + "\n你获得了:" + l1 + "积分";
         }
         return "猜拳异常";

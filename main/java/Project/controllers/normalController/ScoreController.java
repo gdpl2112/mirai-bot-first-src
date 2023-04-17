@@ -129,14 +129,14 @@ public class ScoreController {
 
     @Action(value = "捐款")
     public String donate(SpUser qq, @AllMess String str) {
-        if (DataBase.getAllInfo(qq.getId()).getScore() < 140) return "积分不足";
+        if (DataBase.getUserInfo(qq.getId()).getScore() < 140) return "积分不足";
         if (DataBase.isMaxEarnings(qq.getId())) {
             return MAX_EARNINGS_TIPS;
         }
         long l = Tool.INSTANCE.RANDOM.nextInt(40) + 40;
         long r = Tool.INSTANCE.RANDOM.nextInt(3) + 1;
         addScore(-l, qq.getId());
-        putInfo(getAllInfo(qq.getId()).record(-l));
+        putInfo(getUserInfo(qq.getId()).record(-l));
         DataBase.addFz(-r, qq.getId());
         return String.format("捐款了%s积分,降低了%s点犯罪指数", l, r);
     }
@@ -154,7 +154,7 @@ public class ScoreController {
 
     @Action("我的发言")
     public String getSpeaks(SpUser qq) {
-        UserScore ls = DataBase.getAllInfo(qq.getId());
+        UserScore ls = DataBase.getUserInfo(qq.getId());
         return "你今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次";
     }
 
@@ -163,7 +163,7 @@ public class ScoreController {
         try {
             long who = Project.utils.Utils.getAtFromString(mess);
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
-            UserScore ls = DataBase.getAllInfo(who);
+            UserScore ls = DataBase.getUserInfo(who);
             return "ta的积分剩余:" + ls.getScore();
         } catch (NumberFormatException e) {
             return "格式错误(例: 侦查积分 @我 )";
@@ -186,7 +186,7 @@ public class ScoreController {
             if (who == -1)
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
-            UserScore ls = DataBase.getAllInfo(who);
+            UserScore ls = DataBase.getUserInfo(who);
             return builder.append("ta").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
         } catch (NumberFormatException e) {
             return builder.append("格式错误(例: ta的发言 @我 )").toString();

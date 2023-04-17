@@ -2,18 +2,19 @@ package Project.listeners;
 
 import Project.broadcast.game.GroupMessageBroadcast;
 import Project.broadcast.normal.MessageBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.ControllerTool;
 import Project.controllers.normalController.SessionController;
 import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
-import Project.commons.SpGroup;
-import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
@@ -195,6 +196,7 @@ public class DefaultHandler extends SimpleListenerHost {
     public void onEvent(BotOnlineEvent event) {
         BootstarpResource.BOT = event.getBot();
         println(String.format("BOT(%s)上线了!!", event.getBot().getId()));
+        BotInstance.instance = new BotInstance(event.getBot());
     }
 
 }
