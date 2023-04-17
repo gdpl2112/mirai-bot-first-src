@@ -1,7 +1,7 @@
 package Project.broadcast.game.challenge;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 
 import java.lang.reflect.Method;
 

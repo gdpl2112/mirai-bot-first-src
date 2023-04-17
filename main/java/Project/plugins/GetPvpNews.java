@@ -6,8 +6,8 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.entity.ParamsBuilder;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQqCom.v1.Response1;
+import Project.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
+import Project.commons.apiEntitys.pvpqq.pvpQqCom.v1.Response1;
 import io.github.kloping.number.NumberUtils;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.message.data.Message;
@@ -22,7 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
 
 /**
  * @author github-kloping

@@ -3,25 +3,19 @@ package Project.dataBases;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GotOrLostObjBroadcast;
+import Project.commons.broadcast.enums.ObjType;
 import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.common.Public;
-import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static io.github.kloping.MySpringTool.PartUtils.getEntry;
-import static io.github.kloping.file.FileUtils.getStringsFromFile;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 
 /**
  * @author github-kloping
@@ -36,9 +30,8 @@ public class GameDataBase {
     public static final Map<Integer, Integer> ID_2_WEA_O_NUM_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> WH_2_TYPE = new ConcurrentHashMap<>();
     public static final Map<Long, PersonInfo> HIST_INFOS = new ConcurrentHashMap<>();
-    public static String path = "./data";
 
-    public GameDataBase(String mainPath) {
+    public GameDataBase() {
         intiObj();
     }
 
@@ -444,18 +437,6 @@ public class GameDataBase {
         return bags.toArray(new Integer[bags.size()]);
     }
 
-    public static Integer[] getBgsFromFile(Long who) {
-        String pathN = path + "/dates/users/" + who;
-        File file = new File(pathN + "/bgs");
-        List<Integer> list = new ArrayList<>();
-        for (String s : Tool.INSTANCE.getStringsFromFile(file.getPath())) {
-            s = s.trim();
-            if (s.startsWith("//") || s.startsWith("#") || s.contains(":") || s.equals("0")) continue;
-            list.add(Integer.valueOf(s));
-        }
-        return list.toArray(new Integer[list.size()]);
-    }
-
     /**
      * 判断背包是否有足够的 物品
      *
@@ -520,21 +501,6 @@ public class GameDataBase {
         return maps;
     }
 
-    public static Map<Integer, Map.Entry<Integer, Integer>> getBgswFromFile(Long who) {
-        String pathN = path + "/dates/users/" + who;
-        File file = new File(pathN + "/Aqbgs");
-        Map<Integer, Map.Entry<Integer, Integer>> maps = new LinkedHashMap<>();
-        int i = 1;
-        for (String s : getStringsFromFile(file.getPath())) {
-            if (s.contains(":")) {
-                String[] ss = s.split(":");
-                maps.put(i, getEntry(Integer.valueOf(ss[0]), Integer.valueOf(ss[1])));
-                i++;
-            }
-        }
-        return maps;
-    }
-
     /**
      * 获取玩家信息
      *
@@ -554,78 +520,12 @@ public class GameDataBase {
         return info;
     }
 
-    public static PersonInfo getInfoFromFile(Long who) {
-        if (who == null || who.longValue() <= 0) return null;
-        File file;
-        String lines;
-        if (new File(path + "/dates/users/" + who + "/infos_temp").exists()) {
-            file = new File(path + "/dates/users/" + who + "/infos_temp");
-        } else {
-            file = new File(path + "/dates/users/" + who + "/infos");
-        }
-        try {
-            PersonInfo personInfo;
-            if (HIST_INFOS.containsKey(who)) {
-                personInfo = HIST_INFOS.get(who);
-            } else {
-                lines = Tool.INSTANCE.getStringFromFile(file.getPath());
-                if (lines == null || lines.isEmpty()) {
-                    return null;
-                }
-                personInfo = new PersonInfo();
-                personInfo = parseObj(personInfo, lines);
-                HIST_INFOS.put(who, personInfo);
-            }
-            return personInfo;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static PersonInfo getInfo(Number qq) {
         return getInfo(qq.longValue());
     }
 
     public static PersonInfo getInfo(String who) {
         return getInfo(Long.parseLong(who));
-    }
-
-    private final static <T extends Object> T parseObj(T obj, String line) {
-        try {
-            String[] lines = null;
-            lines = line.split(line.contains("\r") ? "\r\n" : "\n");
-            for (String s1 : lines) {
-                String[] kv = s1.split("=");
-                if (kv.length == 1) continue;
-                String k = kv[0].trim();
-                String v = kv[1].trim();
-                if (v.trim().isEmpty()) continue;
-                Field field = null;
-                Class cls = null;
-                try {
-                    if ("level".equals(k)) k = "Level";
-                    field = obj.getClass().getDeclaredField(k);
-                    cls = field.getType();
-                } catch (Exception e) {
-                    continue;
-                }
-                field.setAccessible(true);
-                try {
-                    Method method = cls.getMethod("valueOf", String.class);
-                    field.set(obj, method.invoke(null, v));
-                } catch (Exception e) {
-                    if (cls == Number.class) field.set(obj, Long.valueOf(v.toString()));
-                    else if (cls == boolean.class || cls == Boolean.class)
-                        field.set(obj, Boolean.valueOf(v.toString()));
-                    else field.set(obj, v);
-                }
-            }
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -665,12 +565,6 @@ public class GameDataBase {
         return warp;
     }
 
-    public static Warp getWarpFromFile(Number id) {
-        String pathN = path + "/dates/users/" + id;
-        Warp warp = new Warp().setId(id.toString());
-        return FileInitializeValue.getValue(pathN + "/warp", warp, true);
-    }
-
     public static Warp setWarp(Warp warp) {
         Public.EXECUTOR_SERVICE.submit(() -> {
             SpringBootResource.getWarpMapper().updateById(warp);
@@ -686,19 +580,6 @@ public class GameDataBase {
      */
     public static Integer[] getHhs(Long who) {
         List<Integer> ls = SpringBootResource.getHhpzMapper().select(who.longValue());
-        return ls.toArray(new Integer[ls.size()]);
-    }
-
-    public static Integer[] getHhsFromFile(Long who) {
-        List<Integer> ls = new ArrayList<>();
-        String pathN = path + "/dates/users/" + who;
-        String[] sss = getStringsFromFile(pathN + "/hhpz");
-        for (String s : sss) {
-            ls.add(Integer.valueOf(s));
-        }
-        if (ls.isEmpty()) {
-            return new Integer[]{0};
-        }
         return ls.toArray(new Integer[ls.size()]);
     }
 
@@ -900,105 +781,4 @@ public class GameDataBase {
     public static long getGk1(Long who) {
         return getInfo(who).getGk1();
     }
-
-    /**
-     * 获取数据
-     *
-     * @param who
-     * @param dataName
-     * @param data
-     * @return
-     */
-    private static boolean putData(Long who, String dataName, Object data) {
-        String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.INSTANCE.testFile(pathN);
-        try {
-            if (data == null) {
-                return Tool.INSTANCE.putStringInFile("", pathN);
-            } else {
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(pathN));
-                oos.writeObject(data);
-                oos.close();
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 获取数据
-     *
-     * @param who
-     * @param dataName
-     * @param data
-     * @return
-     */
-    public static boolean putDataString(Long who, String dataName, Object data) {
-        String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.INSTANCE.testFile(pathN);
-        try {
-            return Tool.INSTANCE.putStringInFile(data == null ? "" : data.toString(), pathN);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 获取数据
-     *
-     * @param who
-     * @param dataName
-     * @return
-     */
-    private static Object getData(Long who, String dataName) {
-        String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.INSTANCE.testFile(pathN);
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(pathN));
-            Object o = ois.readObject();
-            ois.close();
-            return o;
-        } catch (Exception e) {
-            System.err.println("Objective-C get Failed");
-        }
-        return null;
-    }
-
-    /**
-     * 获取数据
-     *
-     * @param who
-     * @param dataName
-     * @return
-     */
-    public static Object getDataString(Long who, String dataName) {
-        String pathN = path + "/dates/users/" + who + "/" + dataName;
-        Tool.INSTANCE.testFile(pathN);
-        try {
-            StringBuffer sb = new StringBuffer();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pathN)));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
-        } catch (Exception e) {
-            System.err.println("Objective-C get Failed");
-        }
-        return null;
-    }
-
-    public static String getStringFromData(Long who, String DataName) {
-        String pathN = path + "/dates/users/" + who + "/" + DataName;
-        return Tool.INSTANCE.getStringFromFile(pathN, "utf-8");
-    }
-
-    public static boolean putStringFromData(Long who, String DataName, String line) {
-        String pathN = path + "/dates/users/" + who + "/" + DataName;
-        return Tool.INSTANCE.putStringInFile(line, pathN, "utf-8");
-    }
-
 }

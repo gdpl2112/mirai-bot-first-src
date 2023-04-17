@@ -1,7 +1,7 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 
 import java.util.Iterator;
 
@@ -37,7 +37,7 @@ public class PlayerLostBroadcast extends Broadcast {
         return false;
     }
 
-    public static interface PlayerLostReceiver extends Receiver {
+    public interface PlayerLostReceiver extends Receiver {
         /**
          * receive
          *
@@ -47,12 +47,12 @@ public class PlayerLostBroadcast extends Broadcast {
          */
         void onReceive(long who, long from, LostType type);
 
-        public static enum LostType {
+        enum LostType {
             att, un, fake
         }
     }
 
-    public static interface OncePlayerLostReceiver extends Receiver {
+    public interface OncePlayerLostReceiver extends Receiver {
         /**
          * receive0
          *

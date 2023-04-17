@@ -4,15 +4,15 @@ import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping

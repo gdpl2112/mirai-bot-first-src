@@ -2,7 +2,6 @@ package io.github.kloping.mirai0.Main.iutils;
 
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
@@ -18,10 +17,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
-import static Project.controllers.auto.ControllerSource.aiBaiduDetail;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
@@ -33,8 +30,6 @@ import static io.github.kloping.mirai0.Main.Parse.aStart;
 public class MessageUtils {
     public static MessageUtils INSTANCE = new MessageUtils();
     public final Map<String, Image> HIST_IMAGES = new HashMap<>();
-    public final Map<Integer, Face> FACES = new ConcurrentHashMap<>();
-    public final Map<Long, At> ATS = new ConcurrentHashMap<>();
 
     public MessageChain getMessageFromString(String str, Contact group) {
         if (str == null || str.isEmpty() || group == null) return null;
@@ -44,25 +39,13 @@ public class MessageUtils {
         return message;
     }
 
-    public long getAtFromString(String message) {
-        int start = message.indexOf("[@");
-        int end = message.indexOf("]");
-        if (start == -1 || end == -1) return -1;
-        String str = message.substring(start + 2, end);
-        if ("me".equals(str))
-            return BOT.getId();
-        long l = Long.parseLong(str);
-        return l;
-    }
-
     private List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
             String str = o.toString();
             boolean k = (str.startsWith("<") || str.startsWith("[")) && !str.matches("\\[.+]请使用最新版手机QQ体验新功能");
             if (k) {
-                String ss = str.replace("<", "").replace(">", "")
-                        .replace("[", "").replace("]", "");
+                String ss = str.replace("<", "").replace(">", "").replace("[", "").replace("]", "");
                 int i1 = ss.indexOf(":");
                 String s1 = ss.substring(0, i1);
                 String s2 = ss.substring(i1 + 1);
@@ -90,32 +73,12 @@ public class MessageUtils {
         return lls;
     }
 
-    private Face getFace(int parseInt) {
-        if (FACES.containsKey(parseInt)) {
-            return FACES.get(parseInt);
-        } else {
-            Face face = new Face(parseInt);
-            FACES.put(parseInt, face);
-            return face;
-        }
+    private Face getFace(int id) {
+        return new Face(id);
     }
 
     public At getAt(long id) {
-        if (ATS.containsKey(id)) {
-            return ATS.get(id);
-        } else {
-            At at = new At(id);
-            ATS.put(id, at);
-            return at;
-        }
-    }
-
-    public void speak(String line, SpGroup group) {
-        try {
-            MessageUtils.INSTANCE.sendVoiceMessageInGroup(aiBaiduDetail.getBytes(line), group.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return new At(id);
     }
 
     public Image createImage(Contact group, String path) {
@@ -143,10 +106,6 @@ public class MessageUtils {
             }
         }
         return image;
-    }
-
-    public Image createImage(String path) {
-        return createImage(BOT.getAsFriend(), path);
     }
 
     public String getFlashUrlFromMessageString(String mess) {
@@ -299,13 +258,7 @@ public class MessageUtils {
             FileUtils.writeBytesToFile(bytes, source);
             FileUtils.writeBytesToFile(bytes, target);
             try {
-                String[] args = {
-                        "ffmpeg", "-i", source.getAbsolutePath(),
-                        "-ac", "1",
-                        "-ar", "8000",
-                        "-f", "amr",
-                        "-y", target.getAbsolutePath()
-                };
+                String[] args = {"ffmpeg", "-i", source.getAbsolutePath(), "-ac", "1", "-ar", "8000", "-f", "amr", "-y", target.getAbsolutePath()};
                 StarterApplication.logger.info("exec(" + Arrays.toString(args) + ")");
                 String[] ss = Tool.INSTANCE.print(Runtime.getRuntime().exec(args));
                 StarterApplication.logger.info("exec out:" + ss[0]);

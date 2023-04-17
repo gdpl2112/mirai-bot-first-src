@@ -4,7 +4,7 @@ import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,7 +12,7 @@ import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping

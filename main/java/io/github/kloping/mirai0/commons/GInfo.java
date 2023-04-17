@@ -84,20 +84,8 @@ public class GInfo {
                 return gInfo;
             }
             return new GInfo().setQid(qid);
-        } else {
-            File file = new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml");
-            String s1 = FileUtils.getStringFromFile(file.getAbsolutePath());
-            if (s1 == null || s1.trim().isEmpty()) {
-                return new GInfo().setQid(qid).apply();
-            } else {
-                try {
-                    return (GInfo) HMLObject.parseObject(s1).toJavaObject();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                    return new GInfo().setQid(qid).apply();
-                }
-            }
         }
+        return null;
     }
 
     public GInfo addReqc() {
@@ -217,7 +205,6 @@ public class GInfo {
 
     public GInfo apply() {
         if (getgInfoMapper() == null) {
-            FileUtils.putStringInFile(HMLObject.toHMLString(this), new File(GameDataBase.path + "/dates/users/" + qid + "/ginfo.hml"));
             return this;
         } else {
             UpdateWrapper<GInfo> wrapper = new UpdateWrapper<>();

@@ -4,8 +4,8 @@ import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import Project.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import Project.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 
 @HttpClient("https://ys.mihoyo.com/")
 public interface Mihoyo {

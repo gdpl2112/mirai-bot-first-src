@@ -9,7 +9,7 @@ import io.github.kloping.object.ObjectUtils;
 import java.io.IOException;
 import java.util.*;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
+import static Project.commons.resouce_and_tool.CommonSource.toStr;
 
 /**
  * @author github.kloping

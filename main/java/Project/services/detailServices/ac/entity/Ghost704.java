@@ -1,6 +1,6 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
 
 /**
  * @author github-kloping

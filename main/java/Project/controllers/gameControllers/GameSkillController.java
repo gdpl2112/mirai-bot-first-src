@@ -8,10 +8,10 @@ import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.SpUser;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.SpUser;
+import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import io.github.kloping.number.NumberUtils;
@@ -24,11 +24,11 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping

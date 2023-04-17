@@ -10,10 +10,9 @@ import Project.listeners.DefaultHandler;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Quiz;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
@@ -25,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -42,7 +41,7 @@ public class ManagerController {
     public static Number[] getAllAt(String allMess) {
         Set<Number> numbers = new HashSet<>();
         while (true) {
-            Long l1 = MessageUtils.INSTANCE.getAtFromString(allMess);
+            Long l1 = Project.utils.Utils.getAtFromString(allMess);
             allMess = allMess.replaceFirst("\\[@" + l1 + "]", "");
             if (l1 == -1) break;
             else numbers.add(l1);
@@ -203,7 +202,7 @@ public class ManagerController {
 
     @Action("禁言<.{1,}=>str>")
     public String Ban(SpUser qq, SpGroup egroup, @Param("str") String str, @AllMess String chain) {
-        long who = MessageUtils.INSTANCE.getAtFromString(chain);
+        long who = Project.utils.Utils.getAtFromString(chain);
         if (who == -1) return NOT_FOUND_AT;
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         return managerService.notSpeak(group.get(who), str.replace(who + "", ""), group);
@@ -211,7 +210,7 @@ public class ManagerController {
 
     @Action("解除禁言.{1,}")
     public String UnBan(SpUser qq, SpGroup egroup, @AllMess String chain) {
-        long who = MessageUtils.INSTANCE.getAtFromString(chain);
+        long who = Project.utils.Utils.getAtFromString(chain);
         if (who == -1) return "谁？";
         net.mamoe.mirai.contact.Group group = BOT.getGroup(egroup.getId());
         String str = managerService.notSpeak(group.get(who), "0秒", group);
@@ -221,7 +220,7 @@ public class ManagerController {
     @Action("撤回.+")
     public String recall(@AllMess String str, SpGroup group) {
         try {
-            long at = MessageUtils.INSTANCE.getAtFromString(str);
+            long at = Project.utils.Utils.getAtFromString(str);
             str = str.replace("[@" + at + "]", "").replace("撤回", "");
             if (str.trim().matches("最近\\d+条")) {
                 int[] is;

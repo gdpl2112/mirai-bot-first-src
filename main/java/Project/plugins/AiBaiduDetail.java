@@ -3,8 +3,8 @@ package Project.plugins;
 import Project.interfaces.httpApi.AiBaidu;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.apiEntitys.baidu.AiRequest;
-import io.github.kloping.mirai0.commons.apiEntitys.baidu.AiResponse;
+import Project.commons.apiEntitys.baidu.AiRequest;
+import Project.commons.apiEntitys.baidu.AiResponse;
 
 import java.util.Base64;
 import java.util.HashMap;

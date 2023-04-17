@@ -5,7 +5,7 @@ import Project.skills.SkillFactory;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
 import java.util.*;
@@ -157,7 +157,7 @@ public class SkillDataBase {
     public static final String TAG_E_A = "A";
 
 
-    public SkillDataBase(String path) {
+    public SkillDataBase() {
         initMap();
     }
 

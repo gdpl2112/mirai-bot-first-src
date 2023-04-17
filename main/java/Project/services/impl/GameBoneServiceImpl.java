@@ -13,10 +13,10 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SoulAttribute;
+import Project.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
 import static Project.services.detailServices.GameSkillDetailService.getBasePercent;
 import static Project.services.detailServices.GameSkillDetailService.getCoolTime;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -95,27 +95,6 @@ public class GameBoneServiceImpl implements IGameBoneService {
     @Override
     public List<SoulBone> getSoulBones(Long who) {
         return SpringBootResource.getSoulBoneMapper().selectBons(who);
-    }
-
-    public Map<Integer, Map.Entry<String, Integer>> getAttributeMap(Long who, boolean k1) {
-        try {
-            String str = GameDataBase.getStringFromData(who, "AttributeBoneMap");
-            String[] sss = str.split(str.contains("\r") ? "\r\n" : "\n");
-            Map<Integer, Map.Entry<String, Integer>> map = new LinkedHashMap<>();
-            for (String s1 : sss) {
-                if (s1.trim().isEmpty()) continue;
-                String[] ss = s1.split("=");
-                Integer k = Integer.valueOf(ss[0]);
-                String[] vv = ss[1].split(":");
-                String v1 = vv[0];
-                Integer v2 = Integer.valueOf(vv[1]);
-                map.put(k, Tool.INSTANCE.getEntry(v1, v2));
-            }
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new LinkedHashMap<>();
-        }
     }
 
     @Override

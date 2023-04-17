@@ -1,6 +1,6 @@
 package Project.services.detailServices.roles;
 
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
 
 import java.util.Map;
 

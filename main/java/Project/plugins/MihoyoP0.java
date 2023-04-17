@@ -3,8 +3,8 @@ package Project.plugins;
 import Project.interfaces.httpApi.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
+import Project.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import Project.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,8 +14,8 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.VIDEO_TAG_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.VIDEO_TAG_STR;
 
 /**
  * @author github-kloping

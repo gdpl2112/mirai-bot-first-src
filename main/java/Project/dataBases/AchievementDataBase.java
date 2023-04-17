@@ -1,25 +1,25 @@
 package Project.dataBases;
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.Achievement;
+import Project.commons.gameEntitys.AchievementEntity;
+import Project.commons.gameEntitys.SoulBone;
 import Project.dataBases.skill.SkillDataBase;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.gameEntitys.Achievement;
-import io.github.kloping.mirai0.commons.gameEntitys.AchievementEntity;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulBone;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_NOT_ACHIEVED;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_RECEIVED;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.services.detailServices.GameDetailService.gameBoneService;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_NOT_ACHIEVED;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_RECEIVED;
 
 /**
  * @author github.kloping
@@ -295,14 +295,7 @@ public class AchievementDataBase {
                 if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
                 long t = 2000;
                 PersonInfo pInfo = GameDataBase.getInfo(qid);
-                pInfo.addGold(t, new TradingRecord()
-                        .setType1(TradingRecord.Type1.add)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setTo(qid)
-                        .setMain(qid)
-                        .setFrom(-1)
-                        .setDesc("完成成就")
-                        .setMany(t));
+                pInfo.addGold(t, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(qid).setMain(qid).setFrom(-1).setDesc("完成成就").setMany(t));
                 Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
                 SpringBootResource.getAchievementMapper().insert(achievement);
                 return "成就达成;奖励" + t + "金魂币";
@@ -326,14 +319,7 @@ public class AchievementDataBase {
                 if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
                 long t = 10000;
                 PersonInfo pInfo = GameDataBase.getInfo(qid);
-                pInfo.addGold(t, new TradingRecord()
-                        .setType1(TradingRecord.Type1.add)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setTo(qid)
-                        .setMain(qid)
-                        .setFrom(-1)
-                        .setDesc("完成成就")
-                        .setMany(t));
+                pInfo.addGold(t, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(qid).setMain(qid).setFrom(-1).setDesc("完成成就").setMany(t));
                 Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
                 SpringBootResource.getAchievementMapper().insert(achievement);
                 return "成就达成;奖励" + t + "金魂币";
@@ -627,6 +613,75 @@ public class AchievementDataBase {
             @Override
             public boolean isFinish(long qid) {
                 return getSkillInfo(qid).size() >= 7;
+            }
+        });
+        entityMap.put(25, new AchievementEntity(25) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 1603;
+                int num = 2;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "神级试炼;突破百级;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return GameDataBase.getInfo(qid).getLevel() >= 100;
+            }
+        });
+        entityMap.put(26, new AchievementEntity(26) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 1604;
+                int num = 2;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "神级试炼Ⅱ;突破一百二十级;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return GameDataBase.getInfo(qid).getLevel() >= 120;
+            }
+        });
+        entityMap.put(27, new AchievementEntity(27) {
+            @Override
+            public String finish(long qid) {
+                if (!isFinish(qid)) return ACHIEVEMENT_NOT_ACHIEVED;
+                if (finished(qid, this.getAid())) return ACHIEVEMENT_RECEIVED;
+                int id = 1605;
+                int num = 1;
+                GameDataBase.addToBgs(qid, id, num, ObjType.got);
+                Achievement achievement = new Achievement(null, this.getAid(), qid, System.currentTimeMillis());
+                SpringBootResource.getAchievementMapper().insert(achievement);
+                return "成就达成;奖励" + GameDataBase.getNameById(id) + "x" + num;
+            }
+
+            @Override
+            public String intro(long qid) {
+                return "神王的眷顾;到达150级;";
+            }
+
+            @Override
+            public boolean isFinish(long qid) {
+                return GameDataBase.getInfo(qid).getLevel() >= 150;
             }
         });
     }

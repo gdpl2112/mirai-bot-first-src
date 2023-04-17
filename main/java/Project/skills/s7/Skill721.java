@@ -5,8 +5,8 @@ import Project.services.detailServices.GameBoneDetailService;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

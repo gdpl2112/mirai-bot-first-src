@@ -4,7 +4,7 @@ import Project.interfaces.httpApi.BaiduShitu0;
 import Project.interfaces.httpApi.IBaiduShitu;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.apiEntitys.baiduShitu.BaiduShitu;
+import Project.commons.apiEntitys.baiduShitu.BaiduShitu;
 
 import java.util.HashMap;
 import java.util.Map;

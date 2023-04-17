@@ -12,8 +12,8 @@ import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.object.ObjectUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
@@ -83,11 +83,11 @@ public class BootstarpResource {
     }
 
     public static void init() {
-        dataBase = new DataBase(datePath);
-        gameDataBase = new GameDataBase(datePath);
-        zmDataBase = new ZongMenDataBase(datePath);
-        shopDataBase = new ShopDataBase(datePath);
-        skillDataBase = new SkillDataBase(datePath);
+        dataBase = new DataBase();
+        gameDataBase = new GameDataBase();
+        zmDataBase = new ZongMenDataBase();
+        shopDataBase = new ShopDataBase();
+        skillDataBase = new SkillDataBase();
         gameTaskDatabase = new GameTaskDatabase(datePath);
         otherDatabase = new OtherDatabase(datePath);
     }

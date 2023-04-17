@@ -8,8 +8,8 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -22,9 +22,9 @@ import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.GameDataBase.ID_2_NAME_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -88,7 +88,7 @@ public class GameJoinAcController {
         if (longs.contains(qq.getId())) {
             return "您不能支援";
         }
-        long whos = MessageUtils.INSTANCE.getAtFromString(name);
+        long whos = Project.utils.Utils.getAtFromString(name);
         if (whos == -1) {
             return NOT_FOUND_AT;
         } else {

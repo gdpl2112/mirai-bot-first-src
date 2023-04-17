@@ -6,11 +6,11 @@ import Project.interfaces.httpApi.MuXiaoGuo;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
-import io.github.kloping.mirai0.commons.apiEntitys.Song;
-import io.github.kloping.mirai0.commons.apiEntitys.Songs;
-import io.github.kloping.mirai0.commons.apiEntitys.reping163.Reping163;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.apiEntitys.Song;
+import Project.commons.apiEntitys.Songs;
+import Project.commons.apiEntitys.reping163.Reping163;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
@@ -18,7 +18,7 @@ import net.mamoe.mirai.message.data.MusicShare;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping

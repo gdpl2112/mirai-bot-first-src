@@ -2,24 +2,19 @@ package Project.dataBases;
 
 
 import Project.aSpring.SpringBootResource;
-import com.alibaba.fastjson.JSON;
+import Project.commons.Father;
+import Project.commons.GroupConf;
+import Project.commons.UserScore;
+import Project.commons.resouce_and_tool.ResourceSet;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import io.github.kloping.file.FileUtils;
-import io.github.kloping.initialize.FileInitializeValue;
-import io.github.kloping.mirai0.commons.Father;
-import io.github.kloping.mirai0.commons.GroupConf;
-import io.github.kloping.mirai0.commons.UserScore;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getFatherMapper;
 import static Project.aSpring.SpringBootResource.getGroupConfMapper;
-import static io.github.kloping.mirai0.commons.Father.ALL;
+import static Project.commons.Father.ALL;
 
 /**
  * @author github-kloping
@@ -27,14 +22,8 @@ import static io.github.kloping.mirai0.commons.Father.ALL;
 public class DataBase {
 
     public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
-    public static String path = ".";
 
-    public DataBase(String mainPath) {
-        try {
-            path = mainPath + "/dates";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public DataBase() {
     }
 
     public static boolean canBackShow(Long where) {
@@ -78,15 +67,13 @@ public class DataBase {
     }
 
     public static synchronized GroupConf getConf(long id) {
-        GroupConf groupConf;
+        GroupConf groupConf = null;
         if (getGroupConfMapper() != null) {
             groupConf = getGroupConfMapper().selectById(id);
             if (groupConf == null) {
                 groupConf = new GroupConf().setId(id);
                 getGroupConfMapper().insert(groupConf);
             }
-        } else {
-            groupConf = FileInitializeValue.getValue(path + "/mainfist/groups/" + id + ".json", new GroupConf().setId(id), true);
         }
         return groupConf;
     }
@@ -99,21 +86,8 @@ public class DataBase {
             getGroupConfMapper().update(conf, updateWrapper);
             return conf;
         }
-        return FileInitializeValue.putValues(path + "/mainfist/groups/" + conf.getId() + ".json", conf, true);
+        return conf;
     }
-
-//    public static boolean isFather(Long who) {
-//        if (getFatherMapper() != null) {
-//            Father father = null;
-//            try {
-//                father = getFatherMapper().selectById(who);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return father.getPermission().equals(ALL);
-//        }
-//        return new File(path + "/mainfist/fathers/" + who).exists();
-//    }
 
     public static boolean isFather(Long who, Long gid) {
         if (getFatherMapper() != null) {
@@ -125,7 +99,7 @@ public class DataBase {
             }
             return father != null && (father.getPermission().equals(ALL) || father.hasPermission(gid.longValue()));
         }
-        return new File(path + "/mainfist/fathers/" + who).exists();
+        return false;
     }
 
     public static boolean addFather(Long who) {
@@ -146,22 +120,12 @@ public class DataBase {
             father.getPermission();
             return getFatherMapper().updateById(father) > 0;
         }
-        File file = new File(path + "/mainfist/fathers/" + who);
-        if (file.exists()) {
-            return false;
-        } else {
-            Tool.INSTANCE.testFile(file.getAbsolutePath());
-        }
         return true;
     }
 
     public static boolean removeFather(Long who) {
         if (getFatherMapper() != null) {
             return getFatherMapper().deleteById(who.longValue()) > 0;
-        }
-        File file = new File(path + "/mainfist/fathers/" + who);
-        if (file.exists()) {
-            return file.delete();
         }
         return false;
     }
@@ -187,84 +151,12 @@ public class DataBase {
         }
     }
 
-    public static UserScore getAllInfoFile(Long who) {
-        UserScore uScore = null;
-        try {
-            if (HIST_U_SCORE.containsKey(who.longValue())) {
-                return HIST_U_SCORE.get(who.longValue());
-            }
-            String pathN = path + "/users/" + who;
-            File file = new File(pathN + "/infos");
-            if (file.exists()) {
-                String jsonStr =
-                        Tool.INSTANCE.getStringFromFile(file.getPath());
-                uScore = JSON.parseObject(jsonStr, UserScore.class);
-                tryDeleteOld(who);
-            } else {
-                long[] ll = getAllInfoOld(who);
-                uScore = new UserScore();
-                uScore.setScore(ll[0]);
-                uScore.setSScore(ll[1]);
-                uScore.setTimesDay(ll[2]);
-                uScore.setTimes(ll[3]);
-                uScore.setSTimes(ll[4]);
-                uScore.setDay(ll[5]);
-                uScore.setDays(ll[6]);
-                uScore.setFz(ll[7]);
-                uScore.setK(ll[8]);
-                uScore.setWho(who);
-                String jsonStr = JSON.toJSONString(uScore);
-                Tool.INSTANCE.putStringInFile(jsonStr, file.getPath());
-            }
-            HIST_U_SCORE.put(who.longValue(), uScore);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return uScore;
-    }
-
     public static void putInfo(UserScore score) {
         HIST_U_SCORE.put(score.getWho().longValue(), score);
         long who = score.getWho().longValue();
         UpdateWrapper<UserScore> q = new UpdateWrapper<>();
         q.eq("who", who);
         SpringBootResource.getScoreMapper().update(score, q);
-    }
-
-    public static long[] getAllInfoOld(Long who) {
-        try {
-            System.out.println("查询 " + who + "的 信息");
-            String pathN = path + "/users/" + who;
-            long l1 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".score", 0L).replaceAll("\r|\n", ""));
-            long l2 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".score_", 0L).replaceAll("\r|\n", ""));
-            long l31 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[0]);
-            long l32 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".times", 0L).split(":")[1].replaceAll("\r|\n", ""));
-            long l4 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".times_", 0L).replaceAll("\r|\n", ""));
-            long l5 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".day", 0L).replaceAll("\r|\n", ""));
-            long l6 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".days", 0L).replaceAll("\r|\n", ""));
-            long l7 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".fz", 0L).replaceAll("\r|\n", ""));
-            long l8 = Long.parseLong(Tool.INSTANCE.getStringFromFile(pathN + "/" + who + ".k", 0L).replaceAll("\r|\n", ""));
-            long[] ls = new long[]{l1, l2, l32, l32, l4, l5, l6, l7, l8};
-            System.out.println(Arrays.toString(ls));
-            return ls;
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            tryDeleteOld(who);
-        }
-    }
-
-    private static void tryDeleteOld(long who) {
-        String pathN = path + "/users/" + who;
-        new File(pathN + "/" + who + ".score").delete();
-        new File(pathN + "/" + who + ".score_").delete();
-        new File(pathN + "/" + who + ".times").delete();
-        new File(pathN + "/" + who + ".times_").delete();
-        new File(pathN + "/" + who + ".day").delete();
-        new File(pathN + "/" + who + ".days").delete();
-        new File(pathN + "/" + who + ".fz").delete();
-        new File(pathN + "/" + who + ".k").delete();
     }
 
     public static boolean isMaxEarnings(long who) {
@@ -327,21 +219,5 @@ public class DataBase {
         UserScore score = getAllInfo(who);
         score.setK(l);
         putInfo(score);
-    }
-
-    public static String getString(String fileName) {
-        File f1 = new File(path, fileName);
-        return FileUtils.getStringFromFile(f1.getAbsolutePath());
-    }
-
-    public static boolean setString(Object str, String fileName) {
-        File f1 = new File(path, fileName);
-        try {
-            FileUtils.putStringInFile(str.toString(), f1);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

@@ -6,7 +6,7 @@ import Project.interfaces.Iservice.IGameWeaService;
 import Project.services.detailServices.GameWeaDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import java.util.regex.Pattern;
 
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_THIS_AQ_IN_BG_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_THIS_AQ_IN_BG_TIPS;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**

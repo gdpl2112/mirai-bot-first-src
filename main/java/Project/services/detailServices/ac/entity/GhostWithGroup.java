@@ -2,7 +2,7 @@ package Project.services.detailServices.ac.entity;
 
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 
 /**
  * @author github-kloping

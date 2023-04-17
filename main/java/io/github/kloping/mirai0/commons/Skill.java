@@ -1,8 +1,9 @@
 package io.github.kloping.mirai0.commons;
 
 
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.ArrayList;
 import java.util.List;

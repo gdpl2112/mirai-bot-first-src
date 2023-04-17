@@ -6,7 +6,7 @@ import Project.services.detailServices.tasks.Task1000;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.commons.broadcast.enums.ObjType;
 
 import java.util.Set;
 

@@ -15,10 +15,10 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.SpUser;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.commons.SpUser;
+import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.HashMap;
@@ -27,8 +27,8 @@ import java.util.Set;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 
 /**
  * @author github.kloping

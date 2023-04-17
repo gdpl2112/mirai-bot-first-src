@@ -3,8 +3,8 @@ package Project.plugins;
 import Project.interfaces.httpApi.RunCode;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeEntity;
-import io.github.kloping.mirai0.commons.apiEntitys.runcode.CodeResponse;
+import Project.commons.apiEntitys.runcode.CodeEntity;
+import Project.commons.apiEntitys.runcode.CodeResponse;
 
 import java.io.IOException;
 

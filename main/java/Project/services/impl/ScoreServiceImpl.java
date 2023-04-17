@@ -10,9 +10,9 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.UserScore;
+import Project.commons.SpGroup;
+import Project.commons.TradingRecord;
+import Project.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.net.URLEncoder;
@@ -20,9 +20,9 @@ import java.util.List;
 
 import static Project.dataBases.DataBase.*;
 import static Project.dataBases.GameDataBase.putPerson;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.WORK_LONG_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.WORK_LONG_STR;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 

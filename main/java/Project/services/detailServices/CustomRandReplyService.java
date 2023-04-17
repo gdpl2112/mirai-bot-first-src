@@ -5,8 +5,8 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.eEntitys.CustomElement;
-import io.github.kloping.mirai0.commons.eEntitys.CustomReplyGroup;
+import Project.commons.eEntitys.CustomElement;
+import Project.commons.eEntitys.CustomReplyGroup;
 import io.github.kloping.serialize.HMLObject;
 
 import java.io.File;

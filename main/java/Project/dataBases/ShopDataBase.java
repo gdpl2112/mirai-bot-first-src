@@ -1,7 +1,7 @@
 package Project.dataBases;
 
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
+import Project.commons.gameEntitys.ShopItem;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,10 +13,9 @@ import static Project.aSpring.SpringBootResource.getShopItemMapper;
  */
 public class ShopDataBase {
     public static final Map<Integer, ShopItem> ITEM_MAP = new ConcurrentHashMap<>();
-    public static String path;
     private static Integer anID = 0;
 
-    public ShopDataBase(String mainPath) {
+    public ShopDataBase() {
         BootstarpResource.START_AFTER.add(() -> {
             initList();
         });

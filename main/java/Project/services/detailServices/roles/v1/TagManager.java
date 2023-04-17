@@ -1,7 +1,7 @@
 package Project.services.detailServices.roles.v1;
 
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
+import Project.commons.gameEntitys.TagPack;
 
 import java.util.*;
 

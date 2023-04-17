@@ -6,13 +6,13 @@ import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping

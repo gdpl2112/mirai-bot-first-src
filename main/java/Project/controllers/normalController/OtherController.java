@@ -3,13 +3,13 @@ package Project.controllers.normalController;
 
 import Project.aSpring.SpringBootResource;
 import Project.dataBases.DataBase;
-import Project.utils.VelocityUtils;
 import Project.interfaces.Iservice.IOtherService;
+import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.NormalMember;
 
@@ -17,8 +17,8 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github kloping
@@ -111,7 +111,7 @@ public class OtherController {
 
     @Action("获取<.+=>str>")
     public Object getAllInfo(SpGroup group, @Param("str") String str) {
-        long qq = MessageUtils.INSTANCE.getAtFromString(str);
+        long qq = Project.utils.Utils.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
         NormalMember member = BOT.getGroup(group.getId()).get(qq);
         StringBuilder sb = new StringBuilder();
@@ -135,7 +135,7 @@ public class OtherController {
     @Action("\\[@me]<.{1,}=>str>")
     public Object atMe(long qq, SpGroup group, @Param("str") String str) {
         if (str.startsWith(SPEAK_STR)) {
-            MessageUtils.INSTANCE.speak(str.substring(1), group);
+            BotInstance.getInstance().speak(str.substring(1), group);
             return null;
         } else if (str.startsWith(SING_STR)) {
             sing(str.substring(1), group);

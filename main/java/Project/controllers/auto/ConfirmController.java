@@ -3,9 +3,9 @@ package Project.controllers.auto;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
-import io.github.kloping.mirai0.commons.invokes.MethodCanCall;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.invokes.MethodCanCall;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

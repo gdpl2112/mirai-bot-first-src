@@ -7,10 +7,6 @@ import com.alibaba.fastjson.JSON;
  * @author github-kloping
  */
 public class JsonUtils {
-    public static String objectToJsonString(Object obj) {
-        return ControllerSource.gson0.toJson(obj);
-    }
-
     /**
      * 若想使用此方法,该类必须提供无参构造
      *

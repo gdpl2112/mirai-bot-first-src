@@ -8,10 +8,9 @@ import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
-import io.github.kloping.mirai0.commons.UserScore;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Arrays;
@@ -22,10 +21,10 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -89,7 +88,7 @@ public class ScoreController {
         Long num = null;
         try {
             if (longs.contains(qq.getId())) return ILLEGAL_OPERATION;
-            long who = MessageUtils.INSTANCE.getAtFromString(str);
+            long who = Project.utils.Utils.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
@@ -105,7 +104,7 @@ public class ScoreController {
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
     public String robbery(SpUser qq, @AllMess String str) {
         try {
-            long who = MessageUtils.INSTANCE.getAtFromString(str);
+            long who = Project.utils.Utils.getAtFromString(str);
             if (who == -1)
                 return NOT_FOUND_AT;
             String numStr = Tool.INSTANCE.findNumberFromString(str.replace(String.valueOf(who), ""));
@@ -162,7 +161,7 @@ public class ScoreController {
     @Action(value = "积分侦查.{1,}", otherName = "侦查积分.{1,}")
     public String showScore(SpUser qq, @AllMess String mess) {
         try {
-            long who = MessageUtils.INSTANCE.getAtFromString(mess);
+            long who = Project.utils.Utils.getAtFromString(mess);
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UserScore ls = DataBase.getAllInfo(who);
             return "ta的积分剩余:" + ls.getScore();
@@ -183,7 +182,7 @@ public class ScoreController {
     public String getSpeaks(SpUser qq, @AllMess String str) {
         StringBuilder builder = new StringBuilder();
         try {
-            long who = MessageUtils.INSTANCE.getAtFromString(str);
+            long who = Project.utils.Utils.getAtFromString(str);
             if (who == -1)
                 return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;

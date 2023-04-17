@@ -2,13 +2,13 @@ package Project.skills.s8;
 
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.addAttSchedule;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping

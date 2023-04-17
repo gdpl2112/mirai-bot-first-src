@@ -1,6 +1,10 @@
 package Project.controllers;
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.Father;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.UserScore;
 import Project.controllers.auto.GameConfSource;
 import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
@@ -20,8 +24,8 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
 import io.github.kloping.mirai0.commons.*;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.gameEntitys.ShopItem;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
@@ -45,8 +49,8 @@ import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getUser;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -105,7 +109,7 @@ public class SuperController {
 
     @Action("/get.+")
     public Object o0(@AllMess String str, SpGroup group) {
-        long q0 = MessageUtils.INSTANCE.getAtFromString(str);
+        long q0 = Project.utils.Utils.getAtFromString(str);
         if (q0 < 0) {
             return ERR_TIPS;
         }
@@ -125,7 +129,7 @@ public class SuperController {
 
     @Action("赋予一次超级权限.+")
     public String f0(@AllMess String s) {
-        long q = MessageUtils.INSTANCE.getAtFromString(s);
+        long q = Project.utils.Utils.getAtFromString(s);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -135,7 +139,7 @@ public class SuperController {
 
     @Action(value = "addScore.{1,}", otherName = {"加积分.+"})
     public String addScore(@AllMess String messages, SpUser qq, SpGroup gr) throws NoRunException {
-        long who = MessageUtils.INSTANCE.getAtFromString(messages);
+        long who = Project.utils.Utils.getAtFromString(messages);
         messages = messages.replace(Long.toString(who), "");
         if (who == -1) {
             return ERR_TIPS;
@@ -180,7 +184,7 @@ public class SuperController {
 
     @Action("超级侦查<.+=>name>")
     public String select(SpUser qq, @AllMess String chain, SpGroup group) {
-        long who = MessageUtils.INSTANCE.getAtFromString(chain);
+        long who = Project.utils.Utils.getAtFromString(chain);
         if (who == -1) return ("谁?");
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = GameDataBase.getInfo(qq.getId());
@@ -200,7 +204,7 @@ public class SuperController {
     @Action("添加管理.{1,}")
     public String addFather(@AllMess String message, SpUser qq, SpGroup group) throws NoRunException {
         if (!isSuperQ(qq.getId())) throw new NoRunException();
-        long who = MessageUtils.INSTANCE.getAtFromString(message);
+        long who = Project.utils.Utils.getAtFromString(message);
         if (who == -1) return "添加谁?";
         String perm = message.replace(String.format(AT_FORMAT, who), "");
         perm = perm.replace("添加管理", "");
@@ -219,7 +223,7 @@ public class SuperController {
 
     @Action("/execute.+")
     public String o1(@AllMess String str, SpGroup group, BotEvent event) {
-        long q = MessageUtils.INSTANCE.getAtFromString(str);
+        long q = Project.utils.Utils.getAtFromString(str);
         if (q == -1) {
             throw new NoRunException("");
         }
@@ -232,7 +236,7 @@ public class SuperController {
     @Action("移除管理.{1,}")
     public String removeFather(@AllMess String message, SpUser qq) throws NoRunException {
         if (!isSuperQ(qq.getId())) throw new NoRunException();
-        long who = MessageUtils.INSTANCE.getAtFromString(message);
+        long who = Project.utils.Utils.getAtFromString(message);
         if (who == -1) return NOT_FOUND_AT;
         return managerService.removeFather(qq.getId(), who);
     }
@@ -262,7 +266,7 @@ public class SuperController {
 
     @Action("/添加物品<.+=>str>")
     public Object add0(@Param("str") String str) {
-        Long who = MessageUtils.INSTANCE.getAtFromString(str);
+        Long who = Project.utils.Utils.getAtFromString(str);
         if (who == -1) {
             return NOT_FOUND_AT;
         }
@@ -286,7 +290,7 @@ public class SuperController {
 
     @Action("/跳过闭关冷却.+")
     public String o1(@AllMess String l) {
-        long who = MessageUtils.INSTANCE.getAtFromString(l);
+        long who = Project.utils.Utils.getAtFromString(l);
         if (who == -1) return ERR_TIPS;
         getInfo(who).setBgk(0L).apply();
         return OK_TIPS;
@@ -307,7 +311,7 @@ public class SuperController {
 
     @Action("/更改武魂<.+=>mess>")
     public String modifyWuhun(@Param("mess") String mess) {
-        long who = MessageUtils.INSTANCE.getAtFromString(mess);
+        long who = Project.utils.Utils.getAtFromString(mess);
         if (who == -1) return ERR_TIPS;
         mess = mess.replace("[@" + who + "]", "");
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(mess);
@@ -377,7 +381,7 @@ public class SuperController {
 
     @Action("/升级魂环<.+=>str>")
     public Object l1(@Param("str") String str) {
-        Long q = MessageUtils.INSTANCE.getAtFromString(str);
+        Long q = Project.utils.Utils.getAtFromString(str);
         if (q == -1) {
             return NOT_FOUND_AT;
         }
@@ -396,7 +400,7 @@ public class SuperController {
 
     @Action("/跳过冷却<.+=>str>")
     public Object l2(@Param("str") String str) {
-        Long q = MessageUtils.INSTANCE.getAtFromString(str);
+        Long q = Project.utils.Utils.getAtFromString(str);
         if (q == -1) {
             return NOT_FOUND_AT;
         }
@@ -406,7 +410,7 @@ public class SuperController {
 
     @Action("/addBuff<.+=>str>")
     public Object l3(@Param("str") String str) {
-        Long q = MessageUtils.INSTANCE.getAtFromString(str);
+        Long q = Project.utils.Utils.getAtFromString(str);
         if (q == -1) {
             return NOT_FOUND_AT;
         }

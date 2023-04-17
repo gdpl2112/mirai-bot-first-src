@@ -31,7 +31,7 @@ public class AsynchronousDelayAttackG extends AsynchronousThing {
     @Override
     public void run() {
         StringBuilder sb = new StringBuilder();
-        sb.append(attGho(q1, value, type, false, false, GhostLostBroadcast.KillType.SKILL_ATT));
+        sb.append(attGho(q1, value, type, false, GhostLostBroadcast.KillType.SKILL_ATT));
         MessageUtils.INSTANCE.sendMessageInGroup(sb.toString(), gid);
         future.cancel(true);
         over();

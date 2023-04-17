@@ -1,7 +1,7 @@
 package Project.broadcast.normal;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

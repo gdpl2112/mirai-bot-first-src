@@ -1,6 +1,9 @@
 package Project.controllers.gameControllers;
 
 
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.TradingRecord;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
@@ -13,7 +16,7 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.*;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.text.SimpleDateFormat;
@@ -29,9 +32,9 @@ import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.START_AFTER;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.DAY_LONG;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
@@ -203,7 +206,7 @@ public class GameController {
                 return "签到成功!\n本周签到3天\n获得200金魂币";
             case 4:
                 addToBgs(qq, 103, 3, ObjType.got);
-                return "签到成功!\n本周签到4天\n获得3个大瓶经验";
+                return "签到成功!\n本周签到4天\n获得5个大瓶经验";
             case 5:
                 addToBgs(qq, 130, 3, ObjType.got);
                 return "签到成功!\n本周签到5天\n获得3个奖券";
@@ -215,7 +218,7 @@ public class GameController {
                         .setMany(100)
                         .setType0(TradingRecord.Type0.gold)
                         .setType1(TradingRecord.Type1.add)).apply();
-                return "签到成功!\n本周签到6天\n获得500金魂币";
+                return "签到成功!\n本周签到6天\n获得700金魂币";
             case 7:
                 addToBgs(qq, 1601, 2, ObjType.got);
                 return "签到成功!\n本周签到7天\n获得两白升级券";
@@ -322,7 +325,7 @@ public class GameController {
 
     @Action("侦查.+")
     public String Look(SpUser qq, @AllMess String chain, SpGroup group) {
-        long who = MessageUtils.INSTANCE.getAtFromString(chain);
+        long who = Project.utils.Utils.getAtFromString(chain);
         if (who == -1) return NOT_FOUND_AT;
         if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
         PersonInfo I = getInfo(qq.getId());
@@ -421,7 +424,7 @@ public class GameController {
 
     @Action(value = "精神攻击.*?", otherName = {"精神冲击.*?"})
     public String SpAtt(long q, @AllMess String mss) {
-        long at = MessageUtils.INSTANCE.getAtFromString(mss);
+        long at = Project.utils.Utils.getAtFromString(mss);
         if (at == -1) {
             if (mss.contains("#")) {
                 at = -2;

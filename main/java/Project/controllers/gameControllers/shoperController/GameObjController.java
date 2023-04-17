@@ -8,9 +8,8 @@ import Project.interfaces.Iservice.IGameWeaService;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.io.File;
@@ -20,10 +19,10 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -122,7 +121,7 @@ public class GameObjController {
     public String transfer(SpUser qq, @Param("name") String name, @AllMess String message, SpGroup group) {
         try {
             if (longs.contains(qq.getId())) return ERR_TIPS;
-            long q2 = MessageUtils.INSTANCE.getAtFromString(message);
+            long q2 = Project.utils.Utils.getAtFromString(message);
             if (q2 == -1) return NOT_FOUND_AT;
             if (!GameDataBase.exist(q2)) return PLAYER_NOT_REGISTERED;
             if (challengeDetailService.isTemping(qq.getId())) return ILLEGAL_OPERATION;

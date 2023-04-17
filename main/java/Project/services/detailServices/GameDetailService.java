@@ -4,6 +4,8 @@ import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.commons.gameEntitys.SoulAttribute;
+import Project.commons.gameEntitys.base.BaseInfo;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
@@ -16,23 +18,21 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.PLAYER_BG_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.PLAYER_BG_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 
 /**
  * @author github-kloping
@@ -107,10 +107,7 @@ public class GameDetailService {
                 sb.append(onHjLose(qq.longValue(), qq2, sv));
             }
             //=====广播
-            HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(),
-                    p1.getHp() - oNow, -oNow, qq2.longValue(), qq2.longValue() > 0 ?
-                            HpChangeBroadcast.HpChangeReceiver.type.FROM_Q :
-                            HpChangeBroadcast.HpChangeReceiver.type.FROM_G);
+            HpChangeBroadcast.INSTANCE.broadcast(qq.longValue(), p1.getHp(), p1.getHp() - oNow, -oNow, qq2.longValue(), qq2.longValue() > 0 ? HpChangeBroadcast.HpChangeReceiver.type.FROM_Q : HpChangeBroadcast.HpChangeReceiver.type.FROM_G);
             if (oNow > 0) {
                 p1.addHp(-oNow);
                 p1.apply();
@@ -118,7 +115,7 @@ public class GameDetailService {
                     PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(), qq2.longValue(), type);
                 }
             }
-            return sb.toString();
+            return sb.toString().trim();
         }
     }
 
@@ -231,7 +228,7 @@ public class GameDetailService {
             if (nv2 > 0) {
                 nv2 *= HJ_LOSE_1_X;
                 if (baseInfo instanceof GhostObj) {
-                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv2, DamageType.AP, true, false, GhostLostBroadcast.KillType.SPIRIT_ATT));
+                    sb.append(GameJoinDetailService.attGho(q.longValue(), nv2, DamageType.AP, true, GhostLostBroadcast.KillType.SPIRIT_ATT));
                 } else {
                     int v = toPercent(nv2, baseInfo.getHpL());
                     v = v > MAX_SA_LOSE_HP_B ? MAX_SA_LOSE_HP_B : v;

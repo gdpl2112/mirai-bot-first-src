@@ -2,7 +2,7 @@ package Project.skills.s9;
 
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,7 +27,7 @@ public class Skill9010 extends SkillTemplate {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓝电霸王龙第九魂技") {
             @Override
             public void before() {
-                
+
             }
         };
     }

@@ -12,7 +12,7 @@ import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.*;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.object.ObjectUtils;
 
@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping

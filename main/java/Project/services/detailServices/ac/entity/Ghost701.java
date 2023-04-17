@@ -5,8 +5,8 @@ import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.apiEntitys.RunnableWithOver;
+import Project.commons.gameEntitys.base.BaseInfo;
 
 import static Project.dataBases.GameDataBase.getInfo;
 

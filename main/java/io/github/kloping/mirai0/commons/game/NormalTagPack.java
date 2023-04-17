@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
 
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
+import Project.commons.gameEntitys.TagPack;
 
 /**
  * @author github.kloping

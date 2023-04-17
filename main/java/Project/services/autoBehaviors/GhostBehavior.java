@@ -1,18 +1,23 @@
 package Project.services.autoBehaviors;
 
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
+import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
+import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
+import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillFactory;
 import Project.skills.SkillTemplate;
+import io.github.kloping.common.Public;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
+import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -102,8 +107,41 @@ public class GhostBehavior implements Runnable {
         }
     };
 
+    public Runnable r1 = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    int r = (int) Tool.INSTANCE.randA(4, 8);
+                    long at2 = Tool.INSTANCE.randLong(ghostObj.getAtt(), 0.25f, 0.42f);
+                    at2 = NumberUtils.percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
+                    while (r >= 0) {
+                        Thread.sleep(1000);
+                        r--;
+                    }
+                    long qid = -1L;
+                    if (ghostObj.getWiths().size() > 0) {
+                        if (Tool.INSTANCE.RANDOM.nextBoolean()) {
+                            qid = Tool.INSTANCE.getRandT(ghostObj.getWiths());
+                        } else {
+                            qid = qq;
+                        }
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(GameDataBase.getNameById(ghostObj.getId()))
+                            .append("对").append(Tool.INSTANCE.at(qid)).append("造成")
+                            .append(at2).append("点伤害\n").append(GameDetailService.beaten(qid, -2, at2, DamageType.AD));
+                    Public.EXECUTOR_SERVICE.submit(() -> send(sb.toString()));
+                }
+            } catch (InterruptedException e) {
+                System.err.println("结束");
+            }
+        }
+    };
+
     AtomicReference<Future> atomicReference = new AtomicReference<>(null);
-    ScheduledFuture future = null;
+    ScheduledFuture future0 = null;
+    Future future1 = null;
     Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
     List<Integer> list = new ArrayList<>();
 
@@ -137,7 +175,8 @@ public class GhostBehavior implements Runnable {
         }
         list = new ArrayList<>(jid2skill.keySet());
         send(sb.toString().trim());
-        future = FrameUtils.SERVICE.scheduleWithFixedDelay(r0, 4, 14, TimeUnit.SECONDS);
+        future0 = FrameUtils.SERVICE.scheduleWithFixedDelay(r0, 4, 14, TimeUnit.SECONDS);
+        future1 = Public.EXECUTOR_SERVICE.submit(r1);
         while (updateGhost()) {
             try {
                 Thread.sleep(500);
@@ -151,10 +190,16 @@ public class GhostBehavior implements Runnable {
     public void thisOver() {
         try {
             GameJoinDetailService.saveGhostObjIn(qq, null);
-            if (future != null) {
-                future.cancel(true);
-                if (!future.isCancelled()) {
-                    future.cancel(true);
+            if (future0 != null) {
+                future0.cancel(true);
+                if (!future0.isCancelled()) {
+                    future0.cancel(true);
+                }
+            }
+            if (future1 != null) {
+                future1.cancel(true);
+                if (!future1.isCancelled()) {
+                    future1.cancel(true);
                 }
             }
             if (atomicReference != null && atomicReference.get() != null) {

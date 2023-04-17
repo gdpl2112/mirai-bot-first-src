@@ -3,6 +3,10 @@ package Project.services.impl;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.broadcast.Receiver;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.challange.AbstractChallenge;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.GameDataBase;
@@ -16,15 +20,10 @@ import Project.services.detailServices.roles.v1.TagManagers;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
-import io.github.kloping.mirai0.commons.gameEntitys.challange.AbstractChallenge;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -32,11 +31,11 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ChallengeDetailService.TEMP_PERSON_INFOS;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github.kloping
@@ -251,17 +250,7 @@ public class ChallengeServiceImpl implements IChallengeService {
 
     private PersonInfo copyBase(PersonInfo p1) {
         PersonInfo pInfo = new PersonInfo();
-        pInfo.setName(p1.getName())
-                .setWhType(p1.getWhType())
-                .setWh(p1.getWh())
-                .setXpL(p1.getXpL()).setXp(0L)
-                .setHpl(p1.getHpL())
-                .setHjL(p1.getHjL())
-                .setHll(p1.getHll())
-                .setHelpC(99).setHelpToc(99).setGold(0L)
-                .setK1(Long.MAX_VALUE).setK2(Long.MAX_VALUE).setGk1(Long.MAX_VALUE)
-                .setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(System.currentTimeMillis())
-                .setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis());
+        pInfo.setName(p1.getName()).setWhType(p1.getWhType()).setWh(p1.getWh()).setXpL(p1.getXpL()).setXp(0L).setHpl(p1.getHpL()).setHjL(p1.getHjL()).setHll(p1.getHll()).setHelpC(99).setHelpToc(99).setGold(0L).setK1(Long.MAX_VALUE).setK2(Long.MAX_VALUE).setGk1(Long.MAX_VALUE).setCbk1(Long.MAX_VALUE).setMk1(Long.MAX_VALUE).setUk1(System.currentTimeMillis()).setAk1(System.currentTimeMillis()).setJak1(System.currentTimeMillis());
         return pInfo;
     }
 
@@ -281,8 +270,7 @@ public class ChallengeServiceImpl implements IChallengeService {
         try {
             Method method = this.getClass().getDeclaredMethod("joinChallengeNow", long.class, int.class, SpGroup.class);
             ConfirmController.regConfirm(qid, method, this, new Object[]{qid, ghostId, group});
-            return String.format("即将挑战魂兽'%s' \r\n它是一只'%s等级'魂兽\r\n请在30秒内回复 确定/确认/取消",
-                    ID_2_NAME_MAPS.get(ghostId), GameTool.getLevelByGhostId(ghostId));
+            return String.format("即将挑战魂兽'%s' \r\n它是一只'%s等级'魂兽\r\n请在30秒内回复 确定/确认/取消", ID_2_NAME_MAPS.get(ghostId), GameTool.getLevelByGhostId(ghostId));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -322,7 +310,7 @@ public class ChallengeServiceImpl implements IChallengeService {
                         break;
                 }
             } else {
-                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId,false);
+                ghostObj = gameJoinDetailService.summonFor(String.valueOf(qid), ghostId, false);
             }
         } else if (ghostId < 700) {
             r = Tool.INSTANCE.RANDOM.nextInt(13);
@@ -354,8 +342,7 @@ public class ChallengeServiceImpl implements IChallengeService {
         GameDataBase.removeFromBgs(qid, 129, ObjType.use);
         ghostObj.setWhoMeet(qid);
         GameJoinDetailService.saveGhostObjIn(qid, ghostObj);
-        if (ghostObj.getL() > 3000L)
-            GhostBehavior.exRun(new GhostBehavior(qid, group));
+        GhostBehavior.exRun(new GhostBehavior(qid, group));
         return willTips(qid, ghostObj, false);
     }
 }

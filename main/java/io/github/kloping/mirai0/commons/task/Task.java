@@ -5,7 +5,7 @@ import Project.dataBases.GameTaskDatabase;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import java.util.*;
 
 import static Project.dataBases.GameTaskDatabase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.TASK_OVER_TIME;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.TASK_OVER_TIME;
 
 /**
  * @author github-kloping

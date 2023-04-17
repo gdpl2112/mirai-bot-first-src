@@ -2,8 +2,8 @@ package Project.skills.normal;
 
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

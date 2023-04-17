@@ -1,8 +1,6 @@
 package io.github.kloping.mirai0.commons.game;
 
 
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
-
 /**
  * 主动
  *

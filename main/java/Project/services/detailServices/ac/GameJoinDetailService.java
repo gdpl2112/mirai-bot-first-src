@@ -5,6 +5,8 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.JoinBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.broadcast.game.SelectTaoPaoBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -19,9 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
@@ -30,12 +30,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.resouce_and_tool.CommonSource.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.TAG_REF_ATT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.JsonUtils.jsonStringToObject;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -69,7 +69,7 @@ public class GameJoinDetailService {
      * @param bo        if false don't broadcast
      * @return
      */
-    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
+    public static String attGho(long who, long att, DamageType dType, boolean show,  GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         Long o0 = -ghostObj.getWhoMeet();
         synchronized (o0) {
@@ -90,11 +90,6 @@ public class GameJoinDetailService {
                     return "\n该魂兽,正在被攻击中";
                 }
                 IDXS.add(ghostObj.getIDX());
-                if (canAttMe) {
-                    long at2 = Tool.INSTANCE.randLong(ghostObj.getAtt(), 0.333f, 0.48f);
-                    at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
-                    sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害\n").append(GameDetailService.beaten(who, -2, at2, dType));
-                }
                 long oNow = att;
                 Map<String, Object> maps = new ConcurrentHashMap<>();
                 for (Role r : BeatenRoles.RS) {
@@ -147,12 +142,12 @@ public class GameJoinDetailService {
         }
     }
 
-    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type, boolean mandatory) {
-        return attGho(who, att, dType, show, canAttMe, type, mandatory, true);
+    public static String attGho(long who, long att, DamageType dType, boolean show,  GhostLostBroadcast.KillType type, boolean mandatory) {
+        return attGho(who, att, dType, show, type, mandatory, true);
     }
 
-    public static String attGho(long who, long att, DamageType dType, boolean show, boolean canAttMe, GhostLostBroadcast.KillType type) {
-        return attGho(who, att, dType, show, canAttMe, type, false);
+    public static String attGho(long who, long att, DamageType dType, boolean show, GhostLostBroadcast.KillType type) {
+        return attGho(who, att, dType, show,  type, false);
     }
 
     public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
@@ -456,8 +451,6 @@ public class GameJoinDetailService {
             PersonInfo personInfo = getInfo(who);
             long hl1 = Tool.INSTANCE.randLong(personInfo.getHll(), 0.08f, 0.10f);
             long at1 = Tool.INSTANCE.randLong(personInfo.att(), 0.35f, 0.48f);
-            long at2 = Tool.INSTANCE.randLong(ghostObj.getAtt(), 0.25f, 0.48f);
-            at2 = percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
             at1 = percentTo(personInfo.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at1);
             StringBuilder sb = new StringBuilder();
             sb.append(NEWLINE);
@@ -482,18 +475,13 @@ public class GameJoinDetailService {
             } else {
                 sb.append(HL_NOT_ENOUGH_TIPS0);
             }
-            sb.append(NEWLINE);
-            sb.append(getNameById(ghostObj.getId())).append("对你造成").append(at2).append("点伤害").append(GameDetailService.beaten(who, -2, at2, DamageType.AD));
-            boolean showI = true;
             boolean showY = false;
             if (isAlive(who)) {
                 if (ghostObj.getHp() > 0L) {
                     showY = true;
-                    showI = true;
                     if (isHelp) GameJoinDetailService.saveGhostObjIn(fw, ghostObj);
                     else GameJoinDetailService.saveGhostObjIn(who, ghostObj);
                 } else {
-                    showI = true;
                     sb.append(NEWLINE).append(getNameById(ghostObj.getId())).append("被你打败了");
                     sb.append(willGet(ghostObj, who, ghostObj.getId()));
                     sb.append(willGetXp(ghostObj, who, isHelp));
@@ -511,19 +499,13 @@ public class GameJoinDetailService {
             } else {
                 sb.append(NEWLINE);
                 sb.append("你被打败了!!!");
-                if (ghostObj.getHp() < 0) {
-                    sb.append(NEWLINE);
-                    sb.append(getNameById(ghostObj.getId())).append("也失败了,但你无法获得魂环");
-                }
                 showY = true;
-                showI = true;
                 if (isHelp) {
                     ghostObj.setState(GhostObj.NOT_NEED);
                     GameJoinDetailService.saveGhostObjIn(fw, ghostObj);
                 }
                 GameJoinDetailService.saveGhostObjIn(who, null);
             }
-            if (showI) sb.append(NEWLINE).append(gameService.info(who));
             if (showY) sb.append(NEWLINE).append(willTips(who, ghostObj, false));
             return sb.toString();
         } finally {

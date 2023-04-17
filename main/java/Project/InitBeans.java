@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.apiEntitys.RunnableWithOver;
+import Project.commons.apiEntitys.RunnableWithOver;
 
 
 import java.util.*;

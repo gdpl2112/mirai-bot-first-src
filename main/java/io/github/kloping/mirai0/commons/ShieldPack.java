@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.commons;
 
-import io.github.kloping.mirai0.commons.gameEntitys.TagPack;
+import Project.commons.gameEntitys.TagPack;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

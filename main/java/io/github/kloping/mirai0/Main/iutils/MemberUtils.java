@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.Main.iutils;
 
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 

@@ -4,6 +4,7 @@ import Project.aSpring.SpringStarter;
 import Project.listeners.DefaultHandler;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.common.Public;
+import io.github.kloping.mirai.MiraiStarter;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -21,13 +22,7 @@ public class BotStarter2 {
 
     public static void main(String[] args) throws Exception {
         long t = System.currentTimeMillis();
-        Public.EXECUTOR_SERVICE.submit(() -> {
-            MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console2"));
-            MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
-            Tool.INSTANCE.setOnErrInFIle(Tool.INSTANCE.getLogTimeFormat() + "b2_err.log");
-            Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b2_console.log");
-        });
-        GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());
+        MiraiStarter.main(new String[]{"./works", "/console2"});
         setterStarterApplication(BotStarter2.class);
         startRegisterListenerHost(args);
         datePath = "./Libs";

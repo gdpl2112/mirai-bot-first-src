@@ -1,5 +1,8 @@
 package Project.services.detailServices.ac;
 
+import Project.commons.SpGroup;
+import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;
 import Project.services.autoBehaviors.GhostBehavior;
@@ -8,14 +11,11 @@ import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -116,7 +116,7 @@ public class JoinAcService {
         if (ghostObj != null) {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
-            if (ghostObj.getL() > 3000L) GhostBehavior.exRun(new GhostBehavior(who, group));
+            GhostBehavior.exRun(new GhostBehavior(who, group));
             return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -156,7 +156,7 @@ public class JoinAcService {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             int id = ghostObj.getId();
-            if (ghostObj.getL() > 3000L) GhostBehavior.exRun(new GhostBehavior(who, group));
+            GhostBehavior.exRun(new GhostBehavior(who, group));
             return willTips(who, ghostObj, false);
         }
         return "你将遇到魂兽,功能为实现,尽请期待";
@@ -208,9 +208,7 @@ public class JoinAcService {
             ghostObj.setWhoMeet(who);
             GameJoinDetailService.saveGhostObjIn(who, ghostObj);
             int id = ghostObj.getId();
-            if (ghostObj.getL() > 3000L) {
-                GhostBehavior.exRun(GhostBehavior.create(who, group, ghostObj.getLevel()));
-            }
+            GhostBehavior.exRun(GhostBehavior.create(who, group, ghostObj.getLevel()));
             return willTips(who, ghostObj, false);
         }
         return ERR_TIPS;

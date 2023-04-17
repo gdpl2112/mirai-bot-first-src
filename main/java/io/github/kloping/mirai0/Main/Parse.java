@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.kloping.mirai0.commons.Father.SPLIT;
+import static Project.commons.Father.SPLIT;
 
 /**
  * @author github.kloping

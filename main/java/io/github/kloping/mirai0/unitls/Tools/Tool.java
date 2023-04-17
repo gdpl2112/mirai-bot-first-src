@@ -1,6 +1,5 @@
 package io.github.kloping.mirai0.unitls.Tools;
 
-
 import io.github.kloping.io.ReadUtils;
 
 import java.io.*;
@@ -16,7 +15,7 @@ import java.util.regex.Pattern;
 
 import static io.github.kloping.date.DateUtils.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.contextManager;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
     public static Tool INSTANCE = new Tool();

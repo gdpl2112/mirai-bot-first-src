@@ -6,9 +6,9 @@ import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
+import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;

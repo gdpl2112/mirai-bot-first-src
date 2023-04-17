@@ -1,6 +1,6 @@
 package Project.interfaces.Iservice;
 
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Zong;
 
 public interface IZongMenService {

@@ -4,9 +4,9 @@ import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.QuestionData;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.pre.Data;
-import io.github.kloping.mirai0.commons.apiEntitys.jkbd.pre.QuestionIdData;
+import Project.commons.apiEntitys.jkbd.QuestionData;
+import Project.commons.apiEntitys.jkbd.pre.Data;
+import Project.commons.apiEntitys.jkbd.pre.QuestionIdData;
 
 /**
  * @author github.kloping

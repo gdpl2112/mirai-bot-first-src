@@ -1,13 +1,13 @@
 package io.github.kloping.mirai0.commons;
 
 
+import Project.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.v1.TagManagers;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,10 +15,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 
 /**
@@ -95,8 +95,7 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
-        if (bal)
-            balance1();
+        if (bal) balance1();
     }
 
     public GhostObj(long hp, long att, long xp, int id, long l, float bl) {
@@ -115,8 +114,7 @@ public class GhostObj implements Serializable, BaseInfo {
         initHj();
         IDX = getIdx();
         name = getNameById(this.id);
-        if (balance)
-            balance1();
+        if (balance) balance1();
     }
 
     private void balance1() {
@@ -198,33 +196,24 @@ public class GhostObj implements Serializable, BaseInfo {
         if (id > 700) {
             switch (id) {
                 case 701:
-                    return (T) new Ghost701(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost701(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 702:
-                    return (T) new Ghost702(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost702(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 703:
-                    return (T) new Ghost703(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost703(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 704:
-                    return (T) new Ghost704(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost704(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 705:
-                    return (T) new Ghost705(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost705(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 710:
-                    return (T) new Ghost710(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost710(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 case 711:
-                    return (T) new Ghost711(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level)
-                            , id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
+                    return (T) new Ghost711(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)));
                 default:
                     return null;
             }
         } else {
-            GhostObj ghostObj = new GhostObj(Tool.INSTANCE.randA(4 * level, 7 * level),
-                    Tool.INSTANCE.randA(2 * level, 8 * level), id,
-                    Tool.INSTANCE.randA(level + 1, Lmax(level)), bal);
+            GhostObj ghostObj = new GhostObj(Tool.INSTANCE.randA(4 * level, 7 * level), Tool.INSTANCE.randA(2 * level, 8 * level), id, Tool.INSTANCE.randA(level + 1, Lmax(level)), bal);
             return (T) ghostObj;
         }
     }

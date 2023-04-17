@@ -1,5 +1,6 @@
 package Project.controllers.normalController;
 
+import Project.commons.SpGroup;
 import Project.services.player.UseRestrictions;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.Action;
@@ -7,13 +8,12 @@ import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.*;
 
 /**
  * @author github-kloping
@@ -26,6 +26,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 4.17:成就更新,当选择攻击魂兽时魂兽不随着玩家的选择攻击而攻击玩家,转为魂兽自主的向玩家攻击").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 3.24:修改魂环吸收概率,每次吸收失败增加10%").append(NEWLINE);
         UPDATE_LOG.append(" 3.15:开放'创建试炼挑战','创建平衡挑战'").append(NEWLINE);
         UPDATE_LOG.append(" 3.12:放弃任务功能").append(NEWLINE);

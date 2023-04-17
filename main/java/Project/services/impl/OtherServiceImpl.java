@@ -9,17 +9,17 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.Mora;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.apiEntitys.qingyunke.QingYunKeData;
+import Project.commons.Mora;
+import Project.commons.SpGroup;
+import Project.commons.apiEntitys.qingyunke.QingYunKeData;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.MAX_EARNINGS_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_P;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_WIN;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.MAX_EARNINGS_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_P;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MORA_WIN;
 
 /**
  * @author github-kloping

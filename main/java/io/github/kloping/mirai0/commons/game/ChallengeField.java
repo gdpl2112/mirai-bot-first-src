@@ -1,7 +1,7 @@
 package io.github.kloping.mirai0.commons.game;
 
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
 import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;

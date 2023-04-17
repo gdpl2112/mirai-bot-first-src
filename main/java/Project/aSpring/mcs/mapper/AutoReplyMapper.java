@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kloping.mirai0.commons.eEntitys.AutoReply;
+import Project.commons.eEntitys.AutoReply;
 import org.springframework.stereotype.Repository;
 
 /**

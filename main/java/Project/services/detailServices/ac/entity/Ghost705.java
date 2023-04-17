@@ -1,9 +1,9 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github-kloping

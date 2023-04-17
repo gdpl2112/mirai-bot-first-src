@@ -35,10 +35,6 @@ public class TaskPoint {
     @TableField("`next_can`")
     private Long nextCan = 0L;
 
-    public static TaskPoint getInstanceFromFile(long q) {
-        String d = GameDataBase.path + "/dates/users/" + q + "/taskPoint.json";
-        return FileInitializeValue.getValue(d, new TaskPoint().setQ(q), true);
-    }
 
     public static TaskPoint getInstance(long q) {
         TaskPoint taskPoint = SpringBootResource.getTaskPointMapper().selectById(q);

@@ -3,7 +3,7 @@ package Project.services.impl;
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;

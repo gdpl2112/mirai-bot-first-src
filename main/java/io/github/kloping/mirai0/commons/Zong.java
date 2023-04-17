@@ -2,7 +2,7 @@ package io.github.kloping.mirai0.commons;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import Project.commons.gameEntitys.Zon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

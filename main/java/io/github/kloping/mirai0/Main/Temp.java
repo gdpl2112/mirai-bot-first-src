@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.Main;
 
-import static io.github.kloping.mirai0.commons.uitls.FileDirUtils.copyEves;
+import static Project.commons.uitls.FileDirUtils.copyEves;
 
 /**
  * @author github.kloping

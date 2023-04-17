@@ -1,13 +1,6 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
-import io.github.kloping.number.NumberUtils;
-
 import static Project.dataBases.skill.SkillDataBase.TAG_MS;
-import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github-kloping

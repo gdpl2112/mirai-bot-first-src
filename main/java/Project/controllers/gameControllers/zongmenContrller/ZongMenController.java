@@ -8,10 +8,10 @@ import Project.interfaces.Iservice.IZongMenService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.mirai0.commons.Zong;
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import Project.commons.gameEntitys.Zon;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -21,8 +21,8 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -50,7 +50,7 @@ public class ZongMenController {
 
     @Action("救援.+")
     public String help(@AllMess String mess, SpUser qq, SpGroup group) {
-        long who = MessageUtils.INSTANCE.getAtFromString(mess);
+        long who = Project.utils.Utils.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -93,7 +93,7 @@ public class ZongMenController {
 
     @Action("邀请.+")
     public Object invite(@AllMess String mess, SpUser qq, SpGroup group) {
-        long l1 = MessageUtils.INSTANCE.getAtFromString(mess);
+        long l1 = Project.utils.Utils.getAtFromString(mess);
         if (l1 < 0) return NOT_FOUND_AT;
         if (longs.contains(l1)) return "Can't";
         return zongMenService.invite(qq.getId(), l1, group);
@@ -116,7 +116,7 @@ public class ZongMenController {
 
     @Action("设置长老.+")
     public String setElder(SpUser qq, @AllMess String mess) {
-        long who = MessageUtils.INSTANCE.getAtFromString(mess);
+        long who = Project.utils.Utils.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -125,7 +125,7 @@ public class ZongMenController {
 
     @Action("取消长老.+")
     public String cancelElder(SpUser qq, @AllMess String mess) {
-        long who = MessageUtils.INSTANCE.getAtFromString(mess);
+        long who = Project.utils.Utils.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -144,7 +144,7 @@ public class ZongMenController {
 
     @Action("移除成员.+")
     public String quiteOne(SpUser qq, @AllMess String mess) {
-        long who = MessageUtils.INSTANCE.getAtFromString(mess);
+        long who = Project.utils.Utils.getAtFromString(mess);
         if (who < 0) {
             return NOT_FOUND_AT;
         }
@@ -202,7 +202,7 @@ public class ZongMenController {
 
     @Action("宗门转让.+")
     public String trans(long qid, @AllMess String mess) {
-        long q2 = MessageUtils.INSTANCE.getAtFromString(mess);
+        long q2 = Project.utils.Utils.getAtFromString(mess);
         if (q2 < 0) {
             return NOT_FOUND_AT;
         }

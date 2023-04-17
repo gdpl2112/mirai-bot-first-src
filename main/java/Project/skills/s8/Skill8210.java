@@ -7,14 +7,14 @@ import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
@@ -50,9 +50,8 @@ public class Skill8210 extends SkillTemplate {
                                         false, false);
                             } else {
                                 setTips(GameJoinDetailService.attGho(
-                                        who.longValue(), att, DamageType.AP, true, false, GhostLostBroadcast.KillType.SKILL_ATT,
-                                        true
-                                ));
+                                        who.longValue(), att, DamageType.AP, true,  GhostLostBroadcast.KillType.SKILL_ATT,
+                                        true));
                             }
                         }
                         return System.currentTimeMillis() >= cd;

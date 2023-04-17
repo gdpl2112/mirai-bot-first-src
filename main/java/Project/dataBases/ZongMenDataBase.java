@@ -2,7 +2,7 @@ package Project.dataBases;
 
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Zong;
-import io.github.kloping.mirai0.commons.gameEntitys.Zon;
+import Project.commons.gameEntitys.Zon;
 import io.github.kloping.mirai0.unitls.Tools.JsonUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -13,22 +13,16 @@ import java.util.Map;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NULL_LOW_STR;
 
 /**
  * @author github-kloping
  */
 public class ZongMenDataBase {
-    public static String path;
     public static Map<Long, Integer> qq2id = new HashMap<>();
     private static int idx = 0;
 
-    public ZongMenDataBase(String mainPath) {
-        path = mainPath + "/dates/games/dates/system/ZongMens";
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+    public ZongMenDataBase() {
         BootstarpResource.START_AFTER.add(() -> {
             reInitMap();
         });
@@ -71,19 +65,6 @@ public class ZongMenDataBase {
         return getZongInfo(qq2id.get(qq));
     }
 
-    public static Zong getZongInfoFromFile(Integer id) {
-        try {
-            File file = new File(path + "/" + id + "/main.json");
-            String line = Tool.INSTANCE.getStringFromFile(file.getPath());
-            Zong zong = JsonUtils.jsonStringToObject(line, Zong.class);
-            System.out.println(zong);
-            return zong;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static Zong getZongInfo(Integer id) {
         try {
             return getZongMapper().selectById(id);
@@ -96,19 +77,6 @@ public class ZongMenDataBase {
     public static Zon getZonInfo(Long qq) {
         try {
             return getZonMapper().selectById(qq);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Zon getZonInfoFromFile(Long qq) {
-        try {
-            Integer id = qq2id.get(qq);
-            File file = new File(path + "/" + qq2id.get(qq) + "/" + qq + ".json");
-            String line = Tool.INSTANCE.getStringFromFile(file.getPath());
-            Zon zon = JsonUtils.jsonStringToObject(line, Zon.class);
-            return zon;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

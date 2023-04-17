@@ -7,8 +7,8 @@ import Project.controllers.gameControllers.GameConditionController;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import Project.commons.TradingRecord;
+import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.lang.reflect.Method;
@@ -22,8 +22,8 @@ import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 
 /**
@@ -101,7 +101,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true,  GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -205,7 +205,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, true, false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true,  GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -324,7 +324,7 @@ public class GameWeaDetailService {
         for (String whos : lps) {
             if (whos.equals("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, n++ == lps.size(), false, GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, n++ == lps.size(),  GhostLostBroadcast.KillType.ANQ_ATT);
                 if (ss.startsWith("你对"))
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");

@@ -5,8 +5,8 @@ import io.github.kloping.mirai0.commons.PersonInfo;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT0;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT0;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping

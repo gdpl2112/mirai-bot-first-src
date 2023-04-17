@@ -1,14 +1,13 @@
 package Project.utils;
 
 import Project.utils.bao.SelectResult;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 
 /**
  * @author github.kloping
@@ -22,7 +21,7 @@ public class GameUtils {
                 str = str.replaceAll("#", EMPTY_STR);
                 numbers.add(-2);
             }
-            Long l1 = MessageUtils.INSTANCE.getAtFromString(str);
+            Long l1 = Project.utils.Utils.getAtFromString(str);
             str = str.replaceFirst("\\[@" + (l1 == BOT.getId() ? "me" : l1) + "]", EMPTY_STR);
             if (l1 <= 0) {
                 break;

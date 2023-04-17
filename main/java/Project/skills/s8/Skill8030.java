@@ -3,15 +3,15 @@ package Project.skills.s8;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toPercent;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
+import static Project.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 
 /**
  * @author github.kloping

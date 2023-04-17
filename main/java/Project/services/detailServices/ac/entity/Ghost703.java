@@ -2,10 +2,10 @@ package Project.services.detailServices.ac.entity;
 
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github-kloping

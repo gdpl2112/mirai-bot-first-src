@@ -9,12 +9,12 @@ import Project.services.detailServices.GameDetailService;
 import Project.skills.SkillFactory;
 import Project.skills.SkillTemplate;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.SpGroup;
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfoTemp;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -27,10 +27,10 @@ import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 import static Project.skills.SkillFactory.factory8id;
 import static Project.skills.SkillFactory.normalSkillNum;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalNormalString.*;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.resouce_and_tool.CommonSource.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.*;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping

@@ -198,7 +198,7 @@ public class ImageDrawerUtils {
         float f = 1.1f;
         for (int i = 0; i < images.length; i++) {
             String u0 = images[i];
-            f+=0.1;
+            f += 0.1;
             int d0 = (int) (f * delay);
             encoder.setDelay(d0);
             BufferedImage main = null;

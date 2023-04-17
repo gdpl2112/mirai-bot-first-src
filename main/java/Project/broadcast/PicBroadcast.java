@@ -1,6 +1,6 @@
 package Project.broadcast;
 
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 
 import java.util.Iterator;
 

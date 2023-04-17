@@ -3,6 +3,8 @@ package Project.controllers.gameControllers;
 
 import Project.aSpring.SpringBootResource;
 import Project.aSpring.mcs.controllers.DetailController;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
 import Project.utils.VelocityUtils;
@@ -11,9 +13,8 @@ import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.*;
-import io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet;
+import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
@@ -27,10 +28,10 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -113,7 +114,7 @@ public class GameController2 {
 
     @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
     public String fusion(@Param("str") String str, SpGroup group, SpUser qq) {
-        Long q2 = MessageUtils.INSTANCE.getAtFromString(str);
+        Long q2 = Project.utils.Utils.getAtFromString(str);
         if (q2 == -1)
             throw new RuntimeException();
         String s1 = gameService.fusion(qq.getId(), q2, group);

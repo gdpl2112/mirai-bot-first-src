@@ -5,13 +5,12 @@ import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static io.github.kloping.mirai0.Main.BootstarpResource.isSuperQ;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.PERMISSION_DENIED;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.PERMISSION_DENIED;
 
 /**
  * @author github.kloping
@@ -25,7 +24,7 @@ public class FriendDefaultController0 {
     @Action("加积分.+")
     public String addScore(@AllMess String content, Long qid) throws NoRunException {
         if (!isSuperQ(qid)) return PERMISSION_DENIED;
-        long q2 = MessageUtils.INSTANCE.getAtFromString(content);
+        long q2 = Project.utils.Utils.getAtFromString(content);
         content = content.replace(Long.toString(q2), "");
         if (q2 == -1) return ERR_TIPS;
         long count = Long.parseLong(Tool.INSTANCE.findNumberFromString(content));

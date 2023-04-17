@@ -8,8 +8,8 @@ import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.Ghost702;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.gameEntitys.SoulAttribute;
-import io.github.kloping.mirai0.commons.gameEntitys.base.BaseInfo;
+import Project.commons.gameEntitys.SoulAttribute;
+import Project.commons.gameEntitys.base.BaseInfo;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.putPerson;
@@ -19,8 +19,8 @@ import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -140,7 +140,7 @@ public class BeatenRoles {
                 GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(q1.longValue());
                 sb.append("您带有反甲,").append(ghostObj.getName()).append("受到").append(v1).append("点").append(type.name);
                 sb.append(GameJoinDetailService.attGho(q1.longValue(), v1, DamageType.AP, false,
-                        false, GhostLostBroadcast.KillType.SKILL_ATT, true));
+                        GhostLostBroadcast.KillType.SKILL_ATT, true));
             }
         }
         return null;
@@ -245,7 +245,7 @@ public class BeatenRoles {
                     if (ghost702.getShield() >= 0) {
                         int b = p1.getTagValue(TAG_SHE).intValue();
                         long v2 = percentTo(b, ov);
-                        GameJoinDetailService.attGho(q1.longValue(), v2, DamageType.AP, false, false, GhostLostBroadcast.KillType.SKILL_ATT, true);
+                        GameJoinDetailService.attGho(q1.longValue(), v2, DamageType.AP, false,  GhostLostBroadcast.KillType.SKILL_ATT, true);
                         sb.append(NEWLINE);
                         sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
                     }

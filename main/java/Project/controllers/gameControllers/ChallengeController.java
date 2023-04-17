@@ -6,8 +6,8 @@ import Project.services.impl.GameServiceImpl;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.SpUser;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.ATT_WAIT_TIPS;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NOT_FOUND_AT;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github.kloping
@@ -75,7 +75,7 @@ public class ChallengeController {
 
     @Action("挑战.+")
     private Object o4(SpUser user, @AllMess String s, SpGroup group) {
-        long qid = MessageUtils.INSTANCE.getAtFromString(s);
+        long qid = Project.utils.Utils.getAtFromString(s);
         if (qid <= 0) {
             s = s.replaceFirst("挑战", "");
             if (GameDataBase.NAME_2_ID_MAPS.containsKey(s)) {

@@ -1,25 +1,26 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillTemplate;
+import io.github.kloping.common.Public;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
-import io.github.kloping.mirai0.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
+import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.percentTo;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping
@@ -85,7 +86,7 @@ public class Skill1011 extends SkillTemplate {
                 sb.append(GameDetailService.beaten(q2, -2, v, DamageType.AD));
                 sb.append(NEWLINE);
                 sb.append(GameController.gameService.info(q2));
-                MessageUtils.INSTANCE.sendMessageInGroup(sb.toString(), gid);
+                Public.EXECUTOR_SERVICE.submit(() -> MessageUtils.INSTANCE.sendMessageInGroup(sb.toString(), gid));
             }
         }
     }

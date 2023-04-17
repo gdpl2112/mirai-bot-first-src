@@ -1,21 +1,22 @@
 package Project.controllers.normalController;
 
+import Project.commons.SpGroup;
+import Project.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
+import Project.commons.apiEntitys.pvpqq.pvpQQVoice.Yylbzt9132;
+import Project.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
+import Project.commons.apiEntitys.pvpqq.pvpSkin.Pcblzlby_c6;
+import Project.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
 import Project.controllers.plugins.PointPicController;
-import Project.plugins.*;
 import Project.interfaces.httpApi.KlopingWeb;
 import Project.interfaces.httpApi.QZone;
 import Project.interfaces.httpApi.XiaoaPi;
+import Project.plugins.*;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
+import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQQVoice.Yylbzt9132;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpSkin.Pcblzlby_c6;
-import io.github.kloping.mirai0.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils;
 import net.mamoe.mirai.internal.utils.ExternalResourceImplByByteArray;
@@ -30,14 +31,14 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static Project.commons.resouce_and_tool.CommonSource.toStr;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
+import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.CommonSource.toStr;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
-import static io.github.kloping.mirai0.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -100,7 +101,7 @@ public class CallLocalApiController {
 
     @Action(value = "原神最新公告.*", otherName = {"原神公告.*"})
     public Object m4(SpGroup group, @AllMess String str) throws Exception {
-        io.github.kloping.mirai0.commons.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
+        Project.commons.apiEntitys.mihoyoYuanshen.Data data = mihoyoP0.getNews().getData()[0];
         String numStr = Tool.INSTANCE.findNumberFromString(str);
         int st = 0;
         if (numStr != null && !numStr.trim().isEmpty()) {
@@ -181,7 +182,7 @@ public class CallLocalApiController {
     public String weather0(@Param("name") String name, SpGroup group) {
         String line = weatherGetter.detail(name);
         if (getConf(group.getId()).getVoiceK()) {
-            MessageUtils.INSTANCE.speak(line, group);
+            BotInstance.getInstance().speak(line, group);
         }
         return line;
     }
@@ -190,7 +191,7 @@ public class CallLocalApiController {
 
     public static final String WENDY_URL = "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
 
-    @Action("高温天气图")
+    @Action("气温图")
     public Object gaowen() {
         String year = String.valueOf(io.github.kloping.date.DateUtils.getYear());
         String month = String.valueOf(DateUtils.getMonth());

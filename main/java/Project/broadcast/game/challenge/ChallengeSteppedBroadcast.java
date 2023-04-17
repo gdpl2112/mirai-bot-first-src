@@ -1,8 +1,8 @@
 package Project.broadcast.game.challenge;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.SpGroup;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.SpGroup;
+import Project.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
 
 import java.util.LinkedList;

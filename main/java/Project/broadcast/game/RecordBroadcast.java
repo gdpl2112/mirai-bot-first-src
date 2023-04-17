@@ -1,8 +1,8 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import io.github.kloping.mirai0.commons.TradingRecord;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.TradingRecord;
+import Project.commons.broadcast.Receiver;
 
 import java.util.LinkedHashSet;
 

@@ -6,14 +6,9 @@ import Project.listeners.DefaultHandler;
 import Project.listeners.LewisHandler;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
-import io.github.kloping.common.Public;
+import io.github.kloping.mirai.MiraiStarter;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
-import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.event.GlobalEventChannel;
-
-import java.nio.file.Paths;
 
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 
@@ -27,14 +22,7 @@ public class BotStarter {
 
     public static void main(String[] args) {
         long t = System.currentTimeMillis();
-        Public.EXECUTOR_SERVICE.submit(() -> {
-            MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("./works", "/console1"));
-            MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
-            Tool.INSTANCE.setOnErrInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_err.log");
-            Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_console.log");
-        });
-        GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());
-        GlobalEventChannel.INSTANCE.registerListenerHost(new LewisHandler());
+        MiraiStarter.main(new String[]{"./works", "/console1", "true"});
         setterStarterApplication(BotStarter.class);
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;

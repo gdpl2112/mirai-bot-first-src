@@ -2,7 +2,7 @@ package Project.services.detailServices.tasks;
 
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
 import Project.services.detailServices.tasks.reciver.ReceiverWithTask1;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 
 /**

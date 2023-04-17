@@ -6,7 +6,7 @@ import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.broadcast.enums.ObjType;
+import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;

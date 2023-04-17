@@ -3,7 +3,7 @@ package Project.services.detailServices.tasks;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.services.detailServices.tasks.reciver.ReceiverWithTask1002;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.broadcast.Receiver;
+import Project.commons.broadcast.Receiver;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
 

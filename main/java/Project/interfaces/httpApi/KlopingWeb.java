@@ -2,8 +2,8 @@ package Project.interfaces.httpApi;
 
 import Project.plugins.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.*;
-import io.github.kloping.mirai0.commons.apiEntitys.*;
-import io.github.kloping.mirai0.commons.apiEntitys.kloping.VideoAnimeSource;
+import Project.commons.apiEntitys.*;
+import Project.commons.apiEntitys.kloping.VideoAnimeSource;
 import io.github.kloping.mirai0.commons.entity.PayOut;
 
 import java.util.Map;
