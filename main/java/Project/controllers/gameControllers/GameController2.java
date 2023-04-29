@@ -286,9 +286,9 @@ public class GameController2 {
     @Action("激活第二武魂")
     public String ji(long q) {
         if (!GameDataBase.containsBgsNum(q, 0, N2)) {
-            return "您没有足够的武魂晶元(" + 0 + ")";
+            return "您没有足够的武魂晶元(" + N2 + ")";
         }
-        GameDataBase.removeFromBgs(q,0,N2, ObjType.use);
+        GameDataBase.removeFromBgs(q, 0, N2, ObjType.use);
         PersonInfo pinfo = getInfo(q);
         if (pinfo.getWhc() == 1) {
             WhInfo whInfo = new WhInfo();

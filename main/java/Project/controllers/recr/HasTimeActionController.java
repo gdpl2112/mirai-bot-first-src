@@ -59,11 +59,11 @@ public class HasTimeActionController {
     private static void rand51(long qid, Integer level) {
         String msg = "";
         if (level >= 100000) {
-            int r = Tool.INSTANCE.RANDOM.nextInt(18);
+            int r = Tool.INSTANCE.RANDOM.nextInt(5);
             if (r == 0) {
                 GameDataBase.addToBgs(qid, 130, 2, ObjType.got);
                 msg = "获得两张奖券" + SourceDataBase.getImgPathById(130);
-            } else if (r < 4) {
+            } else {
                 GameDataBase.addToBgs(qid, 130, ObjType.got);
                 msg = "获得一张奖券" + SourceDataBase.getImgPathById(130);
             }
