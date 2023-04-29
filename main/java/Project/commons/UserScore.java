@@ -34,7 +34,7 @@ public class UserScore implements Serializable {
     private Long earnings = 0L;
     private Long debuffs = 0L;
 
-    public UserScore record(Number s0){
+    public UserScore record(Number s0) {
         if (s0.longValue() > 0) {
             earnings += s0.longValue();
         } else {

@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
@@ -63,7 +62,7 @@ public class Skill705 extends SkillTemplate {
             public void eve() {
                 PersonInfo pInfo = getInfo(who);
                 long v = CommonSource.percentTo(info.getAddPercent(), pInfo.getHp());
-                putPerson(getInfo(who).addHp(v));
+                (getInfo(who).addHp(v)).apply();
             }
         };
     }

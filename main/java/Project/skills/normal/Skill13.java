@@ -1,13 +1,12 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.TAG_EDD_ATT;
 import static Project.services.detailServices.GameSkillDetailService.addTagPack;
 
@@ -19,8 +18,6 @@ public class Skill13 extends SkillTemplate {
     public Skill13() {
         super(13);
     }
-
-
 
 
     @Override

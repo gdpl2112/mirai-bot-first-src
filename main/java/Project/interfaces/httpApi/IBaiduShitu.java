@@ -1,8 +1,8 @@
 package Project.interfaces.httpApi;
 
-import io.github.kloping.MySpringTool.annotations.http.*;
 import Project.commons.apiEntitys.baiduShitu.BaiduShitu;
 import Project.commons.apiEntitys.baiduShitu.response.BaiduShituResponse;
+import io.github.kloping.MySpringTool.annotations.http.*;
 
 import java.util.Map;
 
@@ -35,24 +35,24 @@ public interface IBaiduShitu {
     @PostPath("upload")
     BaiduShitu get(
             @Headers
-                    Map<String, String> headers,
+            Map<String, String> headers,
             @RequestBody(type = RequestBody.type.toString)
-                    String body,
+            String body,
             @ParamName("tn")
             @DefaultValue("pc")
-                    String tn,
+            String tn,
             @ParamName("from")
             @DefaultValue("pc")
-                    String from,
+            String from,
             @ParamName("image_source")
             @DefaultValue("PC_UPLOAD_URL")
-                    String source,
+            String source,
             @ParamName("range")
             @DefaultValue("=%7B%22page_from%22:%20%22shituIndex%22%7D")
-                    String range,
+            String range,
             @ParamName("image")
-                    String imageUrl,
+            String imageUrl,
             @ParamName("uptime")
-                    Long time
+            Long time
     );
 }

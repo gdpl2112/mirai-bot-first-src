@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_NOT_ACHIEVED;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ACHIEVEMENT_RECEIVED;
+import static Project.commons.rt.ResourceSet.FinalNormalString.ACHIEVEMENT_NOT_ACHIEVED;
+import static Project.commons.rt.ResourceSet.FinalNormalString.ACHIEVEMENT_RECEIVED;
 import static Project.dataBases.ZongMenDataBase.qq2id;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.services.detailServices.GameDetailService.gameBoneService;

@@ -1,11 +1,10 @@
 package io.github.kloping.mirai0.commons;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
 /**
- *
  * @author github-kloping
  * @date 2023-03-16
  */

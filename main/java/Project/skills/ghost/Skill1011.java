@@ -16,8 +16,8 @@ import io.github.kloping.mirai0.commons.game.AsynchronousThingType;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledFuture;
 
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.services.detailServices.GameSkillDetailService.ASYNCHRONOUS_THING_MAP;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
@@ -56,16 +56,14 @@ public class Skill1011 extends SkillTemplate {
 
 
     public static class AsynchronousAttack extends io.github.kloping.mirai0.commons.game.AsynchronousAttack {
+        int b;
+        long v;
         private ScheduledFuture<?> future;
         private int i = 0;
-
         public AsynchronousAttack(int n, long q1, long q2, long value, long eve, long gid) {
             super(n, q1, q2, value, eve, gid);
             setType(AsynchronousThingType.ATTACK);
         }
-
-        int b;
-        long v;
 
         public void setB(int b) {
             this.b = b;

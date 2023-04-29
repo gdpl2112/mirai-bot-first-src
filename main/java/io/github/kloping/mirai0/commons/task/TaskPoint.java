@@ -1,10 +1,8 @@
 package io.github.kloping.mirai0.commons.task;
 
 import Project.aSpring.SpringBootResource;
-import Project.dataBases.GameDataBase;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.github.kloping.initialize.FileInitializeValue;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

@@ -2,27 +2,24 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.SpGroup;
+import Project.commons.TradingRecord;
+import Project.commons.UserScore;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
 import Project.interfaces.httpApi.YiMin;
-import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.commons.SpGroup;
-import Project.commons.TradingRecord;
-import Project.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import java.net.URLEncoder;
 import java.util.List;
 
+import static Project.commons.rt.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
+import static Project.commons.rt.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.WORK_LONG_STR;
 import static Project.dataBases.DataBase.*;
-import static Project.dataBases.GameDataBase.putPerson;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.WORK_LONG_STR;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -31,6 +28,9 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class ScoreServiceImpl implements IScoreService {
+
+    @AutoStand
+    YiMin yiMin;
 
     private static final Object[] regDay(Number l) {
         int r = SpringBootResource.getSingListMapper().selectCountByDay(Tool.INSTANCE.getTodayDetialString());
@@ -123,9 +123,6 @@ public class ScoreServiceImpl implements IScoreService {
         }
     }
 
-    @AutoStand
-    YiMin yiMin;
-
     @Override
     public String sign(Long qid, SpGroup group) {
         synchronized (qid) {
@@ -143,21 +140,21 @@ public class ScoreServiceImpl implements IScoreService {
                 Object[] lines = regDay(qid);
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
-                try {
-                    Integer s0 = 100;
-                    s0 += Tool.INSTANCE.getInteagerFromStr(line, 0);
-                    JSONObject jo = yiMin.qian(
-                            URLEncoder.encode(Tool.INSTANCE.getTouUrl(qid), "UTF-8"),
-                            URLEncoder.encode(MemberUtils.getNameFromGroup(qid, group), "UTF-8"),
-                            s0 + "积分",
-                            "累计签到:" + ls.getDays() + "次",
-                            "0号",
-                            "第" + Tool.INSTANCE.trans(st) + "签"
-                    );
-                    String url = jo.getString("url");
-                    return Tool.INSTANCE.pathToImg(url);
-                } catch (Exception e) {
-                    System.err.println("API sign call error");
+//                try {
+//                    Integer s0 = 100;
+//                    s0 += Tool.INSTANCE.getInteagerFromStr(line, 0);
+//                    JSONObject jo = yiMin.qian(
+//                            URLEncoder.encode(Tool.INSTANCE.getTouUrl(qid), "UTF-8"),
+//                            URLEncoder.encode(MemberUtils.getNameFromGroup(qid, group), "UTF-8"),
+//                            s0 + "积分",
+//                            "累计签到:" + ls.getDays() + "次",
+//                            "0号",
+//                            "第" + Tool.INSTANCE.trans(st) + "签"
+//                    );
+//                    String url = jo.getString("data");
+//                    return Tool.INSTANCE.pathToImg(url);
+//                } catch (Exception e) {
+//                    System.err.println("API sign call error");
                     if (line.isEmpty()) {
                         return Tool.INSTANCE.getTou(qid) + "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + ls.getDays() + "次";
                     } else {
@@ -165,7 +162,7 @@ public class ScoreServiceImpl implements IScoreService {
                                 + getImageFromFontString("第" + Tool.INSTANCE.trans(st) + "签")
                                 + "\n" + line;
                     }
-                }
+//                }
             }
         }
     }
@@ -178,7 +175,7 @@ public class ScoreServiceImpl implements IScoreService {
             int nr = Tool.INSTANCE.RANDOM.nextInt(45) + 25;
             int s = tr * 5;
             addScore(s, who);
-            putPerson(GameDataBase.getInfo(who).addGold((long) nr
+            GameDataBase.getInfo(who).addGold((long) nr
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)
                             .setType0(TradingRecord.Type0.gold)
@@ -187,7 +184,7 @@ public class ScoreServiceImpl implements IScoreService {
                             .setFrom(who)
                             .setDesc(WORK_LONG_STR)
                             .setMany(nr)
-            ));
+            ).apply();
             putInfo(getUserInfo(who).record(s));
             setK(who, System.currentTimeMillis() + tr * 1000 * 60);
             return getImageFromStrings("你花费了" + tr + "分钟", "打工赚了" + s + "积分", "赚了" + nr + "个金魂币");

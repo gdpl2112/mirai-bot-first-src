@@ -5,9 +5,9 @@ import Project.utils.bao.SelectResult;
 import java.util.HashSet;
 import java.util.Set;
 
+import static Project.commons.rt.ResourceSet.FinalNormalString.EMPTY_STR;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
 
 /**
  * @author github.kloping

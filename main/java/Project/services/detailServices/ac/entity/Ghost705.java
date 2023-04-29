@@ -2,8 +2,8 @@ package Project.services.detailServices.ac.entity;
 
 import Project.commons.gameEntitys.base.BaseInfo;
 
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
 
 /**
  * @author github-kloping
@@ -23,8 +23,8 @@ public class Ghost705 extends GhostWithGroup {
         super(hp, att, id, l);
     }
 
-    public Ghost705(long hp, long att, long xp, int id, long l,  float bl) {
-        super(hp, att, xp, id, l,  bl);
+    public Ghost705(long hp, long att, long xp, int id, long l, float bl) {
+        super(hp, att, xp, id, l, bl);
     }
 
     @Override

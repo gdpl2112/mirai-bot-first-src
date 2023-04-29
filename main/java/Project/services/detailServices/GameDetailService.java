@@ -23,15 +23,14 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.PLAYER_BG_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.*;
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
+import static Project.commons.rt.ResourceSet.FinalFormat.*;
+import static Project.commons.rt.ResourceSet.FinalNormalString.PLAYER_BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 
 /**
@@ -49,7 +48,7 @@ public class GameDetailService {
             public void run() {
                 ZERO_RUNS.add(() -> {
                     GameController.DELETE_C.clear();
-                    GameDataBase.HIST_INFOS.clear();
+                    GameDataBase.PINFO_LIST.clear();
                     DataBase.HIST_U_SCORE.clear();
                     SpringBootResource.getPersonInfoMapper().updateAll();
                 });
@@ -111,7 +110,7 @@ public class GameDetailService {
             if (oNow > 0) {
                 p1.addHp(-oNow);
                 p1.apply();
-                if (p1.hp <= 0) {
+                if (p1.getHp() <= 0) {
                     PlayerLostBroadcast.INSTANCE.broadcast(qq.longValue(), qq2.longValue(), type);
                 }
             }
@@ -144,7 +143,7 @@ public class GameDetailService {
         v1 /= 2;
         oNow = percentTo(100 - v1, oNow).intValue();
         personInfo.addHl(-oNow);
-        putPerson(personInfo);
+        (personInfo).apply();
         return sb.toString();
     }
 

@@ -2,9 +2,9 @@ package Project.services.detailServices.tasks.reciver;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.challenge.TrialChallengeEndBroadcast;
+import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GInfo;
-import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.task.Task;
 
 import static Project.dataBases.GameDataBase.addToBgs;
@@ -22,7 +22,6 @@ public class ReceiverWithTask1
     }
 
     /**
-     *
      * @param q1 玩家1 胜者
      * @param q2 玩家2
      * @param w  0.玩家1胜,1.玩家2胜

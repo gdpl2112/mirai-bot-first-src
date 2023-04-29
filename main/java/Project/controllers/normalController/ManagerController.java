@@ -1,6 +1,8 @@
 package Project.controllers.normalController;
 
 
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
@@ -9,10 +11,9 @@ import Project.listeners.CapHandler;
 import Project.listeners.DefaultHandler;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai.MiraiRunnable;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Quiz;
-import Project.commons.SpGroup;
-import Project.commons.SpUser;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
@@ -23,8 +24,8 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -56,8 +57,8 @@ public class ManagerController {
             return;
         } else if (DataBase.isFather(qq.getId(), group.getId())) {
             return;
-        } else if (mess.contains("通过")) {
-            if (BOT.getGroup(group.getId()).getMembers().get(qq.getId()).getPermission().getLevel() > 0) return;
+        } else if (MiraiRunnable.isAdmin(group.getId(), qq.getId())) {
+            return;
         }
         throw new NoRunException("无权限");
     }

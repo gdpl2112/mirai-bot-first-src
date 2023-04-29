@@ -23,7 +23,7 @@ public class Father {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private Long id;
-    private String permission="";
+    private String permission = "";
 
     public Set<Long> getGids() {
         Set<Long> set = new HashSet<>();

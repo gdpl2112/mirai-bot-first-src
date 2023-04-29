@@ -1,16 +1,16 @@
 package Project.skills.normal;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -25,7 +25,7 @@ public class Skill22 extends SkillTemplate {
 
     @Override
     public String getIntro() {
-        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),  LOWEST, getAddP(getJid(), getId()), getAddP(getJid(), getId()));
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), LOWEST, getAddP(getJid(), getId()), getAddP(getJid(), getId()));
     }
 
     @Override

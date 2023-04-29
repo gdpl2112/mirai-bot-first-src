@@ -1,10 +1,10 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 import io.github.kloping.MySpringTool.entity.Params;
-import Project.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
 
 
 /**

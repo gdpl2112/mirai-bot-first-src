@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledFuture;
  * @author github.kloping
  */
 public class AsynchronousDelayAttackP extends AsynchronousThing {
+    public DamageType type = DamageType.AD;
     private ScheduledFuture<?> future;
     private int i = 0;
 
@@ -24,8 +25,6 @@ public class AsynchronousDelayAttackP extends AsynchronousThing {
         super(1, q1, q2, value, t, gid);
         setType(AsynchronousThingType.ATTACK);
     }
-
-    public DamageType type = DamageType.AD;
 
     @Override
     public void run() {

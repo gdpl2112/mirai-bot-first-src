@@ -1,7 +1,7 @@
 package Project.commons;
 
 
-import static Project.commons.resouce_and_tool.CommonSource.RANDOM;
+import static Project.commons.rt.CommonSource.RANDOM;
 
 /**
  * @author HRS-Computer

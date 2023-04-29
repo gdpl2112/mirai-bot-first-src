@@ -4,19 +4,21 @@ package Project.controllers.gameControllers;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
-import Project.utils.KlopingWebDataBaseBoolean;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.player.PlayerBehavioralManager;
+import Project.utils.KlopingWebDataBaseBoolean;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.broadcast.enums.ObjType;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.WhInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.text.SimpleDateFormat;
@@ -26,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.START_AFTER;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.Tools.Tool.DAY_LONG;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.drawWarp;
@@ -46,6 +48,9 @@ public class GameController {
     public static final float MAX_XP = 1.5f;
     public static final Map<Long, Integer> DELETE_C = new ConcurrentHashMap<>();
     public static final List<String> LIST_FX = new ArrayList<>();
+    public static final String PWD_FORMAT = "hsgameqd:%s:b:%s";
+    @AutoStand
+    public static IGameService gameService;
     private static String COM13 = "";
 
     static {
@@ -124,8 +129,7 @@ public class GameController {
         COM13 = sb.toString();
     }
 
-    @AutoStand
-    public static IGameService gameService;
+    private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
     @AutoStand
     ScoreController c1;
     @AutoStand
@@ -137,7 +141,7 @@ public class GameController {
 
     public GameController() {
         println(this.getClass().getSimpleName() + "构建");
-        START_AFTER.add(() -> HIST_INFOS.clear());
+        START_AFTER.add(() -> PINFO_LIST.clear());
     }
 
     @Before
@@ -157,17 +161,11 @@ public class GameController {
         }
     }
 
-    public static final String PWD_FORMAT = "hsgameqd:%s:b:%s";
-
-    private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
-
     private Integer getThisWeekDays(Long qq) {
         StringBuilder sb = new StringBuilder();
         int n = Tool.INSTANCE.getOldestWeekOne();
         for (int i = 0; i <= n; i++) {
-            String pwd = String.format(PWD_FORMAT, dfn.format(new Date(
-                    System.currentTimeMillis() - (DAY_LONG * i)
-            )), BootstarpResource.BOT.getId());
+            String pwd = String.format(PWD_FORMAT, dfn.format(new Date(System.currentTimeMillis() - (DAY_LONG * i))), BootstarpResource.BOT.getId());
             sb.append(pwd).append(",");
         }
         String pwd = sb.toString();
@@ -184,25 +182,13 @@ public class GameController {
     private String jl(Integer n, Long qq) {
         switch (n) {
             case 1:
-                getInfo(qq).addGold(100L, new TradingRecord()
-                        .setFrom(-1)
-                        .setMain(qq).setDesc("签到获得")
-                        .setTo(qq)
-                        .setMany(100)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setType1(TradingRecord.Type1.add)).apply();
+                getInfo(qq).addGold(100L, new TradingRecord().setFrom(-1).setMain(qq).setDesc("签到获得").setTo(qq).setMany(100).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add)).apply();
                 return "签到成功!\n本周签到1天\n获得100金魂币";
             case 2:
                 addToBgs(qq, 107, 2, ObjType.got);
                 return "签到成功!\n本周签到2天\n获得2个仙品花瓣";
             case 3:
-                getInfo(qq).addGold(200L, new TradingRecord()
-                        .setFrom(-1)
-                        .setMain(qq).setDesc("签到获得")
-                        .setTo(qq)
-                        .setMany(100)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setType1(TradingRecord.Type1.add)).apply();
+                getInfo(qq).addGold(200L, new TradingRecord().setFrom(-1).setMain(qq).setDesc("签到获得").setTo(qq).setMany(100).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add)).apply();
                 return "签到成功!\n本周签到3天\n获得200金魂币";
             case 4:
                 addToBgs(qq, 103, 3, ObjType.got);
@@ -211,13 +197,7 @@ public class GameController {
                 addToBgs(qq, 130, 3, ObjType.got);
                 return "签到成功!\n本周签到5天\n获得3个奖券";
             case 6:
-                getInfo(qq).addGold(500L, new TradingRecord()
-                        .setFrom(-1)
-                        .setMain(qq).setDesc("签到获得")
-                        .setTo(qq)
-                        .setMany(100)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setType1(TradingRecord.Type1.add)).apply();
+                getInfo(qq).addGold(500L, new TradingRecord().setFrom(-1).setMain(qq).setDesc("签到获得").setTo(qq).setMany(100).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add)).apply();
                 return "签到成功!\n本周签到6天\n获得700金魂币";
             case 7:
                 addToBgs(qq, 1601, 2, ObjType.got);
@@ -265,19 +245,16 @@ public class GameController {
         return str;
     }
 
-    @Action("转生")
+    @Action("重置武魂")
     public String delete(SpUser qq) {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
         try {
-            if (DELETE_C.containsKey(qq.getId()))
-                if (DELETE_C.get(qq.getId()) >= DELETE_MAX)
-                    return "当日转生次数上限";
+            if (DELETE_C.containsKey(qq.getId())) if (DELETE_C.get(qq.getId()) >= DELETE_MAX) return "当日重置次数上限";
             return gameService.returnA(qq.getId());
         } finally {
-            if (DELETE_C.containsKey(qq.getId()))
-                DELETE_C.put(qq.getId(), DELETE_C.get(qq.getId()) + 1);
+            if (DELETE_C.containsKey(qq.getId())) DELETE_C.put(qq.getId(), DELETE_C.get(qq.getId()) + 1);
             else DELETE_C.put(qq.getId(), 1);
         }
     }
@@ -309,20 +286,6 @@ public class GameController {
         }
     }
 
-//
-//    @Action("攻击.+")
-//    public String attWho(User qq, @AllMess String chain, Group group) {
-//        long who = MessageTools.instance.getAtFromString(chain);
-//        if (who == -1) return NOT_FOUND_AT;
-//        long at = getInfo(qq.getId()).getAk1();
-//        if (at > System.currentTimeMillis())
-//            return String.format(ResourceSet.FinalFormat.ATT_WAIT_TIPS, getTimeTips(at));
-//        if (!GameDataBase.exist(who)) return (PLAYER_NOT_REGISTERED);
-//        String sss = gameService.att(qq.getId(), who, group);
-//        getInfo(qq.getId()).setAk1(System.currentTimeMillis() + manager.getAttPost(qq.getId())).apply();
-//        return sss;
-//    }
-
     @Action("侦查.+")
     public String Look(SpUser qq, @AllMess String chain, SpGroup group) {
         long who = Project.utils.Utils.getAtFromString(chain);
@@ -331,7 +294,7 @@ public class GameController {
         PersonInfo I = getInfo(qq.getId());
         PersonInfo Y = getInfo(who);
         if (I.getLevel() >= Y.getLevel()) {
-            putPerson(getInfo(qq.getId()).addHl(-10L));
+            getInfo(qq.getId()).addHl(-10L).apply();
             StringBuilder m1 = new StringBuilder();
             m1.append("侦查成功,消耗十点魂力\n");
             m1.append(MemberUtils.getNameFromGroup(who, group));
@@ -369,12 +332,9 @@ public class GameController {
             String sn = getFhName(Long.valueOf(entry.getKey()));
             sb.append("第" + (r++)).append(":")
                     .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>\r").append(n <= 10 ? "" : "\r\n\t")
-                    .append(entry.getValue())
-                    .append("级(");
+                    .append("==>\r").append(n <= 10 ? "" : "\r\n\t").append(entry.getValue()).append("级(");
             if (entry.getValue() >= 150) {
-                sb.append(Tool.INSTANCE.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp())))
-                        .append(")");
+                sb.append(Tool.INSTANCE.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp()))).append(")");
             }
             sb.append("\r\n");
         }
@@ -409,8 +369,7 @@ public class GameController {
 
     @Action("双修")
     public String Xl2(SpUser qq, SpGroup group) {
-        if (getWarp(qq.getId()).getBindQ().longValue() == -1)
-            return "未融合";
+        if (getWarp(qq.getId()).getBindQ().longValue() == -1) return "未融合";
         String str = gameService.xl2(qq.getId());
         return str;
     }
@@ -443,4 +402,22 @@ public class GameController {
         return gameService.attByHj(q, at, br);
     }
 
+    @Action("切换武魂")
+    private String handoff(long q) {
+        PersonInfo pinfo = getInfo(q);
+        int c = pinfo.getWhc();
+        if (c >= 2) {
+            int p = pinfo.getP();
+            if (p < c) {
+                p++;
+            } else {
+                p = 1;
+            }
+            pinfo.setP(p);
+            pinfo.apply();
+            return "切换成功";
+        } else {
+            return "没有其他武魂";
+        }
+    }
 }

@@ -1,9 +1,9 @@
 package Project.plugins;
 
+import Project.commons.apiEntitys.ShiTu.Response;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import Project.commons.apiEntitys.ShiTu.Response;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping

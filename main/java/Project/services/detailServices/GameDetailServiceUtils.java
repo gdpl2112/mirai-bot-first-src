@@ -2,18 +2,18 @@ package Project.services.detailServices;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.commons.gameEntitys.base.BaseInfo;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.mirai0.commons.GhostObj;
-import Project.commons.gameEntitys.base.BaseInfo;
 
+import static Project.commons.rt.ResourceSet.FinalFormat.ATTACK_TIPS0;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.services.detailServices.GameDetailService.beaten;
 import static Project.services.detailServices.GameDetailService.onAtt;
 import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.ATTACK_TIPS0;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -148,7 +148,7 @@ public class GameDetailServiceUtils {
      */
     public static void attGhostOrMan(StringBuilder sb, Number who, Number who2, Long v, Boolean k, DamageType type) {
         if (who2.longValue() == -2) {
-            sb.append(attGho(who.longValue(), v,type, k,  GhostLostBroadcast.KillType.SKILL_ATT));
+            sb.append(attGho(who.longValue(), v, type, k, GhostLostBroadcast.KillType.SKILL_ATT));
         } else {
             if (!GameDataBase.exist(who2.longValue())) {
                 sb.append(PLAYER_NOT_REGISTERED);

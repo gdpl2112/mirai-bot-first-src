@@ -2,23 +2,21 @@ package Project.controllers.normalController;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.SpGroup;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai.BotInstance;
-import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.commons.SpGroup;
+import io.github.kloping.mirai.MiraiRunnable;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
-import net.mamoe.mirai.contact.NormalMember;
 
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.plugins.PointSongController.sing;
-import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github kloping
@@ -40,6 +38,7 @@ public class OtherController {
         MENU_STR.append("7.交易市场").append("\r\n");
         MENU_STR.append("8.点歌系统").append("\r\n");
         MENU_STR.append("9.娱乐功能").append("\r\n");
+        MENU_STR.append("10.管理菜单").append("\r\n");
         MENU_STR.append("-1.开始会话 #在线运行代码").append("\r\n");
         MENU_STR.append("不用at我,直接说就行了哦");
     }
@@ -113,18 +112,7 @@ public class OtherController {
     public Object getAllInfo(SpGroup group, @Param("str") String str) {
         long qq = Project.utils.Utils.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
-        NormalMember member = BOT.getGroup(group.getId()).get(qq);
-        StringBuilder sb = new StringBuilder();
-        sb.append("QQ:").append(qq).append("\r\n");
-        sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
-        sb.append("群内名:").append(MemberUtils.getNameFromGroup(qq, group)).append("\r\n");
-        sb.append("QQ名:").append(member.getNick()).append("\r\n");
-        sb.append("加入时间:").append(Tool.INSTANCE.getTimeYMdhms(member.getJoinTimestamp() * 1000L)).append("\r\n");
-        sb.append("最后发言:").append(Tool.INSTANCE.getTimeYMdhms(member.getLastSpeakTimestamp() * 1000L)).append("\r\n");
-        sb.append("头衔:").append(member.getSpecialTitle()).append("\r\n");
-        sb.append("禁言时长:").append(member.getMuteTimeRemaining()).append("\r\n");
-        sb.append("头像链接:").append(member.getAvatarUrl()).append("\r\n");
-        return sb.toString();
+        return MiraiRunnable.getMemberInfo(group.getId(), qq);
     }
 
     @Action("金魂币消费记录")
@@ -163,19 +151,4 @@ public class OtherController {
         }
         throw new NoRunException();
     }
-
-    //    @Action("生成国旗渐变头像<.+=>par>")
-//    public String par(@AllMess String all) {
-//        try {
-//            int i1 = all.indexOf("[");
-//            int i2 = all.indexOf("]");
-//            String url = all.substring(i1 + 5, i2);
-//            String endU = Image.queryUrl(Image.fromId(url));
-//            url = Drawer.bundler_0(endU);
-//            return  Tool.tool.pathToImg(url);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "生成失败";
-//        }
-//    }
 }

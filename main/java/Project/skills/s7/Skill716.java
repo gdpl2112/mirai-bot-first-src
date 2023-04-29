@@ -1,15 +1,16 @@
 package Project.skills.s7;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.exist;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
@@ -24,7 +25,7 @@ public class Skill716 extends SkillTemplate {
 
 
     public String getIntro() {
-        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()), getAddP(getJid(), getId())/8);
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), getAddP(getJid(), getId()), getAddP(getJid(), getId()) / 8);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class Skill716 extends SkillTemplate {
                 long o = CommonSource.percentTo(p, v);
                 addShield(q, o);
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
-                putPerson(pInfo.addTag(TAG_XX, info.getAddPercent() / 8, getDuration(getJid())));
+                (pInfo.addTag(TAG_XX, info.getAddPercent() / 8, getDuration(getJid()))).apply();
             }
         };
     }

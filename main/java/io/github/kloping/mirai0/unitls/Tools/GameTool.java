@@ -6,6 +6,7 @@ import Project.dataBases.GameDataBase;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.WhInfo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -317,8 +318,8 @@ public class GameTool {
 
     public static List<Map.Entry<String, Integer>> phGet(int num) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>();
-        for (PersonInfo personInfo : SpringBootResource.getPersonInfoMapper().getOrderByLevel(num)) {
-            list.add(Tool.INSTANCE.getEntry(personInfo.getName(), personInfo.getLevel()));
+        for (WhInfo info : SpringBootResource.getWhInfoMapper().getOrderByLevel(num)) {
+            list.add(Tool.INSTANCE.getEntry(info.getName(), info.getLevel()));
         }
         return list;
     }

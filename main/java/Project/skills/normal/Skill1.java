@@ -1,13 +1,14 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addHp;
+import static Project.services.detailServices.GameSkillDetailService.nearest;
 
 /**
  * @author github.kloping
@@ -25,7 +26,7 @@ public class Skill1 extends SkillTemplate {
             public void before() {
                 for (Long q : nearest(3, who.longValue(), nums)) {
                     addHp(who.longValue(), q, info.getAddPercent());
-                    setTips("作用于 " +  Tool.INSTANCE.at(q));
+                    setTips("作用于 " + Tool.INSTANCE.at(q));
                 }
             }
         };

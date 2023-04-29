@@ -1,5 +1,6 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
@@ -7,13 +8,12 @@ import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping
@@ -24,6 +24,11 @@ public class Skill1002 extends SkillTemplate {
         super(1002);
         setName("蓄力重击");
     }
+
+    private static boolean needSay(int time) {
+        return (time == 1 || time == 3 | time == 8 || time == 10 || time == 15 || time == 20 || time == 25);
+    }
+
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "蓄力重击") {
@@ -60,9 +65,5 @@ public class Skill1002 extends SkillTemplate {
                 }
             }
         };
-    }
-
-    private static boolean needSay(int time) {
-        return (time == 1 || time == 3 | time == 8 || time == 10 || time == 15 || time == 20 || time == 25);
     }
 }

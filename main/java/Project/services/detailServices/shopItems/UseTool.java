@@ -1,12 +1,12 @@
 package Project.services.detailServices.shopItems;
 
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.controllers.recr.HasTimeActionController;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -14,15 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
+import static Project.commons.rt.ResourceSet.FinalValue.OBJ116_VALUE;
 import static Project.controllers.auto.ControllerSource.gameService;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.getInfo;
+import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.USE_UPPER_LIMIT_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NOT_SUPPORTED_NUM_USE;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop0;
 
@@ -67,7 +68,7 @@ public class UseTool {
                     personInfo.addHp(l);
                     s0 = "加血=>" + l;
                 }
-                putPerson(personInfo);
+                (personInfo).apply();
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return s0;
             case 103:
@@ -75,26 +76,26 @@ public class UseTool {
                 long xr = personInfo.getXpL() / c;
                 long mx = (long) (xr * 0.92f);
                 mx *= num;
-                putPerson(personInfo.addXp(mx));
+                (personInfo.addXp(mx)).apply();
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return "增加了:" + mx + "点经验";
             case 104:
                 long att = personInfo.getLevel() * 25;
                 att *= num;
-                putPerson(personInfo.addAtt(att));
+                (personInfo.addAtt(att)).apply();
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return "增加了" + att + "点攻击";
             case 105:
                 l = personInfo.getLevel() * 35;
                 l *= num;
-                putPerson(personInfo.addHp(l).addHpl(l));
+                (personInfo.addHp(l).addHpl(l)).apply();
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return "增加了" + l + "点最大生命";
             case 112:
                 long v = percentTo((int) Tool.INSTANCE.randA(10, 15), getInfo(who).getHjL());
                 v = v < 0 ? 1 : v;
                 v *= num;
-                putPerson(getInfo(who).addHj(v));
+                (getInfo(who).addHj(v)).apply();
                 removeFromBgs(Long.valueOf(who), id, num, ObjType.use);
                 return "恢复了" + v + "点精神力";
             case 116:
@@ -116,7 +117,7 @@ public class UseTool {
 
     public String use101(long who) {
         remove(101, who);
-        putPerson(getInfo(who).setK1(1L).setK2(1L));
+        (getInfo(who).setK1(1L).setK2(1L)).apply();
         return "清空修炼和进入冷却";
     }
 
@@ -138,10 +139,10 @@ public class UseTool {
             remove(102, who);
             UseRestrictions.record(who, 102);
             if (GameTool.isATrue(who)) {
-                putPerson(getInfo(who).addHp(l / 2));
+                (getInfo(who).addHp(l / 2)).apply();
                 return "处于选择状态增加减半 加血=>" + (l / 2);
             } else {
-                putPerson(getInfo(who).addHp(l));
+                (getInfo(who).addHp(l)).apply();
             }
         }
         return "加血=>" + l;
@@ -152,7 +153,7 @@ public class UseTool {
         int c = (getRandXl(personInfo.getLevel()));
         long xr = personInfo.getXpL() / c;
         long mx = (long) (xr * 1.1f);
-        putPerson(getInfo(who).addXp(mx));
+        (getInfo(who).addXp(mx)).apply();
         remove(103, who);
         return "增加了" + mx + "点经验";
     }
@@ -160,14 +161,14 @@ public class UseTool {
     public String use104(long who) {
         PersonInfo personInfo = getInfo(who);
         long att = personInfo.getLevel() * 25;
-        putPerson(personInfo.addAtt(att));
+        (personInfo.addAtt(att)).apply();
         remove(104, who);
         return "增加了" + att + "点攻击";
     }
 
     public String use105(long who) {
         long l = getInfo(who).getLevel() * 35;
-        putPerson(getInfo(who).addHp(l).addHpl(l));
+        (getInfo(who).addHp(l).addHpl(l)).apply();
         remove(105, who);
         return "增加了" + l + "点最大生命";
     }
@@ -188,10 +189,10 @@ public class UseTool {
             }
         }
         if (GameTool.isATrue(who)) {
-            putPerson(getInfo(who).addHl(l / 2));
+            (getInfo(who).addHl(l / 2)).apply();
             return "处于选择状态增加减半 增加了" + (l / 2) + "点魂力";
         } else {
-            putPerson(personInfo.addHl(l));
+            (personInfo.addHl(l)).apply();
         }
         return "增加了" + l + "点魂力";
     }
@@ -201,7 +202,7 @@ public class UseTool {
         int r = personInfo.getNextR1();
         if (r != -2) {
             remove(107, who);
-            putPerson(personInfo.setNextR1(-2));
+            (personInfo.setNextR1(-2)).apply();
             return "使用成功!!";
         } else {
             return "使用失败,另一个正在使用..";
@@ -213,7 +214,7 @@ public class UseTool {
         Integer nr = personInfo.getNextR2();
         if (nr != -2) {
             remove(108, who);
-            putPerson(personInfo.setNextR2(-2));
+            (personInfo.setNextR2(-2)).apply();
             return "使用成功!!";
         } else {
             return "使用失败,另一个正在使用..";
@@ -223,7 +224,7 @@ public class UseTool {
     public String use109(long who) {
         PersonInfo personInfo = getInfo(who);
         remove(109, who);
-        putPerson(getInfo(who).setHelpC(personInfo.getHelpC() - 1));
+        (getInfo(who).setHelpC(personInfo.getHelpC() - 1)).apply();
         UseRestrictions.record(who, 109);
         return "使用成功!!\r\n获得一次请求支援机会";
     }
@@ -232,7 +233,7 @@ public class UseTool {
         PersonInfo personInfo = getInfo(who);
         remove(110, who);
         UseRestrictions.record(who, 110);
-        putPerson(getInfo(who).setHelpToc(personInfo.getHelpToc() - 1));
+        (getInfo(who).setHelpToc(personInfo.getHelpToc() - 1)).apply();
         return "使用成功!!\r\n获得一次支援机会";
     }
 
@@ -243,7 +244,7 @@ public class UseTool {
     public String use112(long who) {
         long v = percentTo((int) Tool.INSTANCE.randA(11, 17), getInfo(who).getHjL());
         v = v < 0 ? 1 : v;
-        putPerson(getInfo(who).addHj(v));
+        (getInfo(who).addHj(v)).apply();
         remove(112, who);
         UseRestrictions.record(who, 112);
         return "恢复了" + v + "点精神力";
@@ -254,7 +255,7 @@ public class UseTool {
         Integer nr = personInfo.getNextR3();
         if (nr != -2) {
             remove(115, who);
-            putPerson(personInfo.setNextR3(-2));
+            (personInfo.setNextR3(-2)).apply();
             return "使用成功!!";
         } else {
             return "使用失败,另一个正在使用..";
@@ -299,7 +300,7 @@ public class UseTool {
             BaseInfoTemp.VERTIGO_T1.get(q2).cancel(true);
         }
         playerBehavioralManager.growths.remove(who);
-        putPerson(getInfo(who).addTag(TAG_WD, 1, 800));
+        (getInfo(who).addTag(TAG_WD, 1, 800)).apply();
         removeFromBgs(Long.valueOf(who), 119, 1, ObjType.use);
         return "使用成功";
     }
@@ -355,6 +356,7 @@ public class UseTool {
         removeFromBgs(Long.valueOf(who), 7001, 1, ObjType.use);
         return HasTimeActionController.use(who);
     }
+
     public String use7003(long who) {
         removeFromBgs(Long.valueOf(who), 7003, 1, ObjType.use);
         return HasTimeActionController.use7003(who);

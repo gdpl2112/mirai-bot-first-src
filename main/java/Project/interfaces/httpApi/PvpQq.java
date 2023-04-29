@@ -1,11 +1,11 @@
 package Project.interfaces.httpApi;
 
-import io.github.kloping.MySpringTool.annotations.PathValue;
-import io.github.kloping.MySpringTool.annotations.http.GetPath;
-import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import Project.commons.apiEntitys.pvpqq.Heroes;
 import Project.commons.apiEntitys.pvpqq.pvpQQVoice.HeroVoice;
 import Project.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
+import io.github.kloping.MySpringTool.annotations.PathValue;
+import io.github.kloping.MySpringTool.annotations.http.GetPath;
+import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 
 /**
  * @author github kloping

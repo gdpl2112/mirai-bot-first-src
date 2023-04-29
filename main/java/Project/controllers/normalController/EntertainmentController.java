@@ -5,6 +5,7 @@ import Project.commons.GroupConf;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.UserScore;
+import Project.commons.rt.ResourceSet;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.httpApi.Suning;
@@ -13,22 +14,22 @@ import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.commons.Quiz;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.BootstarpResource.*;
+import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.sendFlashToSuper;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
  * @author github-kloping
@@ -44,6 +45,8 @@ public class EntertainmentController {
      */
     private static int eveS1 = 2;
     public Map<Long, Idiom> longIdiomMap = new ConcurrentHashMap<>();
+    @AutoStand
+    Suning suning;
     @AutoStand
     private ApiIyk0 apiIyk0;
 
@@ -77,7 +80,7 @@ public class EntertainmentController {
                 return "已填充1个";
             } else {
                 QLIST.remove(qq);
-                if (builderAndAdd(str, qq)) {
+                if (builderAndAdd(str, qq, group.getId())) {
                     return "填充完成\r\n添加完成";
                 } else {
                     return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
@@ -87,9 +90,6 @@ public class EntertainmentController {
             throw new NoRunException("没有在添加");
         }
     }
-
-    @AutoStand
-    Suning suning;
 
     @Action("时间")
     public Object nowTime() {
@@ -132,12 +132,8 @@ public class EntertainmentController {
 
     @Action(value = "掷骰子", otherName = "摇骰子")
     public String rand(SpGroup group) {
-        StringBuilder builder = new StringBuilder();
-        int r = Tool.INSTANCE.RANDOM.nextInt(6);
-        String str = datePath + "/GameFile/Rt_";
-        str += r;
-        str += ".jpg";
-        return Tool.INSTANCE.pathToImg(str);
+        int r = Tool.INSTANCE.RANDOM.nextInt(6) + 1;
+        return Tool.INSTANCE.pathToImg(String.format("http://kloping.top/R" + r + ".jpg"));
     }
 
     @Action("开始成语接龙")

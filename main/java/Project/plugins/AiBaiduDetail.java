@@ -1,10 +1,10 @@
 package Project.plugins;
 
+import Project.commons.apiEntitys.baidu.AiRequest;
+import Project.commons.apiEntitys.baidu.AiResponse;
 import Project.interfaces.httpApi.AiBaidu;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.commons.apiEntitys.baidu.AiRequest;
-import Project.commons.apiEntitys.baidu.AiResponse;
 
 import java.util.Base64;
 import java.util.HashMap;

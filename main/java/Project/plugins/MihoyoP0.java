@@ -1,10 +1,10 @@
 package Project.plugins;
 
+import Project.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
+import Project.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import Project.interfaces.httpApi.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.commons.apiEntitys.mihoyoYuanshen.MihoyoYuanshen;
-import Project.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,8 +14,8 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IMG_TAG_STR;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.VIDEO_TAG_STR;
+import static Project.commons.rt.ResourceSet.FinalString.IMG_TAG_STR;
+import static Project.commons.rt.ResourceSet.FinalString.VIDEO_TAG_STR;
 
 /**
  * @author github-kloping
@@ -58,6 +58,19 @@ public class MihoyoP0 {
         return "{}";
     }
 
+    public static boolean hasImgTag(Element element) {
+        if (element.children() != null && element.children().size() > 0) {
+            for (Element child : element.children()) {
+                if (IMG_TAG_STR.equals(child.tagName())) {
+                    return true;
+                } else {
+                    return hasImgTag(child);
+                }
+            }
+        }
+        return false;
+    }
+
     public MihoyoYuanshen getNews() {
         return mihoyo.newsIndex();
     }
@@ -89,19 +102,6 @@ public class MihoyoP0 {
             }
         }
         return sb.toString();
-    }
-
-    public static boolean hasImgTag(Element element) {
-        if (element.children() != null && element.children().size() > 0) {
-            for (Element child : element.children()) {
-                if (IMG_TAG_STR.equals(child.tagName())) {
-                    return true;
-                } else {
-                    return hasImgTag(child);
-                }
-            }
-        }
-        return false;
     }
 
     private boolean hasVideoTag(Element element) {

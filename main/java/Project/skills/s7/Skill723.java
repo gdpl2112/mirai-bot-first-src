@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
@@ -45,7 +44,7 @@ public class Skill723 extends SkillTemplate {
                 long v4 = CommonSource.percentTo(b / 2, pInfo.getHjL());
                 pInfo.addHj(v4);
                 pInfo.addTag(TAG_XX, b / 5, getDuration(getJid()));
-                putPerson(pInfo);
+                (pInfo).apply();
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v1, getJid()));
             }
         };

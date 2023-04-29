@@ -18,6 +18,7 @@ import lombok.experimental.Accessors;
 public class AutoReply {
     @TableId(type = IdType.AUTO)
     private Integer id;
+    private Long gid;
     private String who;
     private String k;
     private String v;

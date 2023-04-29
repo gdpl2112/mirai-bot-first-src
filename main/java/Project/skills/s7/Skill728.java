@@ -1,18 +1,18 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
@@ -22,8 +22,6 @@ public class Skill728 extends SkillTemplate {
     public Skill728() {
         super(728);
     }
-
-
 
 
     @Override

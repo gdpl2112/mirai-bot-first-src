@@ -40,8 +40,14 @@ public class SpringBootResource {
     public static ZongMapper zongMapper;
     public static ZonMapper zonMapper;
     public static UpupMapper upupMapper;
+    public static WhInfoMapper whInfoMapper;
     public static AchievementMapper achievementMapper;
     public static SaveMapper saveMapper;
+    public static RaffleMapper raffleMapper;
+
+    public static RaffleMapper getRaffleMapper() {
+        return raffleMapper;
+    }
 
     public static AchievementMapper getAchievementMapper() {
         return achievementMapper;
@@ -100,7 +106,7 @@ public class SpringBootResource {
     }
 
     public static ConfigurableApplicationContext getConfiguration() {
-        return  SpringStarter.configuration;
+        return SpringStarter.configuration;
     }
 
     public static ConfigurableEnvironment getEnvironment() {
@@ -113,6 +119,10 @@ public class SpringBootResource {
 
     public static PersonInfoMapper getPersonInfoMapper() {
         return personInfoMapper;
+    }
+
+    public static WhInfoMapper getWhInfoMapper() {
+        return whInfoMapper;
     }
 
     public static GInfoMapper getgInfoMapper() {
@@ -159,7 +169,7 @@ public class SpringBootResource {
                                 continue;
                             }
                             Class<? extends BaseMapper> c1 = c0;
-                            Object o0 =  SpringStarter.configuration.getBean(c1);
+                            Object o0 = SpringStarter.configuration.getBean(c1);
                             declaredField.set(null, o0);
                         }
                     }
@@ -168,7 +178,7 @@ public class SpringBootResource {
                 e.printStackTrace();
             }
             System.out.println("==============spring papered=================");
-            address = "http://" + PUBLIC_IP + ":" +  SpringStarter.configuration.getEnvironment().getProperty("server.port");
+            address = "http://" + PUBLIC_IP + ":" + SpringStarter.configuration.getEnvironment().getProperty("server.port");
         } catch (Exception e) {
             e.printStackTrace();
         }

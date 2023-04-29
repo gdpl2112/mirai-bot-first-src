@@ -1,7 +1,7 @@
 package Project.commons.apiEntitys.jkbd;
 
-import com.alibaba.fastjson.JSON;
 import Project.commons.apiEntitys.jkbd.pre.QuestionIdData;
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author github.kloping

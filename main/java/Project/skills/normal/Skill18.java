@@ -1,18 +1,18 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -22,8 +22,6 @@ public class Skill18 extends SkillTemplate {
     public Skill18() {
         super(18);
     }
-
-
 
 
     @Override

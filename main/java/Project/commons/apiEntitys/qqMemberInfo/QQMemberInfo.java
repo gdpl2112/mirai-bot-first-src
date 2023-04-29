@@ -1,7 +1,7 @@
 package Project.commons.apiEntitys.qqMemberInfo;
 
 
-import static Project.commons.resouce_and_tool.CommonSource.pathToImg;
+import static Project.commons.rt.CommonSource.pathToImg;
 
 /**
  * @author github-kloping

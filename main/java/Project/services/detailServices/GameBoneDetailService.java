@@ -1,8 +1,8 @@
 package Project.services.detailServices;
 
+import Project.commons.gameEntitys.SoulAttribute;
 import io.github.kloping.common.Public;
 import io.github.kloping.map.MapUtils;
-import Project.commons.gameEntitys.SoulAttribute;
 
 import java.lang.reflect.Field;
 import java.util.Map;

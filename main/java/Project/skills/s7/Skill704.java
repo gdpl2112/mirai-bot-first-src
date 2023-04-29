@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfo;
+import Project.commons.rt.CommonSource;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.gameEntitys.base.BaseInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameDetailServiceUtils.getAttFromAny;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
@@ -25,8 +24,6 @@ public class Skill704 extends SkillTemplate {
     public Skill704() {
         super(704);
     }
-
-
 
 
     @Override
@@ -53,7 +50,7 @@ public class Skill704 extends SkillTemplate {
                     BaseInfo baseInfo = getBaseInfoFromAny(who, id);
                     baseInfo.setAtt(baseInfo.getAtt() - v).apply();
                 }
-                putPerson(getInfo(who).addHp(v / 2));
+                (getInfo(who).addHp(v / 2)).apply();
             }
 
             @Override

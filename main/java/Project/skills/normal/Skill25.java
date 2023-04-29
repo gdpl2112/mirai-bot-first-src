@@ -1,14 +1,15 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.addTagPack;
+import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
 /**
  * @author github.kloping
@@ -18,8 +19,6 @@ public class Skill25 extends SkillTemplate {
     public Skill25() {
         super(25);
     }
-
-
 
 
     @Override

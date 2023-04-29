@@ -1,18 +1,18 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -28,13 +28,13 @@ public class Skill1005 extends SkillTemplate {
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "") {
+            GhostObj ghostObj;
+
             @Override
             public void before() {
                 ghostObj = GameJoinDetailService.getGhostObjFrom(-who.longValue());
 
             }
-
-            GhostObj ghostObj;
 
             @Override
             public void run() {

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import static Project.commons.resouce_and_tool.CommonSource.pathToImg;
+import static Project.commons.rt.CommonSource.pathToImg;
 
 /**
  * @author github-kloping

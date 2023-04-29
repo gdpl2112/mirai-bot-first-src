@@ -32,10 +32,6 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
 public class GhostBehavior implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
     public static final Map<Long, GhostBehavior> MAP = new HashMap<>();
-    private SpGroup group;
-    private Long qq;
-    private GhostObj ghostObj;
-    private List<Integer> nowAllowJid = new LinkedList<>();
 
     static {
         PlayerLostBroadcast.INSTANCE.add(new PlayerLostBroadcast.PlayerLostReceiver() {
@@ -50,22 +46,48 @@ public class GhostBehavior implements Runnable {
         });
     }
 
-    public GhostBehavior(Long qq, SpGroup group) {
-        this.qq = qq;
-        this.group = group;
-        MAP.put(qq, this);
-    }
-
-    public static void exRun(GhostBehavior ghostBehavior) {
-        THREADS.submit(ghostBehavior);
-    }
-
-    public static GhostBehavior create(long who, SpGroup group, Integer level) {
-        return new GhostBehavior(who, group);
-    }
-
+    AtomicReference<Future> atomicReference = new AtomicReference<>(null);
+    ScheduledFuture future0 = null;
+    Future future1 = null;
+    Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
+    List<Integer> list = new ArrayList<>();
+    private SpGroup group;
+    private Long qq;
+    private GhostObj ghostObj;
+    public Runnable r1 = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    int r = (int) Tool.INSTANCE.randA(4, 8);
+                    long at2 = Tool.INSTANCE.randLong(ghostObj.getAtt(), 0.25f, 0.42f);
+                    at2 = NumberUtils.percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
+                    while (r >= 0) {
+                        Thread.sleep(1000);
+                        r--;
+                    }
+                    long qid = -1L;
+                    if (ghostObj.getWiths().size() > 0) {
+                        if (Tool.INSTANCE.RANDOM.nextBoolean()) {
+                            qid = Tool.INSTANCE.getRandT(ghostObj.getWiths());
+                        } else {
+                            qid = qq;
+                        }
+                    }
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(GameDataBase.getNameById(ghostObj.getId()))
+                            .append("对").append(Tool.INSTANCE.at(qid)).append("造成")
+                            .append(at2).append("点伤害\n").append(GameDetailService.beaten(qid, -2, at2, DamageType.AD));
+                    Public.EXECUTOR_SERVICE.submit(() -> send(sb.toString()));
+                }
+            } catch (InterruptedException e) {
+                System.err.println("结束");
+            }
+        }
+    };
+    private List<Integer> nowAllowJid = new LinkedList<>();
     private int jid = -1;
-
+    private boolean forceOver = true;
     public Runnable r0 = new Runnable() {
         @Override
         public void run() {
@@ -106,44 +128,32 @@ public class GhostBehavior implements Runnable {
             }
         }
     };
+    public GhostBehavior(Long qq, SpGroup group) {
+        this.qq = qq;
+        this.group = group;
+        MAP.put(qq, this);
+    }
 
-    public Runnable r1 = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                while (true) {
-                    int r = (int) Tool.INSTANCE.randA(4, 8);
-                    long at2 = Tool.INSTANCE.randLong(ghostObj.getAtt(), 0.25f, 0.42f);
-                    at2 = NumberUtils.percentTo(ghostObj.getTagValueOrDefault(SkillDataBase.TAG_STRENGTHEN_ATT, 100).intValue(), at2);
-                    while (r >= 0) {
-                        Thread.sleep(1000);
-                        r--;
-                    }
-                    long qid = -1L;
-                    if (ghostObj.getWiths().size() > 0) {
-                        if (Tool.INSTANCE.RANDOM.nextBoolean()) {
-                            qid = Tool.INSTANCE.getRandT(ghostObj.getWiths());
-                        } else {
-                            qid = qq;
-                        }
-                    }
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(GameDataBase.getNameById(ghostObj.getId()))
-                            .append("对").append(Tool.INSTANCE.at(qid)).append("造成")
-                            .append(at2).append("点伤害\n").append(GameDetailService.beaten(qid, -2, at2, DamageType.AD));
-                    Public.EXECUTOR_SERVICE.submit(() -> send(sb.toString()));
-                }
-            } catch (InterruptedException e) {
-                System.err.println("结束");
-            }
+    public static void exRun(GhostBehavior ghostBehavior) {
+        THREADS.submit(ghostBehavior);
+    }
+
+    public static GhostBehavior create(long who, SpGroup group, Integer level) {
+        return new GhostBehavior(who, group);
+    }
+
+    public static int getSkillNum(int level) {
+        if (level > 1000 * 10000) {
+            return 5;
+        } else if (level > 100 * 10000) {
+            return 4;
+        } else if (level > 10 * 10000) {
+            return 3;
+        } else if (level > 5 * 0000) {
+            return 2;
         }
-    };
-
-    AtomicReference<Future> atomicReference = new AtomicReference<>(null);
-    ScheduledFuture future0 = null;
-    Future future1 = null;
-    Map<Integer, SkillTemplate> jid2skill = new HashMap<>();
-    List<Integer> list = new ArrayList<>();
+        return 1;
+    }
 
     @Override
     public void run() {
@@ -218,21 +228,6 @@ public class GhostBehavior implements Runnable {
     private void send(String str) {
         MessageUtils.INSTANCE.sendMessageInGroupWithAt(str, group.getId(), qq);
     }
-
-    public static int getSkillNum(int level) {
-        if (level > 1000 * 10000) {
-            return 5;
-        } else if (level > 100 * 10000) {
-            return 4;
-        } else if (level > 10 * 10000) {
-            return 3;
-        } else if (level > 5 * 0000) {
-            return 2;
-        }
-        return 1;
-    }
-
-    private boolean forceOver = true;
 
     private boolean updateGhost() {
         ghostObj = GameJoinDetailService.getGhostObjFrom(qq);

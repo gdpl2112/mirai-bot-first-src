@@ -1,13 +1,13 @@
 package Project.plugins;
 
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.common.Public;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import Project.commons.apiEntitys.pvpqq.Heroes;
 import Project.commons.apiEntitys.pvpqq.YzzYxs;
 import Project.commons.apiEntitys.pvpqq.pvpQQVoice.Dqpfyy5403;
 import Project.commons.apiEntitys.pvpqq.pvpQQVoice.HeroVoice;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.common.Public;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.HTTPS_PRE;
+import static Project.commons.rt.ResourceSet.FinalString.HTTPS_PRE;
 
 
 /**
@@ -38,36 +38,12 @@ public class PvpQq {
     @AutoStand
     static Project.interfaces.httpApi.PvpQq pvpQq;
 
-    public Object getSkinPic(String arg) {
-        List list = new LinkedList();
-        try {
-            Document document = Jsoup.connect(arg).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69")
-                    .get();
-            String picStr = document.getElementsByClass("banner").get(0).getElementsByTag("img").get(0).attr("src");
-            picStr = HTTPS_PRE + picStr;
-            list.add("皮肤原画:" + Tool.INSTANCE.pathToImg(picStr));
-            try {
-                Elements elements = document.getElementsByClass("relation-cont");
-                list.add("技能效果");
-                Elements es;
-                Element e;
-                e = elements.get(elements.size() - 3);
-                es = e.getElementsByTag("img");
-                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
-                e = elements.get(elements.size() - 2);
-                es = e.getElementsByTag("img");
-                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
-                e = elements.get(elements.size() - 1);
-                es = e.getElementsByTag("img");
-                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            return list.toArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "获取失败";
+    static {
+        BootstarpResource.START_AFTER.add(() -> {
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                m0();
+            });
+        });
     }
 
     public static synchronized void m1() {
@@ -103,18 +79,42 @@ public class PvpQq {
                 }
 //                StarterApplication.logger.info(String.format("%s(%s)语音获取完成",name,id));
             } catch (Exception e) {
-                System.err.println(String.format("%s(%s)语音获取失败",name,id));
+                System.err.println(String.format("%s(%s)语音获取失败", name, id));
             }
         }
         System.out.println("英雄语音加载完成");
     }
 
-    static {
-        BootstarpResource.START_AFTER.add(() -> {
-            Public.EXECUTOR_SERVICE.submit(() -> {
-                m0();
-            });
-        });
+    public Object getSkinPic(String arg) {
+        List list = new LinkedList();
+        try {
+            Document document = Jsoup.connect(arg).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69")
+                    .get();
+            String picStr = document.getElementsByClass("banner").get(0).getElementsByTag("img").get(0).attr("src");
+            picStr = HTTPS_PRE + picStr;
+            list.add("皮肤原画:" + Tool.INSTANCE.pathToImg(picStr));
+            try {
+                Elements elements = document.getElementsByClass("relation-cont");
+                list.add("技能效果");
+                Elements es;
+                Element e;
+                e = elements.get(elements.size() - 3);
+                es = e.getElementsByTag("img");
+                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                e = elements.get(elements.size() - 2);
+                es = e.getElementsByTag("img");
+                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+                e = elements.get(elements.size() - 1);
+                es = e.getElementsByTag("img");
+                list.add(Tool.INSTANCE.pathToImg(HTTPS_PRE + es.get(0).attr("src")));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return list.toArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "获取失败";
     }
 
     public Dqpfyy5403 getY4e(String name) {

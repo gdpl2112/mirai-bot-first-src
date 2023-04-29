@@ -1,6 +1,10 @@
 package Project.services.impl;
 
 import Project.broadcast.game.SkillUseBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -9,28 +13,24 @@ import Project.services.detailServices.GameDetailService;
 import Project.skills.SkillFactory;
 import Project.skills.SkillTemplate;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.gameEntitys.base.BaseInfoTemp;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import static Project.commons.rt.CommonSource.*;
+import static Project.commons.rt.ResourceSet.FinalFormat.*;
+import static Project.commons.rt.ResourceSet.FinalNormalString.*;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.*;
 import static Project.skills.SkillFactory.factory8id;
 import static Project.skills.SkillFactory.normalSkillNum;
-import static Project.commons.resouce_and_tool.CommonSource.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -73,7 +73,9 @@ public class GameSkillServiceImpl implements ISkillService {
         }
         Integer id = is[st - 1];
         Integer jid = null;
-        if (st > 8) {
+        if (getInfo(qq).getWh() >= 50) {
+            jid = Integer.valueOf(getInfo(qq).getWh() + toStr(2,st));
+        } else if (st > 8) {
             return "更多魂技开发中...";
         } else if (st == 8) {
             jid = factory8id(getInfo(qq).getWh());
@@ -105,7 +107,8 @@ public class GameSkillServiceImpl implements ISkillService {
                 .setTimeL(getCoolTime(id, jid, getInfo(qq).getWh(), st).longValue() * 60 * 1000L)
                 .setSt(st)
                 .setAddPercent((int) (getBasePercent(jid) * GameTool.getAHBl_(id)))
-                .setUsePercent(getUserPercent(st, jid).intValue());
+                .setUsePercent(getUserPercent(st, jid).intValue())
+                .setP(getInfo(qq).getP());
 
         SkillDataBase.saveSkillInfo(info);
         int id0 = is[st - 1] + 100;

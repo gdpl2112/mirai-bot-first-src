@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
@@ -26,8 +25,6 @@ public class Skill713 extends SkillTemplate {
     }
 
 
-
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "奇茸通天菊真身") {
@@ -41,7 +38,7 @@ public class Skill713 extends SkillTemplate {
                         who.longValue(), v, getJid()));
                 try {
                     if (nums.length != 0) {
-                        putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 1, getDuration(getJid())));
+                        (getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 1, getDuration(getJid()))).apply();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

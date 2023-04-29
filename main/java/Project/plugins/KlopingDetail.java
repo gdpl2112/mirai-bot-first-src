@@ -28,6 +28,6 @@ public class KlopingDetail {
         headers.put("content-length", String.valueOf(s0.length()));
         headers.put("accept-encoding", "gzip,deflate");
         headers.put("host", NetMain.ROOT_PATH0);
-       return klopingWeb.uploadImg(headers, "4432120", s0);
+        return klopingWeb.uploadImg(headers, "4432120", s0);
     }
 }

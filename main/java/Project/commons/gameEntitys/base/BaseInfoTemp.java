@@ -18,13 +18,13 @@ public class BaseInfoTemp {
      */
     public static final Map<Long, Future> VERTIGO_T1 = new HashMap<>();
     /**
-     * k 直到 v 可使用 魂技
-     */
-    private static final Map<Long, Long> CANT_VERTIGO = new HashMap<>();
-    /**
      * k 被 v 攻击
      */
     public static final Map<Long, Long> VERTIGO_T2 = new HashMap<>();
+    /**
+     * k 直到 v 可使用 魂技
+     */
+    private static final Map<Long, Long> CANT_VERTIGO = new HashMap<>();
 
     public synchronized static boolean letVertigo(long q, long t) {
         if (!CANT_VERTIGO.containsKey(q) || System.currentTimeMillis() > CANT_VERTIGO.get(q))

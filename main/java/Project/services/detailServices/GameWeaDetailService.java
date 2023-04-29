@@ -3,12 +3,12 @@ package Project.services.detailServices;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.commons.TradingRecord;
+import Project.commons.rt.ResourceSet;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.TradingRecord;
-import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.lang.reflect.Method;
@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
 
 /**
@@ -101,7 +101,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, true,  GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -205,7 +205,7 @@ public class GameWeaDetailService {
             ar = ar > MAX_DAMAGE.get(sid) ? MAX_DAMAGE.get(sid) : ar;
             if (lps.get(0).contains("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, true,  GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, true, GhostLostBroadcast.KillType.ANQ_ATT);
                 return ss;
             } else {
                 long whos = Long.parseLong(lps.get(0));
@@ -324,7 +324,7 @@ public class GameWeaDetailService {
         for (String whos : lps) {
             if (whos.equals("#")) {
                 Long l = Long.valueOf(ar);
-                String ss = attGho(who, l, DamageType.AD, n++ == lps.size(),  GhostLostBroadcast.KillType.ANQ_ATT);
+                String ss = attGho(who, l, DamageType.AD, n++ == lps.size(), GhostLostBroadcast.KillType.ANQ_ATT);
                 if (ss.startsWith("你对"))
                     used = true;
                 sb.append(ss).append("\r\n").append("=======================\r\n");
@@ -352,7 +352,7 @@ public class GameWeaDetailService {
 
         if (!isAlive(Long.valueOf(whos))) {
             int l = (int) Tool.INSTANCE.randLong(250, 0.7f, 1.0f);
-            putPerson(getInfo(who).addGold((long) l
+            getInfo(who).addGold((long) l
                     , new TradingRecord()
                             .setType1(TradingRecord.Type1.add)
                             .setType0(TradingRecord.Type0.gold)
@@ -361,7 +361,7 @@ public class GameWeaDetailService {
                             .setFrom(who)
                             .setDesc("击败" + whos)
                             .setMany(l)
-            ));
+            ).apply();
             return "你对ta 造成了:" + ar + "点伤害" + sb + "\r\nta已经无状态,你从他身上摸到" + l + "个金魂币";
         } else {
             return "你对ta 造成了:" + ar + "点伤害" + sb;

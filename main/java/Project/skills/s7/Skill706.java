@@ -1,13 +1,12 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.TAG_WD;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 
@@ -22,14 +21,12 @@ public class Skill706 extends SkillTemplate {
     }
 
 
-
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "柔骨兔真身") {
             @Override
             public void before() {
-                putPerson(getInfo(who).addTag(TAG_WD, 1, getDuration(getJid())));
+                (getInfo(who).addTag(TAG_WD, 1, getDuration(getJid()))).apply();
             }
         };
     }

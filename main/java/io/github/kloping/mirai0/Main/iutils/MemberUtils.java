@@ -27,9 +27,9 @@ public class MemberUtils {
                             member.getNick()
                     );
                     return user;
-                }else{
+                } else {
                     SpUser user = SpUser.create(q,
-                            group.getId(),"default","default"
+                            group.getId(), "default", "default"
                     );
                     return user;
                 }

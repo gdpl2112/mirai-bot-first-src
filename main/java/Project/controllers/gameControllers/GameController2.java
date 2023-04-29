@@ -5,16 +5,20 @@ import Project.aSpring.SpringBootResource;
 import Project.aSpring.mcs.controllers.DetailController;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.rt.ResourceSet;
 import Project.controllers.auto.ConfirmController;
 import Project.dataBases.GameDataBase;
-import Project.utils.VelocityUtils;
 import Project.interfaces.Iservice.IGameObjService;
 import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.httpApi.KlopingWeb;
+import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.resouce_and_tool.ResourceSet;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.WhInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
@@ -22,16 +26,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Project.commons.rt.ResourceSet.FinalFormat.BG_WAIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.CHALLENGE_ING;
+import static Project.commons.rt.ResourceSet.FinalString.IN_SELECT;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.BG_WAIT_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -39,6 +43,11 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Controller
 public class GameController2 {
+    private static final Integer PAGE_SIZE = 12;
+    private static final Integer EVE_GET = 20;
+    private static final String BG_PWD = "挂机池进入时间戳";
+    @AutoStand
+    public KlopingWeb klopingWeb;
     @AutoStand
     IGameService service;
     @AutoStand
@@ -115,8 +124,7 @@ public class GameController2 {
     @Action(value = "融合武魂<.+=>str>", otherName = {"武魂融合<.+=>str>"})
     public String fusion(@Param("str") String str, SpGroup group, SpUser qq) {
         Long q2 = Project.utils.Utils.getAtFromString(str);
-        if (q2 == -1)
-            throw new RuntimeException();
+        if (q2 == -1) throw new RuntimeException();
         String s1 = gameService.fusion(qq.getId(), q2, group);
         return s1;
     }
@@ -171,8 +179,6 @@ public class GameController2 {
         }
     }
 
-    private static final Integer PAGE_SIZE = 12;
-
     @Action(value = "背包.*", otherName = "我的背包.*")
     public String bgs(SpUser qq, SpGroup group, @AllMess String s0) {
         return getImageFromStrings(bgs0(qq, s0));
@@ -207,18 +213,12 @@ public class GameController2 {
         return endList.toArray(new String[0]);
     }
 
-    @AutoStand
-    public KlopingWeb klopingWeb;
-
     @Action("闭关")
     public Object o3(SpUser user) throws NoSuchMethodException {
         Method m0 = this.getClass().getDeclaredMethod("bg", Long.class);
         ConfirmController.regConfirm(user.getId(), m0, this, Long.valueOf(user.getId()));
         return VelocityUtils.getTemplateToString("retreat.tips", EVE_GET);
     }
-
-    private static final Integer EVE_GET = 20;
-    private static final String BG_PWD = "挂机池进入时间戳";
 
     private Object bg(Long q) {
         PersonInfo p0 = getInfo(q);
@@ -278,8 +278,26 @@ public class GameController2 {
             DetailController.RID2QID.put(id, user.getId());
             q = id.longValue();
         }
-        BOT.getGroup(group.getId()).getMembers().get(user.getId()).sendMessage(
-                "点击=>" + String.format(SpringBootResource.address + "/detail.html?qid=" + q)
-        );
+        BOT.getGroup(group.getId()).getMembers().get(user.getId()).sendMessage("点击=>" + String.format(SpringBootResource.address + "/detail.html?qid=" + q));
+    }
+
+    private static final int N2 = 10;
+
+    @Action("激活第二武魂")
+    public String ji(long q) {
+        if (!GameDataBase.containsBgsNum(q, 0, N2)) {
+            return "您没有足够的武魂晶元(" + 0 + ")";
+        }
+        GameDataBase.removeFromBgs(q,0,N2, ObjType.use);
+        PersonInfo pinfo = getInfo(q);
+        if (pinfo.getWhc() == 1) {
+            WhInfo whInfo = new WhInfo();
+            whInfo.setQid(q);
+            whInfo.setP(2);
+            whInfo.create();
+            return "激活成功!";
+        } else {
+            return "已经激活!";
+        }
     }
 }

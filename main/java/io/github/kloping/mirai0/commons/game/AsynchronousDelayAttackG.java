@@ -12,6 +12,7 @@ import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
  * @author github.kloping
  */
 public class AsynchronousDelayAttackG extends AsynchronousThing {
+    public DamageType type = DamageType.AD;
     private ScheduledFuture<?> future;
     private int i = 0;
 
@@ -25,8 +26,6 @@ public class AsynchronousDelayAttackG extends AsynchronousThing {
         super(1, q1, -q1, value, t, gid);
         setType(AsynchronousThingType.ATTACK);
     }
-
-    public DamageType type = DamageType.AD;
 
     @Override
     public void run() {

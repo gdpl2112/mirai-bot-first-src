@@ -1,5 +1,8 @@
 package Project.aSpring.mcs.controllers;
 
+import Project.commons.SpUser;
+import Project.commons.TradingRecord;
+import Project.commons.UserScore;
 import Project.controllers.auto.ControllerSource;
 import Project.dataBases.DataBase;
 import Project.dataBases.OtherDatabase;
@@ -10,9 +13,6 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Notice;
-import Project.commons.SpUser;
-import Project.commons.TradingRecord;
-import Project.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import org.jsoup.Jsoup;
@@ -46,6 +46,10 @@ public class RestController0 {
 
     @Value("${auth.super.pwd:123456}")
     String pwd1;
+    @Value("${web.url:http://localhost}")
+    String webUrl;
+    @Value("${web.pwd:123456}")
+    String webPwd;
 
     @GetMapping("getCap")
     public String getCap() {
@@ -142,12 +146,6 @@ public class RestController0 {
         if (!pwd.equals(pwd1)) return null;
         return DataBase.getUserInfo(qid);
     }
-
-    @Value("${web.url:http://localhost}")
-    String webUrl;
-
-    @Value("${web.pwd:123456}")
-    String webPwd;
 
     public String accept(Integer id) {
         return UrlUtils.getStringFromHttpUrl(webUrl + "/accept?id=" + id + "&pwd=" + webPwd);

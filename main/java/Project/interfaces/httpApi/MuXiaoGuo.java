@@ -1,11 +1,11 @@
 package Project.interfaces.httpApi;
 
-import io.github.kloping.MySpringTool.annotations.http.GetPath;
-import io.github.kloping.MySpringTool.annotations.http.HttpClient;
-import io.github.kloping.MySpringTool.annotations.http.ParamName;
 import Project.commons.apiEntitys.baiKe.BaiKe;
 import Project.commons.apiEntitys.reping163.Reping163;
 import Project.commons.apiEntitys.sjtx.Sjtx;
+import io.github.kloping.MySpringTool.annotations.http.GetPath;
+import io.github.kloping.MySpringTool.annotations.http.HttpClient;
+import io.github.kloping.MySpringTool.annotations.http.ParamName;
 
 @HttpClient("https://api.muxiaoguo.cn/api/")
 public interface MuXiaoGuo {

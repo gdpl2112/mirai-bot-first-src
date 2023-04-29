@@ -1,8 +1,8 @@
 package Project.skills;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import lombok.Getter;
 import lombok.Setter;

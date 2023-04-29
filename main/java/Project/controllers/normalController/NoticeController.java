@@ -10,8 +10,8 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.*;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.ResourceSet.FinalValue.*;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
@@ -26,6 +26,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 4.29:第二武魂开放`激活第二武魂`以激活;抽奖机制升级,详情见奖池;5.1活动,每击杀一只十万年或以上的魂兽奖励1~2张奖券活动至5.3").append(NEWLINE);
+        UPDATE_LOG.append(" 4.24:切换武魂,激活第二武魂,抽奖更新,将[奖池,抽奖,抽奖十连],第二武魂测试/").append(NEWLINE);
         UPDATE_LOG.append(" 4.17:成就更新,当选择攻击魂兽时魂兽不随着玩家的选择攻击而攻击玩家,转为魂兽自主的向玩家攻击").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 3.24:修改魂环吸收概率,每次吸收失败增加10%").append(NEWLINE);

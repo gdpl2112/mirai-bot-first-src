@@ -1,15 +1,13 @@
 package Project.skills.bone;
 
-import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.Skill;
 import Project.commons.gameEntitys.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
+import Project.skills.SkillTemplate;
+import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
-import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
 

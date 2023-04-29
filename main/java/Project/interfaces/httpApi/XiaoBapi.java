@@ -19,6 +19,7 @@ public interface XiaoBapi {
      * title：群收款说明(必填)
      * jie：收费价格(必填)
      * select：1(必填)
+     *
      * @param title
      * @param Skey
      * @param pskey

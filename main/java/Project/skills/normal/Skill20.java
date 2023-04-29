@@ -1,9 +1,9 @@
 package Project.skills.normal;
 
-import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.Skill;
 import Project.commons.gameEntitys.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
+import Project.skills.SkillTemplate;
+import io.github.kloping.mirai0.commons.Skill;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,8 +18,6 @@ public class Skill20 extends SkillTemplate {
     public Skill20() {
         super(20);
     }
-
-
 
 
     @Override

@@ -17,8 +17,8 @@ public interface HhpzMapper {
      * @param time
      * @return
      */
-    @Insert("INSERT INTO `hhpz` (`qid`, `oid`, `time`) VALUES (#{qid}, #{oid}, #{time});")
-    Integer insert(@Param("qid") Long qid, @Param("oid") Integer oid, @Param("time") Long time);
+    @Insert("INSERT INTO `hhpz` (`qid`, `oid`, `p`, `time`) VALUES (#{qid}, #{oid}, #{p}, #{time});")
+    Integer insert(@Param("qid") Long qid, @Param("oid") Integer oid, @Param("p") Integer p, @Param("time") Long time);
 
     /**
      * select hh
@@ -26,8 +26,8 @@ public interface HhpzMapper {
      * @param qid
      * @return
      */
-    @Select("SELECT `oid` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time`;")
-    List<Integer> select(@Param("qid") Long qid);
+    @Select("SELECT `oid` FROM `hhpz` WHERE `qid`=#{qid} AND `p`=#{p} AND `state`=0 ORDER BY `time`;")
+    List<Integer> select(@Param("qid") Long qid, @Param("p") Integer p);
 
     /**
      * delete
@@ -35,8 +35,8 @@ public interface HhpzMapper {
      * @param id
      * @return
      */
-    @Update("DELETE FROM `hhpz` WHERE `id`=#{id}")
-    Integer delete(@Param("id") Integer id);
+    @Update("DELETE FROM `hhpz` WHERE `id`=#{id} AND `p`=#{p}")
+    Integer delete(@Param("id") Integer id,@Param("p") Integer p);
 
     /**
      * update oid
@@ -45,8 +45,8 @@ public interface HhpzMapper {
      * @param oid
      * @return
      */
-    @Update("UPDATE `hhpz` SET `oid`=#{oid} WHERE `id`=#{id}")
-    Integer update(@Param("id") Integer id, @Param("oid") Integer oid);
+    @Update("UPDATE `hhpz` SET `oid`=#{oid} WHERE `id`=#{id} AND `p`=#{p}")
+    Integer update(@Param("id") Integer id, @Param("oid") Integer oid, @Param("p") Integer p);
 
     /**
      * select ids
@@ -54,6 +54,6 @@ public interface HhpzMapper {
      * @param qid
      * @return
      */
-    @Select("SELECT `id` FROM `hhpz` WHERE `qid`=#{qid} AND `state`=0 ORDER BY `time`;")
-    List<Integer> selectIds(@Param("qid") Long qid);
+    @Select("SELECT `id` FROM `hhpz` WHERE `qid`=#{qid} AND `p`=#{p} AND `state`=0 ORDER BY `time`;")
+    List<Integer> selectIds(@Param("qid") Long qid, @Param("p") Integer p);
 }

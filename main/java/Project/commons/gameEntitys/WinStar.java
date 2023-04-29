@@ -14,8 +14,8 @@ public class WinStar {
     public static final Color LEVEL3 = new Color(231, 67, 72);
     public static final Color LEVEL4 = new Color(255, 145, 0);
     private static final Color[] COLORS = new Color[]{LEVEL0, LEVEL1, LEVEL2, LEVEL3, LEVEL4};
-    private int num;
     public Map<Color, Integer> starMap = new HashMap<>();
+    private int num;
 
     public WinStar(int num) {
         this.num = num;

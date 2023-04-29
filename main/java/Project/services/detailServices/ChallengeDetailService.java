@@ -1,8 +1,8 @@
 package Project.services.detailServices;
 
+import Project.commons.gameEntitys.challange.Challenges;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.gameEntitys.challange.Challenges;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +12,11 @@ import java.util.Map;
  */
 @Entity
 public class ChallengeDetailService {
-    public Challenges challenges = new Challenges();
     public static final Map<Long, PersonInfo> TEMP_PERSON_INFOS = new HashMap<>();
+    public Challenges challenges = new Challenges();
 
     public synchronized boolean isTemping(long q) {
-        return TEMP_PERSON_INFOS.containsKey(q) ;
+        return TEMP_PERSON_INFOS.containsKey(q);
     }
 
     public synchronized PersonInfo getTempInfo(long q) {

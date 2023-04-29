@@ -7,12 +7,11 @@ import Project.interfaces.entities.AttackPack;
  * @author github.kloping
  */
 public abstract class AttackPackE implements AttackPack {
+    protected Long value = 0L;
+    protected Long fValue = value;
     private Long initiator;
     private Long target;
     private Integer state = -1;
-
-    protected Long value = 0L;
-    protected Long fValue = value;
 
     public AttackPackE(Long initiator, Long target, Long value) {
         this.initiator = initiator;

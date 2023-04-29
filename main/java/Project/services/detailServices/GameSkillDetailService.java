@@ -1,6 +1,7 @@
 package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -12,7 +13,6 @@ import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.*;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.object.ObjectUtils;
 
@@ -20,11 +20,10 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -63,6 +62,15 @@ public class GameSkillDetailService {
         BASE_PERCENT_MAP.put(24, 240000);
         BASE_PERCENT_MAP.put(25, 16);
         BASE_PERCENT_MAP.put(26, 1.2);
+        //=====
+        BASE_PERCENT_MAP.put(5001, 15);
+        BASE_PERCENT_MAP.put(5002, 12);
+        BASE_PERCENT_MAP.put(5003, 4);
+        BASE_PERCENT_MAP.put(5004, 15);
+        BASE_PERCENT_MAP.put(5005, 12);
+        BASE_PERCENT_MAP.put(5006, 20);
+        BASE_PERCENT_MAP.put(5007, 18);
+        BASE_PERCENT_MAP.put(5008, 3);
         //=====
         BASE_PERCENT_MAP.put(701, 42);
         BASE_PERCENT_MAP.put(702, 58);
@@ -267,7 +275,7 @@ public class GameSkillDetailService {
                 v1 = v1 > p2.getHpL() / 2 ? p2.getHpL() / 2 : v1;
             HpChangeBroadcast.INSTANCE.broadcast(who.longValue(), p2.getHp(), p2.getHp() + v1, v1, who.longValue(), HpChangeBroadcast.HpChangeReceiver.type.FROM_Q);
             p2.addHp(v1);
-            putPerson(p2);
+            (p2).apply();
         }
     }
 
@@ -284,7 +292,7 @@ public class GameSkillDetailService {
         PersonInfo p2 = GameDataBase.getInfo(who2);
         v1 = v1 > p2.getHll() / 2 ? p2.getHll() / 2 : v1;
         p2.addHl(v1);
-        putPerson(p2);
+        (p2).apply();
     }
 
     public static long oneNearest(Number who, Number[] nums) {

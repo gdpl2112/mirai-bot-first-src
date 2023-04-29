@@ -14,8 +14,8 @@ public interface UpupMapper {
      * @param level
      * @return
      */
-    @Select("SELECT `state` FROM `upup` WHERE `qid`=#{qid} AND `level`=#{level}")
-    Integer select(@Param("qid") Long qid, @Param("level") Integer level);
+    @Select("SELECT `state` FROM `upup` WHERE `qid`=#{qid} AND `level`=#{level} AND `p`=#{p}")
+    Integer select(@Param("qid") Long qid, @Param("level") Integer level, @Param("p") Integer p);
 
     /**
      * 插入一记录
@@ -24,8 +24,8 @@ public interface UpupMapper {
      * @param level
      * @return
      */
-    @Insert("INSERT INTO `upup` (`qid`, `level`) VALUES (#{qid}, #{level});")
-    Integer insert(@Param("qid") Long qid, @Param("level") Integer level);
+    @Insert("INSERT INTO `upup` (`qid`, `level` ,`p` ) VALUES (#{qid}, #{level} ,#{p});")
+    Integer insert(@Param("qid") Long qid, @Param("level") Integer level, @Param("p") Integer p);
 
     /**
      * delete
@@ -33,6 +33,6 @@ public interface UpupMapper {
      * @param qid
      * @return
      */
-    @Delete("DELETE FROM `upup` WHERE  `qid`=#{qid}")
-    Integer deleteByQq(@Param("qid") Long qid);
+    @Delete("DELETE FROM `upup` WHERE  `qid`=#{qid} AND `p`=#{p}")
+    Integer deleteByQq(@Param("qid") Long qid, @Param("p") Integer p);
 }

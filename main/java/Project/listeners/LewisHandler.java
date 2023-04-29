@@ -21,13 +21,13 @@ import static io.github.kloping.common.Public.EXECUTOR_SERVICE;
  * @author github.kloping
  */
 public class LewisHandler extends SimpleListenerHost {
+    private String host = null;
+    private Number bid = null;
+
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
         super.handleException(context, exception);
     }
-
-    private String host = null;
-    private Number bid = null;
 
     @EventHandler
     public void onEvent(GroupMessageEvent event) {

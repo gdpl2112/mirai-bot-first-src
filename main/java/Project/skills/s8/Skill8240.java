@@ -1,16 +1,16 @@
 package Project.skills.s8;
 
-import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.Skill;
 import Project.commons.gameEntitys.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
-import Project.commons.resouce_and_tool.CommonSource;
+import Project.commons.rt.CommonSource;
+import Project.skills.SkillTemplate;
+import io.github.kloping.mirai0.commons.Skill;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping

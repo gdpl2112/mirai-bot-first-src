@@ -1,24 +1,24 @@
 package Project.services.impl;
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.SpGroup;
+import Project.commons.TradingRecord;
+import Project.commons.gameEntitys.Zon;
+import Project.commons.rt.ResourceSet;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ZongMenDataBase;
+import Project.interfaces.Iservice.IZongMenService;
 import Project.plugins.KlopingDetail;
 import Project.plugins.NetMain;
-import Project.interfaces.Iservice.IZongMenService;
 import Project.services.detailServices.ZongDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.TradingRecord;
 import io.github.kloping.mirai0.commons.Zong;
-import Project.commons.gameEntitys.Zon;
-import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -33,13 +33,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.filterImg;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -49,6 +48,8 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
  */
 @Entity
 public class ZongMenServiceImpl implements IZongMenService {
+
+    public static final int GV = 50;
 
     static {
         MORNING_RUNNABLE.add(() -> {
@@ -81,6 +82,9 @@ public class ZongMenServiceImpl implements IZongMenService {
         });
     }
 
+    @AutoStand
+    KlopingDetail detail;
+
     private static void reward(Zong z1, long i, long i1, long i2) {
         long q1 = z1.getMain();
         long i0 = i - i2 - i1;
@@ -105,8 +109,6 @@ public class ZongMenServiceImpl implements IZongMenService {
             putZonInfo(zon);
         }
     }
-
-    public static final int GV = 50;
 
     public long isJkOk(Long qq) {
         PersonInfo info = GameDataBase.getInfo(qq);
@@ -139,7 +141,7 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String createNow(Long who, String name, SpGroup group) {
         if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name)) return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
-        GameDataBase.putPerson(GameDataBase.getInfo(who).addGold(-450L, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("创建宗门").setMany(450)));
+        (GameDataBase.getInfo(who).addGold(-450L, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("创建宗门").setMany(450))).apply();
         GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12).apply();
         return zongInfo(who, group);
     }
@@ -182,9 +184,6 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String list(SpGroup group) {
         return getImageFromStrings(getAllZongNames());
     }
-
-    @AutoStand
-    KlopingDetail detail;
 
     @Override
     public String setIcon(String imageUrl, Long who, SpGroup group) {
@@ -248,7 +247,7 @@ public class ZongMenServiceImpl implements IZongMenService {
             return ("宗门活动冷却中...==>" + Tool.INSTANCE.getTimeDDHHMM(GameDataBase.getInfo(qq).getJk1()));
         }
         Zong zong = getZongInfo(who);
-        putPerson(GameDataBase.getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12));
+        (GameDataBase.getInfo(qq).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12)).apply();
         addPer(zong, qq);
         putZongInfo(zong);
         return new StringBuilder().append("加入成功!!\r\n").append(listPer(who, group)).toString();
@@ -300,12 +299,12 @@ public class ZongMenServiceImpl implements IZongMenService {
         if (info.getCbk1() > System.currentTimeMillis())
             return "贡献时间未到 => " + Tool.INSTANCE.getTimeDDHHMM(info.getCbk1());
         zon.setXper(zon.getXper() + info.getLevel());
-        zong.setXp(zong.getXp() + info.Level);
+        zong.setXp(zong.getXp() + info.getLevel());
         info.setCbk1(System.currentTimeMillis() + 1000 * 60 * 60 * COB_CD);
         info.addGold((long) -info.getLevel(), new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("宗门贡献").setMany(info.getLevel()));
         putZonInfo(zon);
         putZongInfo(zong);
-        putPerson(info);
+        (info).apply();
         return "贡献成功贡献" + info.getLevel() + "点";
     }
 
@@ -323,14 +322,14 @@ public class ZongMenServiceImpl implements IZongMenService {
         PersonInfo info1 = GameDataBase.getInfo(who);
         if (info1.getHp() > 0) return "ta仍有状态";
         if (zon.getTimes() > 0) {
-            putPerson(info1.setHp(100L).addHl(100L));
+            (info1.setHp(100L).addHl(100L)).apply();
             zon.setTimes(zon.getTimes() - 1);
             putZonInfo(zon);
             return "救援成功";
         } else {
             if (zong.getPub() > 0) {
                 zong.setPub(zong.getPub() - 1);
-                putPerson(info1.setHp(100L).addHl(100L));
+                (info1.setHp(100L).addHl(100L)).apply();
                 putZongInfo(zong);
                 return "消耗一次公共机会,救援成功  剩余=>" + zong.getPub();
             } else {

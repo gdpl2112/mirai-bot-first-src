@@ -1,13 +1,13 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.TagPack;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.gameEntitys.TagPack;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -1,9 +1,9 @@
 package Project.services.impl;
 
+import Project.commons.SpGroup;
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
@@ -26,7 +26,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
                 && !GameTaskDatabase.TASKS.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
-            return "接任务冷却中=>" +  Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
+            return "接任务冷却中=>" + Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
         if (taskPoint.getPrenticeIndex() >= MAX_PRENTICE_INDEX) return "暂无更多任务..";
         int id = taskPoint.getPrenticeIndex();
         Task task = getTask(id);
@@ -53,7 +53,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
                 && !GameTaskDatabase.TASKS.get(q).isEmpty()) return "请先完成\"当前任务\"";
         TaskPoint taskPoint = TaskPoint.getInstance(q);
         if (taskPoint.getNextCan() > System.currentTimeMillis())
-            return "接任务冷却中=>" +  Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
+            return "接任务冷却中=>" + Tool.INSTANCE.getTimeDDHHMM(taskPoint.getNextCan());
         if (taskPoint.getNormalIndex() >= MAX_INDEX) return "暂无更多任务..";
         int id = taskPoint.getNormalIndex();
         Task task = getTask(id);
@@ -68,7 +68,7 @@ public class GameTaskServiceImpl implements IGameTaskService {
         taskPoint.addNormalIndex().apply();
         StringBuilder sb = new StringBuilder();
         sb.append(task.getIntro());
-        sb.append("\r\n时限:").append( Tool.INSTANCE.getTimeDDHHMM(task.getDeadline()));
+        sb.append("\r\n时限:").append(Tool.INSTANCE.getTimeDDHHMM(task.getDeadline()));
         sb.append("\r\n若时间内未完成,将在短时间内无法再接受任务");
         return sb.toString();
     }

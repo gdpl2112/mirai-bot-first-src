@@ -15,8 +15,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -34,6 +34,7 @@ public class GhostObj implements Serializable, BaseInfo {
     @JSONField(serialize = false, deserialize = false)
     public static final int HELPING = 3;
     public static int idx = 100;
+    public Boolean canGet = true;
     @Nullable
     private Long hp = -1L;
     @Nullable
@@ -62,7 +63,6 @@ public class GhostObj implements Serializable, BaseInfo {
     private String name;
     @Nullable
     private Set<Long> withs = new HashSet<>();
-    public Boolean canGet = true;
     private long whoMeet = -1;
     private Integer nc = 0;
     private String myTag = "";
@@ -115,38 +115,6 @@ public class GhostObj implements Serializable, BaseInfo {
         IDX = getIdx();
         name = getNameById(this.id);
         if (balance) balance1();
-    }
-
-    private void balance1() {
-        if (id <= 520) {
-            int i0 = getHhByGh(getL());
-            switch (i0) {
-                case 201://十
-                    this.id = Tool.INSTANCE.randA(501, 503);
-                    return;
-                case 202://百
-                    this.id = Tool.INSTANCE.randA(503, 505);
-                    return;
-                case 203://千
-                    this.id = Tool.INSTANCE.randA(505, 507);
-                    return;
-                case 204://万
-                    this.id = Tool.INSTANCE.randA(507, 510);
-                    return;
-                case 205://十万
-                    this.id = Tool.INSTANCE.randA(510, 514);
-                    return;
-                case 206:
-                    this.id = Tool.INSTANCE.randA(514, 518);
-                    return;
-                case 207:
-                    this.id = Tool.INSTANCE.randA(518, 521);
-                    return;
-                default:
-                    return;
-            }
-        }
-        name = getNameById(this.id);
     }
 
     public static GhostObj create(long hp, long att, long xp, int idMin, int idMax, long l, float bl, boolean balance) {
@@ -224,6 +192,38 @@ public class GhostObj implements Serializable, BaseInfo {
 
     public static void setIdx(int idx) {
         GhostObj.idx = idx;
+    }
+
+    private void balance1() {
+        if (id <= 520) {
+            int i0 = getHhByGh(getL());
+            switch (i0) {
+                case 201://十
+                    this.id = Tool.INSTANCE.randA(501, 503);
+                    return;
+                case 202://百
+                    this.id = Tool.INSTANCE.randA(503, 505);
+                    return;
+                case 203://千
+                    this.id = Tool.INSTANCE.randA(505, 507);
+                    return;
+                case 204://万
+                    this.id = Tool.INSTANCE.randA(507, 510);
+                    return;
+                case 205://十万
+                    this.id = Tool.INSTANCE.randA(510, 514);
+                    return;
+                case 206:
+                    this.id = Tool.INSTANCE.randA(514, 518);
+                    return;
+                case 207:
+                    this.id = Tool.INSTANCE.randA(518, 521);
+                    return;
+                default:
+                    return;
+            }
+        }
+        name = getNameById(this.id);
     }
 
     @Override

@@ -13,7 +13,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
 
@@ -102,7 +102,7 @@ public class JoinAcService {
                 return "你去星斗森林,捡到了" + r1 + "个暗器零件已存入背包";
             } else if (r < 190) {
                 int rr = Tool.INSTANCE.RANDOM.nextInt(90) + 30;
-                putPerson(getInfo(who).addGold((long) rr, new TradingRecord().setFrom(-1).setMain(who).setDesc("从星斗森林捡到").setTo(who).setMany(rr).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add)));
+                (getInfo(who).addGold((long) rr, new TradingRecord().setFrom(-1).setMain(who).setDesc("从星斗森林捡到").setTo(who).setMany(rr).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add))).apply();
                 return "你去星斗森林,只捡到了" + rr + "个金魂币" + Tool.INSTANCE.toFaceMes(String.valueOf(188));
             } else if (Tool.INSTANCE.RANDOM.nextInt(1000) == 0) {
                 int id = 111;
@@ -130,7 +130,7 @@ public class JoinAcService {
         } else if (r == -2) {
             r = Tool.INSTANCE.RANDOM.nextInt(MIN_MEED);
         }
-        putPerson(getInfo(who).setNextR2(Tool.INSTANCE.RANDOM.nextInt(MAX_RAND_2)));
+        (getInfo(who).setNextR2(Tool.INSTANCE.RANDOM.nextInt(MAX_RAND_2))).apply();
         GhostObj ghostObj = null;
         if (r == 0) {
             ghostObj = gameJoinDetailService.summonFor(String.valueOf(who), 601, 604);

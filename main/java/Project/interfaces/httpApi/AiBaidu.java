@@ -1,11 +1,11 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.baidu.AiRequest;
+import Project.commons.apiEntitys.baidu.AiResponse;
 import io.github.kloping.MySpringTool.annotations.http.Headers;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PostPath;
 import io.github.kloping.MySpringTool.annotations.http.RequestData;
-import Project.commons.apiEntitys.baidu.AiRequest;
-import Project.commons.apiEntitys.baidu.AiResponse;
 
 import java.util.Map;
 

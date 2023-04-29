@@ -7,10 +7,10 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.PERMISSION_DENIED;
 import static io.github.kloping.mirai0.Main.BootstarpResource.isSuperQ;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.PERMISSION_DENIED;
 
 /**
  * @author github.kloping

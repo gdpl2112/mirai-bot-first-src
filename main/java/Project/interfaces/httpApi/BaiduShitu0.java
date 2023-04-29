@@ -24,8 +24,8 @@ public interface BaiduShitu0 {
     @PostPath("/abdr")
     String getDataSign(
             @Headers
-                    Map<String, String> header,
+            Map<String, String> header,
             @RequestBody
-                    String body
+            String body
     );
 }

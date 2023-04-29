@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import Project.commons.GroupConf;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -17,30 +17,6 @@ public class Quiz {
     private List<QuizSon> quizSons = new ArrayList<>();
     private String title = "";
 
-    public static class QuizSon {
-        public Long qid;
-        public Integer index;
-        public Long sc;
-
-        public QuizSon(Long qid, Integer index, Long sc) {
-            this.qid = qid;
-            this.index = index;
-            this.sc = sc;
-        }
-
-        public Long getQid() {
-            return qid;
-        }
-
-        public Integer getIndex() {
-            return index;
-        }
-
-        public Long getSc() {
-            return sc;
-        }
-    }
-
     public static Quiz getQuiz() {
         return quiz;
     }
@@ -110,5 +86,29 @@ public class Quiz {
 
     public void setProcessing(boolean processing) {
         this.processing = processing;
+    }
+
+    public static class QuizSon {
+        public Long qid;
+        public Integer index;
+        public Long sc;
+
+        public QuizSon(Long qid, Integer index, Long sc) {
+            this.qid = qid;
+            this.index = index;
+            this.sc = sc;
+        }
+
+        public Long getQid() {
+            return qid;
+        }
+
+        public Integer getIndex() {
+            return index;
+        }
+
+        public Long getSc() {
+            return sc;
+        }
     }
 }

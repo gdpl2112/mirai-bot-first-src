@@ -1,14 +1,13 @@
 package Project;
 
 
+import Project.commons.apiEntitys.RunnableWithOver;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import Project.commons.apiEntitys.RunnableWithOver;
-
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;

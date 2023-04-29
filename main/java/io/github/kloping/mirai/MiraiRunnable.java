@@ -14,7 +14,7 @@ import net.mamoe.mirai.message.data.MessageSourceKind;
 
 import java.util.List;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.RECALL_FAIL;
+import static Project.commons.rt.ResourceSet.FinalString.RECALL_FAIL;
 import static Project.controllers.normalController.OtherController.getPermission;
 
 /**
@@ -44,9 +44,9 @@ public class MiraiRunnable {
         return tips;
     }
 
-    public static Object getMemberInfo(Long id, long qq) {
+    public static Object getMemberInfo(Long gid, long qq) {
         Bot bot = Bot.getInstances().iterator().next();
-        NormalMember member = bot.getGroup(id).get(qq);
+        NormalMember member = bot.getGroup(gid).get(qq);
         StringBuilder sb = new StringBuilder();
         sb.append("QQ:").append(qq).append("\r\n");
         sb.append("身份:").append(getPermission(member.getPermission().getLevel())).append("\r\n");
@@ -62,5 +62,11 @@ public class MiraiRunnable {
 
     public static String miraiJsonToText(String s0) {
         return EventUtils.messageChain2String(MessageChain.deserializeFromJsonString(s0));
+    }
+
+    public static boolean isAdmin(Long gid, Long qid) {
+        Bot bot = Bot.getInstances().iterator().next();
+        NormalMember member = bot.getGroup(gid).get(qid);
+        return member.getPermission().getLevel() >= 1;
     }
 }

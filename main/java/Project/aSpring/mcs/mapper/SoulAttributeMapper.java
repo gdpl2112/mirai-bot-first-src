@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import Project.commons.gameEntitys.SoulAttribute;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * @author github.kloping

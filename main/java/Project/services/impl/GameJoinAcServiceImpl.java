@@ -1,6 +1,7 @@
 package Project.services.impl;
 
 
+import Project.commons.SpGroup;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.SourceDataBase;
@@ -12,7 +13,6 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
@@ -22,15 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
+import static Project.commons.rt.ResourceSet.FinalFormat.*;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.ac.GameJoinDetailService.saveGhostObjIn;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
@@ -41,6 +41,12 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings
 public class GameJoinAcServiceImpl implements IGameJoinAcService {
     public static final Integer MAX_HELP_C = 5;
     public static final Integer MAX_HELP_TO_C = 3;
+    public static final GhostBehavior DEFAULT_0 = new GhostBehavior(-1L, null) {
+        @Override
+        public void thisOver() {
+
+        }
+    };
     public static List<String> maps = new ArrayList<>();
     public static Map<String, String> dimMaps = new ConcurrentHashMap<>();
     public static List<String> decideMaps = new ArrayList<>();
@@ -90,13 +96,6 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         return service.run(id, who, group);
     }
 
-    public static final GhostBehavior DEFAULT_0 = new GhostBehavior(-1L, null) {
-        @Override
-        public void thisOver() {
-
-        }
-    };
-
     @Override
     public Object startSelect(long who, String select) {
         String what = select.trim();
@@ -142,7 +141,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                         case GhostObj.NOT_NEED:
                             ghostObj.setState(GhostObj.NEED_AND_NO);
                             saveGhostObjIn(who, ghostObj);
-                            putPerson(getInfo(who).addHelpC());
+                            (getInfo(who).addHelpC()).apply();
                             return REQUEST_HELP_SUCCEED;
                         case GhostObj.NEED_AND_NO:
                             return YOU_REQUEST_HELPING;
@@ -185,7 +184,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
                             if (in >= max)
                                 ghostObj1.setState(GhostObj.NEED_AND_YES);
                             saveGhostObjIn(q2, ghostObj1);
-                            putPerson(getInfo(q1).addHelpToC());
+                            (getInfo(q1).addHelpToC()).apply();
                             GInfo.getInstance(q1).addHelpc().apply();
                             GInfo.getInstance(q2).addReqc().apply();
                             return HELP_SUCCEED;
@@ -222,7 +221,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         if (getInfo(qq).getHj() < ev) {
             return HJ_NOT_ENOUGH;
         }
-        putPerson(getInfo(qq).addHj(-ev));
+        (getInfo(qq).addHj(-ev)).apply();
         sb.append(String.format("探查成功.这消耗了你%s%%的精神力", bvc));
         sb.append(SourceDataBase.getImgPathById(ghostObj.getId()));
         if (ghostObj.getHjL() > 1000) {

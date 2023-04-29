@@ -9,8 +9,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class SelectResult {
-    public Number[] ats;
     public final String oStr;
+    public Number[] ats;
     public String str;
 
     public SelectResult(String oStr) {

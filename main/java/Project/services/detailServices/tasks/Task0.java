@@ -1,8 +1,8 @@
 package Project.services.detailServices.tasks;
 
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.services.detailServices.tasks.reciver.ReceiverWithTask0;
 import Project.commons.broadcast.Receiver;
+import Project.services.detailServices.tasks.reciver.ReceiverWithTask0;
 import io.github.kloping.mirai0.commons.task.Task;
 
 /**

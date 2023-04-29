@@ -12,8 +12,8 @@ import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
+import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
@@ -110,7 +110,7 @@ public class LittleHandler extends SimpleListenerHost {
             String text = EventUtils.messageEvent2String(event);
             if (text.startsWith(WANT_TITLE)) {
                 text = text.replaceFirst(WANT_TITLE, "");
-                if (! Tool.INSTANCE.isIlleg(text) && !text.isEmpty()) {
+                if (!Tool.INSTANCE.isIlleg(text) && !text.isEmpty()) {
                     group.get(yid).setSpecialTitle(text);
                     group.sendMessage(TOK);
                 } else {
@@ -178,7 +178,7 @@ public class LittleHandler extends SimpleListenerHost {
         if (at == null || plainText == null) {
             return "Not Found";
         } else {
-            int st = Integer.parseInt( Tool.INSTANCE.findNumberFromString(plainText.getContent()));
+            int st = Integer.parseInt(Tool.INSTANCE.findNumberFromString(plainText.getContent()));
             event.getSubject().get(at.getTarget()).mute(st);
             return "succeed";
         }

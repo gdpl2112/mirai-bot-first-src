@@ -3,8 +3,7 @@ package Project.commons.apiEntitys.qingyunke;
 /**
  * @author github-kloping
  */
-public class QingYunKeData
-{
+public class QingYunKeData {
     private Number result;
     private String content;
 

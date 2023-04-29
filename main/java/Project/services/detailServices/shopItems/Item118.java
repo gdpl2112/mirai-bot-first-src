@@ -3,10 +3,10 @@ package Project.services.detailServices.shopItems;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 
+import static Project.commons.rt.ResourceSet.FinalFormat.AT_FORMAT0;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT0;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping

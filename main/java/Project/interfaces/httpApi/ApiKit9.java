@@ -1,11 +1,11 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.qqGroupInfo.QQGroupInfo;
+import Project.commons.apiEntitys.qqMemberInfo.QQMemberInfo;
 import io.github.kloping.MySpringTool.annotations.http.Callback;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import Project.commons.apiEntitys.qqGroupInfo.QQGroupInfo;
-import Project.commons.apiEntitys.qqMemberInfo.QQMemberInfo;
 
 /**
  * @author github kloping

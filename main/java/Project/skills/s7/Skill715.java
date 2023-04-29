@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 
@@ -54,7 +53,7 @@ public class Skill715 extends SkillTemplate {
                     }
                     Thread.sleep(10 * 1000);
                     v -= 10;
-                    putPerson(getInfo(who).addHp(eveV));
+                    (getInfo(who).addHp(eveV)).apply();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -1,5 +1,6 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.gameControllers.GameController;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.ac.GameJoinDetailService;
@@ -7,14 +8,13 @@ import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalNormalString.ATTACK_BREAK;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping

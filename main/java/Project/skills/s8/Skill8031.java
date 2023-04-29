@@ -1,15 +1,15 @@
 package Project.skills.s8;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_SELECT_STR;
 
 /**
  * @author github.kloping

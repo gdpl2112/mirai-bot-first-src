@@ -1,4 +1,4 @@
-package Project.commons.resouce_and_tool;
+package Project.commons.rt;
 
 import java.security.SecureRandom;
 import java.util.Random;

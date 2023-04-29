@@ -1,16 +1,15 @@
 package Project.skills.s7;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.getAddP;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
@@ -41,7 +40,7 @@ public class Skill724 extends SkillTemplate {
                 Long lon = pInfo.att();
                 long v = CommonSource.percentTo(info.getAddPercent(), lon);
                 pInfo.addHl(CommonSource.percentTo(info.getAddPercent() / 3, pInfo.getHll()));
-                putPerson(pInfo.addTag(TAG_TRUE, 1, getDuration(getJid())));
+                (pInfo.addTag(TAG_TRUE, 1, getDuration(getJid()))).apply();
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
             }
 
@@ -50,7 +49,7 @@ public class Skill724 extends SkillTemplate {
                 super.run();
                 try {
                     Thread.sleep(getDuration(getJid()));
-                    putPerson(getInfo(who).eddTag(TAG_TRUE, 1));
+                    (getInfo(who).eddTag(TAG_TRUE, 1)).apply();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

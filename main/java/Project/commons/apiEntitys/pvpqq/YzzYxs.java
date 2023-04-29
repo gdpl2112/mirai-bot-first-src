@@ -21,7 +21,7 @@ public class YzzYxs {
     private String yzzyxz1918;
     private String zyyx9680;
 
-    public String getYxrd2744(){
+    public String getYxrd2744() {
         return this.yxrd2744;
     }
 
@@ -30,7 +30,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYxlbfm5325(){
+    public String getYxlbfm5325() {
         return this.yxlbfm5325;
     }
 
@@ -39,7 +39,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYxlbfm9398(){
+    public String getYxlbfm9398() {
         return this.yxlbfm9398;
     }
 
@@ -48,7 +48,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYxqy9100(){
+    public String getYxqy9100() {
         return this.yxqy9100;
     }
 
@@ -57,7 +57,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYzzyxm4588(){
+    public String getYzzyxm4588() {
         return this.yzzyxm4588;
     }
 
@@ -66,7 +66,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYzzyxi2602(){
+    public String getYzzyxi2602() {
         return this.yzzyxi2602;
     }
 
@@ -75,7 +75,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYzzyxc4613(){
+    public String getYzzyxc4613() {
         return this.yzzyxc4613;
     }
 
@@ -84,7 +84,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYxlbfm8678(){
+    public String getYxlbfm8678() {
         return this.yxlbfm8678;
     }
 
@@ -93,7 +93,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYxpy7753(){
+    public String getYxpy7753() {
         return this.yxpy7753;
     }
 
@@ -102,7 +102,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getYzzyxz1918(){
+    public String getYzzyxz1918() {
         return this.yzzyxz1918;
     }
 
@@ -111,7 +111,7 @@ public class YzzYxs {
         return this;
     }
 
-    public String getZyyx9680(){
+    public String getZyyx9680() {
         return this.zyyx9680;
     }
 

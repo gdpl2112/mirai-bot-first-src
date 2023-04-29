@@ -1,9 +1,9 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,14 +21,12 @@ public class Skill10 extends SkillTemplate {
     }
 
 
-
-
     @Override
     public Skill create(SkillInfo info, Number who, Number... nums) {
         return new Skill(info, who, new CopyOnWriteArrayList<>(nums), "免死") {
             @Override
             public void before() {
-                setTips("作用于 " +  Tool.INSTANCE.at(who.longValue()));
+                setTips("作用于 " + Tool.INSTANCE.at(who.longValue()));
             }
 
             @Override

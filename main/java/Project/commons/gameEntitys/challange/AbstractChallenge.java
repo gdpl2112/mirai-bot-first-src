@@ -4,11 +4,9 @@ package Project.commons.gameEntitys.challange;
  * @author github.kloping
  */
 public abstract class AbstractChallenge {
+    public static final int STATE_CREATED = 0, ACCEPTING = 1, PROCESSING = 2, FINISHED = 3;
     public long p1 = -1;
     public long p2 = -1;
-
-    public static final int STATE_CREATED = 0, ACCEPTING = 1, PROCESSING = 2, FINISHED = 3;
-
     public int state = STATE_CREATED;
 
     /**
@@ -20,6 +18,7 @@ public abstract class AbstractChallenge {
 
     /**
      * start
+     *
      * @return
      */
     public abstract AbstractChallenge start();

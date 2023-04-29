@@ -1,14 +1,14 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.detailServices.GameBoneDetailService;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.services.detailServices.GameSkillDetailService.*;
+import static Project.services.detailServices.GameSkillDetailService.oneNearest;
 
 /**
  * @author github.kloping
@@ -19,8 +19,6 @@ public class Skill12 extends SkillTemplate {
     public Skill12() {
         super(12);
     }
-
-
 
 
     @Override

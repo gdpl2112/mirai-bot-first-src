@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ChallengeDetailService.TEMP_PERSON_INFOS;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
@@ -42,6 +42,7 @@ import static Project.services.detailServices.ac.GameJoinDetailService.willTips;
  */
 @Entity
 public class ChallengeServiceImpl implements IChallengeService {
+    public static Map<GameBoneDetailService.Type, Number> EMPTY = new HashMap<>();
     @AutoStand
     static GameController gc;
 
@@ -53,12 +54,13 @@ public class ChallengeServiceImpl implements IChallengeService {
         });
     }
 
+    private final Map<Long, Receiver> RECEIVER_MAP = new HashMap<>();
     @AutoStand
     ChallengeDetailService service0;
-
     @AutoStand
     IGameService service;
-    private final Map<Long, Receiver> RECEIVER_MAP = new HashMap<>();
+    @AutoStand
+    GameJoinDetailService gameJoinDetailService;
 
     private void testWill(long qid) throws NoRunException {
         if (service0.challenges.contains(qid)) {
@@ -200,8 +202,6 @@ public class ChallengeServiceImpl implements IChallengeService {
         return "尝试结束";
     }
 
-    public static Map<GameBoneDetailService.Type, Number> EMPTY = new HashMap<>();
-
     private void deleteTempInfo(long q1, long q2) {
         GameBoneDetailService.TEMP_ATTR.getOrDefault(q1, EMPTY).clear();
         GameBoneDetailService.TEMP_ATTR.getOrDefault(q2, EMPTY).clear();
@@ -257,9 +257,6 @@ public class ChallengeServiceImpl implements IChallengeService {
     private PersonInfo toMax(PersonInfo personInfo) {
         return personInfo.setHl(personInfo.getHll()).setHp(personInfo.getHpL()).setHj(personInfo.getHjL());
     }
-
-    @AutoStand
-    GameJoinDetailService gameJoinDetailService;
 
     @Override
     public Object joinChallenge(long qid, String str, SpGroup group) {

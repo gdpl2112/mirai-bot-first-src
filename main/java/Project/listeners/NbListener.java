@@ -1,11 +1,11 @@
 package Project.listeners;
 
+import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
+import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 import Project.interfaces.httpApi.Magiconch;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.EventUtils;
-import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
-import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -19,8 +19,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.github.kloping.mirai0.Main.iutils.EventUtils.messageEvent2String;
 
 /**
  * @author github.kloping

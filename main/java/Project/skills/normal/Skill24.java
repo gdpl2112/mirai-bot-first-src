@@ -1,9 +1,9 @@
 package Project.skills.normal;
 
-import Project.utils.VelocityUtils;
-import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.Skill;
 import Project.commons.gameEntitys.SkillInfo;
+import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
+import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Map;
@@ -24,7 +24,7 @@ public class Skill24 extends SkillTemplate {
     }
 
     public String getIntro() {
-        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()),Tool.INSTANCE.device(getAddP(getJid(), getId()), 1000, 1));
+        return VelocityUtils.getTemplateToString(String.format("skill/%s.intro", getJid()), Tool.INSTANCE.device(getAddP(getJid(), getId()), 1000, 1));
     }
 
     @Override

@@ -1,10 +1,10 @@
 package Project.skills.s8;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
+import Project.commons.rt.ResourceSet;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
-import Project.commons.resouce_and_tool.ResourceSet;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -1,15 +1,18 @@
 package Project.controllers;
 
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BotStarter;
-import Project.commons.SpGroup;
-import Project.commons.SpUser;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.WhInfo;
 
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
+import static Project.dataBases.GameDataBase.getInfo;
 
 /**
  * @author github-kloping
@@ -17,16 +20,8 @@ import static Project.controllers.auto.TimerController.ZERO_RUNS;
 @Controller
 public class FirstController {
 
-    @Before
-    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
-        if (!BotStarter.test) {
-            throw new NoRunException("not test");
-        }
-    }
-
     public static final String PWD = "bot-test-pwd0";
     public static final String C0 = "ToReceiveThe";
-
     @AutoStand
     static KlopingWeb klopingWeb;
 
@@ -36,6 +31,29 @@ public class FirstController {
         });
     }
 
+    @AutoStand
+    IGameJoinAcService gameJoinAcService;
+
+    @Before
+    public void before(@AllMess String mess, SpGroup group, SpUser qq) throws NoRunException {
+        if (!BotStarter.test) {
+            throw new NoRunException("not test");
+        }
+    }
+
+    @Action("激活第二武魂1")
+    private String active(long q) {
+        PersonInfo pinfo = getInfo(q);
+        if (pinfo.getWhc() == 1) {
+            WhInfo whInfo = new WhInfo();
+            whInfo.setQid(q);
+            whInfo.setP(2);
+            whInfo.create();
+            return "激活成功!";
+        } else {
+            return "已经激活!";
+        }
+    }
 
     @Action("领取积分")
     public synchronized String a0(SpUser user) {
@@ -49,9 +67,6 @@ public class FirstController {
         }
         return "体验服专属,每日可领取一次,体验服数据随时可能删除";
     }
-
-    @AutoStand
-    IGameJoinAcService gameJoinAcService;
 
     @Action("测试")
     public Object c0(SpGroup group, long who, SpUser qq) {

@@ -5,6 +5,9 @@ import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.commons.SpGroup;
 import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.Zon;
+import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
 import Project.controllers.gameControllers.GameController2;
@@ -19,15 +22,15 @@ import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.services.player.PlayerBehavioralManager;
 import Project.utils.KlopingWebDataBaseInteger;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.SoulBone;
-import Project.commons.gameEntitys.Zon;
-import Project.commons.gameEntitys.base.BaseInfoTemp;
+import io.github.kloping.mirai0.commons.GInfo;
+import io.github.kloping.mirai0.commons.PersonInfo;
+import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.WhInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
@@ -35,25 +38,24 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
+import static Project.commons.rt.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalFormat.XL_WAIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalNormalString.ATTACK_BREAK;
+import static Project.commons.rt.ResourceSet.FinalNormalString.VERTIGO_ING;
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.MAX_LEVEL;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getNameFromGroup;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.TXL_WAIT_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.XL_WAIT_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.ATTACK_BREAK;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
 
@@ -64,6 +66,7 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
 public class GameServiceImpl implements IGameService {
 
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
+    private static final String FORMATRH = "%s-in-%s";
     public int st = 24;
     @AutoStand
     GameController gameController;
@@ -89,7 +92,7 @@ public class GameServiceImpl implements IGameService {
             long mx = is.getXpL();
             long xr = mx / c;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
-            putPerson(is);
+            (is).apply();
             long ll1 = hfHp(who, 1.0f);
             long ll2 = hfHl(who, 1.0f);
             long ll3 = hfHj(who, 1.0f);
@@ -128,7 +131,7 @@ public class GameServiceImpl implements IGameService {
             long xr = mx / c;
             xr *= 1.1;
             is.addXp(xr).setK1(now + (tr * 1000 * 60));
-            putPerson(is);
+            (is).apply();
 
             long ll1 = hfHp(who, 1.1);
             long ll2 = hfHl(who, 1.1);
@@ -161,7 +164,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo is = getInfo(who);
         StringBuilder str1 = new StringBuilder();
         StringBuilder str = new StringBuilder();
-        if (!is.getSname().isEmpty()) {
+        if (!is.getSname().isEmpty() && is.getLevel() >= 90) {
             str1.append(Tool.INSTANCE.pathToImg(createFont(getFhName(who))));
         }
         long n = is.getWh();
@@ -192,7 +195,7 @@ public class GameServiceImpl implements IGameService {
                 StringBuilder sb = new StringBuilder();
                 sb.append("升级成功");
                 is.addLevel(1).addXp(-xpL);
-                putPerson(is);
+                (is).apply();
                 sb.append(upTrue(who));
                 return Tool.INSTANCE.pathToImg(createImage(sb.toString().split("\r\n")));
             } else {
@@ -209,7 +212,7 @@ public class GameServiceImpl implements IGameService {
         PersonInfo personInfo = getInfo(who);
 
         int L = personInfo.getLevel();
-        if (SpringBootResource.getUpupMapper().select(who, L) != null) {
+        if (SpringBootResource.getUpupMapper().select(who, L, personInfo.getP()) != null) {
             return "在该等级升级过\r\n不增加属性";
         }
         long xpl = getAArtt(L) * 10;
@@ -220,7 +223,7 @@ public class GameServiceImpl implements IGameService {
         sb.append("\r\n增加了:").append(ir1).append("最大血量");
 
         long ir2 = getAArtt(L);
-        personInfo.addHl(ir2).addHll(ir2);
+        personInfo.addHll(ir2).addHl(ir2);
         sb.append("\r\n增加了:").append(ir2).append("最大魂力");
 
         long ir3 = getAArtt(L);
@@ -238,9 +241,8 @@ public class GameServiceImpl implements IGameService {
         }
 
         sb.append("\r\n当前等级:").append(personInfo.getLevel());
-        SpringBootResource.getUpupMapper().insert(who, L);
-        putPerson(personInfo);
-
+        SpringBootResource.getUpupMapper().insert(who, L, personInfo.getP());
+        (personInfo).apply();
         return sb.toString();
     }
 
@@ -255,7 +257,7 @@ public class GameServiceImpl implements IGameService {
             return LEVEL2_AWAKENING_WH_TIPS;
         }
         int r = Tool.INSTANCE.RANDOM.nextInt(31) + 1;
-        putPerson(is.setWh(r));
+        (is.setWh(r)).apply();
         return AWAKENING_WH_SUCCEED;
     }
 
@@ -320,7 +322,7 @@ public class GameServiceImpl implements IGameService {
         long is = DataBase.getUserInfo(who).getScore();
         if (is >= num * 2) {
             DataBase.addScore(-(num * 2), who);
-            putPerson(getInfo(who).addGold(num, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买金魂币" + num).setMany(num)));
+            (getInfo(who).addGold(num, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买金魂币" + num).setMany(num))).apply();
             return BUY_SUCCESS;
         } else {
             return getImageFromStrings("积分不足", "你需要" + num * 2 + "积分", "才能购买" + num + "个金魂币");
@@ -446,9 +448,8 @@ public class GameServiceImpl implements IGameService {
                                     tips.append("\n你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害\r\n消耗了").append(l).append("点魂力\n").append(i == 1 ? "\r\n宗门护体 免疫10%外人的攻击" : "");
                                 } else {
                                     long lg = Tool.INSTANCE.randLong(240, 0.6f, 0.9f);
-                                    putPerson(getInfo(who).addGold(lg, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("击败" + q2).setMany(lg)
+                                    getInfo(who).addGold(lg, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("击败" + q2).setMany(lg)).apply();
 
-                                    ));
                                     tips.append("你对'").append(getNameFromGroup(q2, group)).append("'造成了").append(l1).append(" 点伤害剩余了 0 点血 ").append("\r\n消耗了").append(l).append("点魂力\n").append("\r\n你获得了").append(lg).append("个金魂币");
                                 }
                             } else {
@@ -482,7 +483,7 @@ public class GameServiceImpl implements IGameService {
         }
         if (is.getGold() - 500 >= num) {
             DataBase.addScore((long) (num * 1.5f), who);
-            putPerson(is.addGold(-num, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("换积分" + num).setMany(num)));
+            (is.addGold(-num, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("换积分" + num).setMany(num))).apply();
             return "转换成功\r\n获得" + (num * 1.5f) + "积分";
         } else {
             return getImageFromStrings("金魂币不足", "你需要" + (num + 500) + " 个金魂币", "才能换" + num * 1.5f + "积分");
@@ -496,17 +497,17 @@ public class GameServiceImpl implements IGameService {
                 if (randHh(id, who, personInfo.getLevel())) {
                     GameDataBase.removeFromBgs(who, id, ObjType.use);
                     GameDataBase.addHh(who, id);
-                    putPerson(getInfo(who).addLevel(1).setXp(0L));
+                    (getInfo(who).addLevel(1).setXp(0L)).apply();
                     String str = upTrue(who);
                     if (id <= 202) {
                         return "吸收成功!!提升一级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
                     } else {
-                        putPerson(getInfo(who).addLevel(1).setXp(0L));
+                        (getInfo(who).addLevel(1).setXp(0L)).apply();
                         str += "\n" + upTrue(who);
                         return "吸收成功!!提升两级\r\n" + getImageFromStrings(str.split("\r\n")) + showHh(who);
                     }
                 } else {
-                    putPerson(personInfo.addLevel(-1).addHp(-personInfo.getHp() / 2));
+                    (personInfo.addLevel(-1).addHp(-personInfo.getHp() / 2)).apply();
                     return "吸收魂环失败,魂力等级下降1级,血量下降一半";
                 }
             } else {
@@ -516,8 +517,6 @@ public class GameServiceImpl implements IGameService {
             return "错误吸收";
         }
     }
-
-    private static final String FORMATRH = "%s-in-%s";
 
     private boolean randHh(Integer id, long who, int level) {
         KlopingWebDataBaseInteger kw = new KlopingWebDataBaseInteger(String.format(FORMATRH, who, level), 0);
@@ -564,7 +563,7 @@ public class GameServiceImpl implements IGameService {
         long hp = personInfo.getHp();
         if (hp >= hpl) return 0;
         if (hp > hpl) {
-            putPerson(personInfo.setHp(personInfo.getHpL()));
+            (personInfo.setHp(personInfo.getHpL())).apply();
             return hpl - hp;
         }
         int c1 = getRandXl(personInfo.getLevel());
@@ -576,7 +575,7 @@ public class GameServiceImpl implements IGameService {
         if ((hpl - hp) < l5) {
             l5 = (hpl - hp);
         }
-        putPerson(personInfo.addHp(l5));
+        (personInfo.addHp(l5)).apply();
         return l5;
     }
 
@@ -586,7 +585,7 @@ public class GameServiceImpl implements IGameService {
         long v = personInfo.getHl();
         if (v >= vL) return 0;
         if (v > vL) {
-            putPerson(personInfo.setHl(personInfo.getHll()));
+            (personInfo.setHl(personInfo.getHll())).apply();
             return vL - v;
         }
         int c1 = getRandXl(personInfo.getLevel());
@@ -598,7 +597,7 @@ public class GameServiceImpl implements IGameService {
         if ((vL - v) < l5) {
             l5 = (vL - v);
         }
-        putPerson(personInfo.addHl(l5));
+        (personInfo.addHl(l5)).apply();
         return l5;
     }
 
@@ -608,7 +607,7 @@ public class GameServiceImpl implements IGameService {
         long v = personInfo.getHj();
         if (v >= vL) return 0;
         if (v > vL) {
-            putPerson(personInfo.setHj(personInfo.getHjL()));
+            (personInfo.setHj(personInfo.getHjL())).apply();
             return vL - v;
         }
         int c1 = getRandXl(personInfo.getLevel());
@@ -620,7 +619,7 @@ public class GameServiceImpl implements IGameService {
         if ((vL - v) < l5) {
             l5 = (vL - v);
         }
-        putPerson(personInfo.addHj(l5));
+        (personInfo.addHj(l5)).apply();
         return l5;
     }
 
@@ -646,7 +645,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     public String makeName(Long who, String name, SpGroup group) {
-        putPerson(getInfo(who).setSname(name).setMk1(System.currentTimeMillis() + 1000 * 60 * 60 * 36));
+        (getInfo(who).setSname(name).setMk1(System.currentTimeMillis() + 1000 * 60 * 60 * 36)).apply();
         return info(who);
     }
 
@@ -659,19 +658,14 @@ public class GameServiceImpl implements IGameService {
             e.printStackTrace();
         }
         ConfirmController.regConfirm(id, method, this, new Object[]{id});
-        return "你确定需要转生吗,这将丢失所有信息数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
+        return "你确定需要重置吗,这将重置武魂数据(除积分之外)\r\n请在30秒内回复=>确定/取消";
     }
 
     private String returnNow(Long id) {
-        HIST_INFOS.remove(id);
+        PINFO_LIST.remove(id);
+        Integer p = getInfo(id).getP();
         Warp warp = null;
         int i = 0;
-        try {
-            SpringBootResource.getPersonInfoMapper().deleteById(id.longValue());
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         try {
             SkillDataBase.remove(id);
             i++;
@@ -679,55 +673,8 @@ public class GameServiceImpl implements IGameService {
             e.printStackTrace();
         }
         try {
-            warp = getWarp(id);
-            if (warp.getMaster().longValue() != -1) {
-                chuShiNow(id.longValue());
-            }
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            if (warp.getBindQ().longValue() != -1) {
-                gameController2.removeFusionNow(id.longValue());
-            }
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            for (Integer id0 : SpringBootResource.getBagMapper().selectAllIds(id.longValue())) {
-                SpringBootResource.getBagMapper().update(id0);
-            }
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            for (Map<String, Integer> map : SpringBootResource.getAqBagMapper().selectAq(id)) {
-                SpringBootResource.getAqBagMapper().update(map.get("num"), 1, map.get("id").intValue());
-            }
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            for (SoulBone soulBone : SpringBootResource.getSoulBoneMapper().selectBons(id)) {
-                SpringBootResource.getSoulBoneMapper().delete(soulBone);
-            }
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            SpringBootResource.getgInfoMapper().deleteById(id);
-            i++;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            for (Integer integer : SpringBootResource.getHhpzMapper().selectIds(id.longValue())) {
-                SpringBootResource.getHhpzMapper().delete(integer);
+            for (Integer hid : SpringBootResource.getHhpzMapper().selectIds(id.longValue(), p)) {
+                SpringBootResource.getHhpzMapper().delete(hid, p);
             }
             i++;
         } catch (Exception e) {
@@ -740,11 +687,21 @@ public class GameServiceImpl implements IGameService {
             e.printStackTrace();
         }
         try {
-            SpringBootResource.getUpupMapper().deleteByQq(id);
+            SpringBootResource.getUpupMapper().deleteByQq(id, p);
             i++;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            QueryWrapper<WhInfo> qw = new QueryWrapper<>();
+            qw.eq("qid", id);
+            qw.eq("p", getInfo(id).getP());
+            SpringBootResource.getWhInfoMapper().delete(qw);
+            i++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        WH_LIST.remove(id);
         return "转生完成\n已移除" + i + "项记录";
     }
 

@@ -3,15 +3,17 @@ package Project.recivers;
 import Project.broadcast.game.*;
 import Project.broadcast.normal.MemberJoinedBroadcast;
 import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.OtherDatabase;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.SkillInfo;
+import io.github.kloping.mirai0.commons.GInfo;
+import io.github.kloping.mirai0.commons.GhostObj;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -101,24 +103,24 @@ public class GameReceiver0 {
 
             public void lost(long who) {
                 PersonInfo pi = GameDataBase.getInfo(who);
-                if (pi.hp <= 0) {
+                if (pi.getHp() <= 0) {
                     if (pi.dt1 <= System.currentTimeMillis()) {
                         if (pi.died) {
-                            if (pi.Level % 10 == 0 || pi.downed) {
-                                if (pi.Level < 150)
-                                    pi.xp = 0L;
+                            if (pi.getLevel() % 10 == 0 || pi.downed) {
+                                if (pi.getLevel() < 150)
+                                    pi.setXp(0L);
                             } else {
-                                pi.Level--;
+                                pi.addLevel(-1);
                                 pi.downed = true;
                             }
                         } else {
-                            if (pi.Level < 150)
-                                pi.xp = 0L;
+                            if (pi.getLevel() < 150)
+                                pi.setXp(0L);
                             pi.died = true;
                         }
                         pi.dt1 = System.currentTimeMillis() + 1000 * 60 * 5;
                     }
-                    GameDataBase.putPerson(pi);
+                    (pi).apply();
                 }
             }
         });

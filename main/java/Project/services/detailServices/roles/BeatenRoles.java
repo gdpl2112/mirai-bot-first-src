@@ -1,6 +1,8 @@
 package Project.services.detailServices.roles;
 
 import Project.broadcast.game.GhostLostBroadcast;
+import Project.commons.gameEntitys.SoulAttribute;
+import Project.commons.gameEntitys.base.BaseInfo;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.services.detailServices.GameSkillDetailService;
@@ -8,19 +10,16 @@ import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.ac.entity.Ghost702;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.gameEntitys.SoulAttribute;
-import Project.commons.gameEntitys.base.BaseInfo;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static Project.services.detailServices.GameDetailService.gameBoneService;
 import static Project.services.detailServices.GameDetailService.proZ;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.roles.RoleState.STOP;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github-kloping
@@ -48,7 +47,7 @@ public class BeatenRoles {
     public static final Role TAG_MS_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_MS)) {
             if (p1.getHp() - ov <= 0) {
-                putPerson(p1.eddTag(SkillDataBase.TAG_MS));
+                p1.eddTag(SkillDataBase.TAG_MS).apply();
                 sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("被攻击者,由于使用了免死类魂技,免疫此次 死亡");
                 return new RoleResponse(STOP, ov, 0, q1, q2);
             }
@@ -56,8 +55,8 @@ public class BeatenRoles {
         return null;
     };
     public static final Role TAG_XYS_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
-        if (p1.containsTag(TAG_XUAN_YU_S)) {
-            putPerson(p1.eddTag(TAG_XUAN_YU_S, 1));
+        if (p1.containsTag(TAG_MY)) {
+            (p1.eddTag(TAG_MY, 1)).apply();
             sb.append(NEWLINE).append(THIS_DANGER_OVER_FLAG).append("免疫此次伤害");
             return new RoleResponse(STOP, ov, 0, q1, q2);
         }
@@ -126,8 +125,26 @@ public class BeatenRoles {
         }
         return null;
     };
-    private static final String CANT_HIDE_ARG_KEY = "cant hide";
-    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, type, p1, args) -> {
+    public static final Role TAG_XX = (sb, q1, q2, ov, nv, type, p1, args) -> {
+        if (p1.containsTag(SkillDataBase.TAG_XX)) {
+            int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
+            long v1 = percentTo(p, ov);
+            if (v1 < 1) {
+                v1 = 1;
+            }
+            p1.addHp(v1);
+            sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
+        }
+        return null;
+    };
+    public static final Role TAG_LIGHT_ATT_RS = (sb, q1, q2, ov, nv, type, p1, args) -> {
+        if (p1.containsTag(TAG_LIGHT_ATT)) {
+            Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
+            long v = percentTo(b, ov);
+            GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n", DamageType.AP);
+        }
+        return null;
+    };    public static final Role TAG_FJ = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (p1.containsTag(SkillDataBase.TAG_FJ) && type == DamageType.AD) {
             sb.append(NEWLINE);
             Integer p = p1.getTagValue(SkillDataBase.TAG_FJ).intValue();
@@ -145,6 +162,7 @@ public class BeatenRoles {
         }
         return null;
     };
+    private static final String CANT_HIDE_ARG_KEY = "cant hide";
     public static final Role TAG_CANT_HIDE_R = (sb, q1, q2, ov, nv, type, p1, args) -> {
         RoleResponse response = new RoleResponse(ov, nv, q1, q2);
         if (p1.containsTag(SkillDataBase.TAG_CANT_HIDE)) {
@@ -197,35 +215,14 @@ public class BeatenRoles {
             }
         }
         return null;
-    };
-
-
-    public static final Role[] RS = new Role[]{
+    };    public static final Role[] RS = new Role[]{
             XG_VERTIGO_R, TAG_WD_R, TAG_MS_R, TAG_XYS_R, TAG_CANT_HIDE_R, HG_HIDE,
             TAG_TURE, TAG_SHIELD_ROLE, HG_HF, TAG_FJ, TAG_DAMAGE_REDUCTION, TAG_EDD_ATT_R,
             TAG_EXTRA_DAMAGE_R, TAG_LIGHT_F_ROLE
     };
 
-    public static final Role TAG_XX = (sb, q1, q2, ov, nv, type, p1, args) -> {
-        if (p1.containsTag(SkillDataBase.TAG_XX)) {
-            int p = p1.getTagValue(SkillDataBase.TAG_XX).intValue();
-            long v1 = percentTo(p, ov);
-            if (v1 < 1) {
-                v1 = 1;
-            }
-            p1.addHp(v1);
-            sb.append("\n攻击者,由于吸血技能恢复了").append(v1).append("的生命值");
-        }
-        return null;
-    };
-    public static final Role TAG_LIGHT_ATT_RS = (sb, q1, q2, ov, nv, type, p1, args) -> {
-        if (p1.containsTag(TAG_LIGHT_ATT)) {
-            Integer b = p1.getTagValue(TAG_LIGHT_ATT).intValue();
-            long v = percentTo(b, ov);
-            GameSkillDetailService.addAttSchedule(2, q1.longValue(), q2.longValue(), v, 1000L, getRecentSpeechesGid(q1.longValue()), "受到%s点雷电伤害\n", DamageType.AP);
-        }
-        return null;
-    };
+
+
 
     public static final Role TAG_SHE_ROLE = (sb, q1, q2, ov, nv, type, p1, args) -> {
         if (q2.longValue() > 0) {
@@ -233,7 +230,7 @@ public class BeatenRoles {
             if (p1.containsTag(TAG_SHE) && info1.containsTag(TAG_SHIELD)) {
                 int b = p1.getTagValue(TAG_SHE).intValue();
                 long v2 = percentTo(b, ov);
-                putPerson(GameDataBase.getInfo(q2.longValue()).addHp(-v2));
+                (GameDataBase.getInfo(q2.longValue()).addHp(-v2)).apply();
                 sb.append(NEWLINE);
                 sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
             }
@@ -245,7 +242,7 @@ public class BeatenRoles {
                     if (ghost702.getShield() >= 0) {
                         int b = p1.getTagValue(TAG_SHE).intValue();
                         long v2 = percentTo(b, ov);
-                        GameJoinDetailService.attGho(q1.longValue(), v2, DamageType.AP, false,  GhostLostBroadcast.KillType.SKILL_ATT, true);
+                        GameJoinDetailService.attGho(q1.longValue(), v2, DamageType.AP, false, GhostLostBroadcast.KillType.SKILL_ATT, true);
                         sb.append(NEWLINE);
                         sb.append("\n对有护盾的敌人额外造成").append(v2).append("伤害");
                     }

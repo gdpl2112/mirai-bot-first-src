@@ -1,8 +1,8 @@
-package Project.commons.resouce_and_tool;
+package Project.commons.rt;
 
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.NOT_OPEN_STR;
+import static Project.commons.rt.ResourceSet.FinalNormalString.NOT_OPEN_STR;
 
 /**
  * @author github-kloping

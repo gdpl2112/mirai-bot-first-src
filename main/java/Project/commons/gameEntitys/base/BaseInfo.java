@@ -20,6 +20,15 @@ public interface BaseInfo {
     Long getAtt();
 
     /**
+     * set att
+     *
+     * @param att
+     * @param <T>
+     * @return
+     */
+    <T extends BaseInfo> T setAtt(Long att);
+
+    /**
      * get HP value
      *
      * @return
@@ -117,24 +126,15 @@ public interface BaseInfo {
     <T> T getTips();
 
     /**
-     * set att
-     *
-     * @param att
-     * @param <T>
-     * @return
-     */
-    <T extends BaseInfo> T setAtt(Long att);
-
-    /**
      * add a tag
      *
      * @param myTag   tag name
      * @param percent value
-     * @param t time
+     * @param t       time
      * @param <T>
      * @return
      */
-    public <T extends BaseInfo> T addTag(String myTag, Number percent,long t);
+    <T extends BaseInfo> T addTag(String myTag, Number percent, long t);
 
     /**
      * add a tag with max value
@@ -142,11 +142,11 @@ public interface BaseInfo {
      * @param myTag   tag name
      * @param percent value
      * @param max     max
-     * @param t     time
+     * @param t       time
      * @param <T>
      * @return
      */
-    public <T extends BaseInfo> T addTag(String myTag, Number percent, Number max,long t);
+    <T extends BaseInfo> T addTag(String myTag, Number percent, Number max, long t);
 
     /**
      * remove a tag
@@ -156,7 +156,7 @@ public interface BaseInfo {
      * @param <T>
      * @return
      */
-    public <T extends BaseInfo> T eddTag(String myTag, Number percent);
+    <T extends BaseInfo> T eddTag(String myTag, Number percent);
 
 
     /**
@@ -166,7 +166,7 @@ public interface BaseInfo {
      * @param <T>
      * @return
      */
-    public <T extends BaseInfo> T eddTag(String myTag);
+    <T extends BaseInfo> T eddTag(String myTag);
 
     /**
      * contain a tag
@@ -174,7 +174,7 @@ public interface BaseInfo {
      * @param tag tag name
      * @return
      */
-    public boolean containsTag(String tag);
+    boolean containsTag(String tag);
 
     /**
      * get tag value
@@ -182,5 +182,5 @@ public interface BaseInfo {
      * @param tag tag name
      * @return
      */
-    public Number getTagValue(String tag);
+    Number getTagValue(String tag);
 }

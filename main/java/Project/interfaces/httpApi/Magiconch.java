@@ -1,11 +1,11 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
+import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 import io.github.kloping.MySpringTool.annotations.http.Headers;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PostPath;
 import io.github.kloping.MySpringTool.annotations.http.RequestBody;
-import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
-import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 
 import java.util.Map;
 

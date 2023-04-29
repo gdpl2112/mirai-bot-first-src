@@ -1,6 +1,10 @@
 package Project.services.detailServices.condition;
 
 import Project.broadcast.game.SkillUseBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.apiEntitys.RunnableWithOver;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.ResourceSet;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.TimerController;
 import Project.controllers.gameControllers.GameConditionController;
@@ -12,15 +16,11 @@ import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.apiEntitys.RunnableWithOver;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
@@ -44,6 +44,31 @@ public class GameConditionDetailService {
             601, 602, 603, 701, 702,
             703, 704, 705,
     };
+    public static final String TIPS0 = "技能已刷新";
+    public static final String PWD = "GameConditionController";
+    public static final String GHOST_BUFF = "gf";
+    public static final String P_BUFF = "pf";
+    public static final String[] GHOST_BUFFS = {"A", "B", "C"};
+    public static final String[] P_BUFFS = {"a", "b", "c", "d"};
+    public static final String INTRO = "遇境说明:\n" +
+            "1.每周六0点刷新遇境魂兽与魂师的随机BUFF与奖励\n" +
+            "2.每周前三次通过遇境获得奖励\n" +
+            "3.遇境通过表现为打败连续出现的三只魂兽\n" +
+            "4.遇境中无法使用武器\n" +
+            "5.遇境中选择逃跑默认挑战失败(魂兽不会使用逃跑类技能)\n" +
+            "6.遇境中每阶段恢复40%%的血量\n" +
+            "7.遇境中每阶段恢复40%%的魂力\n" +
+            "8.所有魂技冷却为缩短40倍\n" +
+            "<===============>\n本周BUFF:\n魂兽:%s\n魂师:%s";
+    public static final Long TIME = 10L * 60 * 1000L;
+    public static final List<GhostObj> GHOST_OBJS0 = new CopyOnWriteArrayList<>();
+    public static final List<PersonInfo> P_OBJS0 = new CopyOnWriteArrayList<>();
+    public static String GB = null;
+    public static String PB = null;
+    @AutoStand
+    KlopingWeb klopingWeb;
+    @AutoStand
+    GameJoinDetailService gameJoinDetailService;
 
     public GameConditionDetailService() {
         BootstarpResource.START_AFTER.add(() -> {
@@ -92,31 +117,6 @@ public class GameConditionDetailService {
         });
     }
 
-    public static final String TIPS0 = "技能已刷新";
-    public static final String PWD = "GameConditionController";
-    public static final String GHOST_BUFF = "gf";
-    public static final String P_BUFF = "pf";
-
-    public static final String[] GHOST_BUFFS = {"A", "B", "C"};
-    public static final String[] P_BUFFS = {"a", "b", "c", "d"};
-
-    public static String GB = null;
-    public static String PB = null;
-
-    @AutoStand
-    KlopingWeb klopingWeb;
-
-    public static final String INTRO = "遇境说明:\n" +
-            "1.每周六0点刷新遇境魂兽与魂师的随机BUFF与奖励\n" +
-            "2.每周前三次通过遇境获得奖励\n" +
-            "3.遇境通过表现为打败连续出现的三只魂兽\n" +
-            "4.遇境中无法使用武器\n" +
-            "5.遇境中选择逃跑默认挑战失败(魂兽不会使用逃跑类技能)\n" +
-            "6.遇境中每阶段恢复40%%的血量\n" +
-            "7.遇境中每阶段恢复40%%的魂力\n" +
-            "8.所有魂技冷却为缩短40倍\n" +
-            "<===============>\n本周BUFF:\n魂兽:%s\n魂师:%s";
-
     public String getBuffIntro() {
         if (GB == null || PB == null) {
             GB = klopingWeb.get(GHOST_BUFF, PWD);
@@ -153,9 +153,6 @@ public class GameConditionDetailService {
                 return ResourceSet.FinalString.ERR_TIPS;
         }
     }
-
-    @AutoStand
-    GameJoinDetailService gameJoinDetailService;
 
     public void run(long qid, int n) {
         THREADS.submit(() -> {
@@ -195,10 +192,6 @@ public class GameConditionDetailService {
             );
         });
     }
-
-    public static final Long TIME = 10L * 60 * 1000L;
-    public static final List<GhostObj> GHOST_OBJS0 = new CopyOnWriteArrayList<>();
-    public static final List<PersonInfo> P_OBJS0 = new CopyOnWriteArrayList<>();
 
     public void act(PersonInfo pInfo, GhostObj ghostObj) {
         switch (GB) {

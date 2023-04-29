@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 
 /**
  * @author github.kloping

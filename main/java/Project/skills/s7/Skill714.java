@@ -1,14 +1,15 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.rt.CommonSource;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.resouce_and_tool.CommonSource;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.exist;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
@@ -22,8 +23,6 @@ public class Skill714 extends SkillTemplate {
     public Skill714() {
         super(714);
     }
-
-
 
 
     @Override
@@ -41,7 +40,7 @@ public class Skill714 extends SkillTemplate {
                 addAttHasTime(who.longValue(), new HasTimeAdder(System.currentTimeMillis() + getDuration(getJid()), who.longValue(), v, getJid()));
                 try {
                     if (nums.length != 0) {
-                        putPerson(getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 1, getDuration(getJid())));
+                        (getInfo(nums[0]).addTag(SkillDataBase.TAG_CANT_HIDE, 1, getDuration(getJid()))).apply();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,5 +1,6 @@
 package Project.controllers.auto;
 
+import Project.commons.apiEntitys.iciba.Dsapi;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import com.google.gson.Gson;
@@ -7,9 +8,8 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Schedule;
-import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import Project.commons.apiEntitys.iciba.Dsapi;
+import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.Message;
@@ -34,9 +34,11 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 public class TimerController {
     public static final List<Runnable> ZERO_RUNS = new ArrayList<>();
     public static final Set<Runnable> MORNING_RUNNABLE = new CopyOnWriteArraySet<>();
+    private static final String TIPS0 = "星期一到星期五的上午10:10分到晚上22:20开启,星期六,天全天开放";
     @AutoStand(id = "gson0")
     private static Gson gson;
     private static int ts = 10;
+    private static long t = 759590727L;
 
     public static void appendOneDay(MessageChainBuilder builder) {
         try {
@@ -54,7 +56,7 @@ public class TimerController {
     @Schedule("00:00:00")
     public static void onZero() {
         Tool.INSTANCE.updateToday();
-        GameDataBase.HIST_INFOS.clear();
+        GameDataBase.PINFO_LIST.clear();
         DataBase.HIST_U_SCORE.clear();
         BootstarpResource.Switch.AllK = false;
         startOnZeroTime();
@@ -100,9 +102,6 @@ public class TimerController {
             });
         });
     }
-
-    private static final String TIPS0 = "星期一到星期五的上午10:10分到晚上22:20开启,星期六,天全天开放";
-    private static long t = 759590727L;
 
     @CronSchedule("0 10 10 ? * 2-6")
     public static void testOn() {

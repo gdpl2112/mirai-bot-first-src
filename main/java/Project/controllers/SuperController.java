@@ -5,6 +5,8 @@ import Project.commons.Father;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.UserScore;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.ShopItem;
 import Project.controllers.auto.GameConfSource;
 import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
@@ -23,9 +25,7 @@ import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
-import io.github.kloping.mirai0.commons.*;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.ShopItem;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
@@ -43,14 +43,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getBagMapper;
+import static Project.commons.rt.ResourceSet.FinalFormat.AT_FORMAT;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.DataBase.HIST_U_SCORE;
 import static Project.dataBases.DataBase.putInfo;
 import static Project.dataBases.GameDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getUser;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.AT_FORMAT;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 
 /**
  * @author github-kloping
@@ -58,6 +58,7 @@ import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 @Controller
 public class SuperController {
 
+    private static final int MAX_GET = 300;
     public static Map<String, Object> AUTO_CONF = new HashMap<>();
     public static String AUTO_CONF_PATH = "./conf/auto-conf.hml";
 
@@ -252,17 +253,19 @@ public class SuperController {
     @Action("/clearCache")
     public Object m4() {
         try {
-            return HIST_U_SCORE.size() + " will clear\n" + HIST_INFOS.size() + " will clear";
+            return HIST_U_SCORE.size() + " will clear\n" +
+                    PINFO_LIST.size() + " will clear \n" +
+                    WH_LIST.size() + " will clear"
+                    ;
         } finally {
             HIST_U_SCORE.clear();
-            HIST_INFOS.clear();
+            PINFO_LIST.clear();
+            WH_LIST.clear();
             SkillDataBase.reMap();
             Tool.INSTANCE.deleteDir(new File("./temp"));
             MessageUtils.INSTANCE.HIST_IMAGES.clear();
         }
     }
-
-    private static final int MAX_GET = 300;
 
     @Action("/添加物品<.+=>str>")
     public Object add0(@Param("str") String str) {
@@ -390,7 +393,7 @@ public class SuperController {
         Integer st = Tool.INSTANCE.getInteagerFromStr(what);
         if (st == null) return ERR_TIPS;
         st--;
-        Integer id = SpringBootResource.getHhpzMapper().select(q.longValue()).get(st);
+        Integer id = SpringBootResource.getHhpzMapper().select(q.longValue(), getInfo(q).getP()).get(st);
         if (id == 207) return "TOP";
         else {
             GameDataBase.upHh(q, st, ++id);

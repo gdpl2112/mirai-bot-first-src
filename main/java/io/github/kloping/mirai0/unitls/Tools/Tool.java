@@ -13,15 +13,18 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import static Project.commons.rt.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 import static io.github.kloping.date.DateUtils.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.contextManager;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NOT_NEED_WAIT_TIPS;
 
 public class Tool {
+    public static final long DAY_LONG = 1000L * 60 * 60 * 24;
+    private static final SimpleDateFormat SF_0 = new SimpleDateFormat("HH");
     public static Tool INSTANCE = new Tool();
     public final String[] WEEK_DAYS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
     public final Random RANDOM = new SecureRandom();
     public final char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    public final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
     /**
      * 字符串中存在 反斜杠+u 开头 的Unicode字符。本类用于把那些Unicode字符串转换成汉字
      */
@@ -30,7 +33,6 @@ public class Tool {
     private final SimpleDateFormat dfn = new SimpleDateFormat("/yyyy/MM/dd/HH_mm_ss/");
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
     private final SimpleDateFormat df2 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-    public final SimpleDateFormat df4 = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
     private final SimpleDateFormat df3 = new SimpleDateFormat("MM月dd日HH时mm分ss秒");
     private final BigDecimal b2 = new BigDecimal(100000000L);
     private final BigDecimal be = new BigDecimal(1000000000000L);
@@ -54,8 +56,6 @@ public class Tool {
             i++;
         }
     }
-
-    public static final long DAY_LONG = 1000L * 60 * 60 * 24;
 
     public Integer getOldestWeekOne() {
         int r = -1;
@@ -286,9 +286,6 @@ public class Tool {
     public String getTimeM(long t) {
         return df3.format(new Date(t));
     }
-
-
-    private static final SimpleDateFormat SF_0 = new SimpleDateFormat("HH");
 
     public Integer getHour() {
         return Integer.parseInt(SF_0.format(new Date()));

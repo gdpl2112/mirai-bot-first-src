@@ -14,14 +14,6 @@ import java.util.List;
  */
 @Repository
 public interface PersonInfoMapper extends BaseMapper<PersonInfo> {
-    /**
-     * get排名
-     *
-     * @param num
-     * @return
-     */
-    @Select("SELECT * FROM person_info ORDER BY `level` DESC,`xp` DESC LIMIT #{num}")
-    List<PersonInfo> getOrderByLevel(@Param("num") Integer num);
 
     /**
      * get排名

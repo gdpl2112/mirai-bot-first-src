@@ -1,10 +1,10 @@
 package Project.skills.s8;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.detailServices.GameSkillDetailService;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -1,16 +1,15 @@
 package Project.services.detailServices;
 
+import Project.commons.gameEntitys.Zon;
 import Project.dataBases.GameDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Zong;
-import Project.commons.gameEntitys.Zon;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;
 import static Project.controllers.auto.TimerController.ZERO_RUNS;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 
@@ -102,7 +101,7 @@ public class ZongDetailService {
                         xpr *= 0.15f;
                     System.out.println(who + "得到" + xp + "====共享到" + z1 + "===>" + xpr + "点");
                     info.addXp(xpr);
-                    putPerson(info);
+                    (info).apply();
                     try {
                         Thread.sleep(5 * 1000);
                     } catch (InterruptedException e) {
@@ -150,12 +149,12 @@ public class ZongDetailService {
             case 6:
                 zon0 = getZonInfo(zong.getMain().longValue());
                 zon0.setTimes(1);
-                putPerson(GameDataBase.getInfo(zon0.getQq()).setHelpC(-1).setHelpToc(-1));
+                (GameDataBase.getInfo(zon0.getQq()).setHelpC(-1).setHelpToc(-1)).apply();
                 putZonInfo(zon0);
                 for (Number who1 : zong.getElder()) {
                     Long who = who1.longValue();
                     Zon zon1 = getZonInfo(who);
-                    putPerson(GameDataBase.getInfo(who).setHelpC(-1).setHelpToc(-1));
+                    (GameDataBase.getInfo(who).setHelpC(-1).setHelpToc(-1)).apply();
                     zon1.setTimes(1);
                     putZonInfo(zon1);
                 }
@@ -187,13 +186,13 @@ public class ZongDetailService {
                 zong.getMember().remove(who);
                 qq2id.remove(who);
                 getZonMapper().deleteById(who);
-                putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
+                (GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15)).apply();
                 return putZongInfo(zong);
             } else if (zon.getLevel() == 0) {
                 qq2id.remove(who);
                 zong.getMember().remove(who);
                 getZonMapper().deleteById(who);
-                putPerson(GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15));
+                (GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 15)).apply();
                 return putZongInfo(zong);
             }
             return true;

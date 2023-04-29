@@ -1,17 +1,17 @@
 package Project.skills.s8;
 
-import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.Skill;
 import Project.commons.gameEntitys.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
+import Project.skills.SkillTemplate;
+import io.github.kloping.mirai0.commons.Skill;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
 import static Project.services.detailServices.GameDetailServiceUtils.getBaseInfoFromAny;
 import static Project.services.detailServices.GameSkillDetailService.addAttSchedule;
 import static Project.services.detailServices.GameSkillDetailService.addHFSchedule;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getRecentSpeechesGid;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping

@@ -6,14 +6,16 @@ import Project.broadcast.game.GotOrLostObjBroadcast;
 import Project.commons.broadcast.enums.ObjType;
 import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.common.Public;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
+import io.github.kloping.mirai0.commons.WhInfo;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.OBJ116_VALUE;
+import static Project.commons.rt.ResourceSet.FinalValue.OBJ116_VALUE;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static io.github.kloping.MySpringTool.PartUtils.getEntry;
 
@@ -29,7 +31,7 @@ public class GameDataBase {
     public static final Map<Integer, Integer> ID_2_WEA_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> ID_2_WEA_O_NUM_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, Integer> WH_2_TYPE = new ConcurrentHashMap<>();
-    public static final Map<Long, PersonInfo> HIST_INFOS = new ConcurrentHashMap<>();
+    public static final Map<Long, PersonInfo> PINFO_LIST = new ConcurrentHashMap<>();
 
     public GameDataBase() {
         intiObj();
@@ -78,13 +80,7 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(30, "魔神剑");
         ID_2_NAME_MAPS.put(31, "暗金恐爪熊");
         //==
-        ID_2_NAME_MAPS.put(201, "十年魂环");
-        ID_2_NAME_MAPS.put(202, "百年魂环");
-        ID_2_NAME_MAPS.put(203, "千年魂环");
-        ID_2_NAME_MAPS.put(204, "万年魂环");
-        ID_2_NAME_MAPS.put(205, "十万年魂环");
-        ID_2_NAME_MAPS.put(206, "百万年魂环");
-        ID_2_NAME_MAPS.put(207, "神级魂环");
+        ID_2_NAME_MAPS.put(50, "九宝琉璃塔");
         //==
         ID_2_NAME_MAPS.put(101, "时光胶囊");
         ID_2_NAME_MAPS.put(102, "恢复药水");
@@ -116,6 +112,14 @@ public class GameDataBase {
         ID_2_NAME_MAPS.put(128, "升级券");
         ID_2_NAME_MAPS.put(129, "魂兽挑战券");
         ID_2_NAME_MAPS.put(130, "奖券");
+        //==
+        ID_2_NAME_MAPS.put(201, "十年魂环");
+        ID_2_NAME_MAPS.put(202, "百年魂环");
+        ID_2_NAME_MAPS.put(203, "千年魂环");
+        ID_2_NAME_MAPS.put(204, "万年魂环");
+        ID_2_NAME_MAPS.put(205, "十万年魂环");
+        ID_2_NAME_MAPS.put(206, "百万年魂环");
+        ID_2_NAME_MAPS.put(207, "神级魂环");
         //====
         ID_2_NAME_MAPS.put(501, "未知生物1");
         ID_2_NAME_MAPS.put(502, "唤象魔者");
@@ -197,7 +201,7 @@ public class GameDataBase {
     }
 
     private static void initIntro() {
-        ID_2_INTRO_MAPS.put(0, "武魂晶元,功能后续更新.");
+        ID_2_INTRO_MAPS.put(0, "武魂晶元,用于'激活第二武魂',和兑换相应武魂.");
         ID_2_INTRO_MAPS.put(201, "十年魂环,使用=>吸收魂环 十年魂环");
         ID_2_INTRO_MAPS.put(202, "百年魂环,使用=>吸收魂环 百年魂环");
         ID_2_INTRO_MAPS.put(203, "千年魂环,使用=>吸收魂环 千年魂环");
@@ -510,14 +514,54 @@ public class GameDataBase {
     public static PersonInfo getInfo(Long who) {
         if (challengeDetailService.isTemping(who.longValue())) {
             return challengeDetailService.getTempInfo(who.longValue());
-        } else if (HIST_INFOS.containsKey(who.longValue()) && HIST_INFOS.get(who.longValue()) != null) {
-            return HIST_INFOS.get(who.longValue());
+        } else if (PINFO_LIST.containsKey(who.longValue()) && PINFO_LIST.get(who.longValue()) != null) {
+            return PINFO_LIST.get(who.longValue());
         }
         testMan(who.longValue());
         QueryWrapper<PersonInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", who.toString());
         PersonInfo info = SpringBootResource.getPersonInfoMapper().selectOne(queryWrapper);
         return info;
+    }
+
+    public static final Map<Long, Map<Integer, WhInfo>> WH_LIST = new LinkedHashMap<>();
+
+    /**
+     * 获取玩家信息
+     *
+     * @param qid
+     * @return
+     */
+    public static WhInfo getWhInfo(Long qid) {
+        int p = getInfo(qid).getP();
+        WhInfo info = null;
+        Map<Integer, WhInfo> wmap = WH_LIST.getOrDefault(qid, new LinkedHashMap<>());
+        info = wmap.getOrDefault(p, null);
+        if (info != null) return info;
+        QueryWrapper<WhInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("qid", qid.toString());
+        queryWrapper.eq("p", p);
+        info = SpringBootResource.getWhInfoMapper().selectOne(queryWrapper);
+        if (info != null) {
+            wmap.put(p, info);
+            WH_LIST.put(qid, wmap);
+        } else {
+            info = new WhInfo();
+            info.setP(p);
+            info.setQid(qid);
+            SpringBootResource.getWhInfoMapper().insert(info);
+        }
+        return info;
+    }
+
+    public static void putWhInfo(WhInfo whInfo) {
+        Map<Integer, WhInfo> wmap = WH_LIST.getOrDefault(whInfo.getQid(), new LinkedHashMap<>());
+        wmap.put(whInfo.getP(), whInfo);
+        WH_LIST.put(whInfo.getQid(), wmap);
+        UpdateWrapper<WhInfo> uq = new UpdateWrapper<>();
+        uq.eq("qid", whInfo.getQid());
+        uq.eq("p", whInfo.getP());
+        SpringBootResource.getWhInfoMapper().update(whInfo, uq);
     }
 
     public static PersonInfo getInfo(Number qq) {
@@ -540,7 +584,7 @@ public class GameDataBase {
             return;
         }
         testMan(Long.valueOf(personInfo.getName()));
-        HIST_INFOS.put(Long.parseLong(personInfo.getName()), personInfo);
+        PINFO_LIST.put(Long.parseLong(personInfo.getName()), personInfo);
         Public.EXECUTOR_SERVICE.submit(() -> {
             SpringBootResource.getPersonInfoMapper().updateById(personInfo);
         });
@@ -579,7 +623,7 @@ public class GameDataBase {
      * @return
      */
     public static Integer[] getHhs(Long who) {
-        List<Integer> ls = SpringBootResource.getHhpzMapper().select(who.longValue());
+        List<Integer> ls = SpringBootResource.getHhpzMapper().select(who.longValue(), getInfo(who).getP());
         return ls.toArray(new Integer[ls.size()]);
     }
 
@@ -590,9 +634,10 @@ public class GameDataBase {
      * @param ints
      */
     public static void upHh(Long who, Integer st, Integer oid) {
-        Integer id = SpringBootResource.getHhpzMapper().selectIds(who.longValue()).get(st);
+        Integer p = getInfo(who).getP();
+        Integer id = SpringBootResource.getHhpzMapper().selectIds(who.longValue(), p).get(st);
         Public.EXECUTOR_SERVICE.submit(() -> {
-            SpringBootResource.getHhpzMapper().update(id, oid);
+            SpringBootResource.getHhpzMapper().update(id, oid, p);
         });
     }
 
@@ -624,7 +669,7 @@ public class GameDataBase {
      * @return
      */
     public static long setK1(Long who, long l) {
-        putPerson(getInfo(who).setK1(l));
+        getInfo(who).setK1(l).apply();
         return l;
     }
 
@@ -636,7 +681,7 @@ public class GameDataBase {
      * @return
      */
     public static long setK2(Long who, long l) {
-        putPerson(getInfo(who).setK2(l));
+        getInfo(who).setK2(l).apply();
         return l;
     }
 
@@ -691,7 +736,7 @@ public class GameDataBase {
      * @return
      */
     public static String addHh(Long who, int id) {
-        SpringBootResource.getHhpzMapper().insert(who.longValue(), id, System.currentTimeMillis());
+        SpringBootResource.getHhpzMapper().insert(who.longValue(), id, getInfo(who).getP(), System.currentTimeMillis());
         return "OK";
     }
 
@@ -741,6 +786,7 @@ public class GameDataBase {
         }
         return "err";
     }
+
 
     /**
      * 从背包 移除物品 通过 Id

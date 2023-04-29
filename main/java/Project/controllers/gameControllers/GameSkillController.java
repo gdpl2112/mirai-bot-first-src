@@ -1,40 +1,43 @@
 package Project.controllers.gameControllers;
 
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
+import Project.interfaces.Iservice.ISkillService;
 import Project.utils.GameUtils;
 import Project.utils.bao.SelectResult;
-import Project.interfaces.Iservice.ISkillService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.SpUser;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import io.github.kloping.number.NumberUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalNormalString.EMPTY_STR;
+import static Project.commons.rt.ResourceSet.FinalString.CHALLENGE_ING;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.EMPTY_STR;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class GameSkillController {
+    public static final String HUN_SKILL = "魂技";
     private static List<String> listFx = new ArrayList<>();
     private static String menu;
     private static String m1 = null;
@@ -127,8 +130,6 @@ public class GameSkillController {
             throw new NoRunException();
         }
     }
-
-    public static final String HUN_SKILL = "魂技";
 
     @Action(value = "魂技取名<.+=>str>", otherName = {"魂技起名<.+=>str>"})
     public String setName(@Param("str") String str, SpUser qq, SpGroup group) {

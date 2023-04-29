@@ -1,20 +1,19 @@
 package Project.skills.s7;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.getInfo;
-import static Project.dataBases.GameDataBase.putPerson;
 import static Project.dataBases.skill.SkillDataBase.HasTimeAdder;
 import static Project.dataBases.skill.SkillDataBase.addAttHasTime;
 import static Project.services.detailServices.GameDetailServiceUtils.getHjFromAny;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 
 /**
  * @author github.kloping
@@ -24,8 +23,6 @@ public class Skill730 extends SkillTemplate {
     public Skill730() {
         super(730);
     }
-
-
 
 
     @Override
@@ -48,7 +45,7 @@ public class Skill730 extends SkillTemplate {
                 in.addHp(v1);
                 in.addHl(v2);
                 in.addHj(v3);
-                putPerson(in);
+                (in).apply();
             }
         };
     }

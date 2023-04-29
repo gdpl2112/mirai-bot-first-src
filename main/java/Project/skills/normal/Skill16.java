@@ -1,17 +1,17 @@
 package Project.skills.normal;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.TAG_SHIELD;
 import static Project.services.detailServices.GameSkillDetailService.*;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping

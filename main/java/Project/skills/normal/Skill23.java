@@ -1,12 +1,12 @@
 package Project.skills.normal;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.auto.ControllerSource;
-import Project.utils.VelocityUtils;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;

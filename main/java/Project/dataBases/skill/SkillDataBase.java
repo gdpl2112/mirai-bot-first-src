@@ -1,11 +1,11 @@
 package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillFactory;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.GameTool;
 
 import java.util.*;
@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**
@@ -20,7 +21,7 @@ import static Project.services.detailServices.GameSkillDetailService.*;
  */
 public class SkillDataBase {
 
-    public static final Map<Long, Map<Integer, SkillInfo>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
+    public static final Map<Long, Map<Integer, Map<Integer, SkillInfo>>> QQ_2_ST_2_MAP = new ConcurrentHashMap<>();
     /**
      * 吸血
      */
@@ -56,7 +57,7 @@ public class SkillDataBase {
     /**
      * 下次免疫伤害
      */
-    public static final String TAG_XUAN_YU_S = "i";
+    public static final String TAG_MY = "i";
     /**
      * 免伤
      */
@@ -116,6 +117,10 @@ public class SkillDataBase {
      */
     public static final Set<Integer> AVAILABLE_IN_CONTROL = new HashSet<>();
     public static final Map<Long, Set<HasTimeAdder>> HAS_ADDER_MAP_LIST = new ConcurrentHashMap<>();
+    /**
+     * 雷元素
+     */
+    public static final String TAG_E_A = "A";
     public static String path;
     public static ExecutorService threads = Executors.newFixedThreadPool(50);
 
@@ -135,7 +140,7 @@ public class SkillDataBase {
         TAG2NAME.put(TAG_SHIELD, "护盾");
         TAG2NAME.put(TAG_TRUE, "真伤");
         TAG2NAME.put(TAG_SHE, "护盾额外");
-        TAG2NAME.put(TAG_XUAN_YU_S, "下次免疫");
+        TAG2NAME.put(TAG_MY, "下次免疫");
         TAG2NAME.put(TAG_DAMAGE_REDUCTION, "免伤");
         TAG2NAME.put(TAG_LIGHT_ATT, "雷电攻击");
         TAG2NAME.put(TAG_LIGHT_F, "雷电反甲");
@@ -151,11 +156,6 @@ public class SkillDataBase {
         NEGATIVE_TAGS.add(TAG_CANT_USE);
     }
 
-    /**
-     * 雷元素
-     */
-    public static final String TAG_E_A = "A";
-
 
     public SkillDataBase() {
         initMap();
@@ -163,8 +163,8 @@ public class SkillDataBase {
 
     public static final Map<Integer, SkillInfo> getSkillInfo(Long qq) {
         if (!QQ_2_ST_2_MAP.containsKey(qq)) return new ConcurrentHashMap<>();
-        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null) map = new ConcurrentHashMap<>();
+        Map<Integer, Map<Integer, SkillInfo>> smap = QQ_2_ST_2_MAP.getOrDefault(qq, new LinkedHashMap<>());
+        Map<Integer, SkillInfo> map = smap.getOrDefault(getInfo(qq).getP(), new LinkedHashMap<>());
         return map;
     }
 
@@ -189,10 +189,10 @@ public class SkillDataBase {
      */
     public static final void remove(SkillInfo info) {
         long qq = Long.valueOf(info.getQq() + "");
-        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null) map = new ConcurrentHashMap<>();
+        Map<Integer, Map<Integer, SkillInfo>> smap = QQ_2_ST_2_MAP.getOrDefault(qq, new LinkedHashMap<>());
+        Map<Integer, SkillInfo> map = smap.getOrDefault(getInfo(qq).getP(), new LinkedHashMap<>());
         if (map.containsKey(info.getSt())) map.remove(info.getSt());
-        QQ_2_ST_2_MAP.put(qq, map);
+        QQ_2_ST_2_MAP.put(qq, smap);
         SpringBootResource.getSkillInfoMapper().deleteById(info.getUuid());
     }
 
@@ -205,13 +205,15 @@ public class SkillDataBase {
     public static final boolean remove(Number who) {
         try {
             long qq = who.longValue();
-            Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
+            int p = getInfo(qq).getP();
+            Map<Integer, Map<Integer, SkillInfo>> smap = QQ_2_ST_2_MAP.getOrDefault(qq, new LinkedHashMap<>());
+            Map<Integer, SkillInfo> map = smap.getOrDefault(p, new LinkedHashMap<>());
             if (map != null) {
                 map.forEach((k, v) -> {
                     SpringBootResource.getSkillInfoMapper().deleteById(v.getUuid());
                 });
             }
-            QQ_2_ST_2_MAP.remove(qq);
+            smap.remove(p);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,11 +227,13 @@ public class SkillDataBase {
      * @param info
      */
     public static final void appendInfo(SkillInfo info) {
-        long qq = Long.valueOf(info.getQq() + "");
-        Map<Integer, SkillInfo> map = QQ_2_ST_2_MAP.get(qq);
-        if (map == null) map = new ConcurrentHashMap<>();
+        long qq = info.getQq();
+        int p = info.getP();
+        Map<Integer, Map<Integer, SkillInfo>> smap = QQ_2_ST_2_MAP.getOrDefault(qq, new LinkedHashMap<>());
+        Map<Integer, SkillInfo> map = smap.getOrDefault(p, new LinkedHashMap<>());
         map.put(info.getSt(), info);
-        QQ_2_ST_2_MAP.put(qq, map);
+        smap.put(p, map);
+        QQ_2_ST_2_MAP.put(qq, smap);
     }
 
     /**

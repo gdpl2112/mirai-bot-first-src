@@ -305,7 +305,7 @@ public class EmojiCompositeListenerHost {
                 if (!checkUrl(url0)) {
 //                    MessageTools.instance.sendMessageInGroupWithAt("合成失败了", event.getSubject().getId(), event.getSender().getId());
                 } else {
-                    MessageUtils.INSTANCE.sendMessageInGroupWithAt( Tool.INSTANCE.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
+                    MessageUtils.INSTANCE.sendMessageInGroupWithAt(Tool.INSTANCE.pathToImg(url0), event.getSubject().getId(), event.getSender().getId());
                 }
             } catch (Exception e) {
 //                MessageTools.instance.sendMessageInGroupWithAt("合成失败,呜呜", event.getSubject().getId(), event.getSender().getId());

@@ -1,9 +1,9 @@
 package io.github.kloping.mirai0.commons;
 
 import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
-import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,23 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @EqualsAndHashCode
 public abstract class RedPacket {
 
-    public enum IdType {
-        /**
-         * 积分
-         */
-        SCORE,
-        /**
-         * 金魂币
-         */
-        GOLD,
-        /**
-         * 大瓶经验
-         */
-        OBJ0;
-    }
-
     private final Integer num;
-
     private final Integer value;
     private Integer v0;
     private Integer n0;
@@ -44,10 +28,8 @@ public abstract class RedPacket {
     private Long gid;
     private Long qid;
     private IdType id;
-    private Integer hour = getHour();
     private Map<Long, Integer> record = new LinkedHashMap<>();
-    private Iterator<Integer> iteratore = null;
-
+    private Iterator<Integer> iteratore = null;    private Integer hour = getHour();
     public RedPacket(Integer num, Integer value, Long sender, Long gid, IdType id) {
         this.num = num;
         this.value = value;
@@ -65,6 +47,69 @@ public abstract class RedPacket {
         iteratore = list.iterator();
         v0 = value;
         n0 = num;
+    }
+
+    public static boolean judge(long qid, IdType type, int value) {
+        switch (type) {
+            case SCORE:
+                return DataBase.getUserInfo(qid).getScore() >= value;
+            case GOLD:
+                return GameDataBase.getInfo(qid).getGold() >= value;
+            case OBJ0:
+                return GameDataBase.containsBgsNum(qid, 103, value);
+            default:
+                return false;
+        }
+    }
+
+    public static void app(long qid, IdType type, int value) {
+        switch (type) {
+            case SCORE:
+                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(-value));
+                break;
+            case GOLD:
+                GameDataBase.getInfo(qid).addGold((long) -value, new TradingRecord()
+                        .setType1(TradingRecord.Type1.lost)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setTo(-1L)
+                        .setMain(qid)
+                        .setFrom(qid)
+                        .setDesc("发红包")
+                        .setMany(-value)
+                ).apply();
+                break;
+            case OBJ0:
+                if (value < 0) {
+                    GameDataBase.addToBgs(qid, 103, value, ObjType.got);
+                } else {
+                    GameDataBase.removeFromBgs(qid, 103, value, ObjType.use);
+                }
+                break;
+            default:
+        }
+    }
+
+    public static void add(long qid, IdType type, int num) {
+        switch (type) {
+            case SCORE:
+                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(num));
+                break;
+            case GOLD:
+                GameDataBase.getInfo(qid).addGold((long) num, new TradingRecord()
+                        .setType1(TradingRecord.Type1.lost)
+                        .setType0(TradingRecord.Type0.gold)
+                        .setTo(-1L)
+                        .setMain(qid)
+                        .setFrom(qid)
+                        .setDesc("抢红包获得")
+                        .setMany(num)
+                ).apply();
+                break;
+            case OBJ0:
+                GameDataBase.addToBgs(qid, 103, num, ObjType.got);
+                break;
+            default:
+        }
     }
 
     public void back() {
@@ -145,66 +190,20 @@ public abstract class RedPacket {
         finish("未抢的部分已退还");
     }
 
-    public static boolean judge(long qid, IdType type, int value) {
-        switch (type) {
-            case SCORE:
-                return DataBase.getUserInfo(qid).getScore() >= value;
-            case GOLD:
-                return GameDataBase.getInfo(qid).getGold() >= value;
-            case OBJ0:
-                return GameDataBase.containsBgsNum(qid, 103, value);
-            default:
-                return false;
-        }
+    public enum IdType {
+        /**
+         * 积分
+         */
+        SCORE,
+        /**
+         * 金魂币
+         */
+        GOLD,
+        /**
+         * 大瓶经验
+         */
+        OBJ0;
     }
 
-    public static void app(long qid, IdType type, int value) {
-        switch (type) {
-            case SCORE:
-                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(-value));
-                break;
-            case GOLD:
-                GameDataBase.getInfo(qid).addGold((long) -value, new TradingRecord()
-                        .setType1(TradingRecord.Type1.lost)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setTo(-1L)
-                        .setMain(qid)
-                        .setFrom(qid)
-                        .setDesc("发红包")
-                        .setMany(-value)
-                ).apply();
-                break;
-            case OBJ0:
-                if (value < 0) {
-                    GameDataBase.addToBgs(qid, 103, value, ObjType.got);
-                } else {
-                    GameDataBase.removeFromBgs(qid, 103, value, ObjType.use);
-                }
-                break;
-            default:
-        }
-    }
 
-    public static void add(long qid, IdType type, int num) {
-        switch (type) {
-            case SCORE:
-                DataBase.putInfo(DataBase.getUserInfo(qid).addScore(num));
-                break;
-            case GOLD:
-                GameDataBase.getInfo(qid).addGold((long) num, new TradingRecord()
-                        .setType1(TradingRecord.Type1.lost)
-                        .setType0(TradingRecord.Type0.gold)
-                        .setTo(-1L)
-                        .setMain(qid)
-                        .setFrom(qid)
-                        .setDesc("抢红包获得")
-                        .setMany(num)
-                ).apply();
-                break;
-            case OBJ0:
-                GameDataBase.addToBgs(qid, 103, num, ObjType.got);
-                break;
-            default:
-        }
-    }
 }

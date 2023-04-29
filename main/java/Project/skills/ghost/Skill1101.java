@@ -1,10 +1,10 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

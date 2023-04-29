@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static Project.commons.resouce_and_tool.CommonSource.RANDOM;
+import static Project.commons.rt.CommonSource.RANDOM;
 
 /**
  * @author github-kloping

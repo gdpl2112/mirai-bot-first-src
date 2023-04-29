@@ -1,7 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
-import io.github.kloping.mirai0.commons.PersonInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
+import io.github.kloping.mirai0.commons.PersonInfo;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_TRUE;
 
@@ -23,8 +23,8 @@ public class Ghost702 extends GhostWithGroup {
         super(hp, att, id, l);
     }
 
-    public Ghost702(long hp, long att, long xp, int id, long l,  float bl) {
-        super(hp, att, xp, id, l,  bl);
+    public Ghost702(long hp, long att, long xp, int id, long l, float bl) {
+        super(hp, att, xp, id, l, bl);
     }
 
     public Long getShield() {

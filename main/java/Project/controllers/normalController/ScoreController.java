@@ -2,29 +2,29 @@ package Project.controllers.normalController;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.UserScore;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.commons.SpGroup;
-import Project.commons.SpUser;
-import Project.commons.UserScore;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.ResourceSet.FinalFormat.CANT_BIGGER;
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.CANT_BIGGER;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_ROBBERY_TIMES;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -143,7 +143,7 @@ public class ScoreController {
 
     @Action(value = "签到", otherName = {"冒泡", "早安"})
     public String sign(SpUser qq, SpGroup group) {
-        String str = scoreService.sign(qq.getId(),group);
+        String str = scoreService.sign(qq.getId(), group);
         return str;
     }
 

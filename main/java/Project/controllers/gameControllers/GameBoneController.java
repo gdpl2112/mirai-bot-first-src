@@ -1,30 +1,30 @@
 package Project.controllers.gameControllers;
 
 
-import Project.utils.GameUtils;
-import Project.utils.bao.SelectResult;
-import Project.interfaces.Iservice.IGameBoneService;
-import Project.interfaces.Iservice.ISkillService;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.gameEntitys.SoulBone;
+import Project.interfaces.Iservice.IGameBoneService;
+import Project.interfaces.Iservice.ISkillService;
+import Project.utils.GameUtils;
+import Project.utils.bao.SelectResult;
+import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.CHALLENGE_ING;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.BG_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.CHALLENGE_ING;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -41,6 +41,8 @@ public class GameBoneController {
 
     @AutoStand
     IGameBoneService gameBoneService;
+    @AutoStand
+    ISkillService skillService;
 
     public GameBoneController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -113,9 +115,6 @@ public class GameBoneController {
         String str = gameBoneService.unInstallBone(id, qq);
         return str;
     }
-
-    @AutoStand
-    ISkillService skillService;
 
     @Action("头部魂骨技能<.{1,}=>str>")
     private Object t0(@Param("str") String str, long qq, SpGroup g) {

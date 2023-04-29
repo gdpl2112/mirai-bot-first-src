@@ -31,10 +31,10 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static Project.commons.resouce_and_tool.CommonSource.toStr;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.NEWLINE;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.SPLIT_LINE_0;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.commons.rt.CommonSource.toStr;
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
+import static Project.commons.rt.ResourceSet.FinalString.SPLIT_LINE_0;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.getConf;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
@@ -46,6 +46,8 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 @Controller
 public class CallLocalApiController {
     public static final int PAGE_SIZE = 5;
+    public static final String WENDY_URL = "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
+    private static final SimpleDateFormat SF_HH = new SimpleDateFormat("HH");
     public static long upNewsId = 0;
     public PvpSkin skin = null;
     @AutoStand
@@ -60,6 +62,12 @@ public class CallLocalApiController {
     BaiduBaiKe baiduBaiKe;
     @AutoStand
     WeatherGetter weatherGetter;
+    @AutoStand
+    QZone zone;
+    @AutoStand
+    KlopingWeb kloping;
+    @AutoStand
+    XiaoaPi xiaoaPi;
 
     public CallLocalApiController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -187,10 +195,6 @@ public class CallLocalApiController {
         return line;
     }
 
-    private static final SimpleDateFormat SF_HH = new SimpleDateFormat("HH");
-
-    public static final String WENDY_URL = "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
-
     @Action("气温图")
     public Object gaowen() {
         String year = String.valueOf(io.github.kloping.date.DateUtils.getYear());
@@ -212,12 +216,6 @@ public class CallLocalApiController {
         ImageDrawerUtils.image2giftIncrease(400, outFile, list.toArray(new String[0]));
         return Tool.INSTANCE.pathToImg(outFile.getAbsolutePath());
     }
-
-    @AutoStand
-    QZone zone;
-
-    @AutoStand
-    KlopingWeb kloping;
 
     @Action("QQ空间")
     public Object qqZone(Long qid) {
@@ -260,9 +258,6 @@ public class CallLocalApiController {
         String url = PointPicController.getUrl(str);
         return kloping.parsePic(url);
     }
-
-    @AutoStand
-    XiaoaPi xiaoaPi;
 
     @Action("解析视频音频<.+=>str>")
     public Object parseVoiceFromV(SpGroup group, @Param("str") String str) throws Exception {

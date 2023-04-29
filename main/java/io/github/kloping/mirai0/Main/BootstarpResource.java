@@ -1,5 +1,7 @@
 package io.github.kloping.mirai0.Main;
 
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
 import Project.dataBases.*;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.httpApi.KlopingWeb;
@@ -12,16 +14,16 @@ import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.commons.SpGroup;
-import Project.commons.SpUser;
 import io.github.kloping.object.ObjectUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.events.BotEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import net.mamoe.mirai.message.data.QuoteReply;
 
 import java.io.File;
 import java.util.HashSet;
@@ -40,8 +42,8 @@ public class BootstarpResource {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
     public static final ExecutorService DEA_THREADS = new ThreadPoolExecutor(8, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
     public static final List<Runnable> START_AFTER = new CopyOnWriteArrayList<>();
+    public static final Long CAP_GID = 570700910L;
     public static String MY_MAME;
-
     public static Bot BOT;
     public static Set<Long> superQL = new HashSet<>();
     public static String datePath = "";
@@ -53,7 +55,6 @@ public class BootstarpResource {
     public static GameTaskDatabase gameTaskDatabase = null;
     public static OtherDatabase otherDatabase = null;
     public static ContextManager contextManager;
-    public static final Long CAP_GID = 570700910L;
 
     static {
         ZERO_RUNS.add(() -> {
@@ -137,10 +138,15 @@ public class BootstarpResource {
                 return;
             }
             //====
-            if (o.toString().startsWith("&")) {
-                o = o.toString().replaceFirst("&", "");
+            if (objects[6] instanceof GroupMessageEvent) {
+                GroupMessageEvent event = (GroupMessageEvent) objects[6];
+                builder.append(new QuoteReply(event.getSource()));
             } else {
-                builder.append(MessageUtils.INSTANCE.getAt(((SpUser) objects[3]).getId())).append("\r\n");
+                if (o.toString().startsWith("&")) {
+                    o = o.toString().replaceFirst("&", "");
+                } else {
+                    builder.append(MessageUtils.INSTANCE.getAt(((SpUser) objects[3]).getId())).append("\r\n");
+                }
             }
             //====
             if (o instanceof String) {
@@ -201,11 +207,6 @@ public class BootstarpResource {
         System.out.println("==========================" + line + "===================================");
     }
 
-    public static class Switch {
-        public static boolean AllK = true;
-        public static boolean sendFlashToSuper = true;
-    }
-
     public static void startRegisterListenerHost(String[] args) {
         GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
         GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
@@ -213,6 +214,11 @@ public class BootstarpResource {
         StarterApplication.STARTED_RUNNABLE.add(() -> {
             GlobalEventChannel.INSTANCE.registerListenerHost(StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class));
         });
+    }
+
+    public static class Switch {
+        public static boolean AllK = true;
+        public static boolean sendFlashToSuper = true;
     }
 }
 

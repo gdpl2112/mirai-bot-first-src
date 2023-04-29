@@ -1,11 +1,11 @@
 package Project.skills.ghost;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.concurrent.CopyOnWriteArrayList;

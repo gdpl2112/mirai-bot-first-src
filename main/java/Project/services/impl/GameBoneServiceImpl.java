@@ -3,6 +3,10 @@ package Project.services.impl;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.PlayerLostBroadcast;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.SkillInfo;
+import Project.commons.gameEntitys.SoulAttribute;
+import Project.commons.gameEntitys.SoulBone;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -13,17 +17,13 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.SkillInfo;
-import Project.commons.gameEntitys.SoulAttribute;
-import Project.commons.gameEntitys.SoulBone;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.getSkillInfo;
 import static Project.dataBases.skill.SkillDataBase.remove;
@@ -31,7 +31,6 @@ import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
 import static Project.services.detailServices.GameSkillDetailService.getBasePercent;
 import static Project.services.detailServices.GameSkillDetailService.getCoolTime;
-import static Project.commons.resouce_and_tool.CommonSource.toPercent;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
 
 /**
@@ -175,7 +174,7 @@ public class GameBoneServiceImpl implements IGameBoneService {
             if (soulBone.getOid().intValue() == id.intValue()) {
                 SpringBootResource.getSoulBoneMapper().delete(soulBone);
                 addToBgs(qq, id, ObjType.un);
-                GameDataBase.putPerson(getInfo(qq).setHp(0L).setHl(0L));
+                (getInfo(qq).setHp(0L).setHl(0L)).apply();
                 PlayerLostBroadcast.INSTANCE.broadcast(qq, qq, PlayerLostBroadcast.PlayerLostReceiver.LostType.un);
                 return "卸掉成功 状态全无";
             }

@@ -51,6 +51,9 @@ public class SkillInfo {
     @TableField("`state`")
     private Integer state = 1;
 
+    @TableField("`p`")
+    private Integer p = 1;
+
     public SkillInfo() {
     }
 }

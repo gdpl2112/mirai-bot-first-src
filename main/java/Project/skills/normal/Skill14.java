@@ -1,16 +1,15 @@
 package Project.skills.normal;
 
-import Project.utils.VelocityUtils;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skills.SkillTemplate;
+import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalWithWhoTagPack;
-import Project.commons.gameEntitys.SkillInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.TAG_CANT_HIDE;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
 

@@ -15,7 +15,7 @@ public class NormalWithWhoTagPack extends NormalTagPack {
      * @param t   current + t
      */
     public NormalWithWhoTagPack(String tag, long t) {
-        super(tag,t);
+        super(tag, t);
     }
 
     @Override

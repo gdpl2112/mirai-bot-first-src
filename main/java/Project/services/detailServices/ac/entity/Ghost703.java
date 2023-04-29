@@ -1,11 +1,11 @@
 package Project.services.detailServices.ac.entity;
 
+import Project.commons.gameEntitys.base.BaseInfo;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
-import Project.commons.gameEntitys.base.BaseInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
+import static Project.commons.rt.CommonSource.percentTo;
 
 /**
  * @author github-kloping
@@ -23,8 +23,8 @@ public class Ghost703 extends GhostWithGroup {
         super(hp, att, id, l);
     }
 
-    public Ghost703(long hp, long att, long xp, int id, long l,   float bl) {
-        super(hp, att, xp, id, l,  bl);
+    public Ghost703(long hp, long att, long xp, int id, long l, float bl) {
+        super(hp, att, xp, id, l, bl);
     }
 
     @Override

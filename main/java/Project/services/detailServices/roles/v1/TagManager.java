@@ -1,7 +1,7 @@
 package Project.services.detailServices.roles.v1;
 
-import io.github.kloping.map.MapUtils;
 import Project.commons.gameEntitys.TagPack;
+import io.github.kloping.map.MapUtils;
 
 import java.util.*;
 
@@ -61,7 +61,7 @@ public class TagManager {
     }
 
     public synchronized Boolean contains(String tag) {
-       return getValue(tag)>0;
+        return getValue(tag) > 0;
     }
 
     public synchronized void addTag(TagPack tagPack) {

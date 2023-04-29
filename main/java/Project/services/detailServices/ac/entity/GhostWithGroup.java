@@ -1,8 +1,8 @@
 package Project.services.detailServices.ac.entity;
 
+import Project.commons.SpGroup;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import Project.commons.SpGroup;
 
 /**
  * @author github-kloping
@@ -22,7 +22,7 @@ public class GhostWithGroup extends GhostObj {
         super(hp, att, id, l);
     }
 
-    public GhostWithGroup(long hp, long att, long xp, int id, long l,  float bl) {
+    public GhostWithGroup(long hp, long att, long xp, int id, long l, float bl) {
         super(hp, att, xp, id, l, bl);
     }
 

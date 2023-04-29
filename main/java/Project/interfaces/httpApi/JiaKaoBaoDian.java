@@ -1,12 +1,12 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.jkbd.QuestionData;
+import Project.commons.apiEntitys.jkbd.pre.Data;
+import Project.commons.apiEntitys.jkbd.pre.QuestionIdData;
 import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import Project.commons.apiEntitys.jkbd.QuestionData;
-import Project.commons.apiEntitys.jkbd.pre.Data;
-import Project.commons.apiEntitys.jkbd.pre.QuestionIdData;
 
 /**
  * @author github.kloping
@@ -33,20 +33,20 @@ public interface JiaKaoBaoDian {
     @GetPath("api/open/exercise/chapter.htm")
     QuestionIdData ids(
             @ParamName("_r")
-                    String _r,
+            String _r,
             @ParamName("carType")
             @DefaultValue("car")
-                    String carType,
+            String carType,
             @ParamName("cityCode")
             @DefaultValue("341300")
-                    Integer cityCode,
+            Integer cityCode,
             @ParamName("course")
             @DefaultValue("kemu1")
-                    String course,
+            String course,
             @ParamName("tagId")
-                    Integer tagId,
+            Integer tagId,
             @ParamName("chapterId")
-                    Integer chapterId
+            Integer chapterId
     );
 
     /**

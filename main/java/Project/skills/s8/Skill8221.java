@@ -1,16 +1,16 @@
 package Project.skills.s8;
 
+import Project.commons.gameEntitys.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.dataBases.skill.SkillDataBase.TAG2NAME;
 import static Project.services.detailServices.GameDetailServiceUtils.attGhostOrMan;
 import static Project.services.detailServices.GameSkillDetailService.nearest;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping

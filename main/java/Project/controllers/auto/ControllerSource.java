@@ -1,11 +1,12 @@
 package Project.controllers.auto;
 
+import Project.commons.apiEntitys.RunnableWithOver;
 import Project.controllers.FirstController;
 import Project.controllers.gameControllers.GameController2;
 import Project.controllers.normalController.SummonPicController;
-import Project.plugins.AiBaiduDetail;
 import Project.interfaces.httpApi.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
+import Project.plugins.AiBaiduDetail;
 import Project.recivers.GameReceiver0;
 import Project.services.detailServices.ChallengeDetailService;
 import Project.services.impl.GameServiceImpl;
@@ -15,7 +16,6 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.commons.apiEntitys.RunnableWithOver;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import javax.imageio.ImageIO;

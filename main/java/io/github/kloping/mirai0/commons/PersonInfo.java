@@ -1,62 +1,29 @@
 package io.github.kloping.mirai0.commons;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.RecordBroadcast;
 import Project.commons.TradingRecord;
-import Project.dataBases.GameDataBase;
-import Project.dataBases.skill.SkillDataBase;
-import Project.services.detailServices.roles.v1.TagManagers;
-import com.baomidou.mybatisplus.annotation.TableId;
-import io.github.kloping.mirai0.commons.game.NormalTagPack;
 import Project.commons.gameEntitys.base.BaseInfo;
 import Project.commons.gameEntitys.base.BaseInfoTemp;
+import Project.dataBases.GameDataBase;
+import Project.services.detailServices.roles.v1.TagManagers;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.kloping.mirai0.commons.game.NormalTagPack;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
-
-import static Project.controllers.gameControllers.GameController.MAX_XP;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.MAX_LEVEL;
 
 /**
  * @author github-kloping
  */
 public class PersonInfo implements BaseInfo {
-    /**
-     * 攻击
-     */
-    public Long att = 10L;
+    //==============
     /**
      * 金魂币
      */
     public Long gold = 200L;
-    /**
-     * 魂力
-     */
-    public Long hl = 100L;
-    /**
-     * 魂力最大值
-     */
-    public Long hll = 100L;
-    /**
-     * 血量
-     */
-    public Long hp = 100L;
-    /**
-     * 最大血量
-     */
-    public Long hpl = 100L;
-    /**
-     * 精神力
-     */
-    public Long hj = 100L;
-    /**
-     * 最大精神力
-     */
-    public Long hjL = 100L;
-    /**
-     * 等级
-     */
-    public Integer Level = 1;
     /**
      * 支援次数
      */
@@ -73,18 +40,6 @@ public class PersonInfo implements BaseInfo {
      * 购买支援次数
      */
     public Integer BuyHelpToC = 0;
-    /**
-     * 武魂
-     */
-    public Integer wh = 0;
-    /**
-     * 武魂类型
-     */
-    public Integer whType = -1;
-    /**
-     * 经验
-     */
-    public Long xp = 0L;
     /**
      * 修炼冷却
      */
@@ -122,10 +77,6 @@ public class PersonInfo implements BaseInfo {
      */
     public Long jak1 = 1L;
     /**
-     * 经验最大值 冷却
-     */
-    public Long xpL = 100L;
-    /**
      * 使用 物品 标志
      */
     public String usinged = "null";
@@ -162,17 +113,14 @@ public class PersonInfo implements BaseInfo {
      * 降级
      */
     public boolean downed = false;
-
     /**
      * 下次血量为空生效时
      */
     public Long dt1 = 0L;
-
     /**
      * 斗魂中...
      */
     private Boolean temp = false;
-
     /**
      * 勋章数
      */
@@ -180,6 +128,27 @@ public class PersonInfo implements BaseInfo {
 
     private boolean bg = false;
     private Long bgk = 0L;
+
+    /**
+     * 武魂信息指向
+     */
+    private Integer p = 1;
+
+    public Long getDt1() {
+        return dt1;
+    }
+
+    public void setDt1(Long dt1) {
+        this.dt1 = dt1;
+    }
+
+    public Integer getP() {
+        return p;
+    }
+
+    public void setP(Integer p) {
+        this.p = p;
+    }
 
     public boolean isBg() {
         return bg;
@@ -209,6 +178,10 @@ public class PersonInfo implements BaseInfo {
 
     public Integer getWinC() {
         return winC;
+    }
+
+    public void setWinC(Integer winC) {
+        this.winC = winC;
     }
 
     public PersonInfo addWinc(Integer num) {
@@ -277,39 +250,6 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    @Override
-    public Long getAtt() {
-        return att;
-    }
-
-    @Override
-    public PersonInfo setAtt(Long att) {
-        this.att = att;
-        return this;
-    }
-
-    public Long att() {
-        long at1 = att;
-        try {
-            if (SkillDataBase.HAS_ADDER_MAP_LIST.containsKey(getId().longValue())) {
-                if (!SkillDataBase.HAS_ADDER_MAP_LIST.get(getId().longValue()).isEmpty()) {
-                    Iterator<SkillDataBase.HasTimeAdder> iterator =
-                            SkillDataBase.HAS_ADDER_MAP_LIST.get(getId().longValue()).iterator();
-                    while (iterator.hasNext()) {
-                        SkillDataBase.HasTimeAdder adder = iterator.next();
-                        if (adder.test()) {
-                            at1 += adder.getValue().longValue();
-                        } else {
-                            iterator.remove();
-                        }
-                    }
-                }
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        return at1;
-    }
 
     public Long getGold() {
         return gold;
@@ -320,43 +260,6 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    public Long getHl() {
-        return hl;
-    }
-
-    public PersonInfo setHl(Long hl) {
-        this.hl = hl;
-        return this;
-    }
-
-    public Long getHll() {
-        return hll;
-    }
-
-    public PersonInfo setHll(Long hll) {
-        this.hll = hll;
-        return this;
-    }
-
-    @Override
-    public Long getHp() {
-        return hp;
-    }
-
-    public PersonInfo setHp(Long hp) {
-        this.hp = hp;
-        return this;
-    }
-
-    @Override
-    public Long getHpL() {
-        return hpl;
-    }
-
-    public PersonInfo setHpl(Long hpl) {
-        this.hpl = hpl;
-        return this;
-    }
 
     public Long getK1() {
         return k1;
@@ -376,48 +279,6 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    @Override
-    public Integer getLevel() {
-        return Level;
-    }
-
-    public PersonInfo setLevel(Integer level) {
-        this.Level = level;
-        return this;
-    }
-
-    public int getWh() {
-        return wh;
-    }
-
-    public PersonInfo setWh(Integer wh) {
-        this.wh = wh;
-        return this;
-    }
-
-    public Long getXp() {
-        return xp;
-    }
-
-    public PersonInfo setXp(Long xp) {
-        this.xp = xp;
-        return this;
-    }
-
-    public Long getXpL() {
-        if (getLevel() > 150) {
-            return 99999999999L;
-        } else if (getLevel() == 150) {
-            return 200000000L;
-        }
-        return xpL;
-    }
-
-    public PersonInfo setXpL(Long xpL) {
-        this.xpL = xpL;
-        return this;
-    }
-
     public String getUsinged() {
         return usinged;
     }
@@ -427,30 +288,9 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    public PersonInfo addAtt(Long o) {
-        att += o;
-        return this;
-    }
-
     public PersonInfo addGold(Long o, TradingRecord tradingRecord) {
         gold += o;
         RecordBroadcast.INSTANCE.broadcast(Long.parseLong(name), tradingRecord.setNow(gold));
-        return this;
-    }
-
-    public PersonInfo addHl(Long o) {
-        hl += o;
-        if (hl > hll) {
-            hl = hll;
-        }
-        if (hl <= 0) {
-            hl = 0L;
-        }
-        return this;
-    }
-
-    public PersonInfo addHll(Long o) {
-        hll += o;
         return this;
     }
 
@@ -463,29 +303,12 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    @Override
-    public PersonInfo addHp(Long o) {
-        hp += o;
-        if (hp > hpl) {
-            hp = hpl;
-        }
-        if (hp <= 0) {
-            hp = 0L;
-        }
-        return this;
-    }
-
     public boolean isDied() {
         return died;
     }
 
     public PersonInfo setDied(boolean died) {
         this.died = died;
-        return this;
-    }
-
-    public PersonInfo addHpl(Long o) {
-        hpl += o;
         return this;
     }
 
@@ -499,28 +322,8 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    public PersonInfo addLevel(Integer o) {
-        Level += o;
-        return this;
-    }
-
-    public PersonInfo addXp(Long o) {
-        xp += o;
-        if (Level < MAX_LEVEL) {
-            if (xp > xpL * MAX_XP) {
-                this.xp = (long) (xpL * MAX_XP);
-            }
-        }
-        return this;
-    }
-
     public PersonInfo addGk1(Long o) {
         gk1 += o;
-        return this;
-    }
-
-    public PersonInfo addXpL(Long o) {
-        xpL += o;
         return this;
     }
 
@@ -574,55 +377,13 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    @Override
-    public PersonInfo addTag(String myTag, Number percent, long t) {
-        NormalTagPack pack = new NormalTagPack(myTag, t);
-        pack.setValue(percent.longValue());
-        pack.setQ(getId().longValue());
-        TagManagers.getTagManager(getId().longValue()).addTag(pack);
+    public Integer getNextR3() {
+        return nextR3;
+    }
+
+    public PersonInfo setNextR3(Integer nextR3) {
+        this.nextR3 = nextR3;
         return this;
-    }
-
-    @Override
-    public PersonInfo addTag(String myTag, Number percent, Number max, long t) {
-        long v0 = getTagValue(myTag).longValue();
-        if (v0 >= max.longValue()) {
-            return this;
-        } else if (v0 + percent.longValue() >= max.longValue()) {
-            NormalTagPack pack = new NormalTagPack(myTag, t);
-            pack.setValue(max.longValue() - v0);
-            pack.setQ(getId().longValue());
-            TagManagers.getTagManager(getId().longValue()).addTag(pack);
-            return this;
-        } else {
-            NormalTagPack pack = new NormalTagPack(myTag, t);
-            pack.setValue(percent.longValue());
-            pack.setQ(getId().longValue());
-            TagManagers.getTagManager(getId().longValue()).addTag(pack);
-            return this;
-        }
-    }
-
-    @Override
-    public PersonInfo eddTag(String myTag, Number percent) {
-        TagManagers.getTagManager(getId().longValue()).eddValue(myTag, percent.longValue());
-        return this;
-    }
-
-    @Override
-    public PersonInfo eddTag(String myTag) {
-        TagManagers.getTagManager(getId().longValue()).eddValue(myTag);
-        return this;
-    }
-
-    @Override
-    public boolean containsTag(String tag) {
-        return TagManagers.getTagManager(getId().longValue()).contains(tag);
-    }
-
-    @Override
-    public Number getTagValue(String tag) {
-        return TagManagers.getTagManager(getId().longValue()).getValue(tag);
     }
 
     public Number getTagValueOrDefault(String tag, Number d) {
@@ -707,55 +468,56 @@ public class PersonInfo implements BaseInfo {
         return this;
     }
 
-    @Override
-    public Long getHj() {
-        return hj;
-    }
 
-    public PersonInfo setHj(Long hj) {
-        this.hj = hj;
+    @Override
+    public PersonInfo addTag(String myTag, Number percent, long t) {
+        NormalTagPack pack = new NormalTagPack(myTag, t);
+        pack.setValue(percent.longValue());
+        pack.setQ(getId().longValue());
+        TagManagers.getTagManager(getId().longValue()).addTag(pack);
         return this;
     }
 
     @Override
-    public Long getHjL() {
-        return hjL;
-    }
-
-    public PersonInfo setHjL(Long hjL) {
-        this.hjL = hjL;
-        return this;
-    }
-
-    @Override
-    public Number getId() {
-        return Long.parseLong(name);
-    }
-
-    @Override
-    public PersonInfo addHj(Long l) {
-        this.hj += l;
-        if (hj < 0) {
-            hj = 0L;
+    public PersonInfo addTag(String myTag, Number percent, Number max, long t) {
+        long v0 = getTagValue(myTag).longValue();
+        if (v0 >= max.longValue()) {
+            return this;
+        } else if (v0 + percent.longValue() >= max.longValue()) {
+            NormalTagPack pack = new NormalTagPack(myTag, t);
+            pack.setValue(max.longValue() - v0);
+            pack.setQ(getId().longValue());
+            TagManagers.getTagManager(getId().longValue()).addTag(pack);
+            return this;
+        } else {
+            NormalTagPack pack = new NormalTagPack(myTag, t);
+            pack.setValue(percent.longValue());
+            pack.setQ(getId().longValue());
+            TagManagers.getTagManager(getId().longValue()).addTag(pack);
+            return this;
         }
-        if (hj > hjL) {
-            hj = hjL;
-        }
+    }
+
+    @Override
+    public PersonInfo eddTag(String myTag, Number percent) {
+        TagManagers.getTagManager(getId().longValue()).eddValue(myTag, percent.longValue());
         return this;
     }
 
-    public PersonInfo addHjL(Long l) {
-        this.hjL += l;
+    @Override
+    public PersonInfo eddTag(String myTag) {
+        TagManagers.getTagManager(getId().longValue()).eddValue(myTag);
         return this;
     }
 
-    public Integer getWhType() {
-        return GameDataBase.getWhTypeByWh(wh);
+    @Override
+    public boolean containsTag(String tag) {
+        return TagManagers.getTagManager(getId().longValue()).contains(tag);
     }
 
-    public PersonInfo setWhType(Integer whType) {
-        this.whType = whType;
-        return this;
+    @Override
+    public Number getTagValue(String tag) {
+        return TagManagers.getTagManager(getId().longValue()).getValue(tag);
     }
 
     @Override
@@ -783,20 +545,209 @@ public class PersonInfo implements BaseInfo {
     @Override
     public PersonInfo apply() {
         GameDataBase.putPerson(this);
+        GameDataBase.putWhInfo(getWhInfo());
         return this;
     }
 
-    public Integer getNextR3() {
-        return nextR3;
+    @TableField(exist = false)
+    private WhInfo whInfo;
+
+    public WhInfo getWhInfo() {
+        whInfo = GameDataBase.getWhInfo(getId().longValue());
+        if (whInfo == null) {
+            whInfo = new WhInfo();
+            whInfo.setP(getP());
+            whInfo.setQid(getId().longValue());
+            GameDataBase.putWhInfo(whInfo);
+        }
+        return whInfo;
     }
 
-    public PersonInfo setNextR3(Integer nextR3) {
-        this.nextR3 = nextR3;
+    @Override
+    public Long getHj() {
+        return getWhInfo().getHj();
+    }
+
+    public PersonInfo setHj(Long hj) {
+        getWhInfo().setHj(hj);
         return this;
     }
 
     @Override
-    public String getTips() {
+    public Long getHjL() {
+        return getWhInfo().getHjL();
+    }
+
+    public PersonInfo setHjL(Long hjL) {
+        getWhInfo().setHjL(hjL);
+        return this;
+    }
+
+    @Override
+    public Number getId() {
+        return Long.parseLong(name);
+    }
+
+    @Override
+    public PersonInfo addHj(Long l) {
+        getWhInfo().addHj(l);
+        return this;
+    }
+
+    public PersonInfo addHjL(Long l) {
+        getWhInfo().addHjL(l);
+        return this;
+    }
+
+    public Integer getWhType() {
+        return getWhInfo().getWhType();
+    }
+
+    public PersonInfo setWhType(Integer whType) {
+        getWhInfo().setWhType(whType);
+        return this;
+    }
+
+    @Override
+    public Long getAtt() {
+        return getWhInfo().getAtt();
+    }
+
+    @Override
+    public PersonInfo setAtt(Long att) {
+        getWhInfo().setAtt(att);
+        return this;
+    }
+
+    public Long att() {
+        return getWhInfo().att();
+    }
+
+    public Long getHl() {
+        return getWhInfo().getHl();
+    }
+
+    public PersonInfo setHl(Long hl) {
+        getWhInfo().setHl(hl);
+        return this;
+    }
+
+    public Long getHll() {
+        return getWhInfo().getHll();
+    }
+
+    public PersonInfo setHll(Long hll) {
+        getWhInfo().setHll(hll);
+        return this;
+    }
+
+    @Override
+    public Long getHp() {
+        return getWhInfo().getHp();
+    }
+
+    public PersonInfo setHp(Long hp) {
+        getWhInfo().setHp(hp);
+        return this;
+    }
+
+    @Override
+    public Long getHpL() {
+        return getWhInfo().getHpL();
+    }
+
+    public PersonInfo setHpl(Long hpl) {
+        getWhInfo().setHpl(hpl);
+        return this;
+    }
+
+    @Override
+    public Integer getLevel() {
+        return getWhInfo().getLevel();
+    }
+
+    public PersonInfo setLevel(Integer level) {
+        getWhInfo().setLevel(level);
+        return this;
+    }
+
+    public int getWh() {
+        return getWhInfo().getWh();
+    }
+
+    public PersonInfo setWh(Integer wh) {
+        getWhInfo().setWh(wh);
+        return this;
+    }
+
+    public Long getXp() {
+        return getWhInfo().getXp();
+    }
+
+    public PersonInfo setXp(Long xp) {
+        getWhInfo().setXp(xp);
+        return this;
+    }
+
+    public Long getXpL() {
+        return getWhInfo().getXpL();
+    }
+
+    public PersonInfo setXpL(Long xpL) {
+        getWhInfo().setXpL(xpL);
+        return this;
+    }
+
+    public PersonInfo addAtt(Long o) {
+        getWhInfo().addAtt(o);
+        return this;
+    }
+
+    public PersonInfo addHl(Long o) {
+        getWhInfo().addHl(o);
+        return this;
+    }
+
+    public PersonInfo addHll(Long o) {
+        getWhInfo().addHll(o);
+        return this;
+    }
+
+    @Override
+    public PersonInfo addHp(Long o) {
+        getWhInfo().addHp(o);
+        return this;
+    }
+
+    public PersonInfo addHpl(Long o) {
+        getWhInfo().addHpl(o);
+        return this;
+    }
+
+    public PersonInfo addLevel(Integer o) {
+        getWhInfo().addLevel(o);
+        return this;
+    }
+
+    public PersonInfo addXp(Long o) {
+        getWhInfo().addXp(o);
+        return this;
+    }
+
+    public PersonInfo addXpL(Long o) {
+        getWhInfo().addXpL(o);
+        return this;
+    }
+
+    @Override
+    public <T> T getTips() {
         return null;
+    }
+
+    public int getWhc() {
+        QueryWrapper<WhInfo> qw = new QueryWrapper<>();
+        qw.eq("qid", getName());
+        int c = SpringBootResource.getWhInfoMapper().selectCount(qw);
+        return c;
     }
 }

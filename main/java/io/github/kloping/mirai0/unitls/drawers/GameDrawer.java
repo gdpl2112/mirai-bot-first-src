@@ -20,6 +20,36 @@ import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.getImageB
  * @author github-kloping
  */
 public class GameDrawer {
+    private static final List<Map.Entry<Integer, Integer>> OR_LIST = new LinkedList<>();
+    private static final List<Integer> RATE_LIST = new LinkedList<>();
+
+    static {
+        for (int i1 = 1; i1 <= 5; i1++) {
+            OR_LIST.add(new AbstractMap.SimpleEntry<>(i1, 1));
+        }
+        OR_LIST.add(new AbstractMap.SimpleEntry<>(5, 2));
+        for (int i1 = 5; i1 > 0; i1--) {
+            OR_LIST.add(new AbstractMap.SimpleEntry<>(i1, 3));
+        }
+        OR_LIST.add(new AbstractMap.SimpleEntry<>(1, 2));
+
+        RATE_LIST.add(16);
+        RATE_LIST.add(15);
+        RATE_LIST.add(13);
+        RATE_LIST.add(10);
+        RATE_LIST.add(7);
+        RATE_LIST.add(3);
+        for (int i = 0; i < 30; i++) {
+            RATE_LIST.add(3);
+        }
+        RATE_LIST.add(3);
+        RATE_LIST.add(7);
+        RATE_LIST.add(10);
+        RATE_LIST.add(13);
+        RATE_LIST.add(15);
+        RATE_LIST.add(16);
+    }
+
     public static String drawerMap0(GameMap map) {
         try {
             return drawerMap(map);
@@ -172,36 +202,6 @@ public class GameDrawer {
         return file.getPath();
     }
 
-    private static final List<Map.Entry<Integer, Integer>> OR_LIST = new LinkedList<>();
-    private static final List<Integer> RATE_LIST = new LinkedList<>();
-
-    static {
-        for (int i1 = 1; i1 <= 5; i1++) {
-            OR_LIST.add(new AbstractMap.SimpleEntry<>(i1, 1));
-        }
-        OR_LIST.add(new AbstractMap.SimpleEntry<>(5, 2));
-        for (int i1 = 5; i1 > 0; i1--) {
-            OR_LIST.add(new AbstractMap.SimpleEntry<>(i1, 3));
-        }
-        OR_LIST.add(new AbstractMap.SimpleEntry<>(1, 2));
-
-        RATE_LIST.add(16);
-        RATE_LIST.add(15);
-        RATE_LIST.add(13);
-        RATE_LIST.add(10);
-        RATE_LIST.add(7);
-        RATE_LIST.add(3);
-        for (int i = 0; i < 30; i++) {
-            RATE_LIST.add(3);
-        }
-        RATE_LIST.add(3);
-        RATE_LIST.add(7);
-        RATE_LIST.add(10);
-        RATE_LIST.add(13);
-        RATE_LIST.add(15);
-        RATE_LIST.add(16);
-    }
-
     public static String drawerDynamic(GameMap map, int od, String end, File outFile) throws Exception {
         File baseFile = new File(drawerStatic(map));
         AnimatedGifEncoder encoder = new AnimatedGifEncoder();
@@ -210,12 +210,31 @@ public class GameDrawer {
         encoder.setQuality(5);
         int rate = 25;
         encoder.setFrameRate(rate);
-        int r = od - 5;
-        r = r < 0 ? 12 + r : r;
-        for (Integer y : RATE_LIST) {
+        int r = 0;
+        int n0 = od - 5;
+        for (int index = 0; index < RATE_LIST.size(); index++) {
+            if (index > 5 && n0 < 0) {
+                n0++;
+                continue;
+            } else if (index > 5 && n0 > 0) {
+                n0--;
+                int y = RATE_LIST.get(index);
+                if (r >= OR_LIST.size()) r -= OR_LIST.size();
+                Map.Entry<Integer, Integer> kv = OR_LIST.get(r);
+                int x1 = (kv.getKey() - 1) * 50;
+                int y1 = (kv.getValue() - 1) * 50;
+                BufferedImage o0 = (BufferedImage) getImageByColor2Size(
+                        new Color(238, 0, 0, 255)
+                        , 50, 10);
+                o0 = ImageDrawerUtils.putImage(ImageIO.read(baseFile), o0, x1, y1);
+                for (int i = 0; i < y; i++) {
+                    encoder.addFrame(o0);
+                }
+                r++;
+            }
+            int y = RATE_LIST.get(index);
             if (r >= OR_LIST.size()) r -= OR_LIST.size();
             Map.Entry<Integer, Integer> kv = OR_LIST.get(r);
-            r++;
             int x1 = (kv.getKey() - 1) * 50;
             int y1 = (kv.getValue() - 1) * 50;
             BufferedImage o0 = (BufferedImage) getImageByColor2Size(
@@ -225,6 +244,7 @@ public class GameDrawer {
             for (int i = 0; i < y; i++) {
                 encoder.addFrame(o0);
             }
+            r++;
         }
         int x1;
         int y1;

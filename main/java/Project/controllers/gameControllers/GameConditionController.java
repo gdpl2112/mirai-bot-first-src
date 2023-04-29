@@ -3,6 +3,9 @@ package Project.controllers.gameControllers;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
 import Project.broadcast.game.SelectTaoPaoBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.SpUser;
+import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.httpApi.KlopingWeb;
@@ -10,44 +13,34 @@ import Project.services.detailServices.condition.GameConditionDetailService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.SpUser;
-import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.IN_SELECT;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.ERR_TIPS;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.IN_SELECT;
 
 /**
  * @author github.kloping
  */
 @Controller
 public class GameConditionController {
-    @AutoStand
-    GameController gameController;
-
-    @Before
-    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
-        if (!BotStarter.test) throw new NoRunException();
-        gameController.before(qq, group, mess);
-    }
-
+    public static final Map<Long, Integer> CONDITIONING = new HashMap<>();
+    public static final String TIPS0 = "15秒后进入下阶段";
     @AutoStand
     static KlopingWeb klopingWeb;
-
-    public static final Map<Long, Integer> CONDITIONING = new HashMap<>();
+    @AutoStand
+    static GameConditionDetailService detailService;
 
     static {
         BootstarpResource.START_AFTER.add(() -> {
@@ -109,7 +102,14 @@ public class GameConditionController {
         });
     }
 
-    public static final String TIPS0 = "15秒后进入下阶段";
+    @AutoStand
+    GameController gameController;
+
+    @Before
+    public void before(SpUser qq, SpGroup group, @AllMess String mess) throws NoRunException {
+        if (!BotStarter.test) throw new NoRunException();
+        gameController.before(qq, group, mess);
+    }
 
     @Action("进入遇境")
     public Object join(long qid) {
@@ -125,9 +125,6 @@ public class GameConditionController {
         detailService.run(qid, i);
         return "准备中...";
     }
-
-    @AutoStand
-    static GameConditionDetailService detailService;
 
     @Action("遇境说明")
     public String getIntro() {

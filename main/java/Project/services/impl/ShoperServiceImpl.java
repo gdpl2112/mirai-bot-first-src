@@ -1,20 +1,20 @@
 package Project.services.impl;
 
+import Project.commons.SpGroup;
+import Project.commons.TradingRecord;
+import Project.commons.broadcast.enums.ObjType;
+import Project.commons.gameEntitys.ShopItem;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.ShopDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.commons.TradingRecord;
-import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
 /**
@@ -82,7 +82,7 @@ public class ShoperServiceImpl implements IShoperService {
             Long price = item.getPrice().longValue();
             if (info.getGold() >= price) {
                 Long who = item.getWho().longValue();
-                putPerson(getInfo(who).addGold(price
+                getInfo(who).addGold(price
                         , new TradingRecord()
                                 .setType1(TradingRecord.Type1.add)
                                 .setType0(TradingRecord.Type0.gold)
@@ -91,8 +91,8 @@ public class ShoperServiceImpl implements IShoperService {
                                 .setFrom(qid)
                                 .setDesc("市场被购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
-                ));
-                putPerson(getInfo(qid).addGold(-price
+                ).apply();
+                getInfo(qid).addGold(-price
                         , new TradingRecord()
                                 .setType1(TradingRecord.Type1.lost)
                                 .setType0(TradingRecord.Type0.gold)
@@ -101,7 +101,7 @@ public class ShoperServiceImpl implements IShoperService {
                                 .setFrom(qid)
                                 .setDesc("市场购买" + item.getNum() + "个\"" + getNameById(item.getItemId()) + "\"")
                                 .setMany(price)
-                ));
+                ).apply();
                 addToBgs(qid, item.getItemId(), item.getNum(), ObjType.buy);
                 ShopDataBase.deleteItem(item.getId());
                 GInfo.getInstance(who).addBuyc().apply();

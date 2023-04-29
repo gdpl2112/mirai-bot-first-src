@@ -2,19 +2,19 @@ package Project.skills.s8;
 
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.gameEntitys.SkillInfo;
 import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.commons.SpGroup;
 import io.github.kloping.mirai0.commons.Skill;
-import Project.commons.gameEntitys.SkillInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static Project.commons.rt.CommonSource.percentTo;
 import static Project.services.detailServices.GameSkillDetailService.getDuration;
-import static Project.commons.resouce_and_tool.CommonSource.percentTo;
 
 /**
  * @author github.kloping
@@ -50,7 +50,7 @@ public class Skill8210 extends SkillTemplate {
                                         false, false);
                             } else {
                                 setTips(GameJoinDetailService.attGho(
-                                        who.longValue(), att, DamageType.AP, true,  GhostLostBroadcast.KillType.SKILL_ATT,
+                                        who.longValue(), att, DamageType.AP, true, GhostLostBroadcast.KillType.SKILL_ATT,
                                         true));
                             }
                         }

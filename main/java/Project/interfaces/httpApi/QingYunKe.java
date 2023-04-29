@@ -1,10 +1,10 @@
 package Project.interfaces.httpApi;
 
+import Project.commons.apiEntitys.qingyunke.QingYunKeData;
 import io.github.kloping.MySpringTool.annotations.http.DefaultValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
-import Project.commons.apiEntitys.qingyunke.QingYunKeData;
 
 /**
  * @author github.kloping

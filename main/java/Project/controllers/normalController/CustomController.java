@@ -1,15 +1,15 @@
 package Project.controllers.normalController;
 
 import Project.broadcast.normal.MessageBroadcast;
+import Project.commons.SpGroup;
+import Project.commons.eEntitys.AutoReply;
+import Project.commons.rt.ResourceSet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.commons.SpGroup;
-import Project.commons.eEntitys.AutoReply;
-import Project.commons.resouce_and_tool.ResourceSet;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
@@ -20,13 +20,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getAutoReplyMapper;
+import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.DataBase.isFather;
 import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 
 /**
  * @author github-kloping
@@ -38,11 +38,9 @@ public class CustomController {
             "3.查询id _...\r\n" +
             "4.删除词 _...\r\n" +
             "5.删除id _...";
-    private static final int FINAL_INDEX = 10;
     private static final long CD = 5 * 1000;
-    public static Map<String, List<AutoReply>> MAP = new HashMap<>();
+    public static Map<Long, Map<String, List<AutoReply>>> MAP = new HashMap<>();
     public static Map<Long, String> QLIST = new ConcurrentHashMap<>();
-    private static int index = 1;
     private static long cd = -1;
 
     public CustomController() {
@@ -56,17 +54,16 @@ public class CustomController {
     }
 
     public static final String action(long qq, String s, SpGroup group) {
-        if (MAP.isEmpty()) {
-            MAP = getAllAutoReply();
+        if (MAP.getOrDefault(group.getId().longValue(), null) == null) {
+            getAllAutoReply(group.getId());
         }
         try {
-            if ((index++ % FINAL_INDEX) == 0) tryUpdateMap();
             if (!AllK || !canGroup(group.getId())) {
                 return null;
             }
             if (cd > System.currentTimeMillis()) return null;
-            if (MAP.containsKey(s)) {
-                AutoReply reply = Tool.INSTANCE.getRandT(MAP.get(s));
+            if (MAP.get(group.getId()).containsKey(s)) {
+                AutoReply reply = Tool.INSTANCE.getRandT(MAP.get(group.getId()).get(s));
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (reply.getV().startsWith("at")) {
                     String content = reply.getV().replaceFirst("at", "");
@@ -83,40 +80,29 @@ public class CustomController {
         return null;
     }
 
-    private static void tryUpdateMap() {
-        int size = getAllAutoReplyCount();
-        if (size != MAP.size()) {
-            MAP.clear();
-            MAP.putAll(getAllAutoReply());
-        }
-    }
-
-    public static boolean builderAndAdd(String str, long q) {
+    public static boolean builderAndAdd(String str, long q, Long gid) {
         int i1 = str.indexOf("问");
         int i2 = str.indexOf("答");
         String k = str.substring(i1 + 1, i2);
         String v = str.substring(i2 + 1, str.length());
         AutoReply reply = new AutoReply();
+        reply.setGid(gid);
         reply.setWho(Long.toString(q)).setV(v).setTime(String.valueOf(System.currentTimeMillis())).setK(k);
         if (!addReply(reply)) return false;
-        MapUtils.append(MAP, k, reply);
+        MapUtils.append(MAP.get(gid), k, reply);
         return true;
     }
 
-    public final static Map<String, List<AutoReply>> getAllAutoReply() {
+    public final static Map<String, List<AutoReply>> getAllAutoReply(Long gid) {
         QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("delete_stat", 0);
+        queryWrapper.eq("gid", gid);
         Map<String, List<AutoReply>> map = new LinkedHashMap<>();
         for (AutoReply autoReply : getAutoReplyMapper().selectList(queryWrapper)) {
             MapUtils.append(map, autoReply.getK(), autoReply);
         }
+        MAP.put(gid, map);
         return map;
-    }
-
-    public final static int getAllAutoReplyCount() {
-        QueryWrapper<AutoReply> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("delete_stat", 0);
-        return getAutoReplyMapper().selectList(queryWrapper).size();
     }
 
     public final static boolean deleteReply(AutoReply reply) {
@@ -150,9 +136,9 @@ public class CustomController {
     }
 
     @Action("添加<.+=>str>")
-    public String add(@Param("str") String str, long qq) {
+    public String add(@Param("str") String str, long qq, SpGroup group) {
         if (!isSuperQ(qq)) {
-            if ( Tool.INSTANCE.isIlleg(str))
+            if (Tool.INSTANCE.isIlleg(str))
                 return ResourceSet.FinalString.IS_ILLEGAL_TIPS_1;
         }
         int i1 = str.indexOf("问");
@@ -179,7 +165,7 @@ public class CustomController {
                 });
                 return "已添加到处理队列\r\n请在1分钟内完成内容填充\r\n发送emoji\\图片\\表情即可";
             } else {
-                if (builderAndAdd(str, qq)) {
+                if (builderAndAdd(str, qq, group.getId())) {
                     return "OK";
                 } else {
                     return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
@@ -191,7 +177,7 @@ public class CustomController {
     }
 
     @Action("\\[.+]请使用最新版手机QQ体验新功能")
-    public String onEmoji(@AllMess String mess, @Param("id") String id, long qq) {
+    public String onEmoji(@AllMess String mess, @Param("id") String id, long qq, SpGroup group) {
         if (QLIST.containsKey(qq)) {
             String str = QLIST.get(qq);
             str = str.replaceFirst("\\*", mess);
@@ -201,7 +187,7 @@ public class CustomController {
                 return "已填充1个";
             } else {
                 QLIST.remove(qq);
-                if (builderAndAdd(str, qq)) {
+                if (builderAndAdd(str, qq, group.getId())) {
                     return "填充完成\r\n添加完成";
                 } else
                     return ResourceSet.FinalString.ADD_TO_AUTO_REPLY_ERROR;
@@ -210,12 +196,12 @@ public class CustomController {
     }
 
     @Action("查询词<.+=>name>")
-    public String select(@Param("name") String name) {
-        if (MAP.containsKey(name)) {
+    public String select(@Param("name") String name, SpGroup group) {
+        if (MAP.get(group.getId()).containsKey(name)) {
             StringBuilder sb = new StringBuilder();
-            for (AutoReply reply : MAP.get(name)) {
-                sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n", reply.getK(), reply.getV(),
-                         Tool.INSTANCE.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho())).append(NEWLINE);
+            for (AutoReply reply : MAP.get(group.getId()).get(name)) {
+                sb.append(String.format("触发词:%s\r\n回复词:%s\r\n添加时间:%s\r\n添加者:%s\r\n所属群:%s", reply.getK(), reply.getV(),
+                        Tool.INSTANCE.getTimeYMdhms(Long.parseLong(reply.getTime())), reply.getWho(), reply.getGid())).append(NEWLINE);
             }
             return sb.toString();
         } else {
@@ -224,9 +210,9 @@ public class CustomController {
     }
 
     @Action("删除词<.+=>name>")
-    public String delete(@Param("name") String name) {
-        if (MAP.containsKey(name)) {
-            AutoReply reply = MAP.get(name).get(0);
+    public String delete(@Param("name") String name, SpGroup group) {
+        if (MAP.get(group.getId()).containsKey(name)) {
+            AutoReply reply = MAP.get(group.getId()).get(name).get(0);
             if (deleteReply(reply)) {
                 MAP.get(name).remove(reply);
                 return "删除成功";

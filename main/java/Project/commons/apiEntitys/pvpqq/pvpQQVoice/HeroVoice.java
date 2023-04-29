@@ -42,14 +42,14 @@ public class HeroVoice {
         return (dqpfyy5403 instanceof JSONArray);
     }
 
-	public Dqpfyy5403 getObj(){
-		JSONObject jo = (JSONObject) dqpfyy5403;
-		return jo.toJavaObject(Dqpfyy5403.class);
-	}
+    public Dqpfyy5403 getObj() {
+        JSONObject jo = (JSONObject) dqpfyy5403;
+        return jo.toJavaObject(Dqpfyy5403.class);
+    }
 
-	public Dqpfyy5403[] getArr(){
-		JSONArray jo = (JSONArray) dqpfyy5403;
-		return jo.toJavaList(Dqpfyy5403.class).toArray(new Dqpfyy5403[0]);
-	}
+    public Dqpfyy5403[] getArr() {
+        JSONArray jo = (JSONArray) dqpfyy5403;
+        return jo.toJavaList(Dqpfyy5403.class).toArray(new Dqpfyy5403[0]);
+    }
 
 }

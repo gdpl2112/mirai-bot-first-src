@@ -30,10 +30,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static Project.commons.resouce_and_tool.CommonSource.*;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalNormalString.VERTIGO_ING;
-import static Project.commons.resouce_and_tool.ResourceSet.FinalString.*;
+import static Project.commons.rt.CommonSource.*;
+import static Project.commons.rt.ResourceSet.FinalFormat.HL_NOT_ENOUGH_TIPS0;
+import static Project.commons.rt.ResourceSet.FinalNormalString.VERTIGO_ING;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.TAG_REF_ATT;
 import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
@@ -69,7 +69,7 @@ public class GameJoinDetailService {
      * @param bo        if false don't broadcast
      * @return
      */
-    public static String attGho(long who, long att, DamageType dType, boolean show,  GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
+    public static String attGho(long who, long att, DamageType dType, boolean show, GhostLostBroadcast.KillType type, boolean mandatory, boolean bo) {
         GhostObj ghostObj = GameJoinDetailService.getGhostObjFrom(who);
         Long o0 = -ghostObj.getWhoMeet();
         synchronized (o0) {
@@ -142,12 +142,12 @@ public class GameJoinDetailService {
         }
     }
 
-    public static String attGho(long who, long att, DamageType dType, boolean show,  GhostLostBroadcast.KillType type, boolean mandatory) {
+    public static String attGho(long who, long att, DamageType dType, boolean show, GhostLostBroadcast.KillType type, boolean mandatory) {
         return attGho(who, att, dType, show, type, mandatory, true);
     }
 
     public static String attGho(long who, long att, DamageType dType, boolean show, GhostLostBroadcast.KillType type) {
-        return attGho(who, att, dType, show,  type, false);
+        return attGho(who, att, dType, show, type, false);
     }
 
     public static String willTips(Number qq, GhostObj ghostObj, boolean k) {
@@ -296,10 +296,10 @@ public class GameJoinDetailService {
         v = v > mxv / MAX_F ? mxv / MAX_F : v;
         if (isHelp) {
             v /= 2;
-            putPerson(getInfo(who).addXp(v));
+            (getInfo(who).addXp(v)).apply();
             return "\n由于在支援别人,所以获得经验减半 获得了" + v + "点经验";
         } else {
-            putPerson(getInfo(who).addXp(v));
+            (getInfo(who).addXp(v)).apply();
             return "\n获得了 " + ghostObj.getXp() + "点经验";
         }
     }
@@ -372,7 +372,7 @@ public class GameJoinDetailService {
             return join.join(id, who, group);
         } finally {
             int r = Tool.INSTANCE.RANDOM.nextInt(8) + 10;
-            putPerson(getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000));
+            (getInfo(who).setK2(System.currentTimeMillis() + r * 60 * 1000)).apply();
         }
     }
 
