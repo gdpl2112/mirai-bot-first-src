@@ -16,9 +16,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.Drawer;
 import io.github.kloping.number.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
 import static Project.commons.rt.ResourceSet.FinalNormalString.EMPTY_STR;
@@ -190,7 +188,14 @@ public class GameSkillController {
         StringBuilder sb = new StringBuilder();
         sb.append("只会发送有名字的魂技\n");
         Map<Integer, SkillInfo> infos = getSkillInfo(user.getId());
-        for (SkillInfo info : infos.values()) {
+        List<SkillInfo> cs = new ArrayList<>(infos.values());
+        Collections.sort(cs, new Comparator<SkillInfo>() {
+            @Override
+            public int compare(SkillInfo o1, SkillInfo o2) {
+                return o1.getSt() - o2.getSt();
+            }
+        });
+        for (SkillInfo info : cs) {
             if (info.getName() == null || info.getName().isEmpty()) continue;
             sb.append("第").append(NumberUtils.intNumber2ChineseNumber(info.getSt()))
                     .append("魂技:").append(info.getName())
