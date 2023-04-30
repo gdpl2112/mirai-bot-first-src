@@ -141,6 +141,13 @@ public class RestController0 {
         return "ok";
     }
 
+    @GetMapping("say")
+    public synchronized String add(@RequestParam("gid") Long gid, @RequestParam("pwd") String pwd, @RequestParam("s") String s) {
+        if (!pwd.equals(pwd1)) return "err";
+        MessageUtils.INSTANCE.sendMessageInGroup(s, gid);
+        return "ok";
+    }
+
     @GetMapping("getUser")
     public UserScore get(@RequestParam("qid") Long qid, @RequestParam("pwd") String pwd) {
         if (!pwd.equals(pwd1)) return null;
