@@ -63,15 +63,15 @@ public class ChallengeController {
         }
     }
 
-    @Action("创建试炼挑战")
-    private Object o1(SpUser user, SpGroup group) {
-        return service.createTrialChallenge(user.getId(), group.getId());
-    }
-
-    @Action("创建平衡挑战")
-    private Object o2(SpUser user, SpGroup group) {
-        return service.createTrial2Challenge(user.getId(), group.getId());
-    }
+//    @Action("创建试炼挑战")
+//    private Object o1(SpUser user, SpGroup group) {
+//        return service.createTrialChallenge(user.getId(), group.getId());
+//    }
+//
+//    @Action("创建平衡挑战")
+//    private Object o2(SpUser user, SpGroup group) {
+//        return service.createTrial2Challenge(user.getId(), group.getId());
+//    }
 
     @Action("挑战.+")
     private Object o4(SpUser user, @AllMess String s, SpGroup group) {
