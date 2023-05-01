@@ -6,7 +6,7 @@ import static Project.commons.uitls.FileDirUtils.copyEves;
  * @author github.kloping
  */
 public class Temp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         copyEves("D:\\Projects\\TeamProjects\\gdpl2112\\main-bot\\src\\main\\resource",
                 "D:\\Projects\\TeamProjects\\gdpl2112\\main-bot\\target\\classes", true);
         BotStarter.main(new String[]{});

@@ -7,6 +7,8 @@ import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.mirai.MiraiStarter;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
 
+import java.io.IOException;
+
 import static io.github.kloping.mirai0.Main.BootstarpResource.*;
 
 /**
@@ -17,7 +19,7 @@ public class BotStarter {
 
     public static boolean test = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         long t = System.currentTimeMillis();
         MiraiStarter.main(new String[]{"./works", "/console1", "true"});
         setterStarterApplication(BotStarter.class);
