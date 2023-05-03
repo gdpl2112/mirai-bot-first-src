@@ -23,10 +23,10 @@ public class BotStarter {
         long t = System.currentTimeMillis();
         MiraiStarter.main(new String[]{"./works", "/console1", "true"});
         setterStarterApplication(BotStarter.class);
+        startRegisterListenerHost(args);
         Boolean t0 = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(Boolean.class, "env.test");
         test = t0 == null ? false : t0;
         System.out.println(test ? "=============测试=============" : "长运行....................");
-        startRegisterListenerHost(args);
         datePath = "./Libs";
         init();
         SpringStarter.main(args);
