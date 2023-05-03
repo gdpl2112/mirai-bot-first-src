@@ -48,9 +48,6 @@ public class DefaultHandler extends SimpleListenerHost {
     private static final ExecutorService DAE_THREADS = Executors.newFixedThreadPool(10);
     public static MemberJoinRequestEvent joinRequestEvent;
 
-    static {
-    }
-
     public DefaultHandler() {
         super();
     }
@@ -198,5 +195,4 @@ public class DefaultHandler extends SimpleListenerHost {
         println(String.format("BOT(%s)上线了!!", event.getBot().getId()));
         BotInstance.instance = new BotInstance(event.getBot());
     }
-
 }
