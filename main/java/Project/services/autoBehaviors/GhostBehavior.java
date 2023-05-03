@@ -30,7 +30,8 @@ import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
  * @author github-kloping
  */
 public class GhostBehavior implements Runnable {
-    public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
+    public static final ExecutorService THREADS = new ThreadPoolExecutor(
+            15, 20, 7, TimeUnit.MINUTES, new ArrayBlockingQueue<>(20));
     public static final Map<Long, GhostBehavior> MAP = new HashMap<>();
 
     static {
@@ -75,9 +76,7 @@ public class GhostBehavior implements Runnable {
                         }
                     }
                     StringBuilder sb = new StringBuilder();
-                    sb.append(GameDataBase.getNameById(ghostObj.getId()))
-                            .append("对").append(Tool.INSTANCE.at(qid)).append("造成")
-                            .append(at2).append("点伤害\n").append(GameDetailService.beaten(qid, -2, at2, DamageType.AD));
+                    sb.append(GameDataBase.getNameById(ghostObj.getId())).append("对").append(Tool.INSTANCE.at(qid)).append("造成").append(at2).append("点伤害\n").append(GameDetailService.beaten(qid, -2, at2, DamageType.AD));
                     Public.EXECUTOR_SERVICE.submit(() -> send(sb.toString()));
                 }
             } catch (InterruptedException e) {
@@ -128,6 +127,7 @@ public class GhostBehavior implements Runnable {
             }
         }
     };
+
     public GhostBehavior(Long qq, SpGroup group) {
         this.qq = qq;
         this.group = group;

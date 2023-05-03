@@ -66,7 +66,6 @@ import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
 public class GameServiceImpl implements IGameService {
 
     public static final ExecutorService threads = Executors.newFixedThreadPool(10);
-    private static final String FORMATRH = "%s-in-%s";
     public int st = 24;
     @AutoStand
     GameController gameController;
@@ -76,7 +75,6 @@ public class GameServiceImpl implements IGameService {
     PlayerBehavioralManager behavioral;
     @AutoStand
     ZongMenServiceImpl zongMenService;
-
     @Override
     public String xl(Long who) {
         PersonInfo is = getInfo(who);
@@ -490,6 +488,8 @@ public class GameServiceImpl implements IGameService {
         }
     }
 
+//    private static final String FORMATRH = "%s-in-%s";
+
     public String joinHh(Long who, Integer id) {
         if (id > 200 && id < 250) {
             PersonInfo personInfo = getInfo(who);
@@ -519,7 +519,7 @@ public class GameServiceImpl implements IGameService {
     }
 
     private boolean randHh(Integer id, long who, int level) {
-        KlopingWebDataBaseInteger kw = new KlopingWebDataBaseInteger(String.format(FORMATRH, who, level), 0);
+//        KlopingWebDataBaseInteger kw = new KlopingWebDataBaseInteger(String.format(FORMATRH, who, level), 0);
         boolean k1 = (id >= 204 && level < 10);
         boolean k2 = (id >= 205 && level < 50);
         boolean k3 = (id >= 206 && level < 70);
@@ -534,9 +534,9 @@ public class GameServiceImpl implements IGameService {
         if (personInfo.getLevel() > 60) r1--;
         if (personInfo.getLevel() > 90) r1--;
         if (personInfo.getLevel() > 120) r1--;
-        int r0 = kw.getValue(id);
-        r1 -= r0;
-        kw.setValue(id, r0 + 1);
+//        int r0 = kw.getValue(id);
+//        r1 -= r0;
+//        kw.setValue(id, r0 + 1);
         switch (id) {
             case 201:
                 return true;

@@ -28,9 +28,9 @@ public class TalkWithTimeController {
             , "祝大家在新的年份里,运气超欧,抽奖不歪,要啥有啥!"
     };
 
+
     public TalkWithTimeController() {
         println(this.getClass().getSimpleName() + "构建");
-
     }
 
     @Before

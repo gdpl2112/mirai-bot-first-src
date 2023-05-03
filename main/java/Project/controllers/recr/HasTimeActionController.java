@@ -9,8 +9,6 @@ import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
@@ -51,30 +49,29 @@ public class HasTimeActionController {
             public void onReceive(long who, Set<Long> withs, GhostObj ghostObj, GhostLostBroadcast.KillType killType) {
 //                HasTimeActionController.rand99(who);
 //                HasTimeActionController.rand101(who);
-                HasTimeActionController.rand51(who, ghostObj.getLevel());
+//                HasTimeActionController.rand51(who, ghostObj.getLevel());
             }
         });
     }
 
-    private static void rand51(long qid, Integer level) {
-        String msg = "";
-        if (level >= 100000) {
-            int r = Tool.INSTANCE.RANDOM.nextInt(5);
-            if (r == 0) {
-                GameDataBase.addToBgs(qid, 130, 2, ObjType.got);
-                msg = "获得两张奖券" + SourceDataBase.getImgPathById(130);
-            } else {
-                GameDataBase.addToBgs(qid, 130, ObjType.got);
-                msg = "获得一张奖券" + SourceDataBase.getImgPathById(130);
-            }
-        }
-        if (!msg.isEmpty()) {
-            long gid = MemberUtils.getRecentSpeechesGid(qid);
-            MessageUtils.INSTANCE.sendMessageInGroupWithAt(msg, gid, qid);
-        }
-    }
-
-
+//    private static void rand51(long qid, Integer level) {
+//        String msg = "";
+//        if (level >= 100000) {
+//            int r = Tool.INSTANCE.RANDOM.nextInt(5);
+//            if (r == 0) {
+//                GameDataBase.addToBgs(qid, 130, 2, ObjType.got);
+//                msg = "获得两张奖券" + SourceDataBase.getImgPathById(130);
+//            } else {
+//                GameDataBase.addToBgs(qid, 130, ObjType.got);
+//                msg = "获得一张奖券" + SourceDataBase.getImgPathById(130);
+//            }
+//        }
+//        if (!msg.isEmpty()) {
+//            long gid = MemberUtils.getRecentSpeechesGid(qid);
+//            MessageUtils.INSTANCE.sendMessageInGroupWithAt(msg, gid, qid);
+//        }
+//    }
+//
 //    public static Set<Long> received = new HashSet<>();
 //
 //    static {
@@ -189,7 +186,6 @@ public class HasTimeActionController {
 
     @Action("兑换<.+=>str>")
     public Object a1(@Param("str") String str, Long q) {
-//        return "活动未开启";
         try {
             int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
             Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
@@ -212,7 +208,6 @@ public class HasTimeActionController {
 
     @Action("兑换列表")
     private synchronized String a2() {
-//        return "活动未开启";
         if (a2.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             AC_ITEMS_MAP.forEach((k, kv) -> {

@@ -26,11 +26,13 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 5.3 :活动结束,更新每周可`兑换奖券` 10000金魂币兑换一张 上限五张 每周刷新").append(NEWLINE);
+        UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 4.29:第二武魂开放`激活第二武魂`以激活;抽奖机制升级,详情见奖池;5.1活动,每击杀一只十万年或以上的魂兽奖励1~2张奖券活动至5.3").append(NEWLINE);
         UPDATE_LOG.append(" 4.24:切换武魂,激活第二武魂,抽奖更新,将[奖池,抽奖,抽奖十连],第二武魂测试/").append(NEWLINE);
         UPDATE_LOG.append(" 4.17:成就更新,当选择攻击魂兽时魂兽不随着玩家的选择攻击而攻击玩家,转为魂兽自主的向玩家攻击").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);
-        UPDATE_LOG.append(" 3.24:修改魂环吸收概率,每次吸收失败增加10%").append(NEWLINE);
+//        UPDATE_LOG.append(" 3.24:修改魂环吸收概率,每次吸收失败增加10%").append(NEWLINE);
         UPDATE_LOG.append(" 3.15:开放'创建试炼挑战','创建平衡挑战'").append(NEWLINE);
         UPDATE_LOG.append(" 3.12:放弃任务功能").append(NEWLINE);
         UPDATE_LOG.append(" 2.18:代码重构").append(NEWLINE);

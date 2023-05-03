@@ -97,11 +97,6 @@ public class EntertainmentController {
                 suning.ct().getLong("currentTime"));
     }
 
-    @Action("2传话<.+=>str>")
-    public Object transTo2(@Param("str") String str, SpGroup group, Long qq) {
-        return otherService.trans2(str, group, qq);
-    }
-
     @Action("传话<.+=>str>")
     public Object transTo(@Param("str") String str, SpGroup group, Long qq) {
         return otherService.trans(str, group, qq);

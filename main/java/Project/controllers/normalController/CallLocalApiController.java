@@ -269,5 +269,4 @@ public class CallLocalApiController {
         MessageUtils.INSTANCE.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
         return null;
     }
-
 }

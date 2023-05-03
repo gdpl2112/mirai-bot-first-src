@@ -6,6 +6,7 @@ import Project.commons.SpUser;
 import Project.commons.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.auto.ControllerSource;
+import Project.controllers.auto.TimerController;
 import Project.controllers.normalController.ScoreController;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
@@ -18,7 +19,6 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.WhInfo;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import java.text.SimpleDateFormat;
@@ -129,7 +129,8 @@ public class GameController {
         COM13 = sb.toString();
     }
 
-    private final SimpleDateFormat dfn = new SimpleDateFormat("yyyy/MM/dd");
+    private static final SimpleDateFormat DFN = new SimpleDateFormat("yyyy/MM/dd");
+
     @AutoStand
     ScoreController c1;
     @AutoStand
@@ -165,7 +166,7 @@ public class GameController {
         StringBuilder sb = new StringBuilder();
         int n = Tool.INSTANCE.getOldestWeekOne();
         for (int i = 0; i <= n; i++) {
-            String pwd = String.format(PWD_FORMAT, dfn.format(new Date(System.currentTimeMillis() - (DAY_LONG * i))), BootstarpResource.BOT.getId());
+            String pwd = String.format(PWD_FORMAT, DFN.format(new Date(System.currentTimeMillis() - (DAY_LONG * i))), BootstarpResource.BOT.getId());
             sb.append(pwd).append(",");
         }
         String pwd = sb.toString();
@@ -207,9 +208,18 @@ public class GameController {
         }
     }
 
+    static {
+        TimerController.ZERO_RUNS.add(() -> {
+            String pwd = String.format(PWD_FORMAT, DFN.format(new Date(System.currentTimeMillis() -
+                    1000 * 60 * 60 * 23
+            )), BootstarpResource.BOT.getId());
+            ControllerSource.klopingWeb.del("", pwd);
+        });
+    }
+
     @Action("魂师签到")
     public String qd(Long qq, SpGroup group) {
-        String pwd = String.format(PWD_FORMAT, dfn.format(new Date()), BootstarpResource.BOT.getId());
+        String pwd = String.format(PWD_FORMAT, DFN.format(new Date()), BootstarpResource.BOT.getId());
         KlopingWebDataBaseBoolean dbb = new KlopingWebDataBaseBoolean(pwd, false);
         Boolean v = dbb.getValue(qq);
         if (!v) {
@@ -330,9 +340,7 @@ public class GameController {
         int r = 1;
         for (Map.Entry<String, Integer> entry : phGet(n)) {
             String sn = getFhName(Long.valueOf(entry.getKey()));
-            sb.append("第" + (r++)).append(":")
-                    .append(sn.isEmpty() ? entry.getKey() : sn)
-                    .append("==>\r").append(n <= 10 ? "" : "\r\n\t").append(entry.getValue()).append("级(");
+            sb.append("第" + (r++)).append(":").append(sn.isEmpty() ? entry.getKey() : sn).append("==>\r").append(n <= 10 ? "" : "\r\n\t").append(entry.getValue()).append("级(");
             if (entry.getValue() >= 150) {
                 sb.append(Tool.INSTANCE.filterBigNum(String.valueOf(getInfo(entry.getKey()).getXp()))).append(")");
             }

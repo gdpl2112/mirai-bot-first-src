@@ -4,13 +4,18 @@ import Project.aSpring.SpringBootResource;
 import Project.commons.RaffleE;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
+import Project.commons.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
+import Project.controllers.auto.ControllerSource;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
+import Project.utils.KlopingWebDataBaseInteger;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.RedPacket;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
@@ -24,7 +29,9 @@ import static Project.commons.rt.ResourceSet.FinalString.CLOSE_STR;
 import static Project.commons.rt.ResourceSet.FinalString.OPEN_STR;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
+import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
 import static Project.controllers.gameControllers.shoperController.ShopController.getNumAndPrice;
+import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
@@ -273,5 +280,61 @@ public class BaseController {
             builder.append(entry.getKey(), entry.getValue(), SourceDataBase.getImgPathById(id, false));
         }
         return getBd(user) + Tool.INSTANCE.pathToImg(GameDrawer.drawerDynamic(builder.build()));
+    }
+
+    public static final String DH_PWD_FORMAT = "duihgameqd:%s-%s:%s";
+
+    static {
+        MORNING_RUNNABLE.add(() -> {
+            if (Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[0])) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setFirstDayOfWeek(Calendar.MONDAY);
+                calendar.setMinimalDaysInFirstWeek(4);
+                int year = calendar.get(Calendar.YEAR);
+                calendar.setTimeInMillis(System.currentTimeMillis() - 1000 * 60 * 60 * 23);
+                int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+                String pwd = String.format(DH_PWD_FORMAT, year, weekOfYear, BootstarpResource.BOT.getId());
+                ControllerSource.klopingWeb.del("", pwd);
+            }
+        });
+    }
+
+    @Action("兑换奖券.*?")
+    private String duih(SpUser user, @AllMess String num) throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setMinimalDaysInFirstWeek(4);
+        int year = calendar.get(Calendar.YEAR);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        String pwd = String.format(DH_PWD_FORMAT, year, weekOfYear, BootstarpResource.BOT.getId());
+        KlopingWebDataBaseInteger dbb = new KlopingWebDataBaseInteger(pwd, 0);
+        long qid = user.getId();
+        Integer v = dbb.getValue(qid);
+        if (v < 5) {
+            int n = 1;
+            String ll = Tool.INSTANCE.findNumberFromString(num);
+            if (ll != null && !ll.isEmpty()) n = Integer.parseInt(ll);
+            if (v + n > 5) {
+                return "超额兑换!";
+            } else {
+                long nm = n * 10000;
+                PersonInfo pInfo = getInfo(qid);
+                if (pInfo.getGold() < nm) {
+                    return "金魂币不足!";
+                } else {
+                    pInfo.addGold(-nm, new TradingRecord()
+                            .setType1(TradingRecord.Type1.lost)
+                            .setType0(TradingRecord.Type0.gold)
+                            .setTo(-1).setMain(qid).setFrom(qid)
+                            .setDesc("兑换奖券").setMany(nm));
+                    GameDataBase.addToBgs(qid, 130, n, ObjType.got);
+                    dbb.setValue(qid, v + n);
+                    return "兑换成功";
+                }
+            }
+        } else {
+            return "兑换上限!";
+        }
     }
 }

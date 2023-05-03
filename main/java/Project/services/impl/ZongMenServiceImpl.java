@@ -141,7 +141,10 @@ public class ZongMenServiceImpl implements IZongMenService {
     public String createNow(Long who, String name, SpGroup group) {
         if (name == null || name.isEmpty() || NULL_LOW_STR.equals(name)) return ("创建异常..");
         ZongMenDataBase.createNewZong(who, name);
-        (GameDataBase.getInfo(who).addGold(-450L, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("创建宗门").setMany(450))).apply();
+        (GameDataBase.getInfo(who).addGold(-450L,
+                new TradingRecord().setType1(TradingRecord.Type1.lost)
+                        .setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who)
+                        .setDesc("创建宗门").setMany(450))).apply();
         GameDataBase.getInfo(who).setJk1(System.currentTimeMillis() + 1000 * 60 * 60 * 12).apply();
         return zongInfo(who, group);
     }
