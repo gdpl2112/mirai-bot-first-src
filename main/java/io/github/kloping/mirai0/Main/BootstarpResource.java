@@ -74,9 +74,13 @@ public class BootstarpResource {
         if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
         KlopingWeb kloping = StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
         String r0 = kloping.verify0(code);
-        if (!Boolean.valueOf(r0))
-            throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
-        else StarterApplication.logger.info("授权码验证成功√√√");
+        if (!Boolean.valueOf(r0)) {
+            try {
+                throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
+            } finally {
+                System.exit(0);
+            }
+        } else StarterApplication.logger.info("授权码验证成功√√√");
     }
 
     public static boolean isSuperQ(long q) {

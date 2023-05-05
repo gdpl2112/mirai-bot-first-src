@@ -318,7 +318,7 @@ public class BaseController {
             if (v + n > 5) {
                 return "超额兑换!";
             } else {
-                long nm = n * 10000;
+                long nm = n * 2000;
                 PersonInfo pInfo = getInfo(qid);
                 if (pInfo.getGold() < nm) {
                     return "金魂币不足!";

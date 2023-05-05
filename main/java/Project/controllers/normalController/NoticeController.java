@@ -26,7 +26,8 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
-        UPDATE_LOG.append(" 5.3 :活动结束,更新每周可`兑换奖券` 10000金魂币兑换一张 上限五张 每周刷新").append(NEWLINE);
+        UPDATE_LOG.append(" 5.05:修复已知bug,兑换奖券价格下调至2000").append(NEWLINE);
+        UPDATE_LOG.append(" 5.03:活动结束,更新每周可`兑换奖券` 10000金魂币兑换一张 上限五张 每周刷新").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 4.29:第二武魂开放`激活第二武魂`以激活;抽奖机制升级,详情见奖池;5.1活动,每击杀一只十万年或以上的魂兽奖励1~2张奖券活动至5.3").append(NEWLINE);
         UPDATE_LOG.append(" 4.24:切换武魂,激活第二武魂,抽奖更新,将[奖池,抽奖,抽奖十连],第二武魂测试/").append(NEWLINE);
