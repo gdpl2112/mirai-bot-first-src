@@ -89,8 +89,7 @@ public class ScoreController {
         try {
             if (longs.contains(qq.getId())) return ILLEGAL_OPERATION;
             long who = Project.utils.Utils.getAtFromString(str);
-            if (who == -1)
-                return NOT_FOUND_AT;
+            if (who == -1) return NOT_FOUND_AT;
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             str = str.replaceFirst(Long.toString(who), "");
             num = Long.valueOf(Tool.INSTANCE.findNumberFromString(str));
@@ -105,8 +104,7 @@ public class ScoreController {
     public String robbery(SpUser qq, @AllMess String str) {
         try {
             long who = Project.utils.Utils.getAtFromString(str);
-            if (who == -1)
-                return NOT_FOUND_AT;
+            if (who == -1) return NOT_FOUND_AT;
             String numStr = Tool.INSTANCE.findNumberFromString(str.replace(String.valueOf(who), ""));
             if (numStr != null && !numStr.trim().isEmpty()) {
                 int n = Integer.parseInt(numStr);
@@ -183,8 +181,7 @@ public class ScoreController {
         StringBuilder builder = new StringBuilder();
         try {
             long who = Project.utils.Utils.getAtFromString(str);
-            if (who == -1)
-                return builder.append("谁？").toString();
+            if (who == -1) return builder.append("谁？").toString();
             if (!DataBase.exists(who)) return PLAYER_NOT_REGISTERED;
             UserScore ls = DataBase.getUserInfo(who);
             return builder.append("ta").append("今天发言了:" + ls.getTimes() + "次\n" + "累计发言:" + ls.getSTimes() + "次").toString();
@@ -205,8 +202,7 @@ public class ScoreController {
             ++na;
             Long qid = score.getWho();
             Integer num = score.getSTimes().intValue();
-            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
-                    .append("=>").append("累计发言了").append(num).append("次\n");
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group)).append("=>").append("累计发言了").append(num).append("次\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
@@ -223,8 +219,7 @@ public class ScoreController {
             ++na;
             Long qid = score.getWho();
             Integer num = score.getTimes().intValue();
-            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
-                    .append("=>").append("今日发言了").append(num).append("次\n");
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group)).append("=>").append("今日发言了").append(num).append("次\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
@@ -245,8 +240,7 @@ public class ScoreController {
         for (UserScore score : list) {
             ++na;
             Long qid = score.getWho();
-            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group))
-                    .append("=>\n\t").append(score.getScore()).append("积分\n");
+            sb.append("第").append(na).append(": ").append(MemberUtils.getNameFromGroup(qid, group)).append("=>\n\t").append(score.getScore()).append("积分\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }

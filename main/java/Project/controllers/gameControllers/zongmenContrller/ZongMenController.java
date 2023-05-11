@@ -179,9 +179,7 @@ public class ZongMenController {
         for (Map.Entry<Long, Integer> e1 : entryList2) {
             try {
                 Zon zon = getZonInfo(e1.getKey());
-                sb.append(i).append(":").append(getFhName(e1.getKey(), true))
-                        .append("(").append(zon.getLevel() == 1 ? "长老" : zon.getLevel() == 2 ? "宗主" : "")
-                        .append(e1.getValue()).append("点活跃").append(NEWLINE);
+                sb.append(i).append(":").append(getFhName(e1.getKey(), true)).append("(").append(zon.getLevel() == 1 ? "长老" : zon.getLevel() == 2 ? "宗主" : "").append(e1.getValue()).append("点活跃").append(NEWLINE);
             } catch (Exception e) {
                 e.printStackTrace();
             }

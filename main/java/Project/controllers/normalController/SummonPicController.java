@@ -8,7 +8,6 @@ import Project.commons.apiEntitys.baiduShitu.response.BaiduShituResponse;
 import Project.interfaces.httpApi.Atoolbox;
 import Project.interfaces.httpApi.IBaiduShitu;
 import Project.interfaces.httpApi.KlopingWeb;
-import Project.plugins.All;
 import Project.plugins.BaiduShituDetail;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -232,8 +231,8 @@ public class SummonPicController {
             @Override
             public Object onReceive(long qid, long gid, String pic, Object[] objects) {
                 if (qId == qid) {
-                    String tips = MessageUtils.INSTANCE.getImageUrlFromMessageString(pic);
-                    String end = "识别结果:\n" + All.getTextFromPic(tips);
+                    String url = MessageUtils.INSTANCE.getImageUrlFromMessageString(pic);
+                    String end = "识别结果:\n" + klopingWeb.ocr(url);
                     MessageUtils.INSTANCE.sendMessageInGroupWithAt(end, gid, qid);
                     return "ok";
                 }

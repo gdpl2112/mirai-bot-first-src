@@ -6,6 +6,7 @@ import Project.plugins.NetMain;
 import io.github.kloping.MySpringTool.annotations.http.*;
 import io.github.kloping.mirai0.commons.entity.PayOut;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -243,4 +244,13 @@ public interface KlopingWeb {
                @ParamName("title") String title,
                @ParamName("payId") String payId,
                @ParamName("gid") Long gid);
+
+    /**
+     * ocr识别
+     *
+     * @param url
+     * @return
+     */
+    @GetPath("/api/ocr")
+    String ocr(@ParamName("url") String url);
 }

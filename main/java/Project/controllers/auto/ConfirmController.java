@@ -65,9 +65,7 @@ public class ConfirmController {
                 try {
                     Thread.sleep(1000);
                     t--;
-                    boolean k =
-                            (ConfirmMap.keySet().contains(id) && ConfirmMap.containsKey(id)) ||
-                                    (AgreeMap.containsKey(id) && AgreeMap.keySet().contains(id));
+                    boolean k = (ConfirmMap.keySet().contains(id) && ConfirmMap.containsKey(id)) || (AgreeMap.containsKey(id) && AgreeMap.keySet().contains(id));
                     if (k) {
                         if (t > 0) {
                             run();
