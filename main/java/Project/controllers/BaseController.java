@@ -286,12 +286,14 @@ public class BaseController {
 
     static {
         MORNING_RUNNABLE.add(() -> {
-            if (Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[0])) {
+            boolean k1 = Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[1]);
+            boolean k2 = Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[5]);
+            if (k1 || k2) {
                 Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 6);
                 calendar.setFirstDayOfWeek(Calendar.MONDAY);
                 calendar.setMinimalDaysInFirstWeek(4);
                 int year = calendar.get(Calendar.YEAR);
-                calendar.setTimeInMillis(System.currentTimeMillis() - 1000 * 60 * 60 * 23);
                 int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
                 String pwd = String.format(DH_PWD_FORMAT, year, weekOfYear, BootstarpResource.BOT.getId());
                 ControllerSource.klopingWeb.del("", pwd);

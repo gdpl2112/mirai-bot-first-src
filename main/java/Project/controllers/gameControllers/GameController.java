@@ -210,11 +210,15 @@ public class GameController {
 
     static {
         TimerController.ZERO_RUNS.add(() -> {
-            if (Tool.INSTANCE.getWeekOfDate(new Date()).equals(Tool.INSTANCE.WEEK_DAYS[0])) {
-                String pwd = String.format(PWD_FORMAT, DFN.format(new Date(System.currentTimeMillis() -
-                        1000 * 60 * 60 * 23
-                )), BootstarpResource.BOT.getId());
-                ControllerSource.klopingWeb.del("", pwd);
+            String ws = Tool.INSTANCE.getWeekOfDate(new Date());
+            if (ws.equals(Tool.INSTANCE.WEEK_DAYS[1])) {
+                for (int i = 1; i <= 7; i++) {
+                    String pwd = String.format(PWD_FORMAT,
+                            DFN.format(new Date(System.currentTimeMillis() -
+                                    1000 * 60 * 60 * 24 * i
+                            )), BootstarpResource.BOT.getId());
+                    ControllerSource.klopingWeb.del("", pwd);
+                }
             }
         });
     }
