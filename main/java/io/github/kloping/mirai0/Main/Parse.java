@@ -10,6 +10,25 @@ import static Project.commons.Father.SPLIT;
  * @author github.kloping
  */
 public class Parse {
+
+    public static void main(String[] args) {
+        Object o = aStart("[Kloping/Mirai_Plugins_Auto_Reply] 这是一个测试issue (Issue #25)\n" +
+                "HRS <notifications@github.com>\n" +
+                "这是一个测试issue\n" +
+                "\n" +
+                "-- \n" +
+                "Reply to this email directly or view it on GitHub:\n" +
+                "https://github.com/Kloping/Mirai_Plugins_Auto_Reply/issues/25\n" +
+                "You are receiving this because you are subscribed to this thread.\n" +
+                "\n" +
+                "Message ID: <Kloping/Mirai_Plugins_Auto_Reply/issues/25@github.com>\n" +
+                "这是一个测试issue\n" +
+                "—\n" +
+                "Reply to this email directly, view it on GitHub, or unsubscribe.\n" +
+                "You are receiving this because you are subscribed to this thread.Message ID: <Kloping/Mirai_Plugins_Auto_Reply/issues/25@github.com>\n");
+        System.out.println();
+    }
+
     public static final Pattern PATTER_PIC = Pattern.compile("(<Pic:[^>^]+?>|\\[Pic:[^>^]+?])");
     private static final Pattern PATTER_FACE = Pattern.compile("(<Face:\\d+>|\\[Face:\\d+])");
     private static final Pattern PATTER_URL = Pattern.compile("<Url:[^>^]+>");

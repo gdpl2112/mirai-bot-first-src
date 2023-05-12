@@ -42,7 +42,7 @@ public class MessageUtils {
     private List<Object> append(String sb, MessageChainBuilder builder, Contact contact) {
         List<Object> lls = aStart(sb);
         for (Object o : lls) {
-            String str = o.toString();
+            final String str = o.toString();
             boolean k = (str.startsWith("<") || str.startsWith("[")) && !str.matches("\\[.+]请使用最新版手机QQ体验新功能");
             if (k) {
                 String ss = str.replace("<", "").replace(">", "").replace("[", "").replace("]", "");
@@ -64,6 +64,7 @@ public class MessageUtils {
                         builder.append(createVoiceMessageInGroup(s2, contact.getId()));
                         break;
                     default:
+                        builder.append(new PlainText(str));
                         break;
                 }
             } else {
