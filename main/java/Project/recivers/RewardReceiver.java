@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RewardReceiver {
     private Map<Long, List<InviteRecord>> recordMap = new LinkedHashMap<>();
-    public static final String PATH = "./conf/invite-recorde.json";
+    public static final String PATH = "./conf/invite-recorde.hml";
 
     public RewardReceiver() {
         System.out.println("==============" + this.getClass().getName() + "===============");
