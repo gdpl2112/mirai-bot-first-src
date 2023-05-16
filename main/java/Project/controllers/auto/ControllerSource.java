@@ -3,6 +3,7 @@ package Project.controllers.auto;
 import Project.commons.apiEntitys.RunnableWithOver;
 import Project.controllers.FirstController;
 import Project.controllers.gameControllers.GameController2;
+import Project.controllers.normalController.SessionController;
 import Project.controllers.normalController.SummonPicController;
 import Project.interfaces.httpApi.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
@@ -51,6 +52,8 @@ public class ControllerSource {
     public static GameServiceImpl gameService;
     @AutoStand
     public static FirstController firstController;
+    @AutoStand
+    public static SessionController sessionController;
 
     @AutoStand
     public static GameController2 gameController2;
@@ -69,6 +72,7 @@ public class ControllerSource {
 
     @AutoStand(id = "gson0")
     public static Gson gson0;
+
 
     public static GameReceiver0 gameReceiver0 = new GameReceiver0();
     public static RewardReceiver rewardReceiver = new RewardReceiver();

@@ -28,8 +28,6 @@ public class SessionController {
 
     public static final Map<String, String> SUPPORTED_LANGUAGE = new ConcurrentHashMap<>();
     private static final ExecutorService RUN_CODE_DAEMONS = Executors.newFixedThreadPool(10, new DefaultThreadFactory("runCodeDaemons"));
-    @AutoStand
-    public static SessionController INSTANCE;
 
     static {
         SUPPORTED_LANGUAGE.put("java", "java");

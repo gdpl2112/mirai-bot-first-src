@@ -84,7 +84,7 @@ public class DefaultHandler extends SimpleListenerHost {
         long id = -1;
         try {
             id = event.getSender().getId();
-            boolean inS = SessionController.INSTANCE.contains(id);
+            boolean inS = ControllerSource.sessionController.contains(id);
             group = event.getGroup();
             eGroup = SpGroup.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             SpUser eUser = SpUser.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
@@ -95,7 +95,7 @@ public class DefaultHandler extends SimpleListenerHost {
                 }
                 StarterApplication.executeMethod(id, text, id, eUser, eGroup, 0, event);
             } else {
-                SessionController.INSTANCE.gotoSession(group, text, id);
+                ControllerSource.sessionController.gotoSession(group, text, id);
             }
         } catch (Exception e) {
             e.printStackTrace();
