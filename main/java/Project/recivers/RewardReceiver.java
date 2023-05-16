@@ -28,7 +28,7 @@ public class RewardReceiver {
         System.out.println("==============" + this.getClass().getName() + "===============");
         try {
             recordMap = HMLObject.parseObject(FileUtils.getStringFromFile(PATH), recordMap.getClass());
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
