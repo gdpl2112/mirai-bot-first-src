@@ -18,7 +18,7 @@ public class GotOrLostObjBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, int id, int num, ObjType type) {
-        for (Receiver receiver : receivers) {
+        for (Receiver receiver : RECEIVERS) {
             if (receiver instanceof GotOrLostReceiver)
                 ((GotOrLostReceiver) receiver).onReceive(who, id, num, type);
         }

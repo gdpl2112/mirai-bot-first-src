@@ -100,7 +100,7 @@ public abstract class Task {
     }
 
     public void destroy() {
-        Broadcast.receivers.remove(getReceiver());
+        Broadcast.RECEIVERS.remove(getReceiver());
         deleteTask(Task.this);
         TASK_RUNNABLE.remove(this.runnable);
     }

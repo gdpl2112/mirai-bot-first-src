@@ -3,10 +3,10 @@ package Project.interfaces.httpApi;
 import Project.commons.apiEntitys.*;
 import Project.commons.apiEntitys.kloping.VideoAnimeSource;
 import Project.plugins.NetMain;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.*;
 import io.github.kloping.mirai0.commons.entity.PayOut;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,10 +44,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("/api/search/pic")
-    PicData getPicNum(
-            @ParamName("keyword") String word
-            , @DefaultValue("15") @ParamName("num") Integer num
-            , @DefaultValue("baidu") @ParamName("type") String type);
+    PicData getPicNum(@ParamName("keyword") String word, @DefaultValue("15") @ParamName("num") Integer num, @DefaultValue("baidu") @ParamName("type") String type);
 
     /**
      * 解析图片
@@ -94,9 +91,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("api/search/video")
-    VideoAnimeSource[] videoSearch(@ParamName("keyword") String keyword
-            , @ParamName("type") String type
-    );
+    VideoAnimeSource[] videoSearch(@ParamName("keyword") String keyword, @ParamName("type") String type);
 
     /**
      * 获取视频
@@ -107,10 +102,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("api/search/video")
-    VideoAnimeSource videoSearch(@ParamName("keyword") String keyword
-            , @ParamName("type") String type
-            , @ParamName("url") String url
-    );
+    VideoAnimeSource videoSearch(@ParamName("keyword") String keyword, @ParamName("type") String type, @ParamName("url") String url);
 
     /**
      * 验证
@@ -143,12 +135,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("/api/throwBottle")
-    String throwBottle(
-            @ParamName("gid") Long gid,
-            @ParamName("sid") Long sid,
-            @ParamName("message") String message,
-            @ParamName("name") String name
-    );
+    String throwBottle(@ParamName("gid") Long gid, @ParamName("sid") Long sid, @ParamName("message") String message, @ParamName("name") String name);
 
     /**
      * pickUP
@@ -235,15 +222,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("/api/group/pay")
-    PayOut pay(@ParamName("skey") String skey,
-               @ParamName("pskey") String pskey,
-               @ParamName("uin") Long uin,
-               @ParamName("qq") Long qq,
-               @ParamName("select") Integer select,
-               @ParamName("jie") Float jie,
-               @ParamName("title") String title,
-               @ParamName("payId") String payId,
-               @ParamName("gid") Long gid);
+    PayOut pay(@ParamName("skey") String skey, @ParamName("pskey") String pskey, @ParamName("uin") Long uin, @ParamName("qq") Long qq, @ParamName("select") Integer select, @ParamName("jie") Float jie, @ParamName("title") String title, @ParamName("payId") String payId, @ParamName("gid") Long gid);
 
     /**
      * ocr识别
@@ -253,4 +232,13 @@ public interface KlopingWeb {
      */
     @GetPath("/api/ocr")
     String ocr(@ParamName("url") String url);
+
+    /**
+     * 行政代码
+     *
+     * @param name
+     * @return
+     */
+    @GetPath("/api/acode")
+    JSONObject acode(@ParamName("name") String name);
 }

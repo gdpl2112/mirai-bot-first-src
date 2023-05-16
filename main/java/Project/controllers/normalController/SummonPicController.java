@@ -51,10 +51,6 @@ public class SummonPicController {
 
     @AutoStand
     Atoolbox atoolbox;
-
-    @AutoStand
-    IBaiduShitu iBaiduShitu;
-
     public SummonPicController() {
         println(this.getClass().getSimpleName() + "构建");
     }
@@ -239,65 +235,6 @@ public class SummonPicController {
                 return null;
             }
         });
-    }
-
-    @Action("/搜图.+")
-    public Object searchPic(@AllMess String mess, SpGroup group, long q1) throws InterruptedException {
-        net.mamoe.mirai.contact.Group g = BOT.getGroup(group.getId());
-        Long q = Project.utils.Utils.getAtFromString(mess);
-        String urlStr = null;
-        if (q == -1) {
-            urlStr = MessageUtils.INSTANCE.getImageUrlFromMessageString(mess);
-            mess = mess.replace(MessageUtils.INSTANCE.getImageIdFromMessageString(mess), "");
-            if (urlStr == null) {
-                MessageUtils.INSTANCE.sendMessageInGroup("请在发送要搜索的图片", group.getId());
-                PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
-                    @Override
-                    public Object onReceive(long qid, long gid, String pic, Object[] objects) {
-                        if (q1 == qid) {
-                            String urlStr = null;
-                            urlStr = MessageUtils.INSTANCE.getImageUrlFromMessageString(pic);
-                            int i = 6;
-                            BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
-                            BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
-                            Iterator<Project.commons.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
-                            List<String> list = new LinkedList();
-                            while (iterator.hasNext() && list.size() <= i) {
-                                Project.commons.apiEntitys.baiduShitu.response.List e = iterator.next();
-                                try {
-                                    String title = getTitle(e.getFromUrl());
-                                    list.add(Tool.INSTANCE.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
-                                } catch (Throwable ex) {
-                                }
-                            }
-                            MessageUtils.INSTANCE.sendMessageByForward(gid, list.toArray());
-                            return "ok";
-                        }
-                        return null;
-                    }
-                });
-            }
-        } else {
-            mess = mess.replace(q.toString(), "");
-            urlStr = Tool.INSTANCE.getTouUrl(q);
-            urlStr = Image.queryUrl(MessageUtils.INSTANCE.createImage(g, urlStr));
-        }
-        int i = 6;
-        Integer i1 = Tool.INSTANCE.getInteagerFromStr(mess);
-        i = i1 == null ? i : i1;
-        BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
-        BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
-        Iterator<Project.commons.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();
-        List<String> list = new LinkedList();
-        while (iterator.hasNext() && list.size() <= i) {
-            Project.commons.apiEntitys.baiduShitu.response.List e = iterator.next();
-            try {
-                String title = getTitle(e.getFromUrl());
-                list.add(Tool.INSTANCE.pathToImg(e.getThumbUrl()) + NEWLINE + "(" + title + ")" + NEWLINE + e.getFromUrl());
-            } catch (Throwable ex) {
-            }
-        }
-        return list.toArray();
     }
 
     @Action("/转字符图<.+=>str>")

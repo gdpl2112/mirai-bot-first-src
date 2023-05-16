@@ -14,7 +14,7 @@ public class JoinBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, int type) {
-        for (Receiver receiver : receivers) {
+        for (Receiver receiver : RECEIVERS) {
             if (receiver instanceof JoinReceiver)
                 ((JoinReceiver) receiver).onReceive(who, type);
         }

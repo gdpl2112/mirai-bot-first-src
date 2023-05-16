@@ -14,18 +14,18 @@ import java.util.concurrent.Executors;
 /**
  * @author github-kloping
  */
-public abstract class Broadcast {
-    public static final ExecutorService threads = Executors.newFixedThreadPool(10);
-    public static final Map<Class<? extends Broadcast>, Broadcast> cls2Broadcast = new ConcurrentHashMap<>();
-    public static final Map<String, Broadcast> id2Broadcasts = new ConcurrentHashMap<>();
-    public static final LinkedHashSet<Receiver> receivers = new LinkedHashSet<>();
+public abstract class Broadcast<T extends Receiver> {
+    public static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
+    public static final Map<Class<? extends Broadcast>, Broadcast> CLASS_BROADCAST_CONCURRENT_HASH_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Broadcast> ID_2_BROADCASTS = new ConcurrentHashMap<>();
+    public static final LinkedHashSet<Receiver> RECEIVERS = new LinkedHashSet<>();
     protected String id;
     private Method method;
 
     public Broadcast(String id) {
         this.id = id;
-        cls2Broadcast.put(this.getClass(), this);
-        id2Broadcasts.put(id, this);
+        CLASS_BROADCAST_CONCURRENT_HASH_MAP.put(this.getClass(), this);
+        ID_2_BROADCASTS.put(id, this);
         for (Method declaredMethod : this.getClass().getDeclaredMethods()) {
             if ("broadcast".equals(declaredMethod.getName())) {
                 if (declaredMethod.getParameterCount() >= 1) {
@@ -58,12 +58,12 @@ public abstract class Broadcast {
         }
     }
 
-    public boolean add(Receiver receiver) {
-        return receivers.add(receiver);
+    public boolean add(T receiver) {
+        return RECEIVERS.add(receiver);
     }
 
-    public boolean remove(Receiver receiver) {
-        return receivers.remove(receiver);
+    public boolean remove(T receiver) {
+        return RECEIVERS.remove(receiver);
     }
 
     protected final void broadcast(Object... objects) {

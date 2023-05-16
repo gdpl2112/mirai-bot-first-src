@@ -220,6 +220,10 @@ public class BootstarpResource {
         });
     }
 
+    public static Bot getBot() {
+        return BOT;
+    }
+
     public static class Switch {
         public static boolean AllK = true;
         public static boolean sendFlashToSuper = true;

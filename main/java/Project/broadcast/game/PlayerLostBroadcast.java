@@ -16,7 +16,7 @@ public class PlayerLostBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, long from, PlayerLostReceiver.LostType type) {
-        Iterator<Receiver> receiverIterator = receivers.iterator();
+        Iterator<Receiver> receiverIterator = RECEIVERS.iterator();
         while (receiverIterator.hasNext()) {
             Receiver receiver = receiverIterator.next();
             if (receiver instanceof PlayerLostBroadcast.PlayerLostReceiver) {

@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
+import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
 import static io.github.kloping.mirai0.Main.Parse.PATTER_PIC;
 import static io.github.kloping.mirai0.Main.Parse.aStart;
 
@@ -28,7 +29,7 @@ import static io.github.kloping.mirai0.Main.Parse.aStart;
  * @author github-kloping
  */
 public class MessageUtils {
-    public static MessageUtils INSTANCE = new MessageUtils();
+    public static final MessageUtils INSTANCE = new MessageUtils();
     public final Map<String, Image> HIST_IMAGES = new HashMap<>();
 
     public MessageChain getMessageFromString(String str, Contact group) {
@@ -104,6 +105,12 @@ public class MessageUtils {
             HIST_IMAGES.put(path, image);
             if (HIST_IMAGES.size() >= 100) {
                 HIST_IMAGES.clear();
+            }
+        } else {
+            try {
+                image = Contact.uploadImage(group, new URL(Tool.INSTANCE.getTouUrl(1)).openStream());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
         return image;
@@ -340,6 +347,10 @@ public class MessageUtils {
             builder.add(BOT.getId(), BOT.getNick(), message);
         }
         group.sendMessage(builder.build());
+    }
+
+    public void sendMessageByForwardThread(long gid, Object[] objects) {
+        THREADS.submit(() -> sendMessageByForward(gid, objects));
     }
 
     /**

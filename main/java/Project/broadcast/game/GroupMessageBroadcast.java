@@ -21,7 +21,7 @@ public class GroupMessageBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, long from, String mess) {
-        for (Receiver receiver : receivers) {
+        for (Receiver receiver : RECEIVERS) {
             if (receiver instanceof GroupMessageBroadcast.GroupMessageReceiver) {
                 ((GroupMessageReceiver) receiver).onReceive(who, from, mess);
             }

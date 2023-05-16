@@ -154,7 +154,11 @@ public class DefaultHandler extends SimpleListenerHost {
         builder.append("备注: ").append("您是本群的第").append(String.valueOf(event.getGroup().getMembers().size() + 1)).append("位成员哦").append(new Face(13));
         event.getGroup().sendMessage(builder.build());
         if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1) {
-            join(event.getMember().getId(), event.getGroup());
+            long iq = -1;
+            if (event instanceof MemberJoinEvent.Invite) {
+                iq = ((MemberJoinEvent.Invite) event).getInvitor().getId();
+            }
+            join(event.getMember().getId(), event.getGroup(), iq);
         }
     }
 

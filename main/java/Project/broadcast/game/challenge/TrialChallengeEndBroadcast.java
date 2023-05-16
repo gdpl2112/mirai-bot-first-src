@@ -17,7 +17,7 @@ public class TrialChallengeEndBroadcast extends Broadcast {
     }
 
     public void broadcast(long q1, long q2, int w) {
-        for (Receiver receiver : receivers) {
+        for (Receiver receiver : RECEIVERS) {
             if (receiver instanceof TrialChallengeEndBroadcast.TrialChallengeReceiver)
                 ((TrialChallengeEndBroadcast.TrialChallengeReceiver) receiver).onReceive(q1, q2, w);
         }

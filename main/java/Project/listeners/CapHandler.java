@@ -23,11 +23,12 @@ import java.util.concurrent.Executors;
 public class CapHandler {
     public static final Map<Long, String> CAPING = new ConcurrentHashMap<>();
     public static final Map<Long, Group> CAP_TWO = new ConcurrentHashMap<>();
+    public static final Map<Long, Long> CAP_Q = new ConcurrentHashMap<>();
     public static final Map<Long, Integer> CAP_T = new ConcurrentHashMap<>();
     private static final Number MAX_WAIT = 300;
     private static final ExecutorService THREADS = Executors.newFixedThreadPool(10);
 
-    public static void join(long qid, Group group) {
+    public static void join(long qid, Group group, long iq) {
         if (DataBase.needCap(group.getId())) {
             Object[] o = ControllerSource.INSTANCE.createCapImage();
             String path = o[0].toString();
@@ -40,11 +41,12 @@ public class CapHandler {
             group.sendMessage(builder.build());
             CAPING.put(qid, capCode);
             CAP_TWO.put(qid, group);
+            CAP_Q.put(qid, iq);
             if (!CAP_T.containsKey(qid))
                 startTimer(qid);
             CAP_T.put(qid, MAX_WAIT.intValue());
         } else {
-            MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId());
+            MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId(), iq);
         }
     }
 
@@ -90,7 +92,7 @@ public class CapHandler {
         switch (text.trim()) {
             case "看不清":
             case "换一个":
-                join(qid, CAP_TWO.get(qid));
+                join(qid, CAP_TWO.get(qid), CAP_Q.get(qid));
                 break;
             default:
                 if (text.trim().toLowerCase().equals(t1.trim().toLowerCase())) {
@@ -112,6 +114,7 @@ public class CapHandler {
         builder.append("\n说\"菜单\"即可查看我的功能了");
         builder.append(new Face(Face.HAN_XIAO));
         group.sendMessage(builder.build());
-        MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId());
+        MemberJoinedBroadcast.INSTANCE.broadcast(qid, group.getId(), CAP_Q.get(qid));
+        CAP_Q.remove(qid);
     }
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author github-kloping
  * @version 1.0
  */
-public class MemberJoinedBroadcast extends Broadcast {
+public class MemberJoinedBroadcast extends Broadcast<MemberJoinedBroadcast.MemberJoinedReceiver> {
     public static final MemberJoinedBroadcast INSTANCE = new MemberJoinedBroadcast();
     private List<MemberJoinedReceiver> receiver = new CopyOnWriteArrayList<>();
 
@@ -19,26 +19,27 @@ public class MemberJoinedBroadcast extends Broadcast {
     }
 
     @Override
-    public boolean add(Receiver receiver) {
+    public boolean add(MemberJoinedReceiver receiver) {
         if (receiver instanceof MemberJoinedReceiver) {
             return this.receiver.add((MemberJoinedReceiver) receiver);
         }
         return false;
     }
 
-    public void broadcast(long qid, long gid) {
+    public void broadcast(long qid, long gid, long iq) {
         receiver.forEach(r -> {
-            threads.submit(() -> r.onReceive(qid, gid));
+            THREADS.submit(() -> r.onReceive(qid, gid, iq));
         });
     }
 
-    public static interface MemberJoinedReceiver extends Receiver {
+    public interface MemberJoinedReceiver extends Receiver {
         /**
          * on
          *
-         * @param q
-         * @param g
+         * @param q  加入者id
+         * @param g  群id
+         * @param iq 邀请者id 若无 则 小于0
          */
-        void onReceive(long q, long g);
+        void onReceive(long q, long g, long iq);
     }
 }

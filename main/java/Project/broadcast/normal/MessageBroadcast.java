@@ -28,7 +28,7 @@ public class MessageBroadcast extends Broadcast {
 
     public void broadcast(long qid, long gid, String context) {
         messageReceivers.forEach(r -> {
-            threads.submit(() -> r.onReceive(qid, gid, context));
+            THREADS.submit(() -> r.onReceive(qid, gid, context));
         });
     }
 

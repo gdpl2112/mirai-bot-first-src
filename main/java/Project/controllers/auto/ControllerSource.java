@@ -8,6 +8,7 @@ import Project.interfaces.httpApi.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.plugins.AiBaiduDetail;
 import Project.recivers.GameReceiver0;
+import Project.recivers.RewardReceiver;
 import Project.services.detailServices.ChallengeDetailService;
 import Project.services.impl.GameServiceImpl;
 import Project.services.impl.ZongMenServiceImpl;
@@ -69,7 +70,8 @@ public class ControllerSource {
     @AutoStand(id = "gson0")
     public static Gson gson0;
 
-    public static GameReceiver0 receiver0 = new GameReceiver0();
+    public static GameReceiver0 gameReceiver0 = new GameReceiver0();
+    public static RewardReceiver rewardReceiver = new RewardReceiver();
 
     public static char[] cs = new char[]{
             '1', '2', '3', '4', '5', '6', '7', '8', '9',

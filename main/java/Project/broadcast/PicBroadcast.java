@@ -23,7 +23,7 @@ public class PicBroadcast extends Broadcast {
     }
 
     public void broadcast(long qid, long gid, String pic, Object[] objects) {
-        Iterator iterator = receivers.iterator();
+        Iterator iterator = RECEIVERS.iterator();
         while (iterator.hasNext()) {
             Object receiver = iterator.next();
             if (receiver instanceof PicReceiverOnce) {

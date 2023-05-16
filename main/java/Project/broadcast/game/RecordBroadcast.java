@@ -27,7 +27,7 @@ public class RecordBroadcast extends Broadcast {
 
     public void broadcast(long who, TradingRecord record) {
         for (RecordReceiver receiver : receivers) {
-            threads.submit(() -> receiver.onReceiver(who, record));
+            THREADS.submit(() -> receiver.onReceiver(who, record));
         }
     }
 

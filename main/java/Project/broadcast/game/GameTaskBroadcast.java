@@ -15,7 +15,7 @@ public class GameTaskBroadcast extends Broadcast {
     }
 
     public void broadcast(long who, int taskId, GameTaskReceiver.Type type, Task task) {
-        for (Receiver receiver : receivers) {
+        for (Receiver receiver : RECEIVERS) {
             if (receiver instanceof GameTaskBroadcast.GameTaskReceiver)
                 ((GameTaskBroadcast.GameTaskReceiver) receiver).onReceive(who, taskId, type, task);
         }

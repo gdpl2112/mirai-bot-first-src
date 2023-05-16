@@ -168,7 +168,7 @@ public class GameReceiver0 {
     public static void init7() {
         MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
             @Override
-            public void onReceive(long q, long g) {
+            public void onReceive(long q, long g, long iq) {
                 try {
                     MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                             Tool.INSTANCE.pathToImg("https://api.andeer.top/API/welcome.php?qq=" + q + "&exit=off")

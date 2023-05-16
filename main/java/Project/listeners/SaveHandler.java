@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import static io.github.kloping.mirai0.Main.BootstarpResource.DEA_THREADS;
 
 /**
+ * 独立
+ *
  * @author github-kloping
  * @version 1.0
  */
