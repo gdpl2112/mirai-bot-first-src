@@ -19,6 +19,7 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 @Controller
 
 public class TalkWithTimeController {
+
     private static final String[] YD11 = {"元旦快乐!"
             , "元旦了，我送了一串礼物。快乐送给开心的人，幸福送给有情的人，希望送给等待的人，成功送给奋斗的人，祝福送给正看消息的人!"
             , "辞旧迎新元旦到，祝福赶忙报个到，快乐进入人生道，幸福惬意心里倒!"
