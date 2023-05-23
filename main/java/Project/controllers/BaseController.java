@@ -301,6 +301,8 @@ public class BaseController {
         });
     }
 
+    private static final Integer JQ_MAX = 7;
+
     @Action("兑换奖券.*?")
     private String duih(SpUser user, @AllMess String num) throws Exception {
         Calendar calendar = Calendar.getInstance();
@@ -313,11 +315,11 @@ public class BaseController {
         KlopingWebDataBaseInteger dbb = new KlopingWebDataBaseInteger(pwd, 0);
         long qid = user.getId();
         Integer v = dbb.getValue(qid);
-        if (v < 5) {
+        if (v < JQ_MAX) {
             int n = 1;
             String ll = Tool.INSTANCE.findNumberFromString(num);
             if (ll != null && !ll.isEmpty()) n = Integer.parseInt(ll);
-            if (v + n > 5) {
+            if (v + n > JQ_MAX) {
                 return "超额兑换!";
             } else {
                 long nm = n * 2000;

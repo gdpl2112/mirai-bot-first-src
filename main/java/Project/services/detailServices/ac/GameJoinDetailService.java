@@ -271,9 +271,9 @@ public class GameJoinDetailService {
      */
     public static boolean randHh(int level) {
         if (level > 10000000) {
-            return Tool.INSTANCE.RANDOM.nextInt(100) < 28;
+            return Tool.INSTANCE.RANDOM.nextInt(100) < 30;
         } else if (level > 1000000) {
-            return Tool.INSTANCE.RANDOM.nextInt(100) < 38;
+            return Tool.INSTANCE.RANDOM.nextInt(100) < 40;
         } else if (level > 100000) {
             return Tool.INSTANCE.RANDOM.nextInt(100) < 54;
         } else return Tool.INSTANCE.RANDOM.nextInt(100) < 75;
@@ -392,8 +392,19 @@ public class GameJoinDetailService {
 
     public <T extends GhostObj> T summonFor(String who, int id, boolean balance) {
         PersonInfo personInfo = getInfo(who);
-        float bl = getAllHHBL(Long.valueOf(who));
-        GhostObj ghostObj = GhostObj.create((long) (personInfo.att() * bl), personInfo.getHpL(), (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3), id, -1, bl, balance);
+        float bl = getAllHHBL(Long.valueOf(who)) - 0.1f;
+        float af = ((Tool.INSTANCE.RANDOM.nextInt(4) - 2) + 10) / 10f;
+        GhostObj ghostObj = GhostObj.create(
+                //血量
+                (long) (personInfo.att() * bl),
+                //攻击
+                (long) (personInfo.getHpL() * af),
+                (long) (personInfo.getXpL() / getRandXl(personInfo.getLevel()) / 3),
+                id,
+                //生成
+                -1,
+                bl,
+                balance);
         return (T) ghostObj;
     }
 

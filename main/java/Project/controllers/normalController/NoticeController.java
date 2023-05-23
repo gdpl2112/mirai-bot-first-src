@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 5.23:兑换奖券上限为7").append(NEWLINE);
         UPDATE_LOG.append(" 5.16:荣耀查询功能;邀请奖励").append(NEWLINE);
         UPDATE_LOG.append(" 5.05:修复已知bug,兑换奖券价格下调至2000").append(NEWLINE);
         UPDATE_LOG.append(" 5.03:活动结束,更新每周可`兑换奖券` 10000金魂币兑换一张 上限五张 每周刷新").append(NEWLINE);
