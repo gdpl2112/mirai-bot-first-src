@@ -58,6 +58,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (zongs.size() > 0) {
                     Zong z1 = zongs.get(0);
+                    if (z1.getActive() < 50) return;
                     builder.append("上周最活跃宗门:\n\t").append(z1.getName()).append(NEWLINE);
                     builder.append("活跃点数:").append(z1.getActive().toString()).append(NEWLINE);
                     builder.append("宗主奖励8000金魂币\n长老奖励5000金魂币\n成员奖励2000金魂币").append(NEWLINE);
@@ -65,6 +66,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                 }
                 if (zongs.size() > 1) {
                     Zong z2 = zongs.get(1);
+                    if (z2.getActive() < 50) return;
                     builder.append("上周次活跃宗门:\n\t").append(z2.getName()).append(NEWLINE);
                     builder.append("活跃点数:").append(z2.getActive().toString()).append(NEWLINE);
                     builder.append("宗主奖励6000金魂币\n长老奖励3500金魂币\n成员奖励1500金魂币").append(NEWLINE);

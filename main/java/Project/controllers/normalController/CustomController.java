@@ -214,7 +214,7 @@ public class CustomController {
         if (MAP.get(group.getId()).containsKey(name)) {
             AutoReply reply = MAP.get(group.getId()).get(name).get(0);
             if (deleteReply(reply)) {
-                MAP.get(name).remove(reply);
+                MAP.get(group.getId()).get(name).remove(reply);
                 return "删除成功";
             } else return "删除失败";
         } else {
