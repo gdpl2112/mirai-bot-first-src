@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 5.31:挂机奖励上限最多14天").append(NEWLINE);
         UPDATE_LOG.append(" 5.23:兑换奖券上限为7;修复部分bug;宗门活跃不足50不予奖励").append(NEWLINE);
         UPDATE_LOG.append(" 5.16:荣耀查询功能;邀请奖励").append(NEWLINE);
         UPDATE_LOG.append(" 5.05:修复已知bug,兑换奖券价格下调至2000").append(NEWLINE);

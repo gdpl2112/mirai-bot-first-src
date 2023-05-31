@@ -236,6 +236,8 @@ public class GameController2 {
         return "闭关完成!";
     }
 
+    public static final Integer MAX_MIN = 20160;
+
     private Object unBg(Long q) {
         PersonInfo p0 = getInfo(q);
         if (System.currentTimeMillis() < p0.getBgk()) {
@@ -246,6 +248,7 @@ public class GameController2 {
         String t0 = klopingWeb.get(q.toString(), BG_PWD);
         Long t = System.currentTimeMillis() - Long.valueOf(t0);
         Long min = (t / 60000L);
+        min = min > MAX_MIN ? MAX_MIN : min;
         Long v = EVE_GET * min;
         p0.addXp(v);
         p0.apply();
