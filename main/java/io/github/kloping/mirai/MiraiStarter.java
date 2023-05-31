@@ -22,10 +22,8 @@ public class MiraiStarter {
 
     public static void main(String[] args) throws IOException {
         new File(args[0], args[1]).mkdirs();
-        Public.EXECUTOR_SERVICE.submit(() -> {
-            MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get(args[0], args[1]));
-            MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
-        });
+        MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get(args[0], args[1]));
+        MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());
         Tool.INSTANCE.setOnErrInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_err.log");
         Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_console.log");
