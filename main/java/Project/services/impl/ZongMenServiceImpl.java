@@ -70,7 +70,7 @@ public class ZongMenServiceImpl implements IZongMenService {
                     builder.append("上周次活跃宗门:\n\t").append(z2.getName()).append(NEWLINE);
                     builder.append("活跃点数:").append(z2.getActive().toString()).append(NEWLINE);
                     builder.append("宗主奖励6000金魂币\n长老奖励3500金魂币\n成员奖励1500金魂币").append(NEWLINE);
-                    reward(z2, 60000, 3500, 1500);
+                    reward(z2, 6000, 3500, 1500);
                 }
                 SpringBootResource.getZongMapper().updateAll();
                 SpringBootResource.getZonMapper().updateAll();
@@ -90,7 +90,8 @@ public class ZongMenServiceImpl implements IZongMenService {
     private static void reward(Zong z1, long i, long i1, long i2) {
         long q1 = z1.getMain();
         long i0 = i - i2 - i1;
-        getInfo(q1).addGold(i0, new TradingRecord().setFrom(-1).setMain(q1).setDesc("宗门奖励").setTo(q1).setMany(i0).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
+        getInfo(q1).addGold(i0, new TradingRecord().setFrom(-1).setMain(q1).setDesc("宗门奖励")
+                .setTo(q1).setMany(i0).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
         long i3 = i1 - i2;
         for (Number q : z1.getElder()) {
             getInfo(q.longValue()).addGold(i3, new TradingRecord().setFrom(-1).setMain(q.longValue()).setDesc("宗门奖励").setTo(q.longValue()).setMany(i3).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));

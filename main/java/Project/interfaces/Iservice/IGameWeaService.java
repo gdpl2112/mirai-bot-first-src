@@ -15,7 +15,7 @@ public interface IGameWeaService {
 
     String aqMeun();
 
-    String decomposition(long id, Integer id1);
+    String decomposition(long id, Integer id1, Integer num);
 
     String objTo(Long q1, int id, Long q2);
 }

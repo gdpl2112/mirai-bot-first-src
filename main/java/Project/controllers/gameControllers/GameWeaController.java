@@ -7,6 +7,7 @@ import Project.interfaces.Iservice.IGameWeaService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
+import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -75,13 +76,11 @@ public class GameWeaController {
 
     @Action("分解<.+=>name>")
     public String decomposition(SpUser user, @Param("name") String name) {
+        Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, "1"));
+        name = name.replace(num.toString(), name);
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
-        if (id == null) {
-            return "系统找不到=>" + name;
-        }
-        if (!(isAnq(id)) && id != 120) {
-            return name + "不可分解";
-        }
-        return gameWeaService.decomposition(user.getId(), id);
+        if (id == null) return "系统找不到=>" + name;
+        if (!(isAnq(id)) && id != 120) return name + "不可分解";
+        return gameWeaService.decomposition(user.getId(), id, num);
     }
 }

@@ -48,7 +48,7 @@ public class GameObjServiceImpl implements IGameObjService {
     IGameWeaService gameWeaService;
 
     @Override
-    public String compound(long q, int id) {
+    public String compound(long q, int id, int num) {
         //拦截暗器
         if ((id > 1000 && id < 1200)) {
             return gameWeaService.makeAq(q, id);
@@ -57,6 +57,7 @@ public class GameObjServiceImpl implements IGameObjService {
         if (entry == null) return "该物品 暂时不可合成!";
         int needId = entry.getKey().intValue();
         int needNum = entry.getValue();
+        StringBuilder sb = new StringBuilder();
         if (GameDataBase.containsBgsNum(q, needId, needNum)) {
             GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
             if (id >= 124 && id <= 127) {
@@ -64,7 +65,9 @@ public class GameObjServiceImpl implements IGameObjService {
             } else {
                 addToBgs(q, id, ObjType.got);
             }
-            return String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
-        } else return String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id));
+            sb.append(String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum,
+                    getNameById(needId), SourceDataBase.getImgPathById(id)));
+        } else sb.append(String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id)));
+        return sb.toString();
     }
 }

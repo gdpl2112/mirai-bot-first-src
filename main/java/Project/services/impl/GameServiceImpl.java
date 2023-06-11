@@ -21,7 +21,6 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.services.player.PlayerBehavioralManager;
-import Project.utils.KlopingWebDataBaseInteger;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -768,9 +767,9 @@ public class GameServiceImpl implements IGameService {
     private boolean hasP(long q) {
         PersonInfo pInfo = getInfo(q);
         Warp warp = getWarp(q);
-        if (pInfo.getLevel() <= 120) return warp.allP().size() > 0;
-        else if (pInfo.getLevel() <= 150) return warp.allP().size() > 1;
-        else if (pInfo.getLevel() <= 152) return warp.allP().size() > 2;
+        if (pInfo.getLevel() <= 120) return warp.allP().size() >= 1;
+        else if (pInfo.getLevel() <= 150) return warp.allP().size() >= 2;
+        else if (pInfo.getLevel() <= 152) return warp.allP().size() >= 3;
         return false;
     }
 

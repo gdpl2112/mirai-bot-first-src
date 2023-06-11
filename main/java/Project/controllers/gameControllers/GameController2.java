@@ -172,8 +172,10 @@ public class GameController2 {
     @Action("合成<.+=>name>")
     public String m1(@Param("name") String name, long q) {
         try {
+            Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, "1"));
+            name = name.replace(num.toString(), name);
             int id = GameDataBase.NAME_2_ID_MAPS.get(name);
-            return gameObjService.compound(q, id);
+            return gameObjService.compound(q, id, num);
         } catch (Exception e) {
             return "未找到相关物品";
         }

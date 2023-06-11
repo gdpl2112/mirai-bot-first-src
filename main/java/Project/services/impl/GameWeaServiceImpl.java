@@ -129,7 +129,7 @@ public class GameWeaServiceImpl implements IGameWeaService {
     }
 
     @Override
-    public String decomposition(long qid, Integer id) {
+    public String decomposition(long qid, Integer id, Integer nc) {
         if (id > 1000) {
             //源使用次数
             int numc = ID_2_WEA_O_NUM_MAPS.get(id);
@@ -150,23 +150,27 @@ public class GameWeaServiceImpl implements IGameWeaService {
             }
             return NOT_FOUND_THIS_AQ_IN_BG_TIPS;
         } else if (id == 120) {
-            if (!containsInBg(id, qid)) return "你的背包里没有" + getNameById(id);
-            removeFromBgs(qid, id, 1, ObjType.un);
-            int r = Tool.INSTANCE.RANDOM.nextInt(10);
-            int oid;
-            if (r == 0) {
-                oid = 122;
-                addToBgs(qid, oid, 1, ObjType.un);
-                return "成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid);
-            } else if (r == 1 || r == 2) {
-                oid = 121;
-                addToBgs(qid, oid, 2, ObjType.un);
-                return "成功分解了" + getNameById(id) + "获得了2个" + ID_2_NAME_MAPS.get(oid);
-            } else {
-                oid = 121;
-                addToBgs(qid, oid, 1, ObjType.un);
-                return "成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid);
+            StringBuilder sb = new StringBuilder();
+            for (Integer i = 0; i < nc; i++) {
+                if (!containsInBg(id, qid)) sb.append("你的背包里没有" + getNameById(id));
+                removeFromBgs(qid, id, 1, ObjType.un);
+                int r = Tool.INSTANCE.RANDOM.nextInt(10);
+                int oid;
+                if (r == 0) {
+                    oid = 122;
+                    addToBgs(qid, oid, 1, ObjType.un);
+                    sb.append("成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid));
+                } else if (r == 1 || r == 2) {
+                    oid = 121;
+                    addToBgs(qid, oid, 2, ObjType.un);
+                    sb.append("成功分解了" + getNameById(id) + "获得了2个" + ID_2_NAME_MAPS.get(oid));
+                } else {
+                    oid = 121;
+                    addToBgs(qid, oid, 1, ObjType.un);
+                    sb.append("成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid));
+                }
             }
+            return sb.toString();
         }
         return ERR_TIPS;
     }
