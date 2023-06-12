@@ -73,7 +73,6 @@ public class ControllerSource {
     @AutoStand(id = "gson0")
     public static Gson gson0;
 
-
     public static GameReceiver0 gameReceiver0 = new GameReceiver0();
     public static RewardReceiver rewardReceiver = new RewardReceiver();
 

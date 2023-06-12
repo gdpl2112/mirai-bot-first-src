@@ -21,6 +21,7 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
+import io.github.kloping.common.Public;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
@@ -63,24 +64,26 @@ public class SuperController {
     public static String AUTO_CONF_PATH = "./conf/auto-conf.hml";
 
     static {
-        try {
-            AUTO_CONF = (Map<String, Object>) HMLObject.parseObject(FileUtils.getStringFromFile(AUTO_CONF_PATH)).toJavaObject();
-            if (AUTO_CONF == null) AUTO_CONF = new HashMap<>();
-            for (Field declaredField : GameConfSource.class.getDeclaredFields()) {
-                String name = declaredField.getName();
-                if (AUTO_CONF.containsKey(name)) {
-                    Object v0 = AUTO_CONF.get(name);
-                    if (v0 != null) {
-                        declaredField.set(null, ObjectUtils.maybeType(v0.toString()));
+        Public.EXECUTOR_SERVICE.submit(() -> {
+            try {
+                AUTO_CONF = (Map<String, Object>) HMLObject.parseObject(FileUtils.getStringFromFile(AUTO_CONF_PATH)).toJavaObject();
+                if (AUTO_CONF == null) AUTO_CONF = new HashMap<>();
+                for (Field declaredField : GameConfSource.class.getDeclaredFields()) {
+                    String name = declaredField.getName();
+                    if (AUTO_CONF.containsKey(name)) {
+                        Object v0 = AUTO_CONF.get(name);
+                        if (v0 != null) {
+                            declaredField.set(null, ObjectUtils.maybeType(v0.toString()));
+                        }
+                    } else {
+                        AUTO_CONF.put(name, declaredField.get(null));
                     }
-                } else {
-                    AUTO_CONF.put(name, declaredField.get(null));
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
+            FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
+        });
     }
 
     public long tempSuperL = -1;
