@@ -12,6 +12,7 @@ import io.github.kloping.mirai0.unitls.Tools.Tool;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.dataBases.GameDataBase.*;
 
 /**
@@ -50,24 +51,25 @@ public class GameObjServiceImpl implements IGameObjService {
     @Override
     public String compound(long q, int id, int num) {
         //拦截暗器
-        if ((id > 1000 && id < 1200)) {
-            return gameWeaService.makeAq(q, id);
-        }
+        if ((id > 1000 && id < 1200)) return gameWeaService.makeAq(q, id);
         Map.Entry<Integer, Integer> entry = NEED_NUMS.get(id);
         if (entry == null) return "该物品 暂时不可合成!";
         int needId = entry.getKey().intValue();
         int needNum = entry.getValue();
         StringBuilder sb = new StringBuilder();
-        if (GameDataBase.containsBgsNum(q, needId, needNum)) {
-            GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
-            if (id >= 124 && id <= 127) {
-                addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
-            } else {
-                addToBgs(q, id, ObjType.got);
-            }
-            sb.append(String.format("合成%s消耗了%s个%s\n%s", getNameById(id), needNum,
-                    getNameById(needId), SourceDataBase.getImgPathById(id)));
-        } else sb.append(String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id)));
+        for (int i = 0; i < num; i++) {
+            if (GameDataBase.containsBgsNum(q, needId, needNum)) {
+                GameDataBase.removeFromBgs(q, needId, needNum, ObjType.use);
+                if (id >= 124 && id <= 127) {
+                    addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
+                } else {
+                    addToBgs(q, id, ObjType.got);
+                }
+                sb.append(String.format("合成%s消耗了%s个%s",
+                        getNameById(id), needNum, getNameById(needId)));
+            } else sb.append(String.format("您需要%s个%s 才可合成%s", needNum, getNameById(needId), getNameById(id)));
+            sb.append(NEWLINE);
+        }
         return sb.toString();
     }
 }

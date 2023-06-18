@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 6.18:命令修复").append(NEWLINE);
         UPDATE_LOG.append(" 6.11:修复宗门奖励异常的问题,部分合成分解可批量").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);
         UPDATE_LOG.append(" 5.31:挂机奖励上限最多14天").append(NEWLINE);

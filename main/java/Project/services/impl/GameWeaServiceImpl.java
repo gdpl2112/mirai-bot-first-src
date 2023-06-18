@@ -17,8 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;
-import static Project.commons.rt.ResourceSet.FinalString.NOT_FOUND_THIS_AQ_IN_BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameWeaDetailService.MAX_DAMAGE;
 import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
@@ -169,8 +168,9 @@ public class GameWeaServiceImpl implements IGameWeaService {
                     addToBgs(qid, oid, 1, ObjType.un);
                     sb.append("成功分解了" + getNameById(id) + "获得了1个" + ID_2_NAME_MAPS.get(oid));
                 }
+                sb.append(NEWLINE);
             }
-            return sb.toString();
+            return sb.toString().trim();
         }
         return ERR_TIPS;
     }

@@ -48,7 +48,11 @@ public class LewisHandler extends SimpleListenerHost {
                 String body = param.toJSONString();
                 Document doc = null;
                 try {
-                    doc = Jsoup.connect(String.format("http://%s/api/getM2Result", host)).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44").ignoreHttpErrors(true).ignoreContentType(true).header("Content-Type", "application/json").header("Authorization", null).requestBody(body).post();
+                    doc = Jsoup.connect(String.format("http://%s/api/getM2Result", host))
+                            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44")
+                            .ignoreHttpErrors(true).ignoreContentType(true)
+                            .header("Content-Type", "application/json")
+                            .header("Authorization", null).requestBody(body).post();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -72,7 +76,7 @@ public class LewisHandler extends SimpleListenerHost {
     }
 
     private boolean isAllowGroupId(Long id, String main) {
-        if (BotStarter.test) return true;
+        if (BotStarter.test) return false;
         Number gid = BootstarpResource.contextManager.getContextEntity(Number.class, "lewis." + main);
         return gid.longValue() == id;
     }

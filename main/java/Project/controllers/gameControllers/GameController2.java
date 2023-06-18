@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Project.commons.rt.ResourceSet.FinalFormat.BG_WAIT_TIPS;
+import static Project.commons.rt.ResourceSet.FinalNormalString.EMPTY_STR;
 import static Project.commons.rt.ResourceSet.FinalString.CHALLENGE_ING;
 import static Project.commons.rt.ResourceSet.FinalString.IN_SELECT;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -173,8 +174,9 @@ public class GameController2 {
     public String m1(@Param("name") String name, long q) {
         try {
             Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, "1"));
-            name = name.replace(num.toString(), name);
+            name = name.replace(num.toString(), EMPTY_STR);
             int id = GameDataBase.NAME_2_ID_MAPS.get(name);
+            num = num > 15 ? 15 : num;
             return gameObjService.compound(q, id, num);
         } catch (Exception e) {
             return "未找到相关物品";

@@ -10,6 +10,7 @@ import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
+import static Project.commons.rt.ResourceSet.FinalNormalString.EMPTY_STR;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.getInfo;
@@ -58,8 +59,7 @@ public class GameWeaController {
 
     @Action("暗器菜单")
     public String aqMenu(SpGroup group, SpUser qq) {
-        String str = gameWeaService.aqMeun();
-        return str;
+        return gameWeaService.aqMeun();
     }
 
     @Action("制作暗器<.{1,}=>name>")
@@ -77,10 +77,11 @@ public class GameWeaController {
     @Action("分解<.+=>name>")
     public String decomposition(SpUser user, @Param("name") String name) {
         Integer num = Integer.valueOf(Tool.INSTANCE.findNumberFromString(name, "1"));
-        name = name.replace(num.toString(), name);
+        name = name.replace(num.toString(), EMPTY_STR);
         Integer id = GameDataBase.NAME_2_ID_MAPS.get(name.trim());
         if (id == null) return "系统找不到=>" + name;
         if (!(isAnq(id)) && id != 120) return name + "不可分解";
+        num = num > 15 ? 15 : num;
         return gameWeaService.decomposition(user.getId(), id, num);
     }
 }
