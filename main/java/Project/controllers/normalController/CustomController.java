@@ -10,7 +10,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.HashMap;

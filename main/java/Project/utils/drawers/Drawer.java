@@ -1,14 +1,14 @@
-package io.github.kloping.mirai0.unitls.drawers;
+package Project.utils.drawers;
 
 import Project.aSpring.SpringBootResource;
 import Project.commons.gameEntitys.SoulBone;
 import Project.commons.gameEntitys.WinStar;
 import Project.dataBases.skill.SkillDataBase;
+import Project.utils.Tools.GameTool;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.commons.*;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,33 +29,34 @@ import static Project.dataBases.SourceDataBase.getImageById;
 import static Project.dataBases.SourceDataBase.getImgPathById;
 import static Project.dataBases.ZongMenDataBase.getZongInfo;
 import static Project.dataBases.ZongMenDataBase.qq2id;
-import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
  * @author github-kloping
  */
 public class Drawer {
     public static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
-    private static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
-    private static final Font SMALL_FONT16 = new Font("宋体", Font.BOLD, 16);
-    private static final Font SMALL_FONT22 = new Font("宋体", Font.BOLD, 22);
-    private static final Font SMALL_FONT28 = new Font("宋体", Font.BOLD, 28);
-    private static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
-    private static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashMap<>();
-    private static final Color[] COLORS = new Color[]{Color.BLUE, Color.RED, Color.RED, new Color(159, 4, 180), new Color(180, 66, 4), Color.DARK_GRAY, Color.BLACK};
-    private static final Font FONT30 = new Font("宋体", Font.BOLD, 30);
-    private static final Font FONT140 = new Font("宋体", Font.HANGING_BASELINE, 40);
-    private static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
-    private static final Font SMALL_FONT40 = new Font("宋体", Font.BOLD, 40);
+    public static final Font SMALL_FONT15 = new Font("宋体", Font.BOLD, 15);
+    public static final Font SMALL_FONT16 = new Font("宋体", Font.BOLD, 16);
+    public static final Font SMALL_FONT22 = new Font("宋体", Font.BOLD, 22);
+    public static final Font SMALL_FONT28 = new Font("宋体", Font.BOLD, 28);
+    public static final Font BIG_FONT35 = new Font("宋体", Font.BOLD, 35);
+    public static final Font BIG_FONT45 = new Font("宋体", Font.BOLD, 45);
+    public static final Font BIG_FONT75 = new Font("宋体", Font.BOLD, 75);
+    public static final Map<String, Image> TEMP_IMAGES_MAP = new LinkedHashMap<>();
+    public static final Color[] COLORS = new Color[]{Color.BLUE, Color.RED, Color.RED, new Color(159, 4, 180), new Color(180, 66, 4), Color.DARK_GRAY, Color.BLACK};
+    public static final Font FONT30 = new Font("宋体", Font.BOLD, 30);
+    public static final Font FONT140 = new Font("宋体", Font.HANGING_BASELINE, 40);
+    public static final Map<String, File> HIST_FONT_IMAGES = new ConcurrentHashMap<>();
+    public static final Font SMALL_FONT40 = new Font("宋体", Font.BOLD, 40);
     public static Color BORDER_COLOR = Color.BLACK;
     public static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
-    private static Color xpColor = fromStrGetArgb("FFB9FFB9");
-    private static Color hpColor = fromStrGetArgb("FF5Dff5D");
-    private static Color hlColor = fromStrGetArgb("FFFFB946");
-    private static Color hjColor = fromStrGetArgb("FF8b8bFF");
-    private static Color levelColor = new Color(255, 0, 136);
-    private static Color shieldColor = new Color(239, 239, 239, 200);
-    private static BufferedImage INFO_BASE = null;
+    public static Color xpColor = fromStrGetArgb("FFB9FFB9");
+    public static Color hpColor = fromStrGetArgb("FF5Dff5D");
+    public static Color hlColor = fromStrGetArgb("FFFFB946");
+    public static Color hjColor = fromStrGetArgb("FF8b8bFF");
+    public static Color levelColor = new Color(255, 0, 136);
+    public static Color shieldColor = new Color(239, 239, 239, 200);
+    public static BufferedImage INFO_BASE = null;
 
     static {
         BORDER_COLOR = new Color(123, 20, 135);
@@ -92,7 +93,7 @@ public class Drawer {
             g.fillRect(0, 0, width, height);
         } else {
             try {
-                image = (BufferedImage) image2Size(INFO_BASE, width, height);
+                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -181,7 +182,7 @@ public class Drawer {
             g.fillRect(0, 0, width, height);
         } else {
             try {
-                image = (BufferedImage) image2Size(INFO_BASE, width, height);
+                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -420,7 +421,7 @@ public class Drawer {
                 Image i0 = loadImage(getImgPathById(bone.getOid(), false));
                 i0 = ImageDrawerUtils.image2Size((BufferedImage) i0, 100, 100);
                 int[] xy = getBoneXY(bone.partId());
-                if (xy != null) image = putImage(image, (BufferedImage) i0, xy[0], xy[1]);
+                if (xy != null) image = ImageDrawerUtils.putImage(image, (BufferedImage) i0, xy[0], xy[1]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -686,7 +687,7 @@ public class Drawer {
                 int w = base;
                 int h = w;
 
-                hi = (BufferedImage) image2Size(hi, w, h);
+                hi = (BufferedImage) ImageDrawerUtils.image2Size(hi, w, h);
 
 
                 int r0 = 0;
@@ -702,8 +703,8 @@ public class Drawer {
                     r0 -= 10;
                 }
                 st2tr.put(i1, r0);
-                hi = (BufferedImage) rotateImage(hi, r0);
-                bg = putImage(bg, hi, base * xi, base * yi);
+                hi = (BufferedImage) ImageDrawerUtils.rotateImage(hi, r0);
+                bg = ImageDrawerUtils.putImage(bg, hi, base * xi, base * yi);
 
                 xi++;
                 if (xi == 5) {

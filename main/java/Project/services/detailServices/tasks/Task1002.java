@@ -52,12 +52,12 @@ public class Task1002 extends Task {
 
     @Override
     public String getIntro() {
-        return "每周任务:进入列表中所有活动,并击败每个活动中的一只魂兽";
+        return "每周任务:进入副本列表中所有活动,并击败每个活动中的一只魂兽";
     }
 
     @Override
     public String getFinish() {
-        return "每周任务:\n进入列表中所有活动,并击败每个活动中的一只魂兽 完成\n奖励随机物品";
+        return "每周任务:\n进入副本列表中所有活动,并击败每个活动中的一只魂兽 完成\n奖励随机物品";
     }
 
     @Override

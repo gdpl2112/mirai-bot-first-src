@@ -15,8 +15,8 @@ import Project.skills.SkillTemplate;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.GameTool;
+import Project.utils.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.Future;

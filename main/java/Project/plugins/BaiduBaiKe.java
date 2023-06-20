@@ -4,7 +4,7 @@ import Project.interfaces.httpApi.BaiKeBaidu;
 import Project.interfaces.httpApi.Empty;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import net.mamoe.mirai.message.data.PlainText;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

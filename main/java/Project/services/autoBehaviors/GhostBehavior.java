@@ -16,7 +16,7 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.*;
@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static Project.skills.SkillFactory.ghostSkillNum;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getHhByGh;
+import static Project.utils.Tools.GameTool.getHhByGh;
 
 /**
  * @author github-kloping

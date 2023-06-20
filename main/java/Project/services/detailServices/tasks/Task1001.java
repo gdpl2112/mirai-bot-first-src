@@ -6,7 +6,7 @@ import Project.services.detailServices.tasks.reciver.ReceiverWithTask1001;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.task.Task;
 import io.github.kloping.mirai0.commons.task.TaskPoint;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.dataBases.GameTaskDatabase.CD1;

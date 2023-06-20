@@ -2,7 +2,7 @@ package io.github.kloping.mirai0.Main.iutils;
 
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;

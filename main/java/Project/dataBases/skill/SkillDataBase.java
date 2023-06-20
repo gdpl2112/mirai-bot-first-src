@@ -6,7 +6,7 @@ import Project.skills.SkillFactory;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
+import Project.utils.Tools.GameTool;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

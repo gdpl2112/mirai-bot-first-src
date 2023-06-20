@@ -3,7 +3,7 @@ package Project.services.detailServices.ac.entity;
 import Project.commons.gameEntitys.base.BaseInfo;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.CommonSource.percentTo;
 

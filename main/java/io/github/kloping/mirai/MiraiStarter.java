@@ -3,7 +3,7 @@ package io.github.kloping.mirai;
 import Project.listeners.*;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.common.Public;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.event.GlobalEventChannel;

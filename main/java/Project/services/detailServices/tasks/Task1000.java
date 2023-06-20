@@ -4,7 +4,7 @@ import Project.broadcast.game.GhostLostBroadcast;
 import Project.commons.broadcast.Receiver;
 import Project.services.detailServices.tasks.reciver.ReceiverWithTask1000;
 import io.github.kloping.mirai0.commons.task.Task;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 
 /**

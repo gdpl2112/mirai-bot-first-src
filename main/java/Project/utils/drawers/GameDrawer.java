@@ -1,8 +1,8 @@
-package io.github.kloping.mirai0.unitls.drawers;
+package Project.utils.drawers;
 
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
-import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
-import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
+import Project.utils.drawers.entity.GameMap;
+import Project.utils.drawers.entity.MapPosition;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,8 +13,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.*;
 
-import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.getImageByColor2Size;
-import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.getImageByUrl2Size;
+import static Project.utils.drawers.ImageDrawerUtils.getImageByColor2Size;
+import static Project.utils.drawers.ImageDrawerUtils.getImageByUrl2Size;
 
 /**
  * @author github-kloping

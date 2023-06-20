@@ -1,18 +1,20 @@
-package io.github.kloping.mirai0.unitls.drawers;
+package Project.utils.drawers;
 
+import Project.dataBases.SourceDataBase;
+import Project.utils.Tools.Tool;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import com.madgag.gif.fmsware.GifDecoder;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.UUID;
 
 import static Project.commons.rt.ResourceSet.FinalString.NOT_SUPPORT_LENGTH_IMG;
-import static io.github.kloping.mirai0.unitls.drawers.ImageDrawerUtils.*;
 
 /**
  * @author github-kloping
@@ -48,10 +50,10 @@ public class ImageDrawer {
             BufferedImage main = ImageIO.read(files[i]);
             float rotate = rotateEve * i;
             BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
-            image = (BufferedImage) image2Size(image, 200, 200);
-            image = (BufferedImage) rotateImage(image, rotate);
-            image = roundImage(image, 9999);
-            image = putImage(main, image, 95, 80);
+            image = (BufferedImage) ImageDrawerUtils.image2Size(image, 200, 200);
+            image = (BufferedImage) ImageDrawerUtils.rotateImage(image, rotate);
+            image = ImageDrawerUtils.roundImage(image, 9999);
+            image = ImageDrawerUtils.putImage(main, image, 95, 80);
             encoder.addFrame(image);
         }
         encoder.finish();
@@ -146,12 +148,12 @@ public class ImageDrawer {
     public static File getDui(File file, URL oFile, File outFile) throws Exception {
         BufferedImage oImage = ImageIO.read(oFile);
         if (oImage.getHeight() - oImage.getWidth() > 30) throw new RuntimeException(NOT_SUPPORT_LENGTH_IMG);
-        oImage = roundImage(oImage, 9999);
-        oImage = (BufferedImage) image2Size(oImage, 150, 150);
-        oImage = (BufferedImage) rotateImage(oImage, Tool.INSTANCE.RANDOM.nextInt(160) + 60);
+        oImage = ImageDrawerUtils.roundImage(oImage, 9999);
+        oImage = (BufferedImage) ImageDrawerUtils.image2Size(oImage, 150, 150);
+        oImage = (BufferedImage) ImageDrawerUtils.rotateImage(oImage, Tool.INSTANCE.RANDOM.nextInt(160) + 60);
         BufferedImage bgImage = ImageIO.read(file);
-        bgImage = (BufferedImage) image2Size(bgImage, 512, 512);
-        BufferedImage image = putImage(bgImage, oImage, 10, 175);
+        bgImage = (BufferedImage) ImageDrawerUtils.image2Size(bgImage, 512, 512);
+        BufferedImage image = ImageDrawerUtils.putImage(bgImage, oImage, 10, 175);
         ImageIO.write(image, "png", outFile);
         return outFile;
     }
@@ -182,11 +184,11 @@ public class ImageDrawer {
             BufferedImage main = ImageIO.read(files[i]);
             BufferedImage image = max == 0 ? oImage : decoder.getFrame(i >= max ? i - max : i);
             float rotate = rotateEve * i;
-            image = (BufferedImage) image2Size(image, 132, 132);
-            image = (BufferedImage) rotateImage(image, rotate);
-            image = roundImage(image, 9999);
+            image = (BufferedImage) ImageDrawerUtils.image2Size(image, 132, 132);
+            image = (BufferedImage) ImageDrawerUtils.rotateImage(image, rotate);
+            image = ImageDrawerUtils.roundImage(image, 9999);
             int[] vs = getWt(i);
-            image = putImage(main, image, vs[0], vs[1]);
+            image = ImageDrawerUtils.putImage(main, image, vs[0], vs[1]);
             encoder.addFrame(image);
         }
         encoder.finish();
@@ -195,10 +197,10 @@ public class ImageDrawer {
 
     public static File getZan(File file, URL oFile, File outFile) throws Exception {
         BufferedImage oImage = ImageIO.read(oFile);
-        oImage = (BufferedImage) image2Size(oImage, 138, 138);
-        oImage = roundImage(oImage, 9999);
+        oImage = (BufferedImage) ImageDrawerUtils.image2Size(oImage, 138, 138);
+        oImage = ImageDrawerUtils.roundImage(oImage, 9999);
         BufferedImage bI = ImageIO.read(file);
-        bI = putImage(bI, oImage, 4, 242);
+        bI = ImageDrawerUtils.putImage(bI, oImage, 4, 242);
         ImageIO.write(bI, "png", outFile);
         return outFile;
     }
@@ -220,11 +222,11 @@ public class ImageDrawer {
         for (int i = 0; i < sl; i++) {
             r += (360 * r0 / sl);
             BufferedImage main = ImageIO.read(emptyFile);
-            BufferedImage o1 = (BufferedImage) image2Size(oImage, 60, 60);
-            o1 = roundImage(o1, 9999);
-            o1 = (BufferedImage) rotateImage(o1, r);
-            o1 = putImage(main, o1, (w / sl) * i, h / 2);
-            o1 = putImage(o1, dirt, 0, h / 2 + 60);
+            BufferedImage o1 = (BufferedImage) ImageDrawerUtils.image2Size(oImage, 60, 60);
+            o1 = ImageDrawerUtils.roundImage(o1, 9999);
+            o1 = (BufferedImage) ImageDrawerUtils.rotateImage(o1, r);
+            o1 = ImageDrawerUtils.putImage(main, o1, (w / sl) * i, h / 2);
+            o1 = ImageDrawerUtils.putImage(o1, dirt, 0, h / 2 + 60);
             encoder.addFrame(o1);
         }
         encoder.finish();
@@ -262,5 +264,52 @@ public class ImageDrawer {
         g.dispose();
         ImageIO.write(imageO, "jpg", outFile);
         return outFile;
+    }
+
+    public static final Font BIG_FONT = new Font("宋体", Font.BOLD, 150);
+    public static final String[] DB0 = {"端午快乐！", "端午安康!", "粽子好吃.你好看"};
+
+    public static String dragonBot(long qid, int oid, int num) throws Exception {
+        String es = Tool.INSTANCE.getRandString(DB0);
+        BufferedImage oi = ImageIO.read(new FileInputStream(SourceDataBase.getImgPathById(oid, false)));
+        oi = (BufferedImage) ImageDrawerUtils.image2Size(oi, 300, 300);
+
+        File of = new File("images/dragon_boat.gif");
+
+        GifDecoder decoder = new GifDecoder();
+        decoder.read(new FileInputStream(of));
+
+        File outFile = new File("./temp/" + UUID.randomUUID() + ".gif");
+
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(outFile.getAbsolutePath());
+        encoder.setRepeat(0);
+        encoder.setQuality(5);
+        encoder.setFrameRate(180);
+        final BufferedImage icon0 = ImageIO.read(new URL(Tool.INSTANCE.getTouUrl(qid)));
+        final BufferedImage icon1 = (BufferedImage) ImageDrawerUtils.image2Size(icon0, 450, 450);
+        final BufferedImage icon = ImageDrawerUtils.roundImage(icon1, 999);
+        for (int i = 0; i < decoder.getFrameCount(); i++) {
+            BufferedImage f = decoder.getFrame(i);
+            f = ImageDrawerUtils.putImage(f, icon, 750, 350);
+            f = ImageDrawerUtils.putImage(f, oi, 100, 100);
+            Graphics graphics = f.getGraphics();
+
+            graphics.setFont(BIG_FONT);
+            graphics.setColor(Color.BLACK);
+            graphics.drawString("+" + num, 450, 300);
+
+            graphics.setFont(BIG_FONT);
+            graphics.setColor(new Color(142, 217, 180, 191));
+            graphics.fillRoundRect(300, 1700, 1400, 280, 50, 50);
+            graphics.setColor(new Color(208, 118, 1, 235));
+            graphics.drawString(es, 500, 1900);
+
+            graphics.dispose();
+            encoder.addFrame(f);
+
+        }
+        encoder.finish();
+        return outFile.getAbsolutePath();
     }
 }

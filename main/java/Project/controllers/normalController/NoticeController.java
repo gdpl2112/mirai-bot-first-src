@@ -8,7 +8,7 @@ import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.commons.rt.ResourceSet.FinalValue.*;
@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 6.20:端午活动;命令'划龙舟';'活动列表'更名'副本列表';'活动列表'").append(NEWLINE);
         UPDATE_LOG.append(" 6.18:命令修复").append(NEWLINE);
         UPDATE_LOG.append(" 6.11:修复宗门奖励异常的问题,部分合成分解可批量").append(NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(NEWLINE);

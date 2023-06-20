@@ -4,7 +4,7 @@ import Project.commons.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicReference;
 @Accessors(chain = true)
 @EqualsAndHashCode
 public abstract class RedPacket {
-
     private final Integer num;
     private final Integer value;
     private Integer v0;
@@ -29,7 +28,9 @@ public abstract class RedPacket {
     private Long qid;
     private IdType id;
     private Map<Long, Integer> record = new LinkedHashMap<>();
-    private Iterator<Integer> iteratore = null;    private Integer hour = getHour();
+    private Iterator<Integer> iteratore = null;
+    private Integer hour = getHour();
+
     public RedPacket(Integer num, Integer value, Long sender, Long gid, IdType id) {
         this.num = num;
         this.value = value;
@@ -122,6 +123,13 @@ public abstract class RedPacket {
         finish("");
     }
 
+    /**
+     * 获取 一个红包
+     * <br> n0 剩余数
+     * <br> v0 剩余值
+     *
+     * @return v
+     */
     private Integer getOne0() {
         int v = 0;
         if (n0 == 1) {

@@ -10,7 +10,7 @@ import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Schedule;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.BotStarter;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChainBuilder;

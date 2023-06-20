@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.unitls.Tools;
+package Project.utils.Tools;
 
 import io.github.kloping.io.ReadUtils;
 
@@ -599,6 +599,17 @@ public class Tool {
      */
     public long randA(int from, int end) {
         return Long.valueOf(RANDOM.nextInt(end - from) + from);
+    }
+
+    /**
+     * 从from到end随机一个数
+     *
+     * @param from can
+     * @param end  can't
+     * @return
+     */
+    public int randB(int from, int end) {
+        return RANDOM.nextInt(end - from) + from;
     }
 
     /**

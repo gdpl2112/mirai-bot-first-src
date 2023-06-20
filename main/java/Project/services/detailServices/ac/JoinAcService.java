@@ -11,7 +11,7 @@ import Project.services.detailServices.ac.entity.GhostWithGroup;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
@@ -36,13 +36,13 @@ public class JoinAcService {
 
     public String join(int id, long who, SpGroup group) {
         if (id == 0) {
-            HasTimeActionController.rand99(who);
+            HasTimeActionController.rand815(who);
             return join0(who, group);
         } else if (id == 1) {
-            HasTimeActionController.rand99(who);
+            HasTimeActionController.rand815(who);
             return join1(who, group);
         } else if (id == 2) {
-            HasTimeActionController.rand99(who);
+            HasTimeActionController.rand815(who);
             return join2(who, group);
         } else {
             return "暂未实现";

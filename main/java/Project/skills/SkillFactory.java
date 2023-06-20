@@ -3,7 +3,7 @@ package Project.skills;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 
 import java.io.IOException;

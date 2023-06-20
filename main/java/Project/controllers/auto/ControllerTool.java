@@ -19,7 +19,7 @@ public class ControllerTool {
 
     public static boolean opened(long gid, Class<?> cla) {
         if (BotStarter.test) {
-            return gid == 759590727L;
+            return gid == 759590727L || gid == 836258851L;
         } else if (!AllK) {
             throw new NoRunException("总关闭");
         } else {

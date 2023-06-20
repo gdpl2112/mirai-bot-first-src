@@ -9,7 +9,7 @@ import Project.controllers.gameControllers.GameConditionController;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import static Project.controllers.auto.ControllerSource.playerBehavioralManager;
 import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.GameSkillDetailService.addShield;
 import static Project.services.detailServices.ac.GameJoinDetailService.attGho;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.isAlive;
+import static Project.utils.Tools.GameTool.isAlive;
 
 /**
  * @author github-kloping

@@ -24,8 +24,8 @@ import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.GameTool;
+import Project.utils.Tools.Tool;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

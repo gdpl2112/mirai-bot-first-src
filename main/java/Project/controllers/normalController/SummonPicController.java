@@ -8,10 +8,10 @@ import Project.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.drawers.GameDrawer;
-import io.github.kloping.mirai0.unitls.drawers.ImageDrawer;
-import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.GameDrawer;
+import Project.utils.drawers.ImageDrawer;
+import Project.utils.drawers.entity.GameMap;
 
 import java.io.File;
 import java.io.IOException;

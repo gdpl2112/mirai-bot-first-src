@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.unitls.drawers;
+package Project.utils.drawers;
 
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import net.coobird.thumbnailator.Thumbnails;

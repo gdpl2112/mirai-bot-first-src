@@ -23,8 +23,8 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getFhName;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.Tools.GameTool.getFhName;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping

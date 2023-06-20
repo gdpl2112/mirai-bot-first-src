@@ -21,6 +21,8 @@ import Project.interfaces.Iservice.IGameService;
 import Project.services.detailServices.GameDetailService;
 import Project.services.detailServices.roles.DamageType;
 import Project.services.player.PlayerBehavioralManager;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.Drawer;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
@@ -30,8 +32,6 @@ import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.WhInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.drawers.Drawer;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -54,9 +54,9 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.ZongMenDataBase.getZonInfo;
 import static Project.dataBases.ZongMenDataBase.putZonInfo;
 import static Project.services.detailServices.roles.BeatenRoles.THIS_DANGER_OVER_FLAG;
+import static Project.utils.Tools.GameTool.*;
+import static Project.utils.drawers.Drawer.*;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getNameFromGroup;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.*;
 
 /**
  * @author github-kloping
@@ -83,7 +83,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
-            HasTimeActionController.rand99(who);
+            HasTimeActionController.rand815(who);
             int tr = Tool.INSTANCE.RANDOM.nextInt(6) + 9;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();
@@ -121,7 +121,7 @@ public class GameServiceImpl implements IGameService {
         long l = getK1(who);
         long now = System.currentTimeMillis();
         if (now >= l) {
-            HasTimeActionController.rand99(who);
+            HasTimeActionController.rand815(who);
             int tr = Tool.INSTANCE.RANDOM.nextInt(9) + 6;
             int c = (getRandXl(getInfo(who).getLevel()));
             long mx = is.getXpL();

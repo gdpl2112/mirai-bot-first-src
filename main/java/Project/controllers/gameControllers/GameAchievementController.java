@@ -7,7 +7,7 @@ import Project.dataBases.AchievementDataBase;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalNormalString.BG_TIPS;
 import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;

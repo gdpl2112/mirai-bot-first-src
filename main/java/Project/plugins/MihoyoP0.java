@@ -5,7 +5,7 @@ import Project.commons.apiEntitys.mihoyoYuanshenDetail.MihoyoYuanshenDetail;
 import Project.interfaces.httpApi.Mihoyo;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

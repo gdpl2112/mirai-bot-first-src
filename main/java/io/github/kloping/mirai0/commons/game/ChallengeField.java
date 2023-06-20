@@ -2,9 +2,9 @@ package io.github.kloping.mirai0.commons.game;
 
 import Project.broadcast.game.challenge.ChallengeSteppedBroadcast;
 import Project.commons.SpGroup;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.drawers.entity.GameMap;
-import io.github.kloping.mirai0.unitls.drawers.entity.MapPosition;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.entity.GameMap;
+import Project.utils.drawers.entity.MapPosition;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

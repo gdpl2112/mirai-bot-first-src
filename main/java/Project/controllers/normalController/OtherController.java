@@ -5,12 +5,12 @@ import Project.aSpring.SpringBootResource;
 import Project.commons.SpGroup;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
+import Project.utils.Tools.Tool;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai.MiraiRunnable;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
@@ -29,17 +29,19 @@ public class OtherController {
     private static String[] BaseMenuStrings;
 
     static {
-        MENU_STR.append("1.基本菜单").append("\r\n");
-        MENU_STR.append("2.暗器菜单").append("\r\n");
-        MENU_STR.append("3.魂骨菜单").append("\r\n");
-        MENU_STR.append("4.魂技菜单").append("\r\n");
-        MENU_STR.append("5.回话菜单").append("\r\n");
-        MENU_STR.append("6.宗门系统").append("\r\n");
-        MENU_STR.append("7.交易市场").append("\r\n");
-        MENU_STR.append("8.点歌系统").append("\r\n");
-        MENU_STR.append("9.娱乐功能").append("\r\n");
-        MENU_STR.append("10.管理菜单").append("\r\n");
-        MENU_STR.append("-1.开始会话 #在线运行代码").append("\r\n");
+        MENU_STR.append("·管理菜单").append("\r\n");
+        MENU_STR.append("·回话菜单").append("\r\n");
+        MENU_STR.append("·点歌系统").append("\r\n");
+        MENU_STR.append("·娱乐功能").append("\r\n");
+
+        MENU_STR.append("·基本菜单 #游戏基本菜单").append("\r\n");
+        MENU_STR.append("·暗器菜单").append("\r\n");
+        MENU_STR.append("·魂骨菜单").append("\r\n");
+        MENU_STR.append("·魂技菜单").append("\r\n");
+        MENU_STR.append("·宗门系统").append("\r\n");
+        MENU_STR.append("·交易市场").append("\r\n");
+        MENU_STR.append("·活动列表").append("\r\n");
+
         MENU_STR.append("不用at我,直接说就行了哦");
     }
 

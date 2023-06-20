@@ -18,7 +18,7 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.gson.Gson;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -10,7 +10,7 @@ import Project.interfaces.Iservice.IGameWeaService;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.io.File;
 
@@ -23,13 +23,14 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.normalController.ScoreController.longs;
 import static Project.services.impl.GameUseObjServiceImpl.maxSle;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class GameObjController {
+
     @AutoStand
     IGameUseObjService gameUseObiService;
     @AutoStand

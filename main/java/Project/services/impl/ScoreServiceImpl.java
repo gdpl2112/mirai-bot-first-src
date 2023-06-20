@@ -12,7 +12,7 @@ import Project.interfaces.httpApi.YiMin;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ import static Project.commons.rt.ResourceSet.FinalFormat.EARNINGS_TIPS_FORMAT;
 import static Project.commons.rt.ResourceSet.FinalFormat.WORK_WAIT_TIPS;
 import static Project.commons.rt.ResourceSet.FinalString.WORK_LONG_STR;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromFontString;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.drawers.Drawer.getImageFromFontString;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping

@@ -7,8 +7,8 @@ import Project.controllers.recr.HasTimeActionController;
 import Project.services.player.UseRestrictions;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.GameTool;
+import Project.utils.Tools.Tool;
 
 import java.util.List;
 import java.util.Map;
@@ -24,8 +24,8 @@ import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.GameDataBase.removeFromBgs;
 import static Project.dataBases.skill.SkillDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.THREADS;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.getRandXl;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.isJTop0;
+import static Project.utils.Tools.GameTool.getRandXl;
+import static Project.utils.Tools.GameTool.isJTop0;
 
 /**
  * @author HRS-Computer
@@ -354,7 +354,7 @@ public class UseTool {
 
     public String use7001(long who) {
         removeFromBgs(Long.valueOf(who), 7001, 1, ObjType.use);
-        return HasTimeActionController.use(who);
+        return HasTimeActionController.use7001(who);
     }
 
     public String use7003(long who) {

@@ -8,7 +8,7 @@ import Project.services.detailServices.ac.entity.*;
 import Project.services.detailServices.roles.v1.TagManagers;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -19,7 +19,7 @@ import static Project.commons.rt.CommonSource.percentTo;
 import static Project.commons.rt.CommonSource.toPercent;
 import static Project.dataBases.GameDataBase.getNameById;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.*;
+import static Project.utils.Tools.GameTool.*;
 
 /**
  * @author github-kloping

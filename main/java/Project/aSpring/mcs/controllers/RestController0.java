@@ -13,7 +13,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Notice;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

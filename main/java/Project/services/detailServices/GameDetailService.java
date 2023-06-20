@@ -18,7 +18,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

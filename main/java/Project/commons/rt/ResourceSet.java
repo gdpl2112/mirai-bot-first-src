@@ -71,8 +71,7 @@ public final class ResourceSet {
         public static final String REQUEST_HELP_SUCCEED = "请求支援成功\n\t#其他玩家使用=>\"支援@\"来支援ta)";
         public static final String HELPED = "已经被支援";
         public static final String NOT_NEED_HELP = "ta不需要支援";
-        public static final String LIST_STR = "活动列表";
-        public static final String TRY_MUTE = "活动列表";
+        public static final String GHOST_LIST = "副本列表";
         public static final String NOT_MANAGER = "权限不足#不是管理";
         public static final String PERMISSION_DENIED = "权限不足";
         public static final String HTTPS_PRE = "https:";

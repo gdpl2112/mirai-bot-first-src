@@ -10,8 +10,8 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.GameTool;
+import Project.utils.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import static Project.controllers.normalController.ScoreController.longs;
 import static Project.dataBases.GameDataBase.ID_2_NAME_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -63,7 +63,7 @@ public class GameJoinAcController {
         }
     }
 
-    @Action(LIST_STR)
+    @Action(GHOST_LIST)
     public String com0(SpGroup group) {
         return getImageFromStrings(gameJoinAcService.list());
     }

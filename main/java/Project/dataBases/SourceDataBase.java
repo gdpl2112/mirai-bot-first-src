@@ -1,7 +1,7 @@
 package Project.dataBases;
 
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,6 +29,11 @@ public class SourceDataBase {
         }
     }
 
+    /**
+     * @param id
+     * @param k  true 格式路径 false 文件路径
+     * @return
+     */
     public static String getImgPathById(Integer id, Boolean k) {
         if (ID2FILE.isEmpty()) init();
         if (ID2FILE.containsKey(id))

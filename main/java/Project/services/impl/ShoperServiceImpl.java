@@ -11,11 +11,11 @@ import Project.interfaces.Iservice.IShoperService;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.dataBases.GameDataBase.*;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStringsOnTwoColumns;
+import static Project.utils.drawers.Drawer.getImageFromStringsOnTwoColumns;
 
 /**
  * @author github-kloping

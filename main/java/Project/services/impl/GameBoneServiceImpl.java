@@ -17,7 +17,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import static Project.services.detailServices.GameBoneDetailService.TEMP_ATTR;
 import static Project.services.detailServices.GameBoneDetailService.append;
 import static Project.services.detailServices.GameSkillDetailService.getBasePercent;
 import static Project.services.detailServices.GameSkillDetailService.getCoolTime;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping

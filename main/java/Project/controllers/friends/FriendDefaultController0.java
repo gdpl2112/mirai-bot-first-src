@@ -5,7 +5,7 @@ import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import static Project.commons.rt.ResourceSet.FinalString.ERR_TIPS;
 import static Project.commons.rt.ResourceSet.FinalString.PERMISSION_DENIED;

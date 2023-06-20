@@ -13,9 +13,9 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.unitls.Tools.GameTool;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
-import io.github.kloping.mirai0.unitls.drawers.Drawer;
+import Project.utils.Tools.GameTool;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.Drawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.ac.GameJoinDetailService.saveGhostObjIn;
-import static io.github.kloping.mirai0.unitls.Tools.GameTool.isATrue;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.Tools.GameTool.isATrue;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping
@@ -92,7 +92,7 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
         String what = name.trim();
         what = dimMaps.containsKey(what) ? dimMaps.get(what) : what;
         int id = maps.indexOf(what.trim());
-        if (id < 0) return String.format(NOT_FOUND_SEE, what, LIST_STR);
+        if (id < 0) return String.format(NOT_FOUND_SEE, what, GHOST_LIST);
         return service.run(id, who, group);
     }
 

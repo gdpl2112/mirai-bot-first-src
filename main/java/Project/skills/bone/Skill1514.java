@@ -4,7 +4,7 @@ import Project.commons.gameEntitys.SkillInfo;
 import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

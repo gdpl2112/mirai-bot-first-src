@@ -19,7 +19,7 @@ import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.Warp;
 import io.github.kloping.mirai0.commons.WhInfo;
-import io.github.kloping.mirai0.unitls.Tools.Tool;
+import Project.utils.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 
 import java.lang.reflect.Method;
@@ -37,7 +37,7 @@ import static Project.dataBases.GameDataBase.*;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
-import static io.github.kloping.mirai0.unitls.drawers.Drawer.getImageFromStrings;
+import static Project.utils.drawers.Drawer.getImageFromStrings;
 
 /**
  * @author github-kloping

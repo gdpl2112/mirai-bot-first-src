@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.unitls.drawers.entity;
+package Project.utils.drawers.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
