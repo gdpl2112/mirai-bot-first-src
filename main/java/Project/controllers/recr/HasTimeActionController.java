@@ -9,13 +9,13 @@ import Project.controllers.auto.TimerController;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
+import Project.utils.KlopingWebDataBaseInteger;
 import Project.utils.Tools.Tool;
 import Project.utils.VelocityUtils;
 import Project.utils.drawers.ImageDrawer;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.common.Public;
-import io.github.kloping.date.DateUtils;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
@@ -210,6 +210,11 @@ public class HasTimeActionController {
     public Object a1(@Param("str") String str, Long q) {
         try {
             int id = GameDataBase.NAME_2_ID_MAPS.get(str.trim());
+            KlopingWebDataBaseInteger kwdb = new KlopingWebDataBaseInteger("dh-622-0", 0);
+            int n = kwdb.getValue(q);
+            if (id == 0) {
+                if (n >= MAX_622) return "兑换上限";
+            }
             Map.Entry<Integer, Integer> entry = AC_ITEMS_MAP.get(id);
             if (entry == null) return "活动物品不存在";
             int needId = entry.getValue();
@@ -220,6 +225,9 @@ public class HasTimeActionController {
                     addToAqBgs(q, id, (ID_2_WEA_O_NUM_MAPS.get(id)));
                 } else {
                     addToBgs(q, id, ObjType.got);
+                }
+                if (id == 0) {
+                    kwdb.setValue(q, n + 1);
                 }
                 return String.format("兑换了%s用了%s个%s\n%s", getNameById(id), needNum, getNameById(needId), SourceDataBase.getImgPathById(id));
             } else return String.format("您需要%s个%s 才能兑换%s", needNum, getNameById(needId), getNameById(id));
@@ -296,6 +304,7 @@ public class HasTimeActionController {
 //        } else return null;
 //    }
 
+    public static final Integer MAX_622 = 4;
     private static final SimpleDateFormat DF_620 = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
     public static final Map<Long, Long> DRAGON_BOAT_CD = new HashMap<>();
     public static long START_622;
