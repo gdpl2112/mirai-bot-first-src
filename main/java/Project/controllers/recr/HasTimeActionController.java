@@ -15,6 +15,7 @@ import Project.utils.drawers.ImageDrawer;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.common.Public;
+import io.github.kloping.date.DateUtils;
 import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
@@ -295,15 +296,15 @@ public class HasTimeActionController {
 //        } else return null;
 //    }
 
-    public static final SimpleDateFormat DF_620 = new SimpleDateFormat("yyyy-MM-dd-HH");
+    private static final SimpleDateFormat DF_620 = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
     public static final Map<Long, Long> DRAGON_BOAT_CD = new HashMap<>();
     public static long START_622;
     public static long END_622;
 
     static {
         try {
-            END_622 = DF_620.parse("20203-06-25-12").getTime();
-            START_622 = DF_620.parse("20203-06-21-12").getTime();
+            END_622 = DF_620.parse("2023-06-25:12:30:00").getTime();
+            START_622 = DF_620.parse("2023-06-21:12:30:00").getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
