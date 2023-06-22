@@ -10,6 +10,9 @@ import Project.controllers.auto.ControllerSource;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.utils.KlopingWebDataBaseInteger;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.GameDrawer;
+import Project.utils.drawers.entity.GameMap;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -17,9 +20,6 @@ import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.PersonInfo;
 import io.github.kloping.mirai0.commons.RedPacket;
-import Project.utils.Tools.Tool;
-import Project.utils.drawers.GameDrawer;
-import Project.utils.drawers.entity.GameMap;
 
 import java.io.File;
 import java.util.*;
@@ -303,7 +303,7 @@ public class BaseController {
 
     private static final Integer JQ_MAX = 7;
 
-    @Action("兑换奖券.*?")
+    @Action("购买奖券.*?")
     private String duih(SpUser user, @AllMess String num) throws Exception {
         Calendar calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
