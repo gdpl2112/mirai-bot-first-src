@@ -19,7 +19,7 @@ public class GroupConf {
     @TableId(type = IdType.ASSIGN_UUID)
     private Long id;
     private Boolean open = true;
-    private Boolean speak = true;
+    private Boolean speak = false;
     @TableField(value = "`show`")
     private Boolean show = true;
     private Boolean cap = true;
