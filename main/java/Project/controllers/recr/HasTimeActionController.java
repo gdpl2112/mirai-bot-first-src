@@ -312,7 +312,7 @@ public class HasTimeActionController {
 
     static {
         try {
-            END_622 = DF_620.parse("2023-06-25:12:30:00").getTime();
+            END_622 = DF_620.parse("2023-06-24:15:00:00").getTime();
             START_622 = DF_620.parse("2023-06-21:12:30:00").getTime();
         } catch (ParseException e) {
             e.printStackTrace();
