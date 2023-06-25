@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 6.25:尝试排序交易市场").append(NEWLINE);
         UPDATE_LOG.append(" 6.25:活动结束通告").append(NEWLINE);
         UPDATE_LOG.append(" 6.21:'兑换奖券'改为'购买奖券'").append(NEWLINE);
         UPDATE_LOG.append(" 6.21:修复活动未开启问题").append(NEWLINE);

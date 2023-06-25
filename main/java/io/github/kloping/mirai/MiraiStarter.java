@@ -23,7 +23,8 @@ public class MiraiStarter {
     public static void main(String[] args) throws IOException {
         new File(args[0], args[1]).mkdirs();
         Public.EXECUTOR_SERVICE.submit(() -> {
-            MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get(args[0], args[1]));
+            MiraiConsoleImplementationTerminal terminal =
+                    new MiraiConsoleImplementationTerminal(Paths.get(args[0], args[1]));
             MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         });
         GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());

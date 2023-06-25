@@ -7,6 +7,7 @@ import Project.commons.SpUser;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.ControllerTool;
 import Project.dataBases.DataBase;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai0.Main.BootstarpResource;
@@ -14,7 +15,6 @@ import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
-import Project.utils.Tools.Tool;
 import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.*;
@@ -150,7 +150,9 @@ public class DefaultHandler extends SimpleListenerHost {
         builder.append("欢迎新人,芜湖~~").append(new Face(Face.DA_CALL)).append("\n");
         builder.append("QQ号:").append(event.getMember().getId() + "").append("\r\n");
         builder.append("QQ昵称:").append(event.getMember().getNick()).append("\r\n");
-        builder.append("备注: ").append("您是本群的第").append(String.valueOf(event.getGroup().getMembers().size() + 1)).append("位成员哦").append(new Face(13));
+        builder.append("备注: ").append("您是本群的第")
+                .append(String.valueOf(event.getGroup().getMembers().size() + 1))
+                .append("位成员哦").append(new Face(13));
         event.getGroup().sendMessage(builder.build());
         if (event.getGroup().get(event.getBot().getId()).getPermission().getLevel() >= 1) {
             long iq = -1;

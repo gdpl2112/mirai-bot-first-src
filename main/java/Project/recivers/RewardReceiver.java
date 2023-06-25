@@ -2,13 +2,13 @@ package Project.recivers;
 
 import Project.broadcast.normal.MemberJoinedBroadcast;
 import Project.dataBases.DataBase;
+import Project.utils.Tools.Tool;
 import io.github.kloping.date.FrameUtils;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.initialize.FileInitializeValue;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.utils.Tools.Tool;
 import io.github.kloping.serialize.HMLObject;
 
 import java.util.LinkedHashMap;
@@ -34,6 +34,7 @@ public class RewardReceiver {
         MemberJoinedBroadcast.INSTANCE.add(new MemberJoinedBroadcast.MemberJoinedReceiver() {
             @Override
             public void onReceive(long q, long g, long iq) {
+                if (iq < 0) return;
                 if (recordMap.containsKey(iq)) {
                     for (InviteRecord record : recordMap.get(iq)) {
                         if (record.q == q) {
@@ -43,6 +44,7 @@ public class RewardReceiver {
                 }
                 FrameUtils.SERVICE.schedule(() -> {
                     boolean k = BootstarpResource.getBot().getGroup(g).contains(q);
+
                     if (k) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(Tool.INSTANCE.at(iq)).append(".\n").append("邀请奖励:").append("2w积分");
@@ -56,6 +58,7 @@ public class RewardReceiver {
                         MapUtils.append(recordMap, iq, record, LinkedList.class);
                         FileInitializeValue.putValues(PATH, recordMap);
                     }
+
                 }, 5, TimeUnit.MINUTES);
             }
         });

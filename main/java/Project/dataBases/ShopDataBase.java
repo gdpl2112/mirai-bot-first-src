@@ -4,6 +4,7 @@ import Project.commons.gameEntitys.ShopItem;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getShopItemMapper;
@@ -12,7 +13,7 @@ import static Project.aSpring.SpringBootResource.getShopItemMapper;
  * @author github-kloping
  */
 public class ShopDataBase {
-    public static final Map<Integer, ShopItem> ITEM_MAP = new ConcurrentHashMap<>();
+    public static final Map<Integer, ShopItem> ITEM_MAP = new TreeMap<>();
     private static Integer anID = 0;
 
     public ShopDataBase() {
