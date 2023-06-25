@@ -1,5 +1,4 @@
 import io.github.kloping.clasz.ClassUtils;
-import io.github.kloping.mirai0.commons.WhInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class CreateTable {
         javaProperty2SqlColumnMap.put("String", "VARCHAR(255)");
     }
 
-    public static final Class c = WhInfo.class;
+    public static final Class c = String.class;
 
     public static void main(String[] args) throws IOException {
         createTable(c);
