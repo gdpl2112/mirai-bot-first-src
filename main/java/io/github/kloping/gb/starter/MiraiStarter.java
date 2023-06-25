@@ -2,10 +2,16 @@ package io.github.kloping.gb.starter;
 
 import io.github.kloping.common.Public;
 import io.github.kloping.file.FileUtils;
+import io.github.kloping.gb.GameStarter;
+import io.github.kloping.gb.MessageContext;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
+import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.SimpleListenerHost;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +41,8 @@ public class MiraiStarter {
     }
 
     public static class DefaultHandler extends SimpleListenerHost {
-
+        @EventHandler
+        public void onEvent(GroupMessageEvent event) {
+        }
     }
 }
