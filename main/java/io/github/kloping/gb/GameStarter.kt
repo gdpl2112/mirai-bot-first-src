@@ -40,6 +40,13 @@ class MessageContext {
         this.gid = gid.toString()
         this.oid = oid.toString()
     }
+
+    fun getAt(): DataAt? {
+        for (msg in msgs) {
+            if (msg is DataAt) return msg;
+        }
+        return null;
+    }
 }
 
 abstract class MessageData {

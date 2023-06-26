@@ -28,8 +28,6 @@ public class MiraiStarter {
     public static final String F_PATH = "work";
     public static final String S_PATH = "console";
 
-    public static BootstrapResource bootstrap;
-
     public static void main(String[] args) throws IOException {
         new File(F_PATH, S_PATH).mkdirs();
         Public.EXECUTOR_SERVICE.submit(() -> {
@@ -37,7 +35,6 @@ public class MiraiStarter {
                     new MiraiConsoleImplementationTerminal(Paths.get(F_PATH, S_PATH));
             MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         });
-        bootstrap = new BootstrapResource();
         GlobalEventChannel.INSTANCE.registerListenerHost(new DefaultHandler());
 
         String name = ManagementFactory.getRuntimeMXBean().getName();
@@ -67,7 +64,7 @@ public class MiraiStarter {
                     context.getMsgs().add(new DataAt(String.valueOf(at.getTarget())));
                 }
             }
-            bootstrap.starter.handler(botInterface, context);
+            BootstrapResource.INSTANCE.starter.handler(botInterface, context);
         }
 
         @EventHandler

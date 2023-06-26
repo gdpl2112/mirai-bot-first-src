@@ -53,13 +53,20 @@ public class GuildBotInterface implements BotInterface {
     public void sendEnvReplyWithAt(String gid, String text, MessageContext context) {
         MessageBuilder builder = new MessageBuilder();
         builder.append(new At(At.MEMBER_TYPE, context.getSid()));
-        builder.append(text);
-        builder.reply((RawMessage) context.getData());
+        builder.append("\n").append(text).reply((RawMessage) context.getData());
         sendEnv(gid, builder.build());
     }
 
     @Override
     public void sendEnv(String gid, String text) {
         sendEnv(gid, new MessageBuilder().append(text).build());
+    }
+
+    @Override
+    public void sendEnvWithAt(String gid, String text, MessageContext context) {
+        MessageBuilder builder = new MessageBuilder();
+        builder.append(new At(At.MEMBER_TYPE, context.getSid()));
+        builder.append("\n").append(text);
+        sendEnv(gid, builder.build());
     }
 }

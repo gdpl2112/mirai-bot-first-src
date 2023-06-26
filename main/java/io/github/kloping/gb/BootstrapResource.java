@@ -4,6 +4,7 @@ import io.github.kloping.MySpringTool.StarterObjectApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.arr.Class2OMap;
 import io.github.kloping.gb.spring.MySpringApplication;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +16,8 @@ import java.util.concurrent.Executors;
  */
 public class BootstrapResource implements Runnable {
     public static final ExecutorService THREADS = Executors.newFixedThreadPool(20);
+
+    public static final BootstrapResource INSTANCE = new BootstrapResource();
 
     private StarterObjectApplication application;
     public GameStarter starter;
@@ -29,6 +32,7 @@ public class BootstrapResource implements Runnable {
         starter = new GameStarter() {
             @Override
             public void handler(@NotNull BotInterface bot, @NotNull MessageContext context) {
+                Class2OMap map = Class2OMap.create(context.getMsgs().toArray());
                 StringBuilder sb = new StringBuilder();
                 for (MessageData datum : context.getMsgs()) {
                     if (datum instanceof DataText) {
@@ -41,13 +45,13 @@ public class BootstrapResource implements Runnable {
                         sb.append(String.format("<@%s>", at.getId()));
                     }
                 }
-                application.executeMethod(context.getSid(), sb.toString(), context, bot, context.getSid());
+                application.executeMethod(context.getSid(), sb.toString(), context, bot, context.getSid(), map);
             }
         };
         application = new StarterObjectApplication(BootstrapResource.class);
         application.setMainKey(String.class);
         application.setWaitTime(30 * 1000L);
-        application.setAccessTypes(MessageContext.class, BotInterface.class, String.class);
+        application.setAccessTypes(MessageContext.class, BotInterface.class, String.class, Class2OMap.class);
         application.addConfFile("./conf/conf.txt");
         //将springboot bean 加入
         try {
@@ -71,7 +75,7 @@ public class BootstrapResource implements Runnable {
                         MessageContext context = (MessageContext) objects[2];
                         BotInterface bot = (BotInterface) objects[3];
                         if (t instanceof String) {
-                            bot.sendEnv(context.getGid(), t.toString());
+                            bot.sendEnvReplyWithAt(context.getGid(), t.toString(), context);
                         }
                     });
                 }

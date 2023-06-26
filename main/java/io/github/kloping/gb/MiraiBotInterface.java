@@ -38,8 +38,18 @@ public class MiraiBotInterface implements BotInterface {
     public void sendEnvReplyWithAt(String gid, String text, MessageContext context) {
         MessageChainBuilder builder = new MessageChainBuilder();
         QuoteReply reply = new QuoteReply((MessageChain) context.getData());
-        builder.add(new At(Long.valueOf(context.getSid())));
+        builder.append(new At(Long.valueOf(context.getSid())));
+        builder.append("\n");
         builder.append(text).append(reply);
+        bot.getGroup(Long.valueOf(gid)).sendMessage(builder.build());
+    }
+
+    @Override
+    public void sendEnvWithAt(String gid, String text, MessageContext context) {
+        MessageChainBuilder builder = new MessageChainBuilder();
+        builder.append(new At(Long.valueOf(context.getSid())));
+        builder.append("\n");
+        builder.append(text);
         bot.getGroup(Long.valueOf(gid)).sendMessage(builder.build());
     }
 }

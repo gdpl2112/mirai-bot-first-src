@@ -47,4 +47,8 @@ public class UserScore implements Serializable {
         this.score += s0.longValue();
         return this;
     }
+    public UserScore addSScore(Number s0) {
+        this.sScore += s0.longValue();
+        return this;
+    }
 }

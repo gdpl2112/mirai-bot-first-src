@@ -8,6 +8,8 @@ public interface BotInterface {
 
     void sendEnv(String gid, String text);
 
+    void sendEnvWithAt(String gid, String text, MessageContext context);
+
     void sendEnvReply(String gid, String text, MessageContext context);
 
     void sendEnvReplyWithAt(String gid, String text, MessageContext context);

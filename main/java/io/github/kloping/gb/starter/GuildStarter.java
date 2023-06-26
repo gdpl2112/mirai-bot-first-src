@@ -15,8 +15,6 @@ import net.mamoe.mirai.message.data.Image;
  */
 public class GuildStarter {
 
-    public static BootstrapResource bootstrap;
-
     public static BotInterface botInterface;
 
     public static void main(String[] args) {
@@ -25,7 +23,6 @@ public class GuildStarter {
         starter.getConfig().setCode(Intents.GUILD_MESSAGES.getCode());
         starter.run();
         starter.APPLICATION.logger.setLogLevel(0);
-        bootstrap = new BootstrapResource();
         botInterface = new GuildBotInterface(starter.getBot());
         starter.registerListenerHost(new ListenerHost() {
             @Override
@@ -52,7 +49,7 @@ public class GuildStarter {
                         context.getMsgs().add(new DataAt(at.getTargetId()));
                     }
                 });
-                bootstrap.starter.handler(botInterface, context);
+                BootstrapResource.INSTANCE.starter.handler(botInterface, context);
             }
         });
     }
