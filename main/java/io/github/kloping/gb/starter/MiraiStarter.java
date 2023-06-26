@@ -41,6 +41,7 @@ public class MiraiStarter {
         String pid = name.split("@")[0];
         if (FILE_PID.exists()) FILE_PID.delete();
         FileUtils.putStringInFile(pid, FILE_PID);
+        BootstrapResource.INSTANCE.info("bot from mirai started!");
     }
 
     public static class DefaultHandler extends SimpleListenerHost {

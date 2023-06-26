@@ -19,7 +19,7 @@ public class BootstrapResource implements Runnable {
 
     public static final BootstrapResource INSTANCE = new BootstrapResource();
 
-    private StarterObjectApplication application;
+    public StarterObjectApplication application;
     public GameStarter starter;
 
     public BootstrapResource() {
@@ -84,6 +84,11 @@ public class BootstrapResource implements Runnable {
         application.run0(ApplicationStarterClass.class);
     }
 
+    public void info(String line) {
+        System.out.println("\033[32m" + line + "\033[m");
+    }
+
     @CommentScan(path = "io.github.kloping.gb")
-    public static class ApplicationStarterClass { }
+    public static class ApplicationStarterClass {
+    }
 }
