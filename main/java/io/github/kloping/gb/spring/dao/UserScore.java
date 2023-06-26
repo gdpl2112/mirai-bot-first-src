@@ -30,7 +30,7 @@ public class UserScore implements Serializable {
     private Long day = -1L;
     private Long timesDay = -1L;
     @TableId
-    private Long who;
+    private String id;
     private Long earnings = 0L;
     private Long debuffs = 0L;
 

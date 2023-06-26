@@ -4,5 +4,11 @@ package io.github.kloping.gb;
  * @author github.kloping
  */
 public interface BotInterface {
-    long getBotId();
+    String getBotId();
+
+    void sendEnv(String gid, String text);
+
+    void sendEnvReply(String gid, String text, MessageContext context);
+
+    void sendEnvReplyWithAt(String gid, String text, MessageContext context);
 }

@@ -8,6 +8,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.net.URL;
 
 /**
  * @author github.kloping

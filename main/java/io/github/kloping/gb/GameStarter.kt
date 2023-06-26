@@ -1,14 +1,18 @@
 package io.github.kloping.gb
 
+import java.util.*
+
 /**
  * @author github.kloping
  */
-abstract class GameStarter(private val bot: BotInterface) {
-    abstract fun handler(context: MessageContext): Any?
+abstract class GameStarter {
+    abstract fun handler(bot: BotInterface, context: MessageContext);
 }
 
-abstract class MessageContext : BotInterface {
-    val data = emptyArray<MessageData>()
+class MessageContext {
+    val msgs = LinkedList<MessageData>()
+
+    var data: Any? = null
 
     /**
      * sender id
@@ -29,6 +33,12 @@ abstract class MessageContext : BotInterface {
         this.sid = sid
         this.gid = gid
         this.oid = oid
+    }
+
+    constructor(sid: Long, gid: Long, oid: Long) {
+        this.sid = sid.toString()
+        this.gid = gid.toString()
+        this.oid = oid.toString()
     }
 }
 
