@@ -2,12 +2,12 @@ package io.github.kloping.gb.services;
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.gb.Resources;
+import io.github.kloping.gb.Utils;
 import io.github.kloping.gb.spring.dao.UserScore;
 import io.github.kloping.gb.spring.mapper.UserScoreMapper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -15,20 +15,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Entity
 public class UserService {
-    public static final Integer MAX = 15;
-    public static Integer INDEX = 0;
     public static final List<String> CLOSED = new CopyOnWriteArrayList<>();
-    public Map<String, UserScore> temp = new HashMap<>();
 
     public UserService() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                temp.forEach((id, us) -> {
-                    mapper.updateById(us);
-                });
-            }
-        });
     }
 
     @AutoStand
@@ -52,14 +41,12 @@ public class UserService {
      * @return
      */
     public synchronized UserScore getUserScore(String id, boolean force) {
-        if (temp.containsKey(id)) return temp.get(id);
         UserScore score = mapper.selectById(id);
         if (force && score == null) {
             score = new UserScore();
             score.setId(id);
             mapper.insert(score);
         }
-        temp.put(id, score);
         return score;
     }
 
@@ -70,10 +57,7 @@ public class UserService {
      * @return
      */
     public synchronized boolean apply(UserScore user) {
-        if (INDEX++ % MAX == 0) {
-            return mapper.updateById(user) > 0;
-        }
-        return temp.put(user.getId(), user) == null;
+        return mapper.updateById(user) > 0;
     }
 
     /**
@@ -92,10 +76,10 @@ public class UserService {
                 score.addScore(num);
                 apply(score);
             } else {
-                return "积分不足!";
+                return Resources.SCORE_NOT_ENOUGH;
             }
         }
-        return "取积分成功!";
+        return Resources.SUCCESS;
     }
 
     /**
@@ -114,10 +98,10 @@ public class UserService {
                 score.addSScore(num);
                 apply(score);
             } else {
-                return "积分不足!";
+                return Resources.SCORE_NOT_ENOUGH;
             }
         }
-        return "存积分成功!";
+        return Resources.SUCCESS;
     }
 
     /**
@@ -132,15 +116,44 @@ public class UserService {
         if (m0 <= 0) return null;
         UserScore score1 = getUserScore(qid, true);
         UserScore score2 = getUserScore(tid);
-        if (score2 == null) return null;
+        if (score2 == null) return Resources.NOT_REGISTERED;
         if (score1.getScore() < m0) {
-            return "积分不足!";
+            return Resources.SCORE_NOT_ENOUGH;
         } else {
             score1.addScore(-m0);
             score2.addScore(m0);
             apply(score1);
             apply(score2);
         }
-        return "转让完成!";
+        return Resources.SUCCESS;
+    }
+
+    /**
+     * 打劫
+     *
+     * @param s1 打劫者
+     * @param s2 被打劫者
+     * @return
+     */
+    public String robbery(String s1, String s2) {
+        UserScore score1 = getUserScore(s1);
+        UserScore score2 = getUserScore(s2);
+        long lI = score1.getScore();
+        long lY = score2.getScore();
+        long fI = score1.getFz();
+        if (lI > 60) {
+            if (lY > 60) {
+                if (fI < 12) {
+                    long l = Utils.RANDOM.nextInt(20) + 40;
+                    score1.addScore(l);
+                    score1.addFz(1);
+                    score2.addScore(-l);
+                    apply(score1);
+                    apply(score2);
+                    return "成功打劫了" + l + "积分!\n增加1指数";
+                }
+            }
+        }
+        return Resources.ROBBERY_FAILED;
     }
 }
