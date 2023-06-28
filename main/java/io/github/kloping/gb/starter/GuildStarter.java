@@ -6,6 +6,7 @@ import io.github.kloping.qqbot.api.Intents;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.entities.ex.At;
 import io.github.kloping.qqbot.entities.ex.PlainText;
+import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
 import net.mamoe.mirai.message.data.Image;
