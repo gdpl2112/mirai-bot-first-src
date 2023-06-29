@@ -2,9 +2,9 @@ package io.github.kloping.gb.controllers;
 
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.gb.DataAt;
-import io.github.kloping.gb.FinalStrings;
 import io.github.kloping.gb.MessageContext;
 import io.github.kloping.gb.Utils;
+import io.github.kloping.gb.finals.FinalStrings;
 import io.github.kloping.gb.services.UserService;
 import io.github.kloping.gb.spring.dao.UserScore;
 
@@ -45,6 +45,17 @@ public class UserController {
         return service.transfer(qid, m0, at.getId());
     }
 
+
+    @Action(value = "我的收益", otherName = {"收益详情", "积分收益"})
+    public String earnings(String id) {
+        return service.earnings(id);
+    }
+
+    @Action(value = "捐款")
+    public String donate(String qid) {
+        return service.donate(qid);
+    }
+
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
     public String robbery(String qid, @AllMess String str, MessageContext context) {
         DataAt at = context.getAt();
@@ -60,5 +71,10 @@ public class UserController {
     @Action("猜拳<.+=>str>")
     public String mora(String qid, @Param("str") String str) {
         return service.mora(qid, str);
+    }
+
+    @Action(value = "签到")
+    public String sign(String id) {
+        return service.sign(id);
     }
 }

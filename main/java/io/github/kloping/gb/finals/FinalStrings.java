@@ -1,4 +1,4 @@
-package io.github.kloping.gb;
+package io.github.kloping.gb.finals;
 
 /**
  * @author github.kloping

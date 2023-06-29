@@ -32,7 +32,6 @@ public class BootstrapResource implements Runnable {
         starter = new GameStarter() {
             @Override
             public void handler(@NotNull BotInterface bot, @NotNull MessageContext context) {
-                Class2OMap map = Class2OMap.create(context.getMsgs().toArray());
                 StringBuilder sb = new StringBuilder();
                 for (MessageData datum : context.getMsgs()) {
                     if (datum instanceof DataText) {
@@ -45,15 +44,15 @@ public class BootstrapResource implements Runnable {
                         sb.append(String.format("<@%s>", at.getId()));
                     }
                 }
-                application.executeMethod(context.getSid(), sb.toString(), context, bot, context.getSid(), map);
+                application.executeMethod(context.getSid(), sb.toString(), context, bot, context.getSid());
             }
         };
         application = new StarterObjectApplication(BootstrapResource.class);
         application.setMainKey(String.class);
         application.setWaitTime(30 * 1000L);
-        application.setAccessTypes(MessageContext.class, BotInterface.class, String.class, Class2OMap.class);
+        application.setAccessTypes(MessageContext.class, BotInterface.class, String.class);
         application.addConfFile("./conf/conf.txt");
-        //将springboot bean 加入
+        // 将 springboot bean 加入
         try {
             Class<?>[] classes = application.INSTANCE.getPackageScanner()
                     .scan(BootstrapResource.class, BootstrapResource.class.getClassLoader(),

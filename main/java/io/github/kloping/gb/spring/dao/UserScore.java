@@ -2,7 +2,7 @@ package io.github.kloping.gb.spring.dao;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.github.kloping.gb.FinalConfig;
+import io.github.kloping.gb.finals.FinalConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

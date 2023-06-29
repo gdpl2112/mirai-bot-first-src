@@ -46,9 +46,23 @@ public class MySpringApplication {
                             "\tALTER `who` DROP DEFAULT;\n" +
                             "ALTER TABLE `user_score`\n" +
                             "\tCHANGE COLUMN `who` `id` VARCHAR(50) NOT NULL FIRST;");
+                    System.out.println("user_score 结构更新完成");
                 }
             }
         }
-        System.out.println("user_score 结构更新完成");
+
+        list = jdbcTemplate.queryForList("SHOW COLUMNS FROM `signlist`;");
+        for (Map<String, Object> map : list) {
+            String field = map.get("Field").toString();
+            if (field.equals("qid")) {
+                String type = map.get("Type").toString();
+                if (!type.equals("varchar(50)")) {
+                    jdbcTemplate.execute("ALTER TABLE `signlist`\n" +
+                            "\tCHANGE COLUMN `qid` `qid` VARCHAR(50) NOT NULL AFTER `id`;");
+                    System.out.println("signlist 结构更新完成");
+                }
+            }
+        }
+
     }
 }
