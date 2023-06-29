@@ -58,7 +58,7 @@ public class MiraiStarter {
                 } else if (singleMessage instanceof Image) {
                     Image image = (Image) singleMessage;
                     String url = Image.queryUrl(image);
-                    DataImage dataImage = new DataImage(image.getImageId(), url);
+                    DataImage dataImage = new DataImage(url);
                     context.getMsgs().add(dataImage);
                 } else if (singleMessage instanceof At) {
                     At at = (At) singleMessage;

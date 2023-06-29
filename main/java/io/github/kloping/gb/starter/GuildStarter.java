@@ -5,11 +5,10 @@ import io.github.kloping.qqbot.Starter;
 import io.github.kloping.qqbot.api.Intents;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.entities.ex.At;
+import io.github.kloping.qqbot.entities.ex.Image;
 import io.github.kloping.qqbot.entities.ex.PlainText;
-import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
-import net.mamoe.mirai.message.data.Image;
 
 /**
  * @author github.kloping
@@ -43,8 +42,7 @@ public class GuildStarter {
                     context.getMsgs().add(new DataText(text.getText()));
                 } else if (e instanceof Image) {
                     Image image = (Image) e;
-                    String url = Image.queryUrl(image);
-                    DataImage dataImage = new DataImage(image.getImageId(), url);
+                    DataImage dataImage = new DataImage(image.getUrl());
                     context.getMsgs().add(dataImage);
                 } else if (e instanceof At) {
                     At at = (At) e;

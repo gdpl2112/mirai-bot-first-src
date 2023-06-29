@@ -1,5 +1,6 @@
 package io.github.kloping.gb
 
+import java.io.InputStream
 import java.util.*
 
 /**
@@ -55,6 +56,17 @@ abstract class MessageData {
 
 data class DataText(val text: String) : MessageData();
 
-data class DataImage(val id: String, var url: String) : MessageData();
-
 data class DataAt(val id: String) : MessageData();
+
+class DataImage : MessageData {
+    var url: String? = null;
+    var stream: InputStream? = null
+
+    constructor(stream: InputStream) : super() {
+        this.stream = stream
+    }
+
+    constructor(url: String) : super() {
+        this.url = url;
+    }
+}

@@ -11,7 +11,7 @@ import java.util.Random;
 public class Utils {
     public static final Random RANDOM = new Random();
 
-    public static final Integer getInteger(String str, String delete, Integer def) {
+    public static Integer getInteger(String str, String delete, Integer def) {
         String end = str;
         if (Judge.isNotEmpty(delete)) {
             end = str.replace(delete, "");
@@ -23,7 +23,11 @@ public class Utils {
         }
     }
 
-    public static final Long getLong(String str, String delete, Long def) {
+    public static Integer getInteger(String str, Integer def) {
+        return getInteger(str, "", def);
+    }
+
+    public static Long getLong(String str, String delete, Long def) {
         String end = str;
         if (Judge.isNotEmpty(delete)) {
             end = str.replace(delete, "");
@@ -33,5 +37,9 @@ public class Utils {
         } catch (NumberFormatException e) {
             return def;
         }
+    }
+
+    public static Long getLong(String str, Long def) {
+        return getLong(str, "", def);
     }
 }

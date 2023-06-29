@@ -74,9 +74,7 @@ public class BootstrapResource implements Runnable {
                     THREADS.submit(() -> {
                         MessageContext context = (MessageContext) objects[2];
                         BotInterface bot = (BotInterface) objects[3];
-                        if (t instanceof String) {
-                            bot.sendEnvReplyWithAt(context.getGid(), t.toString(), context);
-                        }
+                        int r = bot.onReturn(context, objects[1].toString(), t);
                     });
                 }
             }

@@ -2,6 +2,7 @@ package io.github.kloping.gb.spring.dao;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.github.kloping.gb.FinalConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,9 @@ public class UserScore implements Serializable {
 
     public void addFz(int i) {
         fz += i;
+    }
+
+    public boolean isMaxEarnings() {
+        return getEarnings() + getDebuffs() >= FinalConfig.MAX_EARNINGS;
     }
 }

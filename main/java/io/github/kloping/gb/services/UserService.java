@@ -2,8 +2,10 @@ package io.github.kloping.gb.services;
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.gb.Resources;
+import io.github.kloping.gb.FinalConfig;
+import io.github.kloping.gb.FinalStrings;
 import io.github.kloping.gb.Utils;
+import io.github.kloping.gb.alone.Mora;
 import io.github.kloping.gb.spring.dao.UserScore;
 import io.github.kloping.gb.spring.mapper.UserScoreMapper;
 
@@ -16,9 +18,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Entity
 public class UserService {
     public static final List<String> CLOSED = new CopyOnWriteArrayList<>();
-
-    public UserService() {
-    }
 
     @AutoStand
     UserScoreMapper mapper;
@@ -76,10 +75,10 @@ public class UserService {
                 score.addScore(num);
                 apply(score);
             } else {
-                return Resources.SCORE_NOT_ENOUGH;
+                return FinalStrings.SCORE_NOT_ENOUGH;
             }
         }
-        return Resources.SUCCESS;
+        return FinalStrings.SUCCESS;
     }
 
     /**
@@ -98,10 +97,10 @@ public class UserService {
                 score.addSScore(num);
                 apply(score);
             } else {
-                return Resources.SCORE_NOT_ENOUGH;
+                return FinalStrings.SCORE_NOT_ENOUGH;
             }
         }
-        return Resources.SUCCESS;
+        return FinalStrings.SUCCESS;
     }
 
     /**
@@ -116,16 +115,16 @@ public class UserService {
         if (m0 <= 0) return null;
         UserScore score1 = getUserScore(qid, true);
         UserScore score2 = getUserScore(tid);
-        if (score2 == null) return Resources.NOT_REGISTERED;
+        if (score2 == null) return FinalStrings.NOT_REGISTERED;
         if (score1.getScore() < m0) {
-            return Resources.SCORE_NOT_ENOUGH;
+            return FinalStrings.SCORE_NOT_ENOUGH;
         } else {
             score1.addScore(-m0);
             score2.addScore(m0);
             apply(score1);
             apply(score2);
         }
-        return Resources.SUCCESS;
+        return FinalStrings.SUCCESS;
     }
 
     /**
@@ -154,6 +153,32 @@ public class UserService {
                 }
             }
         }
-        return Resources.ROBBERY_FAILED;
+        return FinalStrings.ROBBERY_FAILED;
+    }
+
+    public String mora(String id, String what) {
+        UserScore user = getUserScore(id);
+        long li = user.getScore();
+        long l1 = Utils.getInteger(what, 0);
+        Mora mora1 = Mora.findMora(what, 0);
+        if (mora1 == null || mora1.getValue().isEmpty()) return "猜拳格式错误=> 猜拳 (石头/剪刀/布) (积分)";
+        if (li < l1) return FinalStrings.SCORE_NOT_ENOUGH;
+        if (l1 < 5) return "积分最小值:5";
+        if (l1 > 1500) return "积分最大值:1500";
+        if (user.isMaxEarnings()) return FinalStrings.MAX_EARNINGS_TIPS;
+        Mora i = Mora.getRc(FinalConfig.MORA_WIN, FinalConfig.MORA_P, mora1);
+        int p = mora1.reff(i);
+        if (p == 0) {
+            return "平局 我出的是" + i.getValue();
+        } else if (p == -1) {
+            user.addScore(-l1).record(-l1);
+            apply(user);
+            return "你输了 我出的是" + i.getValue() + "\n你输掉了:" + l1 + "积分";
+        } else if (p == 1) {
+            user.addScore(l1).record(l1);
+            apply(user);
+            return "你赢了 我出的是" + i.getValue() + "\n你获得了:" + l1 + "积分";
+        }
+        return FinalStrings.ERR_TIPS;
     }
 }

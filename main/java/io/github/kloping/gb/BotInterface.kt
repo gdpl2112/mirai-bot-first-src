@@ -1,16 +1,24 @@
-package io.github.kloping.gb;
+package io.github.kloping.gb
 
 /**
  * @author github.kloping
  */
-public interface BotInterface {
-    String getBotId();
+interface BotInterface {
+    val botId: String
 
-    void sendEnv(String gid, String text);
+    fun onReturn(context: MessageContext, command: String, data: Any?): Int
 
-    void sendEnvWithAt(String gid, String text, MessageContext context);
+    fun getSender(context: MessageContext): Sender
+}
 
-    void sendEnvReply(String gid, String text, MessageContext context);
+interface Sender {
+    fun sendEnv(data: List<MessageData>)
 
-    void sendEnvReplyWithAt(String gid, String text, MessageContext context);
+    fun sendEnv(text: String)
+
+    fun sendEnvWithAt(text: String)
+
+    fun sendEnvReply(text: String)
+
+    fun sendEnvReplyWithAt(text: String)
 }
