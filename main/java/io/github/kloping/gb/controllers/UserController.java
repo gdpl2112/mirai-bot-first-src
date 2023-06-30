@@ -1,12 +1,19 @@
 package io.github.kloping.gb.controllers;
 
 import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.date.DateUtils;
+import io.github.kloping.gb.BotInterface;
 import io.github.kloping.gb.DataAt;
 import io.github.kloping.gb.MessageContext;
 import io.github.kloping.gb.Utils;
 import io.github.kloping.gb.finals.FinalStrings;
 import io.github.kloping.gb.services.UserService;
 import io.github.kloping.gb.spring.dao.UserScore;
+import io.github.kloping.gb.spring.mapper.SingListMapper;
+import io.github.kloping.gb.spring.mapper.UserScoreMapper;
+
+import java.util.List;
 
 
 /**
@@ -14,6 +21,14 @@ import io.github.kloping.gb.spring.dao.UserScore;
  */
 @Controller
 public class UserController {
+
+    @AutoStand
+    ManagerController managerController;
+
+    @Before
+    private void before(MessageContext context) throws NoRunException {
+        if (!managerController.isOpen(context.getGid(), this.getClass())) throw new NoRunException();
+    }
 
     @AutoStand
     UserService service;
@@ -45,7 +60,6 @@ public class UserController {
         return service.transfer(qid, m0, at.getId());
     }
 
-
     @Action(value = "我的收益", otherName = {"收益详情", "积分收益"})
     public String earnings(String id) {
         return service.earnings(id);
@@ -74,7 +88,48 @@ public class UserController {
     }
 
     @Action(value = "签到")
-    public String sign(String id) {
+    public Object sign(String id) throws Exception {
         return service.sign(id);
+    }
+
+
+    @AutoStand
+    SingListMapper singListMapper;
+
+    @Action(value = "今日签榜", otherName = {"签榜"})
+    public String todayList(MessageContext context, BotInterface botInterface) {
+        List<String> list = singListMapper.selectDay(Utils.getTodayDetialString());
+        int n = 1;
+        StringBuilder sb = new StringBuilder();
+        sb.append("今日" + DateUtils.getDay() + "号:VV\r\n");
+        for (String id : list) {
+            String name = botInterface.getInfoGetter(context).getNameFromEnv(context.getSid());
+            name = name.isEmpty() ? id : name;
+            sb.append("第").append(Utils.trans(n++)).append(":\r\n=>").append(name).append("\r\n");
+        }
+        return sb.toString();
+    }
+
+    @AutoStand
+    UserScoreMapper userScoreMapper;
+
+    @Action("积分排行.*?")
+    public String scorePh(@AllMess String all, BotInterface bot, MessageContext context) {
+        Integer s0 = Utils.getInteger(all, 10);
+        s0 = s0 == null ? 10 : s0;
+        s0 = s0 > 20 ? 20 : s0;
+        List<UserScore> list = userScoreMapper.phScore(s0);
+        StringBuilder sb = new StringBuilder();
+        int na = 0;
+        for (UserScore score : list) {
+            ++na;
+            String id = score.getId();
+            String name = bot.getInfoGetter(context).getNameFromEnv(id);
+            name = name == null || name.isEmpty() ? id : name;
+            sb.append("第").append(na).append(": ").
+                    append(name)
+                    .append("=>\n\t").append(score.getScore()).append("积分\n");
+        }
+        return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
 }

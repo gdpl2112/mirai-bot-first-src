@@ -4,10 +4,15 @@ import io.github.kloping.MySpringTool.StarterObjectApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.arr.Class2OMap;
+import io.github.kloping.gb.alone.Parse;
 import io.github.kloping.gb.spring.MySpringApplication;
+import io.github.kloping.string.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,6 +34,7 @@ public class BootstrapResource implements Runnable {
     @Override
     public void run() {
         MySpringApplication.main(new String[]{});
+
         starter = new GameStarter() {
             @Override
             public void handler(@NotNull BotInterface bot, @NotNull MessageContext context) {
@@ -73,9 +79,45 @@ public class BootstrapResource implements Runnable {
                     THREADS.submit(() -> {
                         MessageContext context = (MessageContext) objects[2];
                         BotInterface bot = (BotInterface) objects[3];
-                        int r = bot.onReturn(context, objects[1].toString(), t);
+                        String command = objects[1].toString();
+
+                        Object out = null;
+                        try {
+                            out = filter(t);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        int r = bot.onReturn(context, command, out);
                     });
                 }
+            }
+
+            private Object filter(Object t) throws Exception {
+                if (t instanceof String) {
+                    List<Object> list = Parse.aStart(t.toString());
+                    if (list.size() > 1) {
+                        List<MessageData> datas = new ArrayList<>();
+                        for (Object e0 : list) {
+                            String s0 = e0.toString();
+                            if (s0.startsWith("<Pic:")) {
+                                String ss = StringUtils.removeStr(s0, "<", ">", "[", "]");
+                                int i1 = ss.indexOf(":");
+                                String s1 = ss.substring(0, i1);
+                                String s2 = ss.substring(i1 + 1);
+                                if (s2.startsWith("http")) {
+                                    datas.add(new DataImage(new URL(s2).openStream()));
+                                } else {
+                                    datas.add(new DataImage(new FileInputStream(s2)));
+                                }
+                            } else {
+                                datas.add(new DataText(s0));
+                            }
+                        }
+                        return datas;
+                    }
+                }
+                return t.toString();
             }
         });
         application.run0(ApplicationStarterClass.class);

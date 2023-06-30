@@ -30,7 +30,7 @@ public interface SingListMapper {
      * @return
      */
     @Select("SELECT `qid` FROM `signlist` WHERE `day`=#{day} ORDER BY `time`")
-    List<Long> selectDay(@Param("day") String day);
+    List<String> selectDay(@Param("day") String day);
 
 
     /**

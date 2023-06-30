@@ -68,6 +68,8 @@ public class Drawer {
         return file;
     }
 
+/*
+
     public static final String drawInfo(PersonInfo p) {
         int width = 600;
         int height = 600 - 50;
@@ -416,6 +418,8 @@ public class Drawer {
         }
         return saveTempImage(image).getPath();
     }
+*/
+
 
     private static int[] getBoneXY(int id) {
         switch (id) {
@@ -523,7 +527,7 @@ public class Drawer {
     }
 
     public static String createFont(String str) {
-        int width = 500;
+        int width = 300;
         int height = 100;
         if (HIST_FONT_IMAGES.containsKey(str)) {
             if (HIST_FONT_IMAGES.get(str).exists()) {

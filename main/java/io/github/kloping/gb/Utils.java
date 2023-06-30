@@ -74,19 +74,19 @@ public class Utils {
     public static final BigDecimal bw = new BigDecimal(10000000000000000L);
     public static final SimpleDateFormat HHmmss = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat DDHHmmss = new SimpleDateFormat("dd日HH:mm:ss");
-    public static final Map<Character, Integer> char2int = new ConcurrentHashMap<>();
-    public static final Map<Integer, Character> int2char = new ConcurrentHashMap<>();
+    public static final Map<Character, Integer> CHAR_2_INT = new ConcurrentHashMap<>();
+    public static final Map<Integer, Character> INT_2_CHAR = new ConcurrentHashMap<>();
     public static final String[] numeric = new String[]{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     public static final char[] chArr = new char[]{'十', '百', '千', '万', '亿'};
     public static final String BASE64 = "base64,";
     private String toMon = null;
     private String[] illegalSends = null;
 
-    {
+    static {
         int i = 1;
         for (char c : new Character[]{'一', '二', '三', '四', '五', '六', '七', '八', '九', '十'}) {
-            int2char.put(i, c);
-            char2int.put(c, i);
+            INT_2_CHAR.put(i, c);
+            CHAR_2_INT.put(c, i);
             i++;
         }
     }
@@ -547,7 +547,7 @@ public class Utils {
         List<Character> cs = new ArrayList<>();
         char[] cs1 = str.toCharArray();
         for (char c1 : cs1) {
-            if (char2int.containsKey(c1)) {
+            if (CHAR_2_INT.containsKey(c1)) {
                 cs.add(c1);
                 continue;
             }

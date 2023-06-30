@@ -35,34 +35,43 @@ public class MySpringApplication {
     }
 
     private static void try0(JdbcTemplate jdbcTemplate) {
+        modify0(jdbcTemplate, "`user_score`", "who", "varchar(50)",
+                "ALTER TABLE `user_score`\n" +
+                        "\tALTER `who` DROP DEFAULT;\n" +
+                        "ALTER TABLE `user_score`\n" +
+                        "\tCHANGE COLUMN `who` `id` VARCHAR(50) NOT NULL FIRST;");
+
+        modify0(jdbcTemplate, "`signlist`", "qid", "varchar(50)",
+                "ALTER TABLE `signlist`\n" +
+                        "\tCHANGE COLUMN `qid` `qid` VARCHAR(50) NOT NULL AFTER `id`;");
+
+
+        modify0(jdbcTemplate, "`group_conf`", "id", "varchar(50)",
+                "ALTER TABLE `group_conf`\n" +
+                        "\tCHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
+        modify0(jdbcTemplate, "`father`", "id", "varchar(50)",
+                "ALTER TABLE `father`\n" +
+                        "\tCHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
+
+    }
+
+    public static boolean modify0(JdbcTemplate template, String table, String field, String type, String sql) {
         List<Map<String, Object>> list =
-                jdbcTemplate.queryForList("SHOW COLUMNS FROM `user_score`;");
+                template.queryForList("SHOW COLUMNS FROM " + table + ";");
+
         for (Map<String, Object> map : list) {
-            String field = map.get("Field").toString();
-            if (field.equals("who")) {
-                String type = map.get("Type").toString();
-                if (!type.equals("varchar(50)")) {
-                    jdbcTemplate.execute("ALTER TABLE `user_score`\n" +
-                            "\tALTER `who` DROP DEFAULT;\n" +
-                            "ALTER TABLE `user_score`\n" +
-                            "\tCHANGE COLUMN `who` `id` VARCHAR(50) NOT NULL FIRST;");
-                    System.out.println("user_score 结构更新完成");
+            String field1 = map.get("Field").toString();
+            if (field.equals(field1)) {
+                String type1 = map.get("Type").toString();
+                if (!type.equals(type1)) {
+                    template.execute(sql);
+                    System.out.println(table + "结构更新完成");
+                    return true;
                 }
             }
         }
-
-        list = jdbcTemplate.queryForList("SHOW COLUMNS FROM `signlist`;");
-        for (Map<String, Object> map : list) {
-            String field = map.get("Field").toString();
-            if (field.equals("qid")) {
-                String type = map.get("Type").toString();
-                if (!type.equals("varchar(50)")) {
-                    jdbcTemplate.execute("ALTER TABLE `signlist`\n" +
-                            "\tCHANGE COLUMN `qid` `qid` VARCHAR(50) NOT NULL AFTER `id`;");
-                    System.out.println("signlist 结构更新完成");
-                }
-            }
-        }
-
+        return false;
     }
 }

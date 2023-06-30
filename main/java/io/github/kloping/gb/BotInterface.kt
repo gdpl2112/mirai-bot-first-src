@@ -9,6 +9,13 @@ interface BotInterface {
     fun onReturn(context: MessageContext, command: String, data: Any?): Int
 
     fun getSender(context: MessageContext): Sender
+
+    fun getInfoGetter(context: MessageContext): InfoGetter;
+}
+
+interface InfoGetter {
+    fun getName(id: String): String;
+    fun getNameFromEnv(id: String): String;
 }
 
 interface Sender {

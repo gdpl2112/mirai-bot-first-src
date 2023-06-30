@@ -13,6 +13,7 @@ import io.github.kloping.gb.spring.dao.UserScore;
 import io.github.kloping.gb.spring.mapper.SingListMapper;
 import io.github.kloping.gb.spring.mapper.UserScoreMapper;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -153,7 +154,11 @@ public class UserService {
                     long l = RANDOM.nextInt(20) + 40;
                     score1.addScore(l);
                     score1.addFz(1);
+                    score1.record(l);
+
                     score2.addScore(-l);
+                    score2.record(-l);
+
                     apply(score1);
                     apply(score2);
                     return "成功打劫了" + l + "积分!\n增加1指数";
@@ -227,7 +232,7 @@ public class UserService {
      * @param id
      * @return
      */
-    public String sign(String id) {
+    public String sign(String id) throws FileNotFoundException {
         synchronized (id) {
             UserScore user = getUserScore(id);
             Integer day = DateUtils.getDay();
@@ -239,15 +244,15 @@ public class UserService {
                 user.setDays((user.getDays().intValue() + 1L));
                 user.addScore(100);
                 apply(user);
-                singListMapper.insert(id, day.toString(), System.currentTimeMillis());
-                Object[] lines = regDay(id, day.toString());
+                singListMapper.insert(id, Utils.getTodayDetialString(), System.currentTimeMillis());
+                Object[] lines = regDay(id, Utils.getTodayDetialString());
                 String line = lines[0].toString();
                 Integer st = Integer.valueOf(lines[1].toString());
                 if (line.isEmpty()) {
-                    return "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + user.getDays() + "次";
+                    return "签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + user.getDays() + "次";
                 } else {
-                    return "\n签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + user.getDays() + "次\n"
-                            + Drawer.drawLine("第" + Utils.trans(st) + "签") + "\n" + line;
+                    return "签到成功!\n增加100积分\n犯罪指数清除\n累计签到:" + user.getDays() + "次\n" + line
+                            + String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawLine("第" + Utils.trans(st) + "签"));
                 }
             }
         }

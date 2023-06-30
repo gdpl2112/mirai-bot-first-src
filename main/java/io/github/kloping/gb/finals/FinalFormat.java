@@ -5,6 +5,10 @@ package io.github.kloping.gb.finals;
  * @date 2023-06-29
  */
 public class FinalFormat {
+
+    public static final String FORMAT_IMAGE = "<Pic:%s>";
+    public static final String FORMAT_AT = "<At:%s>";
+
     public static final String CE_CA = "%s-%s\n%s/%s";
     public static final String TIPS_BUY_SUCCEED = "%s\n购买成功";
     public static final String WORK_WAIT_TIPS = "打工冷却中.\n大约等待%s";
