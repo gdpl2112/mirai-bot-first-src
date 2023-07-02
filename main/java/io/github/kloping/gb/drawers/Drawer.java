@@ -3,6 +3,10 @@ package io.github.kloping.gb.drawers;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import io.github.kloping.gb.ImageManager;
 import io.github.kloping.gb.Utils;
+import io.github.kloping.gb.game.GameConfig;
+import io.github.kloping.gb.spring.dao.PersonInfo;
+import io.github.kloping.gb.spring.dao.WhInfo;
+import io.github.kloping.number.NumberUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,7 +19,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -68,9 +71,26 @@ public class Drawer {
         return file;
     }
 
-/*
+//    private static void drawStar(Graphics g, WinStar winStar) {
+//        int x = 350;
+//        AtomicInteger y = new AtomicInteger(350);
+//        winStar.flushMap();
+//        winStar.getStarMap().forEach((k, v) -> {
+//            String s0 = "";
+//            if (k == LEVEL4) {
+//                s0 = "☆x" + v;
+//            } else {
+//                for (Integer integer = 0; integer < v; integer++) {
+//                    s0 += "☆";
+//                }
+//            }
+//            g.setColor(k);
+//            g.drawString(s0, x, y.get());
+//            y.addAndGet(40);
+//        });
+//    }
 
-    public static final String drawInfo(PersonInfo p) {
+    public static final String drawInfo(WhInfo w, PersonInfo p) {
         int width = 600;
         int height = 600 - 50;
         BufferedImage image = null;
@@ -100,57 +120,57 @@ public class Drawer {
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(xpColor);
-        g.fillRect(x, y, (int) (toPercent(p.getXp(), p.getXpL()) / 100.0 * width) - x, 50);
+        g.fillRect(x, y, (int) (NumberUtils.toPercent(w.getXp(), w.getXpL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("经验:%s/%s", p.getXp(), p.getXpL())), x, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(String.format("经验:%s/%s", w.getXp(), w.getXpL())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(hpColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
-        if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
-            Number v0 = p.getTagValue(SkillDataBase.TAG_SHIELD);
-            g.setColor(shieldColor);
-            g.fillRect(x, y, (int) (toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
-        }
+        g.fillRect(x, y, (int) (NumberUtils.toPercent(w.getHp(), w.getHpl()) / 100.0 * width) - x, 50);
+//        if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
+//            Number v0 = p.getTagValue(SkillDataBase.TAG_SHIELD);
+//            g.setColor(shieldColor);
+//            g.fillRect(x, y, (int) (NumberUtils.toPercent(v0.longValue(), p.getHpl()) / 100.0 * width) - x, 50);
+//        }
         g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(String.format("血量:%s/%s", w.getHp(), w.getHpl())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(hlColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHl(), p.getHll()) / 100.0 * width) - x, 50);
+        g.fillRect(x, y, (int) (NumberUtils.toPercent(w.getHl(), w.getHll()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("魂力:%s/%s", p.getHl(), p.getHll())), x, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(String.format("魂力:%s/%s", w.getHl(), w.getHll())), x, y + SMALL_FONT28.getSize());
         //==================================
         y = y + 60;
         g.setColor(Color.WHITE);
         g.fillRect(x, y, width - x, 50);
         g.setColor(hjColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
+        g.fillRect(x, y, (int) (NumberUtils.toPercent(w.getHj(), w.getHjL()) / 100.0 * width) - x, 50);
         g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(String.format("精神力:%s/%s", w.getHj(), w.getHjL())), x, y + SMALL_FONT28.getSize());
         //==================================
         g.setFont(SMALL_FONT15);
         y = y + 60;
-        g.drawImage(loadImage(getImgPathById(2001, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(ImageManager.getImgPathById(2001)), x, y, 50, 50, null);
         g.drawString("金魂币", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT28);
-        g.drawString(Utils.filterBigNum(" : " + p.getGold() + " 个"), x + 60, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(": " + p.getGold() + " 个"), x + 60, y + SMALL_FONT28.getSize());
         g.setFont(SMALL_FONT15);
         //==================================
         y = y + 60;
-        g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
+        g.drawImage(loadImage(ImageManager.getImgPathById(2002)), x, y, 50, 50, null);
         g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
         g.setFont(SMALL_FONT28);
-        g.drawString(Utils.filterBigNum(" : " + p.att() + "点"), x + 60, y + SMALL_FONT28.getSize());
+        g.drawString(Utils.filterBigNum(": " + w.getAtt() + "点"), x + 60, y + SMALL_FONT28.getSize());
         y = y + 85;
         g.setColor(levelColor);
         g.setFont(BIG_FONT35);
-        g.drawString("等级:" + p.getLevel() + "=>" + GameTool.getFH(p.getLevel().intValue()), x, y);
-        drawStar(g, new WinStar(p.getWinC()));
+        g.drawString("等级:" + w.getLevel() + "=>" + GameConfig.getFH(w.getLevel().intValue()), x, y);
+//        drawStar(g, new WinStar(p.getWinC()));
         //==================================
         g.setColor(BORDER_COLOR);
         g.setFont(BIG_FONT35);
@@ -158,268 +178,248 @@ public class Drawer {
         g.dispose();
         return saveTempImage(image).getPath();
     }
-
-    public static final String drawGhostInfo(GhostObj p) {
-        int width = 600;
-        int height = 420;
-        BufferedImage image = null;
-        Graphics g = null;
-        if (INFO_BASE == null) {
-            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-            g = image.getGraphics();
-            g.setClip(0, 0, width, height);
-            g.setColor(BACKGROUND_COLOR);
-            g.fillRect(0, 0, width, height);
-        } else {
-            try {
-                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            g = image.getGraphics();
-        }
-        g.setFont(BIG_FONT35);
-        int y = 40;
-        g.setColor(BORDER_COLOR);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
-        g.setFont(SMALL_FONT28);
-        //==================================
-        int x = 10;
-        y = 2 * 40 - 10;
-        //==================================
-        g.setColor(xpColor);
-        g.fillRect(x, y, (int) (1 * width) - x, 50);
-        g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("经验:%s", p.getXp())), x, y + SMALL_FONT28.getSize());
-        //==================================
-        y = y + 60;
-        g.setColor(Color.WHITE);
-        g.fillRect(x, y, width - x, 50);
-        g.setColor(hpColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
-        if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
-            Number v0 = p.getTagValue(SkillDataBase.TAG_SHIELD);
-            g.setColor(shieldColor);
-            g.fillRect(x, y, (int) (toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
-        }
-        g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT28.getSize());
-        //==================================
-        y = y + 60;
-        g.setColor(Color.WHITE);
-        g.fillRect(x, y, width - x, 50);
-        g.setColor(hjColor);
-        g.fillRect(x, y, (int) (toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
-        g.setColor(Color.black);
-        g.drawString(Utils.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT28.getSize());
-        g.setFont(SMALL_FONT15);
-        //==================================
-        y = y + 60;
-        g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
-        g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
-        g.setFont(SMALL_FONT28);
-        g.drawString(Utils.filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + SMALL_FONT28.getSize());
-        y = y + 85;
-        g.setColor(levelColor);
-        g.setFont(BIG_FONT35);
-        g.drawString(Utils.filterBigNum(String.format("等级: %s => %s(%s)", p.getLevel(), p.getName(), GameTool.getLevelByGhostId(p.getId()))), x, y);
-        //==================================
-        g.setColor(BORDER_COLOR);
-        g.setFont(BIG_FONT35);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
-        g.dispose();
-        return saveTempImage(image).getPath();
-    }
-
-    private static void drawStar(Graphics g, WinStar winStar) {
-        int x = 350;
-        AtomicInteger y = new AtomicInteger(350);
-        winStar.flushMap();
-        winStar.getStarMap().forEach((k, v) -> {
-            String s0 = "";
-            if (k == LEVEL4) {
-                s0 = "☆x" + v;
-            } else {
-                for (Integer integer = 0; integer < v; integer++) {
-                    s0 += "☆";
-                }
-            }
-            g.setColor(k);
-            g.drawString(s0, x, y.get());
-            y.addAndGet(40);
-        });
-    }
-
-    public static final String drawWarp(Warp p) {
-        int width = 400;
-        int height = 400;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.setClip(0, 0, width, height);
-        g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, width, height);
-        g.setFont(BIG_FONT35);
-        Rectangle clip = g.getClipBounds();
-        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
-        int ascent = fm.getAscent();
-        int descent = fm.getDescent();
-        int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(BORDER_COLOR);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
-        g.setFont(SMALL_FONT28);
-        //==================================
-        int x = 10;
-        int eve = 40;
-        y = 2 * 40 - eve;
-        boolean k = false;
-        k = p.getBindQ().longValue() == -1;
-        String m = null;
-        m = k ? "无" : (" & " + MemberUtils.getName(p.getBindQ().longValue()));
-        g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("融合:" + m, x, y + SMALL_FONT28.getSize());
-
-        y = y + eve;
-        k = p.getMaster().longValue() == -1;
-        m = k ? "无" : (" & " + MemberUtils.getName(p.getMaster().longValue()));
-        g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("师傅:" + m, x, y + SMALL_FONT28.getSize());
-
-        for (Long q0 : p.allP()) {
-            y = y + eve;
-            k = q0.longValue() == -1;
-            m = k ? "无" : (" & " + MemberUtils.getName(q0.longValue()));
-            g.setColor(k ? Color.RED : Color.GREEN);
-            g.drawString("徒弟:" + m, x, y + SMALL_FONT28.getSize());
-        }
-
-        y = y + eve;
-        Integer id = qq2id.get(p.getId().longValue());
-        if (id == null) {
-            k = true;
-            m = " 无 ";
-        } else {
-            k = false;
-            Zong zong = getZongInfo(id);
-            m = " in " + zong.getName();
-        }
-        g.setColor(k ? Color.RED : Color.GREEN);
-        g.drawString("所处宗门:" + m, x, y + SMALL_FONT28.getSize());
-        //==================================
-        g.setColor(BORDER_COLOR);
-        g.setFont(BIG_FONT35);
-        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
-        g.dispose();
-        return saveTempImage(image).getPath();
-    }
-
-    public static final String drawGInfo(GInfo p) {
-        return drawGInfoWith(p, "");
-    }
-
-    public static final String drawGInfoWith(GInfo p, String tips) {
-        int width = 400;
-        int height = 500;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.setClip(0, 0, width, height);
-        g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, width, height);
-        g.setFont(BIG_FONT35);
-        Rectangle clip = g.getClipBounds();
-        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
-        int ascent = fm.getAscent();
-        int descent = fm.getDescent();
-        int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.setColor(BORDER_COLOR);
-        g.drawString("※=★===?====$=====☆=?==*=※", 10, 40);
-        Font font = SMALL_FONT22;
-        g.setFont(font);
-        //==================================
-        int x = 10;
-        int eve = 30;
-        y = 2 * 40 - eve;
-        String m = p.getMasterPoint() + "点";
-        g.setColor(Color.BLUE);
-        g.drawString("名师点: " + m, x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计获得物品:" + p.getGotc() + "个", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计使用/失去物品:" + p.getLostc() + "个", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计请求支援次:" + p.getReqc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计支援次:" + p.getReqc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计购买次:" + p.getBuyc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计出售次:" + p.getSalec() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计完成任务次:" + p.getFtc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计修炼次:" + p.getXlc() + "次", x, y + font.getSize());
-        //========
-        y = y + eve;
-        g.drawString("累计击杀魂兽次:" + SpringBootResource.getKillGhostMapper().getNum(p.getQid()) + "次", x, y + font.getSize());
-
-        if (tips != null && !tips.isEmpty()) {
-            y = y + eve;
-            g.drawString(tips, x, y + SMALL_FONT28.getSize());
-        }
-        //==================================
-        g.setColor(BORDER_COLOR);
-        g.setFont(BIG_FONT35);
-        g.drawString("※=?======★=====$==☆=?=*=※", 10, height - 30);
-        g.dispose();
-        return saveTempImage(image).getPath();
-    }
-
-    public static final String drawBoneMap(List<SoulBone> bones) {
-        int width = 400;
-        int height = 400;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
-        g.setClip(0, 0, width, height);
-        g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, width, height);
-        g.setFont(BIG_FONT35);
-        Rectangle clip = g.getClipBounds();
-        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
-        int ascent = fm.getAscent();
-        int descent = fm.getDescent();
-        int y = (clip.height - (ascent + descent)) / 2 + ascent;
-        g.dispose();
-        for (SoulBone bone : bones) {
-            try {
-                int id0 = bone.partId();
-                Image i0 = loadImage(getImgPathById(bone.getOid(), false));
-                i0 = ImageDrawerUtils.image2Size((BufferedImage) i0, 100, 100);
-                int[] xy = getBoneXY(bone.partId());
-                if (xy != null) image = ImageDrawerUtils.putImage(image, (BufferedImage) i0, xy[0], xy[1]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return saveTempImage(image).getPath();
-    }
-*/
-
+//
+//    public static final String drawGhostInfo(GhostObj p) {
+//        int width = 600;
+//        int height = 420;
+//        BufferedImage image = null;
+//        Graphics g = null;
+//        if (INFO_BASE == null) {
+//            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+//            g = image.getGraphics();
+//            g.setClip(0, 0, width, height);
+//            g.setColor(BACKGROUND_COLOR);
+//            g.fillRect(0, 0, width, height);
+//        } else {
+//            try {
+//                image = (BufferedImage) ImageDrawerUtils.image2Size(INFO_BASE, width, height);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            g = image.getGraphics();
+//        }
+//        g.setFont(BIG_FONT35);
+//        int y = 40;
+//        g.setColor(BORDER_COLOR);
+//        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
+//        g.setFont(SMALL_FONT28);
+//        //==================================
+//        int x = 10;
+//        y = 2 * 40 - 10;
+//        //==================================
+//        g.setColor(xpColor);
+//        g.fillRect(x, y, (int) (1 * width) - x, 50);
+//        g.setColor(Color.black);
+//        g.drawString(Utils.filterBigNum(String.format("经验:%s", p.getXp())), x, y + SMALL_FONT28.getSize());
+//        //==================================
+//        y = y + 60;
+//        g.setColor(Color.WHITE);
+//        g.fillRect(x, y, width - x, 50);
+//        g.setColor(hpColor);
+//        g.fillRect(x, y, (int) (NumberUtils.toPercent(p.getHp(), p.getHpL()) / 100.0 * width) - x, 50);
+//        if (p.containsTag(SkillDataBase.TAG_SHIELD)) {
+//            Number v0 = p.getTagValue(SkillDataBase.TAG_SHIELD);
+//            g.setColor(shieldColor);
+//            g.fillRect(x, y, (int) (NumberUtils.toPercent(v0.longValue(), p.getHpL()) / 100.0 * width) - x, 50);
+//        }
+//        g.setColor(Color.black);
+//        g.drawString(Utils.filterBigNum(String.format("血量:%s/%s", p.getHp(), p.getHpL())), x, y + SMALL_FONT28.getSize());
+//        //==================================
+//        y = y + 60;
+//        g.setColor(Color.WHITE);
+//        g.fillRect(x, y, width - x, 50);
+//        g.setColor(hjColor);
+//        g.fillRect(x, y, (int) (NumberUtils.toPercent(p.getHj(), p.getHjL()) / 100.0 * width) - x, 50);
+//        g.setColor(Color.black);
+//        g.drawString(Utils.filterBigNum(String.format("精神力:%s/%s", p.getHj(), p.getHjL())), x, y + SMALL_FONT28.getSize());
+//        g.setFont(SMALL_FONT15);
+//        //==================================
+//        y = y + 60;
+//        g.drawImage(loadImage(getImgPathById(2002, false)), x, y, 50, 50, null);
+//        g.drawString("攻击值", x, y + SMALL_FONT15.getSize());
+//        g.setFont(SMALL_FONT28);
+//        g.drawString(Utils.filterBigNum(" : " + p.getAtt() + "点"), x + 60, y + SMALL_FONT28.getSize());
+//        y = y + 85;
+//        g.setColor(levelColor);
+//        g.setFont(BIG_FONT35);
+//        g.drawString(Utils.filterBigNum(String.format("等级: %s => %s(%s)", p.getLevel(), p.getName(), GameTool.getLevelByGhostId(p.getId()))), x, y);
+//        //==================================
+//        g.setColor(BORDER_COLOR);
+//        g.setFont(BIG_FONT35);
+//        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
+//        g.dispose();
+//        return saveTempImage(image).getPath();
+//    }
+//
+//    public static final String drawWarp(Warp p) {
+//        int width = 400;
+//        int height = 400;
+//        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+//        Graphics g = image.getGraphics();
+//        g.setClip(0, 0, width, height);
+//        g.setColor(BACKGROUND_COLOR);
+//        g.fillRect(0, 0, width, height);
+//        g.setFont(BIG_FONT35);
+//        Rectangle clip = g.getClipBounds();
+//        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
+//        int ascent = fm.getAscent();
+//        int descent = fm.getDescent();
+//        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+//        g.setColor(BORDER_COLOR);
+//        g.drawString("※====☆=?==★===?====$==*=※", 10, 40);
+//        g.setFont(SMALL_FONT28);
+//        //==================================
+//        int x = 10;
+//        int eve = 40;
+//        y = 2 * 40 - eve;
+//        boolean k = false;
+//        k = p.getBindQ().longValue() == -1;
+//        String m = null;
+//        m = k ? "无" : (" & " + MemberUtils.getName(p.getBindQ().longValue()));
+//        g.setColor(k ? Color.RED : Color.GREEN);
+//        g.drawString("融合:" + m, x, y + SMALL_FONT28.getSize());
+//
+//        y = y + eve;
+//        k = p.getMaster().longValue() == -1;
+//        m = k ? "无" : (" & " + MemberUtils.getName(p.getMaster().longValue()));
+//        g.setColor(k ? Color.RED : Color.GREEN);
+//        g.drawString("师傅:" + m, x, y + SMALL_FONT28.getSize());
+//
+//        for (Long q0 : p.allP()) {
+//            y = y + eve;
+//            k = q0.longValue() == -1;
+//            m = k ? "无" : (" & " + MemberUtils.getName(q0.longValue()));
+//            g.setColor(k ? Color.RED : Color.GREEN);
+//            g.drawString("徒弟:" + m, x, y + SMALL_FONT28.getSize());
+//        }
+//
+//        y = y + eve;
+//        Integer id = qq2id.get(p.getId().longValue());
+//        if (id == null) {
+//            k = true;
+//            m = " 无 ";
+//        } else {
+//            k = false;
+//            Zong zong = getZongInfo(id);
+//            m = " in " + zong.getName();
+//        }
+//        g.setColor(k ? Color.RED : Color.GREEN);
+//        g.drawString("所处宗门:" + m, x, y + SMALL_FONT28.getSize());
+//        //==================================
+//        g.setColor(BORDER_COLOR);
+//        g.setFont(BIG_FONT35);
+//        g.drawString("※====☆=?==★===?====$==*=※", 10, height - 30);
+//        g.dispose();
+//        return saveTempImage(image).getPath();
+//    }
+//
+//    public static final String drawGInfo(GInfo p) {
+//        return drawGInfoWith(p, "");
+//    }
+//
+//    public static final String drawGInfoWith(GInfo p, String tips) {
+//        int width = 400;
+//        int height = 500;
+//        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+//        Graphics g = image.getGraphics();
+//        g.setClip(0, 0, width, height);
+//        g.setColor(BACKGROUND_COLOR);
+//        g.fillRect(0, 0, width, height);
+//        g.setFont(BIG_FONT35);
+//        Rectangle clip = g.getClipBounds();
+//        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
+//        int ascent = fm.getAscent();
+//        int descent = fm.getDescent();
+//        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+//        g.setColor(BORDER_COLOR);
+//        g.drawString("※=★===?====$=====☆=?==*=※", 10, 40);
+//        Font font = SMALL_FONT22;
+//        g.setFont(font);
+//        //==================================
+//        int x = 10;
+//        int eve = 30;
+//        y = 2 * 40 - eve;
+//        String m = p.getMasterPoint() + "点";
+//        g.setColor(Color.BLUE);
+//        g.drawString("名师点: " + m, x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计获得物品:" + p.getGotc() + "个", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计使用/失去物品:" + p.getLostc() + "个", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("进入 活动: " + p.getJoinc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计死亡次数: " + p.getDiedc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计使用魂技次数: " + p.getUseskillc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计请求支援次:" + p.getReqc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计支援次:" + p.getReqc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计购买次:" + p.getBuyc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计出售次:" + p.getSalec() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计完成任务次:" + p.getFtc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计修炼次:" + p.getXlc() + "次", x, y + font.getSize());
+//        //========
+//        y = y + eve;
+//        g.drawString("累计击杀魂兽次:" + SpringBootResource.getKillGhostMapper().getNum(p.getQid()) + "次", x, y + font.getSize());
+//
+//        if (tips != null && !tips.isEmpty()) {
+//            y = y + eve;
+//            g.drawString(tips, x, y + SMALL_FONT28.getSize());
+//        }
+//        //==================================
+//        g.setColor(BORDER_COLOR);
+//        g.setFont(BIG_FONT35);
+//        g.drawString("※=?======★=====$==☆=?=*=※", 10, height - 30);
+//        g.dispose();
+//        return saveTempImage(image).getPath();
+//    }
+//
+//    public static final String drawBoneMap(List<SoulBone> bones) {
+//        int width = 400;
+//        int height = 400;
+//        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+//        Graphics g = image.getGraphics();
+//        g.setClip(0, 0, width, height);
+//        g.setColor(BACKGROUND_COLOR);
+//        g.fillRect(0, 0, width, height);
+//        g.setFont(BIG_FONT35);
+//        Rectangle clip = g.getClipBounds();
+//        FontMetrics fm = g.getFontMetrics(BIG_FONT35);
+//        int ascent = fm.getAscent();
+//        int descent = fm.getDescent();
+//        int y = (clip.height - (ascent + descent)) / 2 + ascent;
+//        g.dispose();
+//        for (SoulBone bone : bones) {
+//            try {
+//                int id0 = bone.partId();
+//                Image i0 = loadImage(getImgPathById(bone.getOid(), false));
+//                i0 = ImageDrawerUtils.image2Size((BufferedImage) i0, 100, 100);
+//                int[] xy = getBoneXY(bone.partId());
+//                if (xy != null) image = ImageDrawerUtils.putImage(image, (BufferedImage) i0, xy[0], xy[1]);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return saveTempImage(image).getPath();
+//    }
+//
 
     private static int[] getBoneXY(int id) {
         switch (id) {

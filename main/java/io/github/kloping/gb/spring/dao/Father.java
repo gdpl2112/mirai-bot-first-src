@@ -25,11 +25,11 @@ public class Father {
     private Long id;
     private String permission = "";
 
-    public Set<Long> getGids() {
-        Set<Long> set = new HashSet<>();
+    public Set<String> getGids() {
+        Set<String> set = new HashSet<>();
         for (String s : permission.split(SPLIT)) {
             if (s.trim().isEmpty()) continue;
-            set.add(Long.parseLong(s.trim()));
+            set.add(s.trim());
         }
         return set;
     }
@@ -42,11 +42,11 @@ public class Father {
         return permission;
     }
 
-    public String addPermission(long gid) {
-        Set<Long> set = getGids();
+    public String addPermission(String gid) {
+        Set<String> set = getGids();
         permission = "";
         set.add(gid);
-        for (Long aLong : set) {
+        for (String aLong : set) {
             permission = permission + SPLIT + aLong;
         }
         if (permission.startsWith(SPLIT)) {

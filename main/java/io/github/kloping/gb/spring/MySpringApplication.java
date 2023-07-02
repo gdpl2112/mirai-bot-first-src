@@ -42,19 +42,26 @@ public class MySpringApplication {
                         "\tCHANGE COLUMN `who` `id` VARCHAR(50) NOT NULL FIRST;");
 
         modify0(jdbcTemplate, "`signlist`", "qid", "varchar(50)",
-                "ALTER TABLE `signlist`\n" +
-                        "\tCHANGE COLUMN `qid` `qid` VARCHAR(50) NOT NULL AFTER `id`;");
+                "ALTER TABLE `signlist` CHANGE COLUMN `qid` `qid` VARCHAR(50) NOT NULL AFTER `id`;");
 
 
         modify0(jdbcTemplate, "`group_conf`", "id", "varchar(50)",
-                "ALTER TABLE `group_conf`\n" +
-                        "\tCHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+                "ALTER TABLE `group_conf` CHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
 
         modify0(jdbcTemplate, "`father`", "id", "varchar(50)",
-                "ALTER TABLE `father`\n" +
-                        "\tCHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+                "ALTER TABLE `father` CHANGE COLUMN `id` `id` VARCHAR(50) NULL DEFAULT NULL FIRST;");
 
+        modify0(jdbcTemplate, "`trading_record`", "from", "varchar(50)",
+                "ALTER TABLE `trading_record` CHANGE COLUMN `from` `from` VARCHAR(50) NULL DEFAULT NULL FIRST;");
 
+        modify0(jdbcTemplate, "`trading_record`", "to", "varchar(50)",
+                "ALTER TABLE `trading_record` CHANGE COLUMN `to` `to` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
+        modify0(jdbcTemplate, "`trading_record`", "main", "varchar(50)",
+                "ALTER TABLE `trading_record` CHANGE COLUMN `main` `main` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
+        modify0(jdbcTemplate, "`wh_info`", "qid", "varchar(50)",
+                "ALTER TABLE `wh_info` CHANGE COLUMN `qid` `qid` VARCHAR(50) NULL DEFAULT NULL FIRST;");
     }
 
     public static boolean modify0(JdbcTemplate template, String table, String field, String type, String sql) {

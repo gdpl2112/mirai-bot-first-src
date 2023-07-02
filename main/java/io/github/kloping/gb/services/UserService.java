@@ -143,7 +143,7 @@ public class UserService {
      * @return
      */
     public String robbery(String s1, String s2) {
-        UserScore score1 = getUserScore(s1);
+        UserScore score1 = getUserScore(s1, true);
         UserScore score2 = getUserScore(s2);
         long lI = score1.getScore();
         long lY = score2.getScore();

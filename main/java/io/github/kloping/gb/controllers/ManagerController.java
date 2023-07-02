@@ -5,6 +5,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.gb.MessageContext;
 import io.github.kloping.gb.finals.FinalStrings;
+import io.github.kloping.gb.spring.dao.Father;
 import io.github.kloping.gb.spring.dao.GroupConf;
 import io.github.kloping.gb.spring.mapper.FatherMapper;
 import io.github.kloping.gb.spring.mapper.GroupConfMapper;
@@ -44,10 +45,20 @@ public class ManagerController {
         if (isSuperQ(context.getSid())) {
             logger.info("超级权限执行...");
             return;
-        } else if (fatherMapper.selectById(context.getSid()) != null) {
+        } else if (isFather(context)) {
             return;
         }
         throw new NoRunException("无权限");
+    }
+
+    private boolean isFather(MessageContext context) {
+        Father father = fatherMapper.selectById(context.getSid());
+        if (father == null) {
+            return false;
+        } else {
+            if (father.getGids().contains("0")) return true;
+            return father.getGids().contains(context.getGid());
+        }
     }
 
     private boolean isSuperQ(String sid) {
