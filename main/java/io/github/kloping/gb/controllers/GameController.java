@@ -26,4 +26,9 @@ public class GameController {
     public String info(String sid) {
         return service.info(sid);
     }
+
+    @Action("修炼")
+    public String xl(String sid) {
+        return service.xl(sid);
+    }
 }

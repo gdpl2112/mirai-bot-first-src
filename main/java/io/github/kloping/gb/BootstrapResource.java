@@ -96,26 +96,24 @@ public class BootstrapResource implements Runnable {
             private Object filter(Object t) throws Exception {
                 if (t instanceof String) {
                     List<Object> list = Parse.aStart(t.toString());
-                    if (list.size() > 1) {
-                        List<MessageData> datas = new ArrayList<>();
-                        for (Object e0 : list) {
-                            String s0 = e0.toString();
-                            if (s0.startsWith("<Pic:")) {
-                                String ss = StringUtils.removeStr(s0, "<", ">", "[", "]");
-                                int i1 = ss.indexOf(":");
-                                String s1 = ss.substring(0, i1);
-                                String s2 = ss.substring(i1 + 1);
-                                if (s2.startsWith("http")) {
-                                    datas.add(new DataImage(new URL(s2).openStream()));
-                                } else {
-                                    datas.add(new DataImage(new FileInputStream(s2)));
-                                }
+                    List<MessageData> datas = new ArrayList<>();
+                    for (Object e0 : list) {
+                        String s0 = e0.toString();
+                        if (s0.startsWith("<Pic:")) {
+                            String ss = StringUtils.removeStr(s0, "<", ">", "[", "]");
+                            int i1 = ss.indexOf(":");
+                            String s1 = ss.substring(0, i1);
+                            String s2 = ss.substring(i1 + 1);
+                            if (s2.startsWith("http")) {
+                                datas.add(new DataImage(new URL(s2).openStream()));
                             } else {
-                                datas.add(new DataText(s0));
+                                datas.add(new DataImage(new FileInputStream(s2)));
                             }
+                        } else {
+                            datas.add(new DataText(s0));
                         }
-                        return datas;
                     }
+                    return datas;
                 }
                 return t.toString();
             }

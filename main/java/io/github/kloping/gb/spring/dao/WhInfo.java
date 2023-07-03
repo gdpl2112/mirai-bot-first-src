@@ -1,11 +1,7 @@
 package io.github.kloping.gb.spring.dao;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 /**
  * @author
@@ -67,4 +63,15 @@ public class WhInfo  {
 
     public Integer p;
 
+    public void addHp(long v) {
+        hp += v;
+    }
+
+    public void addHl(long v) {
+        hl += v;
+    }
+
+    public void addHj(long v) {
+        hj += v;
+    }
 }
