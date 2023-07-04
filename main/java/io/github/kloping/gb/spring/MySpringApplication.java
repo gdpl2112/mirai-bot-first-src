@@ -62,6 +62,10 @@ public class MySpringApplication {
 
         modify0(jdbcTemplate, "`wh_info`", "qid", "varchar(50)",
                 "ALTER TABLE `wh_info` CHANGE COLUMN `qid` `qid` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
+        modify0(jdbcTemplate, "`upup`", "qid", "varchar(50)",
+                "ALTER TABLE `upup` CHANGE COLUMN `qid` `qid` VARCHAR(50) NULL DEFAULT NULL FIRST;");
+
     }
 
     public static boolean modify0(JdbcTemplate template, String table, String field, String type, String sql) {

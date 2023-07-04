@@ -574,7 +574,7 @@ public class GameConfig {
         else if (level < 147) return 120;
         else if (level < 148) return 168;
         else if (level < 150) return 1200;
-        else if (level == 150) return 700;
+        else if (level == 150) return 600;
         else return 99999;
     }
 

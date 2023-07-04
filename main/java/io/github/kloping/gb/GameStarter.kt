@@ -48,15 +48,31 @@ class MessageContext {
         }
         return null;
     }
+
+    fun msgToString(): String {
+        var end = ""
+        for (msg in msgs) {
+            end += msg.data.toString();
+        }
+        return end;
+    }
 }
 
 abstract class MessageData {
     var data: Any? = null;
 }
 
-data class DataText(val text: String) : MessageData();
+data class DataText(val text: String) : MessageData() {
+    override fun toString(): String {
+        return text
+    }
+}
 
-data class DataAt(val id: String) : MessageData();
+data class DataAt(val id: String) : MessageData() {
+    override fun toString(): String {
+        return "[@$id]"
+    }
+}
 
 class DataImage : MessageData {
     var url: String? = null;
@@ -68,5 +84,9 @@ class DataImage : MessageData {
 
     constructor(url: String) : super() {
         this.url = url;
+    }
+
+    override fun toString(): String {
+        return "[图片]"
     }
 }

@@ -19,4 +19,6 @@ public class GameRules {
     public long getDeserveHj(WhInfo wi, long v) {
         return v;
     }
+
+
 }

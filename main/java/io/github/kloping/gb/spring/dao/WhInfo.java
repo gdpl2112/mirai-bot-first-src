@@ -74,4 +74,27 @@ public class WhInfo  {
     public void addHj(long v) {
         hj += v;
     }
+
+    public void addXpL(long v) {
+        xpL += v;
+    }
+
+    public WhInfo addHpl(long v) {
+        hpl += v;
+        return this;
+    }
+
+    public WhInfo addHll(long v) {
+        hll += v;
+        return this;
+    }
+
+    public void addAtt(long v) {
+        att += v;
+    }
+
+    public WhInfo addHjL(long v) {
+        hjL += v;
+        return this;
+    }
 }

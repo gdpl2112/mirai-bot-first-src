@@ -14,6 +14,7 @@ public class FinalFormat {
     public static final String WORK_WAIT_TIPS = "打工冷却中.\n大约等待%s";
     public static final String USE_OBJ_WAIT_TIPS = "使用物品冷却中.\n大约等待%s";
     public static final String BUY_OBJ_WAIT_TIPS = "购买物品冷却中.\n大约等待%s";
+    public static final String WAIT_TIPS = "冷却中.\n大约等待%s";
     public static final String XL_WAIT_TIPS = "修炼冷却中.\n大约等待%s";
     public static final String TXL_WAIT_TIPS = "双修冷却中.\n大约等待%s";
     public static final String BG_WAIT_TIPS = "闭关冷却中.\n大约等待%s";

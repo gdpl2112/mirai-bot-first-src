@@ -730,4 +730,27 @@ public class Utils {
         double f = l / v;
         return String.format("%." + d + "f", f);
     }
+
+    public static Long algorithm1(Long now, Long max, Integer c, Integer cMin, Integer cMax) {
+        if (now == max) return 0L;
+        if (now > max) return max - now;
+        c = c < cMin ? cMin : c > cMax ? cMax : c;
+        Long l1 = max / c;
+        if (l1 + now > max) return max - now;
+        else return l1;
+    }
+
+    /**
+     * 限制不超过
+     *
+     * @param now      现在的值
+     * @param maxValue 最大值
+     * @param maxB     最大百分比值
+     * @return
+     */
+    public static Long limit(Long now, Long maxValue, Integer maxB) {
+        long maxV = NumberUtils.percentTo(maxB, maxValue);
+        if (now > maxV) return maxV;
+        else return now;
+    }
 }

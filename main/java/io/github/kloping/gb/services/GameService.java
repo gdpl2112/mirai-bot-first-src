@@ -8,12 +8,17 @@ import io.github.kloping.gb.ImageManager;
 import io.github.kloping.gb.Utils;
 import io.github.kloping.gb.alone.Operate;
 import io.github.kloping.gb.drawers.Drawer;
+import io.github.kloping.gb.finals.FinalConfig;
 import io.github.kloping.gb.finals.FinalFormat;
 import io.github.kloping.gb.game.GameConfig;
 import io.github.kloping.gb.game.GameRules;
+import io.github.kloping.gb.game.business.BusinessHandler;
+import io.github.kloping.gb.game.business.CoolDownHandler;
+import io.github.kloping.gb.game.e0.GameDataContext;
 import io.github.kloping.gb.spring.dao.PersonInfo;
 import io.github.kloping.gb.spring.dao.WhInfo;
 import io.github.kloping.gb.spring.mapper.PersonInfoMapper;
+import io.github.kloping.gb.spring.mapper.UpupMapper;
 import io.github.kloping.gb.spring.mapper.WhInfoMapper;
 
 /**
@@ -23,7 +28,7 @@ import io.github.kloping.gb.spring.mapper.WhInfoMapper;
 public class GameService {
 
     @AutoStand
-    PersonInfoMapper personInfoMapper;
+    PersonInfoMapper woMapper;
 
     @AutoStand
     WhInfoMapper whInfoMapper;
@@ -43,12 +48,12 @@ public class GameService {
     }
 
     public PersonInfo getPersonInfo(String sid) {
-        PersonInfo info = personInfoMapper.selectById(sid);
+        PersonInfo info = woMapper.selectById(sid);
         if (info == null) {
             info = new PersonInfo();
             info.setName(sid);
             info.setP(1);
-            personInfoMapper.insert(info);
+            woMapper.insert(info);
         }
         return info;
     }
@@ -61,7 +66,7 @@ public class GameService {
     }
 
     public void apply(PersonInfo pi) {
-        personInfoMapper.updateById(pi);
+        woMapper.updateById(pi);
     }
 
     public void operateW(String sid, Operate<WhInfo> op) {
@@ -76,6 +81,15 @@ public class GameService {
         op.operate(p);
         apply(p);
     }
+
+    public GameDataContext getContext(String sid) {
+        PersonInfo wo = getPersonInfo(sid);
+        WhInfo whInfo = getWhInfo(sid, wo.getP());
+        return new GameDataContext(sid, whInfo, wo);
+    }
+
+    @AutoStand
+    UpupMapper upupMapper;
 
     //==================================================
 
@@ -100,118 +114,98 @@ public class GameService {
         return sb + String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawInfo(wi, is));
     }
 
-    public String xl(String sid) {
-        PersonInfo pi = getPersonInfo(sid);
-        WhInfo wi = getWhInfo(sid, pi.getP());
-        if (wi.getWh() == 0 && wi.getLevel() >= 2) return "请先觉醒武魂";
-        long l = pi.getK1();
-        long now = System.currentTimeMillis();
-        if (now >= l) {
-            int tr = Utils.RANDOM.nextInt(6) + 9;
-            int c = (GameConfig.getRandXl(wi.getLevel()));
-            long mx = wi.getXpL();
-            long xr = mx / c;
-            wi.setXp(xr);
-            pi.setK1(now + (tr * 1000 * 60));
+    @AutoStand
+    GameRules rules;
 
-            long ll1 = hfHp(wi, 1.0f);
-            long ll2 = hfHl(wi, 1.0f);
-            long ll3 = hfHj(wi, 1.0f);
-            StringBuilder sb = new StringBuilder();
-            if (wi.getWh() > 0) {
-                sb.append(config.ID_2_NAME_MAPS.get(wi.getWh()));
-            }
-            apply(wi);
-            apply(pi);
+    public String xl(GameDataContext context) {
+        BusinessHandler handler = new CoolDownHandler(new BusinessHandler(null) {
+            @Override
+            public String progress(GameDataContext context) {
+                PersonInfo pi = context.getPersonInfo();
+                WhInfo wi = context.getWhInfo();
+                int tr = Utils.RANDOM.nextInt(6) + 9;
+                int c = GameConfig.getRandXl(wi.getLevel());
+                long mx = wi.getXpL();
+                long xr = mx / c;
+                wi.setXp(Utils.limit(xr + wi.getXp(), wi.getXpL(), 150));
+                pi.setK1(System.currentTimeMillis() + (tr * 1000 * 60));
+                long hp0 = Utils.algorithm1(wi.hp, wi.hpl, c, 4, 24);
+                long hl0 = Utils.algorithm1(wi.hl, wi.hll, c, 4, 24);
+                long hj0 = Utils.algorithm1(wi.hj, wi.hjL, c, 4, 30);
+                hj0 = rules.getDeserveHj(wi, hj0);
+                wi.addHj(hj0);
+
+                hp0 = rules.getDeserveHp(wi, hp0);
+                wi.addHp(hp0);
+
+                hl0 = rules.getDeserveHl(wi, hl0);
+                wi.addHl(hl0);
 
 //            GInfo.getInstance(who).addXlc().apply();
 //            zongMenService.addActivePoint(who, 1);
 
-            sb.append(String.format("你花费了%s分钟修炼", tr)).append(",");
-            sb.append(String.format("获得了%s点经验", xr)).append(",");
-            sb.append(String.format("恢复了%s点血量", ll1)).append(",");
-            sb.append(String.format("恢复了%s点魂力", ll2)).append(",");
-            sb.append(String.format("恢复了%s点精神力", ll3)).append(",");
-
-            String out = null;
-            if (wi.getWh() <= 0) {
-                out = String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawLines(sb.toString().split(",")));
-            } else {
-                out = String.format(FinalFormat.FORMAT_IMAGE, ImageManager.getImgPathById(wi.getWh())) +
-                        String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawLines(sb.toString().split(",")));
+                sb.append(String.format("你花费了%s分钟修炼", tr)).append(",");
+                sb.append(String.format("获得了%s点经验", xr)).append(",");
+                sb.append(String.format("恢复了%s点血量", hp0)).append(",");
+                sb.append(String.format("恢复了%s点魂力", hl0)).append(",");
+                sb.append(String.format("恢复了%s点精神力", hj0)).append(",");
+                String out = null;
+                if (wi.getWh() <= 0) {
+                    out = String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawLines(sb.toString().split(",")));
+                } else {
+                    out = config.ID_2_NAME_MAPS.get(wi.getWh()) +
+                            String.format(FinalFormat.FORMAT_IMAGE, ImageManager.getImgPathById(wi.getWh()))
+                            + String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawLines(sb.toString().split(",")));
+                }
+                return out;
             }
-            return out;
+        }, context.getPersonInfo().getK1(), FinalFormat.XL_WAIT_TIPS);
+        return handler.progress(context);
+    }
+
+    public String upup(GameDataContext context) {
+        PersonInfo is = context.getPersonInfo();
+        WhInfo wi = context.getWhInfo();
+        if (wi.getXp() >= wi.getXpL()) {
+            if (wi.getLevel() > FinalConfig.MAX_LEVEL) return "等级最大限制..";
+            if (GameConfig.isJTop(wi)) return "无法升级,因为到达等级瓶颈,吸收魂环后继续升级";
+//            zongMenService.addActivePoint(who, 5);
+            StringBuilder sb = new StringBuilder();
+            sb.append("升级成功");
+            wi.setLevel(wi.getLevel() + 1);
+            wi.setXp(wi.getXp() - wi.getXpL());
+
+            int l = wi.getLevel();
+            if (upupMapper.select(context.getPersonInfo().getName(), l, is.getP()) != null) {
+                return "在该等级升级过\r\n不增加属性";
+            }
+            long xpl = GameConfig.getAArtt(l) * 10;
+            wi.addXpL(xpl);
+
+            long ir1 = GameConfig.getAArtt(l);
+            wi.addHpl(ir1).addHp(ir1);
+            sb.append("\r\n增加了:").append(ir1).append("最大血量");
+
+            long ir2 = GameConfig.getAArtt(l);
+            wi.addHll(ir2).addHl(ir2);
+            sb.append("\r\n增加了:").append(ir2).append("最大魂力");
+
+            long ir3 = GameConfig.getAArtt(l);
+            wi.addAtt(ir3);
+            sb.append("\r\n增加了:").append(ir3).append("攻击");
+
+            long ir4 = GameConfig.getAArtt(l) / 10;
+            wi.addHjL(ir4).addHj(ir4);
+            sb.append("\r\n增加了:").append(ir4).append("最大精神力");
+
+//            wo.addGold(50L, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("升级").setMany(50L));
+
+            sb.append("\r\n当前等级:").append(wi.getLevel());
+            upupMapper.insert(context.getId(), l, wi.getP());
+
+            return String.format(FinalFormat.FORMAT_IMAGE, Drawer.createImage(sb.toString().split("\r\n")));
         } else {
-            return String.format(FinalFormat.XL_WAIT_TIPS, Utils.getTimeTips(l));
+            return "经验不足,无法升级!";
         }
-    }
-
-    @AutoStand
-    GameRules rules;
-
-    private long hfHl(WhInfo wi, float v) {
-        long hll = wi.getHll();
-        long hl = wi.getHl();
-        if (hl >= hll) return 0;
-        if (hl > hll) {
-            wi.setHl(wi.getHll());
-            return hll - hl;
-        }
-        int c1 = GameConfig.getRandXl(wi.getLevel());
-        if (c1 > 24) c1 = 24;
-        if (c1 < 4) c1 = 4;
-        long l5 = wi.getHll() / c1;
-        l5 += Utils.randLong(l5, 0.5f, 0.7f);
-        l5 *= v;
-        if ((hll - hl) < l5) {
-            l5 = (hll - hl);
-        }
-        l5 = rules.getDeserveHl(wi, l5);
-        wi.addHl(l5);
-        return l5;
-    }
-
-    private long hfHj(WhInfo wi, float v) {
-        long hjl = wi.getHjL();
-        long hj = wi.getHj();
-        if (hj >= hjl) return 0;
-        if (hj > hjl) {
-            wi.setHj(wi.getHjL());
-            return hjl - hj;
-        }
-        int c1 = GameConfig.getRandXl(wi.getLevel());
-        if (c1 > 12) c1 = 24;
-        if (c1 < 3) c1 = 4;
-        long l5 = wi.getHll() / c1;
-        l5 += Utils.randLong(l5, 0.6f, 0.7f);
-        l5 *= v;
-        if ((hjl - hj) < l5) {
-            l5 = (hjl - hj);
-        }
-        l5 = rules.getDeserveHj(wi, l5);
-        wi.addHj(l5);
-        return l5;
-    }
-
-    private long hfHp(WhInfo wi, float v) {
-        long hpl = wi.getHpl();
-        long hp = wi.getHp();
-        if (hp >= hpl) return 0;
-        if (hp > hpl) {
-            wi.setHp(wi.getHpl());
-            return hpl - hp;
-        }
-        int c1 = GameConfig.getRandXl(wi.getLevel());
-        if (c1 > 30) c1 = 30;
-        if (c1 < 4) c1 = 4;
-        long l5 = wi.getHpl() / c1;
-        l5 += Utils.randLong(l5, 0.5f, 0.6f);
-        l5 *= v;
-        if ((hpl - hp) < l5) {
-            l5 = (hpl - hp);
-        }
-        l5 = rules.getDeserveHp(wi, l5);
-        wi.addHp(l5);
-        return l5;
     }
 }
