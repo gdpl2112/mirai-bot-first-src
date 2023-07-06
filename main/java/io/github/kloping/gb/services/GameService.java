@@ -104,14 +104,15 @@ public class GameService {
             sb.append(String.format(FinalFormat.FORMAT_IMAGE,
                     Drawer.createFont(is.getSname() + GameConfig.getFH(wi.getLevel()))));
         }
-        long n = wi.getWh();
-        if (n <= 0) {
+        int whId = wi.getWh();
+        if (whId <= 0) {
             sb.append("你的武魂:暂未获得").append("\r\n");
         } else {
-            sb.append("你的武魂:" + config.ID_2_NAME_MAPS.get(n)).append("\r\n");
-            sb.append(ImageManager.getImgPathById((int) n)).append("\r\n");
+            sb.append("你的武魂:" + config.ID_2_NAME_MAPS.get(whId)).append("\r\n");
+            sb.append(String.format(FinalFormat.FORMAT_IMAGE, ImageManager.getImgPathById(whId)));
         }
-        return sb + String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawInfo(wi, is));
+        sb.append(String.format(FinalFormat.FORMAT_IMAGE, Drawer.drawInfo(wi, is)));
+        return sb.toString();
     }
 
     @AutoStand
@@ -177,32 +178,37 @@ public class GameService {
 
             int l = wi.getLevel();
             if (upupMapper.select(context.getPersonInfo().getName(), l, is.getP()) != null) {
-                return "在该等级升级过\r\n不增加属性";
+                sb.append("在该等级升级过\r\n不增加属性");
+            } else {
+                long xpl = GameConfig.getAArtt(l) * 10;
+                wi.addXpL(xpl);
+
+                long ir1 = GameConfig.getAArtt(l);
+                wi.addHpl(ir1).addHp(ir1);
+                sb.append("\r\n增加了:").append(ir1).append("最大血量");
+
+                long ir2 = GameConfig.getAArtt(l);
+                wi.addHll(ir2).addHl(ir2);
+                sb.append("\r\n增加了:").append(ir2).append("最大魂力");
+
+                long ir3 = GameConfig.getAArtt(l);
+                wi.addAtt(ir3);
+                sb.append("\r\n增加了:").append(ir3).append("攻击");
+
+                long ir4 = GameConfig.getAArtt(l) / 10;
+                wi.addHjL(ir4).addHj(ir4);
+                sb.append("\r\n增加了:").append(ir4).append("最大精神力");
             }
-            long xpl = GameConfig.getAArtt(l) * 10;
-            wi.addXpL(xpl);
-
-            long ir1 = GameConfig.getAArtt(l);
-            wi.addHpl(ir1).addHp(ir1);
-            sb.append("\r\n增加了:").append(ir1).append("最大血量");
-
-            long ir2 = GameConfig.getAArtt(l);
-            wi.addHll(ir2).addHl(ir2);
-            sb.append("\r\n增加了:").append(ir2).append("最大魂力");
-
-            long ir3 = GameConfig.getAArtt(l);
-            wi.addAtt(ir3);
-            sb.append("\r\n增加了:").append(ir3).append("攻击");
-
-            long ir4 = GameConfig.getAArtt(l) / 10;
-            wi.addHjL(ir4).addHj(ir4);
-            sb.append("\r\n增加了:").append(ir4).append("最大精神力");
 
 //            wo.addGold(50L, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("升级").setMany(50L));
 
             sb.append("\r\n当前等级:").append(wi.getLevel());
             upupMapper.insert(context.getId(), l, wi.getP());
-
+            if (wi.getLevel() == 2 && wi.getWh() <= 0) {
+                int r = Utils.RANDOM.nextInt(31) + 1;
+                wi.setWh(r);
+                sb.append("\r\n觉醒成功!");
+            }
             return String.format(FinalFormat.FORMAT_IMAGE, Drawer.createImage(sb.toString().split("\r\n")));
         } else {
             return "经验不足,无法升级!";
