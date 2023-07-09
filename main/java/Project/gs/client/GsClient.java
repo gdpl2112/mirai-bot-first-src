@@ -81,7 +81,7 @@ public class GsClient extends WebSocketClient {
     public void send(byte[] data) {
         super.send(data);
         String json = new String(data, Charset.forName("utf-8"));
-        StarterApplication.logger.log("send=>" + json);
+//        StarterApplication.logger.log("send=>" + json);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class GsClient extends WebSocketClient {
     public void onMessage(ByteBuffer bytes) {
         super.onMessage(bytes);
         String json = new String(bytes.array(), Charset.forName("utf-8"));
-        StarterApplication.logger.info("rec=>" + json);
+//        StarterApplication.logger.info("rec=>" + json);
         MessageOut out = JSONObject.parseObject(json, MessageOut.class);
         MessageEvent sender = getMessage(out.getMsg_id());
         if (out == null || sender == null || out.getBot_id() == null) return;
@@ -103,7 +103,7 @@ public class GsClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        System.out.println(message);
+//        System.out.println(message);
     }
 
     @Override
