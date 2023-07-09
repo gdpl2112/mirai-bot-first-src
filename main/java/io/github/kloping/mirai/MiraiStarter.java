@@ -1,9 +1,11 @@
 package io.github.kloping.mirai;
 
+import Project.gs.client.GsClient;
+import Project.gs.client.MiraiListenerHost;
 import Project.listeners.*;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.common.Public;
-import Project.utils.Tools.Tool;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.event.GlobalEventChannel;
@@ -32,6 +34,7 @@ public class MiraiStarter {
         Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_console.log");
         if (args.length >= 3) {
             GlobalEventChannel.INSTANCE.registerListenerHost(new LewisHandler());
+            GlobalEventChannel.INSTANCE.registerListenerHost(new MiraiListenerHost(GsClient.INSTANCE));
         }
         //write pid
         String name = ManagementFactory.getRuntimeMXBean().getName();
