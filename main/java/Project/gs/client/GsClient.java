@@ -125,7 +125,7 @@ public class GsClient extends WebSocketClient {
     }
 
 
-    public static final Integer MAX_E = 20;
+    public static final Integer MAX_E = 40;
 
     private Deque<MessageEvent> QUEUE = new LinkedList<>();
 
