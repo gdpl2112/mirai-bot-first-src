@@ -6,6 +6,7 @@ import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.mirai.MiraiStarter;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
+import net.mamoe.mirai.internal.spi.EncryptService;
 
 import java.io.IOException;
 
@@ -39,5 +40,4 @@ public class BotStarter {
         if (ip != null)
             new MinecraftServerClient(ip, SpringBootResource.getEnvironment().getProperty("mc.port"), SpringBootResource.getEnvironment().getProperty("mc.gid"));
     }
-
 }
