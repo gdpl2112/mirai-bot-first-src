@@ -365,7 +365,7 @@ public class Tool {
      * @return
      */
     public String getTou(Long qq) {
-        return pathToImg("http://q2.qlogo.cn/headimg_dl?dst_uin=" + qq + "&spec=100");
+        return pathToImg("https://q.qlogo.cn/g?b=qq&nk=" + qq + "&s=640");
     }
 
     /**
@@ -375,7 +375,7 @@ public class Tool {
      * @return
      */
     public String getTouUrl(long qq) {
-        return "https://q1.qlogo.cn/g?b=qq&nk=" + qq + "&s=640";
+        return "https://q.qlogo.cn/g?b=qq&nk=" + qq + "&s=640";
     }
 
     /**
