@@ -1,8 +1,9 @@
 package io.github.kloping.mirai0.Main.iutils;
 
+import Project.utils.Tools.Tool;
+import Project.utils.Utils;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
-import Project.utils.Tools.Tool;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
@@ -90,7 +91,7 @@ public class MessageUtils {
                 image = HIST_IMAGES.get(path);
             } else if (path.startsWith("http")) {
                 image = Contact.uploadImage(group, new ByteArrayInputStream(
-                        UrlUtils.getBytesFromHttpUrl(path)
+                        Utils.doGetRequestForFile(path)
                 ));
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
