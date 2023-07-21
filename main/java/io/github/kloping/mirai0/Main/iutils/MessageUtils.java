@@ -89,7 +89,9 @@ public class MessageUtils {
             if (HIST_IMAGES.containsKey(path)) {
                 image = HIST_IMAGES.get(path);
             } else if (path.startsWith("http")) {
-                image = Contact.uploadImage(group, new URL(path).openStream());
+                image = Contact.uploadImage(group, new ByteArrayInputStream(
+                        UrlUtils.getBytesFromHttpUrl(path)
+                ));
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
             } else if (path.contains("base64,")) {
