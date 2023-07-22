@@ -1,6 +1,5 @@
 package io.github.kloping.mirai0.Main.iutils;
 
-import Project.utils.HttpsUtils;
 import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
@@ -13,7 +12,6 @@ import net.mamoe.mirai.utils.ExternalResource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -91,8 +89,7 @@ public class MessageUtils {
             if (HIST_IMAGES.containsKey(path)) {
                 image = HIST_IMAGES.get(path);
             } else if (path.startsWith("http")) {
-                image = Contact.uploadImage(group,
-                        HttpsUtils.doGetAsStream(path));
+                image = Contact.uploadImage(group, new URL(path).openStream());
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
             } else if (path.contains("base64,")) {
