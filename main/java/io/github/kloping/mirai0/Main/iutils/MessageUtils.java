@@ -90,6 +90,8 @@ public class MessageUtils {
                 image = HIST_IMAGES.get(path);
             } else if (path.startsWith("http")) {
                 image = Contact.uploadImage(group, new URL(path).openStream());
+            } else if (path.startsWith("https")) {
+                image = Contact.uploadImage(group, new URL(path).openStream());
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
             } else if (path.contains("base64,")) {
