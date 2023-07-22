@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.Main.iutils;
 
+import Project.utils.SSLSocketClientUtil;
 import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.file.FileUtils;
@@ -8,10 +9,12 @@ import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
+import org.jsoup.Jsoup;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,24 +53,27 @@ public class MessageUtils {
                 int i1 = ss.indexOf(":");
                 String s1 = ss.substring(0, i1);
                 String s2 = ss.substring(i1 + 1);
+                Message msg = null;
                 switch (s1) {
                     case "Pic":
-                        builder.append(createImage(contact, s2));
+                        msg = (createImage(contact, s2));
                         break;
                     case "Face":
-                        builder.append(getFace(Integer.parseInt(s2)));
+                        msg = (getFace(Integer.parseInt(s2)));
                         break;
                     case "At":
-                        builder.append(getAt(Long.parseLong(s2)));
+                        msg = (getAt(Long.parseLong(s2)));
                         break;
                     case "Voice":
                     case "Audio":
-                        builder.append(createVoiceMessageInGroup(s2, contact.getId()));
+                        msg = (createVoiceMessageInGroup(s2, contact.getId()));
                         break;
                     default:
-                        builder.append(new PlainText(str));
+                        msg = (new PlainText(str));
                         break;
                 }
+                if (msg != null)
+                    builder.append(msg);
             } else {
                 builder.append(str.trim());
             }
@@ -91,7 +97,7 @@ public class MessageUtils {
             } else if (path.startsWith("http")) {
                 image = Contact.uploadImage(group, new URL(path).openStream());
             } else if (path.startsWith("https")) {
-                image = Contact.uploadImage(group, new URL(path).openStream());
+                image = Contact.uploadImage(group, getStreamSsl(path));
             } else if (path.startsWith("{")) {
                 image = Image.fromId(path);
             } else if (path.contains("base64,")) {
@@ -99,9 +105,10 @@ public class MessageUtils {
             } else {
                 image = Contact.uploadImage(group, new File(path));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             System.err.println(path + "加载失败");
             e.printStackTrace();
+            return null;
         }
         if (image != null) {
             HIST_IMAGES.put(path, image);
@@ -116,6 +123,18 @@ public class MessageUtils {
             }
         }
         return image;
+    }
+
+    private InputStream getStreamSsl(String path) {
+        try {
+            byte[] bytes = Jsoup.connect("https://q.qlogo.cn/g?b=qq&nk=930204019&s=640").sslSocketFactory(
+                    SSLSocketClientUtil.getSocketFactory(SSLSocketClientUtil.getX509TrustManager())
+            ).ignoreContentType(true).execute().bodyAsBytes();
+            return new ByteArrayInputStream(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String getFlashUrlFromMessageString(String mess) {
