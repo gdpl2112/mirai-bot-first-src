@@ -127,7 +127,7 @@ public class MessageUtils {
 
     private InputStream getStreamSsl(String path) {
         try {
-            byte[] bytes = Jsoup.connect("https://q.qlogo.cn/g?b=qq&nk=930204019&s=640").sslSocketFactory(
+            byte[] bytes = Jsoup.connect(path).sslSocketFactory(
                     SSLSocketClientUtil.getSocketFactory(SSLSocketClientUtil.getX509TrustManager())
             ).ignoreContentType(true).execute().bodyAsBytes();
             return new ByteArrayInputStream(bytes);
