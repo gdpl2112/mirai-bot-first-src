@@ -161,8 +161,8 @@ public class HttpsUtils {
     private static SSLConnectionSocketFactory createSSLConnSocketFactory() {
         SSLConnectionSocketFactory sslsf = null;
         try {
-            SSLContext ctx = SSLContext.getInstance("SSL");
-//            SSLContext ctx = SSLContext.getInstance("TLSv1.2");
+//            SSLContext ctx = SSLContext.getInstance("SSL");
+            SSLContext ctx = SSLContext.getInstance("TLSv1.2");
             X509TrustManager tm = new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain,
