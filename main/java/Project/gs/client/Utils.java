@@ -45,7 +45,7 @@ public class Utils {
             } else if (singleMessage instanceof Image) {
                 Image image = (Image) singleMessage;
                 message.setType("image");
-                message.setData(Image.fromId(image.getImageId()));
+                message.setData(Image.queryUrl(image));
             } else continue;
             list.add(message);
         }
