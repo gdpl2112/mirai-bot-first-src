@@ -1,9 +1,13 @@
 package Project.gs.client;
 
-import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.At;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.message.data.SingleMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author github.kloping
@@ -32,18 +36,27 @@ public class Utils {
 
     public static MessageReceive getMessageReceive(GsClient client, MessageEvent event) {
         client.offer(event);
-        String content = toStringFilterAtSelf(event);
-        if (content != null) {
-            MessageData message = new MessageData();
-            message.setType("text");
-            message.setData(content);
+        List<MessageData> list = new ArrayList<>();
+        for (SingleMessage singleMessage : event.getMessage()) {
+            if (singleMessage instanceof PlainText) {
+                MessageData message = new MessageData();
+                message.setType("text");
+                message.setData(((PlainText) singleMessage).getContent());
+            } else if (singleMessage instanceof Image) {
+                Image image = (Image) singleMessage;
+                MessageData message = new MessageData();
+                message.setType("image");
+                message.setData(Image.fromId(image.getImageId()));
+            }
+        }
+        if (list.size() > 0) {
             MessageReceive receive = new MessageReceive();
             receive.setBot_id(GsClient.SELF_ID);
             receive.setBot_self_id(String.valueOf(event.getBot().getId()));
             receive.setUser_id(String.valueOf(event.getSender().getId()));
             receive.setMsg_id(String.valueOf(event.getTime()));
             receive.setUser_pm(getPm(event));
-            receive.setContent(new MessageData[]{message});
+            receive.setContent(list.toArray(new MessageData[0]));
             return receive;
         }
         return null;
