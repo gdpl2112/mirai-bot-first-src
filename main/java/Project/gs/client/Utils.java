@@ -38,16 +38,16 @@ public class Utils {
         client.offer(event);
         List<MessageData> list = new ArrayList<>();
         for (SingleMessage singleMessage : event.getMessage()) {
+            MessageData message = new MessageData();
             if (singleMessage instanceof PlainText) {
-                MessageData message = new MessageData();
                 message.setType("text");
                 message.setData(((PlainText) singleMessage).getContent());
             } else if (singleMessage instanceof Image) {
                 Image image = (Image) singleMessage;
-                MessageData message = new MessageData();
                 message.setType("image");
                 message.setData(Image.fromId(image.getImageId()));
-            }
+            } else continue;
+            list.add(message);
         }
         if (list.size() > 0) {
             MessageReceive receive = new MessageReceive();
