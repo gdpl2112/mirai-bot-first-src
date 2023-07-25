@@ -95,19 +95,8 @@ public class OtherController {
     }
 
     @Action("基本菜单")
-    public String baseMenu() {
-        return BaseMenuStrings[0].trim() + "\r\n 当前第1页,共" + BaseMenuStrings.length + "页#基本菜单2 以查看第二页";
-    }
-
-    @Action("基本菜单<\\d=>num>")
-    public String baseMenuN(@Param("num") String num) {
-        int n = 1;
-        try {
-            n = Integer.parseInt(num);
-        } catch (Exception e) {
-        }
-        n = n > BaseMenuStrings.length ? 1 : n;
-        return BaseMenuStrings[n - 1].trim() + "\r\n 当前第" + n + "页,共" + BaseMenuStrings.length + "页";
+    public Object[] baseMenu() {
+        return BaseMenuStrings;
     }
 
     @Action("获取<.+=>str>")

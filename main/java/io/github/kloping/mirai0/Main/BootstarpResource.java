@@ -133,7 +133,7 @@ public class BootstarpResource {
                 return;
             }
             //====
-            if (o.getClass() == Object[].class) {
+            if (o.getClass().isArray()) {
                 Object[] objs = (Object[]) o;
                 MessageUtils.INSTANCE.sendMessageByForward(group.getId(), objs);
                 return;
