@@ -4,7 +4,6 @@ import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.apiEntitys.Song;
 import Project.commons.apiEntitys.Songs;
-import Project.commons.apiEntitys.reping163.Reping163;
 import Project.interfaces.httpApi.Empty;
 import Project.interfaces.httpApi.MuXiaoGuo;
 import Project.plugins.SearchSong;
@@ -135,34 +134,6 @@ public class PointSongController {
         }
     }
 
-    @Action("网易云热评")
-    public String reping163(SpGroup gro) {
-        try {
-            Reping163 reping163 = muXiaoGuo.reping();
-            StringBuilder sb = new StringBuilder();
-            sb.append("评论者昵称:").append(reping163.getData().getNickname()).append("\n");
-            sb.append("网易云热评:\n");
-            sb.append("=============\n")
-                    .append(reping163.getData().getContent()).append("\n");
-            sb.append("=============\n");
-            sb.append("点赞数: ").append(reping163.getData().getLikedCount()).append("\n");
-            sb.append("歌名:").append(reping163.getData().getSongName()).append("\n");
-            sb.append("相关歌曲:").append("https://music.163.com/#/song?id=" + reping163.getData().getSongId()).append("\n");
-            try {
-                return sb.toString();
-            } finally {
-                Songs songs = searchSong.netEase(reping163.getData().getSongName());
-                net.mamoe.mirai.contact.Group group = BOT.getGroup(gro.getId());
-                Song s1 = songs.getData()[0];
-                MusicShare share1 = new MusicShare(MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl());
-                group.sendMessage(share1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
     @Action("QQ歌词<.+=>name>")
     public Object mq(@Param("name") String name, SpGroup group) {
         try {
@@ -200,20 +171,5 @@ public class PointSongController {
             e.printStackTrace();
             return "歌词获取失败";
         }
-    }
-
-    @Action("随机唱鸭")
-    public Object cy(SpGroup group) {
-        String s0 = null;
-        s0 = empty.empty("http://api.weijieyue.cn/api/changba/changya.php").body().text();
-        int i1 = s0.indexOf(BASE0);
-        int i2 = s0.substring(i1 + BASE0.length()).indexOf("±");
-        String imgUrl = s0.substring(i1 + BASE0.length(), i2 + BASE0.length());
-        s0 = s0.substring(i2 + BASE0.length());
-        String aName = s0.substring(s0.indexOf(BASE2) + BASE2.length() + 1, s0.indexOf(BASE4));
-        String sUrl = s0.substring(s0.indexOf(BASE3) + BASE3.length());
-        MusicShare share = new MusicShare(MusicKind.QQMusic, aName, aName, sUrl, imgUrl, sUrl);
-        BOT.getGroup(group.getId()).sendMessage(share);
-        return null;
     }
 }

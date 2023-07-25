@@ -217,41 +217,41 @@ public class CallLocalApiController {
         return Tool.INSTANCE.pathToImg(outFile.getAbsolutePath());
     }
 
-    @Action("QQ空间")
-    public Object qqZone(Long qid) {
-        String pskey = kloping.get("qzone-pskey-930204019", "4432120");
-        Map.Entry<String, String> uin = new AbstractMap.SimpleEntry<>("uin", "o930204019");
-        Map.Entry<String, String> puin = new AbstractMap.SimpleEntry<>("p_uin", "o930204019");
-        Map.Entry<String, String> p_skey = new AbstractMap.SimpleEntry<>("p_skey", pskey);
-        String p0 = String.format("3_%s_0%%7C8_8_%s_0_1_0_0_1%%7C15%%7C16", qid, 930204019L);
-        JSONObject o0 = zone.mainCgi(qid, null, p0, uin, puin, p_skey);
-        Integer SS = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("SS");
-        Integer RZ = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("RZ");
-        Integer XC = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("XC");
-        Document doc0 = zone.feedds(qid, 930204019L, 5, uin, puin, p_skey);
-        Elements es = doc0.getElementsByTag("ul");
-        Set set = new LinkedHashSet();
-        set.add("说说: " + SS);
-        set.add("日志: " + RZ);
-        set.add("相册: " + XC);
-        set.add("最近一条空间");
-        Elements e0 = es.get(0).getElementsByClass("f-item f-s-i");
-        Element e1 = es.get(0).getElementsByClass("f-like-cnt").get(0);
-        for (Element element : e0.get(0).children()) {
-            Elements ess = element.getElementsByTag("img");
-            if (ess.size() > 0) {
-                for (Element e : ess) {
-                    String href = e.attr("src");
-                    set.add(Tool.INSTANCE.pathToImg(href));
-                }
-            } else {
-                set.add(element.text());
-            }
-        }
-        set.remove(null);
-        set.remove("");
-        return set.toArray();
-    }
+//    @Action("QQ空间")
+//    public Object qqZone(Long qid) {
+//        String pskey = kloping.get("qzone-pskey-930204019", "4432120");
+//        Map.Entry<String, String> uin = new AbstractMap.SimpleEntry<>("uin", "o930204019");
+//        Map.Entry<String, String> puin = new AbstractMap.SimpleEntry<>("p_uin", "o930204019");
+//        Map.Entry<String, String> p_skey = new AbstractMap.SimpleEntry<>("p_skey", pskey);
+//        String p0 = String.format("3_%s_0%%7C8_8_%s_0_1_0_0_1%%7C15%%7C16", qid, 930204019L);
+//        JSONObject o0 = zone.mainCgi(qid, null, p0, uin, puin, p_skey);
+//        Integer SS = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("SS");
+//        Integer RZ = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("RZ");
+//        Integer XC = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("XC");
+//        Document doc0 = zone.feedds(qid, 930204019L, 5, uin, puin, p_skey);
+//        Elements es = doc0.getElementsByTag("ul");
+//        Set set = new LinkedHashSet();
+//        set.add("说说: " + SS);
+//        set.add("日志: " + RZ);
+//        set.add("相册: " + XC);
+//        set.add("最近一条空间");
+//        Elements e0 = es.get(0).getElementsByClass("f-item f-s-i");
+//        Element e1 = es.get(0).getElementsByClass("f-like-cnt").get(0);
+//        for (Element element : e0.get(0).children()) {
+//            Elements ess = element.getElementsByTag("img");
+//            if (ess.size() > 0) {
+//                for (Element e : ess) {
+//                    String href = e.attr("src");
+//                    set.add(Tool.INSTANCE.pathToImg(href));
+//                }
+//            } else {
+//                set.add(element.text());
+//            }
+//        }
+//        set.remove(null);
+//        set.remove("");
+//        return set.toArray();
+//    }
 
     @Action("解析图集音频<.+=>str>")
     public Object parseVoiceFromPics(@Param("str") String str) {

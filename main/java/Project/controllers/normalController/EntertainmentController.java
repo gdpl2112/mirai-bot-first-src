@@ -102,21 +102,6 @@ public class EntertainmentController {
         return otherService.trans(str, group, qq);
     }
 
-    @Action("\\[闪照<.+=>s1>")
-    public String flash(@AllMess String str, SpGroup group) throws NoRunException {
-        String url = MessageUtils.INSTANCE.getFlashUrlFromMessageString(str);
-        if (canBackShow(group.getId())) {
-            return Tool.INSTANCE.pathToImg(url);
-        } else if (sendFlashToSuper) {
-            try {
-                BOT.getGroup(794238572L).sendMessage(url);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        throw new NoRunException();
-    }
-
     @Action("语音")
     public String a1(SpGroup group) {
         GroupConf conf = getConf(group.getId());

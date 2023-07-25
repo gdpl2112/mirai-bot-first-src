@@ -158,12 +158,8 @@ public class SummonPicController {
         String urlStr = null;
         if (q == -1) {
             urlStr = MessageUtils.INSTANCE.getImageUrlFromMessageString(m);
-            if (urlStr == null) {
-                return "目前只支@的形式、或携带图片";
-            }
-        } else {
-            urlStr = Tool.INSTANCE.getTouUrl(q);
-        }
+            if (urlStr == null) return "目前只支@的形式、或携带图片";
+        } else urlStr = Tool.INSTANCE.getTouUrl(q);
         try {
             URL u = new URL(urlStr);
             File outFile = new File("./temp/" + UUID.randomUUID() + "-wq.png");

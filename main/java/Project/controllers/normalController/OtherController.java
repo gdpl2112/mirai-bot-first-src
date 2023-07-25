@@ -86,12 +86,8 @@ public class OtherController {
     }
 
     @Action("娱乐功能.*?")
-    public String m0(@AllMess String m) {
-        Integer i1 = Tool.INSTANCE.getInteagerFromStr(m);
-        int n = 1;
-        n = i1 == null ? n : i1;
-        n = n > E_MENUS.length ? 1 : n;
-        return E_MENUS[n - 1].trim() + "\r\n##当前第" + n + "页,共" + E_MENUS.length + "页";
+    public Object[] m0(@AllMess String m) {
+        return E_MENUS;
     }
 
     @Action("基本菜单")

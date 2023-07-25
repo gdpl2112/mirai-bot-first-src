@@ -70,66 +70,6 @@ public class CallApiController {
         return kloping.throwBottle(group.getId(), q, str, name);
     }
 
-    @Action("随机头像")
-    public String sjtx0(SpGroup group, SpUser user) {
-        try {
-            MessageUtils.INSTANCE.sendImageByBytesOnGroupWithAt(dzzui.avatar(), group.getId(), user.getId());
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return GET_FAILED;
-        }
-    }
-
-    @Action("QQ信息.*?")
-    public Object info(@AllMess String mess, long q) {
-        String str = Tool.INSTANCE.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return apiKit9.getInfo(q).toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
-    @Action("QQ群信息.*?")
-    public Object groupInfo(@AllMess String mess, SpGroup group) {
-        long q = group.getId();
-        String str = Tool.INSTANCE.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return apiKit9.getGroupInfo(q).toStrings();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
-    @Action("QQ达人.*?")
-    public Object getTalent(@AllMess String mess, long q) {
-        String str = Tool.INSTANCE.findNumberFromString(mess);
-        try {
-            Long q2 = Long.parseLong(str);
-            q = q2.longValue();
-        } catch (NumberFormatException e) {
-        }
-        try {
-            return "QQ达人天数:" + apiKit9.getTalent(q);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
-    }
-
     @Action("卫星云图")
     public String mn(SpGroup g) {
         StringBuilder sb = new StringBuilder();
