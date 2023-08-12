@@ -13,6 +13,7 @@ import net.mamoe.mirai.message.data.QuoteReply;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,6 +39,7 @@ public class GsClient extends WebSocketClient {
     static {
         try {
             INSTANCE = new GsClient(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
+//            INSTANCE = new GsClient(new URI("ws://localhost:8765/ws/" + SELF_ID));
             INSTANCE.connect();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);

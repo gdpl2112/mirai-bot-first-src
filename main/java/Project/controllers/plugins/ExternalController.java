@@ -180,7 +180,6 @@ public class ExternalController {
         connection.header("cSystemVersionCode", "31");
         connection.header("cSystemVersionName", "12");
         connection.header("cpuHardware", "qcom");
-        connection.header("encodeParam", "IfdpcXDm1tFqxzKdTqSw%2B2GHLvao1QsgBdvlTtfojAraG3XnKF%2B%2FfNO0KYSfdYzRKuxRTnJIXjnPdLXB7nd0rYvjXQTfRA1JmzBht7RNK9Kh68JoiXwg2mX57kwQSPpGT%2B%2FdNw%3D%3D");
         connection.header("gameAreaId", "1");
         connection.header("gameId", "20001");
         connection.header("gameOpenId", "AC7053418F9B0542483CB7E4AEAC4F21");

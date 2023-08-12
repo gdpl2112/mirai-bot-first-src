@@ -1,6 +1,7 @@
 package Project.utils.Tools;
 
 import io.github.kloping.io.ReadUtils;
+import io.github.kloping.judge.Judge;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -389,7 +390,9 @@ public class Tool {
         if (withs != null) {
             int i = 0;
             for (String s : list) {
-                if (list.get(i).startsWith(withs)) {
+                String str = list.get(i);
+                if (Judge.isEmpty(str)) continue;
+                if (str.startsWith(withs)) {
                     return i;
                 }
                 i++;
