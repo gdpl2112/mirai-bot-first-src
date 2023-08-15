@@ -13,7 +13,6 @@ import net.mamoe.mirai.message.data.QuoteReply;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,19 +30,17 @@ import java.util.concurrent.TimeUnit;
  *
  * @author github.kloping
  */
-public class GsClient extends WebSocketClient {
+public class GsClient extends WebSocketClient implements Runnable {
 
     public static final String SELF_ID = "mirai-client";
-    public static final GsClient INSTANCE;
 
-    static {
-        try {
-            INSTANCE = new GsClient(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
-//            INSTANCE = new GsClient(new URI("ws://localhost:8765/ws/" + SELF_ID));
-            INSTANCE.connect();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+    public GsClient() throws URISyntaxException {
+        this(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
+    }
+
+    @Override
+    public void run() {
+        connect();
     }
 
     public GsClient(URI serverUri) {

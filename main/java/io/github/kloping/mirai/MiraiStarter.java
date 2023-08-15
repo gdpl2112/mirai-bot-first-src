@@ -34,7 +34,13 @@ public class MiraiStarter {
         Tool.INSTANCE.setOnOutInFIle(Tool.INSTANCE.getLogTimeFormat() + "b1_console.log");
         if (args.length >= 3) {
             GlobalEventChannel.INSTANCE.registerListenerHost(new LewisHandler());
-            GlobalEventChannel.INSTANCE.registerListenerHost(new MiraiListenerHost(GsClient.INSTANCE));
+            try {
+                GsClient client = new GsClient();
+                Public.EXECUTOR_SERVICE.submit(client);
+                GlobalEventChannel.INSTANCE.registerListenerHost(new MiraiListenerHost(client));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         //write pid
         String name = ManagementFactory.getRuntimeMXBean().getName();
