@@ -30,17 +30,12 @@ import java.util.concurrent.TimeUnit;
  *
  * @author github.kloping
  */
-public class GsClient extends WebSocketClient implements Runnable {
+public class GsClient extends WebSocketClient{
 
     public static final String SELF_ID = "mirai-client";
 
     public GsClient() throws URISyntaxException {
         this(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
-    }
-
-    @Override
-    public void run() {
-        connect();
     }
 
     public GsClient(URI serverUri) {
@@ -85,7 +80,7 @@ public class GsClient extends WebSocketClient implements Runnable {
 
     @Override
     public void onOpen(ServerHandshake handshake) {
-        StarterApplication.logger.info("opened");
+        StarterApplication.logger.info("gsuid_core opened");
     }
 
     @Override
@@ -107,7 +102,7 @@ public class GsClient extends WebSocketClient implements Runnable {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        StarterApplication.logger.error(String.format("close %s => %s", code, reason));
+        StarterApplication.logger.error(String.format("gsuid_core close %s => %s", code, reason));
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
                 TimeUnit.SECONDS.sleep(3);
