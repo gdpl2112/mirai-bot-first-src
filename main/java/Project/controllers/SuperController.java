@@ -17,6 +17,7 @@ import Project.interfaces.Iservice.IGameService;
 import Project.interfaces.Iservice.IManagerService;
 import Project.listeners.SaveHandler;
 import Project.services.impl.ZongMenServiceImpl;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -27,7 +28,6 @@ import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
 import io.github.kloping.mirai0.commons.PersonInfo;
-import Project.utils.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 import io.github.kloping.serialize.HMLObject;
 import net.mamoe.mirai.event.events.BotEvent;
@@ -141,39 +141,6 @@ public class SuperController {
         return "ok";
     }
 
-    @Action(value = "addScore.{1,}", otherName = {"加积分.+"})
-    public String addScore(@AllMess String messages, SpUser qq, SpGroup gr) throws NoRunException {
-        long who = Project.utils.Utils.getAtFromString(messages);
-        messages = messages.replace(Long.toString(who), "");
-        if (who == -1) {
-            return ERR_TIPS;
-        }
-        long num = Long.parseLong(Tool.INSTANCE.findNumberFromString(messages));
-        DataBase.addScore(num, who);
-        return new StringBuilder().append("给 =》 ").append(MemberUtils.getNameFromGroup(who, gr)).append("增加了\r\n=>").append(num + "").append("积分").toString();
-    }
-
-    @Action("全体加积分.{1,}")
-    public String addAllScore(@AllMess String messages, SpUser qq) throws NoRunException {
-        long num = Long.parseLong(Tool.INSTANCE.findNumberFromString(messages));
-        HIST_U_SCORE.forEach((k, v) -> {
-            v.addScore(num);
-            putInfo(v);
-        });
-        return "完成!!";
-    }
-
-    @Action("全体加积分All.{1,}")
-    public String addAllScore0(@AllMess String messages, SpUser qq) throws NoRunException {
-        Long num = Long.parseLong(Tool.INSTANCE.findNumberFromString(messages));
-        num = num == null ? 1 : num;
-        for (UserScore score : SpringBootResource.getScoreMapper().selectAll()) {
-            score.addScore(num);
-            putInfo(score);
-        }
-        return "完成!!";
-    }
-
     @Action("关机")
     public String k0() {
         Switch.AllK = false;
@@ -219,12 +186,6 @@ public class SuperController {
         }
     }
 
-    @Action("/c-ms")
-    public String o2() {
-        THREADS.submit(MinecraftServerClient.INSTANCE);
-        return "trying";
-    }
-
     @Action("/execute.+")
     public String o1(@AllMess String str, SpGroup group, BotEvent event) {
         long q = Project.utils.Utils.getAtFromString(str);
@@ -243,14 +204,6 @@ public class SuperController {
         long who = Project.utils.Utils.getAtFromString(message);
         if (who == -1) return NOT_FOUND_AT;
         return managerService.removeFather(qq.getId(), who);
-    }
-
-    @Action("/即时公告<.+=>str>")
-    public String announcement(@Param("str") String str) {
-        for (net.mamoe.mirai.contact.Group group : BOT.getGroups()) {
-            group.sendMessage(str);
-        }
-        return "ok";
     }
 
     @Action("/clearCache")
@@ -350,57 +303,6 @@ public class SuperController {
             return DOWN_SHOP_ITEM_OK;
         } else {
             return NOT_FOUND_SHOP_ITEM;
-        }
-    }
-
-    @Action("/updateZero")
-    public String uz() {
-        TimerController.onZero();
-        return "ok";
-    }
-
-    @Action("/list<.+=>str>")
-    public Object l0(@Param("str") String str) {
-        try {
-            Map<String, Set<Method>> maps = new ConcurrentHashMap<>();
-            Field field = ActionManagerImpl.class.getDeclaredField("maps");
-            field.setAccessible(true);
-            maps = (Map<String, Set<Method>>) field.get(StarterApplication.Setting.INSTANCE.getActionManager());
-            StringBuilder sb = new StringBuilder();
-            maps.forEach((k, v) -> {
-                for (Method method : v) {
-                    String dname = method.getDeclaringClass().getSimpleName();
-                    if (dname.equalsIgnoreCase(str)) {
-                        sb.append(k).append(NEWLINE);
-                        return;
-                    }
-                }
-            });
-            return sb.toString();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return "not found";
-    }
-
-    @Action("/升级魂环<.+=>str>")
-    public Object l1(@Param("str") String str) {
-        Long q = Project.utils.Utils.getAtFromString(str);
-        if (q == -1) {
-            return NOT_FOUND_AT;
-        }
-        str = str.replace("[@" + q.toString() + "]", "");
-        String what = str.trim().replaceAll("魂环", "").replaceAll("第", "");
-        Integer st = Tool.INSTANCE.getInteagerFromStr(what);
-        if (st == null) return ERR_TIPS;
-        st--;
-        Integer id = SpringBootResource.getHhpzMapper().select(q.longValue(), getInfo(q).getP()).get(st);
-        if (id == 207) return "TOP";
-        else {
-            GameDataBase.upHh(q, st, ++id);
-            return "OK";
         }
     }
 
