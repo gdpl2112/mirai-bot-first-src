@@ -1,8 +1,8 @@
 package Project.interfaces.Iservice;
 
 
-import Project.commons.gameEntitys.SoulAttribute;
-import Project.commons.gameEntitys.SoulBone;
+import Project.aSpring.dao.SoulAttribute;
+import Project.aSpring.dao.SoulBone;
 
 import java.util.List;
 

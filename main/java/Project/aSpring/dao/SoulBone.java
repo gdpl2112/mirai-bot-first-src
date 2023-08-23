@@ -1,5 +1,6 @@
-package Project.commons.gameEntitys;
+package Project.aSpring.dao;
 
+import Project.aSpring.dao.SoulAttribute;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

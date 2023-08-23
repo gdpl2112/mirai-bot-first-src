@@ -2,7 +2,7 @@ package Project.services.impl;
 
 
 import Project.commons.SpGroup;
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -15,7 +15,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.common.Public;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.GInfo;
+import Project.aSpring.dao.GInfo;
 import Project.utils.Tools.Tool;
 
 import java.lang.reflect.InvocationTargetException;

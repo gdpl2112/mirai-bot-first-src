@@ -1,11 +1,11 @@
 package Project.services.detailServices;
 
-import Project.commons.gameEntitys.Zon;
+import Project.aSpring.dao.Zon;
 import Project.dataBases.GameDataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.Zong;
+import Project.aSpring.dao.PersonInfo;
+import Project.aSpring.dao.Zong;
 
 import static Project.aSpring.SpringBootResource.getZonMapper;
 import static Project.aSpring.SpringBootResource.getZongMapper;

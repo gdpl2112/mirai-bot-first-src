@@ -5,7 +5,7 @@ import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.SourceDataBase;
 import Project.services.detailServices.tasks.Task1001;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.GInfo;
+import Project.aSpring.dao.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 
 import java.util.Set;

@@ -1,7 +1,7 @@
 package Project.services.detailServices;
 
 import Project.broadcast.game.HpChangeBroadcast;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
@@ -10,7 +10,7 @@ import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skills.SkillFactory;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.map.MapUtils;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.*;
 import Project.utils.Tools.GameTool;

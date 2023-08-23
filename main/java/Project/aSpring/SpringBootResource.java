@@ -198,6 +198,10 @@ public class SpringBootResource {
         }
     }
 
+    public static <T extends BaseMapper> T getMapper(Class<T> cla) {
+        return SpringStarter.configuration.getBean(cla);
+    }
+
     public static void main(String[] args) {
         System.out.println(PUBLIC_IP);
     }

@@ -1,5 +1,5 @@
 import io.github.kloping.clasz.ClassUtils;
-import io.github.kloping.mirai0.commons.WhInfo;
+import Project.aSpring.dao.WhInfo;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package Project.services.detailServices.ac.entity;
 
 import Project.commons.gameEntitys.base.BaseInfo;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 
 import static Project.dataBases.skill.SkillDataBase.TAG_TRUE;
 

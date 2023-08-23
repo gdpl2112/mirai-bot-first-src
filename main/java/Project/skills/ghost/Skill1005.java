@@ -1,6 +1,6 @@
 package Project.skills.ghost;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.v1.TagManagers;
 import Project.skills.SkillTemplate;

@@ -1,6 +1,6 @@
 package Project.skills.s8;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.services.detailServices.GameDetailService;
 import Project.skills.SkillTemplate;
 import Project.utils.VelocityUtils;

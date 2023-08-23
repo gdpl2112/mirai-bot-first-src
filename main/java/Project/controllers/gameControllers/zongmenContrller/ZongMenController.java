@@ -4,14 +4,14 @@ package Project.controllers.gameControllers.zongmenContrller;
 import Project.aSpring.SpringBootResource;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.commons.gameEntitys.Zon;
+import Project.aSpring.dao.Zon;
 import Project.controllers.auto.ConfirmController;
 import Project.interfaces.Iservice.IZongMenService;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.Zong;
+import Project.aSpring.dao.Zong;
 
 import java.lang.reflect.Method;
 import java.util.*;

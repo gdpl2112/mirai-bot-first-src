@@ -1,6 +1,6 @@
 package Project.skills.s8;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.rt.CommonSource;
 import Project.controllers.auto.ControllerSource;
 import Project.skills.SkillTemplate;

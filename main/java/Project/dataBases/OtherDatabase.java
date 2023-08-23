@@ -1,7 +1,7 @@
 package Project.dataBases;
 
 import Project.aSpring.SpringBootResource;
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 
 import java.io.File;
 import java.util.List;

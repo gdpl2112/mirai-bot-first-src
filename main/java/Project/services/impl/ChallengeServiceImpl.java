@@ -22,7 +22,7 @@ import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.mirai0.commons.game.ChallengeField;
 import Project.utils.Tools.GameTool;
 import Project.utils.Tools.Tool;

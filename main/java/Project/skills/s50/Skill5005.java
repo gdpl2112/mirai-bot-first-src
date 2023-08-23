@@ -1,6 +1,6 @@
 package Project.skills.s50;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;
 import io.github.kloping.mirai0.commons.game.NormalTagPack;
@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.TAG_ADD_ATT;
-import static Project.dataBases.skill.SkillDataBase.TAG_DAMAGE_REDUCTION;
 import static Project.services.detailServices.GameSkillDetailService.*;
 
 /**

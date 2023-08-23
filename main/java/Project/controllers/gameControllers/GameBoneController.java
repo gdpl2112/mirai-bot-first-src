@@ -3,7 +3,7 @@ package Project.controllers.gameControllers;
 
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.commons.gameEntitys.SoulBone;
+import Project.aSpring.dao.SoulBone;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.interfaces.Iservice.ISkillService;
 import Project.utils.GameUtils;

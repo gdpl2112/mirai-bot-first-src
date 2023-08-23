@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kloping.mirai0.commons.WhInfo;
+import Project.aSpring.dao.WhInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

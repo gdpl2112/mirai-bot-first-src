@@ -8,9 +8,9 @@ import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.common.Public;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.Warp;
-import io.github.kloping.mirai0.commons.WhInfo;
+import Project.aSpring.dao.PersonInfo;
+import Project.aSpring.dao.Warp;
+import Project.aSpring.dao.WhInfo;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

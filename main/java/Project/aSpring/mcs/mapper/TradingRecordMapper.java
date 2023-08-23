@@ -1,6 +1,6 @@
 package Project.aSpring.mcs.mapper;
 
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

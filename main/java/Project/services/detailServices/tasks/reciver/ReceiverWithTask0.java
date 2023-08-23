@@ -3,7 +3,7 @@ package Project.services.detailServices.tasks.reciver;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.commons.broadcast.enums.ObjType;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.GInfo;
+import Project.aSpring.dao.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import io.github.kloping.mirai0.commons.task.Task;
 

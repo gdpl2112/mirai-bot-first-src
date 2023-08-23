@@ -1,4 +1,4 @@
-package Project.commons.eEntitys;
+package Project.aSpring.dao;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,20 +8,16 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author github-kloping
- * @version 1.0
+ * @author github.kloping
  */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutoReply {
+public class Achievement {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private Long gid;
-    private String who;
-    private String k;
-    private String v;
-    private String time;
-    private Integer deleteStat = 0;
+    private Integer aid;
+    private Long qid;
+    private Long time;
 }

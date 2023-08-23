@@ -3,8 +3,8 @@ package Project.services.impl;
 
 import Project.aSpring.SpringBootResource;
 import Project.commons.SpGroup;
-import Project.commons.TradingRecord;
-import Project.commons.UserScore;
+import Project.aSpring.dao.TradingRecord;
+import Project.aSpring.dao.UserScore;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;

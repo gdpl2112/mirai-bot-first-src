@@ -1,6 +1,6 @@
 package Project.skills;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.utils.VelocityUtils;
 import io.github.kloping.mirai0.commons.Skill;
 import Project.utils.Tools.Tool;

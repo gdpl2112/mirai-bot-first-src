@@ -2,7 +2,7 @@ package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
 import Project.commons.broadcast.Receiver;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 
 import java.util.LinkedList;
 import java.util.List;

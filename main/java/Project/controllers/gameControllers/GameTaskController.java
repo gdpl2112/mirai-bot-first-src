@@ -10,7 +10,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.task.Task;
-import io.github.kloping.mirai0.commons.task.TaskPoint;
+import Project.aSpring.dao.TaskPoint;
 import Project.utils.Tools.Tool;
 
 import java.util.Date;

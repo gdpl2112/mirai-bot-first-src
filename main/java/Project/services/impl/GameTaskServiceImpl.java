@@ -4,9 +4,9 @@ import Project.commons.SpGroup;
 import Project.dataBases.GameTaskDatabase;
 import Project.interfaces.Iservice.IGameTaskService;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.Warp;
+import Project.aSpring.dao.Warp;
 import io.github.kloping.mirai0.commons.task.Task;
-import io.github.kloping.mirai0.commons.task.TaskPoint;
+import Project.aSpring.dao.TaskPoint;
 import Project.utils.Tools.Tool;
 
 import java.util.UUID;

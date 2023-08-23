@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 
 import java.util.List;
 import java.util.Map;

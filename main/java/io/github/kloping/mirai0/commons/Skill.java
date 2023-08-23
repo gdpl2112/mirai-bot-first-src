@@ -1,8 +1,9 @@
 package io.github.kloping.mirai0.commons;
 
 
+import Project.aSpring.dao.PersonInfo;
 import Project.commons.SpGroup;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 
 import java.util.ArrayList;

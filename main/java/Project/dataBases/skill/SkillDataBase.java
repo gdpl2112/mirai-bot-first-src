@@ -1,7 +1,7 @@
 package Project.dataBases.skill;
 
 import Project.aSpring.SpringBootResource;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.skills.SkillFactory;
 import io.github.kloping.map.MapUtils;
 import io.github.kloping.mirai0.Main.BootstarpResource;

@@ -2,9 +2,9 @@ package Project.dataBases;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.commons.Father;
-import Project.commons.GroupConf;
-import Project.commons.UserScore;
+import Project.aSpring.dao.Father;
+import Project.aSpring.dao.GroupConf;
+import Project.aSpring.dao.UserScore;
 import Project.commons.rt.ResourceSet;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import Project.utils.Tools.Tool;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static Project.aSpring.SpringBootResource.getFatherMapper;
 import static Project.aSpring.SpringBootResource.getGroupConfMapper;
-import static Project.commons.Father.ALL;
+import static Project.aSpring.dao.Father.ALL;
 
 /**
  * @author github-kloping

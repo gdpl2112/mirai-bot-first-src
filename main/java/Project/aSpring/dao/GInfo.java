@@ -1,4 +1,4 @@
-package io.github.kloping.mirai0.commons;
+package Project.aSpring.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;

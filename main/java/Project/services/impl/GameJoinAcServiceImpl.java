@@ -11,7 +11,7 @@ import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.GInfo;
+import Project.aSpring.dao.GInfo;
 import io.github.kloping.mirai0.commons.GhostObj;
 import Project.utils.Tools.GameTool;
 import Project.utils.Tools.Tool;

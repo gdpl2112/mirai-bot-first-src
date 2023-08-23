@@ -3,7 +3,7 @@ package Project.skills.s8;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.commons.SpGroup;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.controllers.auto.ControllerSource;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import Project.services.detailServices.roles.DamageType;

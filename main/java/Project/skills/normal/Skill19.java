@@ -1,11 +1,11 @@
 package Project.skills.normal;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.rt.CommonSource;
 import Project.controllers.auto.ControllerSource;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 import Project.utils.Tools.Tool;
 

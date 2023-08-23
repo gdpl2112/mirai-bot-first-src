@@ -3,7 +3,7 @@ package Project.services.detailServices.condition;
 import Project.broadcast.game.SkillUseBroadcast;
 import Project.commons.SpGroup;
 import Project.commons.apiEntitys.RunnableWithOver;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.rt.ResourceSet;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.TimerController;
@@ -20,7 +20,7 @@ import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import Project.utils.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 

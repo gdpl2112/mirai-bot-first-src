@@ -1,5 +1,6 @@
-package Project.commons.gameEntitys;
+package Project.aSpring.dao;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,17 +9,19 @@ import lombok.experimental.Accessors;
 
 /**
  * @author github-kloping
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Zon {
+public class AutoReply {
+    @TableId(type = IdType.AUTO)
     private Integer id;
-    @TableId
-    private Long qq;
-    private Integer level = 0;
-    private Integer times = 0;
-    private Integer xper = 0;
-    private Integer active = 0;
+    private Long gid;
+    private String who;
+    private String k;
+    private String v;
+    private String time;
+    private Integer deleteStat = 0;
 }

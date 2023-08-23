@@ -2,7 +2,7 @@ package Project.services.detailServices;
 
 import Project.commons.gameEntitys.challange.Challenges;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 
 import java.util.HashMap;
 import java.util.Map;

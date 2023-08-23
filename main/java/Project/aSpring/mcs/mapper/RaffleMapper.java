@@ -1,6 +1,6 @@
 package Project.aSpring.mcs.mapper;
 
-import Project.commons.RaffleE;
+import Project.aSpring.dao.RaffleE;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

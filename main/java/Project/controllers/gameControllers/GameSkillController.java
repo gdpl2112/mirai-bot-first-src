@@ -2,7 +2,7 @@ package Project.controllers.gameControllers;
 
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.ISkillService;
@@ -11,7 +11,7 @@ import Project.utils.bao.SelectResult;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import Project.utils.Tools.Tool;
 import Project.utils.drawers.Drawer;
 import io.github.kloping.number.NumberUtils;

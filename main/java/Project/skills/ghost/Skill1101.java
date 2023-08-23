@@ -1,6 +1,6 @@
 package Project.skills.ghost;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;
 import Project.skills.SkillTemplate;

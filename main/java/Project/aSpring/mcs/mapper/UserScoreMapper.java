@@ -1,6 +1,6 @@
 package Project.aSpring.mcs.mapper;
 
-import Project.commons.UserScore;
+import Project.aSpring.dao.UserScore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

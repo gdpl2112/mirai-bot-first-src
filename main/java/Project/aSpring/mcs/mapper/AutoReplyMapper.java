@@ -1,6 +1,6 @@
 package Project.aSpring.mcs.mapper;
 
-import Project.commons.eEntitys.AutoReply;
+import Project.aSpring.dao.AutoReply;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

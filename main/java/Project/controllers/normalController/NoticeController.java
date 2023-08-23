@@ -26,6 +26,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(NEWLINE);
+        UPDATE_LOG.append(" 8.23:派遣功能;派遣[1天/2天][大瓶经验/时光胶囊/金魂币]").append(NEWLINE);
         UPDATE_LOG.append(" 8.12:修复部分bug").append(NEWLINE);
         UPDATE_LOG.append(" 6.25:尝试排序交易市场").append(NEWLINE);
         UPDATE_LOG.append(" 6.25:活动结束通告").append(NEWLINE);

@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.commons.task;
 
+import Project.aSpring.dao.TaskPoint;
 import Project.broadcast.Broadcast;
 import Project.commons.broadcast.Receiver;
 import Project.dataBases.GameTaskDatabase;

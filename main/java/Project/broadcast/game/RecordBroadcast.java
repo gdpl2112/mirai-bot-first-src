@@ -1,7 +1,7 @@
 package Project.broadcast.game;
 
 import Project.broadcast.Broadcast;
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.Receiver;
 
 import java.util.LinkedHashSet;

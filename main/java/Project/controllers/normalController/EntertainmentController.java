@@ -1,10 +1,10 @@
 package Project.controllers.normalController;
 
 import Project.broadcast.PicBroadcast;
-import Project.commons.GroupConf;
+import Project.aSpring.dao.GroupConf;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.commons.UserScore;
+import Project.aSpring.dao.UserScore;
 import Project.commons.rt.ResourceSet;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
@@ -13,7 +13,6 @@ import Project.interfaces.httpApi.old.ApiIyk0;
 import Project.services.detailServices.Idiom;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.Quiz;
 import Project.utils.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
@@ -26,9 +25,7 @@ import static Project.controllers.auto.ControllerTool.canGroup;
 import static Project.controllers.normalController.CustomController.QLIST;
 import static Project.controllers.normalController.CustomController.builderAndAdd;
 import static Project.dataBases.DataBase.*;
-import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.AllK;
-import static io.github.kloping.mirai0.Main.BootstarpResource.Switch.sendFlashToSuper;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**

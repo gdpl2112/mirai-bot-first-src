@@ -1,8 +1,8 @@
 package Project.dataBases;
 
-import Project.commons.gameEntitys.Zon;
+import Project.aSpring.dao.Zon;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.commons.Zong;
+import Project.aSpring.dao.Zong;
 
 import java.util.HashMap;
 import java.util.HashSet;

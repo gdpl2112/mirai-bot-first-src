@@ -1,7 +1,7 @@
 package Project.utils.drawers;
 
 import Project.aSpring.SpringBootResource;
-import Project.commons.gameEntitys.SoulBone;
+import Project.aSpring.dao.*;
 import Project.commons.gameEntitys.WinStar;
 import Project.dataBases.skill.SkillDataBase;
 import Project.utils.Tools.GameTool;

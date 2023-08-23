@@ -1,6 +1,6 @@
 package Project.skills.s7;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
 import Project.utils.VelocityUtils;

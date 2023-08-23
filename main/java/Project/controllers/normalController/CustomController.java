@@ -2,7 +2,7 @@ package Project.controllers.normalController;
 
 import Project.broadcast.normal.MessageBroadcast;
 import Project.commons.SpGroup;
-import Project.commons.eEntitys.AutoReply;
+import Project.aSpring.dao.AutoReply;
 import Project.commons.rt.ResourceSet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;

@@ -1,6 +1,6 @@
 package Project.services.detailServices.roles;
 
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 
 import java.util.HashMap;
 import java.util.Map;

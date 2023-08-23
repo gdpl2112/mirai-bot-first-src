@@ -1,6 +1,12 @@
 package Project.aSpring;
 
-import io.github.kloping.mirai0.commons.WhInfo;
+import Project.aSpring.dao.WhInfo;
+import Project.utils.Utils;
+import io.github.kloping.MySpringTool.StarterApplication;
+import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
+import io.github.kloping.common.Public;
+import io.github.kloping.mirai0.Main.BootstarpResource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +14,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static Project.aSpring.SpringBootResource.environment;
@@ -20,6 +29,8 @@ import static Project.aSpring.SpringBootResource.init;
 @MapperScan("Project.aSpring.mcs.mapper")
 public class SpringStarter {
 
+    public static final List<Runnable> STARTED_RUNNABLE = new ArrayList<>();
+
     public static ConfigurableApplicationContext configuration;
 
     public static void main(String[] args) {
@@ -27,17 +38,47 @@ public class SpringStarter {
         environment = configuration.getEnvironment();
         init();
         over();
+        try {
+            PackageScanner scanner = new PackageScannerImpl(true);
+            for (Class<?> aClass : scanner.scan(BootstarpResource.class.getClassLoader(), "Project.aSpring.mcs.mapper")) {
+                Object mapper = configuration.getBean(aClass);
+                StarterApplication.Setting.INSTANCE.getContextManager().append(mapper);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        for (Runnable runnable : STARTED_RUNNABLE) {
+            Public.EXECUTOR_SERVICE.submit(runnable);
+        }
     }
 
     private static void over() {
         DataSource dataSource = SpringStarter.configuration.getBean(DataSource.class);
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-        try0(jdbcTemplate);
+        try {
+            try0(jdbcTemplate);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try1(jdbcTemplate);
     }
 
-    private static void try0(JdbcTemplate jdbcTemplate) {
+    private static void try0(JdbcTemplate jdbcTemplate) throws IOException, ClassNotFoundException {
+        PackageScanner scanner = new PackageScannerImpl(true);
+        for (Class<?> dclass : scanner.scan(BootstarpResource.class.getClassLoader(), "Project.aSpring.dao")) {
+            try {
+                String sql = Utils.CreateTable.createTable(dclass);
+                int state = jdbcTemplate.update(sql);
+                if (state > 0) System.out.println(sql);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        //========================
         boolean k0 = false;
         for (Map<String, Object> e0 : jdbcTemplate.queryForList("DESC `zong`")) {
             String name = e0.get("Field").toString();

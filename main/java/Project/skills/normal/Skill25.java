@@ -1,6 +1,6 @@
 package Project.skills.normal;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.dataBases.skill.SkillDataBase;
 import Project.skills.SkillTemplate;
 import io.github.kloping.mirai0.commons.Skill;

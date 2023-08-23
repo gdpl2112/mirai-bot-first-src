@@ -1,7 +1,7 @@
 package Project.interfaces.Iservice;
 
 import Project.commons.SpGroup;
-import io.github.kloping.mirai0.commons.Zong;
+import Project.aSpring.dao.Zong;
 
 public interface IZongMenService {
     String create(String name, Long who, SpGroup group);

@@ -1,11 +1,11 @@
 package Project.services.detailServices.shopItems;
 
 import Project.commons.broadcast.enums.ObjType;
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.controllers.recr.HasTimeActionController;
 import Project.services.player.UseRestrictions;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.mirai0.commons.game.AsynchronousThing;
 import Project.utils.Tools.GameTool;
 import Project.utils.Tools.Tool;

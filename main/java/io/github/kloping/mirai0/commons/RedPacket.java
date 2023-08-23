@@ -1,6 +1,6 @@
 package io.github.kloping.mirai0.commons;
 
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;

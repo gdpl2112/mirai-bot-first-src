@@ -1,8 +1,8 @@
 package Project.aSpring.mcs.controllers;
 
 import Project.commons.SpUser;
-import Project.commons.TradingRecord;
-import Project.commons.UserScore;
+import Project.aSpring.dao.TradingRecord;
+import Project.aSpring.dao.UserScore;
 import Project.controllers.auto.ControllerSource;
 import Project.dataBases.DataBase;
 import Project.dataBases.OtherDatabase;

@@ -1,7 +1,7 @@
 package Project.services.detailServices.shopItems;
 
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 
 import static Project.commons.rt.ResourceSet.FinalFormat.AT_FORMAT0;
 import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;

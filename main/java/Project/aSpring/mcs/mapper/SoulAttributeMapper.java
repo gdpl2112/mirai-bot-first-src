@@ -1,6 +1,6 @@
 package Project.aSpring.mcs.mapper;
 
-import Project.commons.gameEntitys.SoulAttribute;
+import Project.aSpring.dao.SoulAttribute;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

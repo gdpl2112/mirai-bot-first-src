@@ -3,12 +3,12 @@ package Project.services.detailServices;
 
 import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import Project.commons.rt.ResourceSet;
 import Project.controllers.gameControllers.GameConditionController;
 import Project.services.detailServices.roles.DamageType;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import Project.utils.Tools.Tool;
 
 import java.lang.reflect.Method;

@@ -1,9 +1,9 @@
 package Project.skills.s8;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.rt.CommonSource;
 import Project.skills.SkillTemplate;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.mirai0.commons.Skill;
 
 import java.util.concurrent.CopyOnWriteArrayList;

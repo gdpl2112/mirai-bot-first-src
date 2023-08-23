@@ -5,8 +5,8 @@ import Project.aSpring.SpringBootResource;
 import Project.dataBases.GameDataBase;
 import Project.services.detailServices.ac.GameJoinDetailService;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
-import io.github.kloping.mirai0.commons.WhInfo;
+import Project.aSpring.dao.PersonInfo;
+import Project.aSpring.dao.WhInfo;
 
 import java.util.LinkedList;
 import java.util.List;

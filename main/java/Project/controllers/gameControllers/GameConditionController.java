@@ -18,7 +18,7 @@ import io.github.kloping.mirai0.Main.BotStarter;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import io.github.kloping.number.NumberUtils;
 
 import java.util.HashMap;

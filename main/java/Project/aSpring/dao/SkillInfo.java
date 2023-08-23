@@ -1,4 +1,4 @@
-package Project.commons.gameEntitys;
+package Project.aSpring.dao;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;

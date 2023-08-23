@@ -1,7 +1,7 @@
 package Project.services.detailServices.ac;
 
 import Project.commons.SpGroup;
-import Project.commons.TradingRecord;
+import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.recr.HasTimeActionController;
 import Project.dataBases.GameDataBase;

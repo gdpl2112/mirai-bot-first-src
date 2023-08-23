@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kloping.mirai0.commons.task.TaskPoint;
+import Project.aSpring.dao.TaskPoint;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 

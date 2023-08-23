@@ -1,6 +1,6 @@
 package Project.services.detailServices;
 
-import Project.commons.gameEntitys.SoulAttribute;
+import Project.aSpring.dao.SoulAttribute;
 import io.github.kloping.common.Public;
 import io.github.kloping.map.MapUtils;
 

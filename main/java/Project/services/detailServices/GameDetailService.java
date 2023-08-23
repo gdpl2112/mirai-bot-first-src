@@ -4,7 +4,7 @@ import Project.aSpring.SpringBootResource;
 import Project.broadcast.game.GhostLostBroadcast;
 import Project.broadcast.game.HpChangeBroadcast;
 import Project.broadcast.game.PlayerLostBroadcast;
-import Project.commons.gameEntitys.SoulAttribute;
+import Project.aSpring.dao.SoulAttribute;
 import Project.commons.gameEntitys.base.BaseInfo;
 import Project.controllers.gameControllers.GameController;
 import Project.dataBases.DataBase;
@@ -17,7 +17,7 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.GhostObj;
-import io.github.kloping.mirai0.commons.PersonInfo;
+import Project.aSpring.dao.PersonInfo;
 import Project.utils.Tools.Tool;
 
 import java.util.Map;

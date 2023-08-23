@@ -1,7 +1,7 @@
 package Project.aSpring.mcs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kloping.mirai0.commons.Zong;
+import Project.aSpring.dao.Zong;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

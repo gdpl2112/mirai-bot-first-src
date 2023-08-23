@@ -1,6 +1,6 @@
 package Project.skills.normal;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.controllers.auto.ControllerSource;
 import Project.services.player.Growth;
 import Project.services.player.PlayerBehavioralManager;

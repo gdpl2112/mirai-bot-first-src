@@ -1,6 +1,5 @@
-package io.github.kloping.mirai0.commons;
+package Project.aSpring.dao;
 
-import Project.commons.gameEntitys.Zon;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;

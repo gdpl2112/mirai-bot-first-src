@@ -1,6 +1,5 @@
-package Project.commons.gameEntitys;
+package Project.aSpring.dao;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,16 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * @author github.kloping
+ * @author github-kloping
  */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Achievement {
-    @TableId(type = IdType.AUTO)
+public class Zon {
     private Integer id;
-    private Integer aid;
-    private Long qid;
-    private Long time;
+    @TableId
+    private Long qq;
+    private Integer level = 0;
+    private Integer times = 0;
+    private Integer xper = 0;
+    private Integer active = 0;
 }

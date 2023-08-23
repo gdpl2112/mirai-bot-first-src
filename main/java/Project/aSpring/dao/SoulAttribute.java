@@ -1,4 +1,4 @@
-package Project.commons.gameEntitys;
+package Project.aSpring.dao;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;

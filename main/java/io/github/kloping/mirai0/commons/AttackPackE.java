@@ -1,5 +1,6 @@
 package io.github.kloping.mirai0.commons;
 
+import Project.aSpring.dao.PersonInfo;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.entities.AttackPack;
 

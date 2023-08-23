@@ -4,7 +4,7 @@ package Project.controllers.normalController;
 import Project.aSpring.SpringBootResource;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.commons.UserScore;
+import Project.aSpring.dao.UserScore;
 import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;

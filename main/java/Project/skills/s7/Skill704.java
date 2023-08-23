@@ -1,6 +1,6 @@
 package Project.skills.s7;
 
-import Project.commons.gameEntitys.SkillInfo;
+import Project.aSpring.dao.SkillInfo;
 import Project.commons.gameEntitys.base.BaseInfo;
 import Project.commons.rt.CommonSource;
 import Project.dataBases.skill.SkillDataBase;
