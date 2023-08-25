@@ -1,9 +1,11 @@
 package Project.controllers.gameControllers;
 
 
+import Project.aSpring.dao.PersonInfo;
+import Project.aSpring.dao.TradingRecord;
+import Project.aSpring.dao.Warp;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
 import Project.controllers.auto.ControllerSource;
 import Project.controllers.auto.TimerController;
@@ -12,14 +14,12 @@ import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IGameService;
 import Project.services.player.PlayerBehavioralManager;
 import Project.utils.KlopingWebDataBaseBoolean;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.aSpring.dao.PersonInfo;
-import Project.aSpring.dao.Warp;
-import Project.utils.Tools.Tool;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,11 +36,11 @@ import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.GameConfSource.DELETE_MAX;
 import static Project.dataBases.GameDataBase.*;
 import static Project.utils.Tools.GameTool.*;
-import static io.github.kloping.mirai0.Main.BootstarpResource.START_AFTER;
-import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static Project.utils.Tools.Tool.DAY_LONG;
 import static Project.utils.drawers.Drawer.drawWarp;
 import static Project.utils.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.Main.BootstarpResource.START_AFTER;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 @Controller
 public class GameController {
@@ -243,26 +243,22 @@ public class GameController {
 
     @Action("修炼")
     public String Xl(SpUser qq, SpGroup group) {
-        String str = gameService.xl(qq.getId());
-        return str;
+        return gameService.xl(qq.getId());
     }
 
     @Action("信息")
     public String info(SpUser qq, SpGroup group) {
-        String str = gameService.info(qq.getId());
-        return str;
+        return gameService.info(qq.getId());
     }
 
     @Action("升级")
     public String newLevel(SpUser qq, SpGroup group) {
-        String str = gameService.upUp(qq.getId());
-        return str;
+        return gameService.upUp(qq.getId());
     }
 
     @Action(value = "觉醒", otherName = {"武魂觉醒", "觉醒武魂"})
     public String openEye(SpUser qq, SpGroup group) {
-        String str = gameService.openEyeWh(qq.getId());
-        return str;
+        return gameService.openEyeWh(qq.getId());
     }
 
     @Action("重置武魂")

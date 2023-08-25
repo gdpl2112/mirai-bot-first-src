@@ -22,6 +22,8 @@ import org.quartz.JobExecutionException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -59,6 +61,8 @@ public class EntrustController extends BaseController implements Runnable {
         return formatDateByPattern(date, dateFormat);
     }
 
+    private Map<Long, Integer> qid2cid = new HashMap<>();
+
     @Override
     public void run() {
         entrustMapper = SpringBootResource.getMapper(EntrustMapper.class);
@@ -66,15 +70,17 @@ public class EntrustController extends BaseController implements Runnable {
             Entrust finalEntrust = entrust;
             if (entrust.getT0() < System.currentTimeMillis()) continue;
             Date date = new Date(entrust.getT0());
-            CronUtils.INSTANCE.addCronJob(getCron(date), new CronJob() {
+            int id = CronUtils.INSTANCE.addCronJob(getCron(date), new CronJob() {
                 @Override
                 public void execute(JobExecutionContext context) throws JobExecutionException {
                     MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                             String.format("完成派遣:%s\n%s", finalEntrust.desc(), finish(finalEntrust)),
                             finalEntrust.getGid(), finalEntrust.getQid());
+                    qid2cid.remove(entrust.getQid());
                     entrustMapper.deleteById(finalEntrust.getQid());
                 }
             });
+            qid2cid.put(entrust.getQid(), id);
         }
     }
 
@@ -83,7 +89,9 @@ public class EntrustController extends BaseController implements Runnable {
     @Action(value = "委托.*?", otherName = {"派遣.*?"})
     public Object entrust(SpGroup group, SpUser user, @AllMess String msg) {
         Entrust entrust = entrustMapper.selectById(user.getId());
-        if (entrust != null) return "委托/派遣尚未结束";
+        if (entrust != null) {
+            return String.format("委托/派遣尚未结束\n%s\n大约等待%s", entrust.desc(), Tool.INSTANCE.getTimeTips(entrust.getT0()));
+        }
         long t = System.currentTimeMillis();
         entrust = new Entrust();
         if (msg.contains("1天")) {
@@ -109,33 +117,46 @@ public class EntrustController extends BaseController implements Runnable {
         entrust.setT0(t);
         Entrust finalEntrust = entrust;
         Date date = new Date(t);
-        CronUtils.INSTANCE.addCronJob(getCron(date), new CronJob() {
+        int id = CronUtils.INSTANCE.addCronJob(getCron(date), new CronJob() {
             @Override
             public void execute(JobExecutionContext context) throws JobExecutionException {
                 MessageUtils.INSTANCE.sendMessageInGroupWithAt(
                         String.format("完成派遣:%s\n%s", finalEntrust.desc(), finish(finalEntrust)),
                         finalEntrust.getGid(), finalEntrust.getQid());
+                qid2cid.remove(user.getId());
                 entrustMapper.deleteById(finalEntrust.getQid());
             }
         });
+        qid2cid.put(entrust.getQid(), id);
         entrustMapper.insert(entrust);
         return "开始派遣: " + entrust.desc();
+    }
+
+    @Action(value = "取消委托", otherName = {"取消派遣"})
+    public Object unEntrust(SpGroup group, SpUser user, @AllMess String msg) {
+        Entrust entrust = entrustMapper.selectById(user.getId());
+        if (entrust == null) {
+            return "未委托/派遣";
+        }
+        entrustMapper.deleteById(user.getId());
+        qid2cid.remove(user.getId());
+        return "已取消";
     }
 
     public String finish(Entrust entrust) {
         switch (entrust.getType1()) {
             case 0:
-                int gold = Tool.INSTANCE.randB(90, 100) * entrust.getType0();
+                int gold = Tool.INSTANCE.randB(560, 620) * entrust.getType0();
                 GameDataBase.getInfo(entrust.getQid()).addGold((long) gold,
                         new TradingRecord().setFrom(-1).setMain(entrust.getQid()).setDesc("派遣获得")
                                 .setTo(entrust.getQid()).setMany(gold).setType0(TradingRecord.Type0.gold).setType1(TradingRecord.Type1.add));
                 return String.format("获取%s金魂币", gold);
             case 1:
-                int n1 = Tool.INSTANCE.randB(2, 4) * entrust.getType0();
+                int n1 = Tool.INSTANCE.randB(3, 5) * entrust.getType0();
                 GameDataBase.addToBgs(entrust.getQid(), 103, n1, ObjType.got);
                 return String.format("获取%s大瓶经验", n1);
             case 2:
-                int n2 = Tool.INSTANCE.randB(2, 4) * entrust.getType0();
+                int n2 = Tool.INSTANCE.randB(3, 5) * entrust.getType0();
                 GameDataBase.addToBgs(entrust.getQid(), 101, n2, ObjType.got);
                 return String.format("获取%s时光胶囊", n2);
         }
