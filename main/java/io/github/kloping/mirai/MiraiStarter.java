@@ -56,13 +56,4 @@ public class MiraiStarter {
         fw.write(line);
         fw.close();
     }
-
-    private static void startRegisterListenerHost(String[] args) {
-        GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
-        GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
-        GlobalEventChannel.INSTANCE.registerListenerHost(new NoGroupHandler());
-        StarterApplication.STARTED_RUNNABLE.add(() -> {
-            GlobalEventChannel.INSTANCE.registerListenerHost(StarterApplication.Setting.INSTANCE.getContextManager().getContextEntity(NbListener.class));
-        });
-    }
 }

@@ -5,7 +5,6 @@ import Project.commons.SpUser;
 import Project.dataBases.*;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.httpApi.KlopingWeb;
-import Project.listeners.LittleHandler;
 import Project.listeners.NbListener;
 import Project.listeners.NoGroupHandler;
 import Project.listeners.SaveHandler;
@@ -209,7 +208,7 @@ public class BootstarpResource {
     }
 
     public static void startRegisterListenerHost(String[] args) {
-        GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
+//        GlobalEventChannel.INSTANCE.registerListenerHost(LittleHandler.contextManager.getContextEntity(LittleHandler.class));
         GlobalEventChannel.INSTANCE.registerListenerHost(new SaveHandler(args));
         GlobalEventChannel.INSTANCE.registerListenerHost(new NoGroupHandler());
         StarterApplication.STARTED_RUNNABLE.add(() -> {

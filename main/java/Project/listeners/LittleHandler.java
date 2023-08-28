@@ -1,25 +1,10 @@
 package Project.listeners;
 
 import Project.utils.Tools.Tool;
-import io.github.kloping.MySpringTool.Setting;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.h1.impl.AutomaticWiringParamsImpl;
-import io.github.kloping.MySpringTool.h1.impl.InstanceCraterImpl;
-import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
-import io.github.kloping.MySpringTool.h1.impl.component.ClassManagerImpl;
-import io.github.kloping.MySpringTool.h1.impl.component.ContextManagerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.ClassManager;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
-import io.github.kloping.file.FileUtils;
-import io.github.kloping.mirai.MessageSerializer;
-import io.github.kloping.mirai0.Main.BootstarpResource;
 import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.contact.AnonymousMember;
-import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -27,10 +12,6 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -45,70 +26,6 @@ public class LittleHandler extends SimpleListenerHost {
     public static final String PRE0 = "#";
     public static final Set<Long> SUPER_LIST = new CopyOnWriteArraySet<>();
     public static String TOK = "设置头衔完成";
-    public static ActionManagerImpl am = null;
-    public static ContextManager contextManager;
-    public static File file = new File("./superQList.txt");
-
-    static {
-        ClassManager classManager;
-        classManager = new ClassManagerImpl(
-                new InstanceCraterImpl(),
-                contextManager = new ContextManagerImpl(),
-                new AutomaticWiringParamsImpl(),
-                am
-        );
-        Setting setting = new Setting() {
-            @Override
-            public List<Runnable> getSTARTED_RUNNABLE() {
-                return null;
-            }
-
-            @Override
-            public List<Runnable> getPRE_SCAN_RUNNABLE() {
-                return null;
-            }
-
-            @Override
-            public List<Runnable> getPOST_SCAN_RUNNABLE() {
-                return null;
-            }
-        };
-        am = new ActionManagerImpl(classManager, setting);
-        try {
-            classManager.add(LittleHandler.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        loadConf();
-    }
-
-    public LittleHandler() {
-        super();
-    }
-
-    private static void loadConf() {
-        try {
-            FileUtils.testFile(file.getAbsolutePath());
-            for (String s : FileUtils.getStringsFromFile(file.getPath())) {
-                try {
-                    if (s.trim().isEmpty()) {
-                        continue;
-                    }
-                    long q = Long.parseLong(s.trim());
-                    SUPER_LIST.add(q);
-                    System.err.println("add SuperQL: " + q);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean isSuperQ(long q) {
-        return SUPER_LIST.contains(q) || BootstarpResource.superQL.contains(q);
-    }
 
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
@@ -117,54 +34,54 @@ public class LittleHandler extends SimpleListenerHost {
 
     @EventHandler
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        if (event.getSender() instanceof AnonymousMember) {
-            return;
-        }
-        Group group = event.getGroup();
-        long gid = group.getId();
-        long iid = event.getBot().getId();
-        long yid = event.getSender().getId();
-        if (group.get(iid).getPermission().equals(MemberPermission.OWNER)) {
-            String text = MessageSerializer.messageChain2String(event.getMessage());
-            if (text.startsWith(WANT_TITLE)) {
-                text = text.replaceFirst(WANT_TITLE, "");
-                if (!Tool.INSTANCE.isIlleg(text) && !text.isEmpty()) {
-                    group.get(yid).setSpecialTitle(text);
-                    group.sendMessage(TOK);
-                } else {
-                    group.sendMessage(ILLEGAL);
-                }
-            }
-        }
-        if (isSuperQ(yid)) {
-            String text = MessageSerializer.messageChain2String(event.getMessage());
-            if (group.get(iid).getPermission().getLevel() > 0) {
-                if (text.startsWith(PRE0)) {
-                    text = text.replaceFirst(PRE0, "");
-                    MatherResult result = am.mather(text);
-                    if (result != null) {
-                        MessageSource.recall(event.getSource());
-                        Class2OMap c2m = Class2OMap.create(event.getMessage());
-                        for (Method method : result.getMethods()) {
-                            method.invoke(this, event, c2m).toString();
-                        }
-                    }
-                } else if (text.startsWith(PRE)) {
-                    text = text.replaceFirst(PRE, "");
-                    MatherResult result = am.mather(text);
-                    if (result != null) {
-                        MessageSource.recall(event.getSource());
-                        Class2OMap c2m = Class2OMap.create(event.getMessage());
-                        for (Method method : result.getMethods()) {
-                            String arg = method.invoke(this, event, c2m).toString();
-                            if (arg != null) {
-                                event.getSubject().sendMessage(arg);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if (event.getSender() instanceof AnonymousMember) {
+//            return;
+//        }
+//        Group group = event.getGroup();
+//        long gid = group.getId();
+//        long iid = event.getBot().getId();
+//        long yid = event.getSender().getId();
+//        if (group.get(iid).getPermission().equals(MemberPermission.OWNER)) {
+//            String text = MessageSerializer.messageChain2String(event.getMessage());
+//            if (text.startsWith(WANT_TITLE)) {
+//                text = text.replaceFirst(WANT_TITLE, "");
+//                if (!Tool.INSTANCE.isIlleg(text) && !text.isEmpty()) {
+//                    group.get(yid).setSpecialTitle(text);
+//                    group.sendMessage(TOK);
+//                } else {
+//                    group.sendMessage(ILLEGAL);
+//                }
+//            }
+//        }
+//        if (isSuperQ(yid)) {
+//            String text = MessageSerializer.messageChain2String(event.getMessage());
+//            if (group.get(iid).getPermission().getLevel() > 0) {
+//                if (text.startsWith(PRE0)) {
+//                    text = text.replaceFirst(PRE0, "");
+//                    MatherResult result = am.mather(text);
+//                    if (result != null) {
+//                        MessageSource.recall(event.getSource());
+//                        Class2OMap c2m = Class2OMap.create(event.getMessage());
+//                        for (Method method : result.getMethods()) {
+//                            method.invoke(this, event, c2m).toString();
+//                        }
+//                    }
+//                } else if (text.startsWith(PRE)) {
+//                    text = text.replaceFirst(PRE, "");
+//                    MatherResult result = am.mather(text);
+//                    if (result != null) {
+//                        MessageSource.recall(event.getSource());
+//                        Class2OMap c2m = Class2OMap.create(event.getMessage());
+//                        for (Method method : result.getMethods()) {
+//                            String arg = method.invoke(this, event, c2m).toString();
+//                            if (arg != null) {
+//                                event.getSubject().sendMessage(arg);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Action("setAdmin.+")
