@@ -1,7 +1,6 @@
 package Project.interfaces.httpApi;
 
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.*;
 import org.jsoup.nodes.Document;
 

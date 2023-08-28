@@ -1,8 +1,10 @@
 package Project.services.impl;
 
 
-import Project.commons.SpGroup;
+import Project.aSpring.dao.GInfo;
+import Project.aSpring.dao.PersonInfo;
 import Project.aSpring.dao.TradingRecord;
+import Project.commons.SpGroup;
 import Project.commons.broadcast.enums.ObjType;
 import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
@@ -11,12 +13,11 @@ import Project.interfaces.Iservice.IGameUseObjService;
 import Project.interfaces.Iservice.IGameWeaService;
 import Project.services.detailServices.shopItems.UseTool;
 import Project.services.player.UseRestrictions;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.common.Public;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.aSpring.dao.GInfo;
-import Project.utils.Tools.Tool;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -117,7 +118,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             }
             Method method = USE_TOOL.getClass().getMethod("use" + id, long.class);
             String str = String.valueOf(method.invoke(USE_TOOL, who));
-            (getInfo(who).setUk1(System.currentTimeMillis() + cd0)).apply();
+            (GameDataBase.getInfo(who).setUk1(System.currentTimeMillis() + cd0)).apply();
             return getPic(id) + str;
         } else {
             return "你的背包里没有" + getNameById(id);
@@ -153,7 +154,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
         if (enough) {
             String str = new UseTool().useObjNum(who, id, num);
             if (!Tool.INSTANCE.findNumberFromString(str).isEmpty()) {
-                (getInfo(who).setUk1(System.currentTimeMillis() + cd0)).apply();
+                (GameDataBase.getInfo(who).setUk1(System.currentTimeMillis() + cd0)).apply();
             }
             return "批量使用" + getPic(id) + str;
         } else {
@@ -163,31 +164,30 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
     @Override
     public String buyObj(Long who, int id, Integer num) {
-        long l1 = GameDataBase.getGk1(who);
-        if (l1 >= System.currentTimeMillis()) {
-            return String.format(BUY_OBJ_WAIT_TIPS, Tool.INSTANCE.getTimeTips(l1));
+        PersonInfo pi = GameDataBase.getInfo(who);
+        if (pi.getGk1() >= System.currentTimeMillis()) {
+            return String.format(BUY_OBJ_WAIT_TIPS, Tool.INSTANCE.getTimeTips(pi.getGk1()));
         }
         if (num <= 0 || num > 50) return NUM_TOO_MUCH;
         if (id == 109 || id == 110) {
             if (num > 5) return BUY_NUM_TOO_MUCH_TIPS;
-            if (id == 109) if (getInfo(who).getBuyHelpC() >= MAX_HELP) {
+            if (id == 109) if (pi.getBuyHelpC() >= MAX_HELP) {
                 return TODAY_BUY_UPPER_TIPS;
-            } else (getInfo(who).setBuyHelpC(getInfo(who).getBuyHelpC() + num)).apply();
+            } else (pi.setBuyHelpC(pi.getBuyHelpC() + num)).apply();
             if (id == 110) {
-                if (getInfo(who).getBuyHelpToC() >= MAX_HELP_TO) {
+                if (pi.getBuyHelpToC() >= MAX_HELP_TO) {
                     return TODAY_BUY_UPPER_TIPS;
                 } else {
-                    (getInfo(who).addBuyHelpToC()).apply();
-                    (getInfo(who).setBuyHelpToC(getInfo(who).getBuyHelpToC() + num)).apply();
+                    pi.addBuyHelpToC().setBuyHelpToC(pi.getBuyHelpToC() + num).apply();
                 }
             }
         }
         long l = GameDataBase.ID_2_SHOP_MAPS.get(id);
-        long Ig = GameDataBase.getInfo(who).getGold();
+        long Ig = pi.getGold();
         long wl = l * num + (num * 15L);
         if (Ig >= wl) {
             GameDataBase.addToBgs(who, id, num, ObjType.buy);
-            getInfo(who).setGk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)).addGold(-wl, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买" + num + "个\"" + getNameById(id) + "\"").setMany(wl)).apply();
+            pi.setGk1(System.currentTimeMillis() + (long) (8000 * num * 1.25f)).addGold(-wl, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1).setMain(who).setFrom(who).setDesc("购买" + num + "个\"" + getNameById(id) + "\"").setMany(wl)).apply();
             GInfo.getInstance(who).addBuyc().apply();
             return getPic(id) + "额外花费了" + num * 15 + "成功批量购买";
         } else {
@@ -204,15 +204,16 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
 
     @Override
     public String buyObj(Long who, int id) {
-        long l1 = GameDataBase.getGk1(who);
+        PersonInfo pi = GameDataBase.getInfo(who);
+        long l1 = pi.getGk1();
         if (l1 >= System.currentTimeMillis()) {
             return String.format(BUY_OBJ_WAIT_TIPS, Tool.INSTANCE.getTimeTips(l1));
         }
         long l = GameDataBase.ID_2_SHOP_MAPS.get(id);
-        long Ig = GameDataBase.getInfo(who).getGold();
+        long Ig = pi.getGold();
         if (Ig >= l) {
             GameDataBase.addToBgs(who, id, ObjType.buy);
-            getInfo(who).setGk1(System.currentTimeMillis() + 1000).addGold(-l, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("购买" + getNameById(id) + "\"").setMany(l)).apply();
+            pi.setGk1(System.currentTimeMillis() + 1000).addGold(-l, new TradingRecord().setType1(TradingRecord.Type1.lost).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("购买" + getNameById(id) + "\"").setMany(l)).apply();
             GInfo.getInstance(who).addBuyc().apply();
             return String.format(TIPS_BUY_SUCCEED, getPic(id));
         } else {
@@ -231,7 +232,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
                 else return NOT_FOUND_ABOUT_OBJ;
                 GameDataBase.removeFromBgs(who, id, ObjType.sell);
                 l = l > maxSle ? maxSle : l;
-                getInfo(who).addGold(l, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("出售\"" + getNameById(id) + "\"").setMany(l)).apply();
+                GameDataBase.getInfo(who).addGold(l, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("出售\"" + getNameById(id) + "\"").setMany(l)).apply();
                 return getPic(id) + "出售成功,你获得了 " + l + "个金魂币";
             } else {
                 return "你的背包里没有" + getNameById(id);
@@ -272,7 +273,7 @@ public class GameUseObjServiceImpl implements IGameUseObjService {
             else return NOT_FOUND_ABOUT_OBJ;
             l = l > maxSle ? maxSle : l;
             l *= num;
-            getInfo(who).addGold(l, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("出售" + num + "个\"" + getNameById(id) + "\"").setMany(l)).apply();
+            GameDataBase.getInfo(who).addGold(l, new TradingRecord().setType1(TradingRecord.Type1.add).setType0(TradingRecord.Type0.gold).setTo(-1L).setMain(who).setFrom(who).setDesc("出售" + num + "个\"" + getNameById(id) + "\"").setMany(l)).apply();
             GInfo.getInstance(who).addSalec().apply();
             return getPic(id) + "批量 出售成功,你获得了 " + l + "个金魂币";
         } else {

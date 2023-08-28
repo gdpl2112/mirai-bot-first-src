@@ -1,4 +1,4 @@
-package Project.controllers.gameControllers.zongmenContrller;
+package Project.controllers.gameControllers;
 
 
 import Project.aSpring.SpringBootResource;

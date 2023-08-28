@@ -1,21 +1,16 @@
 package Project.controllers.normalController;
 
 
-import Project.aSpring.SpringBootResource;
 import Project.commons.SpGroup;
-import Project.dataBases.DataBase;
-import Project.interfaces.Iservice.IOtherService;
-import Project.utils.Tools.Tool;
 import Project.utils.VelocityUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai.MiraiRunnable;
 
-import static Project.commons.rt.ResourceSet.FinalString.*;
+import static Project.commons.rt.ResourceSet.FinalString.CLOSE_STR;
+import static Project.commons.rt.ResourceSet.FinalString.OPEN_STR;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.controllers.plugins.PointSongController.sing;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
@@ -53,8 +48,6 @@ public class OtherController {
         E_MENUS = VelocityUtils.getTemplateToString("yl.menu").split("====");
     }
 
-    @AutoStand
-    IOtherService otherService;
     @AutoStand
     private ManagerController controller;
     private long cd0 = 0;
@@ -100,42 +93,5 @@ public class OtherController {
         long qq = Project.utils.Utils.getAtFromString(str);
         if (qq == -1) throw new NoRunException();
         return MiraiRunnable.getMemberInfo(group.getId(), qq);
-    }
-
-    @Action("金魂币消费记录")
-    public String m0(long q) {
-        return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
-    }
-
-    @Action("\\[@me]<.{1,}=>str>")
-    public Object atMe(long qq, SpGroup group, @Param("str") String str) {
-        if (str.startsWith(SPEAK_STR)) {
-            BotInstance.getInstance().speak(str.substring(1), group);
-            return null;
-        } else if (str.startsWith(SING_STR)) {
-            sing(str.substring(1), group);
-            return null;
-        } else {
-            if (OPEN_STR.equals(str)) {
-                if (!DataBase.isFather(qq, group.getId())) {
-                    return null;
-                }
-                return controller.open(group);
-            } else if (CLOSE_STR.equals(str)) {
-                if (!DataBase.isFather(qq, group.getId())) {
-                    return null;
-                }
-                return controller.close(group);
-            } else if (DataBase.canSpeak(group.getId())) {
-                if (!Tool.INSTANCE.isIlleg(str)) {
-                    if (cd0 < System.currentTimeMillis()) {
-                        cd0 = System.currentTimeMillis() + CD;
-                        String result = otherService.talk(str);
-                        return result;
-                    }
-                }
-            }
-        }
-        throw new NoRunException();
     }
 }

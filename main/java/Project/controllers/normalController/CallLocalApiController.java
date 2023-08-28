@@ -6,38 +6,28 @@ import Project.commons.apiEntitys.pvpqq.pvpQQVoice.Yylbzt9132;
 import Project.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
 import Project.commons.apiEntitys.pvpqq.pvpSkin.Pcblzlby_c6;
 import Project.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
-import Project.controllers.plugins.PointPicController;
 import Project.interfaces.httpApi.KlopingWeb;
-import Project.interfaces.httpApi.QZone;
-import Project.interfaces.httpApi.XiaoaPi;
 import Project.plugins.*;
-import com.alibaba.fastjson.JSONObject;
+import Project.utils.Tools.Tool;
+import Project.utils.drawers.ImageDrawerUtils;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.DateUtils;
-import io.github.kloping.mirai.BotInstance;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.utils.Tools.Tool;
-import Project.utils.drawers.ImageDrawerUtils;
-import net.mamoe.mirai.internal.utils.ExternalResourceImplByByteArray;
 import net.mamoe.mirai.message.data.Message;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static Project.commons.rt.CommonSource.toStr;
 import static Project.commons.rt.ResourceSet.FinalString.NEWLINE;
 import static Project.commons.rt.ResourceSet.FinalString.SPLIT_LINE_0;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
-import static Project.dataBases.DataBase.getConf;
-import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
@@ -48,7 +38,6 @@ public class CallLocalApiController {
     public static final int PAGE_SIZE = 5;
     public static final String WENDY_URL = "http://image.nmc.cn/product/%s/%s/%s/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_%s%s%s%s0000000.jpg";
     private static final SimpleDateFormat SF_HH = new SimpleDateFormat("HH");
-    public static long upNewsId = 0;
     public PvpSkin skin = null;
     @AutoStand
     GetPvpNews getPvpNews;
@@ -63,11 +52,7 @@ public class CallLocalApiController {
     @AutoStand
     WeatherGetter weatherGetter;
     @AutoStand
-    QZone zone;
-    @AutoStand
     KlopingWeb kloping;
-    @AutoStand
-    XiaoaPi xiaoaPi;
 
     public CallLocalApiController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -188,11 +173,7 @@ public class CallLocalApiController {
 
     @Action("天气<.+=>name>")
     public String weather0(@Param("name") String name, SpGroup group) {
-        String line = weatherGetter.detail(name);
-        if (getConf(group.getId()).getVoiceK()) {
-            BotInstance.getInstance().speak(line, group);
-        }
-        return line;
+        return weatherGetter.detail(name);
     }
 
     @Action("气温图")
@@ -215,58 +196,5 @@ public class CallLocalApiController {
         File outFile = new File("./temp/" + UUID.randomUUID() + "-gaoWen.gif");
         ImageDrawerUtils.image2giftIncrease(400, outFile, list.toArray(new String[0]));
         return Tool.INSTANCE.pathToImg(outFile.getAbsolutePath());
-    }
-
-//    @Action("QQ空间")
-//    public Object qqZone(Long qid) {
-//        String pskey = kloping.get("qzone-pskey-930204019", "4432120");
-//        Map.Entry<String, String> uin = new AbstractMap.SimpleEntry<>("uin", "o930204019");
-//        Map.Entry<String, String> puin = new AbstractMap.SimpleEntry<>("p_uin", "o930204019");
-//        Map.Entry<String, String> p_skey = new AbstractMap.SimpleEntry<>("p_skey", pskey);
-//        String p0 = String.format("3_%s_0%%7C8_8_%s_0_1_0_0_1%%7C15%%7C16", qid, 930204019L);
-//        JSONObject o0 = zone.mainCgi(qid, null, p0, uin, puin, p_skey);
-//        Integer SS = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("SS");
-//        Integer RZ = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("RZ");
-//        Integer XC = o0.getJSONObject("data").getJSONObject("module_16").getJSONObject("data").getInteger("XC");
-//        Document doc0 = zone.feedds(qid, 930204019L, 5, uin, puin, p_skey);
-//        Elements es = doc0.getElementsByTag("ul");
-//        Set set = new LinkedHashSet();
-//        set.add("说说: " + SS);
-//        set.add("日志: " + RZ);
-//        set.add("相册: " + XC);
-//        set.add("最近一条空间");
-//        Elements e0 = es.get(0).getElementsByClass("f-item f-s-i");
-//        Element e1 = es.get(0).getElementsByClass("f-like-cnt").get(0);
-//        for (Element element : e0.get(0).children()) {
-//            Elements ess = element.getElementsByTag("img");
-//            if (ess.size() > 0) {
-//                for (Element e : ess) {
-//                    String href = e.attr("src");
-//                    set.add(Tool.INSTANCE.pathToImg(href));
-//                }
-//            } else {
-//                set.add(element.text());
-//            }
-//        }
-//        set.remove(null);
-//        set.remove("");
-//        return set.toArray();
-//    }
-
-    @Action("解析图集音频<.+=>str>")
-    public Object parseVoiceFromPics(@Param("str") String str) {
-        String url = PointPicController.getUrl(str);
-        return kloping.parsePic(url);
-    }
-
-    @Action("解析视频音频<.+=>str>")
-    public Object parseVoiceFromV(SpGroup group, @Param("str") String str) throws Exception {
-        String url = PointPicController.getUrl(str);
-        JSONObject jo = xiaoaPi.parseV(url);
-        String u0 = jo.getString("url");
-        ByteArrayOutputStream baos = All.mp42mp3(new URL(u0).openStream());
-        BOT.getGroup(group.getId()).getFiles().uploadNewFile("/音频解析-" + UUID.randomUUID() + ".mp3", new ExternalResourceImplByByteArray(baos.toByteArray(), "mp3"));
-        MessageUtils.INSTANCE.sendVoiceMessageInGroup(baos.toByteArray(), group.getId());
-        return null;
     }
 }

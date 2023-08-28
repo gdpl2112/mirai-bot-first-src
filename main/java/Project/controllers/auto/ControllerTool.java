@@ -36,10 +36,6 @@ public class ControllerTool {
         return KS.get(id);
     }
 
-    public static synchronized void setLongIs(Long lq, Boolean k) {
-        KS.put(lq, k);
-    }
-
     public static synchronized void removeGroup(Long lq) {
         KS.remove(lq);
     }

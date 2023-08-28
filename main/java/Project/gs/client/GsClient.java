@@ -105,8 +105,8 @@ public class GsClient extends WebSocketClient{
         StarterApplication.logger.error(String.format("gsuid_core close %s => %s", code, reason));
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
-                TimeUnit.SECONDS.sleep(3);
-                reconnect();
+                TimeUnit.SECONDS.sleep(5);
+                reconnectBlocking();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -117,7 +117,6 @@ public class GsClient extends WebSocketClient{
     public void onError(Exception ex) {
         ex.printStackTrace();
     }
-
 
     public static final Integer MAX_E = 40;
 

@@ -212,9 +212,8 @@ public class ExternalController {
         net.mamoe.mirai.contact.Group g = BOT.getGroup(group.getId());
         Long q = Project.utils.Utils.getAtFromString(mess);
         String urlStr = null;
-        if (q == -1) {
+        if (q < 0) {
             urlStr = MessageUtils.INSTANCE.getImageUrlFromMessageString(mess);
-            mess = mess.replace(MessageUtils.INSTANCE.getImageIdFromMessageString(mess), "");
             if (urlStr == null) {
                 MessageUtils.INSTANCE.sendMessageInGroup("请在发送要搜索的图片", group.getId());
                 PicBroadcast.INSTANCE.add(new PicBroadcast.PicReceiverOnce() {
@@ -249,8 +248,6 @@ public class ExternalController {
             urlStr = Image.queryUrl(MessageUtils.INSTANCE.createImage(g, urlStr));
         }
         int i = 6;
-        Integer i1 = Tool.INSTANCE.getInteagerFromStr(mess);
-        i = i1 == null ? i : i1;
         BaiduShitu baiduShitu = BaiduShituDetail.get(urlStr);
         BaiduShituResponse response = iBaiduShitu.response(baiduShitu.getData().getSign());
         Iterator<Project.commons.apiEntitys.baiduShitu.response.List> iterator = Arrays.asList(response.getData().getList()).iterator();

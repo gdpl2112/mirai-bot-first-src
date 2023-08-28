@@ -50,39 +50,12 @@ import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getUser;
 public class SuperController {
 
     private static final int MAX_GET = 300;
-    public static Map<String, Object> AUTO_CONF = new HashMap<>();
-    public static String AUTO_CONF_PATH = "./conf/auto-conf.hml";
-
-    static {
-        Public.EXECUTOR_SERVICE.submit(() -> {
-            try {
-                AUTO_CONF = (Map<String, Object>) HMLObject.parseObject(FileUtils.getStringFromFile(AUTO_CONF_PATH)).toJavaObject();
-                if (AUTO_CONF == null) AUTO_CONF = new HashMap<>();
-                for (Field declaredField : GameConfSource.class.getDeclaredFields()) {
-                    String name = declaredField.getName();
-                    if (AUTO_CONF.containsKey(name)) {
-                        Object v0 = AUTO_CONF.get(name);
-                        if (v0 != null) {
-                            declaredField.set(null, ObjectUtils.maybeType(v0.toString()));
-                        }
-                    } else {
-                        AUTO_CONF.put(name, declaredField.get(null));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
-        });
-    }
 
     public long tempSuperL = -1;
     @AutoStand
     IGameService gameService;
     @AutoStand
     IManagerService managerService;
-    @AutoStand
-    private ZongMenServiceImpl zons;
 
     public SuperController() {
         println(this.getClass().getSimpleName() + "构建");
@@ -101,32 +74,10 @@ public class SuperController {
         }
     }
 
-    @Action("/get.+")
-    public Object o0(@AllMess String str, SpGroup group) {
-        long q0 = Project.utils.Utils.getAtFromString(str);
-        if (q0 < 0) {
-            return ERR_TIPS;
-        }
-        int n = Integer.parseInt(Tool.INSTANCE.findNumberFromString(str.replace(Long.toString(q0), "")));
-        for (SaveHandler.AllMessage allMessage : SpringBootResource.getSaveMapper().selectMessage(group.getId(), q0, n)) {
-            String s0 = allMessage.getContent();
-            Message message;
-            try {
-                message = MessageChain.deserializeFromJsonString(s0);
-            } catch (Exception e) {
-                message = new PlainText(s0);
-            }
-            MessageUtils.INSTANCE.sendMessageInGroup(message, group.getId());
-        }
-        return "OK";
-    }
-
     @Action("赋予一次超级权限.+")
     public String f0(@AllMess String s) {
         long q = Project.utils.Utils.getAtFromString(s);
-        if (q == -1) {
-            throw new NoRunException("");
-        }
+        if (q == -1) throw new NoRunException("");
         tempSuperL = q;
         return "ok";
     }
@@ -155,11 +106,6 @@ public class SuperController {
         String sss = gameService.info(who);
         m1.append(sss);
         return m1.toString();
-    }
-
-    @Action("更新宵禁<.+=>str>")
-    public String a0(@Param("str") String str, SpGroup group) {
-        return "ok";
     }
 
     @Action("添加管理.{1,}")
@@ -270,16 +216,6 @@ public class SuperController {
             getInfo(who).setWh(id).apply();
             return OK_TIPS;
         }
-    }
-
-    @Action("/更改转生次数<.+=>mess>")
-    public String modifyDeleteMax(@Param("mess") String mess) {
-        Integer c = Tool.INSTANCE.getInteagerFromStr(mess);
-        if (c == null) return ERR_TIPS;
-        AUTO_CONF.put("DELETE_MAX", c);
-        DELETE_MAX = c;
-        FileUtils.putStringInFile(HMLObject.toHMLString(AUTO_CONF), new File(AUTO_CONF_PATH));
-        return OK_TIPS;
     }
 
     @Action("/下架市场<.+=>str>")

@@ -1,18 +1,18 @@
 package Project.controllers.gameControllers;
 
 
+import Project.aSpring.dao.SoulBone;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
-import Project.aSpring.dao.SoulBone;
 import Project.interfaces.Iservice.IGameBoneService;
 import Project.interfaces.Iservice.ISkillService;
 import Project.utils.GameUtils;
+import Project.utils.Tools.Tool;
 import Project.utils.bao.SelectResult;
+import Project.utils.drawers.Drawer;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.utils.Tools.Tool;
-import Project.utils.drawers.Drawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import static Project.controllers.auto.ControllerSource.challengeDetailService;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.dataBases.GameDataBase.NAME_2_ID_MAPS;
 import static Project.dataBases.GameDataBase.getInfo;
-import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static Project.utils.drawers.Drawer.getImageFromStrings;
+import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 /**
  * @author github-kloping
@@ -97,8 +97,7 @@ public class GameBoneController {
         } catch (Exception e) {
             return new StringBuilder().append("错误的==》").append(name).toString();
         }
-        String str = gameBoneService.parseBone(id, qq);
-        return str;
+        return gameBoneService.parseBone(id, qq);
     }
 
     @Action("卸掉魂骨<.{1,}=>name>")
@@ -111,9 +110,7 @@ public class GameBoneController {
                 return new StringBuilder().append("系统没有找到==》").append(name).toString();
         } catch (Exception e) {
             return new StringBuilder().append("错误的==》").append(name).toString();
-        }
-        String str = gameBoneService.unInstallBone(id, qq);
-        return str;
+        }return gameBoneService.unInstallBone(id, qq);
     }
 
     @Action("头部魂骨技能<.{1,}=>str>")

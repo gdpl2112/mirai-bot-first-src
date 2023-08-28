@@ -2,17 +2,15 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
-import Project.commons.SpGroup;
 import Project.aSpring.dao.TradingRecord;
 import Project.aSpring.dao.UserScore;
+import Project.commons.SpGroup;
 import Project.dataBases.DataBase;
 import Project.dataBases.GameDataBase;
 import Project.interfaces.Iservice.IScoreService;
-import Project.interfaces.httpApi.YiMin;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import Project.utils.Tools.Tool;
 
 import java.util.List;
 
@@ -28,10 +26,6 @@ import static Project.utils.drawers.Drawer.getImageFromStrings;
  */
 @Entity
 public class ScoreServiceImpl implements IScoreService {
-
-    @AutoStand
-    YiMin yiMin;
-
     private static final Object[] regDay(Number l) {
         int r = SpringBootResource.getSingListMapper().selectCountByDay(Tool.INSTANCE.getTodayDetialString());
         switch (r) {

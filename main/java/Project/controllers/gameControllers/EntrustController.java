@@ -8,12 +8,13 @@ import Project.aSpring.mcs.mapper.EntrustMapper;
 import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.broadcast.enums.ObjType;
-import Project.controllers.BaseController;
 import Project.dataBases.GameDataBase;
 import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
+import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.date.CronJob;
 import io.github.kloping.date.CronUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
@@ -25,15 +26,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
+import static Project.controllers.auto.ControllerTool.opened;
+
 
 /**
  * @author github.kloping
  */
 @Controller
-public class EntrustController extends BaseController implements Runnable {
+public class EntrustController implements Runnable {
     public EntrustController() {
         System.out.println("=====================EntrustController==============================");
         SpringStarter.STARTED_RUNNABLE.add(this);
+    }
+
+    @Before
+    public void before(SpGroup group) throws NoRunException {
+        if (!opened(group.getId(), this.getClass())) {
+            throw NOT_OPEN_NO_RUN_EXCEPTION;
+        }
     }
 
     /***

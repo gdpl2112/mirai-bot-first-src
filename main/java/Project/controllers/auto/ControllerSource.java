@@ -3,8 +3,6 @@ package Project.controllers.auto;
 import Project.commons.apiEntitys.RunnableWithOver;
 import Project.controllers.FirstController;
 import Project.controllers.gameControllers.GameController2;
-import Project.controllers.normalController.SessionController;
-import Project.controllers.normalController.SummonPicController;
 import Project.interfaces.httpApi.KlopingWeb;
 import Project.listeners.EmojiCompositeListenerHost;
 import Project.plugins.AiBaiduDetail;
@@ -45,15 +43,11 @@ public class ControllerSource {
     @AutoStand
     public static ChallengeDetailService challengeDetailService;
     @AutoStand
-    public static SummonPicController entertainmentController3;
-    @AutoStand
     public static PlayerBehavioralManager playerBehavioralManager;
     @AutoStand
     public static GameServiceImpl gameService;
     @AutoStand
     public static FirstController firstController;
-    @AutoStand
-    public static SessionController sessionController;
 
     @AutoStand
     public static GameController2 gameController2;

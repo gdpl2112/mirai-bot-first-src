@@ -2,15 +2,15 @@ package Project.dataBases;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.aSpring.dao.PersonInfo;
+import Project.aSpring.dao.Warp;
+import Project.aSpring.dao.WhInfo;
 import Project.broadcast.game.GotOrLostObjBroadcast;
 import Project.commons.broadcast.enums.ObjType;
 import Project.services.player.UseRestrictions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.common.Public;
-import Project.aSpring.dao.PersonInfo;
-import Project.aSpring.dao.Warp;
-import Project.aSpring.dao.WhInfo;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -642,16 +642,6 @@ public class GameDataBase {
     }
 
     /**
-     * 获取修炼冷却
-     *
-     * @param who
-     * @return
-     */
-    public static long getK1(Long who) {
-        return getInfo(who).getK1();
-    }
-
-    /**
      * 获取进入冷却
      *
      * @param who
@@ -659,30 +649,6 @@ public class GameDataBase {
      */
     public static long getK2(Long who) {
         return getInfo(who).getK2();
-    }
-
-    /**
-     * 设置修炼冷却
-     *
-     * @param who
-     * @param l
-     * @return
-     */
-    public static long setK1(Long who, long l) {
-        getInfo(who).setK1(l).apply();
-        return l;
-    }
-
-    /**
-     * 设置进入冷却
-     *
-     * @param who
-     * @param l
-     * @return
-     */
-    public static long setK2(Long who, long l) {
-        getInfo(who).setK2(l).apply();
-        return l;
     }
 
     /**
@@ -816,15 +782,5 @@ public class GameDataBase {
             SpringBootResource.getAqBagMapper().insert(oid, who.longValue(), num, System.currentTimeMillis());
         });
         return "OK";
-    }
-
-    /**
-     * 获取 购买冷却
-     *
-     * @param who
-     * @return
-     */
-    public static long getGk1(Long who) {
-        return getInfo(who).getGk1();
     }
 }

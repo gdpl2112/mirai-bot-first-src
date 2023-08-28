@@ -1,6 +1,7 @@
 package Project.controllers.gameControllers;
 
 
+import Project.aSpring.SpringBootResource;
 import Project.aSpring.dao.PersonInfo;
 import Project.aSpring.dao.TradingRecord;
 import Project.aSpring.dao.Warp;
@@ -17,6 +18,7 @@ import Project.utils.KlopingWebDataBaseBoolean;
 import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
@@ -44,7 +46,6 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 
 @Controller
 public class GameController {
-
     public static final float MAX_XP = 1.5f;
     public static final Map<Long, Integer> DELETE_C = new ConcurrentHashMap<>();
     public static final List<String> LIST_FX = new ArrayList<>();
@@ -63,70 +64,6 @@ public class GameController {
         LIST_FX.add("称号");
         LIST_FX.add("转生");
         LIST_FX.add("魂师签到");
-    }
-
-    static {
-        StringBuilder sb = new StringBuilder();
-        sb.append("1-10=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(1));
-        sb.append("\r\n");
-        sb.append("10-20=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(10));
-        sb.append("\r\n");
-        sb.append("20-30=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(20));
-        sb.append("\r\n");
-        sb.append("30-40=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(30));
-        sb.append("\r\n");
-        sb.append("40-50=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(40));
-        sb.append("\r\n");
-        sb.append("50-60=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(50));
-        sb.append("\r\n");
-        sb.append("60-70=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(60));
-        sb.append("\r\n");
-        sb.append("70-80=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(70));
-        sb.append("\r\n");
-        sb.append("80-90=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(80));
-        sb.append("\r\n");
-        sb.append("90-95=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(90));
-        sb.append("\r\n");
-        sb.append("95-100=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(95));
-        sb.append("\r\n");
-        sb.append("100-110=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(100));
-        sb.append("\r\n");
-        sb.append("110-120=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(110));
-        sb.append("\r\n");
-        sb.append("120-150=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(120));
-        sb.append("\r\n");
-        sb.append("150--=>");
-        sb.append("\r\n\t");
-        sb.append(getFH(150));
-        COM13 = sb.toString();
     }
 
     private static final SimpleDateFormat DFN = new SimpleDateFormat("yyyy/MM/dd");
@@ -336,11 +273,8 @@ public class GameController {
     public String pH(@AllMess String num) {
         int n;
         String ll = Tool.INSTANCE.findNumberFromString(num);
-        if (ll == null || ll.isEmpty()) {
-            n = 10;
-        } else {
-            n = Integer.parseInt(ll);
-        }
+        if (ll == null || ll.isEmpty()) n = 10;
+        else n = Integer.parseInt(ll);
         n = n > 100 ? 100 : n;
         StringBuilder sb = new StringBuilder();
         int r = 1;
@@ -357,6 +291,69 @@ public class GameController {
 
     @Action("称号")
     public String com13() {
+        if (Judge.isEmpty(COM13)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("1-10=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(1));
+            sb.append("\r\n");
+            sb.append("10-20=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(10));
+            sb.append("\r\n");
+            sb.append("20-30=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(20));
+            sb.append("\r\n");
+            sb.append("30-40=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(30));
+            sb.append("\r\n");
+            sb.append("40-50=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(40));
+            sb.append("\r\n");
+            sb.append("50-60=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(50));
+            sb.append("\r\n");
+            sb.append("60-70=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(60));
+            sb.append("\r\n");
+            sb.append("70-80=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(70));
+            sb.append("\r\n");
+            sb.append("80-90=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(80));
+            sb.append("\r\n");
+            sb.append("90-95=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(90));
+            sb.append("\r\n");
+            sb.append("95-100=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(95));
+            sb.append("\r\n");
+            sb.append("100-110=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(100));
+            sb.append("\r\n");
+            sb.append("110-120=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(110));
+            sb.append("\r\n");
+            sb.append("120-150=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(120));
+            sb.append("\r\n");
+            sb.append("150--=>");
+            sb.append("\r\n\t");
+            sb.append(getFH(150));
+            COM13 = sb.toString();
+        }
         return COM13;
     }
 
@@ -433,5 +430,10 @@ public class GameController {
         } else {
             return "没有其他武魂";
         }
+    }
+
+    @Action("金魂币消费记录")
+    public String m0(long q) {
+        return "点击=>" + String.format(SpringBootResource.address + "/record.html?qid=" + q);
     }
 }

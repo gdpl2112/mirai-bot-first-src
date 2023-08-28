@@ -4,8 +4,6 @@ import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.commons.apiEntitys.Song;
 import Project.commons.apiEntitys.Songs;
-import Project.interfaces.httpApi.Empty;
-import Project.interfaces.httpApi.MuXiaoGuo;
 import Project.plugins.SearchSong;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -24,11 +22,6 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
  */
 @Controller
 public class PointSongController {
-    static final String BASE0 = "±img=";
-    static final String BASE1 = "±";
-    static final String BASE2 = "作者昵称 :";
-    static final String BASE3 = "播放链接:";
-    static final String BASE4 = " 歌词:";
     private static final StringBuilder SB = new StringBuilder();
     @AutoStand
     static SearchSong searchSong;
@@ -43,11 +36,6 @@ public class PointSongController {
         SB.append("7，网易歌词 歌名").append("\r\n");
         SB.append("8，点歌 歌名 #可听VIP").append("\r\n");
     }
-
-    @AutoStand
-    MuXiaoGuo muXiaoGuo;
-    @AutoStand
-    Empty empty;
 
     public PointSongController() {
         println(this.getClass().getSimpleName() + "构建");

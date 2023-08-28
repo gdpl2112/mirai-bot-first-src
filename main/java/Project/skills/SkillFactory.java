@@ -1,9 +1,9 @@
 package Project.skills;
 
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
-import Project.utils.Tools.Tool;
 import io.github.kloping.object.ObjectUtils;
 
 import java.io.IOException;
@@ -26,7 +26,8 @@ public class SkillFactory {
     static {
         PackageScanner scanner = StarterApplication.Setting.INSTANCE.getPackageScanner();
         try {
-            for (Class<?> aClass : scanner.scan(SkillFactory.class.getClassLoader(), SkillFactory.class.getPackage().getName())) {
+            for (Class<?> aClass : scanner.scan(SkillFactory.class, SkillFactory.class.getClassLoader(),
+                    SkillFactory.class.getPackage().getName())) {
                 if (aClass == SkillTemplate.class) continue;
                 if (ObjectUtils.isSuperOrInterface(aClass, SkillTemplate.class)) {
                     Class<SkillTemplate> c0 = (Class<SkillTemplate>) aClass;
@@ -49,12 +50,9 @@ public class SkillFactory {
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println();
     }
 
     public static SkillTemplate factory(int jid) {

@@ -20,10 +20,7 @@ import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.events.BotEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
-import net.mamoe.mirai.message.data.QuoteReply;
+import net.mamoe.mirai.message.data.*;
 
 import java.io.File;
 import java.util.HashSet;
@@ -149,7 +146,7 @@ public class BootstarpResource {
                 if (o.toString().startsWith("&")) {
                     o = o.toString().replaceFirst("&", "");
                 } else {
-                    builder.append(MessageUtils.INSTANCE.getAt(((SpUser) objects[3]).getId())).append("\r\n");
+                    builder.append(new At(((SpUser) objects[3]).getId())).append("\r\n");
                 }
             }
             //====

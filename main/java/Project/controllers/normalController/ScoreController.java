@@ -6,7 +6,6 @@ import Project.commons.SpGroup;
 import Project.commons.SpUser;
 import Project.aSpring.dao.UserScore;
 import Project.dataBases.DataBase;
-import Project.interfaces.Iservice.IOtherService;
 import Project.interfaces.Iservice.IScoreService;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -34,8 +33,6 @@ public class ScoreController {
     public static final List<Long> CLOSED = new CopyOnWriteArrayList<>();
     public static List<Long> longs = Arrays.asList((new Long[]{291841860L, 392801250L, 392801250L}));
     @AutoStand
-    IOtherService otherService;
-    @AutoStand
     IScoreService scoreService;
 
     public ScoreController() {
@@ -47,11 +44,6 @@ public class ScoreController {
         if (!opened(group.getId(), this.getClass())) {
             throw NOT_OPEN_NO_RUN_EXCEPTION;
         }
-    }
-
-    @Action("猜拳<.+=>str>")
-    public String mora(SpUser qq, @Param("str") String str) {
-        return otherService.mora(qq.getId(), str);
     }
 
     @Action(value = "积分查询", otherName = {"查询积分"})

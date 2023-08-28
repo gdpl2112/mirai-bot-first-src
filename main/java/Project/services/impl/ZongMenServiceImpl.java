@@ -35,7 +35,7 @@ import java.util.UUID;
 
 import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
-import static Project.controllers.gameControllers.zongmenContrller.ZongMenController.COB_CD;
+import static Project.controllers.gameControllers.ZongMenController.COB_CD;
 import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.ZongMenDataBase.*;
 import static io.github.kloping.mirai0.Main.BootstarpResource.BOT;

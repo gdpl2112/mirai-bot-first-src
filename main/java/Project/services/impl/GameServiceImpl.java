@@ -2,11 +2,10 @@ package Project.services.impl;
 
 
 import Project.aSpring.SpringBootResource;
+import Project.aSpring.dao.*;
 import Project.broadcast.game.SelectAttBroadcast;
 import Project.commons.SpGroup;
-import Project.aSpring.dao.TradingRecord;
 import Project.commons.broadcast.enums.ObjType;
-import Project.aSpring.dao.Zon;
 import Project.commons.gameEntitys.base.BaseInfoTemp;
 import Project.controllers.auto.ConfirmController;
 import Project.controllers.gameControllers.GameController;
@@ -28,10 +27,6 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.aSpring.dao.GInfo;
-import Project.aSpring.dao.PersonInfo;
-import Project.aSpring.dao.Warp;
-import Project.aSpring.dao.WhInfo;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -80,7 +75,7 @@ public class GameServiceImpl implements IGameService {
         if (is.getWh() == 0 && is.getLevel() >= 2) {
             return "请先觉醒武魂 ";
         }
-        long l = getK1(who);
+        long l = is.getK1();
         long now = System.currentTimeMillis();
         if (now >= l) {
             HasTimeActionController.rand815(who);
@@ -118,7 +113,7 @@ public class GameServiceImpl implements IGameService {
         if (is.getWh() == 0 && is.getLevel() >= 2) {
             return PLEASE_AWAKENING_WH;
         }
-        long l = getK1(who);
+        long l = is.getK1();
         long now = System.currentTimeMillis();
         if (now >= l) {
             HasTimeActionController.rand815(who);

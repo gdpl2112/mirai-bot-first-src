@@ -1,21 +1,22 @@
 package Project.services.impl;
 
 
+import Project.aSpring.dao.GInfo;
 import Project.commons.SpGroup;
 import Project.controllers.gameControllers.ChallengeController;
 import Project.controllers.gameControllers.GameConditionController;
+import Project.dataBases.GameDataBase;
 import Project.dataBases.SourceDataBase;
 import Project.dataBases.skill.SkillDataBase;
 import Project.interfaces.Iservice.IGameJoinAcService;
 import Project.services.autoBehaviors.GhostBehavior;
 import Project.services.detailServices.ac.GameJoinDetailService;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.aSpring.dao.GInfo;
-import io.github.kloping.mirai0.commons.GhostObj;
 import Project.utils.Tools.GameTool;
 import Project.utils.Tools.Tool;
 import Project.utils.drawers.Drawer;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.mirai0.commons.GhostObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,8 @@ import static Project.commons.rt.CommonSource.toPercent;
 import static Project.commons.rt.ResourceSet.FinalFormat.*;
 import static Project.commons.rt.ResourceSet.FinalString.*;
 import static Project.controllers.auto.ControllerSource.challengeDetailService;
-import static Project.dataBases.GameDataBase.*;
+import static Project.dataBases.GameDataBase.ID_2_NAME_MAPS;
+import static Project.dataBases.GameDataBase.getInfo;
 import static Project.dataBases.skill.SkillDataBase.NEGATIVE_TAGS;
 import static Project.services.detailServices.ac.GameJoinDetailService.getGhostObjFrom;
 import static Project.services.detailServices.ac.GameJoinDetailService.saveGhostObjIn;
@@ -77,10 +79,10 @@ public class GameJoinAcServiceImpl implements IGameJoinAcService {
 
     @Override
     public String join(long who, String name, SpGroup group) {
-        if (GameConditionController.CONDITIONING.containsKey(who))
-            return "遇境中...";
-        if (System.currentTimeMillis() < getK2(who)) {
-            return String.format(ACTIVITY_WAIT_TIPS, Tool.INSTANCE.getTimeTips(getK2(who)));
+        if (GameConditionController.CONDITIONING.containsKey(who)) return "遇境中...";
+        long k2 = GameDataBase.getK2(who);
+        if (System.currentTimeMillis() < k2) {
+            return String.format(ACTIVITY_WAIT_TIPS, Tool.INSTANCE.getTimeTips(k2));
         }
         GhostObj ghostObj = getGhostObjFrom(who);
         if (ghostObj != null) {

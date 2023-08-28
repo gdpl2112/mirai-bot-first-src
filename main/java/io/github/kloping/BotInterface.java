@@ -7,6 +7,4 @@ import Project.commons.SpGroup;
  */
 public interface BotInterface {
     Long getBotId();
-
-    void speak(String line, SpGroup group);
 }

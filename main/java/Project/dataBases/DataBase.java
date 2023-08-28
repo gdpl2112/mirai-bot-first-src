@@ -23,20 +23,10 @@ public class DataBase {
 
     public static final Map<Long, UserScore> HIST_U_SCORE = new ConcurrentHashMap<>();
 
-    public DataBase() {
-    }
-
-    public static boolean canBackShow(Long where) {
-        return getConf(where).getShow();
-    }
-
     public static boolean canBack(Long where) {
         return getConf(where).getOpen();
     }
 
-    public static boolean canSpeak(Long where) {
-        return getConf(where).getSpeak();
-    }
 
     public static boolean needCap(long where) {
         return getConf(where).getCap();
@@ -48,14 +38,6 @@ public class DataBase {
 
     public static boolean setCap(long where, boolean k) {
         return setConf(getConf(where).setCap(k)).getCap();
-    }
-
-    public static boolean openShow(Long where) {
-        return setConf(getConf(where).setShow(true)).getShow();
-    }
-
-    public static boolean closeShow(Long where) {
-        return setConf(getConf(where).setShow(false)).getShow();
     }
 
     public static boolean openGroup(Long where) {
@@ -211,8 +193,7 @@ public class DataBase {
     }
 
     public static long getK(Long who) {
-        long l = getUserInfo(who).getK();
-        return l;
+        return getUserInfo(who).getK();
     }
 
     public static void setK(Long who, long l) {

@@ -5,7 +5,7 @@ import Project.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 import Project.interfaces.httpApi.Magiconch;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
+import io.github.kloping.mirai.MessageSerializer;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -55,12 +55,12 @@ public class NbListener extends SimpleListenerHost {
         if (guessCd > System.currentTimeMillis()) {
             return;
         }
-        String a = EventUtils.messageEvent2String(event);
-        if (a.matches("[a-z]+")) {
-            MagiconchNbnhhshResponse[] responses = magiconch.trans(new MagiconchNbnhhshRequest(a), HEADER);
+        String all = MessageSerializer.messageChain2String(event.getMessage());
+        if (all.matches("[a-z]+")) {
+            MagiconchNbnhhshResponse[] responses = magiconch.trans(new MagiconchNbnhhshRequest(all), HEADER);
             guessCd = System.currentTimeMillis() + 10000L;
             if (responses != null && responses.length >= 1 && responses[0].getTrans() != null) {
-                if (!responses[0].getTrans()[0].equalsIgnoreCase(a)) {
+                if (!responses[0].getTrans()[0].equalsIgnoreCase(all)) {
                     MessageChainBuilder mcb = new MessageChainBuilder();
                     mcb.append(new QuoteReply(event.getSource()))
                             .append(new At(event.getSender().getId())).append("\n");

@@ -74,19 +74,13 @@ public class GameController2 {
         if (challengeDetailService.isTemping(qq.getId())) {
             return CHALLENGE_ING;
         }
-        try {
-            Long nu = Long.valueOf(num);
-            String str = gameService.buyGold(qq.getId(), nu);
-            return str;
-        } catch (NumberFormatException e) {
-            return "买多少呢";
-        }
+        Integer nu = Tool.INSTANCE.getInteagerFromStr(num, 1);
+        return gameService.buyGold(qq.getId(), nu);
     }
 
     @Action(value = "魂环配置", otherName = {"我的魂环"})
     public String showHh(SpUser qq, String num, SpGroup group) {
-        String str = gameService.showHh(qq.getId());
-        return str;
+        return gameService.showHh(qq.getId());
     }
 
     @Action(value = "详细信息", otherName = {"详情信息"})
@@ -126,8 +120,7 @@ public class GameController2 {
     public String fusion(@Param("str") String str, SpGroup group, SpUser qq) {
         Long q2 = Project.utils.Utils.getAtFromString(str);
         if (q2 == -1) throw new RuntimeException();
-        String s1 = gameService.fusion(qq.getId(), q2, group);
-        return s1;
+        return gameService.fusion(qq.getId(), q2, group);
     }
 
     public String removeFusionNow(Long qq) {
@@ -158,6 +151,7 @@ public class GameController2 {
             ConfirmController.regConfirm(qq.getId(), method, this, new Object[]{qq.getId()});
             return "您确定要解除吗?\r\n请在30秒内回复\r\n确定/取消";
         } catch (Exception e) {
+            e.printStackTrace();
             return "解除异常";
         }
     }

@@ -1,4 +1,4 @@
-package Project.controllers.gameControllers.shoperController;
+package Project.controllers.gameControllers;
 
 
 import Project.commons.SpGroup;

@@ -1,11 +1,8 @@
 package Project.listeners;
 
-import Project.dataBases.DataBase;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.StarterObjectApplication;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
+import io.github.kloping.mirai.MessageSerializer;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.Friend;
@@ -17,18 +14,13 @@ import net.mamoe.mirai.event.events.TempMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 
 /**
  * @author github.kloping
  */
 @CommentScan(path = "Project.controllers.friends")
 public class NoGroupHandler extends SimpleListenerHost {
-    public static final StarterObjectApplication APPLICATION = new StarterObjectApplication();
+    public static final StarterObjectApplication APPLICATION = new StarterObjectApplication(NoGroupHandler.class);
 
     static {
         APPLICATION.setMainKey(Long.class);
@@ -64,7 +56,7 @@ public class NoGroupHandler extends SimpleListenerHost {
     @EventHandler
     public void friendEvent(FriendMessageEvent event) {
         long fid = event.getSender().getId();
-        String content = EventUtils.messageChain2String(event.getMessage(), fid);
+        String content = MessageSerializer.messageChain2String(event.getMessage());
         APPLICATION.executeMethod(fid, content, event, event.getSender(), fid);
         talk(content, event);
     }
@@ -72,7 +64,7 @@ public class NoGroupHandler extends SimpleListenerHost {
     @EventHandler
     public void friendEvent(TempMessageEvent event) {
         long fid = event.getSender().getId();
-        String content = EventUtils.messageChain2String(event.getMessage(), fid);
+        String content = MessageSerializer.messageChain2String(event.getMessage());
         APPLICATION.executeMethod(fid, content, event, event.getSender(), fid);
         talk(content, event);
     }

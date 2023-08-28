@@ -2,9 +2,9 @@ package Project.plugins;
 
 import Project.interfaces.httpApi.BaiKeBaidu;
 import Project.interfaces.httpApi.Empty;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import Project.utils.Tools.Tool;
 import net.mamoe.mirai.message.data.PlainText;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

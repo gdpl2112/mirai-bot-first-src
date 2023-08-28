@@ -2,17 +2,17 @@ package Project.commons.apiEntitys.baidu;
 
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
-import io.github.kloping.MySpringTool.entity.RequestData;
+import io.github.kloping.MySpringTool.entity.KeyVals;
+import org.jsoup.helper.HttpConnection;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author github.kloping
  */
-public class AiRequest implements RequestData {
+public class AiRequest implements KeyVals {
     private String type = "tns";
     private Integer per = 4103;
     private Integer spd = 5;
@@ -20,7 +20,6 @@ public class AiRequest implements RequestData {
     private Integer vol = 5;
     private Integer aue = 6;
     private String tex;
-    private Map<String, String> data = new HashMap<>();
 
     public String getType() {
         return type;
@@ -79,23 +78,11 @@ public class AiRequest implements RequestData {
     }
 
     @Override
-    @JSONField(deserialize = false, serialize = false)
-    public Set<Map.Entry<String, String>> getEntrySet() {
-        return RequestData.super.getEntrySet();
-    }
-
-    @Override
-    @JSONField(deserialize = false, serialize = false)
-    public Map<String, String> getDataMap() {
-        if (data.isEmpty()) {
-            initData();
-        }
-        return data;
-    }
-
-    private synchronized void initData() {
+    public Collection<HttpConnection.KeyVal> values() {
+        List<HttpConnection.KeyVal> list = new ArrayList<>();
         JSON.parseObject(JSON.toJSONString(this)).forEach((k, v) -> {
-            data.put(k, v.toString());
+            list.add(HttpConnection.KeyVal.create(k, v.toString()));
         });
+        return list;
     }
 }

@@ -17,7 +17,6 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
  * @author github.kloping
  */
 @Controller
-
 public class TalkWithTimeController {
 
     private static final String[] YD11 = {"元旦快乐!"

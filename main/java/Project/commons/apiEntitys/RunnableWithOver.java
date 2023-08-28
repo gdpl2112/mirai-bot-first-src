@@ -4,11 +4,11 @@ package Project.commons.apiEntitys;
  * @author github-kloping
  * @version 1.0
  */
-public abstract interface RunnableWithOver extends Runnable {
+public interface RunnableWithOver extends Runnable {
     /**
      * 是否结束
      *
      * @return
      */
-    abstract boolean over();
+    boolean over();
 }

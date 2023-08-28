@@ -9,12 +9,12 @@ import Project.dataBases.DataBase;
 import Project.interfaces.Iservice.IManagerService;
 import Project.listeners.CapHandler;
 import Project.listeners.DefaultHandler;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai.MiraiRunnable;
 import io.github.kloping.mirai0.Main.BootstarpResource;
 import io.github.kloping.mirai0.commons.Quiz;
-import Project.utils.Tools.Tool;
 import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.NormalMember;
@@ -124,28 +124,6 @@ public class ManagerController {
         return "关闭完成";
     }
 
-    @Action("开启闪照破解")
-    public String openFlash(SpGroup group) {
-        return DataBase.openShow(group.getId()) ? "开启闪照破解成功" : "已经开启闪照破解";
-    }
-
-    @Action("关闭闪照破解")
-    public String closeFlash(SpGroup group) {
-        return DataBase.closeShow(group.getId()) ? "关闭闪照破解成功" : "已经关闭闪照破解";
-    }
-
-    @Action("开启聊天")
-    public String openTalk(SpGroup group) {
-        DataBase.setSpeak(group.getId(), true);
-        return "来吧聊天";
-    }
-
-    @Action("关闭聊天")
-    public String closeTalk(SpGroup group) {
-        DataBase.setSpeak(group.getId(), false);
-        return "不想聊了";
-    }
-
     @Action(value = "踢.{1,}", otherName = "T.{1,}")
     public String out(long q, SpGroup gr, @AllMess String chain, BotEvent event) {
         Number[] numbers = getAllAt(chain);
@@ -237,11 +215,6 @@ public class ManagerController {
             e.printStackTrace();
         }
         return ERR_TIPS;
-    }
-
-    @Action(value = "yousend.+")
-    public String isay(@AllMess String str, SpGroup group) {
-        return str.substring(7);
     }
 
     @Action("创建竞猜.+")

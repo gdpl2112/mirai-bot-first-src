@@ -2,7 +2,6 @@ package Project.aSpring;
 
 import Project.aSpring.dao.WhInfo;
 import Project.utils.Utils;
-import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.common.Public;
@@ -14,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,17 +36,6 @@ public class SpringStarter {
         environment = configuration.getEnvironment();
         init();
         over();
-        try {
-            PackageScanner scanner = new PackageScannerImpl(true);
-            for (Class<?> aClass : scanner.scan(BootstarpResource.class.getClassLoader(), "Project.aSpring.mcs.mapper")) {
-                Object mapper = configuration.getBean(aClass);
-                StarterApplication.Setting.INSTANCE.getContextManager().append(mapper);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         for (Runnable runnable : STARTED_RUNNABLE) {
             Public.EXECUTOR_SERVICE.submit(runnable);
         }
@@ -59,17 +46,16 @@ public class SpringStarter {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         try {
             try0(jdbcTemplate);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try1(jdbcTemplate);
     }
 
-    private static void try0(JdbcTemplate jdbcTemplate) throws IOException, ClassNotFoundException {
+    private static void try0(JdbcTemplate jdbcTemplate) throws Exception {
         PackageScanner scanner = new PackageScannerImpl(true);
-        for (Class<?> dclass : scanner.scan(BootstarpResource.class.getClassLoader(), "Project.aSpring.dao")) {
+        for (Class<?> dclass : scanner.scan(SpringStarter.class, BootstarpResource.class.getClassLoader(),
+                "Project.aSpring.dao")) {
             try {
                 String sql = Utils.CreateTable.createTable(dclass);
                 int state = jdbcTemplate.update(sql);

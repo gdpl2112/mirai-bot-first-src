@@ -6,6 +6,7 @@ import Project.dataBases.DataBase;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Face;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -35,7 +36,7 @@ public class CapHandler {
             String capCode = o[1].toString();
             Image image = MessageUtils.INSTANCE.createImage(group, path);
             MessageChainBuilder builder = new MessageChainBuilder();
-            builder.append(MessageUtils.INSTANCE.getAt(qid)).append("\n请在")
+            builder.append(new At(qid)).append("\n请在")
                     .append(MAX_WAIT.toString()).append("秒内完成验证(\n否则将被视为人机踢出群聊\n如果看不清 请说 看不清/换一个 \n ");
             builder.append(image);
             group.sendMessage(builder.build());
@@ -80,7 +81,7 @@ public class CapHandler {
         CAP_TWO.remove(qid);
         CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(MessageUtils.INSTANCE.getAt(qid)).append("\n您没有通过验证");
+        builder.append(new At(qid)).append("\n您没有通过验证");
         builder.append("\n请重新申请加入群聊");
         builder.append(new Face(Face.SAO_RAO));
         group.sendMessage(builder.build());
@@ -109,7 +110,7 @@ public class CapHandler {
         CAP_TWO.remove(qid);
         CAP_T.remove(qid);
         MessageChainBuilder builder = new MessageChainBuilder();
-        builder.append(MessageUtils.INSTANCE.getAt(qid)).append("\n恭喜你通过了验证");
+        builder.append(new At(qid)).append("\n恭喜你通过了验证");
         builder.append("\n群内成员要好好的与新人相处哦");
         builder.append("\n说\"菜单\"即可查看我的功能了");
         builder.append(new Face(Face.HAN_XIAO));

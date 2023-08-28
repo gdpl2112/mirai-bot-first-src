@@ -1,5 +1,7 @@
 package Project.listeners;
 
+import Project.utils.Tools.Tool;
+import io.github.kloping.MySpringTool.Setting;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.h1.impl.AutomaticWiringParamsImpl;
@@ -12,9 +14,8 @@ import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.entitys.MatherResult;
 import io.github.kloping.arr.Class2OMap;
 import io.github.kloping.file.FileUtils;
+import io.github.kloping.mirai.MessageSerializer;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
-import Project.utils.Tools.Tool;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.AnonymousMember;
 import net.mamoe.mirai.contact.Group;
@@ -29,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -55,7 +57,23 @@ public class LittleHandler extends SimpleListenerHost {
                 new AutomaticWiringParamsImpl(),
                 am
         );
-        am = new ActionManagerImpl(classManager);
+        Setting setting = new Setting() {
+            @Override
+            public List<Runnable> getSTARTED_RUNNABLE() {
+                return null;
+            }
+
+            @Override
+            public List<Runnable> getPRE_SCAN_RUNNABLE() {
+                return null;
+            }
+
+            @Override
+            public List<Runnable> getPOST_SCAN_RUNNABLE() {
+                return null;
+            }
+        };
+        am = new ActionManagerImpl(classManager, setting);
         try {
             classManager.add(LittleHandler.class);
         } catch (Exception e) {
@@ -107,7 +125,7 @@ public class LittleHandler extends SimpleListenerHost {
         long iid = event.getBot().getId();
         long yid = event.getSender().getId();
         if (group.get(iid).getPermission().equals(MemberPermission.OWNER)) {
-            String text = EventUtils.messageEvent2String(event);
+            String text = MessageSerializer.messageChain2String(event.getMessage());
             if (text.startsWith(WANT_TITLE)) {
                 text = text.replaceFirst(WANT_TITLE, "");
                 if (!Tool.INSTANCE.isIlleg(text) && !text.isEmpty()) {
@@ -119,7 +137,7 @@ public class LittleHandler extends SimpleListenerHost {
             }
         }
         if (isSuperQ(yid)) {
-            String text = EventUtils.messageEvent2String(event);
+            String text = MessageSerializer.messageChain2String(event.getMessage());
             if (group.get(iid).getPermission().getLevel() > 0) {
                 if (text.startsWith(PRE0)) {
                     text = text.replaceFirst(PRE0, "");

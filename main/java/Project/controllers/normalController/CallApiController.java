@@ -1,21 +1,15 @@
 package Project.controllers.normalController;
 
 import Project.commons.SpGroup;
-import Project.commons.SpUser;
 import Project.commons.apiEntitys.BottleMessage;
-import Project.interfaces.httpApi.ApiKit9;
-import Project.interfaces.httpApi.Dzzui;
 import Project.interfaces.httpApi.KlopingWeb;
-import Project.interfaces.httpApi.old.ApiIyk0;
+import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
-import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import Project.utils.Tools.Tool;
 
 import java.util.Date;
 
-import static Project.commons.rt.ResourceSet.FinalNormalString.GET_FAILED;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
@@ -27,17 +21,6 @@ import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 public class CallApiController {
     public static final String BASE_URL_CLOUD = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.JPG";
     public static final String BASE_URL_CLOUD0 = "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG";
-    public static final String S0 = "https://api.okjx.cc:3389/jx.php?url=";
-    private static final String SPLIT_POINT_STR = ",";
-
-    @AutoStand
-    private ApiIyk0 apiIyk0;
-
-    @AutoStand
-    private ApiKit9 apiKit9;
-
-    @AutoStand
-    private Dzzui dzzui;
 
     @AutoStand
     private KlopingWeb kloping;

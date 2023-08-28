@@ -1,8 +1,8 @@
 package Project.interfaces.httpApi;
 
-import io.github.kloping.MySpringTool.annotations.PathValue;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
+import io.github.kloping.MySpringTool.annotations.http.PathValue;
 import org.jsoup.nodes.Document;
 
 /**

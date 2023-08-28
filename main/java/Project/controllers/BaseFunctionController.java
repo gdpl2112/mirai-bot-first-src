@@ -30,7 +30,7 @@ import static Project.commons.rt.ResourceSet.FinalString.OPEN_STR;
 import static Project.commons.rt.ResourceSet.FinalValue.NOT_OPEN_NO_RUN_EXCEPTION;
 import static Project.controllers.auto.ControllerTool.opened;
 import static Project.controllers.auto.TimerController.MORNING_RUNNABLE;
-import static Project.controllers.gameControllers.shoperController.ShopController.getNumAndPrice;
+import static Project.controllers.gameControllers.ShopController.getNumAndPrice;
 import static Project.dataBases.GameDataBase.getInfo;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 

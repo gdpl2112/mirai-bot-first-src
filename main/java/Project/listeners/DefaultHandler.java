@@ -10,12 +10,10 @@ import Project.dataBases.DataBase;
 import Project.utils.Tools.Tool;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.mirai.BotInstance;
+import io.github.kloping.mirai.MessageSerializer;
 import io.github.kloping.mirai0.Main.BootstarpResource;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
 import io.github.kloping.mirai0.Main.iutils.MemberUtils;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
-import io.github.kloping.mirai0.Main.iutils.MinecraftServerClient;
-import io.netty.buffer.Unpooled;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.contact.*;
 import net.mamoe.mirai.event.EventHandler;
@@ -27,7 +25,6 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -35,7 +32,6 @@ import java.util.concurrent.Executors;
 
 import static Project.listeners.CapHandler.CAP_TWO;
 import static Project.listeners.CapHandler.join;
-import static io.github.kloping.MySpringTool.StarterApplication.Setting.INSTANCE;
 import static io.github.kloping.mirai0.Main.BootstarpResource.println;
 import static io.github.kloping.mirai0.Main.iutils.MemberUtils.getUser;
 
@@ -71,31 +67,24 @@ public class DefaultHandler extends SimpleListenerHost {
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
         if (CapHandler.CAPING.containsKey(event.getSender().getId())) {
             if (CAP_TWO.get(event.getSender().getId()).getId() == event.getGroup().getId()) {
-                CapHandler.cap(event.getSender().getId(), EventUtils.messageEvent2String(event, true));
+                CapHandler.cap(event.getSender().getId(), MessageSerializer.messageChain2String(event.getMessage()));
             }
         }
-        if (event.getSender() instanceof AnonymousMember) {
-            return;
-        }
+        if (event.getSender() instanceof AnonymousMember) return;
         String text = null;
         SpGroup eGroup = null;
         Group group = null;
         long id = -1;
         try {
             id = event.getSender().getId();
-            boolean inS = ControllerSource.sessionController.contains(id);
             group = event.getGroup();
             eGroup = SpGroup.create(group.getId(), group.getName(), HIST_GROUP_MAP);
             SpUser eUser = SpUser.create(id, group.getId(), group.get(id).getNick(), group.get(id).getNameCard());
-            text = EventUtils.messageEvent2String(event, !inS, id);
-            if (!inS) {
-                if (ControllerTool.canGroup(group.getId())) {
-                    MessageBroadcast.INSTANCE.broadcast(id, group.getId(), text);
-                }
-                StarterApplication.executeMethod(id, text, id, eUser, eGroup, 0, event);
-            } else {
-                ControllerSource.sessionController.gotoSession(group, text, id);
+            text = MessageSerializer.messageChain2String(event.getMessage());
+            if (ControllerTool.canGroup(group.getId())) {
+                MessageBroadcast.INSTANCE.broadcast(id, group.getId(), text);
             }
+            StarterApplication.executeMethod(id, text, id, eUser, eGroup, 0, event);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -104,11 +93,6 @@ public class DefaultHandler extends SimpleListenerHost {
                 ControllerSource.emojiCompositeListenerHost.onMessage(event);
             }
             eveEnd(text, id, eGroup, group, event.getSender(), event.getMessage());
-            if (INSTANCE.getActionManager().mather(text) == null) {
-                if (MinecraftServerClient.CHContext != null && MinecraftServerClient.INSTANCE.getGid() == event.getGroup().getId()) {
-                    MinecraftServerClient.CHContext.writeAndFlush(Unpooled.copiedBuffer(MemberUtils.getNameFromGroup(id, eGroup) + ": " + text, StandardCharsets.UTF_8));
-                }
-            }
         }
     }
 

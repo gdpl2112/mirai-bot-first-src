@@ -1,7 +1,7 @@
 package Project.listeners;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.mirai0.Main.iutils.EventUtils;
+import io.github.kloping.mirai.MessageSerializer;
 import io.github.kloping.mirai0.Main.iutils.MessageUtils;
 import Project.utils.Tools.Tool;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -278,7 +278,7 @@ public class EmojiCompositeListenerHost {
     }
 
     public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
-        String mess = EventUtils.messageChain2String(event.getMessage());
+        String mess = MessageSerializer.messageChain2String(event.getMessage());
         if (mess.matches(P0)) {
             try {
                 String[] ss = mess.split("");
