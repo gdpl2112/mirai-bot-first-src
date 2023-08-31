@@ -14,7 +14,7 @@ public class MessageSerializer {
             if (o instanceof OnlineMessageSource)
                 continue;
             if (o instanceof PlainText) {
-                sb.append(((PlainText) o).getContent());
+                sb.append(((PlainText) o).getContent().trim());
             } else if (o instanceof At) {
                 At at = (At) o;
                 if (at.getTarget() == BootstarpResource.BOT.getId()) sb.append("[@me]");

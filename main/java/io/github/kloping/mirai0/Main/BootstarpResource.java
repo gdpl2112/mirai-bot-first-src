@@ -22,6 +22,7 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -99,15 +100,10 @@ public class BootstarpResource {
         StarterApplication.setAccessTypes(Long.class, SpUser.class, SpGroup.class, Integer.class, BotEvent.class);
         StarterApplication.setAllAfter(new Runner() {
             @Override
-            public void run(Object t, Object[] objects) throws NoRunException {
+            public void run(Method method, Object t, Object[] objects) throws NoRunException {
                 if (t != null) {
                     DEA_THREADS.submit(() -> onReturnResult(t, objects));
                 }
-            }
-        });
-        StarterApplication.setAllBefore(new Runner() {
-            @Override
-            public void run(Object t, Object[] objects) throws NoRunException {
             }
         });
         StarterApplication.addConfFile("./conf/conf.txt");

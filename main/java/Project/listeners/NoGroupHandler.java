@@ -26,7 +26,7 @@ public class NoGroupHandler extends SimpleListenerHost {
         APPLICATION.setMainKey(Long.class);
         APPLICATION.setWaitTime(25000L);
         APPLICATION.setAccessTypes(MessageEvent.class, Friend.class, Long.class);
-        APPLICATION.setAllAfter((t, objs) -> {
+        APPLICATION.setAllAfter((m, t, objs) -> {
             MessageEvent event = (MessageEvent) objs[2];
             if (t != null) {
                 if (t instanceof String) {
