@@ -1,4 +1,4 @@
-package io.github.kzero.bot.interfaces.httpApi;
+package io.github.kloping.kzero.bot.interfaces.httpApi;
 
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;

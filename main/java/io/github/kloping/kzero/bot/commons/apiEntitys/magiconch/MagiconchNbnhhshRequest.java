@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.magiconch;
+package io.github.kloping.kzero.bot.commons.apiEntitys.magiconch;
 
 /**
  * @author github.kloping

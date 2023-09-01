@@ -1,14 +1,14 @@
-package io.github.kzero.bot.database;
+package io.github.kloping.kzero.bot.database;
 
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kzero.rt.ResourceSet;
-import io.github.kzero.spring.dao.GroupConf;
-import io.github.kzero.spring.dao.UserScore;
-import io.github.kzero.spring.mapper.GroupConfMapper;
-import io.github.kzero.spring.mapper.UserScoreMapper;
+import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.spring.dao.UserScore;
+import io.github.kloping.kzero.spring.mapper.GroupConfMapper;
+import io.github.kloping.kzero.spring.mapper.UserScoreMapper;
+import io.github.kloping.kzero.rt.ResourceSet;
 
 /**
  * @author github-kloping

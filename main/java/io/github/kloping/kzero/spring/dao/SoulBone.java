@@ -1,4 +1,4 @@
-package io.github.kzero.spring.dao;
+package io.github.kloping.kzero.spring.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

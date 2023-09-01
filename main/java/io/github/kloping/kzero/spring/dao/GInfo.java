@@ -1,8 +1,5 @@
-package io.github.kzero.spring.dao;
+package io.github.kloping.kzero.spring.dao;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import io.github.kloping.MySpringTool.StarterApplication;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

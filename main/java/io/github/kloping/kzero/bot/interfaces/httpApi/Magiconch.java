@@ -1,11 +1,11 @@
-package io.github.kzero.bot.interfaces.httpApi;
+package io.github.kloping.kzero.bot.interfaces.httpApi;
 
 import io.github.kloping.MySpringTool.annotations.http.Headers;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PostPath;
 import io.github.kloping.MySpringTool.annotations.http.RequestBody;
-import io.github.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
-import io.github.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
+import io.github.kloping.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
+import io.github.kloping.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
 
 import java.util.Map;
 

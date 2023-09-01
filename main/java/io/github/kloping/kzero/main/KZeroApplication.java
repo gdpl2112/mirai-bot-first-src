@@ -1,4 +1,4 @@
-package io.github.kzero.main;
+package io.github.kloping.kzero.main;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.MySpringTool.StarterApplication;
@@ -8,10 +8,9 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.h1.impl.component.FieldManagerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.component.FieldManager;
-import io.github.kzero.bot.controllers.AllController;
-import io.github.kzero.bot.interfaces.httpApi.KlopingWeb;
-import io.github.kzero.main.api.*;
-import io.github.kzero.spring.KZeroSpringStarter;
+import io.github.kloping.kzero.main.api.*;
+import io.github.kloping.kzero.spring.KZeroSpringStarter;
+import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +75,7 @@ public class KZeroApplication implements BotMessageHandler {
             }
         });
         application0.addConfFile("./conf/conf.txt");
-        application0.run0(io.github.kzero.main.Main.class);
+        application0.run0(Main.class);
         ContextManager contextManager = application0.INSTANCE.getContextManager();
         application0.STARTED_RUNNABLE.add(() -> verify());
     }

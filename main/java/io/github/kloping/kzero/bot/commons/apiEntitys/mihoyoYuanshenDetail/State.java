@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.mihoyoYuanshenDetail;
+package io.github.kloping.kzero.bot.commons.apiEntitys.mihoyoYuanshenDetail;
 
 public class State {
     private String referrer;

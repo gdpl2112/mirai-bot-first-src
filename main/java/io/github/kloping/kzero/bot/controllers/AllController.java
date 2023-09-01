@@ -1,14 +1,14 @@
-package io.github.kzero.bot.controllers;
+package io.github.kloping.kzero.bot.controllers;
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
-import io.github.kzero.bot.database.DataBase;
-import io.github.kzero.main.api.KZeroBot;
-import io.github.kzero.main.api.MessagePack;
-import io.github.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.main.api.KZeroBot;
+import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.bot.database.DataBase;
 
 import java.lang.reflect.Method;
 

@@ -1,7 +1,7 @@
-package io.github.kzero.spring.mapper;
+package io.github.kloping.kzero.spring.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kzero.spring.dao.Father;
+import io.github.kloping.kzero.spring.dao.Father;
 import org.springframework.stereotype.Repository;
 
 /**

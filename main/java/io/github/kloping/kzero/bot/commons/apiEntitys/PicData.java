@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys;
+package io.github.kloping.kzero.bot.commons.apiEntitys;
 
 public class PicData {
     private String[] data;

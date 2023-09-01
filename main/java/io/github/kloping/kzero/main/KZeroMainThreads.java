@@ -1,8 +1,8 @@
-package io.github.kzero.main;
+package io.github.kloping.kzero.main;
 
-import io.github.kzero.main.api.BotCreated;
-import io.github.kzero.main.api.KZeroBot;
-import io.github.kzero.main.api.KZeroStater;
+import io.github.kloping.kzero.main.api.BotCreated;
+import io.github.kloping.kzero.main.api.KZeroBot;
+import io.github.kloping.kzero.main.api.KZeroStater;
 
 import java.util.ArrayList;
 import java.util.HashMap;

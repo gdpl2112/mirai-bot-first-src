@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.kloping;
+package io.github.kloping.kzero.bot.commons.apiEntitys.kloping;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

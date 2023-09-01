@@ -1,10 +1,9 @@
-package io.github.kzero.bot.controllers;
+package io.github.kloping.kzero.bot.controllers;
 
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.rand.RandomUtils;
-import io.github.kzero.main.api.KZeroBot;
 
 /**
  * @author github.kloping

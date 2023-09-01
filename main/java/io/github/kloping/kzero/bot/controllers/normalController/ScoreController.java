@@ -1,16 +1,13 @@
-package io.github.kzero.bot.controllers.normalController;
+package io.github.kloping.kzero.bot.controllers.normalController;
 
 
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.bot.database.DataBase;
+import io.github.kloping.kzero.bot.services.ScoreService;
+import io.github.kloping.kzero.rt.ResourceSet;
+import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.number.NumberUtils;
-import io.github.kzero.bot.database.DataBase;
-import io.github.kzero.bot.services.ScoreService;
-import io.github.kzero.rt.ResourceSet;
-import io.github.kzero.utils.Utils;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**

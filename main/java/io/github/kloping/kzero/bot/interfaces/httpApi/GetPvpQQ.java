@@ -1,10 +1,10 @@
-package io.github.kzero.bot.interfaces.httpApi;
+package io.github.kloping.kzero.bot.interfaces.httpApi;
 
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.ParamName;
 import io.github.kloping.MySpringTool.entity.Params;
-import io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
+import io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom.Response0;
 
 
 /**

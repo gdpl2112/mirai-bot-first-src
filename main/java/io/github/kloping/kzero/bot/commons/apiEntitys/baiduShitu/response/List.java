@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.baiduShitu.response;
+package io.github.kloping.kzero.bot.commons.apiEntitys.baiduShitu.response;
 
 public class List {
     private String fromUrl;

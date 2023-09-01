@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,8 +1,8 @@
-package io.github.kzero.bot.commons;
+package io.github.kloping.kzero.bot.commons;
 
 
 import io.github.kloping.rand.RandomUtils;
-import io.github.kzero.rt.CommonSource;
+import io.github.kloping.kzero.rt.CommonSource;
 
 /**
  * @author HRS-Computer

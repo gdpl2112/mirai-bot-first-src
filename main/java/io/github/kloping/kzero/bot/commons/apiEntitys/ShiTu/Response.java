@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.ShiTu;
+package io.github.kloping.kzero.bot.commons.apiEntitys.ShiTu;
 
 import java.util.ArrayList;
 import java.util.List;

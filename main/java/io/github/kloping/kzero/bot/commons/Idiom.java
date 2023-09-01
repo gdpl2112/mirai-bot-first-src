@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons;
+package io.github.kloping.kzero.bot.commons;
 
 import io.github.kloping.map.MapUtils;
 import net.sourceforge.pinyin4j.PinyinHelper;

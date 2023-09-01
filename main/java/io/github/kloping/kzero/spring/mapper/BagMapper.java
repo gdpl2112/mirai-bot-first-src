@@ -1,4 +1,4 @@
-package io.github.kzero.spring.mapper;
+package io.github.kloping.kzero.spring.mapper;
 
 import org.apache.ibatis.annotations.*;
 

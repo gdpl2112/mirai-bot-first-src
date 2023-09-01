@@ -1,4 +1,4 @@
-package io.github.kzero.bot.interfaces.entities;
+package io.github.kloping.kzero.bot.interfaces.entities;
 
 /**
  * 攻击包

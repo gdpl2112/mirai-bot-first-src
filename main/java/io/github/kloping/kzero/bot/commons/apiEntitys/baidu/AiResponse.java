@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.baidu;
+package io.github.kloping.kzero.bot.commons.apiEntitys.baidu;
 
 /**
  * @author github.kloping

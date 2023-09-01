@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.invokes;
+package io.github.kloping.kzero.bot.commons.invokes;
 
 import lombok.Getter;
 import lombok.Setter;

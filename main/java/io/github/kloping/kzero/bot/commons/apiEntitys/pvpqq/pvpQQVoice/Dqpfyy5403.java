@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpQQVoice;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQQVoice;
 
 public class Dqpfyy5403 {
     private String pffmtm4757;

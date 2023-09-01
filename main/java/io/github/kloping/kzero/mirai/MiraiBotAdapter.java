@@ -1,7 +1,7 @@
-package io.github.kzero.mirai;
+package io.github.kloping.kzero.mirai;
 
-import io.github.kzero.main.api.KZeroBotAdapter;
-import io.github.kzero.main.api.MessageType;
+import io.github.kloping.kzero.main.api.KZeroBotAdapter;
+import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.message.data.Message;
 

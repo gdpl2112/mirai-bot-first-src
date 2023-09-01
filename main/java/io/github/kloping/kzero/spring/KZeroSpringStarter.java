@@ -1,4 +1,4 @@
-package io.github.kzero.spring;
+package io.github.kloping.kzero.spring;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.mybatis.spring.annotation.MapperScan;

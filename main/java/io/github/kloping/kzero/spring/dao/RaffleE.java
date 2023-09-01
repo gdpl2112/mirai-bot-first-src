@@ -1,4 +1,4 @@
-package io.github.kzero.spring.dao;
+package io.github.kloping.kzero.spring.dao;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom.v1;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom.v1;
 
 public class LinkList {
     private String sAuthor;

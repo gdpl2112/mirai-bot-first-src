@@ -1,7 +1,7 @@
-package io.github.kzero.spring.dao;
+package io.github.kloping.kzero.spring.dao;
 
 
-import io.github.kzero.game.interfaces.BaseInfo;
+import io.github.kloping.kzero.game.interfaces.BaseInfo;
 
 /**
  * @author github-kloping

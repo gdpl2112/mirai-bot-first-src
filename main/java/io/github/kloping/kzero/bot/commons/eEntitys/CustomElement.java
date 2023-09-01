@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.eEntitys;
+package io.github.kloping.kzero.bot.commons.eEntitys;
 
 import java.util.Objects;
 

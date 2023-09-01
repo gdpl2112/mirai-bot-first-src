@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.iciba;
+package io.github.kloping.kzero.bot.commons.apiEntitys.iciba;
 
 public class Dsapi {
     private String love;

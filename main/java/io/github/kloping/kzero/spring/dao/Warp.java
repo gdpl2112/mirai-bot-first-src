@@ -1,9 +1,8 @@
-package io.github.kzero.spring.dao;
+package io.github.kloping.kzero.spring.dao;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

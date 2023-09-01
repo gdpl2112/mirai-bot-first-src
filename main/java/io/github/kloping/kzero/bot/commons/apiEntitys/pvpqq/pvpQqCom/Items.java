@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQqCom;
 
 public class Items {
     private String sTvideoFileSize;

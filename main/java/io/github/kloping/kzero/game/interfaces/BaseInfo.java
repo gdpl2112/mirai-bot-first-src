@@ -1,4 +1,4 @@
-package io.github.kzero.game.interfaces;
+package io.github.kloping.kzero.game.interfaces;
 
 /**
  * @author github-kloping

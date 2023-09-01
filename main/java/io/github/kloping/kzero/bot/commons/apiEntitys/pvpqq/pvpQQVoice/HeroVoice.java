@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpQQVoice;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQQVoice;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

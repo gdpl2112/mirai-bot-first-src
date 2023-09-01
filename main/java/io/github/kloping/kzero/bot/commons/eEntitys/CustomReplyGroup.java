@@ -1,12 +1,12 @@
-package io.github.kzero.bot.commons.eEntitys;
+package io.github.kloping.kzero.bot.commons.eEntitys;
 
+
+import io.github.kloping.kzero.rt.CommonSource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import static io.github.kzero.rt.CommonSource.RANDOM;
 
 /**
  * @author github-kloping
@@ -77,7 +77,7 @@ public class CustomReplyGroup {
                 indexs.add(value);
             }
         }
-        int r = RANDOM.nextInt(weight);
+        int r = CommonSource.RANDOM.nextInt(weight);
         return indexs.get(r);
     }
 }

@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons;
+package io.github.kloping.kzero.bot.commons;
 
 import java.util.ArrayList;
 import java.util.HashMap;

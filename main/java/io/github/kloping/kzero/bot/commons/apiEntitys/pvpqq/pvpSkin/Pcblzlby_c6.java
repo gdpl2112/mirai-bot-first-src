@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpSkin;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpSkin;
 
 public class Pcblzlby_c6 {
     private String yxbllx_c2;

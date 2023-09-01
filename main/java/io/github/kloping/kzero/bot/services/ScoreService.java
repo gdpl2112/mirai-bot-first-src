@@ -1,10 +1,10 @@
-package io.github.kzero.bot.services;
+package io.github.kloping.kzero.bot.services;
 
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kzero.bot.database.DataBase;
-import io.github.kzero.spring.dao.UserScore;
+import io.github.kloping.kzero.spring.dao.UserScore;
+import io.github.kloping.kzero.bot.database.DataBase;
 
 
 /**

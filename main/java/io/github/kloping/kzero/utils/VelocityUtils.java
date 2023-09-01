@@ -1,4 +1,4 @@
-package io.github.kzero.utils;
+package io.github.kloping.kzero.utils;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.baiduShitu;
+package io.github.kloping.kzero.bot.commons.apiEntitys.baiduShitu;
 
 public class Data {
     private String sign;

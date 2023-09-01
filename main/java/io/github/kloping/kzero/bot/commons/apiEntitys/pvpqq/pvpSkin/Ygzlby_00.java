@@ -1,4 +1,4 @@
-package io.github.kzero.bot.commons.apiEntitys.pvpqq.pvpSkin;
+package io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpSkin;
 
 public class Ygzlby_00 {
     private String ygzlbyurl_af;

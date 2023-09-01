@@ -1,7 +1,7 @@
-package io.github.kzero.spring.mapper;
+package io.github.kloping.kzero.spring.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kzero.spring.dao.PersonInfo;
+import io.github.kloping.kzero.spring.dao.PersonInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

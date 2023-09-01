@@ -1,7 +1,7 @@
-package io.github.kzero.mirai;
+package io.github.kloping.kzero.mirai;
 
 import io.github.kloping.common.Public;
-import io.github.kzero.main.api.*;
+import io.github.kloping.kzero.main.api.*;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;

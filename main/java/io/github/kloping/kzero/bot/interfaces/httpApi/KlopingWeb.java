@@ -1,9 +1,9 @@
-package io.github.kzero.bot.interfaces.httpApi;
+package io.github.kloping.kzero.bot.interfaces.httpApi;
 
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.*;
-import io.github.kzero.bot.commons.apiEntitys.*;
-import io.github.kzero.bot.commons.apiEntitys.kloping.VideoAnimeSource;
+import io.github.kloping.kzero.bot.commons.apiEntitys.*;
+import io.github.kloping.kzero.bot.commons.apiEntitys.kloping.VideoAnimeSource;
 
 import java.util.Map;
 
@@ -204,11 +204,6 @@ public interface KlopingWeb {
      */
     @GetPath("/api/image/pa")
     String pa(@ParamName("qid") Long qq);
-
-    /*
-    @GetPath("/api/group/pay")
-    PayOut pay(@ParamName("skey") String skey, @ParamName("pskey") String pskey, @ParamName("uin") Long uin, @ParamName("qq") Long qq, @ParamName("select") Integer select, @ParamName("jie") Float jie, @ParamName("title") String title, @ParamName("payId") String payId, @ParamName("gid") Long gid);
-*/
 
     /**
      * ocr识别

@@ -1,4 +1,4 @@
-package io.github.kzero.main.api;
+package io.github.kloping.kzero.main.api;
 
 /**
  * @author github.kloping
