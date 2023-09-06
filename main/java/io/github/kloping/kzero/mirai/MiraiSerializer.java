@@ -32,7 +32,6 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
 
     public final Map<Integer, MarketFace> MARKET_FACE_MAP = new HashMap<>();
     public final io.github.kloping.arr.ArrSerializer ARR_SERIALIZER = new ArrSerializer();
-
     {
         ARR_SERIALIZER.add(new ArrSerializer.Rule<Image>(Image.class) {
             @Override
@@ -87,13 +86,7 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
         ARR_SERIALIZER.setMode(1);
     }
 
-    private final Pattern PATTER_FACE = Pattern.compile("<face:\\d+>");
-    private final Pattern PATTER_PIC = Pattern.compile("<pic:[^>^]+?>");
-    private final Pattern PATTER_AT = Pattern.compile("<at:[\\d+|?]+>");
-    private final Pattern PATTER_MUSIC = Pattern.compile("<music:\\d+>");
-    private final Pattern PATTER_VOICE = Pattern.compile("<audio:.+>");
-    public final ArrDeSerializer<Message> ARR_DE_SERIALIZER = new ArrDeSerializer<>();
-
+    private final ArrDeSerializer<Message> ARR_DE_SERIALIZER = new ArrDeSerializer<>();
     {
         ARR_DE_SERIALIZER.add(PATTER_FACE, new ArrDeSerializer.Rule0<Message>() {
             @Override

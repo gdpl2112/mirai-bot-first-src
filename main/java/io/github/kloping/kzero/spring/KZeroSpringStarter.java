@@ -1,6 +1,9 @@
 package io.github.kloping.kzero.spring;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
+import io.github.kloping.kzero.utils.Utils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,14 +13,15 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
 /**
  * @author github.kloping
  */
-@SpringBootApplication(scanBasePackages = {"io.github.kzero.spring"})
-@MapperScan("io.github.kzero.spring")
+@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring"})
+@MapperScan("io.github.kloping.kzero.spring")
 @Configuration
 public class KZeroSpringStarter {
 
@@ -26,7 +30,6 @@ public class KZeroSpringStarter {
         ConfigurableApplicationContext configuration = application.run(new String[]{"--id=" + id});
         return configuration;
     }
-
 
     @Autowired
     private Environment env;
@@ -41,5 +44,30 @@ public class KZeroSpringStarter {
         dataSource.setUsername(env.getProperty(String.format("bot-%s.spring.datasource.username", id)));
         dataSource.setPassword(env.getProperty(String.format("bot-%s.spring.datasource.password", id)));
         return dataSource;
+    }
+
+    @Bean
+    public Integer tableIncrement() {
+        int r = 0;
+        try {
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+            PackageScanner scanner = new PackageScannerImpl(true);
+            for (Class<?> dclass : scanner.scan(KZeroSpringStarter.class, KZeroSpringStarter.class.getClassLoader(),
+                    "io.github.kloping.kzero.spring.dao")) {
+                try {
+                    String sql = Utils.CreateTable.createTable(dclass);
+                    int state = jdbcTemplate.update(sql);
+                    if (state > 0) {
+                        r++;
+                        System.out.println(sql);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 }

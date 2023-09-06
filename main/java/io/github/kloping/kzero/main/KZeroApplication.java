@@ -8,9 +8,12 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.h1.impl.component.FieldManagerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.component.FieldManager;
-import io.github.kloping.kzero.main.api.*;
-import io.github.kloping.kzero.spring.KZeroSpringStarter;
 import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
+import io.github.kloping.kzero.main.api.BotMessageHandler;
+import io.github.kloping.kzero.main.api.KZeroBot;
+import io.github.kloping.kzero.main.api.KZeroStater;
+import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.spring.KZeroSpringStarter;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,16 +45,17 @@ public class KZeroApplication implements BotMessageHandler {
             if (obj instanceof BaseMapper) {
                 contextManager.append(obj);
             } else {
-                if (obj.getClass().isAnnotationPresent(RestController.class) || obj.getClass().isAnnotationPresent(Controller.class)) {
+                if (obj.getClass().isAnnotationPresent(RestController.class) ||
+                        obj.getClass().isAnnotationPresent(Controller.class)) {
                     contextManager.append(obj);
                 }
             }
         }
         if (fieldManager instanceof FieldManagerImpl) {
             FieldManagerImpl fm = (FieldManagerImpl) fieldManager;
-            application0.logger.setLogLevel(3);
+//            application0.logger.setLogLevel(3);
             fm.workStand();
-            application0.logger.setLogLevel(0);
+//            application0.logger.setLogLevel(0);
         }
     }
 
@@ -66,11 +70,7 @@ public class KZeroApplication implements BotMessageHandler {
             public void run(Method method, Object t, Object[] objects) throws NoRunException {
                 if (t != null) {
                     MessagePack messagePack = (MessagePack) objects[3];
-                    if (t instanceof String) {
-                        String ts = t.toString();
-                        Object out = bot.getSerializer().deserialize(ts);
-                        bot.getAdapter().sendMessage(messagePack.getType(), messagePack.getSubjectId(), out);
-                    }
+                    bot.getAdapter().onResult(method, t, messagePack);
                 }
             }
         });
@@ -81,8 +81,9 @@ public class KZeroApplication implements BotMessageHandler {
     }
 
     @Override
-    public void onMessage(MessageType type, String senderId, String subjectId, String msg) {
-        application0.executeMethod(bot.getId(), msg, senderId, new MessagePack(type, senderId, subjectId, msg), bot);
+    public void onMessage(MessagePack messagePack) {
+        application0.executeMethod(bot.getId(), messagePack.getMsg(),
+                messagePack.getSenderId(), messagePack, bot);
     }
 
     private ConfigurableApplicationContext context;

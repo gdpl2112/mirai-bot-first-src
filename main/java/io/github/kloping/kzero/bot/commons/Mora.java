@@ -47,7 +47,7 @@ public enum Mora {
      * @return
      */
     public static Mora getRc(int r, int r2, Mora mora) {
-        int i = CommonSource.RANDOM.nextInt(100) + 1;
+        int i = RandomUtils.RANDOM.nextInt(100) + 1;
         if (i >= 90)
             System.out.print("");
         if (i < r) {

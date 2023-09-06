@@ -1,6 +1,8 @@
 package io.github.kloping.kzero.utils;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.object.ObjectUtils;
 import org.springframework.web.util.UriUtils;
@@ -122,7 +124,7 @@ public class Utils {
         public static String createTable(Class<?> clz, String tableName) {
             Field[] fields = null;
             fields = clz.getDeclaredFields();
-            String param = null;
+            String paramTypeName = null;
             String column = null;
             StringBuilder sb = null;
             sb = new StringBuilder(50);
@@ -136,30 +138,36 @@ public class Utils {
                     if (!field.exist()) continue;
                 }
                 column = f.getName();
-                column = filterName(column);
-                param = f.getType().getSimpleName();
-                sb.append("`");
-                sb.append(column);
-                String typeName = javaProperty2SqlColumnMap.get(param);
-                if (typeName == null) {
-                    if (f.getType().isEnum()) {
-                        typeName = javaProperty2SqlColumnMap.get("String");
-                    } else {
-                        param = ObjectUtils.baseToPack(f.getType()).getSimpleName();
-                        typeName = javaProperty2SqlColumnMap.get(param);
+                String columnName = filterName(column);
+                paramTypeName = f.getType().getSimpleName();
+                sb.append("`").append(columnName).append("`");
+                String typeName = javaProperty2SqlColumnMap.get(paramTypeName);
+                if (f.getType().isEnum()) {
+                    typeName = javaProperty2SqlColumnMap.get("String");
+                } else {
+                    paramTypeName = ObjectUtils.baseToPack(f.getType()).getSimpleName();
+                    typeName = javaProperty2SqlColumnMap.get(paramTypeName);
+                }
+                if (f.isAnnotationPresent(TableId.class)) {
+                    if ("VARCHAR(255)".equals(typeName)) {
+                        typeName = "VARCHAR(190)";
                     }
                 }
-                sb.append("`").append(typeName).append(" NOT NULL").append(",\n ");
-
-//            sb0.append("\n@TableField(\"`").append(column).append("`\")\n");
-//            sb0.append("private ").append(f.getType().getSimpleName()).append(" ").append(f.getName()).append(";\n");
+                sb.append(typeName).append(" NOT NULL");
+                if (f.isAnnotationPresent(TableId.class)) {
+                    TableId tableId = f.getDeclaredAnnotation(TableId.class);
+                    sb.append(" primary key");
+                    if (tableId.type() == IdType.AUTO) {
+                        sb.append(" auto_increment");
+                    }
+                }
+                sb.append(",\n ");
             }
             String sql = null;
             sql = sb.toString();
             int lastIndex = sql.lastIndexOf(",");
             sql = sql.substring(0, lastIndex) + sql.substring(lastIndex + 1);
             sql = sql.substring(0, sql.length() - 1) + " );\r\n";
-//        System.out.println("sql :");
             return sql;
         }
 

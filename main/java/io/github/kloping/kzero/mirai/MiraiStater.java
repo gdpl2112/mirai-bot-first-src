@@ -72,8 +72,9 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         if (listener != null) {
+            MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
             KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
-                    new MiraiBotAdapter(event.getBot()), new MiraiSerializer(event.getBot()));
+                    new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
             listener.created(this, bot);
             botMap.put(event.getBot().getId(), bot);
         }
@@ -83,8 +84,10 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     public void onMessage(GroupMessageEvent event) {
         if (handler != null) {
             KZeroBot<MessageChain, Bot> bot = botMap.get(event.getBot().getId());
-            handler.onMessage(MessageType.GROUP, String.valueOf(event.getSender().getId()),
+            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()),
                     String.valueOf(event.getSubject().getId()), bot.getSerializer().serialize(event.getMessage()));
+            pack.setRaw(event);
+            handler.onMessage(pack);
         }
     }
 }

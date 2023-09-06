@@ -4,8 +4,8 @@ import io.github.kloping.MySpringTool.annotations.http.Headers;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PostPath;
 import io.github.kloping.MySpringTool.annotations.http.RequestData;
-import io.github.kloping.kzero.bot.commons.apiEntitys.baidu.AiRequest;
-import io.github.kloping.kzero.bot.commons.apiEntitys.baidu.AiResponse;
+import io.github.kloping.kzero.bot.commons.apis.baidu.AiRequest;
+import io.github.kloping.kzero.bot.commons.apis.baidu.AiResponse;
 
 import java.util.Map;
 

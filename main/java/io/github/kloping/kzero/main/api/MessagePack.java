@@ -23,4 +23,5 @@ public class MessagePack {
     private String senderId;
     private String subjectId;
     private String msg;
+    private Object raw;
 }

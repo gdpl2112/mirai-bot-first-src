@@ -2,8 +2,8 @@ package io.github.kloping.kzero.bot.interfaces.httpApi;
 
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.*;
-import io.github.kloping.kzero.bot.commons.apiEntitys.*;
-import io.github.kloping.kzero.bot.commons.apiEntitys.kloping.VideoAnimeSource;
+import io.github.kloping.kzero.bot.commons.apis.*;
+import io.github.kloping.kzero.bot.commons.apis.kloping.VideoAnimeSource;
 
 import java.util.Map;
 

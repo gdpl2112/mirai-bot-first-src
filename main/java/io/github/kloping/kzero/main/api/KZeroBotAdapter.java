@@ -1,5 +1,7 @@
 package io.github.kloping.kzero.main.api;
 
+import java.lang.reflect.Method;
+
 /**
  * @author github.kloping
  */
@@ -21,4 +23,13 @@ public interface KZeroBotAdapter {
      * @param objects
      */
     void sendMessageByForward(MessageType type, String targetId, Object... objects);
+
+    /**
+     * 当消息返回时
+     *
+     * @param method
+     * @param data
+     * @param pack
+     */
+    void onResult(Method method, Object data, MessagePack pack);
 }

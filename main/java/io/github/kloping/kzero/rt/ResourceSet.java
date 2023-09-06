@@ -167,8 +167,8 @@ public final class ResourceSet {
         public static final String AT_FORMAT = "[@%s]";
         public static final String AT_FORMAT0 = "<At:%s>";
         public static final String EARNINGS_TIPS_FORMAT = "该周收益\n收益:%s\n损失:%s";
-        public static final String WHERE_MEMBER_IS_MY_WIFE = "今天你的群友老婆是\n <Pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";
-        public static final String WHERE_MEMBER_IS_MY_WIFE1 = "今天你被娶了 你的群友老公是\n <Pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";
+        public static final String WHERE_MEMBER_IS_MY_WIFE = "今天你的群友老婆是\n <pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";
+        public static final String WHERE_MEMBER_IS_MY_WIFE1 = "今天你被娶了 你的群友老公是\n <pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";
     }
 
     public static final class FinalValue {

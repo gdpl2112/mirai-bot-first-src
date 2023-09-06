@@ -1,9 +1,13 @@
 package io.github.kloping.kzero.mirai;
 
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
+import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.message.data.Message;
+
+import java.lang.reflect.Method;
 
 /**
  * @author github.kloping
@@ -11,8 +15,11 @@ import net.mamoe.mirai.message.data.Message;
 public class MiraiBotAdapter implements KZeroBotAdapter {
     private Bot bot;
 
-    public MiraiBotAdapter(Bot bot) {
+    private MiraiSerializer serializer;
+
+    public MiraiBotAdapter(Bot bot, MiraiSerializer serializer) {
         this.bot = bot;
+        this.serializer = serializer;
     }
 
     @Override
@@ -29,5 +36,19 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
     @Override
     public void sendMessageByForward(MessageType type, String targetId, Object... objects) {
 
+    }
+
+    @Override
+    public void onResult(Method method, Object data, MessagePack pack) {
+        if (data != null && Judge.isNotEmpty(data.toString())) {
+            Message msg = serializer.deserialize(data.toString());
+            if (pack.getType()==MessageType.GROUP){
+                long gid = Long.parseLong(pack.getSubjectId());
+                bot.getGroup(gid).sendMessage(msg);
+            }else if (pack.getType()==MessageType.FRIEND){
+                long fid = Long.parseLong(pack.getSenderId());
+                bot.getFriend(fid).sendMessage(msg);
+            }
+        }
     }
 }

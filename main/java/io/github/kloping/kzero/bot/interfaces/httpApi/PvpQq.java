@@ -3,9 +3,9 @@ package io.github.kloping.kzero.bot.interfaces.httpApi;
 import io.github.kloping.MySpringTool.annotations.http.GetPath;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PathValue;
-import io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.Heroes;
-import io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpQQVoice.HeroVoice;
-import io.github.kloping.kzero.bot.commons.apiEntitys.pvpqq.pvpSkin.PvpSkin;
+import io.github.kloping.kzero.bot.commons.apis.pvpqq.Heroes;
+import io.github.kloping.kzero.bot.commons.apis.pvpqq.pvpQQVoice.HeroVoice;
+import io.github.kloping.kzero.bot.commons.apis.pvpqq.pvpSkin.PvpSkin;
 
 /**
  * @author github kloping

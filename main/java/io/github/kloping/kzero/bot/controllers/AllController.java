@@ -17,10 +17,8 @@ import java.lang.reflect.Method;
  */
 @Controller
 public class AllController implements Runner {
-    private QueueExecutor queueExecutor;
 
-    public AllController(QueueExecutor queueExecutor, KZeroBot bot) {
-        this.queueExecutor = queueExecutor;
+    public AllController(QueueExecutor queueExecutor) {
         queueExecutor.setBefore(this);
     }
 

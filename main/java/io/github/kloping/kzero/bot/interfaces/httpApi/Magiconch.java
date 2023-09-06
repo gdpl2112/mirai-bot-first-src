@@ -4,8 +4,8 @@ import io.github.kloping.MySpringTool.annotations.http.Headers;
 import io.github.kloping.MySpringTool.annotations.http.HttpClient;
 import io.github.kloping.MySpringTool.annotations.http.PostPath;
 import io.github.kloping.MySpringTool.annotations.http.RequestBody;
-import io.github.kloping.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshRequest;
-import io.github.kloping.kzero.bot.commons.apiEntitys.magiconch.MagiconchNbnhhshResponse;
+import io.github.kloping.kzero.bot.commons.apis.magiconch.MagiconchNbnhhshRequest;
+import io.github.kloping.kzero.bot.commons.apis.magiconch.MagiconchNbnhhshResponse;
 
 import java.util.Map;
 
