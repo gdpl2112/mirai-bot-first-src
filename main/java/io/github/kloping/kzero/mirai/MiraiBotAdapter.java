@@ -5,6 +5,7 @@ import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
 
 import java.lang.reflect.Method;
@@ -42,12 +43,13 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
     public void onResult(Method method, Object data, MessagePack pack) {
         if (data != null && Judge.isNotEmpty(data.toString())) {
             Message msg = serializer.deserialize(data.toString());
-            if (pack.getType()==MessageType.GROUP){
+            long sid = Long.parseLong(pack.getSenderId());
+            msg = new At(sid).plus("\n").plus(msg);
+            if (pack.getType() == MessageType.GROUP) {
                 long gid = Long.parseLong(pack.getSubjectId());
                 bot.getGroup(gid).sendMessage(msg);
-            }else if (pack.getType()==MessageType.FRIEND){
-                long fid = Long.parseLong(pack.getSenderId());
-                bot.getFriend(fid).sendMessage(msg);
+            } else if (pack.getType() == MessageType.FRIEND) {
+                bot.getFriend(sid).sendMessage(msg);
             }
         }
     }

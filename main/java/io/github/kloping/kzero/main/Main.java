@@ -2,6 +2,7 @@ package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.guilds.GuildStater;
+import io.github.kloping.kzero.mirai.MiraiStater;
 
 /**
  * @author github.kloping

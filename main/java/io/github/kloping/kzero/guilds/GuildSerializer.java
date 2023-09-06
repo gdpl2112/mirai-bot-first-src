@@ -65,7 +65,8 @@ public class GuildSerializer implements MessageSerializer<SendAble> {
         });
         ARR_DE_SERIALIZER.add(PATTER_PIC, new ArrDeSerializer.Rule0<SendAble>() {
             @Override
-            public SendAble deserializer(String path) {
+            public SendAble deserializer(String data) {
+                String path = data.substring(data.indexOf(":") + 1, data.length() - 1);
                 Image image = null;
                 try {
                     if (path.startsWith("http")) {

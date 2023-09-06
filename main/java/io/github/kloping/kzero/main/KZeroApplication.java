@@ -53,10 +53,11 @@ public class KZeroApplication implements BotMessageHandler {
         }
         if (fieldManager instanceof FieldManagerImpl) {
             FieldManagerImpl fm = (FieldManagerImpl) fieldManager;
-//            application0.logger.setLogLevel(3);
+            application0.logger.setLogLevel(3);
             fm.workStand();
-//            application0.logger.setLogLevel(0);
+            application0.logger.setLogLevel(0);
         }
+        application0.logger.info(String.format("All services of the bot(%s) are started!", bot.getId()));
     }
 
     private void start0() {

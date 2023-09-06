@@ -8,7 +8,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +28,8 @@ import javax.sql.DataSource;
 public class KZeroSpringStarter {
 
     public static ConfigurableApplicationContext run(String id) {
-        SpringApplication application = new SpringApplication(new Class[]{KZeroSpringStarter.class});
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(KZeroSpringStarter.class);
+        SpringApplication application = builder.web(WebApplicationType.NONE).build();
         ConfigurableApplicationContext configuration = application.run(new String[]{"--id=" + id});
         return configuration;
     }

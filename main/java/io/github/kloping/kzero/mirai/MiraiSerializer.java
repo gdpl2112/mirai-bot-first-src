@@ -139,7 +139,8 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
         });
         ARR_DE_SERIALIZER.add(PATTER_PIC, new ArrDeSerializer.Rule0<Message>() {
             @Override
-            public Message deserializer(String path) {
+            public Message deserializer(String data) {
+                String path = data.substring(data.indexOf(":") + 1, data.length() - 1);
                 Message image = null;
                 try {
                     if (path.startsWith("http")) {
