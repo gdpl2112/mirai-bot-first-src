@@ -26,7 +26,16 @@ public class GuildBotAdapter implements KZeroBotAdapter {
 
     @Override
     public void sendMessage(MessageType type, String targetId, Object msg) {
-
+        MessageAsyncBuilder builder = new MessageAsyncBuilder();
+        for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
+            if (sendAble != null) builder.append(sendAble);
+        }
+        SendAble sendAble = builder.build();
+        for (Guild guild : bot.guilds()) {
+            if (guild.channelMap().containsKey(targetId)) {
+                sendAble.send(guild.channelMap().get(targetId));
+            }
+        }
     }
 
     @Override

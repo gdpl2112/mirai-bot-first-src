@@ -1,6 +1,9 @@
 package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.kzero.gsuid.GsuidClient;
+import io.github.kloping.kzero.gsuid.GsuidMessageListener;
+import io.github.kloping.kzero.gsuid.MessageOut;
 import io.github.kloping.kzero.guilds.GuildStater;
 import io.github.kloping.kzero.mirai.MiraiStater;
 
@@ -13,6 +16,7 @@ public class Main {
         KZeroMainThreads threads = new KZeroMainThreads();
         threads.add(new MiraiStater());
         threads.add(new GuildStater());
+        threads.add(GsuidClient.INSTANCE);
         threads.run();
     }
 }

@@ -19,7 +19,6 @@ public class KZeroMainThreads implements Runnable, BotCreated {
     public List<KZeroStater> starters = new ArrayList<>();
     public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
     public static final Map<String, KZeroApplication> APPLICATION_MAP = new HashMap<>();
-
     @Override
     public void created(KZeroStater stater, KZeroBot kZeroBot) {
         if (BOT_MAP.containsKey(kZeroBot.getId())) return;
@@ -35,10 +34,19 @@ public class KZeroMainThreads implements Runnable, BotCreated {
         for (KZeroStater starter : starters) {
             EXECUTOR_SERVICE.submit(starter);
         }
+        for (Runnable runnable : runnableList) {
+            EXECUTOR_SERVICE.submit(runnable);
+        }
     }
 
     public void add(KZeroStater stater) {
         stater.setCreated(this);
         starters.add(stater);
+    }
+
+    public List<Runnable> runnableList = new ArrayList<>();
+
+    public void add(Runnable runnable) {
+        runnableList.add(runnable);
     }
 }
