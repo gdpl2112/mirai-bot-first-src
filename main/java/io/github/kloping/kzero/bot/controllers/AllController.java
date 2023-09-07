@@ -2,6 +2,7 @@ package io.github.kloping.kzero.bot.controllers;
 
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;

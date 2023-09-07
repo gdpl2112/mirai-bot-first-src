@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.spring.dao;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.judge.Judge;
 import lombok.Data;
@@ -17,20 +18,25 @@ import java.util.List;
 public class Father {
     @TableId
     private String sid;
-    private String permissions;
+    private String permissions = "[]";
 
-    private List<String> permissionsList() {
+    public List<String> permissionsList() {
         if (Judge.isEmpty(permissions)) return new ArrayList<>();
-        else return JSON.parseObject(permissions, ArrayList.class);
+        else return JSON.parseObject(permissions, new TypeReference<ArrayList<String>>() {
+        });
     }
 
-    private Father addPermission(String pid) {
-        permissions = JSON.toJSONString(permissionsList().add(pid));
+    public Father addPermission(String pid) {
+        List<String> list = permissionsList();
+        list.add(pid);
+        permissions = JSON.toJSONString(list);
         return this;
     }
 
-    private Father removePermission(String pid) {
-        permissions = JSON.toJSONString(permissionsList().remove(pid));
+    public Father removePermission(String pid) {
+        List<String> list = permissionsList();
+        list.remove(pid);
+        permissions = JSON.toJSONString(list);
         return this;
     }
 }
