@@ -22,15 +22,15 @@ public class ScoreService {
         StringBuilder str = new StringBuilder();
         UserScore lll = dataBase.getUserInfo(sid);
         str.append("剩的积分:").append(lll.getScore()).append("\r\n");
-        str.append("存的积分:").append(lll.getSScore());
+        str.append("存的积分:").append(lll.getScore0());
         return str.toString();
     }
 
 
     public String getScore(String sid, long num) {
-        long l1 = dataBase.getUserInfo(sid).getSScore().longValue();
+        long l1 = dataBase.getUserInfo(sid).getScore0().longValue();
         if (l1 >= num) {
-            dataBase.addScore_(-num,sid);
+            dataBase.addScore0(-num,sid);
             dataBase.addScore(num,sid);
             return "取积分成功";
         } else {
@@ -42,7 +42,7 @@ public class ScoreService {
     public String putScore(String sid, long num) {
         long l1 = dataBase.getUserInfo(sid).getScore();
         if (l1 >= num) {
-            dataBase.addScore_(num,sid);
+            dataBase.addScore0(num,sid);
             dataBase.addScore(-num,sid);
             return "存积分成功";
         } else {
@@ -71,7 +71,7 @@ public class ScoreService {
         int na = 0;
         for (UserScore score : list) {
             ++na;
-            String id = score.getWho();
+            String id = score.getId();
             sb.append("第").append(na).append(": ").append(id).append("=>\n\t").append(score.getScore()).append("积分\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();

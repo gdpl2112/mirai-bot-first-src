@@ -4,19 +4,21 @@ package io.github.kloping.kzero.bot.database;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.kzero.rt.ResourceSet;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.dao.UserScore;
 import io.github.kloping.kzero.spring.mapper.GroupConfMapper;
 import io.github.kloping.kzero.spring.mapper.UserScoreMapper;
-import io.github.kloping.kzero.rt.ResourceSet;
 
 /**
  * @author github-kloping
  */
 @Entity
 public class DataBase {
+
     @AutoStand
     UserScoreMapper userScoreMapper;
+
     @AutoStand
     GroupConfMapper groupConfMapper;
 
@@ -43,7 +45,7 @@ public class DataBase {
     }
 
     public boolean regA(String sid) {
-        return userScoreMapper.insert(new UserScore().setWho(sid)) > 0;
+        return userScoreMapper.insert(new UserScore().setId(sid)) > 0;
     }
 
     public synchronized UserScore getUserInfo(String sid) {
@@ -58,16 +60,13 @@ public class DataBase {
     }
 
     public void putInfo(UserScore score) {
-        UpdateWrapper<UserScore> q = new UpdateWrapper<>();
-        q.eq("who", score.getWho());
-        userScoreMapper.update(score, q);
+        userScoreMapper.updateById(score);
     }
 
     public boolean isMaxEarnings(String sid) {
         UserScore score = getUserInfo(sid);
         return score.getEarnings() + score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
     }
-
 
     public long addScore(long l, String sid) {
         UserScore score = getUserInfo(sid);
@@ -76,16 +75,9 @@ public class DataBase {
         return score.getScore();
     }
 
-    public long addFz(long l, String sid) {
+    public long addScore0(long l, String sid) {
         UserScore score = getUserInfo(sid);
-        score.setFz(score.getFz() + l);
-        putInfo(score);
-        return score.getScore();
-    }
-
-    public long addScore_(long l, String sid) {
-        UserScore score = getUserInfo(sid);
-        score.setSScore(score.getSScore() + l);
+        score.setScore0(score.getScore0() + l);
         putInfo(score);
         return score.getScore();
     }

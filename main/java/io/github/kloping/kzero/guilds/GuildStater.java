@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.guilds;
 
+import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.qqbot.Starter;
 import io.github.kloping.qqbot.api.Intents;
@@ -10,9 +11,6 @@ import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author github.kloping
@@ -64,11 +62,9 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         return bot;
     }
 
-    public Map<String, KZeroBot<SendAble, Bot>> botMap = new HashMap<String, KZeroBot<SendAble, Bot>>();
-
     @Override
     public void handleException(Throwable e) {
-
+        e.printStackTrace();
     }
 
     @EventReceiver
@@ -78,14 +74,13 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot,
                 new GuildBotAdapter(bot, guildSerializer), guildSerializer);
         listener.created(this, kZeroBot);
-        botMap.put(bot.getId(), kZeroBot);
     }
 
     @EventReceiver
     public void onEvent(MessageChannelReceiveEvent event) {
         MessageChain chain = event.getMessage();
         if (handler != null) {
-            KZeroBot<SendAble, Bot> kZeroBot = botMap.get(event.getBot().getId());
+            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
                     event.getGuild().getId(), kZeroBot.getSerializer().serialize(event.getMessage()));
             pack.setRaw(event);

@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.mirai;
 
 import io.github.kloping.common.Public;
+import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
@@ -13,8 +14,6 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author github.kloping
@@ -67,8 +66,6 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         return bot;
     }
 
-    public Map<Long, KZeroBot> botMap = new HashMap<>();
-
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         if (listener != null) {
@@ -76,16 +73,15 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
                     new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
             listener.created(this, bot);
-            botMap.put(event.getBot().getId(), bot);
         }
     }
 
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
         if (handler != null) {
-            KZeroBot<MessageChain, Bot> bot = botMap.get(event.getBot().getId());
-            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()),
-                    String.valueOf(event.getSubject().getId()), bot.getSerializer().serialize(event.getMessage()));
+            KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            String out = bot.getSerializer().serialize(event.getMessage());
+            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()), String.valueOf(event.getSubject().getId()), out);
             pack.setRaw(event);
             handler.onMessage(pack);
         }

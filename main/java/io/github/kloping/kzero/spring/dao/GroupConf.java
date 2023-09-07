@@ -16,12 +16,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class GroupConf {
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId
     private String id;
     private Boolean open = true;
-    private Boolean speak = false;
-    @TableField(value = "`show`")
-    private Boolean show = true;
     private Boolean cap = true;
-    private Boolean voiceK = true;
 }

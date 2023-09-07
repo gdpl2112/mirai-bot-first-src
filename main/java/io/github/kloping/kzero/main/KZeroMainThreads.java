@@ -17,15 +17,17 @@ import java.util.concurrent.Executors;
 public class KZeroMainThreads implements Runnable, BotCreated {
     public static ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
     public List<KZeroStater> starters = new ArrayList<>();
-    public Map<String, KZeroBot> botMap = new HashMap<>();
-    public Map<String, KZeroApplication> applicationMap = new HashMap<>();
+    public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
+    public static final Map<String, KZeroApplication> APPLICATION_MAP = new HashMap<>();
 
     @Override
     public void created(KZeroStater stater, KZeroBot kZeroBot) {
-        botMap.put(kZeroBot.getId(), kZeroBot);
+        if (BOT_MAP.containsKey(kZeroBot.getId())) return;
+        if (APPLICATION_MAP.containsKey(kZeroBot.getId())) return;
+        BOT_MAP.put(kZeroBot.getId(), kZeroBot);
         KZeroApplication application = new KZeroApplication(stater, kZeroBot);
         application.start();
-        applicationMap.put(kZeroBot.getId(), application);
+        APPLICATION_MAP.put(kZeroBot.getId(), application);
     }
 
     @Override
