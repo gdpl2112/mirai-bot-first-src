@@ -1,4 +1,4 @@
-package io.github.kloping.kzero.rt;
+package io.github.kloping.kzero.game;
 
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 

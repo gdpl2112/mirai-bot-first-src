@@ -3,7 +3,7 @@ package io.github.kloping.kzero.bot.controllers;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.kzero.rt.ResourceSet;
+import io.github.kloping.kzero.game.ResourceSet;
 import io.github.kloping.number.NumberUtils;
 
 /**

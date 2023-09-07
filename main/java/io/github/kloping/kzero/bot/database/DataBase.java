@@ -4,7 +4,7 @@ package io.github.kloping.kzero.bot.database;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.kzero.rt.ResourceSet;
+import io.github.kloping.kzero.game.ResourceSet;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.dao.UserScore;
 import io.github.kloping.kzero.spring.mapper.GroupConfMapper;

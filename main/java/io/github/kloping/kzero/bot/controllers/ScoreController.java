@@ -8,7 +8,7 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.bot.services.ScoreService;
-import io.github.kloping.kzero.rt.ResourceSet;
+import io.github.kloping.kzero.game.ResourceSet;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.number.NumberUtils;
 
