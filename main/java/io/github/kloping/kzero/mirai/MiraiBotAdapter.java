@@ -5,6 +5,8 @@ import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.contact.Friend;
+import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
 
@@ -52,5 +54,26 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
                 bot.getFriend(sid).sendMessage(msg);
             }
         }
+    }
+
+    @Override
+    public String getAvatarUrl(String sid) {
+        Long qid = Long.valueOf(sid);
+        return String.format("https://q.qlogo.cn/g?b=qq&nk=%s&s=640", qid);
+    }
+
+    @Override
+    public String getNameCard(String sid) {
+        Long qid = Long.parseLong(sid);
+        String nameCard = "";
+        for (Group group : bot.getGroups()) {
+            if (group.contains(qid))
+                nameCard = group.get(qid).getNameCard();
+        }
+        if (Judge.isEmpty(nameCard)) {
+            Friend friend = bot.getFriend(qid);
+            if (friend != null) nameCard = friend.getNick();
+        }
+        return Judge.isEmpty(nameCard) ? sid : nameCard;
     }
 }

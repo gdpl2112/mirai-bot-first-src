@@ -165,7 +165,8 @@ public final class ResourceSet {
         public static final String HL_NOT_ENOUGH_TIPS = "魂力不足:您当前的魂力值=>%s%%";
         public static final String HL_NOT_ENOUGH_TIPS0 = "魂力不足!!";
         public static final String AT_FORMAT = "[@%s]";
-        public static final String AT_FORMAT0 = "<At:%s>";
+        public static final String AT_FORMAT0 = "<at:%s>";
+        public static final String PIC_FORMAT0 = "<pic:%s>";
         public static final String EARNINGS_TIPS_FORMAT = "该周收益\n收益:%s\n损失:%s";
         public static final String WHERE_MEMBER_IS_MY_WIFE = "今天你的群友老婆是\n <pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";
         public static final String WHERE_MEMBER_IS_MY_WIFE1 = "今天你被娶了 你的群友老公是\n <pic:https://q2.qlogo.cn/headimg_dl?dst_uin=%s&spec=100> 【%s】(%s) ";

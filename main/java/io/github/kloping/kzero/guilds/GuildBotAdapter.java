@@ -9,6 +9,7 @@ import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
+import io.github.kloping.qqbot.entities.qqpd.Member;
 
 import java.lang.reflect.Method;
 
@@ -60,5 +61,27 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                 sendAble.send(guild.create(pack.getSenderId()));
             }
         }
+    }
+
+    @Override
+    public String getAvatarUrl(String sid) {
+        for (Guild guild : bot.guilds()) {
+            Member member = guild.getMember(sid);
+            if (member != null) {
+                return member.getUser().getAvatar();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getNameCard(String sid) {
+        for (Guild guild : bot.guilds()) {
+            Member member = guild.getMember(sid);
+            if (member != null) {
+                return member.getUser().getUsername();
+            }
+        }
+        return null;
     }
 }

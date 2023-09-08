@@ -2,6 +2,7 @@ package io.github.kloping.kzero.bot.services;
 
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.spring.dao.UserScore;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author github-kloping
  */
 @Entity
-public class ScoreService {
+public class UserService {
     @AutoStand
     DataBase dataBase;
 
@@ -25,7 +26,6 @@ public class ScoreService {
         str.append("存的积分:").append(lll.getScore0());
         return str.toString();
     }
-
 
     public String getScore(String sid, long num) {
         long l1 = dataBase.getUserInfo(sid).getScore0().longValue();
@@ -38,7 +38,6 @@ public class ScoreService {
         }
     }
 
-
     public String putScore(String sid, long num) {
         long l1 = dataBase.getUserInfo(sid).getScore();
         if (l1 >= num) {
@@ -49,7 +48,6 @@ public class ScoreService {
             return "积分不足:" + num + "\n 你剩余积分:" + l1;
         }
     }
-
 
     public String getScoreTo(String sid, String tid, long num) {
         long l1 = dataBase.getUserInfo(sid).getScore();
@@ -75,5 +73,18 @@ public class ScoreService {
             sb.append("第").append(na).append(": ").append(id).append("=>\n\t").append(score.getScore()).append("积分\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+    }
+
+    @CronSchedule("21 0 0 * * ? ")
+    public void interest() {
+        for (UserScore userScore : userScoreMapper.selectAll()) {
+            if (userScore.getScore0() <= 10000) {
+                continue;
+            } else {
+                int s = (int) (userScore.getScore0() / 10000 * 4);
+                userScore.setScore0(userScore.getScore0() + s);
+                userScoreMapper.updateById(userScore);
+            }
+        }
     }
 }

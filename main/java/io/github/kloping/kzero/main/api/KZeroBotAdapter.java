@@ -32,4 +32,20 @@ public interface KZeroBotAdapter {
      * @param pack
      */
     void onResult(Method method, Object data, MessagePack pack);
+
+    /**
+     * 获取指定id人的头像链接
+     *
+     * @param sid
+     * @return
+     */
+    String getAvatarUrl(String sid);
+
+    /**
+     * 获取指定id人名片
+     *
+     * @param sid
+     * @return
+     */
+    String getNameCard(String sid);
 }
