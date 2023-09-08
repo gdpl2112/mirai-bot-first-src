@@ -48,9 +48,8 @@ public class GuildBotAdapter implements KZeroBotAdapter {
     public void onResult(Method method, Object data, MessagePack pack) {
         if (data != null && Judge.isNotEmpty(data.toString())) {
             MessageAsyncBuilder builder = new MessageAsyncBuilder();
-            for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString())) {
+            for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString()))
                 if (sendAble != null) builder.append(sendAble);
-            }
             MessageReceiveEvent event = (MessageReceiveEvent) pack.getRaw();
             builder.reply(event.getRawMessage());
             event.send(builder.build());
