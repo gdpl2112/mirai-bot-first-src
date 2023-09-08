@@ -128,7 +128,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         offer(event.getRawMessage());
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
-            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(), event.getGuild().getId(), kZeroBot.getSerializer().serialize(event.getMessage()));
+            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
+                    event.getChannelId(), kZeroBot.getSerializer().serialize(event.getMessage()));
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid

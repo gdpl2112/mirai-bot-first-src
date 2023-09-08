@@ -74,17 +74,4 @@ public class UserService {
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
     }
-
-    @CronSchedule("21 0 0 * * ? ")
-    public void interest() {
-        for (UserScore userScore : userScoreMapper.selectAll()) {
-            if (userScore.getScore0() <= 10000) {
-                continue;
-            } else {
-                int s = (int) (userScore.getScore0() / 10000 * 4);
-                userScore.setScore0(userScore.getScore0() + s);
-                userScoreMapper.updateById(userScore);
-            }
-        }
-    }
 }

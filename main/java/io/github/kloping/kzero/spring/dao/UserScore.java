@@ -27,4 +27,13 @@ public class UserScore implements Serializable {
     private Integer xpl = 100;
     private Integer level = 1;
     private Long k = 0L;
+
+    public void addXp(int i) {
+        xp += i;
+        if (xp >= xpl) {
+            xp = 0;
+            xpl += 50;
+            level++;
+        }
+    }
 }

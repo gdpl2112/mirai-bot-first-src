@@ -32,6 +32,7 @@ public class ImageDrawerUtils {
     public static final Color BLUE_A75 = new Color(0, 0, 222, 191);
     public static final Color YELLOW_A75 = new Color(185, 156, 0, 191);
     public static final Color RED_A75 = new Color(231, 52, 12, 191);
+    public static final Color ORIGIN_A75 = new Color(231, 129, 12, 191);
     /**
      * 图片圆角
      *
