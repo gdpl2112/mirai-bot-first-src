@@ -2,11 +2,13 @@ package io.github.kloping.kzero.mirai;
 
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.spring.dao.Father;
 import io.github.kloping.kzero.spring.mapper.FatherMapper;
 import io.github.kloping.kzero.utils.Utils;
+import io.github.kloping.number.NumberUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -27,32 +29,21 @@ public class PluginController {
     @AutoStand(id = "super_id")
     String superId;
 
+    @AutoStand
+    DataBase dataBase;
+
     @Before
     public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
         if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
         if (msg.contains("我要头衔")) return;
-        else if (superId.equals(pack.getSenderId())) return;
-        else {
-            Father father = getFather(pack.getSenderId());
+        else if (superId.equals(pack.getSenderId())) {
+        } else {
+            Father father = dataBase.getFather(pack.getSenderId());
             if (father != null && father.permissionsList().contains(pack.getSubjectId())) {
             } else throw new NoRunException("无权限!");
         }
         GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
         MessageSource.recall(event.getSource());
-    }
-
-    private Father getFather(String sid) {
-        return getFather(sid, false);
-    }
-
-    private Father getFather(String sid, boolean compulsion) {
-        Father father = fatherMapper.selectById(sid);
-        if (father == null && compulsion) {
-            father = new Father();
-            father.setSid(sid);
-            fatherMapper.insert(father);
-        }
-        return father;
     }
 
     private class Result0<T> {
@@ -129,7 +120,7 @@ public class PluginController {
     }
 
     @Action("recall")
-    public String setName(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String recall(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
@@ -142,6 +133,49 @@ public class PluginController {
         return null;
     }
 
+    @Action("mute.+")
+    public String mute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        Result0<Boolean> result = isOwner(pack, bot);
+        if (!result.data) return null;
+        long fid = 0;
+        String aid = Utils.getAtFromString(msg);
+        if (aid != null) {
+            fid = Long.parseLong(aid);
+            msg = msg.replace("<at:" + aid + ">", "");
+        }
+        GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
+        for (SingleMessage singleMessage : event.getMessage()) {
+            if (singleMessage instanceof QuoteReply) {
+                QuoteReply qr = (QuoteReply) singleMessage;
+                fid = qr.getSource().getFromId();
+            }
+        }
+        result.group.get(fid).mute(NumberUtils.getIntegerFromString(msg, 1));
+        return null;
+    }
+
+    @Action("unmute.*?")
+    public String unmute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        Result0<Boolean> result = isOwner(pack, bot);
+        if (!result.data) return null;
+        long fid = 0;
+        String aid = Utils.getAtFromString(msg);
+        if (aid != null) {
+            fid = Long.parseLong(aid);
+            msg = msg.replace("<at:" + aid + ">", "");
+        }
+        GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
+        for (SingleMessage singleMessage : event.getMessage()) {
+            if (singleMessage instanceof QuoteReply) {
+                QuoteReply qr = (QuoteReply) singleMessage;
+                fid = qr.getSource().getFromId();
+            }
+        }
+        result.group.get(fid).unmute();
+        return null;
+    }
+
+
     @Action("addAdmin.+")
     public String addAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         if (!superId.equals(pack.getSenderId())) return null;
@@ -149,7 +183,7 @@ public class PluginController {
         if (!result.data) return null;
         String aid = Utils.getAtFromString(msg);
         if (aid == null) return null;
-        return "state: " + fatherMapper.updateById(getFather(aid, true).addPermission(pack.getSubjectId()));
+        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(pack.getSubjectId()));
     }
 
     @Action("rmAdmin.+")
@@ -159,6 +193,6 @@ public class PluginController {
         if (!result.data) return null;
         String aid = Utils.getAtFromString(msg);
         if (aid == null) return null;
-        return "state: " + fatherMapper.updateById(getFather(aid, true).removePermission(pack.getSubjectId()));
+        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).removePermission(pack.getSubjectId()));
     }
 }

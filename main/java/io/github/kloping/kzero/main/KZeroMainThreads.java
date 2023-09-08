@@ -16,7 +16,6 @@ import java.util.concurrent.Executors;
  */
 public class KZeroMainThreads implements Runnable, BotCreated {
     public static ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
-    public List<KZeroStater> starters = new ArrayList<>();
     public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
     public static final Map<String, KZeroApplication> APPLICATION_MAP = new HashMap<>();
     @Override
@@ -31,22 +30,19 @@ public class KZeroMainThreads implements Runnable, BotCreated {
 
     @Override
     public void run() {
-        for (KZeroStater starter : starters) {
+        for (Runnable starter : runnableList) {
             EXECUTOR_SERVICE.submit(starter);
         }
-        for (Runnable runnable : runnableList) {
-            EXECUTOR_SERVICE.submit(runnable);
-        }
-    }
-
-    public void add(KZeroStater stater) {
-        stater.setCreated(this);
-        starters.add(stater);
     }
 
     public List<Runnable> runnableList = new ArrayList<>();
 
     public void add(Runnable runnable) {
         runnableList.add(runnable);
+    }
+
+    public void add(KZeroStater stater) {
+        stater.setCreated(this);
+        runnableList.add(stater);
     }
 }

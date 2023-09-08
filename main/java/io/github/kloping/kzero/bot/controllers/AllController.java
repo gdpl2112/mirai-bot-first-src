@@ -2,7 +2,6 @@ package io.github.kloping.kzero.bot.controllers;
 
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Bean;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -29,6 +28,7 @@ public class AllController implements Runner {
     @Override
     public void run(Method method, Object t, Object[] objects) throws NoRunException {
         Class cla = method.getDeclaringClass();
+        if (cla == AdminController.class) return;
         MessagePack pack = (MessagePack) objects[3];
         GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
         if (groupConf != null) {

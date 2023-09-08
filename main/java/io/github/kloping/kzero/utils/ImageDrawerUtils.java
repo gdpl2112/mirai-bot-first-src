@@ -16,6 +16,7 @@ import java.net.URL;
  * @author github-kloping
  */
 public class ImageDrawerUtils {
+
     public static final Font SMALL_FONT28 = new Font("楷体", Font.BOLD, 28);
     public static final Font SMALL_FONT26 = new Font("楷体", Font.BOLD, 26);
     public static final Font SMALL_FONT24 = new Font("楷体", Font.BOLD, 24);
@@ -23,12 +24,13 @@ public class ImageDrawerUtils {
     public static final Font SMALL_FONT20 = new Font("楷体", Font.BOLD, 20);
     public static final Font SMALL_FONT18 = new Font("楷体", Font.BOLD, 18);
     public static final Font SMALL_FONT16 = new Font("楷体", Font.BOLD, 16);
+
     public static final Color BLACK_A45 = new Color(0, 0, 0, 115);
     public static final Color BLACK_A75 = new Color(0, 0, 0, 191);
-    public static final Color GREEN_A75 = new Color(8, 215, 138, 191);
-    public static final Color GREEN_A85 = new Color(1, 253, 1, 217);
-    public static final Color BLUE_A75 = new Color(6, 82, 180, 191);
-    public static final Color YELLOW_A75 = new Color(231, 199, 12, 191);
+    public static final Color GREEN_A75 = new Color(2, 180, 2, 191);
+    public static final Color GREEN_A85 = new Color(0, 150, 0, 217);
+    public static final Color BLUE_A75 = new Color(0, 0, 222, 191);
+    public static final Color YELLOW_A75 = new Color(185, 156, 0, 191);
     public static final Color RED_A75 = new Color(231, 52, 12, 191);
     /**
      * 图片圆角

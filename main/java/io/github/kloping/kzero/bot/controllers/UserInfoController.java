@@ -32,11 +32,6 @@ public class UserInfoController {
     @AutoStand
     UserService scoreService;
 
-    @Action(value = "积分查询", otherName = {"查询积分"})
-    public String selectScore(String sid) {
-        return scoreService.selectInfo(sid);
-    }
-
     @Action("取积分.+")
     public String getScore(String sid, @AllMess String str) {
         Integer sc = NumberUtils.getIntegerFromString(str, 1);
@@ -54,12 +49,12 @@ public class UserInfoController {
 
     @Action(value = "积分转让.+", otherName = {"转让积分.+"})
     public String transfer(String sid, @AllMess String str) {
-        Long num = null;
+        Integer num = null;
         String tid = Utils.getAtFromString(str);
         if (Judge.isEmpty(tid)) return ResourceSet.FinalString.NOT_FOUND_AT;
         if (!dataBase.exists(sid)) return ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
         str = str.replaceFirst(tid, "");
-        num = Long.valueOf(NumberUtils.getIntegerFromString(str, 0));
+        num = NumberUtils.getIntegerFromString(str, 0);
         return scoreService.getScoreTo(sid, tid, num);
     }
 
@@ -101,6 +96,16 @@ public class UserInfoController {
         return "<pic:" + sourceDataBase.save(image) + ">";
     }
 
+    /**
+     *
+     * @param icon
+     * @param name
+     * @param user
+     * @param tips
+     * @param t
+     * @return
+     * @throws MalformedURLException
+     */
     @NotNull
     private BufferedImage getInfoImage(String icon, String name, UserScore user, String tips, boolean t) throws MalformedURLException {
         BufferedImage image = ImageDrawerUtils.readImage(sourceDataBase.getImgPathById("info_bg"), 800, 1000);
@@ -110,10 +115,10 @@ public class UserInfoController {
         Graphics graphics = image.getGraphics();
 
         graphics.setColor(ImageDrawerUtils.BLACK_A45);
-        graphics.drawRoundRect(310, 250, 180, 40, 40, 20);
+        graphics.drawRoundRect(300, 250, 200, 40, 40, 20);
 
         graphics.setFont(ImageDrawerUtils.SMALL_FONT22);
-        graphics.drawString(name, 340, 280);
+        graphics.drawString(name, 330, 280);
 
         //=
         graphics.setFont(ImageDrawerUtils.SMALL_FONT24);
@@ -155,7 +160,7 @@ public class UserInfoController {
         graphics.setFont(ImageDrawerUtils.SMALL_FONT28);
         graphics.setColor(ImageDrawerUtils.BLACK_A75);
         graphics.drawRoundRect(180, 720, 440, 60, 30, 30);
-        if (t) graphics.setColor(Color.GREEN);
+        if (t) graphics.setColor(ImageDrawerUtils.GREEN_A85);
         else graphics.setColor(Color.RED);
         graphics.drawString(tips, 220, 760);
 

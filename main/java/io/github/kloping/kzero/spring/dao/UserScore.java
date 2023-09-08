@@ -19,24 +19,12 @@ import java.io.Serializable;
 public class UserScore implements Serializable {
     @TableId
     private String id;
-    private Long score = 1000L;
-    private Long score0 = 200L;
+    private Integer score = 1000;
+    private Integer score0 = 200;
     private Integer day = 0;
     private Integer days = 0;
-    private Long earnings = 0L;
-    private Long debuffs = 0L;
-
-    public UserScore record(Number s0) {
-        if (s0.longValue() > 0) {
-            earnings += s0.longValue();
-        } else {
-            debuffs += s0.longValue();
-        }
-        return this;
-    }
-
-    public UserScore addScore(Number s0) {
-        this.score += s0.longValue();
-        return this;
-    }
+    private Integer xp = 0;
+    private Integer xpl = 100;
+    private Integer level = 1;
+    private Long k = 0L;
 }

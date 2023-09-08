@@ -4,9 +4,10 @@ package io.github.kloping.kzero.bot.database;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.spring.dao.Father;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.dao.UserScore;
+import io.github.kloping.kzero.spring.mapper.FatherMapper;
 import io.github.kloping.kzero.spring.mapper.GroupConfMapper;
 import io.github.kloping.kzero.spring.mapper.UserScoreMapper;
 
@@ -63,23 +64,35 @@ public class DataBase {
         userScoreMapper.updateById(score);
     }
 
-    public boolean isMaxEarnings(String sid) {
+    public long addScore(int l, String sid) {
         UserScore score = getUserInfo(sid);
-        return score.getEarnings() + score.getDebuffs() >= ResourceSet.FinalValue.MAX_EARNINGS;
-    }
-
-    public long addScore(long l, String sid) {
-        UserScore score = getUserInfo(sid);
-        score.addScore(l);
+        score.setScore(score.getScore() + l);
         putInfo(score);
         return score.getScore();
     }
 
-    public long addScore0(long l, String sid) {
+    public long addScore0(int l, String sid) {
         UserScore score = getUserInfo(sid);
         score.setScore0(score.getScore0() + l);
         putInfo(score);
         return score.getScore();
+    }
+
+    @AutoStand
+    FatherMapper fatherMapper;
+
+    public Father getFather(String sid) {
+        return getFather(sid, false);
+    }
+
+    public Father getFather(String sid, boolean compulsion) {
+        Father father = fatherMapper.selectById(sid);
+        if (father == null && compulsion) {
+            father = new Father();
+            father.setSid(sid);
+            fatherMapper.insert(father);
+        }
+        return father;
     }
 
 }

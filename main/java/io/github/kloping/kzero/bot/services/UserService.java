@@ -27,29 +27,29 @@ public class UserService {
         return str.toString();
     }
 
-    public String getScore(String sid, long num) {
+    public String getScore(String sid, int num) {
         long l1 = dataBase.getUserInfo(sid).getScore0().longValue();
         if (l1 >= num) {
-            dataBase.addScore0(-num,sid);
-            dataBase.addScore(num,sid);
+            dataBase.addScore0(-num, sid);
+            dataBase.addScore(num, sid);
             return "取积分成功";
         } else {
             return "存的积分不足:" + num + "\n 你存的积分:" + l1;
         }
     }
 
-    public String putScore(String sid, long num) {
+    public String putScore(String sid, int num) {
         long l1 = dataBase.getUserInfo(sid).getScore();
         if (l1 >= num) {
-            dataBase.addScore0(num,sid);
-            dataBase.addScore(-num,sid);
+            dataBase.addScore0(num, sid);
+            dataBase.addScore(-num, sid);
             return "存积分成功";
         } else {
             return "积分不足:" + num + "\n 你剩余积分:" + l1;
         }
     }
 
-    public String getScoreTo(String sid, String tid, long num) {
+    public String getScoreTo(String sid, String tid, int num) {
         long l1 = dataBase.getUserInfo(sid).getScore();
         if (l1 >= num) {
             dataBase.addScore(-num, sid);
