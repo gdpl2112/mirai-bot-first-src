@@ -26,7 +26,7 @@ public class ImageDrawerUtils {
     public static final Color BLACK_A45 = new Color(0, 0, 0, 115);
     public static final Color BLACK_A75 = new Color(0, 0, 0, 191);
     public static final Color GREEN_A75 = new Color(8, 215, 138, 191);
-    public static final Color GREEN1_A75 = new Color(43, 255, 28, 191);
+    public static final Color GREEN_A85 = new Color(1, 253, 1, 217);
     public static final Color BLUE_A75 = new Color(6, 82, 180, 191);
     public static final Color YELLOW_A75 = new Color(231, 199, 12, 191);
     public static final Color RED_A75 = new Color(231, 52, 12, 191);
