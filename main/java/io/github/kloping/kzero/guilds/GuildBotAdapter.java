@@ -5,7 +5,7 @@ import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.qqbot.api.SendAble;
-import io.github.kloping.qqbot.api.message.MessageReceiveEvent;
+import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
@@ -50,7 +50,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
             MessageAsyncBuilder builder = new MessageAsyncBuilder();
             for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString()))
                 if (sendAble != null) builder.append(sendAble);
-            MessageReceiveEvent event = (MessageReceiveEvent) pack.getRaw();
+            MessageEvent event = (MessageEvent) pack.getRaw();
             builder.reply(event.getRawMessage());
             event.send(builder.build());
         }

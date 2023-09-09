@@ -18,7 +18,6 @@ import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.ex.PlainText;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.entities.qqpd.Member;
-import io.github.kloping.qqbot.entities.qqpd.message.RawMessage;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
 
@@ -89,10 +88,12 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             @Override
             public void onMessage(MessageOut out) {
                 if (out.getBot_self_id().equals(bot.getId())) {
-                    RawMessage raw = getMessage(out.getMsg_id());
+                    MessageEvent raw = getMessage(out.getMsg_id());
                     MessageAsyncBuilder builder = new MessageAsyncBuilder();
-                    builder.append(new At(At.MEMBER_TYPE, raw.getAuthor().getId()));
-                    builder.append(new PlainText("\n"));
+                    if (raw instanceof MessageChannelReceiveEvent) {
+                        builder.append(new At(At.MEMBER_TYPE, raw.getSender().getUser().getId()));
+                        builder.append(new PlainText("\n"));
+                    }
                     for (MessageData d0 : out.getContent()) {
                         if (d0.getType().equals("node")) {
                             try {
@@ -105,8 +106,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
                             }
                         } else builderAppend(builder, d0);
                     }
-                    builder.reply(raw);
-                    builder.build().send(raw);
+                    builder.reply(raw.getRawMessage());
+                    raw.send(builder.build());
                 }
             }
 
@@ -125,7 +126,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onEvent(MessageChannelReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        offer(event.getRawMessage());
+        offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
@@ -137,12 +138,14 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         }
     }
 
+    @EventReceiver
     public void onEvent(MessageDirectReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        offer(event.getRawMessage());
+        offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
-            MessagePack pack = new MessagePack(MessageType.FRIEND, event.getSender().getUser().getId(), event.getGuild().getId(), kZeroBot.getSerializer().serialize(event.getMessage()));
+            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
+                    event.getSrcGuildId(), kZeroBot.getSerializer().serialize(event.getMessage()));
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
@@ -204,20 +207,20 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     //=============消息记录start
     private static final Integer MAX_E = 50;
 
-    private Deque<RawMessage> QUEUE = new LinkedList<>();
+    private Deque<MessageEvent> QUEUE = new LinkedList<>();
 
-    private void offer(RawMessage msg) {
+    private void offer(MessageEvent msg) {
         if (QUEUE.contains(msg)) return;
         if (QUEUE.size() >= MAX_E) QUEUE.pollLast();
         QUEUE.offerFirst(msg);
     }
 
-    private RawMessage temp0 = null;
+    private MessageEvent temp0 = null;
 
-    private RawMessage getMessage(String id) {
-        if (temp0 != null && temp0.getId().equals(id)) return temp0;
-        for (RawMessage message : QUEUE) {
-            if (message.getId().equals(id)) return temp0 = message;
+    private MessageEvent getMessage(String id) {
+        if (temp0 != null && temp0.getRawMessage().getId().equals(id)) return temp0;
+        for (MessageEvent event : QUEUE) {
+            if (event.getRawMessage().getId().equals(id)) return temp0 = event;
         }
         return null;
     }
