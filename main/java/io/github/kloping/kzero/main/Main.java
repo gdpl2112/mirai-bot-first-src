@@ -14,7 +14,7 @@ import io.github.kloping.kzero.mirai.MiraiStater;
 public class Main {
     public static void main(String[] args) {
         KZeroMainThreads threads = new KZeroMainThreads();
-//        threads.add(new MiraiStater());
+        threads.add(new MiraiStater());
         threads.add(new GuildStater());
         threads.add(GsuidClient.INSTANCE);
         threads.run();
