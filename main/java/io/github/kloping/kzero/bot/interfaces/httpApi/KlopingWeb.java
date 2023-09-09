@@ -133,7 +133,7 @@ public interface KlopingWeb {
      * @return
      */
     @GetPath("/api/throwBottle")
-    String throwBottle(@ParamName("gid") Long gid, @ParamName("sid") Long sid, @ParamName("message") String message, @ParamName("name") String name);
+    String throwBottle(@ParamName("gid") String gid, @ParamName("sid") String sid, @ParamName("message") String message, @ParamName("name") String name);
 
     /**
      * pickUP

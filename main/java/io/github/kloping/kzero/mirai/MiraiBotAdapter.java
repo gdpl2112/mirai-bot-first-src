@@ -65,7 +65,8 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
         if (data != null && Judge.isNotEmpty(data.toString())) {
             Message msg = serializer.deserialize(data.toString());
             long sid = Long.parseLong(pack.getSenderId());
-            msg = msg.plus(new QuoteReply(((MessageEvent) pack.getRaw()).getSource()));
+            MessageEvent event = (MessageEvent) pack.getRaw();
+            msg = new QuoteReply(((MessageEvent) pack.getRaw()).getSource()).plus(msg);
             if (pack.getType() == MessageType.GROUP) {
                 long gid = Long.parseLong(pack.getSubjectId());
                 bot.getGroup(gid).sendMessage(msg);

@@ -22,7 +22,7 @@ import net.mamoe.mirai.message.data.SingleMessage;
  * @author github.kloping
  */
 @Controller
-public class PluginController {
+public class PluginManagerController {
     @AutoStand
     FatherMapper fatherMapper;
 
@@ -35,7 +35,6 @@ public class PluginController {
     @Before
     public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
         if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
-        if (msg.contains("我要头衔")) return;
         else if (superId.equals(pack.getSenderId())) {
         } else {
             Father father = dataBase.getFather(pack.getSenderId());
@@ -67,14 +66,6 @@ public class PluginController {
         MemberPermission p0 = group.getBotAsMember().getPermission();
         if (p0 != MemberPermission.OWNER) return new Result0<>(gid, sid, group, true);
         return new Result0<>(gid, sid, group, true);
-    }
-
-    @Action("我要头衔<.+=>name>")
-    public String wanner(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        Result0<Boolean> result = isOwner(pack, bot);
-        if (!result.data) return null;
-        result.group.get(result.sid).setSpecialTitle(name);
-        return "OK!";
     }
 
     @Action("setAdmin.+")
