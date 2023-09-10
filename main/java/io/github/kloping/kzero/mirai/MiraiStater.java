@@ -74,7 +74,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         if (listener != null) {
-            System.out.format("==================%s-上线了=====================");
+            System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
             MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
             KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
                     new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
