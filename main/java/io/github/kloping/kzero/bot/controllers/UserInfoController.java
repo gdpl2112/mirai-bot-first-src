@@ -2,6 +2,7 @@ package io.github.kloping.kzero.bot.controllers;
 
 
 import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.common.Public;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.extension.ThreeMap;
 import io.github.kloping.extension.ThreeMapImpl;
@@ -24,7 +25,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 
 /**
@@ -94,13 +94,19 @@ public class UserInfoController {
     @CronSchedule("21 0 0 * * ? ")
     public void interest() {
         for (UserScore userScore : userScoreMapper.selectAll()) {
-            if (userScore.getScore0() <= 10000) {
-                continue;
-            } else {
-                int s = (int) (userScore.getScore0() / 10000 * 4);
-                userScore.setScore0(userScore.getScore0() + s);
-                userScoreMapper.updateById(userScore);
-            }
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                try {
+                    if (userScore.getScore0() <= 10000) {
+                        return;
+                    } else {
+                        int s = (int) (userScore.getScore0() / 10000 * 4);
+                        userScore.setScore0(userScore.getScore0() + s);
+                        userScoreMapper.updateById(userScore);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
@@ -259,6 +265,7 @@ public class UserInfoController {
         //========line-3-start===========
         graphics.setColor(ImageDrawerUtils.BLACK_A75);
         graphics.drawString("打工状态: ", 30, 580);
+        graphics.drawString("打劫次数: ", 300, 580);
 
         if (user.getK() > System.currentTimeMillis()) {
             graphics.setColor(ImageDrawerUtils.GREEN_A75);
@@ -267,6 +274,13 @@ public class UserInfoController {
             graphics.setColor(ImageDrawerUtils.RED_A75);
             graphics.drawString("空闲中.", 150, 580);
         }
+
+        if (user.getFz() >= 12) {
+            graphics.setColor(ImageDrawerUtils.GREEN_A75);
+        } else {
+            graphics.setColor(ImageDrawerUtils.YELLOW_A75);
+        }
+        graphics.drawString(String.valueOf(12 - user.getFz()), 420, 580);
         //========line-3-end===========
 
         //========line-tips-start===========
@@ -277,6 +291,10 @@ public class UserInfoController {
         else graphics.setColor(Color.RED);
         graphics.drawString(tips, 220, 760);
         //========line-tips-end===========
+        graphics.setFont(ImageDrawerUtils.SMALL_FONT18);
+        graphics.setColor(ImageDrawerUtils.BLACK_A75);
+        graphics.drawString(DateUtils.getFormat(), 285, 850);
+        graphics.drawString(user.getId(), 10, 20);
 
         graphics.dispose();
         return image;

@@ -30,7 +30,6 @@ public class ControllerWhereIsMyWife {
      */
     public static final Map<String, Map<String, String>> WIFE = new HashMap<>();
 
-
     @CronSchedule("0 1 0 * * ? ")
     public void interest() {
         WIFE.clear();

@@ -21,19 +21,14 @@ public class SourceDataBase {
     private static final Map<String, File> FN2FILE = new HashMap<>();
     private static final Map<Integer, File> ID2FILE = new HashMap<>();
 
-    public SourceDataBase() {
-        init();
-    }
-
-    private static synchronized void init() {
-        if (!FN2FILE.isEmpty()) return;
+    static {
         for (File file : new File("images").listFiles()) {
             if (file.isDirectory()) {
                 for (File f0 : file.listFiles()) {
                     String fn = f0.getName();
-                    FN2FILE.put(fn, file);
-                    FN2FILE.put(fn.substring(0, fn.lastIndexOf(".")), file);
-                    ID2FILE.put(NumberUtils.getIntegerFromString(fn, 0), file);
+                    FN2FILE.put(fn, f0);
+                    FN2FILE.put(fn.substring(0, fn.lastIndexOf(".")), f0);
+                    ID2FILE.put(NumberUtils.getIntegerFromString(fn, -1), f0);
                 }
             } else {
                 String fn = file.getName();
@@ -50,7 +45,6 @@ public class SourceDataBase {
      * @return
      */
     public String getImgPathById(Integer id, Boolean k) {
-        if (ID2FILE.isEmpty()) init();
         if (ID2FILE.containsKey(id))
             return k ? String.format(ResourceSet.FinalFormat.PIC_FORMAT0, ID2FILE.get(id.intValue()).getAbsolutePath()) : ID2FILE.get(id.intValue()).getAbsolutePath();
         else return null;
@@ -61,9 +55,7 @@ public class SourceDataBase {
     }
 
     public String getImgPathById(String fn) {
-        if (FN2FILE.containsKey(fn)) {
-            return FN2FILE.get(fn).getAbsolutePath();
-        }
+        if (FN2FILE.containsKey(fn)) return FN2FILE.get(fn).getAbsolutePath();
         return null;
     }
 
@@ -76,7 +68,7 @@ public class SourceDataBase {
             String fn = UUID.randomUUID() + ".jpg";
             File file = new File("./temp/" + fn);
             ImageIO.write(temp, "jpg", file);
-            return file.getAbsolutePath();
+            return file.getPath();
         } catch (IOException e) {
             e.printStackTrace();
         }
