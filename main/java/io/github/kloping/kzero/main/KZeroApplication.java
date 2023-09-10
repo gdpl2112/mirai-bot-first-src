@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 public class KZeroApplication implements BotMessageHandler {
     private KZeroStater stater;
     private KZeroBot bot;
-
+    private Boolean state = false;
     public KZeroApplication(KZeroStater stater, KZeroBot bot) {
         this.stater = stater;
         this.bot = bot;
@@ -58,6 +58,7 @@ public class KZeroApplication implements BotMessageHandler {
             application0.logger.setLogLevel(0);
         }
         application0.logger.info(String.format("All services of the bot(%s) are started!", bot.getId()));
+        state = true;
     }
 
     private void start0() {
@@ -82,9 +83,10 @@ public class KZeroApplication implements BotMessageHandler {
     }
 
     @Override
-    public void onMessage(MessagePack messagePack) {
-        application0.executeMethod(bot.getId(), messagePack.getMsg(),
-                messagePack.getSenderId(), messagePack, bot);
+    public void onMessage(MessagePack pack) {
+        if (!state) return;
+        application0.executeMethod(bot.getId(), pack.getMsg(),
+                pack.getSenderId(), pack, bot);
     }
 
     private ConfigurableApplicationContext context;
