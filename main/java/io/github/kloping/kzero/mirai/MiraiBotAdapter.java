@@ -7,6 +7,7 @@ import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.ForwardMessageBuilder;
 import net.mamoe.mirai.message.data.Message;
@@ -87,8 +88,11 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
         Long qid = Long.parseLong(sid);
         String nameCard = "";
         for (Group group : bot.getGroups()) {
-            if (group.contains(qid))
-                nameCard = group.get(qid).getNameCard();
+            if (group.contains(qid)) {
+                NormalMember normalMember = group.get(qid);
+                nameCard = normalMember.getNameCard();
+                if (nameCard.isEmpty()) nameCard = normalMember.getNick();
+            }
         }
         if (Judge.isEmpty(nameCard)) {
             Friend friend = bot.getFriend(qid);
