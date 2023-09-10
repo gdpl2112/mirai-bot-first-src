@@ -43,6 +43,18 @@ public class UserInfoController {
     @AutoStand
     UserScoreMapper userScoreMapper;
 
+    @AutoStandAfter
+    public void init() {
+        for (UserScore userScore : userScoreMapper.selectA1(System.currentTimeMillis())) {
+            int r = 300;
+            r = (int) (r + (NumberUtils.percentTo(userScore.getLevel(), r)));
+            userScore.addXp(1);
+            userScore.setScore(r + userScore.getScore());
+            userScore.setK(0L);
+            dataBase.putInfo(userScore);
+        }
+    }
+
     @Action("取积分.+")
     public String getScore(String sid, @AllMess String str) {
         Integer sc = NumberUtils.getIntegerFromString(str, 1);
@@ -155,14 +167,6 @@ public class UserInfoController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            for (UserScore userScore : userScoreMapper.selectA1(System.currentTimeMillis())) {
-                int r = 300;
-                r = (int) (r + (NumberUtils.percentTo(userScore.getLevel(), r)));
-                userScore.addXp(1);
-                userScore.setScore(r + user.getScore());
-                userScore.setK(0L);
-                dataBase.putInfo(userScore);
             }
         });
     }
