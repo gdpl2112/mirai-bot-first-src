@@ -24,6 +24,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 /**
@@ -45,13 +46,16 @@ public class UserInfoController {
 
     @AutoStandAfter
     public void init() {
-        for (UserScore userScore : userScoreMapper.selectA1(System.currentTimeMillis())) {
-            int r = 300;
-            r = (int) (r + (NumberUtils.percentTo(userScore.getLevel(), r)));
-            userScore.addXp(1);
-            userScore.setScore(r + userScore.getScore());
-            userScore.setK(0L);
-            dataBase.putInfo(userScore);
+        List<UserScore> list = userScoreMapper.selectA1(System.currentTimeMillis());
+        if (list != null && list.size() > 0) {
+            for (UserScore userScore : list) {
+                int r = 300;
+                r = (int) (r + (NumberUtils.percentTo(userScore.getLevel(), r)));
+                userScore.addXp(1);
+                userScore.setScore(r + userScore.getScore());
+                userScore.setK(0L);
+                dataBase.putInfo(userScore);
+            }
         }
     }
 

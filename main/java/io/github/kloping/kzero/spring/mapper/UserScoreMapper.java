@@ -44,7 +44,7 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      * @param t
      * @return
      */
-    @Select("select * from user_score where k>#{t}")
+    @Select("select * from user_score where k>#{t};")
     List<UserScore> selectA1(@Param("t") Long t);
 }
 
