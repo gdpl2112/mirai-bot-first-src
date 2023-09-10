@@ -27,13 +27,14 @@ public class KZeroApplication implements BotMessageHandler {
     private KZeroStater stater;
     private KZeroBot bot;
     private Boolean state = false;
+
     public KZeroApplication(KZeroStater stater, KZeroBot bot) {
         this.stater = stater;
         this.bot = bot;
     }
 
     public void start() {
-        stater.setHandler(this);
+        stater.setHandler(bot, this);
         context = KZeroSpringStarter.run(bot.getId());
         start0();
         //spring to auto

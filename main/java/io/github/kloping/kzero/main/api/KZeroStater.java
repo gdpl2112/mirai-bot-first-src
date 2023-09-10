@@ -6,5 +6,5 @@ package io.github.kloping.kzero.main.api;
 public interface KZeroStater extends Runnable {
     void setCreated(BotCreated listener);
 
-    void setHandler(BotMessageHandler handler);
+    void setHandler(KZeroBot bot, BotMessageHandler handler);
 }

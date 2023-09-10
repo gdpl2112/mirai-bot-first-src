@@ -30,7 +30,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     private BotMessageHandler handler;
 
     @Override
-    public void setHandler(BotMessageHandler handler) {
+    public void setHandler(KZeroBot bot, BotMessageHandler handler) {
         this.handler = handler;
     }
 

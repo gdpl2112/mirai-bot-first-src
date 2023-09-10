@@ -48,4 +48,12 @@ public interface KZeroBotAdapter {
      * @return
      */
     String getNameCard(String sid);
+
+    /**
+     * 获取指定id人名片
+     *
+     * @param sid
+     * @return
+     */
+    String getNameCard(String sid,String tid);
 }

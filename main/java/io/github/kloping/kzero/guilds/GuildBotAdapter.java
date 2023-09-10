@@ -93,4 +93,17 @@ public class GuildBotAdapter implements KZeroBotAdapter {
         }
         return null;
     }
+
+    @Override
+    public String getNameCard(String sid, String tid) {
+        for (Guild guild : bot.guilds()) {
+            if (guild.channelMap().containsKey(tid)) {
+                Member member = guild.getMember(sid);
+                if (member != null) {
+                    return member.getUser().getUsername();
+                }
+            }
+        }
+        return null;
+    }
 }

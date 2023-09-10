@@ -104,18 +104,18 @@ public class UserInfoController {
     }
 
     @Action("个人信息")
-    public String info(String sid, KZeroBot bot) throws Exception {
+    public String info(String sid, MessagePack pack, KZeroBot bot) throws Exception {
         String icon = bot.getAdapter().getAvatarUrl(sid);
-        String name = bot.getAdapter().getNameCard(sid);
+        String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
         BufferedImage image = getInfoImage(icon, name, user, "个人信息获取成功!", true);
         return "<pic:" + sourceDataBase.save(image) + ">";
     }
 
     @Action("签到")
-    public String sign(String sid, KZeroBot bot) throws Exception {
+    public String sign(String sid, KZeroBot bot, MessagePack pack) throws Exception {
         String icon = bot.getAdapter().getAvatarUrl(sid);
-        String name = bot.getAdapter().getNameCard(sid);
+        String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
         BufferedImage image;
         if (user.getDay() == DateUtils.getDay()) {
@@ -143,7 +143,7 @@ public class UserInfoController {
             if (System.currentTimeMillis() > user.getK()) {
                 try {
                     String icon = bot.getAdapter().getAvatarUrl(sid);
-                    String name = bot.getAdapter().getNameCard(sid);
+                    String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
                     int r = 300;
                     r = (int) (r + (NumberUtils.percentTo(user.getLevel(), r)));
                     user.addXp(1);
@@ -162,7 +162,7 @@ public class UserInfoController {
     @Action("打工")
     public String work(String sid, MessagePack pack, KZeroBot bot) throws Exception {
         String icon = bot.getAdapter().getAvatarUrl(sid);
-        String name = bot.getAdapter().getNameCard(sid);
+        String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
         long k0 = user.getK();
         BufferedImage image = null;

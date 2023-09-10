@@ -25,11 +25,11 @@ import java.util.*;
  */
 public class MiraiStater implements KZeroStater, ListenerHost {
     private BotCreated listener;
-    private BotMessageHandler handler;
+    private Map<KZeroBot, BotMessageHandler> handlerMap = new HashMap<>();
 
     @Override
-    public void setHandler(BotMessageHandler handler) {
-        this.handler = handler;
+    public void setHandler(KZeroBot bot, BotMessageHandler handler) {
+        handlerMap.put(bot, handler);
     }
 
     @Override
@@ -74,8 +74,10 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         if (listener != null) {
+            System.out.format("==================%s-上线了=====================");
             MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
-            KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(), new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
+            KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
+                    new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
             listener.created(this, bot);
             GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
                 @Override
@@ -113,15 +115,14 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         }
     }
 
-
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
-        if (handler != null) {
-            KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        if (handlerMap.containsKey(bot)) {
             String out = bot.getSerializer().serialize(event.getMessage());
             MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()), String.valueOf(event.getSubject().getId()), out);
             pack.setRaw(event);
-            handler.onMessage(pack);
+            handlerMap.get(bot).onMessage(pack);
             offer(event);
             sendToGsuid(event);
         }

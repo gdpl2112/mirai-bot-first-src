@@ -85,8 +85,7 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
         for (Group group : bot.getGroups()) {
             if (group.contains(qid)) {
                 NormalMember normalMember = group.get(qid);
-                nameCard = normalMember.getNameCard();
-                if (nameCard.isEmpty()) nameCard = normalMember.getNick();
+                nameCard = normalMember.getNick();
             }
         }
         if (Judge.isEmpty(nameCard)) {
@@ -95,4 +94,21 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
         }
         return Judge.isEmpty(nameCard) ? sid : nameCard;
     }
+
+    @Override
+    public String getNameCard(String sid, String tid) {
+        Long qid = Long.parseLong(sid);
+        Long gid = Long.parseLong(tid);
+        String nameCard = "";
+        Group group = (bot.getGroup(gid));
+        NormalMember normalMember = group.get(qid);
+        nameCard = normalMember.getNameCard();
+        if (nameCard.isEmpty()) nameCard = normalMember.getNick();
+        if (Judge.isEmpty(nameCard)) {
+            Friend friend = bot.getFriend(qid);
+            if (friend != null) nameCard = friend.getNick();
+        }
+        return Judge.isEmpty(nameCard) ? sid : nameCard;
+    }
+
 }
