@@ -8,7 +8,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -29,31 +28,37 @@ public class KZeroSpringStarter {
 
     public static ConfigurableApplicationContext run(String id) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(KZeroSpringStarter.class);
-        SpringApplication application = builder.web(WebApplicationType.NONE).build();
-        ConfigurableApplicationContext configuration = application.run(new String[]{"--id=" + id});
+        SpringApplication application = builder.build();
+        ConfigurableApplicationContext configuration = application.run(new String[]{
+                "--id=" + id
+                , "--spring.profiles.active=" + id
+        });
         return configuration;
     }
 
     @Autowired
     private Environment env;
 
+    @Autowired
+    private ConfigurableApplicationContext configuration;
+
     @Value("${id}")
     private String id;
+//
+//    @Bean
+//    public DataSource getDataSource() {
+//        DruidDataSource dataSource = new DruidDataSource();
+//        dataSource.setUrl(env.getProperty(String.format("bot-%s.spring.datasource.url", id)));
+//        dataSource.setUsername(env.getProperty(String.format("bot-%s.spring.datasource.username", id)));
+//        dataSource.setPassword(env.getProperty(String.format("bot-%s.spring.datasource.password", id)));
+//        return dataSource;
+//    }
 
     @Bean
-    public DataSource getDataSource() {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl(env.getProperty(String.format("bot-%s.spring.datasource.url", id)));
-        dataSource.setUsername(env.getProperty(String.format("bot-%s.spring.datasource.username", id)));
-        dataSource.setPassword(env.getProperty(String.format("bot-%s.spring.datasource.password", id)));
-        return dataSource;
-    }
-
-    @Bean
-    public Integer tableIncrement() {
+    public Integer tableIncrement(DataSource dataSource) {
         int r = 0;
         try {
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
             PackageScanner scanner = new PackageScannerImpl(true);
             for (Class<?> dclass : scanner.scan(KZeroSpringStarter.class, KZeroSpringStarter.class.getClassLoader(),
                     "io.github.kloping.kzero.spring.dao")) {

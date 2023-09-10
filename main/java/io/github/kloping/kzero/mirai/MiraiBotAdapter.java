@@ -29,14 +29,14 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
 
     @Override
     public void sendMessage(MessageType type, String targetId, Object obj) {
+        long tid = Long.parseLong(targetId);
         if (type == MessageType.GROUP) {
+            if (!bot.getGroups().contains(tid)) return;
             if (obj instanceof Message) {
                 Message msg = (Message) obj;
-                Long tid = Long.valueOf(targetId);
                 bot.getGroup(tid).sendMessage(msg);
             } else if (obj instanceof String) {
                 Message msg = serializer.deserialize(obj.toString());
-                Long tid = Long.valueOf(targetId);
                 bot.getGroup(tid).sendMessage(msg);
             }
         }

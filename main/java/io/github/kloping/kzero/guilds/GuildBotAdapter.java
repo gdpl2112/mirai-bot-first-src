@@ -8,6 +8,7 @@ import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
+import io.github.kloping.qqbot.entities.qqpd.Channel;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.entities.qqpd.Member;
 
@@ -27,16 +28,18 @@ public class GuildBotAdapter implements KZeroBotAdapter {
 
     @Override
     public void sendMessage(MessageType type, String targetId, Object msg) {
+        Channel channel = null;
+        for (Guild guild : bot.guilds()) {
+            if (guild.channelMap().containsKey(targetId)) {
+                channel = guild.channelMap().get(targetId);
+            }
+        }
+        if (channel == null) return;
         MessageAsyncBuilder builder = new MessageAsyncBuilder();
         for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
             if (sendAble != null) builder.append(sendAble);
         }
         SendAble sendAble = builder.build();
-        for (Guild guild : bot.guilds()) {
-            if (guild.channelMap().containsKey(targetId)) {
-                sendAble.send(guild.channelMap().get(targetId));
-            }
-        }
     }
 
     @Override
