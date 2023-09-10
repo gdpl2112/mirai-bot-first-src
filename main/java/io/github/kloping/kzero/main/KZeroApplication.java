@@ -78,6 +78,8 @@ public class KZeroApplication implements BotMessageHandler {
             }
         });
         application0.addConfFile("./conf/conf.txt");
+        application0.INSTANCE.getContextManager().append(bot);
+        application0.INSTANCE.getContextManager().append(stater);
         application0.run0(Main.class);
         ContextManager contextManager = application0.INSTANCE.getContextManager();
         application0.STARTED_RUNNABLE.add(() -> verify());
