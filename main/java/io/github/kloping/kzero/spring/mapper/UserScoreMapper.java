@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.kzero.spring.dao.UserScore;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,33 +20,6 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      */
     @Select("SELECT * FROM `user_score`")
     List<UserScore> selectAll();
-
-    /**
-     * 清除所有犯罪
-     *
-     * @return
-     */
-    @Update("UPDATE `user_score` SET `fz`=0")
-    Integer updateAll();
-
-    /**
-     * 清除收益记录
-     *
-     * @return
-     */
-    @Update("UPDATE `user_score` SET `earnings`=0,`debuffs`=0")
-    Integer updateEarnings();
-
-    /**
-     * to day
-     *
-     * @param num
-     * @param d
-     * @return
-     */
-    @Select("select * from user_score where times_day=#{d} order by times desc limit #{num};")
-    List<UserScore> toDay(@Param("d") Integer d, @Param("num") Integer num);
-
     /**
      * ph
      *
@@ -65,5 +37,14 @@ public interface UserScoreMapper extends BaseMapper<UserScore> {
      */
     @Select("select * from user_score order by `score` desc limit #{num};")
     List<UserScore> phScore(@Param("num") Integer num);
+
+    /**
+     * 获取未结束的
+     *
+     * @param t
+     * @return
+     */
+    @Select("select * from user_score where k>#{t}")
+    List<UserScore> selectA1(@Param("t") Long t);
 }
 

@@ -156,6 +156,14 @@ public class UserInfoController {
                     e.printStackTrace();
                 }
             }
+            for (UserScore userScore : userScoreMapper.selectA1(System.currentTimeMillis())) {
+                int r = 300;
+                r = (int) (r + (NumberUtils.percentTo(userScore.getLevel(), r)));
+                userScore.addXp(1);
+                userScore.setScore(r + user.getScore());
+                userScore.setK(0L);
+                dataBase.putInfo(userScore);
+            }
         });
     }
 

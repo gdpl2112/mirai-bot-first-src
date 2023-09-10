@@ -97,7 +97,7 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
         ARR_DE_SERIALIZER.add(PATTER_AT, new ArrDeSerializer.Rule0<Message>() {
             @Override
             public Message deserializer(String s) {
-                return new At(NumberUtils.getIntegerFromString(s));
+                return new At(Long.parseLong(NumberUtils.findNumberFromString(s)));
             }
         });
         ARR_DE_SERIALIZER.add(PATTER_MUSIC, new ArrDeSerializer.Rule0<Message>() {

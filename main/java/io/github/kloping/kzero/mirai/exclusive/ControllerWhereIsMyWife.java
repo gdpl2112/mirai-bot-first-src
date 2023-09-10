@@ -1,9 +1,6 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.kzero.game.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -33,6 +30,11 @@ public class ControllerWhereIsMyWife {
      */
     public static final Map<String, Map<String, String>> WIFE = new HashMap<>();
 
+
+    @CronSchedule("0 1 0 * * ? ")
+    public void interest() {
+        WIFE.clear();
+    }
 
     @Action(value = "哪个群友是我老婆", otherName = {"娶群友"})
     public String s0(MessagePack pack, KZeroBot bot) {
