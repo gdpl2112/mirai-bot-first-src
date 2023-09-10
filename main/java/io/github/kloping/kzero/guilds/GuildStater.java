@@ -5,7 +5,6 @@ import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.qqbot.Starter;
-import io.github.kloping.qqbot.api.Intents;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
