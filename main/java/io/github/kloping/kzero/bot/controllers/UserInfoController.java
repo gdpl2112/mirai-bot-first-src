@@ -74,6 +74,22 @@ public class UserInfoController {
         return scoreService.scorePh(s0);
     }
 
+    @Action(value = "抢劫.+", otherName = {"打劫.+"})
+    public String robbery(String sid, @AllMess String str) {
+        String tid = Utils.getAtFromString(str);
+        if (Judge.isEmpty(tid)) return ResourceSet.FinalString.NOT_FOUND_AT;
+        if (!dataBase.exists(tid)) return ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
+        str = str.replaceFirst(tid, "");
+        Integer n = NumberUtils.getIntegerFromString(str, 1);
+        if (dataBase.getUserInfo(sid).getFz() > ResourceSet.FinalValue.MAX_ROBBERY_TIMES) {
+            return String.format(ResourceSet.FinalFormat.CANT_BIGGER, ResourceSet.FinalValue.MAX_ROBBERY_TIMES);
+        } else if (n > 1) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < n; i++) sb.append(scoreService.robbery(sid, tid)).append("\n");
+            return sb.toString().trim();
+        } else return scoreService.robbery(sid, tid);
+    }
+
     @CronSchedule("21 0 0 * * ? ")
     public void interest() {
         for (UserScore userScore : userScoreMapper.selectAll()) {
@@ -111,6 +127,7 @@ public class UserInfoController {
             user.setDay(DateUtils.getDay());
             user.setDays(user.getDays() + 1);
             user.addXp(1);
+            user.setFz(0);
             dataBase.putInfo(user);
             image = getInfoImage(icon, name, user, "签到成功! 积分+" + r, true);
         }

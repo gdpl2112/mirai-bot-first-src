@@ -103,7 +103,7 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
         ARR_DE_SERIALIZER.add(PATTER_MUSIC, new ArrDeSerializer.Rule0<Message>() {
             @Override
             public Message deserializer(String s) {
-                String[] ss = s.split(",");
+                String[] ss = s.substring(7, s.length() - 1).split(",");
                 MusicKind kind = MusicKind.valueOf(ss[0]);
                 MusicShare share = new MusicShare(kind, ss[1], ss[2], ss[3], ss[4], ss[5]);
                 return share;

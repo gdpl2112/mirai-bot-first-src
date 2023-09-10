@@ -40,10 +40,20 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.listener = listener;
     }
 
+    private String appid;
+    private String token;
+    private Integer code;
+
+    public GuildStater(String appid, String token, Integer code) {
+        this.appid = appid;
+        this.token = token;
+        this.code = code;
+    }
+
     @Override
     public void run() {
-        Starter starter = new Starter("102057448", "v0uQvq74AZtFGTCCWcDnEpsOLNoszA2H");
-        starter.getConfig().setCode(Intents.PRIVATE_INTENTS.getCode());
+        Starter starter = new Starter(appid,token);
+        starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
         starter.run();
     }

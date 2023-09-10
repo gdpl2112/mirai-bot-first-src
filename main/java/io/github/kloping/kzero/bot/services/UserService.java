@@ -2,11 +2,11 @@ package io.github.kloping.kzero.bot.services;
 
 
 import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.spring.dao.UserScore;
 import io.github.kloping.kzero.spring.mapper.UserScoreMapper;
+import io.github.kloping.rand.RandomUtils;
 
 import java.util.List;
 
@@ -73,5 +73,28 @@ public class UserService {
             sb.append("第").append(na).append(": ").append(id).append("=>\n\t").append(score.getScore()).append("积分\n");
         }
         return sb.toString().isEmpty() ? "暂无记录" : sb.toString().trim();
+    }
+
+    public String robbery(String sid, String tid) {
+        int lI = dataBase.getUserInfo(sid).getScore();
+        int lY = dataBase.getUserInfo(sid).getScore();
+        int fI = dataBase.getUserInfo(sid).getFz();
+        if (lI > 60) {
+            if (lY > 60) {
+                if (fI < 12) {
+                    int l = RandomUtils.RANDOM.nextInt(20) + 40;
+                    dataBase.addScore(l, sid);
+                    dataBase.addScore(-l, tid);
+                    dataBase.addFz(1, sid);
+                    return "成功打劫了" + l + "积分!\n增加1指数";
+                } else {
+                    return "打劫次数上限!";
+                }
+            } else {
+                return "对方无积分!";
+            }
+        } else {
+            return "积分不足!";
+        }
     }
 }

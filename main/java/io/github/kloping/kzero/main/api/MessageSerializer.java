@@ -9,7 +9,7 @@ public interface MessageSerializer<T> {
     Pattern PATTER_FACE = Pattern.compile("<face:\\d+>");
     Pattern PATTER_PIC = Pattern.compile("<pic:[^>^]+?>");
     Pattern PATTER_AT = Pattern.compile("<at:[\\d+|?]+>");
-    Pattern PATTER_MUSIC = Pattern.compile("<music:\\d+>");
+    Pattern PATTER_MUSIC = Pattern.compile("<music:.+>");
     Pattern PATTER_VOICE = Pattern.compile("<audio:.+>");
 
     /**

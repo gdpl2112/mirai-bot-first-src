@@ -78,6 +78,12 @@ public class DataBase {
         return score.getScore();
     }
 
+    public void addFz(int i, String sid) {
+        UserScore score = getUserInfo(sid);
+        score.setFz(score.getFz() + i);
+        putInfo(score);
+    }
+
     @AutoStand
     FatherMapper fatherMapper;
 
@@ -94,5 +100,4 @@ public class DataBase {
         }
         return father;
     }
-
 }

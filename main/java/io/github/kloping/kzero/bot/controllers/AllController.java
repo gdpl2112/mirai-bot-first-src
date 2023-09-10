@@ -8,6 +8,8 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
+import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 
 import java.lang.reflect.Method;
@@ -29,6 +31,8 @@ public class AllController implements Runner {
     public void run(Method method, Object t, Object[] objects) throws NoRunException {
         Class cla = method.getDeclaringClass();
         if (cla == AdminController.class) return;
+        if (cla == PluginManagerController.class) return;
+        if (cla == WebAuthController.class) return;
         MessagePack pack = (MessagePack) objects[3];
         GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
         if (groupConf != null) {

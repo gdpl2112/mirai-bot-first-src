@@ -21,7 +21,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(ResourceSet.FinalString.NEWLINE);
-        UPDATE_LOG.append("全新的BOT").append(ResourceSet.FinalString.NEWLINE);
+        UPDATE_LOG.append("全新的BOT|\n旧的功能与原有的数据不会删除,ta们依旧存在,现在/之后会以新的方式出现!").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append(" 8.29:删除大部分无用功能").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append(" 8.24:派遣奖励增加;派遣[1天/2天][大瓶经验/时光胶囊/金魂币]").append(ResourceSet.FinalString.NEWLINE);

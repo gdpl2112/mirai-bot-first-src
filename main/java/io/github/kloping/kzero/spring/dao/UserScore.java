@@ -26,6 +26,7 @@ public class UserScore implements Serializable {
     private Integer xp = 0;
     private Integer xpl = 100;
     private Integer level = 1;
+    private Integer fz = 0;
     private Long k = 0L;
 
     public void addXp(int i) {

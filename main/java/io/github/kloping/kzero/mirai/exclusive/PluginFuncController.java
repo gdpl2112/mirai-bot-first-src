@@ -1,4 +1,4 @@
-package io.github.kloping.kzero.mirai;
+package io.github.kloping.kzero.mirai.exclusive;
 
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
@@ -84,4 +84,6 @@ public class PluginFuncController {
         if (le == 2) return "群主";
         return "未知";
     }
+
+
 }
