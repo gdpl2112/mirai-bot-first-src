@@ -39,7 +39,7 @@ public class AdminController {
     @Action("开启")
     public String open(MessagePack pack) {
         GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
-        groupConf.setOpen(false);
+        groupConf.setOpen(true);
         groupConfMapper.updateById(groupConf);
         return "OK!";
     }
