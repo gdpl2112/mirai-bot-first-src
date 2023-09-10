@@ -5,6 +5,7 @@ import io.github.kloping.common.Public;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
+import io.github.kloping.kzero.mirai.listeners.Exc0Controller;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -214,4 +215,26 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         else return String.valueOf(event.getSource().getIds()[0]);
     }
     //=============消息记录end
+
+    @EventHandler
+    public void onEvent(MemberLeaveEvent event) {
+        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        if (handlerMap.containsKey(bot)) {
+            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getMember().getId()),
+                    String.valueOf(event.getGroupId()), "MemberLeaveEvent");
+            pack.setRaw(event);
+            handlerMap.get(bot).onMessage(pack);
+        }
+    }
+
+    @EventHandler
+    public void onEvent(MemberJoinEvent event) {
+        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        if (handlerMap.containsKey(bot)) {
+            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getMember().getId()),
+                    String.valueOf(event.getGroupId()), "MemberJoinEvent");
+            pack.setRaw(event);
+            handlerMap.get(bot).onMessage(pack);
+        }
+    }
 }
