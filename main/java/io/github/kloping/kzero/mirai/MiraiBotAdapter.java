@@ -74,8 +74,7 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
 
     @Override
     public String getAvatarUrl(String sid) {
-        Long qid = Long.valueOf(sid);
-        return String.format("https://q.qlogo.cn/g?b=qq&nk=%s&s=640", qid);
+        return String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
     }
 
     @Override

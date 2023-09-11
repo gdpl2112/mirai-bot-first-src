@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.spring.dao;
 
 
+import io.github.kloping.number.NumberUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -37,7 +38,7 @@ public class WhInfo {
     /**
      * 最大精神力
      */
-    public Long hjL = 100L;
+    public Long hjl = 100L;
     /**
      * 等级
      */
@@ -54,10 +55,26 @@ public class WhInfo {
      * 经验
      */
     public Long xp = 0L;
-    public Long xpL = 100L;
+    public Long xpl = 100L;
     /**
      * 主人
      */
     public String sid;
     public Integer p;
+
+    public Integer getXpPercent() {
+        return NumberUtils.toPercent(getXp(), getXpl());
+    }
+
+    public Integer getHpPercent() {
+        return NumberUtils.toPercent(getHp(), getHpl());
+    }
+
+    public Integer getHlPercent() {
+        return NumberUtils.toPercent(getHl(), getHll());
+    }
+
+    public Integer getHjPercent() {
+        return NumberUtils.toPercent(getHj(), getHjl());
+    }
 }

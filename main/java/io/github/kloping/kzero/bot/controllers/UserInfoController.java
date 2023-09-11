@@ -4,21 +4,19 @@ package io.github.kloping.kzero.bot.controllers;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.common.Public;
 import io.github.kloping.date.DateUtils;
-import io.github.kloping.extension.ThreeMap;
-import io.github.kloping.extension.ThreeMapImpl;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.bot.database.SourceDataBase;
 import io.github.kloping.kzero.bot.services.UserService;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
-import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.kzero.spring.dao.UserScore;
 import io.github.kloping.kzero.spring.mapper.UserScoreMapper;
 import io.github.kloping.kzero.utils.ImageDrawerUtils;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.number.NumberUtils;
+import io.github.kloping.rand.RandomUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -111,75 +109,73 @@ public class UserInfoController {
     }
 
     @Action("个人信息")
-    public String info(String sid, MessagePack pack, KZeroBot bot) throws Exception {
+    public String info(String sid, MessagePack pack, KZeroBot bot) {
         String icon = bot.getAdapter().getAvatarUrl(sid);
         String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
-        BufferedImage image = getInfoImage(icon, name, user, "个人信息获取成功!", true);
-        return "<pic:" + sourceDataBase.save(image) + ">";
+        try {
+            BufferedImage image = getInfoImage(icon, name, user, "个人信息获取成功!", true);
+            return "<pic:" + sourceDataBase.save(image) + ">";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "个人信息获取失败,请重试!";
+        }
     }
 
     @Action("签到")
-    public String sign(String sid, KZeroBot bot, MessagePack pack) throws Exception {
+    public String sign(String sid, KZeroBot bot, MessagePack pack) {
         String icon = bot.getAdapter().getAvatarUrl(sid);
         String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
         BufferedImage image;
-        if (user.getDay() == DateUtils.getDay()) {
-            image = getInfoImage(icon, name, user, "今日已签到!签到失败", false);
-        } else {
-            int r = 300;
-            r = (int) (r + (NumberUtils.percentTo(user.getLevel(), r)));
-            user.setScore0(user.getScore0() + r);
-            user.setDay(DateUtils.getDay());
-            user.setDays(user.getDays() + 1);
-            user.addXp(1);
-            user.setFz(0);
-            dataBase.putInfo(user);
-            image = getInfoImage(icon, name, user, "签到成功! 积分+" + r, true);
-        }
-        return "<pic:" + sourceDataBase.save(image) + ">";
-    }
-
-    private ThreeMap<String, MessagePack, KZeroBot> workList = new ThreeMapImpl<>();
-
-    @CronSchedule("0/20 * * * * ? ")
-    public void work_test() {
-        workList.foreach((sid, pack, bot) -> {
-            UserScore user = dataBase.getUserInfo(sid);
-            if (System.currentTimeMillis() > user.getK()) {
-                try {
-                    String icon = bot.getAdapter().getAvatarUrl(sid);
-                    String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
-                    int r = 300;
-                    r = (int) (r + (NumberUtils.percentTo(user.getLevel(), r)));
-                    user.addXp(1);
-                    user.setScore(r + user.getScore());
-                    dataBase.putInfo(user);
-                    BufferedImage image = getInfoImage(icon, name, user, "打工完成,经验+1,积分+" + r, true);
-                    bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), "<at:" + pack.getSenderId() + ">\n<pic:" + sourceDataBase.save(image) + ">");
-                    workList.remove(sid);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        String tips = null;
+        try {
+            if (user.getDay() == DateUtils.getDay()) {
+                image = getInfoImage(icon, name, user, tips = "今日已签到!签到失败", false);
+            } else {
+                int r = 300;
+                r = (int) (r + (NumberUtils.percentTo(user.getLevel(), r)));
+                user.setScore0(user.getScore0() + r);
+                user.setDay(DateUtils.getDay());
+                user.setDays(user.getDays() + 1);
+                user.addXp(1);
+                user.setFz(0);
+                dataBase.putInfo(user);
+                image = getInfoImage(icon, name, user, tips = "签到成功! 积分+" + r, true);
             }
-        });
+            return "<pic:" + sourceDataBase.save(image) + ">";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return tips;
+        }
     }
+
 
     @Action("打工")
-    public String work(String sid, MessagePack pack, KZeroBot bot) throws Exception {
+    public String work(String sid, MessagePack pack, KZeroBot bot) {
         String icon = bot.getAdapter().getAvatarUrl(sid);
         String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         UserScore user = dataBase.getUserInfo(sid);
         long k0 = user.getK();
         BufferedImage image = null;
-        if (k0 > System.currentTimeMillis()) {
-            image = getInfoImage(icon, name, user, "打工进行中...", false);
-        } else {
-            user.setK(System.currentTimeMillis() + 20L * 60 * 1000);
-            dataBase.putInfo(user);
-            workList.put(sid, pack, bot);
-            image = getInfoImage(icon, name, user, "开始打工预计花费20分钟", true);
+        String tips = null;
+        try {
+            if (k0 > System.currentTimeMillis()) {
+                int m = (int) ((k0 - System.currentTimeMillis()) / 60000);
+                image = getInfoImage(icon, name, user, tips = "打工进行中...剩余: " + m + "分钟", false);
+            } else {
+                int f0 = RandomUtils.RANDOM.nextInt(6) + 18;
+                user.setK(System.currentTimeMillis() + f0 * 60L * 1000);
+                int r = 300;
+                r = (int) (r + (NumberUtils.percentTo(user.getLevel(), r)));
+                user.addXp(1);
+                user.setScore(r + user.getScore());
+                dataBase.putInfo(user);
+                image = getInfoImage(icon, name, user, tips = "打工花费" + f0 + "分钟,+" + r, true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return tips;
         }
         return "<pic:" + sourceDataBase.save(image) + ">";
     }
@@ -194,7 +190,7 @@ public class UserInfoController {
      * @throws MalformedURLException
      */
     @NotNull
-    public BufferedImage getInfoImage(String icon, String name, UserScore user, String tips, boolean t) throws MalformedURLException {
+    public BufferedImage getInfoImage(String icon, String name, UserScore user, String tips, boolean t) throws Exception {
         BufferedImage image = ImageDrawerUtils.readImage(sourceDataBase.getImgPathById("info_bg"), 800, 1000);
         BufferedImage icon0 = ImageDrawerUtils.readImage(new URL(icon), 180, 180);
         icon0 = ImageDrawerUtils.roundImage(icon0, 999);
@@ -213,10 +209,10 @@ public class UserInfoController {
 
 
         graphics.setColor(ImageDrawerUtils.BLACK_A45);
-        graphics.drawRoundRect(300, 270, 200, 40, 40, 20);
+        graphics.drawRoundRect(280, 270, 240, 40, 40, 20);
 
         graphics.setFont(ImageDrawerUtils.SMALL_FONT22);
-        graphics.drawString(name, 330, 300);
+        graphics.drawString(name, (image.getWidth() - graphics.getFontMetrics().stringWidth(name)) / 2, 300);
 
         //========line-1-start====
         graphics.setFont(ImageDrawerUtils.SMALL_FONT24);
@@ -289,12 +285,18 @@ public class UserInfoController {
         graphics.drawRoundRect(180, 720, 440, 60, 30, 30);
         if (t) graphics.setColor(ImageDrawerUtils.GREEN_A85);
         else graphics.setColor(Color.RED);
-        graphics.drawString(tips, 220, 760);
+        graphics.drawString(tips, (image.getWidth() - graphics.getFontMetrics().stringWidth(tips)) / 2, 760);
         //========line-tips-end===========
         graphics.setFont(ImageDrawerUtils.SMALL_FONT18);
         graphics.setColor(ImageDrawerUtils.BLACK_A75);
-        graphics.drawString(DateUtils.getFormat(), 285, 850);
+        String dt = DateUtils.getFormat();
+        graphics.drawString(dt, (image.getWidth() - graphics.getFontMetrics().stringWidth(dt)) / 2, 850);
         graphics.drawString(user.getId(), 10, 20);
+
+
+        graphics.setFont(ImageDrawerUtils.SMALL_FONT18_TYPE0);
+        dt = "create by github@kloping";
+        graphics.drawString(dt, image.getWidth() - graphics.getFontMetrics().stringWidth(dt) - 5, image.getHeight() - graphics.getFontMetrics().getHeight());
 
         graphics.dispose();
         return image;

@@ -23,14 +23,6 @@ public class PersonInfo {
      */
     public Integer helpC = 0;
     /**
-     * 购买请求次数
-     */
-    public Integer buyHelpC = 0;
-    /**
-     * 购买支援次数
-     */
-    public Integer buyHelpToC = 0;
-    /**
      * 修炼冷却
      */
     public Long k1 = 1L;
@@ -70,7 +62,7 @@ public class PersonInfo {
      * 名字QQ
      */
     @TableId
-    public String sid = null;
+    public String sid;
     /**
      * 下次进入星斗 R
      */

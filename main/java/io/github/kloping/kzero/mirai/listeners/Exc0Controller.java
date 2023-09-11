@@ -5,7 +5,7 @@ import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Before;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;

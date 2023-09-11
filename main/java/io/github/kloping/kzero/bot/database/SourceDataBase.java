@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.bot.database;
 
 import io.github.kloping.MySpringTool.annotations.Entity;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.number.NumberUtils;
 
 import javax.imageio.ImageIO;
@@ -28,13 +28,13 @@ public class SourceDataBase {
                     String fn = f0.getName();
                     FN2FILE.put(fn, f0);
                     FN2FILE.put(fn.substring(0, fn.lastIndexOf(".")), f0);
-                    ID2FILE.put(NumberUtils.getIntegerFromString(fn, -1), f0);
+                    if (file.getName().equals("game"))
+                        ID2FILE.put(NumberUtils.getIntegerFromString(fn, -1), f0);
                 }
             } else {
                 String fn = file.getName();
                 FN2FILE.put(fn, file);
                 FN2FILE.put(fn.substring(0, fn.lastIndexOf(".")), file);
-                ID2FILE.put(NumberUtils.getIntegerFromString(fn, 0), file);
             }
         }
     }

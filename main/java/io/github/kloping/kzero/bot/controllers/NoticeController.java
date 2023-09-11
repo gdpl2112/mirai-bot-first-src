@@ -3,7 +3,7 @@ package io.github.kloping.kzero.bot.controllers;
 import io.github.kloping.MySpringTool.annotations.Action;
 import io.github.kloping.MySpringTool.annotations.AllMess;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -21,6 +21,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(ResourceSet.FinalString.NEWLINE);
+        UPDATE_LOG.append("内容更新").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("全新的BOT|\n旧的功能与原有的数据不会删除,ta们依旧存在,现在/之后会以新的方式出现!").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append(" 8.29:删除大部分无用功能").append(ResourceSet.FinalString.NEWLINE);

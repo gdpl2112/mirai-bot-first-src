@@ -9,7 +9,7 @@ import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 

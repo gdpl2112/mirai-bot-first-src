@@ -2,7 +2,7 @@ package io.github.kloping.kzero.mirai.exclusive;
 
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;

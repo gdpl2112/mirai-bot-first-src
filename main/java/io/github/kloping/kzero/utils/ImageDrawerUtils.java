@@ -24,15 +24,58 @@ public class ImageDrawerUtils {
     public static final Font SMALL_FONT20 = new Font("楷体", Font.BOLD, 20);
     public static final Font SMALL_FONT18 = new Font("楷体", Font.BOLD, 18);
     public static final Font SMALL_FONT16 = new Font("楷体", Font.BOLD, 16);
+    public static final Font SMALL_FONT18_TYPE0 = new Font("方正舒体", Font.BOLD, 18);
 
+    public static final Color WHITE_A80 = new Color(211, 211, 211, 203);
     public static final Color BLACK_A45 = new Color(0, 0, 0, 115);
+    public static final Color BLACK_A60 = new Color(0, 0, 0, 153);
     public static final Color BLACK_A75 = new Color(0, 0, 0, 191);
     public static final Color GREEN_A75 = new Color(2, 180, 2, 191);
     public static final Color GREEN_A85 = new Color(0, 150, 0, 217);
     public static final Color BLUE_A75 = new Color(0, 0, 222, 191);
     public static final Color YELLOW_A75 = new Color(185, 156, 0, 191);
+    public static final Color YELLOW_A85 = new Color(150, 99, 4, 217);
     public static final Color RED_A75 = new Color(231, 52, 12, 191);
     public static final Color ORIGIN_A75 = new Color(231, 129, 12, 191);
+    public static final Color BLUE2_A75 = new Color(0, 81, 147, 191);
+
+
+    public static void drawStringContinuousDiscoloration(Graphics graphics, int x, int y,
+                                                         String t1, Color c1, String t2, Color c2,
+                                                         String t3, Color c3) {
+        graphics.setColor(c1);
+        graphics.drawString(t1, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t1);
+
+        graphics.setColor(c2);
+        graphics.drawString(t2, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t2);
+
+        graphics.setColor(c3);
+        graphics.drawString(t3, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t3);
+    }
+
+    public static void drawStringContinuousDiscoloration(Graphics graphics, int x, int y,
+                                                         String t1, Color c1, String t2, Color c2,
+                                                         String t3, Color c3, String t4, Color c4) {
+        graphics.setColor(c1);
+        graphics.drawString(t1, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t1);
+
+        graphics.setColor(c2);
+        graphics.drawString(t2, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t2);
+
+        graphics.setColor(c3);
+        graphics.drawString(t3, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t3);
+
+        graphics.setColor(c4);
+        graphics.drawString(t4, x, y);
+        x = x + graphics.getFontMetrics().stringWidth(t4);
+    }
+
     /**
      * 图片圆角
      *
@@ -240,13 +283,13 @@ public class ImageDrawerUtils {
         return null;
     }
 
-    public static BufferedImage readImage(URL url, int w, int h) {
+    public static BufferedImage readImage(URL url, int w, int h) throws IOException {
         try {
             BufferedImage bi = ImageIO.read(url);
             return (BufferedImage) image2Size(bi, w, h);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(url.toString());
+            throw e;
         }
-        return null;
     }
 }

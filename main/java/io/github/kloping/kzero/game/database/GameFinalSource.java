@@ -1,6 +1,7 @@
-package io.github.kloping.kzero.bot.database;
+package io.github.kloping.kzero.game.database;
 
-import io.github.kloping.kzero.game.ResourceSet;
+import io.github.kloping.kzero.main.ResourceSet;
+import io.github.kloping.kzero.spring.dao.WhInfo;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author github-kloping
  */
-public class GameDataBase {
+public class GameFinalSource {
     public static final Map<Integer, String> ID_2_NAME_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, String> ID_2_INTRO_MAPS = new ConcurrentHashMap<>();
     public static final Map<Integer, String> NAME_2_INTRO_MAPS = new ConcurrentHashMap<>();
@@ -366,5 +367,67 @@ public class GameDataBase {
         WH_2_TYPE.put(29, 1);
         WH_2_TYPE.put(30, 1);
         WH_2_TYPE.put(31, 0);
+    }
+
+    public static final String getWhType(int type) {
+        switch (type) {
+            case 0:
+                return "兽武魂";
+            case 1:
+                return "器武魂";
+            case 2:
+                return "兽器武魂";
+            default:
+                return "未知类型";
+        }
+    }
+
+    /**
+     * 1~9级魂士；10~19级魂师。
+     * <p>
+     * 20~29级大魂师 ；  30~39级魂尊。
+     * <p>
+     * 40~49级魂宗  ； 50~59级魂王。
+     * <p>
+     * 60~69级魂帝 ； 70~79级魂圣。
+     * <p>
+     * 80~89级魂斗罗  ； 90~99级封号斗罗。
+     * <p>
+     * 95~99级巅峰斗罗 ；100级神。
+     *
+     * @param level
+     * @return
+     */
+    public static String getFhName(Integer level) {
+        if (level < 10) return "魂士";
+        else if (level < 20) return "魂师";
+        else if (level < 30) return "大魂师";
+        else if (level < 40) return "魂尊";
+        else if (level < 50) return "魂宗";
+        else if (level < 60) return "魂王";
+        else if (level < 70) return "魂帝";
+        else if (level < 80) return "魂圣";
+        else if (level < 90) return "魂斗罗";
+        else if (level < 95) return "封号斗罗";
+        else if (level < 100) return "巅峰斗罗";
+        else if (level < 110) return "三级神祇";
+        else if (level < 120) return "二级神祇";
+        else if (level < 150) return "一级神祇";
+        else if (level < 160) return "神王";
+        return "垃圾废铁";
+    }
+
+    /**
+     * 是否瓶颈
+     *
+     * @param who
+     * @return
+     */
+    public static boolean isJTop(WhInfo whInfo) {
+        int level = whInfo.getLevel();
+        level++;
+        boolean k1 = level % 10 == 0;
+        boolean k2 = whInfo.getXp() >= whInfo.getXpl();
+        return k1 && k2;
     }
 }
