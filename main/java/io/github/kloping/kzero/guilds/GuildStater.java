@@ -201,7 +201,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
                 receive.setGroup_id(((MessageChannelReceiveEvent) event).getChannel().getId());
             }
             if ("7749068863541459083".equals(event.getSender().getUser().getId())) receive.setUser_pm(0);
-            else receive.setUser_pm(3);
+            else receive.setUser_pm(2);
             receive.setContent(list.toArray(new MessageData[0]));
             GsuidClient.INSTANCE.send(receive);
         }
