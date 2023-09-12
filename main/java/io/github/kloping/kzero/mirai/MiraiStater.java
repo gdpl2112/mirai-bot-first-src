@@ -73,48 +73,53 @@ public class MiraiStater implements KZeroStater, ListenerHost {
 
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
-        if (listener != null) {
-            System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
-            MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
-            KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
-                    new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
-            listener.created(this, bot);
-            GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
-                private String bid = String.valueOf(event.getBot().getId());
-                @Override
-                public void onMessage(MessageOut out) {
-                    if (Judge.isEmpty(out.getBot_self_id())) return;
-                    if (bid.equals(out.getBot_self_id())) {
-                        MessageEvent raw = getMessage(out.getMsg_id());
-                        MessageChainBuilder builder = new MessageChainBuilder();
-                        builder.append(new QuoteReply(raw.getSource()));
-                        for (MessageData d0 : out.getContent()) {
-                            if (d0.getType().equals("node")) {
-                                try {
-                                    JSONArray array = (JSONArray) d0.getData();
-                                    for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                                        builderAppend(builder, d1, event);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            } else builderAppend(builder, d0, event);
-                        }
-                        raw.getSubject().sendMessage(builder.build());
-                    }
-                }
+        String bid = String.valueOf(event.getBot().getId());
+        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
+        onBotOnlineFirst(event);
+    }
 
-                private void builderAppend(MessageChainBuilder builder, MessageData d0, BotOnlineEvent event) {
-                    if (d0.getType().equals("text")) {
-                        builder.append(new PlainText(d0.getData().toString().trim())).append("\n");
-                    } else if (d0.getType().equals("image")) {
-                        byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-                        Image image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes));
-                        builder.append(image);
+    public void onBotOnlineFirst(BotOnlineEvent event) {
+        System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
+        MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
+        KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
+                new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
+        listener.created(this, bot);
+        GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
+            private String bid = String.valueOf(event.getBot().getId());
+
+            @Override
+            public void onMessage(MessageOut out) {
+                if (Judge.isEmpty(out.getBot_self_id())) return;
+                if (bid.equals(out.getBot_self_id())) {
+                    MessageEvent raw = getMessage(out.getMsg_id());
+                    MessageChainBuilder builder = new MessageChainBuilder();
+                    builder.append(new QuoteReply(raw.getSource()));
+                    for (MessageData d0 : out.getContent()) {
+                        if (d0.getType().equals("node")) {
+                            try {
+                                JSONArray array = (JSONArray) d0.getData();
+                                for (MessageData d1 : array.toJavaList(MessageData.class)) {
+                                    builderAppend(builder, d1, event);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else builderAppend(builder, d0, event);
                     }
+                    raw.getSubject().sendMessage(builder.build());
                 }
-            });
-        }
+            }
+
+            private void builderAppend(MessageChainBuilder builder, MessageData d0, BotOnlineEvent event) {
+                if (d0.getType().equals("text")) {
+                    builder.append(new PlainText(d0.getData().toString().trim())).append("\n");
+                } else if (d0.getType().equals("image")) {
+                    byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+                    Image image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes));
+                    builder.append(image);
+                }
+            }
+        });
     }
 
     @EventHandler
