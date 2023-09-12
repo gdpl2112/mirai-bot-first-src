@@ -1,7 +1,6 @@
 package io.github.kloping.kzero.guilds;
 
 import com.alibaba.fastjson.JSONArray;
-import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
@@ -99,35 +98,30 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         GuildSerializer guildSerializer = new GuildSerializer();
         KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot, new GuildBotAdapter(bot, guildSerializer), guildSerializer);
         listener.created(this, kZeroBot);
-        GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
-            private String bid = bot.getId();
+        GsuidClient.INSTANCE.addListener(bot.getId(), new GsuidMessageListener() {
 
             @Override
             public void onMessage(MessageOut out) {
-                String botSelfId = out.getBot_self_id();
-                if (Judge.isEmpty(botSelfId)) return;
-                if (bid.equals(botSelfId)) {
-                    MessageEvent raw = getMessage(out.getMsg_id());
-                    MessageAsyncBuilder builder = new MessageAsyncBuilder();
-                    if (raw instanceof MessageChannelReceiveEvent) {
-                        builder.append(new At(At.MEMBER_TYPE, raw.getSender().getUser().getId()));
-                        builder.append(new PlainText("\n"));
-                    }
-                    for (MessageData d0 : out.getContent()) {
-                        if (d0.getType().equals("node")) {
-                            try {
-                                JSONArray array = (JSONArray) d0.getData();
-                                for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                                    builderAppend(builder, d1);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else builderAppend(builder, d0);
-                    }
-                    builder.reply(raw.getRawMessage());
-                    raw.send(builder.build());
+                MessageEvent raw = getMessage(out.getMsg_id());
+                MessageAsyncBuilder builder = new MessageAsyncBuilder();
+                if (raw instanceof MessageChannelReceiveEvent) {
+                    builder.append(new At(At.MEMBER_TYPE, raw.getSender().getUser().getId()));
+                    builder.append(new PlainText("\n"));
                 }
+                for (MessageData d0 : out.getContent()) {
+                    if (d0.getType().equals("node")) {
+                        try {
+                            JSONArray array = (JSONArray) d0.getData();
+                            for (MessageData d1 : array.toJavaList(MessageData.class)) {
+                                builderAppend(builder, d1);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else builderAppend(builder, d0);
+                }
+                builder.reply(raw.getRawMessage());
+                raw.send(builder.build());
             }
 
             private void builderAppend(MessageAsyncBuilder builder, MessageData d0) {

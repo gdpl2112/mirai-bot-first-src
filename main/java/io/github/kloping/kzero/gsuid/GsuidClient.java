@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.common.Public;
+import io.github.kloping.judge.Judge;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -13,8 +14,8 @@ import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,21 +55,22 @@ public class GsuidClient extends WebSocketClient {
         LOGGER.log("send=>" + json);
     }
 
-    private List<GsuidMessageListener> listeners = new ArrayList<>();
+    public Map<String, GsuidMessageListener> gsuidMessageListenerMap = new HashMap<>();
 
-    public void addListener(GsuidMessageListener listener) {
-        listeners.add(listener);
+    public void addListener(String id, GsuidMessageListener listener) {
+        gsuidMessageListenerMap.put(id, listener);
     }
 
     @Override
     public void onMessage(String msg) {
-        LOGGER.log("gsuid msg size: " + msg.length());
         MessageOut out = JSONObject.parseObject(msg, MessageOut.class);
-        Public.EXECUTOR_SERVICE.submit(() -> {
-            for (GsuidMessageListener listener : listeners) {
-                listener.onMessage(out);
-            }
-        });
+        String bsid = out.getBot_self_id();
+        if (Judge.isEmpty(bsid)) return;
+        LOGGER.log(String.format("gsuid msg bot(%s) to size: %s", bsid, msg.length()));
+        if (gsuidMessageListenerMap.containsKey(bsid))
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                gsuidMessageListenerMap.get(bsid).onMessage(out);
+            });
     }
 
     @Override

@@ -2,7 +2,6 @@ package io.github.kloping.kzero.mirai;
 
 import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.common.Public;
-import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
@@ -84,30 +83,26 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
                 new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
         listener.created(this, bot);
-        GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
-            private String bid = String.valueOf(event.getBot().getId());
+        GsuidClient.INSTANCE.addListener(String.valueOf(event.getBot().getId()), new GsuidMessageListener() {
 
             @Override
             public void onMessage(MessageOut out) {
-                if (Judge.isEmpty(out.getBot_self_id())) return;
-                if (bid.equals(out.getBot_self_id())) {
-                    MessageEvent raw = getMessage(out.getMsg_id());
-                    MessageChainBuilder builder = new MessageChainBuilder();
-                    builder.append(new QuoteReply(raw.getSource()));
-                    for (MessageData d0 : out.getContent()) {
-                        if (d0.getType().equals("node")) {
-                            try {
-                                JSONArray array = (JSONArray) d0.getData();
-                                for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                                    builderAppend(builder, d1, event);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                MessageEvent raw = getMessage(out.getMsg_id());
+                MessageChainBuilder builder = new MessageChainBuilder();
+                builder.append(new QuoteReply(raw.getSource()));
+                for (MessageData d0 : out.getContent()) {
+                    if (d0.getType().equals("node")) {
+                        try {
+                            JSONArray array = (JSONArray) d0.getData();
+                            for (MessageData d1 : array.toJavaList(MessageData.class)) {
+                                builderAppend(builder, d1, event);
                             }
-                        } else builderAppend(builder, d0, event);
-                    }
-                    raw.getSubject().sendMessage(builder.build());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else builderAppend(builder, d0, event);
                 }
+                raw.getSubject().sendMessage(builder.build());
             }
 
             private void builderAppend(MessageChainBuilder builder, MessageData d0, BotOnlineEvent event) {
