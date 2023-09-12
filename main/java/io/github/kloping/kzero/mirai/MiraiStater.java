@@ -2,10 +2,10 @@ package io.github.kloping.kzero.mirai;
 
 import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.common.Public;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
-import io.github.kloping.kzero.mirai.listeners.Exc0Controller;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -81,9 +81,11 @@ public class MiraiStater implements KZeroStater, ListenerHost {
                     new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
             listener.created(this, bot);
             GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
+                private String bid = String.valueOf(event.getBot().getId());
                 @Override
                 public void onMessage(MessageOut out) {
-                    if (out.getBot_self_id().equals(bot.getId())) {
+                    if (Judge.isEmpty(out.getBot_self_id())) return;
+                    if (bid.equals(out.getBot_self_id())) {
                         MessageEvent raw = getMessage(out.getMsg_id());
                         MessageChainBuilder builder = new MessageChainBuilder();
                         builder.append(new QuoteReply(raw.getSource()));

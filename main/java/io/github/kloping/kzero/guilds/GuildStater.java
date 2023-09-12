@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.guilds;
 
 import com.alibaba.fastjson.JSONArray;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
@@ -94,9 +95,11 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot, new GuildBotAdapter(bot, guildSerializer), guildSerializer);
         listener.created(this, kZeroBot);
         GsuidClient.INSTANCE.addListener(new GsuidMessageListener() {
+            private String bid = bot.getId();
             @Override
             public void onMessage(MessageOut out) {
-                if (out.getBot_self_id().equals(bot.getId())) {
+                if (Judge.isEmpty(out.getBot_self_id())) return;
+                if (bid.equals(out.getBot_self_id())) {
                     MessageEvent raw = getMessage(out.getMsg_id());
                     MessageAsyncBuilder builder = new MessageAsyncBuilder();
                     if (raw instanceof MessageChannelReceiveEvent) {
