@@ -10,7 +10,6 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
 import net.mamoe.mirai.contact.Contact;
-import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.ListenerHost;
@@ -168,15 +167,12 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             receive.setMsg_id(getMessageEventId(event));
             receive.setUser_type("direct");
             receive.setGroup_id("");
-            int pm = 3;
             if (event instanceof GroupMessageEvent) {
-                Member member = (Member) event.getSender();
-                if (3474006766L == member.getId()) receive.setUser_pm(0);
-                else receive.setUser_pm(3);
                 receive.setUser_type("group");
                 receive.setGroup_id(String.valueOf(event.getSubject().getId()));
             }
-            receive.setUser_pm(pm);
+            if (event.getSender().getId() == 3474006766L) receive.setUser_pm(0);
+            else receive.setUser_pm(3);
             receive.setContent(list.toArray(new MessageData[0]));
             GsuidClient.INSTANCE.send(receive);
         }

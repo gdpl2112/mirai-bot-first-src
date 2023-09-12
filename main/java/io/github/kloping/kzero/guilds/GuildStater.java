@@ -17,7 +17,6 @@ import io.github.kloping.qqbot.entities.ex.Image;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.ex.PlainText;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
-import io.github.kloping.qqbot.entities.qqpd.Member;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
 
@@ -190,15 +189,12 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             receive.setMsg_id(event.getRawMessage().getId());
             receive.setUser_type("direct");
             receive.setGroup_id("");
-            int pm = 3;
             if (event instanceof MessageChannelReceiveEvent) {
-                Member member = event.getSender();
-                if ("7749068863541459083".equals(member.getUser().getId())) receive.setUser_pm(0);
-                else receive.setUser_pm(3);
                 receive.setUser_type("group");
                 receive.setGroup_id(((MessageChannelReceiveEvent) event).getChannel().getId());
             }
-            receive.setUser_pm(pm);
+            if ("7749068863541459083".equals(event.getSender().getUser().getId())) receive.setUser_pm(0);
+            else receive.setUser_pm(3);
             receive.setContent(list.toArray(new MessageData[0]));
             GsuidClient.INSTANCE.send(receive);
         }
