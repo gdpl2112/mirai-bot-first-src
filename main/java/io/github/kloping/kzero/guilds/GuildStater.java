@@ -193,20 +193,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             int pm = 3;
             if (event instanceof MessageChannelReceiveEvent) {
                 Member member = event.getSender();
-                if (member.getRoles() != null) for (String role : member.getRoles()) {
-                    switch (role) {
-                        case "4":
-                            pm = 0;
-                            break;
-                        case "2":
-                        case "5":
-                            pm = 1;
-                            break;
-                        case "1":
-                            pm = 2;
-                            break;
-                    }
-                }
+                if ("7749068863541459083".equals(member.getUser().getId())) receive.setUser_pm(0);
+                else receive.setUser_pm(3);
                 receive.setUser_type("group");
                 receive.setGroup_id(((MessageChannelReceiveEvent) event).getChannel().getId());
             }
