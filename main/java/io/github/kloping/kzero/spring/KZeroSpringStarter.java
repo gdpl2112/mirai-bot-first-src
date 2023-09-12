@@ -44,15 +44,6 @@ public class KZeroSpringStarter {
 
     @Value("${id}")
     private String id;
-//
-//    @Bean
-//    public DataSource getDataSource() {
-//        DruidDataSource dataSource = new DruidDataSource();
-//        dataSource.setUrl(env.getProperty(String.format("bot-%s.spring.datasource.url", id)));
-//        dataSource.setUsername(env.getProperty(String.format("bot-%s.spring.datasource.username", id)));
-//        dataSource.setPassword(env.getProperty(String.format("bot-%s.spring.datasource.password", id)));
-//        return dataSource;
-//    }
 
     @Bean
     public Integer tableIncrement(DataSource dataSource) {

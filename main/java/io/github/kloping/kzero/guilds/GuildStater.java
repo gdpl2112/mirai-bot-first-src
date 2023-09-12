@@ -175,7 +175,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             } else if (e instanceof Image) {
                 Image image = (Image) e;
                 message.setType("image");
-                message.setData(image.getUrl());
+                message.setData(image.getUrl().startsWith("http") ? image.getUrl() : "https://" + image.getUrl());
             } else return;
             list.add(message);
         });
