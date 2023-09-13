@@ -89,16 +89,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
-        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
-        onConnectedEventFirst(event);
-    }
-
-    private void onConnectedEventFirst(ConnectedEvent event) {
-        Bot bot = event.getBot();
-        GuildSerializer guildSerializer = new GuildSerializer();
-        KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot, new GuildBotAdapter(bot, guildSerializer), guildSerializer);
-        listener.created(this, kZeroBot);
-        GsuidClient.INSTANCE.addListener(bot.getId(), new GsuidMessageListener() {
+        GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
 
             @Override
             public void onMessage(MessageOut out) {
@@ -133,6 +124,15 @@ public class GuildStater extends ListenerHost implements KZeroStater {
                 }
             }
         });
+        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
+        onConnectedEventFirst(event);
+    }
+
+    private void onConnectedEventFirst(ConnectedEvent event) {
+        Bot bot = event.getBot();
+        GuildSerializer guildSerializer = new GuildSerializer();
+        KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot, new GuildBotAdapter(bot, guildSerializer), guildSerializer);
+        listener.created(this, kZeroBot);
     }
 
     @EventReceiver

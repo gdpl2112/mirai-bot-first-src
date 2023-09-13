@@ -73,17 +73,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
-        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
-        onBotOnlineFirst(event);
-    }
-
-    public void onBotOnlineFirst(BotOnlineEvent event) {
-        System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
-        MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
-        KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
-                new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
-        listener.created(this, bot);
-        GsuidClient.INSTANCE.addListener(String.valueOf(event.getBot().getId()), new GsuidMessageListener() {
+        GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
 
             @Override
             public void onMessage(MessageOut out) {
@@ -115,6 +105,16 @@ public class MiraiStater implements KZeroStater, ListenerHost {
                 }
             }
         });
+        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
+        onBotOnlineFirst(event);
+    }
+
+    public void onBotOnlineFirst(BotOnlineEvent event) {
+        System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
+        MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
+        KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
+                new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
+        listener.created(this, bot);
     }
 
     @EventHandler
