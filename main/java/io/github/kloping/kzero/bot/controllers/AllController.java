@@ -39,10 +39,12 @@ public class AllController implements Runner {
         if (cla == PluginManagerController.class) return;
         if (cla == WebAuthController.class) return;
         MessagePack pack = (MessagePack) objects[3];
+        KZeroBot bot = (KZeroBot) objects[4];
         GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
         if (groupConf != null) {
             if (!groupConf.getOpen()) throw new NoRunException("未开启");
         }
+        intercept0(method, pack, bot);
     }
 
     @Action("测试")
@@ -54,7 +56,7 @@ public class AllController implements Runner {
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
         int hour = DateUtils.getHour();
-        if (hour > 6 && hour < 11) {
+        if (hour >= 5 && hour <= 11) {
             Long ut0 = map.get(pack.getSenderId());
             if (ut0 != null) {
                 ut0 = System.currentTimeMillis() - ut0;
