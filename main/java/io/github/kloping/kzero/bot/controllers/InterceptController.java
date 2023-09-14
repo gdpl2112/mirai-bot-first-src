@@ -14,19 +14,22 @@ import java.util.Map;
 @Controller
 public class InterceptController {
     public interface OnIntercept {
-        Object Intercept(MessagePack pack, KZeroBot bot);
+        Object intercept(MessagePack pack, KZeroBot bot);
     }
 
     public Map<String, OnIntercept> interceptMap = new HashMap<>();
 
     @Action("<pic:.*?>")
-    public void onPic(MessagePack pack, KZeroBot bot) {
+    public Object onPic(MessagePack pack, KZeroBot bot) {
         String sid = pack.getSenderId();
         if (interceptMap.containsKey(sid)) {
             OnIntercept intercept = interceptMap.get(sid);
-            if (intercept.Intercept(pack, bot) != null)
+            Object o = intercept.intercept(pack, bot);
+            if (o != null)
                 interceptMap.remove(sid);
+            return o;
         }
+        return null;
     }
 
     public void register(String sid, OnIntercept intercept) {
