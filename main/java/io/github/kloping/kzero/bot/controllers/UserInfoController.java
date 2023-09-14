@@ -57,7 +57,7 @@ public class UserInfoController {
     @Action(value = "积分转让.+", otherName = {"转让积分.+"})
     public String transfer(String sid, @AllMess String str) {
         Integer num = null;
-        String tid = Utils.getAtFromString(str);
+        String tid = Utils.getAtFormat(str);
         if (Judge.isEmpty(tid)) return ResourceSet.FinalString.NOT_FOUND_AT;
         if (!dataBase.exists(sid)) return ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
         str = str.replaceFirst(tid, "");
@@ -75,7 +75,7 @@ public class UserInfoController {
 
     @Action(value = "抢劫.+", otherName = {"打劫.+"})
     public String robbery(String sid, @AllMess String str) {
-        String tid = Utils.getAtFromString(str);
+        String tid = Utils.getAtFormat(str);
         if (Judge.isEmpty(tid)) return ResourceSet.FinalString.NOT_FOUND_AT;
         if (!dataBase.exists(tid)) return ResourceSet.FinalString.PLAYER_NOT_REGISTERED;
         str = str.replaceFirst(tid, "");

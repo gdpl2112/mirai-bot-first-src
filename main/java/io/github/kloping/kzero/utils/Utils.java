@@ -25,13 +25,22 @@ import java.util.regex.Pattern;
 public class Utils {
     private static final String DEFAULT_CHARSET = "UTF-8";
 
-    public static String getAtFromString(String msg) {
-        int i0 = msg.indexOf("<at:");
-        int ie = msg.indexOf(">");
-        if (i0 == -1 || ie == -1) return null;
-        String sid = msg.substring(i0 + 4, ie);
-        return sid;
+    public static String getAtFormat(String msg) {
+        return getFormat(msg, "at");
     }
+
+    public static String getFormat(String msg, String format) {
+        return getFormatAndDefault(msg, format, null);
+    }
+
+    public static String getFormatAndDefault(String msg, String format, String def) {
+        String format0 = "<" + format + ":";
+        int i0 = msg.indexOf(format0);
+        int ie = msg.indexOf(">");
+        if (i0 == -1 || ie == -1) return def;
+        return msg.substring(i0 + format0.length(), ie);
+    }
+
     /**
      * 将指定数字转为指定位数字符
      * (2,9)  => 09

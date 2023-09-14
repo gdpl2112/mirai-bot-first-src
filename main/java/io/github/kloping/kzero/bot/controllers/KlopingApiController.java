@@ -1,17 +1,20 @@
 package io.github.kloping.kzero.bot.controllers;
 
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.Param;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
+import io.github.kloping.kzero.bot.commons.apis.baiduShitu.response.ShituData;
 import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.utils.Utils;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author github.kloping
@@ -63,7 +66,6 @@ public class KlopingApiController {
         }
     }
 
-
     @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
     public String getBottle() {
         BottleMessage pab = null;
@@ -99,5 +101,41 @@ public class KlopingApiController {
         sb.append("\n");
         sb.append(String.format(ResourceSet.FinalFormat.PIC_FORMAT0, BASE_URL_CLOUD0));
         return sb.toString();
+    }
+
+    @AutoStand
+    InterceptController interceptController;
+
+    @Action("搜图.*?")
+    public Object searchPic(@AllMess String msg, String sid, KZeroBot bot, MessagePack pack) {
+        String url = Utils.getFormat(msg, "pic");
+        if (url == null) {
+            interceptController.register(sid, (p, b) -> {
+                if (p.getSenderId().equals(sid)) {
+                    String url0 = Utils.getFormat(p.getMsg(), "pic");
+                    if (url0 == null) {
+                        return "未发现图片!";
+                    } else {
+                        return searchPicNow(url0, b);
+                    }
+                }
+                return null;
+            });
+            return "请发送图片!";
+        } else return searchPicNow(url, bot);
+    }
+
+    @AutoStand
+    KlopingWeb web;
+
+    private Object searchPicNow(String url, KZeroBot bot) {
+        List<String> list = new ArrayList();
+       ShituData[] dataList = web.searchPics(URLEncoder.encode(url));
+        if (dataList != null) {
+            for (ShituData shituData : dataList) {
+                list.add(String.format("<pic:%s>\nsource:%s", shituData.getThumbUrl(), shituData.getFromUrl()));
+            }
+        } else return "搜索失败,请稍等重试!";
+        return list.toArray(new String[0]);
     }
 }

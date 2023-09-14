@@ -36,7 +36,7 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
         ARR_SERIALIZER.add(new ArrSerializer.Rule<Image>(Image.class) {
             @Override
             public String serializer(Image o) {
-                return String.format("<pic:%s>", o.getImageId());
+                return String.format("<pic:%s>", Image.queryUrl(o));
             }
         });
         ARR_SERIALIZER.add(new ArrSerializer.Rule<At>(At.class) {

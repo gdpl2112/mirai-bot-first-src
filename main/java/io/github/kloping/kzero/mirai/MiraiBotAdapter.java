@@ -64,11 +64,26 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
     @Override
     public void onResult(Method method, Object data, MessagePack pack) {
         if (data != null && Judge.isNotEmpty(data.toString())) {
-            Message msg = serializer.deserialize(data.toString());
             long sid = Long.parseLong(pack.getSenderId());
             MessageEvent event = (MessageEvent) pack.getRaw();
-            msg = new QuoteReply(((MessageEvent) pack.getRaw()).getSource()).plus(msg);
-            event.getSubject().sendMessage(msg);
+            if (data.getClass().isArray()) {
+                Object[] objects = (Object[]) data;
+                ForwardMessageBuilder builder = new ForwardMessageBuilder(bot.getAsFriend());
+                for (Object obj : objects) {
+                    if (obj instanceof Message) {
+                        Message msg = (Message) obj;
+                        builder.add(bot.getAsFriend(), msg);
+                    } else if (obj instanceof String) {
+                        Message msg = serializer.deserialize(obj.toString());
+                        builder.add(bot.getAsFriend(), msg);
+                    }
+                }
+                event.getSubject().sendMessage(builder.build());
+            } else {
+                Message msg = serializer.deserialize(data.toString());
+                msg = new QuoteReply(((MessageEvent) pack.getRaw()).getSource()).plus(msg);
+                event.getSubject().sendMessage(msg);
+            }
         }
     }
 

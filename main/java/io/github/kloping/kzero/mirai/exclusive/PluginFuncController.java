@@ -59,7 +59,7 @@ public class PluginFuncController {
 
     @Action("获取<.+=>str>")
     public Object getAllInfo(MessagePack pack, @Param("str") String str) {
-        String aid = Utils.getAtFromString(str);
+        String aid = Utils.getAtFormat(str);
         if (aid == null) return null;
         Bot bot = Bot.getInstances().iterator().next();
         long gid = Long.parseLong(pack.getSubjectId());

@@ -72,7 +72,7 @@ public class PluginManagerController {
     public String setAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid == null) return null;
         result.group.get(Long.valueOf(aid)).modifyAdmin(true);
         return "OK!";
@@ -82,7 +82,7 @@ public class PluginManagerController {
     public String unAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid == null) return null;
         result.group.get(Long.valueOf(aid)).modifyAdmin(false);
         return "OK!";
@@ -92,7 +92,7 @@ public class PluginManagerController {
     public String setTitle(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(name);
+        String aid = Utils.getAtFormat(name);
         if (aid == null) return null;
         name = name.replace("<at:" + aid + ">", "");
         result.group.get(Long.valueOf(aid)).setSpecialTitle(name.trim());
@@ -103,7 +103,7 @@ public class PluginManagerController {
     public String setName(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(name);
+        String aid = Utils.getAtFormat(name);
         if (aid == null) return null;
         name = name.replace("<at:" + aid + ">", "");
         result.group.get(Long.valueOf(aid)).setNameCard(name.trim());
@@ -129,7 +129,7 @@ public class PluginManagerController {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         long fid = 0;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid != null) {
             fid = Long.parseLong(aid);
             msg = msg.replace("<at:" + aid + ">", "");
@@ -150,7 +150,7 @@ public class PluginManagerController {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         long fid = 0;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid != null) {
             fid = Long.parseLong(aid);
             msg = msg.replace("<at:" + aid + ">", "");
@@ -172,7 +172,7 @@ public class PluginManagerController {
         if (!superId.equals(pack.getSenderId())) return null;
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid == null) return null;
         return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(pack.getSubjectId()));
     }
@@ -182,7 +182,7 @@ public class PluginManagerController {
         if (!superId.equals(pack.getSenderId())) return null;
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
-        String aid = Utils.getAtFromString(msg);
+        String aid = Utils.getAtFormat(msg);
         if (aid == null) return null;
         return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).removePermission(pack.getSubjectId()));
     }

@@ -4,7 +4,7 @@ public class Data {
     private String ajaxTextUrl;
     private String imageUrl;
     private Number length;
-    private List[] list;
+    private ShituData[] list;
 
     public String getAjaxTextUrl() {
         return this.ajaxTextUrl;
@@ -33,11 +33,11 @@ public class Data {
         return this;
     }
 
-    public List[] getList() {
+    public ShituData[] getList() {
         return this.list;
     }
 
-    public Data setList(List[] list) {
+    public Data setList(ShituData[] list) {
         this.list = list;
         return this;
     }
