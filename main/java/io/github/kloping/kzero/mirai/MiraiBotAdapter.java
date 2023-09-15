@@ -1,19 +1,24 @@
 package io.github.kloping.kzero.mirai;
 
+import io.github.kloping.io.ReadUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.ForwardMessageBuilder;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.QuoteReply;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
+import java.net.URL;
 
 /**
  * @author github.kloping
@@ -90,6 +95,17 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
     @Override
     public String getAvatarUrl(String sid) {
         return String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
+    }
+
+    @Override
+    public String getAvatarUrlConverted(String sid) {
+        String icon = String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
+        try {
+            Image image = Contact.uploadImage(bot.getAsFriend(), new ByteArrayInputStream(ReadUtils.readAll(new URL(icon).openStream())));
+            return Image.queryUrl(image);
+        } catch (Exception e) {
+            return icon;
+        }
     }
 
     @Override

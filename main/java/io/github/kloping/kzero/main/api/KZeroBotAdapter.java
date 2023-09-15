@@ -42,6 +42,16 @@ public interface KZeroBotAdapter {
     String getAvatarUrl(String sid);
 
     /**
+     * 获取指定id人的头像链接
+     *
+     * @param sid
+     * @return
+     */
+    default String getAvatarUrlConverted(String sid) {
+       return getAvatarUrl(sid);
+    }
+
+    /**
      * 获取指定id人名片
      *
      * @param sid

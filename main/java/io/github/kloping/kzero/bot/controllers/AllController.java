@@ -15,6 +15,7 @@ import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class AllController implements Runner {
     DataBase dataBase;
 
     @Override
-    public void run(Method method, Object t, Object[] objects) throws NoRunException {
+    public void run(Method method, Object t, Object[] objects)  {
         Class cla = method.getDeclaringClass();
         if (cla == AdminController.class) return;
         if (cla == PluginManagerController.class) return;

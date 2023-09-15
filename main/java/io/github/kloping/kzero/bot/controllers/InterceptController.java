@@ -32,6 +32,19 @@ public class InterceptController {
         return null;
     }
 
+    @Action("<at:.*?>")
+    public Object onAt(MessagePack pack, KZeroBot bot) {
+        String sid = pack.getSenderId();
+        if (interceptMap.containsKey(sid)) {
+            OnIntercept intercept = interceptMap.get(sid);
+            Object o = intercept.intercept(pack, bot);
+            if (o != null)
+                interceptMap.remove(sid);
+            return o;
+        }
+        return null;
+    }
+
     public void register(String sid, OnIntercept intercept) {
         interceptMap.put(sid, intercept);
     }

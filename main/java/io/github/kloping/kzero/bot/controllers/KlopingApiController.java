@@ -13,6 +13,7 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,11 +111,19 @@ public class KlopingApiController {
     public Object searchPic(@AllMess String msg, String sid, KZeroBot bot, MessagePack pack) {
         String url = Utils.getFormat(msg, "pic");
         if (url == null) {
-            interceptController.register(sid, (p, b) -> {
+            String aid = Utils.getAtFormat(msg);
+            if (aid != null) {
+                url = bot.getAdapter().getAvatarUrlConverted(aid);
+                return searchPicNow(url, bot);
+            } else interceptController.register(sid, (p, b) -> {
                 if (p.getSenderId().equals(sid)) {
                     String url0 = Utils.getFormat(p.getMsg(), "pic");
                     if (url0 == null) {
-                        return "未发现图片!";
+                        String aid0 = Utils.getAtFormat(p.getMsg());
+                        if (aid0 != null) {
+                            url0 = b.getAdapter().getAvatarUrlConverted(aid0);
+                            return searchPicNow(url0, b);
+                        } else return "未发现图片!";
                     } else {
                         return searchPicNow(url0, b);
                     }
@@ -130,7 +139,8 @@ public class KlopingApiController {
 
     private Object searchPicNow(String url, KZeroBot bot) {
         List<String> list = new ArrayList();
-       ShituData[] dataList = web.searchPics(URLEncoder.encode(url));
+        url = URLEncoder.encode(url, StandardCharsets.UTF_8);
+        ShituData[] dataList = web.searchPics(url);
         if (dataList != null) {
             for (ShituData shituData : dataList) {
                 list.add(String.format("<pic:%s>\nsource:%s", shituData.getThumbUrl(), shituData.getFromUrl()));
