@@ -9,6 +9,9 @@ import io.github.kloping.kzero.spring.dao.Father;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.mapper.FatherMapper;
 import io.github.kloping.kzero.spring.mapper.GroupConfMapper;
+import io.github.kloping.kzero.utils.Utils;
+import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.message.data.MessageChain;
 
 /**
  * @author github.kloping
@@ -50,5 +53,37 @@ public class AdminController {
         groupConf.setOpen(false);
         groupConfMapper.updateById(groupConf);
         return "OK!";
+    }
+
+    @Action("开启<.+=>id>")
+    public String open(@Param("id") String id, MessagePack pack) {
+        GroupConf groupConf = dataBase.getConf(id);
+        groupConf.setOpen(true);
+        groupConfMapper.updateById(groupConf);
+        return "OK!";
+    }
+
+    @Action("关闭<.+=>id>")
+    public String close(@Param("id") String id, MessagePack pack) {
+        GroupConf groupConf = dataBase.getConf(id);
+        groupConf.setOpen(false);
+        groupConfMapper.updateById(groupConf);
+        return "OK!";
+    }
+
+    @Action("addAdmin.+")
+    public String addAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        if (!superId.equals(pack.getSenderId())) return null;
+        String aid = Utils.getAtFormat(msg);
+        if (aid == null) return null;
+        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(pack.getSubjectId()));
+    }
+
+    @Action("rmAdmin.+")
+    public String removeAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        if (!superId.equals(pack.getSenderId())) return null;
+        String aid = Utils.getAtFormat(msg);
+        if (aid == null) return null;
+        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).removePermission(pack.getSubjectId()));
     }
 }

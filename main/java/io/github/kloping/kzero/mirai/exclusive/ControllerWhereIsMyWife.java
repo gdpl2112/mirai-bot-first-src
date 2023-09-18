@@ -60,6 +60,12 @@ public class ControllerWhereIsMyWife {
         return s0;
     }
 
+    @Action("重娶群友")
+    public String s1(MessagePack pack, KZeroBot bot) {
+        WIFE.get(pack.getSubjectId()).remove(pack.getSenderId());
+        return s0(pack, bot);
+    }
+
     private String toView(String id, String qid, KZeroBotAdapter adapter) {
         String name0 = adapter.getNameCard(id);
         String name1 = adapter.getNameCard(qid);

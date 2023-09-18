@@ -68,6 +68,15 @@ public class PluginManagerController {
         return new Result0<>(gid, sid, group, true);
     }
 
+    private Result0<Boolean> isAdmin(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        Long gid = Long.valueOf(pack.getSubjectId());
+        Long sid = Long.valueOf(pack.getSenderId());
+        Group group = bot.getSelf().getGroup(gid);
+        MemberPermission p0 = group.getBotAsMember().getPermission();
+        if (p0.getLevel() >= 1) return new Result0<>(gid, sid, group, true);
+        return new Result0<>(gid, sid, group, true);
+    }
+
     @Action("setAdmin.+")
     public String setAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
@@ -101,7 +110,7 @@ public class PluginManagerController {
 
     @Action("setName<.+=>name>")
     public String setName(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        Result0<Boolean> result = isOwner(pack, bot);
+        Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         String aid = Utils.getAtFormat(name);
         if (aid == null) return null;
@@ -126,7 +135,7 @@ public class PluginManagerController {
 
     @Action("mute.+")
     public String mute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        Result0<Boolean> result = isOwner(pack, bot);
+        Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         long fid = 0;
         String aid = Utils.getAtFormat(msg);
@@ -147,7 +156,7 @@ public class PluginManagerController {
 
     @Action("unmute.*?")
     public String unmute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        Result0<Boolean> result = isOwner(pack, bot);
+        Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         long fid = 0;
         String aid = Utils.getAtFormat(msg);
@@ -166,24 +175,4 @@ public class PluginManagerController {
         return null;
     }
 
-
-    @Action("addAdmin.+")
-    public String addAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        if (!superId.equals(pack.getSenderId())) return null;
-        Result0<Boolean> result = isOwner(pack, bot);
-        if (!result.data) return null;
-        String aid = Utils.getAtFormat(msg);
-        if (aid == null) return null;
-        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(pack.getSubjectId()));
-    }
-
-    @Action("rmAdmin.+")
-    public String removeAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
-        if (!superId.equals(pack.getSenderId())) return null;
-        Result0<Boolean> result = isOwner(pack, bot);
-        if (!result.data) return null;
-        String aid = Utils.getAtFormat(msg);
-        if (aid == null) return null;
-        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).removePermission(pack.getSubjectId()));
-    }
 }
