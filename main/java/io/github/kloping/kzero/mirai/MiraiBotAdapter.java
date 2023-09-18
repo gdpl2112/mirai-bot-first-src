@@ -19,6 +19,8 @@ import net.mamoe.mirai.message.data.QuoteReply;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author github.kloping
@@ -141,4 +143,13 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
         return Judge.isEmpty(nameCard) ? sid : nameCard;
     }
 
+    @Override
+    public List<String> getMembers(String tid) {
+        Long gid = Long.parseLong(tid);
+        Group group = (bot.getGroup(gid));
+        List<String> list = new ArrayList();
+        for (NormalMember member : group.getMembers())
+            list.add(String.valueOf(member.getId()));
+        return list;
+    }
 }

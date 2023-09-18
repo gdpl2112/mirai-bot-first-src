@@ -13,6 +13,8 @@ import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.entities.qqpd.Member;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author github.kloping
@@ -117,5 +119,15 @@ public class GuildBotAdapter implements KZeroBotAdapter {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<String> getMembers(String tid) {
+        for (Guild guild : bot.guilds()) {
+            if (guild.channelMap().containsKey(tid)) {
+                Channel channel = guild.channelMap().get(tid);
+            }
+        }
+        return new ArrayList<>();
     }
 }

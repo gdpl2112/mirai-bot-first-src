@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.main.api;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author github.kloping
@@ -65,5 +66,13 @@ public interface KZeroBotAdapter {
      * @param sid
      * @return
      */
-    String getNameCard(String sid,String tid);
+    String getNameCard(String sid, String tid);
+
+    /**
+     * 获取指定环境群员数量
+     *
+     * @param tid
+     * @return
+     */
+    List<String> getMembers(String tid);
 }
