@@ -77,4 +77,24 @@ public class WhInfo {
     public Integer getHjPercent() {
         return NumberUtils.toPercent(getHj(), getHjl());
     }
+
+    public WhInfo addXp(long xp) {
+        this.xp = this.xp + xp;
+        return this;
+    }
+
+    public void addHp(long hp) {
+        this.hp += hp;
+        this.hp = this.hp < 0 ? 0 : this.hp > this.hpl ? this.hpl : this.hp;
+    }
+
+    public void addHl(long hl) {
+        this.hl += hl;
+        this.hl = this.hl < 0 ? 0 : this.hl > this.hll ? this.hll : this.hl;
+    }
+
+    public void addHj(long hj) {
+        this.hj += hj;
+        this.hj = this.hj < 0 ? 0 : this.hj > this.hjl ? this.hjl : this.hj;
+    }
 }

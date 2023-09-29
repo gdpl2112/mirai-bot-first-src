@@ -2,6 +2,7 @@ package io.github.kloping.kzero.game.database;
 
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.spring.dao.WhInfo;
+import io.github.kloping.rand.RandomUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -429,5 +430,191 @@ public class GameFinalSource {
         boolean k1 = level % 10 == 0;
         boolean k2 = whInfo.getXp() >= whInfo.getXpl();
         return k1 && k2;
+    }
+
+    /**
+     * 魂环加成
+     *
+     * @param id
+     * @return
+     */
+    public static double getAHBl(int id) {
+        switch (id) {
+            case 201:
+                return 0.1;
+            case 202:
+                return 0.2;
+            case 203:
+                return 0.36;
+            case 204:
+                return 0.48;
+            case 205:
+                return 0.78;
+            case 206:
+                return 1.2;
+            case 207:
+                return 1.4;
+        }
+        return 0;
+    }
+
+
+    /**
+     * 获取魂环加成的魂技
+     *
+     * @param id
+     * @return
+     */
+    public static double getAHBl_(int id) {
+        switch (id) {
+            case 201:
+                return 0.9;
+            case 202:
+                return 1.3;
+            case 203:
+                return 1.6;
+            case 204:
+                return 1.9;
+            case 205:
+                return 2.2;
+            case 206:
+                return 2.6;
+            case 207:
+                return 3.0;
+        }
+        return 1;
+    }
+
+    public static int Lmax(int level) {
+        switch (level) {
+            case 10:
+                return 99;
+            case 100:
+                return 999;
+            case 1000:
+                return 9999;
+            case 10000:
+                return 99999;
+            case 100000:
+                return 999999;
+            case 1000000:
+                return 9999999;
+            case 10000000:
+                return 99999999;
+        }
+        return -1;
+    }
+
+    /**
+     * 玩家等级 => 魂兽等级
+     *
+     * @param l
+     * @return
+     */
+    public static long getLtoGhsL(long l) {
+        if (l < 10) return RandomUtils.getRandInteger(100, 200);
+        else if (l < 20) return RandomUtils.getRandInteger(200, 1000);
+        else if (l < 30) return RandomUtils.getRandInteger(1000, 10000);
+        else if (l < 40) return RandomUtils.getRandInteger(10000, 20000);
+        else if (l < 60) return RandomUtils.getRandInteger(20000, 40000);
+        else if (l < 80) return RandomUtils.getRandInteger(40000, 80000);
+        else if (l < 90) return RandomUtils.getRandInteger(80000, 120000);
+        else if (l < 95) return RandomUtils.getRandInteger(120000, 200000);
+        else if (l < 100) return RandomUtils.getRandInteger(200000, 1000000);
+        else if (l < 110) return RandomUtils.getRandInteger(300000, 1500000);
+        else if (l < 120) return RandomUtils.getRandInteger(800000, 2000000);
+        else if (l < 130) return RandomUtils.getRandInteger(900000, 3000000);
+        else if (l <= 151) return RandomUtils.getRandInteger(990000, 10010000);
+        else return 1L;
+    }
+
+    /**
+     * 玩家等级 => 升级加成
+     *
+     * @param level
+     * @return
+     */
+    public static long getPromoteProperties(int level) {
+        if (level < 10) return RandomUtils.getRandInteger(80, 120);
+        else if (level < 40) return RandomUtils.getRandInteger(290, 315);
+        else if (level < 60) return RandomUtils.getRandInteger(900, 1100);
+        else if (level < 80) return RandomUtils.getRandInteger(2500, 2600);
+        else if (level < 90) return RandomUtils.getRandInteger(3900, 4000);
+        else if (level < 95) return RandomUtils.getRandInteger(39000, 40000);
+        else if (level < 100) return RandomUtils.getRandInteger(95000, 100000);
+        else if (level < 110) return RandomUtils.getRandInteger(179500, 190000);
+        else if (level < 120) return RandomUtils.getRandInteger(280000, 285000);
+        else return RandomUtils.getRandInteger(160000, 166667);
+    }
+
+    /**
+     * 获取每次修炼 的 加的 比例 例如 100 26 次修炼才可升级
+     *
+     * @param level
+     * @return
+     */
+    public static int getRandXl(int level) {
+        if (level < 5) return 2;
+        else if (level < 20) return 3;
+        else if (level < 40) return 4;
+        else if (level < 60) return 7;
+        else if (level < 70) return 8;
+        else if (level < 80) return 11;
+        else if (level < 90) return 14;
+        else if (level < 95) return 19;
+        else if (level < 98) return 24;
+        else if (level < 100) return 29;
+        else if (level < 110) return 33;
+        else if (level < 120) return 46;
+        else if (level < 130) return 68;
+        else if (level < 145) return 80;
+        else if (level < 147) return 120;
+        else if (level < 148) return 168;
+        else if (level < 150) return 1200;
+        else if (level == 150) return 700;
+        else return 99999;
+    }
+
+    /**
+     * 等级 => 魂环
+     *
+     * @param level
+     * @return
+     */
+    public static Integer getHhByGh(int level) {
+        if (level < 100) return 201;
+        else if (level < 1000) return 202;
+        else if (level < 10000) return 203;
+        else if (level < 100000) return 204;
+        else if (level < 1000000) return 205;
+        else if (level < 10000000) return 206;
+        else if (level < 100000000) return 207;
+        return -1;
+    }
+
+
+    public static String getLevelByGhostId(Integer id) {
+        if (id < 503) return "十";
+        else if (id < 505) return "百";
+        else if (id < 507) return "千";
+        else if (id < 510) return "万";
+        else if (id < 514) return "十万";
+        else if (id < 518) return "百万";
+        else if (id < 521) return "神";
+        else if (id < 1000) return "全";
+        else return "未知";
+    }
+
+    /**
+     * 获取 魂兽最大支援数量
+     *
+     * @param id
+     * @param level
+     * @return
+     */
+    public static int getMaxHelpNumByGhostIdAndLevel(Integer id, Integer level) {
+        if (level >= 10000000) return 2;
+        else if (id < 800) return 1;
+        else return 0;
     }
 }

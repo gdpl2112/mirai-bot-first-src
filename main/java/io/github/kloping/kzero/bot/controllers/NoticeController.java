@@ -21,6 +21,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(ResourceSet.FinalString.NEWLINE);
+        UPDATE_LOG.append("9.29:修炼,升级,觉醒 恢复").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("内容更新").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("全新的BOT|\n旧的功能与原有的数据不会删除,ta们依旧存在,现在/之后会以新的方式出现!").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("[nextPage]").append(ResourceSet.FinalString.NEWLINE);

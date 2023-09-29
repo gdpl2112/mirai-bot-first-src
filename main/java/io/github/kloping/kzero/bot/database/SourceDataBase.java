@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.bot.database;
 
+import io.github.kloping.MySpringTool.annotations.CronSchedule;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.number.NumberUtils;
@@ -73,5 +74,12 @@ public class SourceDataBase {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @CronSchedule("24 4 2 * * ? ")
+    public void deleteTemp() {
+        for (File file : new File("./temp").listFiles()) {
+            if (file.getName().endsWith(".jpg")) file.delete();
+        }
     }
 }

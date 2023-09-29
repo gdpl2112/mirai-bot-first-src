@@ -64,9 +64,12 @@ public class GameDataBase {
         return i;
     }
 
-    public int operate(String sid, GameUserInfoOperate operate) {
-        GameUserInfo gameUserInfo = getGameUserInfo(sid);
-        operate.operate(gameUserInfo);
-        return update(gameUserInfo);
+    public String operate(String sid, GameUserInfoOperate operate) {
+        synchronized (sid) {
+            GameUserInfo gameUserInfo = getGameUserInfo(sid);
+            String end = operate.operate(gameUserInfo);
+            update(gameUserInfo);
+            return end;
+        }
     }
 }

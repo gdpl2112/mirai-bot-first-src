@@ -42,6 +42,22 @@ public class Utils {
     }
 
     /**
+     * 获取提示冷却
+     *
+     * @param l
+     * @return
+     */
+    public static String getTimeTips(long l) {
+        if (l < System.currentTimeMillis()) return "0秒";
+        long v = l - System.currentTimeMillis();
+        if (v >= 60000L) {
+            return (v / 60000L) + "分钟";
+        } else {
+            return (v / 1000) + "秒";
+        }
+    }
+
+    /**
      * 将指定数字转为指定位数字符
      * (2,9)  => 09
      *
