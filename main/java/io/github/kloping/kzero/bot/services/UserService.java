@@ -77,7 +77,7 @@ public class UserService {
 
     public String robbery(String sid, String tid) {
         int lI = dataBase.getUserInfo(sid).getScore();
-        int lY = dataBase.getUserInfo(sid).getScore();
+        int lY = dataBase.getUserInfo(tid).getScore();
         int fI = dataBase.getUserInfo(sid).getFz();
         if (lI > 60) {
             if (lY > 60) {
