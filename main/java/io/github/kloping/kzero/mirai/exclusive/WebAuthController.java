@@ -12,7 +12,7 @@ import io.github.kloping.kzero.spring.web.ExtendController;
 public class WebAuthController {
     @Before
     public void before(@AllMess String mess, MessagePack pack) throws NoRunException {
-        if (pack.getSubjectId().equals("570700910")) {
+        if (!pack.getSubjectId().equals("570700910")) {
             throw new NoRunException();
         }
     }
