@@ -2,6 +2,7 @@ package io.github.kloping.kzero.mirai;
 
 import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.common.Public;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
@@ -79,20 +80,25 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             public void onMessage(MessageOut out) {
                 MessageEvent raw = getMessage(out.getMsg_id());
                 MessageChainBuilder builder = new MessageChainBuilder();
-                builder.append(new QuoteReply(raw.getSource()));
+                if (raw != null) builder.append(new QuoteReply(raw.getSource()));
                 for (MessageData d0 : out.getContent()) {
                     if (d0.getType().equals("node")) {
                         try {
                             JSONArray array = (JSONArray) d0.getData();
-                            for (MessageData d1 : array.toJavaList(MessageData.class)) {
+                            for (MessageData d1 : array.toJavaList(MessageData.class))
                                 builderAppend(builder, d1, event);
-                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else builderAppend(builder, d0, event);
                 }
-                raw.getSubject().sendMessage(builder.build());
+                Contact contact;
+                if (raw != null)
+                    contact = raw.getSubject();
+                else
+                    contact = out.getTarget_type().equals("direct") ? event.getBot().getFriend(Long.parseLong(out.getTarget_id()))
+                            : event.getBot().getGroup(Long.parseLong(out.getTarget_id()));
+                contact.sendMessage(builder.build());
             }
 
             private void builderAppend(MessageChainBuilder builder, MessageData d0, BotOnlineEvent event) {
@@ -192,6 +198,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     private MessageEvent temp0 = null;
 
     private MessageEvent getMessage(String id) {
+        if (Judge.isEmpty(id)) return null;
         if (temp0 != null && getMessageEventId(temp0).equals(id)) return temp0;
         for (MessageEvent event : QUEUE) {
             if (getMessageEventId(event).equals(id)) return temp0 = event;
