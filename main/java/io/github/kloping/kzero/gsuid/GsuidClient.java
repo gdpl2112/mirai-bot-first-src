@@ -37,7 +37,8 @@ public class GsuidClient extends WebSocketClient {
     public static final String SELF_ID = "bot";
 
     public GsuidClient() throws URISyntaxException {
-        this(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
+//        this(new URI("ws://47.100.93.243:8765/ws/" + SELF_ID));
+        this(new URI("ws://localhost:8765/ws/" + SELF_ID));
     }
 
     public GsuidClient(URI serverUri) {
