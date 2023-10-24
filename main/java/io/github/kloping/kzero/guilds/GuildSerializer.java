@@ -5,6 +5,7 @@ import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.main.api.MessageSerializer;
 import io.github.kloping.number.NumberUtils;
 import io.github.kloping.qqbot.api.SendAble;
+import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.At;
 import io.github.kloping.qqbot.entities.ex.Image;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
@@ -16,6 +17,12 @@ import io.github.kloping.qqbot.entities.qqpd.data.Emoji;
  * @author github.kloping
  */
 public class GuildSerializer implements MessageSerializer<SendAble> {
+
+    private Bot bot;
+
+    public GuildSerializer(Bot bot) {
+        this.bot = bot;
+    }
 
     @Override
     public String serialize(SendAble msg0) {
@@ -29,11 +36,14 @@ public class GuildSerializer implements MessageSerializer<SendAble> {
                 } else if (e instanceof PlainText) {
                     sb.append(e.toString());
                 } else if (e instanceof At) {
-                    sb.append("<at:" + ((At) e).getTargetId() + ">");
+                    At at = ((At) e);
+                    String aid = at.getTargetId();
+                    if (aid.equals(bot.getInfo().getId())) return;
+                    sb.append("<at:" + at.getTargetId() + ">");
                 }
             });
-            return sb.toString();
-        } else return msg0.toString();
+            return sb.toString().trim();
+        } else return msg0.toString().trim();
     }
 
     protected final ArrDeSerializer<SendAble> ARR_DE_SERIALIZER = new ArrDeSerializer<>();

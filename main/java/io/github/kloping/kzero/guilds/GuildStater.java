@@ -130,7 +130,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     private void onConnectedEventFirst(ConnectedEvent event) {
         Bot bot = event.getBot();
-        GuildSerializer guildSerializer = new GuildSerializer();
+        GuildSerializer guildSerializer = new GuildSerializer(bot);
         KZeroBot<SendAble, Bot> kZeroBot = create(bot.getId(), bot, new GuildBotAdapter(bot, guildSerializer), guildSerializer);
         listener.created(this, kZeroBot);
     }
@@ -141,8 +141,10 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            String outMsg = kZeroBot.getSerializer().serialize(chain);
+            if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
-                    event.getChannelId(), kZeroBot.getSerializer().serialize(event.getMessage()));
+                    event.getChannelId(), outMsg);
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
@@ -157,7 +159,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
-                    event.getSrcGuildId(), kZeroBot.getSerializer().serialize(event.getMessage()));
+                    event.getSrcGuildId(), kZeroBot.getSerializer().serialize(chain));
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
