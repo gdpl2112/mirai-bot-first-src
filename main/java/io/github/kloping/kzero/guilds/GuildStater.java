@@ -175,7 +175,6 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             if (e instanceof PlainText) {
                 message.setType("text");
                 String data = e.toString().trim();
-                if (data.equalsIgnoreCase("/gs帮助")) data = "gs帮助";
                 message.setData(data);
             } else if (e instanceof Image) {
                 Image image = (Image) e;
