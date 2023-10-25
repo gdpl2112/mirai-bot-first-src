@@ -175,6 +175,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             if (e instanceof PlainText) {
                 message.setType("text");
                 String data = e.toString().trim();
+                if (data.startsWith("/") && data.length() > 1) data = data.substring(1);
                 message.setData(data);
             } else if (e instanceof Image) {
                 Image image = (Image) e;
@@ -193,7 +194,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             receive.setGroup_id("");
             if (event instanceof MessageChannelReceiveEvent) {
                 receive.setUser_type("group");
-                receive.setGroup_id(((MessageChannelReceiveEvent) event).getChannel().getId());
+                receive.setGroup_id(((MessageChannelReceiveEvent) event).getGuild().getId());
             }
             if ("7749068863541459083".equals(event.getSender().getUser().getId())) receive.setUser_pm(0);
             else receive.setUser_pm(2);
