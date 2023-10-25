@@ -77,7 +77,11 @@ public class ExtendController {
                                     @RequestParam("s") String s) {
         if (!pwd.equals(pwd1)) return "err";
         KZeroMainThreads.BOT_MAP.forEach((e, v) -> {
-            v.getAdapter().sendMessage(MessageType.GROUP, gid, s);
+            try {
+                v.getAdapter().sendMessage(MessageType.GROUP, gid, s);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
         return "ok";
     }
