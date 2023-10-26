@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.guilds;
 
 import com.alibaba.fastjson.JSONArray;
+import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
@@ -20,6 +21,8 @@ import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -51,7 +54,15 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     @Override
     public void run() {
-        Starter starter = new Starter(appid,token);
+        Starter starter = new Starter(appid, token);
+        try {
+            File file = new File(String.format("./logs/%s-%s-%s.log", DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            starter.APPLICATION.logger.setOutFile(file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
         starter.run();
