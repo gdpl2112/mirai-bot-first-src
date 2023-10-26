@@ -56,7 +56,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     public void run() {
         Starter starter = new Starter(appid, token);
         try {
-            File file = new File(String.format("./logs/%s-%s-%s.log", DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
+            File file = new File(String.format("./logs/%s/%s-%s-%s.log", appid, DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
             file.getParentFile().mkdirs();
             file.createNewFile();
             starter.APPLICATION.logger.setOutFile(file.getAbsolutePath());
