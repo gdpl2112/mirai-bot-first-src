@@ -68,7 +68,13 @@ public class GsuidClient extends WebSocketClient {
         String bsid = out.getBot_self_id();
         if (Judge.isEmpty(bsid)) return;
         LOGGER.log(String.format("gsuid msg bot(%s) to size: %s", bsid, msg.length()));
-        if (gsuidMessageListenerMap.containsKey(bsid))
+        if (Judge.isEmpty(bsid)) {
+            Public.EXECUTOR_SERVICE.submit(() -> {
+                gsuidMessageListenerMap.values().forEach(e -> {
+                    e.onMessage(out);
+                });
+            });
+        } else if (gsuidMessageListenerMap.containsKey(bsid))
             Public.EXECUTOR_SERVICE.submit(() -> {
                 gsuidMessageListenerMap.get(bsid).onMessage(out);
             });
