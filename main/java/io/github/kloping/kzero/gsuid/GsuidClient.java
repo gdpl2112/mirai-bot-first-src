@@ -29,6 +29,7 @@ public class GsuidClient extends WebSocketClient {
     static {
         try {
             INSTANCE = new GsuidClient();
+            LOGGER.setLogLevel(1);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -53,7 +54,7 @@ public class GsuidClient extends WebSocketClient {
     public void send(byte[] data) {
         super.send(data);
         String json = new String(data, Charset.forName("utf-8"));
-        LOGGER.log("send=>" + json);
+        LOGGER.info("send=>" + json);
     }
 
     public Map<String, GsuidMessageListener> gsuidMessageListenerMap = new HashMap<>();
@@ -66,8 +67,7 @@ public class GsuidClient extends WebSocketClient {
     public void onMessage(String msg) {
         MessageOut out = JSONObject.parseObject(msg, MessageOut.class);
         String bsid = out.getBot_self_id();
-        if (Judge.isEmpty(bsid)) return;
-        LOGGER.log(String.format("gsuid msg bot(%s) to size: %s", bsid, msg.length()));
+        LOGGER.info(String.format("gsuid msg bot(%s) to size: %s", bsid, msg.length()));
         if (Judge.isEmpty(bsid)) {
             Public.EXECUTOR_SERVICE.submit(() -> {
                 gsuidMessageListenerMap.values().forEach(e -> {
@@ -90,6 +90,7 @@ public class GsuidClient extends WebSocketClient {
         super.onMessage(bytes);
         String json = new String(bytes.array(), Charset.forName("utf-8"));
         onMessage(json);
+        LOGGER.log(json);
     }
 
     @Override
