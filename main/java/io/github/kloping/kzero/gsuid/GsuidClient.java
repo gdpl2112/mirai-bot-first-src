@@ -47,6 +47,7 @@ public class GsuidClient extends WebSocketClient {
     }
 
     public void send(MessageReceive receive) {
+        if (!this.isOpen()) return;
         send(JSON.toJSONString(receive).getBytes(StandardCharsets.UTF_8));
     }
 
