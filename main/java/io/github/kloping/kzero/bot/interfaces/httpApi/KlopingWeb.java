@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author github.kloping
  */
-@HttpClient("http://kloping.top")
+@HttpClient("http://localhost")
 public interface KlopingWeb {
     /**
      * 获取歌曲
