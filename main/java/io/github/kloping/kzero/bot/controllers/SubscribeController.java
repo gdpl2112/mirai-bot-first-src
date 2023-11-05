@@ -40,6 +40,9 @@ public class SubscribeController {
     @AutoStand
     KlopingWeb klopingWeb;
 
+    @AutoStand
+    KZeroBot bot;
+
     @CronSchedule("5 6,36 6,7,8,9,10,11,12,13,14,15,16,17,18,19 * * ? *")
     public void hourEve() {
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
@@ -49,7 +52,6 @@ public class SubscribeController {
                 if (weatherM.getIntro().equals(data.getD0())) continue;
                 else {
                     data.setD0(weatherM.getIntro());
-                    KZeroBot bot = KZeroMainThreads.BOT_MAP.get(data.getBid());
                     bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
                             String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()));
                     sweatherDataMapper.updateById(data);
