@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.object.ObjectUtils;
+import net.mamoe.mirai.message.code.MiraiCode;
 import org.springframework.web.util.UriUtils;
 
 import java.io.ByteArrayOutputStream;

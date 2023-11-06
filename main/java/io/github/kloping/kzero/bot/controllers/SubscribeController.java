@@ -2,9 +2,9 @@ package io.github.kloping.kzero.bot.controllers;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
-import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -54,6 +54,36 @@ public class SubscribeController {
                     data.setD0(weatherM.getIntro());
                     bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
                             String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()));
+                    sweatherDataMapper.updateById(data);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @CronSchedule("8 01 6 * * ? *")
+    public void dayMorning() {
+        for (SweatherData data : sweatherDataMapper.selectList(null)) {
+            try {
+                WeatherDetail wd = klopingWeb.weatherDetail(data.getAddress());
+                if (wd == null) continue;
+                else {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(wd.getTime()).append("\n");
+                    sb.append(wd.getAddress()).append(": ").append(wd.getDescribed()).append("\n");
+                    sb.append(wd.getWind()).append("\n");
+                    sb.append(wd.getAir()).append("\n");
+                    sb.append(wd.getHumidity()).append("\n");
+                    sb.append(wd.getPm()).append("\n");
+                    sb.append("现在温度:").append(wd.getTemperatureNow()).append("\n");
+                    sb.append("今日温度:").append(wd.getTemperature()).append("\n");
+                    sb.append(wd.getUva()).append("\n");
+                    sb.append(wd.getSunOn()).append("\n");
+                    sb.append(wd.getSunDown()).append("\n");
+                    bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
+                            String.format("<at:%s>\n%s", data.getSid(), sb.toString().trim())
+                    );
                     sweatherDataMapper.updateById(data);
                 }
             } catch (Exception e) {
