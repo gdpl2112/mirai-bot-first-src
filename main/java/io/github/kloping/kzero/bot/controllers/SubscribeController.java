@@ -43,10 +43,14 @@ public class SubscribeController {
     @AutoStand
     KZeroBot bot;
 
+    @AutoStand
+    AllController allController;
+
     @CronSchedule("5 6,36 6,7,8,9,10,11,12,13,14,15,16,17,18,19 * * ? *")
     public void hourEve() {
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
             try {
+                if (!allController.isWakeUp(data.getSid())) continue;
                 WeatherM weatherM = klopingWeb.weatherM(data.getAddress());
                 if (weatherM == null) continue;
                 if (weatherM.getIntro().equals(data.getD0())) continue;
