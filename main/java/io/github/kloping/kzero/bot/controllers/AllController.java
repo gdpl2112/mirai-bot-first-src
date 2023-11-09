@@ -68,7 +68,7 @@ public class AllController implements Runner {
 
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
-        String sid = pack.getSubjectId();
+        String sid = pack.getSenderId();
         if (!wakes.contains(sid)) wakes.add(sid);
         int hour = DateUtils.getHour();
         if (hour >= 5 && hour <= 11) {
