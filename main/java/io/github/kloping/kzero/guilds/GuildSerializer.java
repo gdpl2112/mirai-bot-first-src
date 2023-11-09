@@ -12,6 +12,7 @@ import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.ex.PlainText;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.entities.qqpd.data.Emoji;
+import io.github.kloping.url.UrlUtils;
 
 /**
  * @author github.kloping
@@ -80,7 +81,7 @@ public class GuildSerializer implements MessageSerializer<SendAble> {
                 Image image = null;
                 try {
                     if (path.startsWith("http")) {
-                        image = new Image(path);
+                        image = new Image(UrlUtils.getBytesFromHttpUrl(path));
                     } else {
                         image = new Image(FileUtils.getBytesFromFile(path));
                     }

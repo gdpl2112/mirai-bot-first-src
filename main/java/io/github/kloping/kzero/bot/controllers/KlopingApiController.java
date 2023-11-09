@@ -167,7 +167,9 @@ public class KlopingApiController {
         List<String> list = new LinkedList<>();
         for (Object o : arr) {
             JSONObject e = (JSONObject) o;
-            String e0 = String.format("%s\n<pic:%s>", e.getString("name"), e.getString("pic"));
+            String u0 = e.getString("pic");
+            list.add(u0);
+            String e0 = String.format("%s\n<pic:%s>", e.getString("name"), u0);
             list.add(e0);
         }
         return list.toArray(new String[0]);
