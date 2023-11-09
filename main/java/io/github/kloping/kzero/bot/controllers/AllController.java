@@ -68,19 +68,20 @@ public class AllController implements Runner {
 
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
+        String sid = pack.getSubjectId();
+        if (!wakes.contains(sid)) wakes.add(sid);
         int hour = DateUtils.getHour();
         if (hour >= 5 && hour <= 11) {
-            Long ut0 = map.get(pack.getSenderId());
+            Long ut0 = map.get(sid);
             if (ut0 != null) {
                 ut0 = System.currentTimeMillis() - ut0;
                 if (ut0 > MIN_WAKE_TIME && ut0 < MAX_WAKE_TIME) {
                     int h = (int) (ut0 / (1000 * 60 * 60));
                     int m = (int) (ut0 % (1000 * 60 * 60)) / (1000 * 60);
                     bot.getAdapter().onResult(method, String.format("推测睡眠时长: %s时%s分", h, m), pack);
-                    wakes.add(pack.getSubjectId());
                 }
             }
-        } else wakes.add(pack.getSubjectId());
+        }
         map.put(pack.getSenderId(), System.currentTimeMillis());
     }
 }
