@@ -1,7 +1,11 @@
 package io.github.kloping.kzero.bot.controllers;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.date.DateUtils;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
@@ -15,6 +19,7 @@ import io.github.kloping.kzero.utils.Utils;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -146,6 +151,25 @@ public class KlopingApiController {
                 list.add(String.format("<pic:%s>\nsource:%s", shituData.getThumbUrl(), shituData.getFromUrl()));
             }
         } else return "搜索失败,请稍等重试!";
+        return list.toArray(new String[0]);
+    }
+
+    @Action("<.+=>name>海报")
+    public Object posters(@Param("name") String name) {
+        String data = klopingWeb.posters(name);
+        if (Judge.isEmpty(data)) return "获取失败";
+        JSONArray arr = null;
+        try {
+            arr = JSON.parseArray(data);
+        } catch (Exception e) {
+            return "获取失败\n" + e.getMessage();
+        }
+        List<String> list = new LinkedList<>();
+        for (Object o : arr) {
+            JSONObject e = (JSONObject) o;
+            String e0 = String.format("%s\n<pic:%s>", e.getString("name"), e.getString("pic"));
+            list.add(e0);
+        }
         return list.toArray(new String[0]);
     }
 }

@@ -6,7 +6,6 @@ import io.github.kloping.kzero.bot.commons.apis.*;
 import io.github.kloping.kzero.bot.commons.apis.baiduShitu.response.ShituData;
 import io.github.kloping.kzero.bot.commons.apis.kloping.VideoAnimeSource;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -225,7 +224,9 @@ public interface KlopingWeb {
     @GetPath("/api/acode")
     JSONObject acode(@ParamName("name") String name);
 
-    //http://kloping.top/api/search/searchPic?url=链接
     @GetPath("/api/search/searchPic")
     ShituData[] searchPics(@ParamName("url") String url);
+
+    @GetPath("api/get/pvp-skin")
+    String posters(@ParamName("name") String name);
 }
