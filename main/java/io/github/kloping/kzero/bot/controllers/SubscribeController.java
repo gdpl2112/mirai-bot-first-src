@@ -116,7 +116,9 @@ public class SubscribeController {
 
         graphics.setColor(ImageDrawerUtils.ORIGIN_A80);
         graphics.setFont(ImageDrawerUtils.BIG_FONT80_TYPE0);
-        graphics.drawString(data.getString("city"), 60, 150);
+        String dt = data.getString("city");
+        int w0 = graphics.getFontMetrics().stringWidth(dt);
+        graphics.drawString(dt, (265 / 2) - (w0 / 2), 150);
 
         graphics.setColor(ImageDrawerUtils.RED_A75);
         graphics.setFont(ImageDrawerUtils.SMALL_FONT38_TYPE0);

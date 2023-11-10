@@ -49,9 +49,9 @@ public class AllController implements Runner {
     @AutoStand
     SubscribeController subscribeController;
 
-    @Action("测试")
-    public Object test0(String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        return null;
+    @Action("测试<.+=>name>")
+    public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
+        return subscribeController.futureWeaNow(name);
     }
 
     private List<String> wakes = new LinkedList<>();
