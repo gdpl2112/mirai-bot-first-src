@@ -86,8 +86,8 @@ public class SubscribeController {
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
             todayWeaNow(data);
             try {
-                String msg = futureWeaNow(data);
-                bot.getAdapter().sendMessage(MessageType.GROUP, data.getSid(), msg);
+                String msg = futureWeaNow(data.getAddress());
+                bot.getAdapter().sendMessage(MessageType.GROUP, data.getSid(), String.format("<at:%s>\n<pic:%s>", data.getSid(), msg));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -97,10 +97,10 @@ public class SubscribeController {
     @AutoStand
     SourceDataBase sourceDataBase;
 
-    protected String futureWeaNow(SweatherData sdata) throws Exception {
+    protected String futureWeaNow(String addr) throws Exception {
         int r0 = RandomUtils.RANDOM.nextInt(3);
         BufferedImage image = ImageDrawerUtils.readImage(sourceDataBase.getImgPathById("info_bg"), 825, 900);
-        String json = UrlUtils.getStringFromHttpUrl("https://v2.api-m.com/api/weather?city=" + URLEncoder.encode(sdata.getAddress()));
+        String json = UrlUtils.getStringFromHttpUrl("https://v2.api-m.com/api/weather?city=" + URLEncoder.encode(addr));
         JSONObject jsono = JSON.parseObject(json);
         JSONObject data = jsono.getJSONObject("data");
         JSONArray dataArr = jsono.getJSONObject("data").getJSONArray("data");

@@ -174,4 +174,17 @@ public class KlopingApiController {
         }
         return list.toArray(new String[0]);
     }
+
+
+    @AutoStand
+    SubscribeController subscribeController;
+
+    @Action("未来天气<.+=>name>")
+    public String wea0(@Param("name") String addr) {
+        try {
+            return String.format("<pic:%s>", subscribeController.futureWeaNow(addr));
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
