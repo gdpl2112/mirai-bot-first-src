@@ -87,7 +87,7 @@ public class SubscribeController {
             todayWeaNow(data);
             try {
                 String msg = futureWeaNow(data.getAddress());
-                bot.getAdapter().sendMessage(MessageType.GROUP, data.getSid(), String.format("<at:%s>\n<pic:%s>", data.getSid(), msg));
+                bot.getAdapter().sendMessage(MessageType.GROUP, data.getSid(), String.format("<at:%s>\n%s", data.getSid(), msg));
             } catch (Exception e) {
                 e.printStackTrace();
             }

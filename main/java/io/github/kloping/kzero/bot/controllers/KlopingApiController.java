@@ -182,7 +182,7 @@ public class KlopingApiController {
     @Action("未来天气<.+=>name>")
     public String wea0(@Param("name") String addr) {
         try {
-            return String.format("<pic:%s>", subscribeController.futureWeaNow(addr));
+            return String.format("%s", subscribeController.futureWeaNow(addr));
         } catch (Exception e) {
             return e.getMessage();
         }
