@@ -11,6 +11,7 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.spring.dao.SweatherData;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -46,8 +47,12 @@ public class AllController implements Runner {
         intercept0(method, pack, bot);
     }
 
+    @AutoStand
+    SubscribeController subscribeController;
+
     @Action("测试")
-    public void test0(String sid, MessagePack pack, KZeroBot bot) {
+    public Object test0(String sid, MessagePack pack, KZeroBot bot) throws Exception {
+        return subscribeController.futureWeaNow(new SweatherData().setAddress("泗县"));
     }
 
     private List<String> wakes = new LinkedList<>();

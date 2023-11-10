@@ -21,6 +21,7 @@ public class NoticeController {
 
     static {
         UPDATE_LOG.append("==========").append(ResourceSet.FinalString.NEWLINE);
+        UPDATE_LOG.append("11.10:天气订阅 订阅消息优化").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("11.04:天气订阅<地名>,取消天气订阅").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("9.29:修炼,升级,觉醒 恢复").append(ResourceSet.FinalString.NEWLINE);
         UPDATE_LOG.append("内容更新").append(ResourceSet.FinalString.NEWLINE);

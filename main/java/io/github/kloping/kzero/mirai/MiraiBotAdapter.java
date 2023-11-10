@@ -37,16 +37,27 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
 
     @Override
     public void sendMessage(MessageType type, String targetId, Object obj) {
+        if (obj == null) return;
         long tid = Long.parseLong(targetId);
+        Contact contact = null;
         if (type == MessageType.GROUP) {
             if (!bot.getGroups().contains(tid)) return;
-            if (obj instanceof Message) {
-                Message msg = (Message) obj;
-                bot.getGroup(tid).sendMessage(msg);
-            } else if (obj instanceof String) {
-                Message msg = serializer.deserialize(obj.toString());
-                bot.getGroup(tid).sendMessage(msg);
+            contact = bot.getGroup(tid);
+        } else if (type == MessageType.FRIEND) {
+            contact = bot.getFriend(tid);
+            if (contact == null) for (Group group : bot.getGroups()) {
+                if (group.contains(tid)) {
+                    contact = group.get(tid);
+                    break;
+                }
             }
+        }
+        if (obj instanceof Message) {
+            Message msg = (Message) obj;
+            contact.sendMessage(msg);
+        } else if (obj instanceof String) {
+            Message msg = serializer.deserialize(obj.toString());
+            contact.sendMessage(msg);
         }
     }
 

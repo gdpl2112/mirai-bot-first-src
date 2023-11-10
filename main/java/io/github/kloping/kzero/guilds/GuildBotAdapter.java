@@ -5,6 +5,7 @@ import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.qqbot.api.SendAble;
+import io.github.kloping.qqbot.api.SenderAndCidMidGetter;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
@@ -30,21 +31,27 @@ public class GuildBotAdapter implements KZeroBotAdapter {
 
     @Override
     public void sendMessage(MessageType type, String targetId, Object msg) {
+        SenderAndCidMidGetter sender = null;
         if (type == MessageType.GROUP) {
-            Channel channel = null;
             for (Guild guild : bot.guilds()) {
                 if (guild.channelMap().containsKey(targetId)) {
-                    channel = guild.channelMap().get(targetId);
+                    sender = guild.channelMap().get(targetId);
+                    break;
                 }
             }
-            if (channel == null) return;
-            MessageAsyncBuilder builder = new MessageAsyncBuilder();
-            for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
-                if (sendAble != null) builder.append(sendAble);
+        } else if (type == MessageType.FRIEND) {
+            for (Guild guild : bot.guilds()) {
+                Member member = guild.getMember(targetId);
+                if (member != null) sender = guild.create(targetId);
             }
-            SendAble sendAble = builder.build();
-            channel.send(sendAble);
         }
+        if (sender == null) return;
+        MessageAsyncBuilder builder = new MessageAsyncBuilder();
+        for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
+            if (sendAble != null) builder.append(sendAble);
+        }
+        SendAble sendAble = builder.build();
+        sender.send(sendAble);
     }
 
     @Override
