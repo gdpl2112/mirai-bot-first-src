@@ -89,14 +89,19 @@ public class GameFinalSource {
         ID_2_NAME_MAPS.put(118, "忘忧之香");
         ID_2_NAME_MAPS.put(119, "净化药水");
         ID_2_NAME_MAPS.put(120, "变异魂环");
+
         ID_2_NAME_MAPS.put(121, "普通魂导材料");
         ID_2_NAME_MAPS.put(122, "中级魂导材料");
         ID_2_NAME_MAPS.put(123, "高级魂导材料");
+
         ID_2_NAME_MAPS.put(124, "魂导护盾");
         ID_2_NAME_MAPS.put(125, "高级魂导护盾");
+
         ID_2_NAME_MAPS.put(126, "魂导炮");
         ID_2_NAME_MAPS.put(127, "高级魂导炮");
+
         ID_2_NAME_MAPS.put(128, "升级券");
+
         ID_2_NAME_MAPS.put(129, "魂兽挑战券");
         ID_2_NAME_MAPS.put(130, "奖券");
         //==
@@ -128,6 +133,7 @@ public class GameFinalSource {
         ID_2_NAME_MAPS.put(518, "红衣掠头者");
         ID_2_NAME_MAPS.put(519, "法老审判者");
         ID_2_NAME_MAPS.put(520, "天巨领主");
+        //===================
         ID_2_NAME_MAPS.put(601, "泰坦雪魔王");
         ID_2_NAME_MAPS.put(602, "冰帝帝皇蝎");
         ID_2_NAME_MAPS.put(603, "极地冰凤凰");
@@ -152,6 +158,7 @@ public class GameFinalSource {
         ID_2_NAME_MAPS.put(1511, "低级头部魂骨");
         ID_2_NAME_MAPS.put(1512, "中级头部魂骨");
         ID_2_NAME_MAPS.put(1513, "高级头部魂骨");
+        //==================
         ID_2_NAME_MAPS.put(1514, "泰坦巨猿头部魂骨");
         ID_2_NAME_MAPS.put(1515, "天青牛蟒头部魂骨");
         //===
