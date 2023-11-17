@@ -1,9 +1,7 @@
 package io.github.kloping.kzero.guilds;
 
-import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.date.DateUtils;
-import io.github.kloping.judge.Judge;
-import io.github.kloping.kzero.gsuid.*;
+import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.qqbot.Starter;
@@ -11,19 +9,17 @@ import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageDirectReceiveEvent;
-import io.github.kloping.qqbot.api.message.MessageEvent;
+import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
-import io.github.kloping.qqbot.entities.ex.At;
-import io.github.kloping.qqbot.entities.ex.Image;
-import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
-import io.github.kloping.qqbot.entities.ex.PlainText;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.EventReceiver;
 import io.github.kloping.qqbot.impl.ListenerHost;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 /**
  * @author github.kloping
@@ -44,6 +40,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     private String appid;
     private String token;
+    private String secret;
     private Integer code;
 
     public GuildStater(String appid, String token, Integer code) {
@@ -52,9 +49,18 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.code = code;
     }
 
+    public GuildStater(String appid, String token, String secret, Integer code) {
+        this.appid = appid;
+        this.token = token;
+        this.secret = secret;
+        this.code = code;
+    }
+
     @Override
     public void run() {
-        Starter starter = new Starter(appid, token);
+        Starter starter;
+        if (secret == null) starter = new Starter(appid, token);
+        else starter = new Starter(appid, token, secret);
         try {
             File file = new File(String.format("./logs/%s/%s-%s-%s.log", appid, DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
             file.getParentFile().mkdirs();
@@ -65,6 +71,18 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         }
         starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
+        starter.getConfig().setInterceptor0(bytes -> {
+            try {
+                String url = Jsoup.connect("http://bak0.kloping.top:81/upload-img")
+                        .ignoreContentType(true)
+                        .ignoreContentType(true)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+                        .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+                return url;
+            } catch (IOException e) {
+                return e.getMessage();
+            }
+        });
         starter.run();
     }
 
@@ -101,42 +119,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
-        GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
-
-            @Override
-            public void onMessage(MessageOut out) {
-                if (Judge.isEmpty(out.getMsg_id())) return;
-                MessageEvent raw = getMessage(out.getMsg_id());
-                MessageAsyncBuilder builder = new MessageAsyncBuilder();
-                if (raw instanceof MessageChannelReceiveEvent) {
-                    builder.append(new At(At.MEMBER_TYPE, raw.getSender().getUser().getId()));
-                    builder.append(new PlainText("\n"));
-                }
-                for (MessageData d0 : out.getContent()) {
-                    if (d0.getType().equals("node")) {
-                        try {
-                            JSONArray array = (JSONArray) d0.getData();
-                            for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                                builderAppend(builder, d1);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else builderAppend(builder, d0);
-                }
-                builder.reply(raw.getRawMessage());
-                raw.send(builder.build());
-            }
-
-            private void builderAppend(MessageAsyncBuilder builder, MessageData d0) {
-                if (d0.getType().equals("text")) {
-                    builder.append(new PlainText(d0.getData().toString().trim()));
-                } else if (d0.getType().equals("image")) {
-                    byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-                    builder.append(new Image(bytes));
-                }
-            }
-        });
+        GsuidClient.INSTANCE.addListener(bid, g2g);
+        GsuidClient.INSTANCE.addListener(Guild2Gsuid.PGCID, g2g);
         if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
         onConnectedEventFirst(event);
     }
@@ -148,10 +132,12 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         listener.created(this, kZeroBot);
     }
 
+    private Guild2Gsuid g2g = new Guild2Gsuid();
+
     @EventReceiver
     public void onEvent(MessageChannelReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        offer(event);
+        g2g.offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
@@ -161,14 +147,31 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
-            sendToGsuid(event);
+            g2g.sendToGsuid(event);
+        }
+    }
+
+    @EventReceiver
+    public void onEvent(GroupMessageEvent event) {
+        MessageChain chain = event.getMessage();
+        String id = g2g.offer(event);
+        if (handler != null) {
+            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            String outMsg = kZeroBot.getSerializer().serialize(chain);
+            if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
+            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getId(),
+                    event.getSubject().getId(), outMsg);
+            pack.setRaw(event);
+            handler.onMessage(pack);
+            //plugin to gsuid
+            g2g.sendToGsuid(event, id);
         }
     }
 
     @EventReceiver
     public void onEvent(MessageDirectReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        offer(event);
+        g2g.offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
@@ -176,73 +179,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
-            sendToGsuid(event);
+            g2g.sendToGsuid(event);
         }
     }
-
-    private void sendToGsuid(MessageEvent event) {
-        MessageChain chain = event.getMessage();
-        List<MessageData> list = new ArrayList<>();
-        chain.forEach(e -> {
-            MessageData message = new MessageData();
-            if (e instanceof PlainText) {
-                message.setType("text");
-                String data = e.toString().trim();
-                if (data.startsWith("/") && data.length() > 1) data = data.substring(1);
-                message.setData(data);
-            } else if (e instanceof Image) {
-                Image image = (Image) e;
-                message.setType("image");
-                message.setData(image.getUrl().startsWith("http") ? image.getUrl() : "https://" + image.getUrl());
-            } else if (e instanceof At) {
-                At at = (At) e;
-                if (event.getBot().getId().equals(at.getTargetId())) {
-                    return;
-                } else {
-                    message.setType("text");
-                    message.setData("[CQ:at,qq=" + at.getTargetId() + "]");
-                }
-            } else return;
-            list.add(message);
-        });
-        if (list.size() > 0) {
-            MessageReceive receive = new MessageReceive();
-            receive.setBot_id("pd-client");
-            receive.setBot_self_id(event.getBot().getId());
-            receive.setUser_id(event.getSender().getUser().getId());
-            receive.setMsg_id(event.getRawMessage().getId());
-            receive.setUser_type("direct");
-            receive.setGroup_id("");
-            if (event instanceof MessageChannelReceiveEvent) {
-                receive.setUser_type("group");
-                receive.setGroup_id(((MessageChannelReceiveEvent) event).getGuild().getId());
-            }
-            if ("7749068863541459083".equals(event.getSender().getUser().getId())) receive.setUser_pm(0);
-            else receive.setUser_pm(2);
-            receive.setContent(list.toArray(new MessageData[0]));
-            GsuidClient.INSTANCE.send(receive);
-        }
-    }
-
-    //=============消息记录start
-    private static final Integer MAX_E = 50;
-
-    private Deque<MessageEvent> QUEUE = new LinkedList<>();
-
-    private void offer(MessageEvent msg) {
-        if (QUEUE.contains(msg)) return;
-        if (QUEUE.size() >= MAX_E) QUEUE.pollLast();
-        QUEUE.offerFirst(msg);
-    }
-
-    private MessageEvent temp0 = null;
-
-    private MessageEvent getMessage(String id) {
-        if (temp0 != null && temp0.getRawMessage().getId().equals(id)) return temp0;
-        for (MessageEvent event : QUEUE) {
-            if (event.getRawMessage().getId().equals(id)) return temp0 = event;
-        }
-        return null;
-    }
-    //=============消息记录end
 }

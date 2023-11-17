@@ -14,8 +14,8 @@ public class DevMain {
     public static void main(String[] args) {
         KZeroMainThreads threads = new KZeroMainThreads();
         threads.add(new MiraiStater());
-        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF",
-                Intents.PUBLIC_INTENTS.getCode()));
+        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
+                Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
         threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
                 Intents.PRIVATE_INTENTS.getCode()));
         threads.add(GsuidClient.INSTANCE);

@@ -73,7 +73,7 @@ public class UserInfoController {
         return scoreService.scorePh(s0);
     }
 
-    @Action(value = "抢劫.+", otherName = {"打劫.+"})
+    @Action(value = "抢劫.*?", otherName = {"打劫.*?"})
     public String robbery(String sid, @AllMess String str) {
         String tid = Utils.getAtFormat(str);
         if (Judge.isEmpty(tid)) return ResourceSet.FinalString.NOT_FOUND_AT;

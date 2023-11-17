@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.clasz.ClassUtils;
 import io.github.kloping.object.ObjectUtils;
-import net.mamoe.mirai.message.code.MiraiCode;
 import org.springframework.web.util.UriUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -119,6 +118,14 @@ public class Utils {
                 }
             }
         }
+    }
+
+    public static boolean isAllNumber(String sid) {
+        for (char c : sid.toCharArray()) {
+            if (c < '0' || c > '9')
+                return false;
+        }
+        return true;
     }
 
     /**

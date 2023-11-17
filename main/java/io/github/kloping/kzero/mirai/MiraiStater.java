@@ -15,6 +15,7 @@ import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.nio.file.Paths;
@@ -149,25 +150,10 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     }
 
     private void sendToGsuid(MessageEvent event) {
-        MessageChain chain = event.getMessage();
-        List<MessageData> list = new ArrayList<>();
-        chain.forEach(e -> {
-            MessageData message = new MessageData();
-            if (e instanceof PlainText) {
-                message.setType("text");
-                String data = e.toString().trim();
-                if (data.equalsIgnoreCase("/gs帮助")) data = "gs帮助";
-                message.setData(data);
-            } else if (e instanceof Image) {
-                Image image = (Image) e;
-                message.setType("image");
-                message.setData(Image.queryUrl(image));
-            } else return;
-            list.add(message);
-        });
-        if (list.size() > 0) {
+        List<MessageData> list = getMessageData(event);
+        if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
-            receive.setBot_id("mirai-client");
+            receive.setBot_id("qq-client");
             receive.setBot_self_id(String.valueOf(event.getBot().getId()));
             receive.setUser_id(String.valueOf(event.getSender().getId()));
             receive.setMsg_id(getMessageEventId(event));
@@ -182,6 +168,35 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             receive.setContent(list.toArray(new MessageData[0]));
             GsuidClient.INSTANCE.send(receive);
         }
+    }
+
+    @NotNull
+    private static List<MessageData> getMessageData(MessageEvent event) {
+        MessageChain chain = event.getMessage();
+        List<MessageData> list = new ArrayList<>();
+        chain.forEach(e -> {
+            MessageData message = new MessageData();
+            if (e instanceof PlainText) {
+                message.setType("text");
+                String data = e.toString().trim();
+                if (data.equalsIgnoreCase("/gs帮助")) data = "gs帮助";
+                message.setData(data);
+            } else if (e instanceof Image) {
+                Image image = (Image) e;
+                message.setType("image");
+                message.setData(Image.queryUrl(image));
+            } else if (e instanceof At) {
+                At at = (At) e;
+                if (at.getTarget() == event.getBot().getId())
+                    return;
+                else {
+                    message.setType("text");
+                    message.setData("[CQ:at,qq=" + at.getTarget() + "]");
+                }
+            } else return;
+            list.add(message);
+        });
+        return list;
     }
 
     //=============消息记录start

@@ -37,6 +37,7 @@ public class KlopingApiController {
     public String weather(@Param("name") String name) {
         try {
             WeatherDetail wd = klopingWeb.weatherDetail(name.trim());
+            if (wd == null) return "天气获取失败!";
             StringBuilder sb = new StringBuilder();
             sb.append(wd.getTime()).append("\n");
             sb.append(wd.getAddress()).append(": ").append(wd.getDescribed()).append("\n");
@@ -59,6 +60,7 @@ public class KlopingApiController {
     public String shortWeather(@Param("name") String name) {
         try {
             WeatherM wm = klopingWeb.weatherM(name.trim());
+            if (wm == null) return "短时获取失败!";
             StringBuilder sb = new StringBuilder();
             sb.append(wm.getName()).append(" 的短时预报:\n======\n");
             sb.append(wm.getIntro()).append("\n=======\n\t");
