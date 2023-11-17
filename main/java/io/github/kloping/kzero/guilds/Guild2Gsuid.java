@@ -14,6 +14,7 @@ import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author github.kloping
@@ -168,12 +169,9 @@ public class Guild2Gsuid implements GsuidMessageListener {
             return id;
         } finally {
             Long t0 = System.currentTimeMillis() - (120000);
-            Iterator<String> iterator = map0.keySet().iterator();
-            while (iterator.hasNext()) {
-                String t1 = iterator.next();
-                Long t2 = Long.valueOf(t1);
-                if (t2 < t0) map0.remove(t1);
-            }
+            map0 = map0.entrySet().stream()
+                    .filter(map -> Long.valueOf(map.getKey()) > t0)
+                    .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         }
     }
 
