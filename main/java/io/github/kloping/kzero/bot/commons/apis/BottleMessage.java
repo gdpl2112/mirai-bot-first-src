@@ -10,8 +10,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class BottleMessage {
     private Integer id;
-    private Long gid;
-    private Long sid;
+    private String gid;
+    private String sid;
     private Long time;
     private String name;
     private String message;

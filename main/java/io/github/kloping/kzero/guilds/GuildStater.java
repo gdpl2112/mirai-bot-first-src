@@ -56,6 +56,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.code = code;
     }
 
+    private final String host = "localhost";
+
     @Override
     public void run() {
         Starter starter;
@@ -73,11 +75,12 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         starter.registerListenerHost(this);
         starter.getConfig().setInterceptor0(bytes -> {
             try {
-                String url = Jsoup.connect("http://bak0.kloping.top:81/upload-img")
+                String url = Jsoup.connect(String.format("http://%s/upload-img", host))
                         .ignoreContentType(true)
                         .ignoreContentType(true)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
                         .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+                url = url.replace(host, "kloping.top");
                 return url;
             } catch (IOException e) {
                 return e.getMessage();
