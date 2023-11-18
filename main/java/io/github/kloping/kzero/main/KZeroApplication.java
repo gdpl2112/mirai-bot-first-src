@@ -3,6 +3,7 @@ package io.github.kloping.kzero.main;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.StarterObjectApplication;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.h1.impl.component.FieldManagerImpl;
@@ -32,6 +33,8 @@ public class KZeroApplication implements BotMessageHandler {
         this.stater = stater;
         this.bot = bot;
     }
+
+
 
     public void start() {
         stater.setHandler(bot, this);
@@ -97,17 +100,6 @@ public class KZeroApplication implements BotMessageHandler {
     private StarterObjectApplication application0;
 
     public void verify() throws RuntimeException {
-//        String code = application0.INSTANCE.getContextManager().getContextEntity(String.class, "auth_code");
-//        if (code == null) throw new RuntimeException("没有配置授权码(Authorization not configured) auth_code");
-//        KlopingWeb kloping = application0.INSTANCE.getContextManager().getContextEntity(KlopingWeb.class);
-//        String r0 = kloping.verify0(code);
-//        if (!Boolean.valueOf(false)) {
-//            try {
-//                throw new RuntimeException("授权码过期或不可用(Authorization code expired or unavailable)");
-//            } finally {
-//                System.exit(0);
-//            }
-//        } else
         StarterApplication.logger.info("授权码验证成功√√√");
     }
 }

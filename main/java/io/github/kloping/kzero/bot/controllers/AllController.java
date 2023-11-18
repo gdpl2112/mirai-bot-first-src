@@ -6,6 +6,7 @@ import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
+import io.github.kloping.kzero.main.KZeroApplication;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
@@ -31,6 +32,9 @@ public class AllController implements Runner {
     @AutoStand
     DataBase dataBase;
 
+    @AutoStand(id = "upload.url")
+    public static String UPLOAD_URL;
+
     @Override
     public void run(Method method, Object t, Object[] objects)  {
         Class cla = method.getDeclaringClass();
@@ -51,7 +55,7 @@ public class AllController implements Runner {
 
     @Action("测试<.+=>name>")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        return subscribeController.futureWeaNow(name);
+        return UPLOAD_URL;
     }
 
     private List<String> wakes = new LinkedList<>();

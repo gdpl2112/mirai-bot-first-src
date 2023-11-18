@@ -2,6 +2,7 @@ package io.github.kloping.kzero.guilds;
 
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.gsuid.GsuidClient;
+import io.github.kloping.kzero.main.KZeroApplication;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.qqbot.Starter;
@@ -20,6 +21,8 @@ import org.jsoup.Jsoup;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+
+import static io.github.kloping.kzero.bot.controllers.AllController.UPLOAD_URL;
 
 /**
  * @author github.kloping
@@ -56,8 +59,6 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.code = code;
     }
 
-    private final String host = "localhost";
-
     @Override
     public void run() {
         Starter starter;
@@ -75,12 +76,12 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         starter.registerListenerHost(this);
         starter.getConfig().setInterceptor0(bytes -> {
             try {
-                String url = Jsoup.connect(String.format("http://%s/upload-img", host))
+                String url = Jsoup.connect(String.format("http://%s/upload-img", UPLOAD_URL))
                         .ignoreContentType(true)
                         .ignoreContentType(true)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
                         .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
-                url = url.replace(host, "kloping.top");
+                url = url.replace(UPLOAD_URL, "kloping.top");
                 return url;
             } catch (IOException e) {
                 return e.getMessage();
