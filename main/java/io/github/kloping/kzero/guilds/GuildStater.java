@@ -56,7 +56,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.code = code;
     }
 
-    private final String host = "kloping.top";
+    private final String host = "localhost";
 
     @Override
     public void run() {
