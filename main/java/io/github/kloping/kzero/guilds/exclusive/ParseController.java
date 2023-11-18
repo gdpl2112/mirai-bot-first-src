@@ -47,7 +47,8 @@ public class ParseController {
             if (jo.getString("msg").contains("视频")) {
                 JSONObject data = jo.getJSONObject("data");
                 MessageAsyncBuilder builder = new MessageAsyncBuilder();
-                builder.append(new Image(data.getString("cover")))
+                builder
+                        //.append(new Image(data.getString("cover")))
                         .append("\n作者: ").append(data.getString("author"))
                         .append("\n标题: ").append(data.getString("title"));
                 builder.append(new Image(data.getString("url"), 2));

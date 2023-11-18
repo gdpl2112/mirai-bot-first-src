@@ -5,6 +5,7 @@ import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
+import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.ex.At;
 import io.github.kloping.qqbot.entities.ex.Image;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
@@ -52,9 +53,9 @@ public class Guild2Gsuid implements GsuidMessageListener {
             receive.setMsg_id(event.getRawMessage().getId());
             receive.setUser_type("direct");
             receive.setGroup_id("");
-            if (event instanceof BaseMessageChannelReceiveEvent) {
+            if (event instanceof BaseMessageChannelReceiveEvent || event instanceof GroupMessageEvent) {
                 receive.setUser_type("group");
-                receive.setGroup_id(((BaseMessageChannelReceiveEvent) event).getGuild().getId());
+                receive.setGroup_id(event.getSubject().getId());
             }
             if ("7749068863541459083".equals(event.getSender().getId())) receive.setUser_pm(0);
             else if ("90724F608275850FD6169155FAAEC172".equals(event.getSender().getId())) receive.setUser_pm(0);
@@ -96,10 +97,6 @@ public class Guild2Gsuid implements GsuidMessageListener {
     public void onMessage(MessageOut out) {
         if (Judge.isEmpty(out.getMsg_id())) return;
         MessageEvent raw = null;
-//        if (out.getBot_self_id().equals(PGCID)) {
-//            onMessageV2(out);
-//            return;
-//        } else
         raw = getMessage(out.getMsg_id());
         MessageAsyncBuilder builder = new MessageAsyncBuilder();
         if (raw instanceof MessageChannelReceiveEvent) {
@@ -130,72 +127,4 @@ public class Guild2Gsuid implements GsuidMessageListener {
             builder.append(new Image(bytes));
         }
     }
-//
-//    private void onMessageV2(MessageOut out) {
-//        MessageAsyncBuilder builder = new MessageAsyncBuilder();
-//        MessageV2Event event = getMessageV(out.getMsg_id());
-//        for (MessageData d0 : out.getContent()) {
-//            if (d0.getType().equals("node")) {
-//                try {
-//                    JSONArray array = (JSONArray) d0.getData();
-//                    for (MessageData d1 : array.toJavaList(MessageData.class)) {
-//                        builderAppendV2(builder, d1);
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else builderAppendV2(builder, d0);
-//        }
-//        event.sendMessage(builder.build());
-//    }
-//
-//    private void builderAppendV2(MessageAsyncBuilder builder, MessageData d0) {
-//        if (d0.getType().equals("text")) {
-//            builder.append(new PlainText(d0.getData().toString().trim()));
-//        } else if (d0.getType().equals("image")) {
-//            byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-//            builder.append(new Image(bytes));
-//        }
-//    }
-//
-//
-//    public Map<String, MessageV2Event> map0 = new HashMap<>();
-//
-//    public synchronized String offer(MessageEvent msg) {
-//        try {
-//            String id = String.valueOf(System.currentTimeMillis());
-//            map0.put(id, msg);
-//            return id;
-//        } finally {
-//            if (map0.size() >= 60) {
-//                Long t0 = System.currentTimeMillis() - (120000);
-//                map0 = map0.entrySet().stream()
-//                        .filter(map -> Long.valueOf(map.getKey()) > t0)
-//                        .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
-//            }
-//        }
-//    }
-//
-//    public MessageV2Event getMessageV(String id) {
-//        return map0.get(id);
-//    }
-//
-//    public static final String PGCID = "101";
-//
-//    public void sendToGsuid(MessageV2Event event, String id) {
-//        List<MessageData> list = getMessageData(event.getMessage(), PGCID);
-//        if (!list.isEmpty()) {
-//            MessageReceive receive = new MessageReceive();
-//            receive.setBot_id("pd-qq-client");
-//            receive.setBot_self_id(PGCID);
-//            receive.setUser_id(event.getSender().getId());
-//            receive.setMsg_id(id);
-//            receive.setUser_type("group");
-//            receive.setGroup_id(event.getSubject().getId());
-//            if ("90724F608275850FD6169155FAAEC172".equals(event.getSender().getId())) receive.setUser_pm(0);
-//            else receive.setUser_pm(2);
-//            receive.setContent(list.toArray(new MessageData[0]));
-//            GsuidClient.INSTANCE.send(receive);
-//        }
-//    }
 }

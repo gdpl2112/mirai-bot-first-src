@@ -8,7 +8,6 @@ import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.SenderAndCidMidGetter;
 import io.github.kloping.qqbot.api.message.MessageEvent;
-import io.github.kloping.qqbot.api.v2.MessageV2Event;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
@@ -77,7 +76,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
     @Override
     public void onResult(Method method, Object data, MessagePack pack) {
         if (data != null && Judge.isNotEmpty(data.toString())) {
-            if (pack.getRaw() instanceof MessageEvent) {
+       /*     if (pack.getRaw() instanceof MessageEvent) {
                 MessageEvent event = (MessageEvent) pack.getRaw();
                 if (data.getClass().isArray()) {
                     String targetId = pack.getSubjectId();
@@ -117,6 +116,27 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                         if (sendAble != null) builder.append(sendAble);
                     event.sendMessage(builder.build());
                 }
+            }*/
+            MessageEvent event = (MessageEvent) pack.getRaw();
+            if (data.getClass().isArray()) {
+                String targetId = pack.getSubjectId();
+                Object[] objects = (Object[]) data;
+                for (Object msg : objects) {
+                    MessageAsyncBuilder builder = new MessageAsyncBuilder();
+                    for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
+                        if (sendAble != null) builder.append(sendAble);
+                    }
+                    builder.reply(event.getRawMessage());
+                    event.send(builder.build());
+                }
+            } else if (data instanceof SendAble) {
+                event.send((SendAble) data);
+            } else {
+                MessageAsyncBuilder builder = new MessageAsyncBuilder();
+                for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString()))
+                    if (sendAble != null) builder.append(sendAble);
+                builder.reply(event.getRawMessage());
+                event.send(builder.build());
             }
         }
     }
