@@ -56,7 +56,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         this.code = code;
     }
 
-    private final String host = "localhost";
+    private final String host = "kloping.top";
 
     @Override
     public void run() {
@@ -123,7 +123,6 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
         GsuidClient.INSTANCE.addListener(bid, g2g);
-        GsuidClient.INSTANCE.addListener(Guild2Gsuid.PGCID, g2g);
         if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
         onConnectedEventFirst(event);
     }
@@ -157,7 +156,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onEvent(GroupMessageEvent event) {
         MessageChain chain = event.getMessage();
-        String id = g2g.offer(event);
+        g2g.offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
@@ -167,7 +166,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
-            g2g.sendToGsuid(event, id);
+            g2g.sendToGsuid(event);
         }
     }
 
