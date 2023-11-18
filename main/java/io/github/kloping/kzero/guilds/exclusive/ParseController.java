@@ -56,8 +56,7 @@ public class ParseController {
         JSONObject data = jo.getJSONObject("data");
         if (data == null) return "解析失败或不支持发送";
         MessageAsyncBuilder builder = new MessageAsyncBuilder();
-        builder.append("\n作者: ").append(data.getString("author"))
-                .append("\n标题: ").append(data.getString("title"));
+        builder.append("\n标题: ").append(data.getString("title"));
         builder.append(new Image(data.getString("url"), 2));
         return builder.build();
 
