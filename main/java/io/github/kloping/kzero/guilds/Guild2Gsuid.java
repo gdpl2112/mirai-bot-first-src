@@ -168,10 +168,12 @@ public class Guild2Gsuid implements GsuidMessageListener {
             map0.put(id, msg);
             return id;
         } finally {
-            Long t0 = System.currentTimeMillis() - (120000);
-            map0 = map0.entrySet().stream()
-                    .filter(map -> Long.valueOf(map.getKey()) > t0)
-                    .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+            if (map0.size() >= 60) {
+                Long t0 = System.currentTimeMillis() - (120000);
+                map0 = map0.entrySet().stream()
+                        .filter(map -> Long.valueOf(map.getKey()) > t0)
+                        .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+            }
         }
     }
 

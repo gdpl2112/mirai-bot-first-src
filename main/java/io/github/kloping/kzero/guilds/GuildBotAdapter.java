@@ -109,6 +109,8 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                         }
                         event.sendMessage(builder.build());
                     }
+                } else if (data instanceof SendAble) {
+                    event.sendMessage((SendAble) data);
                 } else {
                     MessageAsyncBuilder builder = new MessageAsyncBuilder();
                     for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString()))
