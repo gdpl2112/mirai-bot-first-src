@@ -3,7 +3,6 @@ package io.github.kloping.kzero.bot.interfaces.httpApi;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.*;
 import io.github.kloping.kzero.bot.commons.apis.*;
-import io.github.kloping.kzero.bot.commons.apis.baiduShitu.response.ShituData;
 import io.github.kloping.kzero.bot.commons.apis.kloping.VideoAnimeSource;
 
 import java.util.Map;
@@ -225,7 +224,7 @@ public interface KlopingWeb {
     JSONObject acode(@ParamName("name") String name);
 
     @GetPath("/api/search/searchPic")
-    ShituData[] searchPics(@ParamName("url") String url);
+    String searchPics(@ParamName("url") String url);
 
     @GetPath("api/get/pvp-skin")
     String posters(@ParamName("name") String name);

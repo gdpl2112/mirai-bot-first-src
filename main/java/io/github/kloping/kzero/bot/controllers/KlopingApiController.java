@@ -9,7 +9,6 @@ import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
-import io.github.kloping.kzero.bot.commons.apis.baiduShitu.response.ShituData;
 import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -147,12 +146,21 @@ public class KlopingApiController {
     private Object searchPicNow(String url, KZeroBot bot) {
         List<String> list = new ArrayList();
         url = URLEncoder.encode(url, StandardCharsets.UTF_8);
-        ShituData[] dataList = web.searchPics(url);
-        if (dataList != null) {
-            for (ShituData shituData : dataList) {
-                list.add(String.format("<pic:%s>\nsource:%s", shituData.getThumbUrl(), shituData.getFromUrl()));
+        String jsonData = web.searchPics(url);
+        try {
+            JSONArray array = JSON.parseArray(jsonData);
+            for (Object o : array) {
+                JSONObject e = (JSONObject) o;
+                if (e.containsKey("website")) {
+                    list.add(String.format("<pic:%s>\nsource:%s\ntitle:%s", e.getString("image_src"), e.getString("url"), e.getJSONArray("title")));
+                } else {
+                    list.add(String.format("<pic:%s>\nsource:%s", e.getString("thumbUrl"), e.getString("fromUrl")));
+                }
             }
-        } else return "搜索失败,请稍等重试!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "搜索失败,请稍等重试!";
+        }
         return list.toArray(new String[0]);
     }
 
