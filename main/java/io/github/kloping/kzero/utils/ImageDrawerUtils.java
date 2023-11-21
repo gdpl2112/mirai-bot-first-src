@@ -62,6 +62,8 @@ public class ImageDrawerUtils {
     public static final Color BLACK_A35 = new Color(0, 0, 0, 89);
     public static final Color WHITE_A35 = new Color(211, 211, 211, 89);
 
+    public static final Stroke STROKE3 = new BasicStroke(3.0f);
+    public static final Stroke STROKE2 = new BasicStroke(2.0f);
 
 
     public static void drawStringContinuousDiscoloration(Graphics graphics, int x, int y,

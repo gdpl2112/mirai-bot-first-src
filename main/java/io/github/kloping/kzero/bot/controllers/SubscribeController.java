@@ -100,16 +100,20 @@ public class SubscribeController {
     protected String futureWeaNow(String addr) throws Exception {
         int r0 = RandomUtils.RANDOM.nextInt(3);
         BufferedImage image = ImageDrawerUtils.readImage(sourceDataBase.getImgPathById("info_bg"), 825, 900);
-        String json = UrlUtils.getStringFromHttpUrl("https://v2.api-m.com/api/weather?city=" + URLEncoder.encode(addr));
+
+        String json = null;
+        json = UrlUtils.getStringFromHttpUrl("https://v2.api-m.com/api/weather?city=" + URLEncoder.encode(addr));
+//        json = "{\"code\":200,\"msg\":\"数据请求成功\",\"data\":{\"city\":\"广州市\",\"data\":[{\"date\":\"周一\",\"temperature\":\"11-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"良\"},{\"date\":\"周二\",\"temperature\":\"12-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"良\"},{\"date\":\"周三\",\"temperature\":\"13-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"轻度\"},{\"date\":\"周四\",\"temperature\":\"15-27℃\",\"weather\":\"晴\",\"wind\":\"微风1级\",\"air_quality\":\"良\"},{\"date\":\"周五\",\"temperature\":\"14-26℃\",\"weather\":\"晴\",\"wind\":\"东北风3-4级\",\"air_quality\":\"良\"},{\"date\":\"周六\",\"temperature\":\"14-25℃\",\"weather\":\"多云\",\"wind\":\"微风1级\",\"air_quality\":\"良\"}]}}";
+
         JSONObject jsono = JSON.parseObject(json);
         JSONObject data = jsono.getJSONObject("data");
         JSONArray dataArr = jsono.getJSONObject("data").getJSONArray("data");
 
-        Graphics graphics = image.getGraphics();
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
         graphics.setColor(ImageDrawerUtils.BLACK_A35);
 
-        graphics.fillRoundRect(10, 10, 265, 430, 30, 30);
-        graphics.fillRoundRect(285, 10, 530, 430, 30, 30);
+        graphics.fillRoundRect(10, 10, 265, 410, 30, 30);
+        graphics.fillRoundRect(285, 10, 530, 410, 30, 30);
 
         graphics.setColor(ImageDrawerUtils.BLACK_A75);
         graphics.drawLine(285, 225, 815, 225);
@@ -136,7 +140,7 @@ public class SubscribeController {
             JSONObject dr0 = dataArr.getJSONObject(i);
             graphics.setFont(ImageDrawerUtils.SMALL_FONT46);
             ImageDrawerUtils.drawStringContinuousDiscoloration(
-                    graphics, x + 20, y + 60
+                    graphics, x + 20, y + 75
                     , i == 0 ? "昨: " : "今: ", ImageDrawerUtils.BLACK_A60
                     , dr0.getString("date"), ImageDrawerUtils.RED_A75
                     , "/", ImageDrawerUtils.BLACK_A85
@@ -153,7 +157,7 @@ public class SubscribeController {
             Integer highest = Integer.valueOf(highest0);
             tempList.add(new AbstractMap.SimpleEntry<>(lowest, highest));
             ImageDrawerUtils.drawStringContinuousDiscoloration(
-                    graphics, x + 20, y + 120
+                    graphics, x + 20, y + 130
                     , "温度: ", ImageDrawerUtils.ORIGIN_A75
                     , lowest0, getColorByTemperature(lowest)
                     , "-", ImageDrawerUtils.BLACK_A75
@@ -170,15 +174,15 @@ public class SubscribeController {
                     , "/", ImageDrawerUtils.BLACK_A85
                     , dr0.getString("wind"), ImageDrawerUtils.BLUE2_A75
             );
-            y += 210;
+            y += 205;
         }
 
         x = 5;
-        y = 455;
+        y = 425;
         for (int i = 0; i < 4; i++) {
             JSONObject dr0 = dataArr.getJSONObject(i + 2);
             graphics.setColor(ImageDrawerUtils.BLACK_A35);
-            graphics.fillRoundRect(x, y, 200, 235, 30, 30);
+            graphics.fillRoundRect(x, y, 200, 190, 30, 30);
 
             graphics.setFont(ImageDrawerUtils.SMALL_FONT38);
             graphics.setColor(ImageDrawerUtils.BLACK_A75);
@@ -206,55 +210,75 @@ public class SubscribeController {
                     , "℃", ImageDrawerUtils.BLACK_A75
             );
 
-            ImageDrawerUtils.drawStringContinuousDiscoloration(
-                    graphics, x + 10, y + 130
+            ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, x + 10, y + 120
                     , "天气: ", ImageDrawerUtils.WHITE_A60
                     , dr0.getString("weather"), ImageDrawerUtils.BLUE2_A75
             );
 
-            ImageDrawerUtils.drawStringContinuousDiscoloration(
-                    graphics, x + 10, y + 170
+            ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, x + 10, y + 150
                     , "空气质量:", ImageDrawerUtils.WHITE_A80
                     , dr0.getString("air_quality"), ImageDrawerUtils.BLUE_A75
             );
 
             graphics.setColor(ImageDrawerUtils.BLUE2_A75);
-            graphics.drawString(dr0.getString("wind"), x + 10, y + 210);
+            graphics.drawString(dr0.getString("wind"), x + 10, y + 180);
 
             x += 205;
         }
 
         graphics.setFont(ImageDrawerUtils.SMALL_FONT18);
         graphics.setColor(ImageDrawerUtils.BLACK_A45);
-        y = 695;
+        y = 645;
         x = 12;
-        graphics.fillRoundRect(x, y, 800, 200, 6, 6);
-        graphics.drawLine(x, y + 50, x + 800, y + 50);
-        graphics.drawString("10℃", x, y + 50);
-        graphics.drawLine(x, y + 100, x + 800, y + 100);
-        graphics.drawString("0℃", x, y + 100);
-        graphics.drawLine(x, y + 150, x + 800, y + 150);
-        graphics.drawString("-10℃", x, y + 150);
+        int h0 = 270;
+        graphics.fillRoundRect(x, y - 20, 800, h0, 6, 6);
+
+        //温度横线高度
+        int yh0 = 20;
+        int y0 = y + yh0;
+        graphics.drawLine(x, y0, x + 800, y0);
+        graphics.drawString("20℃", x, y0);
+
+        y0 = y + 50 + yh0;
+        graphics.drawLine(x, y0, x + 800, y0);
+        graphics.drawString("10℃", x, y0);
+
+        y0 = y + (50 * 2) + yh0;
+        Stroke stroke = graphics.getStroke();
+        graphics.setStroke(ImageDrawerUtils.STROKE3);
+        graphics.drawLine(x, y0, x + 800, y0);
+        graphics.drawString("0℃", x, y0);
+        graphics.setStroke(stroke);
+
+        y0 = y + (50 * 3) + yh0;
+        graphics.drawLine(x, y0, x + 800, y0);
+        graphics.drawString("-10℃", x, y0);
+
+        y0 = y + (50 * 4) + yh0;
+        graphics.drawLine(x, y0, x + 800, y0);
+        graphics.drawString("-20℃", x, y0);
+
         x = 162;
         for (int i = 0; i < 6; i++) {
-            graphics.drawLine(x, y, x, y + 200);
-            graphics.drawString(WS[i], x, y + 190);
+            graphics.drawLine(x, y - 20, x, y + h0);
+            graphics.drawString(WS[i], x, y + h0 - 30);
             x += 100;
         }
 
-        ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, 20, 710
+        ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, 50, 740
                 , "--", ImageDrawerUtils.RED_A90
                 , "最高温", ImageDrawerUtils.RED_A90
         );
-        ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, 20, 725
+        ImageDrawerUtils.drawStringContinuousDiscoloration(graphics, 50, 755
                 , "--", ImageDrawerUtils.BLUE3_A90
                 , "最低温", ImageDrawerUtils.BLUE3_A90
         );
 
         graphics.setFont(ImageDrawerUtils.SMALL_FONT46);
         x = 162;
-        y = 795;
+        y = y + 100 + yh0;
         int eve0 = 100;
+        graphics.setStroke(ImageDrawerUtils.STROKE2);
         Map.Entry<Integer, Integer> uekv = null;
         for (Map.Entry<Integer, Integer> ekv : tempList) {
             if (uekv != null) {
