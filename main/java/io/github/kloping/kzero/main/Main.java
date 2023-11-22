@@ -6,6 +6,7 @@ import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.guilds.GuildStater;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.qqbot.api.Intents;
+import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 
 /**
