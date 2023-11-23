@@ -115,7 +115,6 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 }
             } else builderAppend(builder, d0);
         }
-        builder.reply(raw.getRawMessage());
         raw.send(builder.build());
     }
 

@@ -85,7 +85,6 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                     for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
                         if (sendAble != null) builder.append(sendAble);
                     }
-                    builder.reply(event.getRawMessage());
                     event.send(builder.build());
                 }
             } else if (data instanceof SendAble) {
@@ -94,7 +93,6 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                 MessageAsyncBuilder builder = new MessageAsyncBuilder();
                 for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(data.toString()))
                     if (sendAble != null) builder.append(sendAble);
-                builder.reply(event.getRawMessage());
                 event.send(builder.build());
             }
         }
