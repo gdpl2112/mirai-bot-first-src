@@ -59,6 +59,5 @@ public class ParseController {
         builder.append("\n标题: ").append(data.getString("title"));
         builder.append(new Image(data.getString("url"), 2));
         return builder.build();
-
     }
 }
