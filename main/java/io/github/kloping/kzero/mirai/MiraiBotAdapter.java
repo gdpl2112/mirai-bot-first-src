@@ -11,10 +11,7 @@ import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.events.MessageEvent;
-import net.mamoe.mirai.message.data.ForwardMessageBuilder;
-import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.QuoteReply;
+import net.mamoe.mirai.message.data.*;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
@@ -99,8 +96,12 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
                 event.getSubject().sendMessage(builder.build());
             } else {
                 Message msg = serializer.deserialize(data.toString());
-                msg = new QuoteReply(((MessageEvent) pack.getRaw()).getSource()).plus(msg);
-                event.getSubject().sendMessage(msg);
+                if (msg instanceof MusicShare) {
+                    event.getSubject().sendMessage(msg);
+                } else {
+                    msg = new QuoteReply(((MessageEvent) pack.getRaw()).getSource()).plus(msg);
+                    event.getSubject().sendMessage(msg);
+                }
             }
         }
     }
