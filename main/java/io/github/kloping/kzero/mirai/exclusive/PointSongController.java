@@ -45,44 +45,44 @@ public class PointSongController {
     }
 
     @Action("点歌<.+=>name>")
-    public String pointSong(@Param("name") String name, MessagePack pack, KZeroBotAdapter adapter) {
+    public String pointSong(@Param("name") String name, MessagePack pack, KZeroBot bot) {
         Songs songs = klopingWeb.getVipSongs(name, 1);
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
-            adapter.sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
                     MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
 
     @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})
-    public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBotAdapter adapter) {
+    public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBot bot) {
         Songs songs = klopingWeb.getSongs(name, "qq", 1);
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
-            adapter.sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
                     MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
 
     @Action(value = "酷狗点歌<.+=>name>",otherName = {"酷狗音乐点歌<.+=>name>"})
-    public String pointSongKugou(@Param("name") String name, MessagePack pack, KZeroBotAdapter adapter) {
+    public String pointSongKugou(@Param("name") String name, MessagePack pack, KZeroBot bot) {
         Songs songs = klopingWeb.getSongs(name, "kugou", 1);
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
-            adapter.sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
                     MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
 
     @Action(value = "网易点歌<.+=>name>",otherName = {"网易云点歌<.+=>name>"})
-    public String pointSongNetEase(@Param("name") String name, MessagePack pack, KZeroBotAdapter adapter) {
+    public String pointSongNetEase(@Param("name") String name, MessagePack pack, KZeroBot bot) {
         Songs songs = klopingWeb.getSongs(name, "wy", 1);
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
-            adapter.sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
                     MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";

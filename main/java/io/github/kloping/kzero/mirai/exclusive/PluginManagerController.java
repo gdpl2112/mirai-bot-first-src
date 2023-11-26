@@ -13,7 +13,7 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageSource;
 import net.mamoe.mirai.message.data.QuoteReply;
 import net.mamoe.mirai.message.data.SingleMessage;
@@ -59,7 +59,7 @@ public class PluginManagerController {
         }
     }
 
-    private Result0<Boolean> isOwner(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    private Result0<Boolean> isOwner(MessagePack pack, KZeroBot<Message, Bot> bot) {
         Long gid = Long.valueOf(pack.getSubjectId());
         Long sid = Long.valueOf(pack.getSenderId());
         Group group = bot.getSelf().getGroup(gid);
@@ -68,7 +68,7 @@ public class PluginManagerController {
         return new Result0<>(gid, sid, group, true);
     }
 
-    private Result0<Boolean> isAdmin(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    private Result0<Boolean> isAdmin(MessagePack pack, KZeroBot<Message, Bot> bot) {
         Long gid = Long.valueOf(pack.getSubjectId());
         Long sid = Long.valueOf(pack.getSenderId());
         Group group = bot.getSelf().getGroup(gid);
@@ -78,7 +78,7 @@ public class PluginManagerController {
     }
 
     @Action("setAdmin.+")
-    public String setAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String setAdmin(@AllMess String msg, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         String aid = Utils.getAtFormat(msg);
@@ -88,7 +88,7 @@ public class PluginManagerController {
     }
 
     @Action("unAdmin.+")
-    public String unAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String unAdmin(@AllMess String msg, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         String aid = Utils.getAtFormat(msg);
@@ -98,7 +98,7 @@ public class PluginManagerController {
     }
 
     @Action("setTitle<.+=>name>")
-    public String setTitle(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String setTitle(@Param("name") String name, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         String aid = Utils.getAtFormat(name);
@@ -109,7 +109,7 @@ public class PluginManagerController {
     }
 
     @Action("setName<.+=>name>")
-    public String setName(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String setName(@Param("name") String name, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         String aid = Utils.getAtFormat(name);
@@ -120,7 +120,7 @@ public class PluginManagerController {
     }
 
     @Action("recall")
-    public String recall(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String recall(MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
@@ -134,7 +134,7 @@ public class PluginManagerController {
     }
 
     @Action("mute.+")
-    public String mute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String mute(@AllMess String msg, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         long fid = 0;
@@ -155,7 +155,7 @@ public class PluginManagerController {
     }
 
     @Action("unmute.*?")
-    public String unmute(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String unmute(@AllMess String msg, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isAdmin(pack, bot);
         if (!result.data) return null;
         long fid = 0;

@@ -9,7 +9,7 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class PluginFuncController {
         }
     }
 
-    private Result0<Boolean> isOwner(MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    private Result0<Boolean> isOwner(MessagePack pack, KZeroBot<Message, Bot> bot) {
         Long gid = Long.valueOf(pack.getSubjectId());
         Long sid = Long.valueOf(pack.getSenderId());
         Group group = bot.getSelf().getGroup(gid);
@@ -48,7 +48,7 @@ public class PluginFuncController {
     }
 
     @Action("我要头衔<.+=>name>")
-    public String wanner(@Param("name") String name, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+    public String wanner(@Param("name") String name, MessagePack pack, KZeroBot<Message, Bot> bot) {
         Result0<Boolean> result = isOwner(pack, bot);
         if (!result.data) return null;
         result.group.get(result.sid).setSpecialTitle(name);
