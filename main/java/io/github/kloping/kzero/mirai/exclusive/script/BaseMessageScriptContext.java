@@ -19,9 +19,9 @@ import java.io.ByteArrayInputStream;
 
 public class BaseMessageScriptContext implements ScriptContext {
     private MessageEvent event;
-    private MessageSerializer<MessageChain> serializer;
+    private MessageSerializer<Message> serializer;
 
-    public BaseMessageScriptContext(MessageEvent event, MessageSerializer<MessageChain> serializer) {
+    public BaseMessageScriptContext(MessageEvent event, MessageSerializer<Message> serializer) {
         this.event = event;
         this.serializer = serializer;
     }

@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * @author github.kloping
  */
-public class MiraiSerializer implements MessageSerializer<MessageChain> {
+public class MiraiSerializer implements MessageSerializer<Message> {
     private Bot bot;
 
     public MiraiSerializer(Bot bot) {
@@ -161,16 +161,21 @@ public class MiraiSerializer implements MessageSerializer<MessageChain> {
     }
 
     @Override
-    public String serialize(MessageChain msg) {
-        return ARR_SERIALIZER.serializer(msg);
+    public String serialize(Message msg) {
+        if (msg instanceof MessageChain) {
+            return ARR_SERIALIZER.serializer((MessageChain) msg);
+        } else {
+            return ARR_SERIALIZER.serializer(new MessageChainBuilder().append(msg).build());
+        }
     }
 
     @Override
-    public MessageChain deserialize(String msg) {
+    public Message deserialize(String msg) {
         MessageChainBuilder builder = new MessageChainBuilder();
         for (Message message : ARR_DE_SERIALIZER.deserializer(msg)) {
             if (message != null) builder.append(message);
         }
-        return builder.build();
+        MessageChain chain = builder.build();
+        return chain.size() == 1 ? chain.get(0) : chain;
     }
 }

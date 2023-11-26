@@ -3,7 +3,7 @@ package io.github.kloping.kzero.mirai.exclusive.script;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.kzero.main.api.MessageSerializer;
 import io.github.kloping.map.MapUtils;
-import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.Message ;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.AbstractDataSource;
@@ -42,9 +42,9 @@ public class BaseScriptUtils implements ScriptUtils {
 
     private long bid;
     private RestTemplate template;
-    private MessageSerializer<MessageChain> serializer;
+    private MessageSerializer<Message > serializer;
 
-    public BaseScriptUtils(long bid, RestTemplate template, MessageSerializer<MessageChain> serializer) {
+    public BaseScriptUtils(long bid, RestTemplate template, MessageSerializer<Message > serializer) {
         this.bid = bid;
         this.template = template;
         this.serializer = serializer;
@@ -61,7 +61,7 @@ public class BaseScriptUtils implements ScriptUtils {
     }
 
     @Override
-    public String serialize(MessageChain chain) {
+    public String serialize(Message  chain) {
         return serializer.serialize(chain);
     }
 

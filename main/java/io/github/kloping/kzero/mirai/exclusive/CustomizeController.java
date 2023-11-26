@@ -11,6 +11,7 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.event.events.MessagePostSendEvent;
 import net.mamoe.mirai.event.events.MessagePreSendEvent;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.client.RestTemplate;
@@ -27,11 +28,11 @@ public class CustomizeController extends SimpleListenerHost {
     private static final ScriptEngineManager SCRIPT_ENGINE_MANAGER = new ScriptEngineManager();
 
 
-    private MessageSerializer<MessageChain> serializer;
+    private MessageSerializer<Message> serializer;
 
     private RestTemplate template = new RestTemplate();
 
-    public CustomizeController(MessageSerializer<MessageChain> serializer) {
+    public CustomizeController(MessageSerializer<Message> serializer) {
         this.serializer = serializer;
     }
 

@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.mirai.exclusive.script;
 
 import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.Message ;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,7 @@ public interface ScriptUtils {
      * @param chain
      * @return
      */
-    String serialize(MessageChain chain);
+    String serialize(Message  chain);
 
 
     /**
