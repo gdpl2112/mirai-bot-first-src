@@ -6,6 +6,7 @@ import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
+import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -121,6 +122,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         MiraiSerializer miraiSerializer = new MiraiSerializer(event.getBot());
         KZeroBot<MessageChain, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
                 new MiraiBotAdapter(event.getBot(), miraiSerializer), miraiSerializer);
+        event.getBot().getEventChannel().registerListenerHost(new CustomizeController(miraiSerializer));
         listener.created(this, bot);
     }
 
