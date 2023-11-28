@@ -3,12 +3,13 @@ package io.github.kloping.kzero.mirai.exclusive.script;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.kzero.main.api.MessageSerializer;
 import io.github.kloping.map.MapUtils;
-import net.mamoe.mirai.message.data.Message ;
+import net.mamoe.mirai.message.data.Message;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.AbstractDataSource;
 import org.springframework.web.client.RestTemplate;
 
+import javax.script.ScriptEngine;
 import javax.sql.DataSource;
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -21,6 +22,7 @@ public class BaseScriptUtils implements ScriptUtils {
 
     public static final Map<Long, Map<String, Object>> BID_2_VARIABLES = new HashMap<>();
 
+    public static final Map<Long, ScriptEngine> BID_2_SCRIPT_ENGINE = new HashMap<>();
 
     public static final <T, K1, K2> T getValueOrDefault(Map<K1, Map<K2, T>> map, K1 k1, K2 k2, T def) {
         if (map.containsKey(k1)) {
@@ -190,5 +192,10 @@ public class BaseScriptUtils implements ScriptUtils {
         JdbcTemplate template = new JdbcTemplate(dataSource);
         templateMap.put(bid, template);
         return template;
+    }
+
+    @Override
+    public void newGlobal() {
+        BID_2_SCRIPT_ENGINE.remove(bid);
     }
 }

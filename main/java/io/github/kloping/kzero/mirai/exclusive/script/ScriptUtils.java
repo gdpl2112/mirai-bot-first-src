@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.mirai.exclusive.script;
 
 import net.mamoe.mirai.message.data.Image;
-import net.mamoe.mirai.message.data.Message ;
+import net.mamoe.mirai.message.data.Message;
 
 import java.util.List;
 import java.util.Map;
@@ -124,4 +124,9 @@ public interface ScriptUtils {
      * @return
      */
     Object executeSelectOne(String sql);
+
+    /**
+     * 启用新全局
+     */
+    void newGlobal();
 }

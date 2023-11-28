@@ -33,7 +33,6 @@ public class CustomizeController extends SimpleListenerHost {
 
     private static final ScriptEngineManager SCRIPT_ENGINE_MANAGER = new ScriptEngineManager();
 
-
     private MessageSerializer<Message> serializer;
 
     private RestTemplate template = new RestTemplate();
@@ -50,12 +49,16 @@ public class CustomizeController extends SimpleListenerHost {
         if (Judge.isEmpty(code)) return;
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
-                ScriptEngine javaScript = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
-                javaScript.put("context", new BaseMessageScriptContext(event, serializer));
-                javaScript.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
+                ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(event.getBot().getId());
+                if (engine == null) {
+                    engine = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
+                    BaseScriptUtils.BID_2_SCRIPT_ENGINE.put(event.getBot().getId(), engine);
+                }
+                engine.put("context", new BaseMessageScriptContext(event, serializer));
+                engine.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
                 String msg = serializer.serialize(event.getMessage());
-                javaScript.put("msg", msg);
-                javaScript.eval(code);
+                engine.put("msg", msg);
+                engine.eval(code);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -73,12 +76,16 @@ public class CustomizeController extends SimpleListenerHost {
         if (code == null) return;
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
-                ScriptEngine javaScript = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
-                javaScript.put("context", new BasebBotEventScriptContext(event, serializer));
-                javaScript.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
-                javaScript.put("msg", event.toString());
-                javaScript.put("event", event);
-                javaScript.eval(code);
+                ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(event.getBot().getId());
+                if (engine == null) {
+                    engine = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
+                    BaseScriptUtils.BID_2_SCRIPT_ENGINE.put(event.getBot().getId(), engine);
+                }
+                engine.put("context", new BasebBotEventScriptContext(event, serializer));
+                engine.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
+                engine.put("msg", event.toString());
+                engine.put("event", event);
+                engine.eval(code);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
