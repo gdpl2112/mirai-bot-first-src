@@ -197,13 +197,13 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     public interface ContextTemp {
         default void imports(String... packages) {
+            PackageScanner scanner = new PackageScannerImpl(true);
             for (String aPackage : packages) {
                 try {
                     try {
                         Class cla = Class.forName(aPackage);
                         engine.put(cla.getSimpleName(), engine.eval("Java.type('" + cla.getName() + "')"));
                     } catch (ClassNotFoundException e) {
-                        PackageScanner scanner = new PackageScannerImpl(true);
                         for (Class<?> aClass : scanner.scan(this.getClass(), this.getClass().getClassLoader(), aPackage)) {
                             engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
                         }

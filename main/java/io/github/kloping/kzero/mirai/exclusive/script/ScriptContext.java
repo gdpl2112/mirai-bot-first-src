@@ -111,15 +111,20 @@ public interface ScriptContext {
      * @param packages
      */
     default void imports(String... packages) {
+        PackageScanner scanner = new PackageScannerImpl(true);
+        ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(getBot().getId());
         for (String aPackage : packages) {
-            PackageScanner scanner = new PackageScannerImpl(true);
             try {
-                for (Class<?> aClass : scanner.scan(this.getClass(), this.getClass().getClassLoader(), aPackage)) {
-                    ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(getBot().getId());
-                    engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
+                try {
+                    Class cla = Class.forName(aPackage);
+                    engine.put(cla.getSimpleName(), engine.eval("Java.type('" + cla.getName() + "')"));
+                } catch (ClassNotFoundException e) {
+                    for (Class<?> aClass : scanner.scan(this.getClass(), this.getClass().getClassLoader(), aPackage)) {
+                        engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
+                    }
                 }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
                 System.err.println(aPackage);
             }
         }
