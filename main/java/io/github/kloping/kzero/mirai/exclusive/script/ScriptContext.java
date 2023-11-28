@@ -1,9 +1,13 @@
 package io.github.kloping.kzero.mirai.exclusive.script;
 
+import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.message.data.*;
+
+import javax.script.ScriptEngine;
 
 /**
  * script 交互对象
@@ -100,16 +104,25 @@ public interface ScriptContext {
      * @return
      */
     Message deSerialize(String msg);
-//
-//    /**
-//     * 从id获取MessageChain 可用于直接发送 <br>
-//     * !! 仅能获取2小时以内的数据
-//     *
-//     * @param id
-//     * @return
-//     */
-//    MessageChain getMessageChainById(int id);
 
+    /**
+     * 导入
+     *
+     * @param packages
+     */
+    default void imports(String... packages) {
+        for (String aPackage : packages) {
+            PackageScanner scanner = new PackageScannerImpl(true);
+            try {
+                for (Class<?> aClass : scanner.scan(this.getClass(), this.getClass().getClassLoader(), aPackage)) {
+                    ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(getBot().getId());
+                    engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * 发送者ID
      *

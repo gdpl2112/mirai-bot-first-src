@@ -1,5 +1,7 @@
 package io.github.kloping.kzero.mirai.exclusive.script;
 
+import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.kzero.main.api.MessageSerializer;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.Bot;
@@ -14,6 +16,7 @@ import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 
+import javax.script.ScriptEngine;
 import java.io.ByteArrayInputStream;
 
 
