@@ -1,8 +1,9 @@
 package io.github.kloping.kzero.guilds;
 
+import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
+import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.gsuid.GsuidClient;
-import io.github.kloping.kzero.main.KZeroApplication;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.qqbot.Starter;
@@ -10,6 +11,7 @@ import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageDirectReceiveEvent;
+import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
@@ -17,8 +19,12 @@ import io.github.kloping.qqbot.impl.ListenerHost;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import static io.github.kloping.kzero.bot.controllers.AllController.UPLOAD_URL;
@@ -151,6 +157,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             //plugin to gsuid
             g2g.sendToGsuid(event);
         }
+        temp(event);
     }
 
     @EventReceiver
@@ -182,6 +189,61 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             handler.onMessage(pack);
             //plugin to gsuid
             g2g.sendToGsuid(event);
+        }
+    }
+
+    private static final ScriptEngineManager SCRIPT_ENGINE_MANAGER = new ScriptEngineManager();
+    public static final ScriptEngine engine = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
+
+    public interface ContextTemp {
+        default void imports(String... packages) {
+            for (String aPackage : packages) {
+                try {
+                    try {
+                        Class cla = Class.forName(aPackage);
+                        engine.put(cla.getSimpleName(), engine.eval("Java.type('" + cla.getName() + "')"));
+                    } catch (ClassNotFoundException e) {
+                        PackageScanner scanner = new PackageScannerImpl(true);
+                        for (Class<?> aClass : scanner.scan(this.getClass(), this.getClass().getClassLoader(), aPackage)) {
+                            engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
+                        }
+                    }
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                    System.err.println(aPackage);
+                }
+            }
+        }
+
+        void send(String msg);
+
+        void send(SendAble msg);
+    }
+
+    static {
+        try {
+            engine.eval("function importJ(c){ context.imports(c)}");
+        } catch (ScriptException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void temp(MessageEvent event) {
+        try {
+            engine.put("context", new ContextTemp() {
+                @Override
+                public void send(String msg) {
+                    event.send(msg);
+                }
+
+                @Override
+                public void send(SendAble msg) {
+                    event.send(msg);
+                }
+            });
+            engine.eval(new FileReader(new File("./scripts/dev.nashorn")));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

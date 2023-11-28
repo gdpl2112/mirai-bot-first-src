@@ -8,8 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 /**
@@ -341,10 +340,32 @@ public class ImageDrawerUtils {
         return outFile.getAbsolutePath();
     }
 
+    /**
+     * 重置图形的边长大小
+     *
+     * @param src
+     * @param width
+     * @param height
+     * @throws IOException
+     */
+    public static BufferedImage resizeImage(BufferedImage src, int width, int height) throws IOException {
+        FileOutputStream out = null;
+        try {
+            BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            tag.getGraphics().drawImage(src, 0, 0, width, height, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(tag, "jpg", baos);
+            return ImageIO.read(new ByteArrayInputStream(baos.toByteArray()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static BufferedImage readImage(String file, int w, int h) {
         try {
             BufferedImage bi = ImageIO.read(new File(file));
-            return (BufferedImage) image2Size(bi, w, h);
+            return resizeImage(bi, w, h);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -354,7 +375,7 @@ public class ImageDrawerUtils {
     public static BufferedImage readImage(URL url, int w, int h) throws IOException {
         try {
             BufferedImage bi = ImageIO.read(url);
-            return (BufferedImage) image2Size(bi, w, h);
+            return resizeImage(bi, w, h);
         } catch (IOException e) {
             System.err.println(url.toString());
             throw e;

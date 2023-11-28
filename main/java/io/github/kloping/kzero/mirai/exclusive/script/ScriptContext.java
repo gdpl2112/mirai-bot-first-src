@@ -119,7 +119,8 @@ public interface ScriptContext {
                     engine.put(aClass.getSimpleName(), engine.eval("Java.type('" + aClass.getName() + "')"));
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
+                System.err.println(aPackage);
             }
         }
     }

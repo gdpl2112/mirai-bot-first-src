@@ -54,6 +54,7 @@ public class CustomizeController extends SimpleListenerHost {
                     engine = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
                     BaseScriptUtils.BID_2_SCRIPT_ENGINE.put(event.getBot().getId(), engine);
                 }
+                engine.eval("function importJ(c){context.imports(c)}");
                 engine.put("context", new BaseMessageScriptContext(event, serializer));
                 engine.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
                 String msg = serializer.serialize(event.getMessage());
@@ -81,6 +82,7 @@ public class CustomizeController extends SimpleListenerHost {
                     engine = SCRIPT_ENGINE_MANAGER.getEngineByName("JavaScript");
                     BaseScriptUtils.BID_2_SCRIPT_ENGINE.put(event.getBot().getId(), engine);
                 }
+                engine.eval("function importJ(c){context.imports(c)}");
                 engine.put("context", new BasebBotEventScriptContext(event, serializer));
                 engine.put("utils", new BaseScriptUtils(event.getBot().getId(), template, serializer));
                 engine.put("msg", event.toString());
