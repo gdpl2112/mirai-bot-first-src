@@ -83,14 +83,21 @@ public class SubscribeController {
 
     @CronSchedule("12 15 7 * * ? *")
     public void dayMorning() {
+        allController.receptions.clear();
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
             todayWeaNow(data);
-            try {
-                String msg = futureWeaNow(data.getAddress());
-                bot.getAdapter().sendMessage(MessageType.GROUP, data.getSid(), String.format("<at:%s>\n%s", data.getSid(), msg));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            allController.receptions.add((s) -> {
+                String msg = null;
+                try {
+                    msg = futureWeaNow(data.getAddress());
+                    bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg = e.getMessage();
+                    bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg));
+                }
+                return true;
+            });
         }
     }
 
@@ -103,7 +110,6 @@ public class SubscribeController {
 
         String json = null;
         json = UrlUtils.getStringFromHttpUrl("https://v2.api-m.com/api/weather?city=" + URLEncoder.encode(addr));
-//        json = "{\"code\":200,\"msg\":\"数据请求成功\",\"data\":{\"city\":\"广州市\",\"data\":[{\"date\":\"周一\",\"temperature\":\"11-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"良\"},{\"date\":\"周二\",\"temperature\":\"12-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"良\"},{\"date\":\"周三\",\"temperature\":\"13-26℃\",\"weather\":\"晴\",\"wind\":\"微风2级\",\"air_quality\":\"轻度\"},{\"date\":\"周四\",\"temperature\":\"15-27℃\",\"weather\":\"晴\",\"wind\":\"微风1级\",\"air_quality\":\"良\"},{\"date\":\"周五\",\"temperature\":\"14-26℃\",\"weather\":\"晴\",\"wind\":\"东北风3-4级\",\"air_quality\":\"良\"},{\"date\":\"周六\",\"temperature\":\"14-25℃\",\"weather\":\"多云\",\"wind\":\"微风1级\",\"air_quality\":\"良\"}]}}";
 
         JSONObject jsono = JSON.parseObject(json);
         JSONObject data = jsono.getJSONObject("data");

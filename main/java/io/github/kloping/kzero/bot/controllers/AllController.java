@@ -4,9 +4,9 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
+import io.github.kloping.common.Public;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
-import io.github.kloping.kzero.main.KZeroApplication;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
@@ -14,10 +14,7 @@ import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author github.kloping
@@ -87,9 +84,23 @@ public class AllController implements Runner {
                     int h = (int) (ut0 / (1000 * 60 * 60));
                     int m = (int) (ut0 % (1000 * 60 * 60)) / (1000 * 60);
                     bot.getAdapter().onResult(method, String.format("推测睡眠时长: %s时%s分", h, m), pack);
+                    Public.EXECUTOR_SERVICE.submit(() -> {
+                        synchronized (receptions) {
+                            Iterator<WakeUpReception> iterator = receptions.iterator();
+                            while (iterator.hasNext()) {
+                                if (iterator.next().up(sid)) iterator.remove();
+                            }
+                        }
+                    });
                 }
             }
         }
         map.put(pack.getSenderId(), System.currentTimeMillis());
+    }
+
+    public List<WakeUpReception> receptions = new LinkedList<>();
+
+    public interface WakeUpReception {
+        boolean up(String id);
     }
 }
