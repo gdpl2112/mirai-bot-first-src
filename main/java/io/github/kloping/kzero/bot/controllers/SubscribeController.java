@@ -87,6 +87,7 @@ public class SubscribeController {
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
             todayWeaNow(data);
             allController.receptions.add((s) -> {
+                if (!s.equals(data.getSid())) return false;
                 String msg = null;
                 try {
                     msg = futureWeaNow(data.getAddress());
