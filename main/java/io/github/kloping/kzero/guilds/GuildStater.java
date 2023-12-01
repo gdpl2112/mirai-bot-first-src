@@ -14,6 +14,7 @@ import io.github.kloping.qqbot.api.message.MessageDirectReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
+import io.github.kloping.qqbot.impl.BaseConnectedEvent;
 import io.github.kloping.qqbot.impl.ListenerHost;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
