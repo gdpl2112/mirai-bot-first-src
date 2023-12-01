@@ -3,6 +3,7 @@ package io.github.kloping.kzero.guilds;
 import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
+import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
@@ -44,21 +45,27 @@ public class Guild2Gsuid implements GsuidMessageListener {
 
     //=============消息记录end
     public void sendToGsuid(MessageEvent event) {
+        sendToGsuid(null, event);
+    }
+
+    public void sendToGsuid(MessagePack pack, MessageEvent event) {
         List<MessageData> list = getMessageData(event.getMessage(), event.getBot().getId());
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
-            receive.setBot_id("qqgroup");
+            receive.setBot_id("qqguild");
             receive.setBot_self_id(event.getBot().getId());
-            receive.setUser_id(event.getSender().getId());
+            receive.setUser_id(pack.getSenderId());
             receive.setMsg_id(event.getRawMessage().getId());
             receive.setUser_type("direct");
             receive.setGroup_id("");
             if (event instanceof BaseMessageChannelReceiveEvent || event instanceof GroupMessageEvent) {
+                receive.setBot_id("qqgroup");
                 receive.setUser_type("group");
-                receive.setGroup_id(event.getSubject().getId());
+                receive.setGroup_id(pack.getSubjectId());
             }
-            if ("7749068863541459083".equals(event.getSender().getId())) receive.setUser_pm(0);
-            else if ("90724F608275850FD6169155FAAEC172".equals(event.getSender().getId())) receive.setUser_pm(0);
+            if ("7749068863541459083".equals(pack.getSenderId())) receive.setUser_pm(0);
+            else if ("90724F608275850FD6169155FAAEC172".equals(pack.getSenderId())) receive.setUser_pm(0);
+            else if ("3474006766".equals(pack.getSenderId())) receive.setUser_pm(0);
             else receive.setUser_pm(2);
             receive.setContent(list.toArray(new MessageData[0]));
             GsuidClient.INSTANCE.send(receive);
