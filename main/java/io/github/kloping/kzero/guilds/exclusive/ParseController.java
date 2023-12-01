@@ -30,7 +30,7 @@ public class ParseController {
 
     @Before
     public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
-        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
+        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("pd-group-bot专属扩展");
     }
 
     @Action("解析快手.+")

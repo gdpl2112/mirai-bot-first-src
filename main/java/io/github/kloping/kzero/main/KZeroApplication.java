@@ -35,8 +35,6 @@ public class KZeroApplication implements BotMessageHandler {
         this.bot = bot;
     }
 
-
-
     public void start() {
         stater.setHandler(bot, this);
         context = KZeroSpringStarter.run(bot.getId());

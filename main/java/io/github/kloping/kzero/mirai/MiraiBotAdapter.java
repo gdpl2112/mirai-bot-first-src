@@ -2,6 +2,7 @@ package io.github.kloping.kzero.mirai;
 
 import io.github.kloping.io.ReadUtils;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -108,7 +109,10 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
 
     @Override
     public String getAvatarUrl(String sid) {
-        return String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
+        String icon = KZeroBotAdapter.super.getAvatarUrl(sid);
+        if (icon == null) icon = String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
+        ResourceSet.ICON_TEMP_MAP.put(sid, icon);
+        return icon;
     }
 
     @Override
@@ -136,7 +140,12 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
             Friend friend = bot.getFriend(qid);
             if (friend != null) nameCard = friend.getNick();
         }
-        return Judge.isEmpty(nameCard) ? sid : nameCard;
+        if (Judge.isEmpty(nameCard)) {
+            return sid;
+        } else {
+            ResourceSet.NICKNAME_TEMP_MAP.put(sid, nameCard);
+            return nameCard;
+        }
     }
 
     @Override
@@ -152,7 +161,12 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
             Friend friend = bot.getFriend(qid);
             if (friend != null) nameCard = friend.getNick();
         }
-        return Judge.isEmpty(nameCard) ? sid : nameCard;
+        if (Judge.isEmpty(nameCard)) {
+            return sid;
+        } else {
+            ResourceSet.NICKNAME_TEMP_MAP.put(sid, nameCard);
+            return nameCard;
+        }
     }
 
     @Override

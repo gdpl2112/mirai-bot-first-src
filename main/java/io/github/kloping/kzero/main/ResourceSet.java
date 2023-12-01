@@ -2,11 +2,17 @@ package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author github-kloping
  */
 public final class ResourceSet {
+    public static final Map<String, String> ICON_TEMP_MAP = new HashMap<>();
+    public static final Map<String, String> NICKNAME_TEMP_MAP = new HashMap<>();
+
     public static final class FinalString {
         public static final String JUMP_STR_0 = "$";
         public static final String ERR_TIPS = "错误";

@@ -107,7 +107,12 @@ public class MiraiStater implements KZeroStater, ListenerHost {
                 if (d0.getType().equals("text")) {
                     builder.append(new PlainText(d0.getData().toString().trim())).append("\n");
                 } else if (d0.getType().equals("image")) {
-                    byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+                    byte[] bytes;
+                    if (d0.getData().toString().startsWith("base64://")) {
+                        bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+                    } else {
+                        bytes = Base64.getDecoder().decode(d0.getData().toString());
+                    }
                     Image image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes));
                     builder.append(image);
                 }

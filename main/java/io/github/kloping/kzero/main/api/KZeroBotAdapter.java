@@ -1,5 +1,7 @@
 package io.github.kloping.kzero.main.api;
 
+import io.github.kloping.kzero.main.ResourceSet;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -40,7 +42,9 @@ public interface KZeroBotAdapter {
      * @param sid
      * @return
      */
-    String getAvatarUrl(String sid);
+    default String getAvatarUrl(String sid) {
+        return ResourceSet.ICON_TEMP_MAP.get(sid);
+    }
 
     /**
      * 获取指定id人的头像链接
@@ -58,7 +62,9 @@ public interface KZeroBotAdapter {
      * @param sid
      * @return
      */
-    String getNameCard(String sid);
+    default String getNameCard(String sid) {
+        return ResourceSet.NICKNAME_TEMP_MAP.get(sid);
+    }
 
     /**
      * 获取指定id人名片

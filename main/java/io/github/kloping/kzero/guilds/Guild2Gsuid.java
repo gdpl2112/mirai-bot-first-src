@@ -47,7 +47,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
         List<MessageData> list = getMessageData(event.getMessage(), event.getBot().getId());
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
-            receive.setBot_id("pd-qq-c");
+            receive.setBot_id("qqgroup");
             receive.setBot_self_id(event.getBot().getId());
             receive.setUser_id(event.getSender().getId());
             receive.setMsg_id(event.getRawMessage().getId());
@@ -122,7 +122,12 @@ public class Guild2Gsuid implements GsuidMessageListener {
         if (d0.getType().equals("text")) {
             builder.append(new PlainText(d0.getData().toString().trim()));
         } else if (d0.getType().equals("image")) {
-            byte[] bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+            byte[] bytes;
+            if (d0.getData().toString().startsWith("base64://")) {
+                bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+            } else {
+                bytes = Base64.getDecoder().decode(d0.getData().toString());
+            }
             builder.append(new Image(bytes));
         }
     }

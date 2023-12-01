@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.guilds;
 
 import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -100,15 +101,20 @@ public class GuildBotAdapter implements KZeroBotAdapter {
 
     @Override
     public String getAvatarUrl(String sid) {
+        String icon = KZeroBotAdapter.super.getAvatarUrl(sid);
+        if (icon != null) return icon;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
-            Member member = guild.getMember(sid);
-            if (member != null) {
-                return member.getUser().getAvatar();
+                Member member = guild.getMember(sid);
+                if (member != null) {
+                    return member.getUser().getAvatar();
+                }
             }
-            }
-        } else return DEFAULT_ICON;
-        return null;
+            icon = String.format("http://q1.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
+            ResourceSet.ICON_TEMP_MAP.put(sid, icon);
+            return icon;
+        }
+        return DEFAULT_ICON;
     }
 
     public static final String DEFAULT_ICON = "http://kloping.top/icon.jpg";
@@ -116,6 +122,8 @@ public class GuildBotAdapter implements KZeroBotAdapter {
 
     @Override
     public String getNameCard(String sid) {
+        String nick = KZeroBotAdapter.super.getNameCard(sid);
+        if (nick != null) return nick;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
                 Member member = guild.getMember(sid);
@@ -123,23 +131,25 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                     return member.getUser().getUsername();
                 }
             }
-        } else return DEFAULT_NAME;
-        return null;
+        }
+        return DEFAULT_NAME;
     }
 
     @Override
     public String getNameCard(String sid, String tid) {
+        String nick = KZeroBotAdapter.super.getNameCard(sid);
+        if (nick != null) return nick;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
-            if (guild.channelMap().containsKey(tid)) {
-                Member member = guild.getMember(sid);
-                if (member != null) {
-                    return member.getUser().getUsername();
+                if (guild.channelMap().containsKey(tid)) {
+                    Member member = guild.getMember(sid);
+                    if (member != null) {
+                        return member.getUser().getUsername();
+                    }
                 }
             }
-            }
-        } else return DEFAULT_NAME;
-        return null;
+        }
+        return DEFAULT_NAME;
     }
 
     @Override

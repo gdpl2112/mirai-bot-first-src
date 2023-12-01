@@ -12,7 +12,6 @@ import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageDirectReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
-import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.ListenerHost;
@@ -58,10 +57,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     }
 
     public GuildStater(String appid, String token, String secret, Integer code) {
-        this.appid = appid;
-        this.token = token;
+        this(appid, token, code);
         this.secret = secret;
-        this.code = code;
     }
 
     @Override
@@ -94,6 +91,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         });
         starter.run();
     }
+
+    public static final Guild2Gsuid G2G = new Guild2Gsuid();
 
     public KZeroBot<SendAble, Bot> create(String bid, Bot o, KZeroBotAdapter adapter, MessageSerializer<SendAble> serializer) {
         KZeroBot<SendAble, Bot> bot = new KZeroBot<SendAble, Bot>() {
@@ -128,7 +127,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
-        GsuidClient.INSTANCE.addListener(bid, g2g);
+        GsuidClient.INSTANCE.addListener(bid, G2G);
         if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
         onConnectedEventFirst(event);
     }
@@ -140,12 +139,10 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         listener.created(this, kZeroBot);
     }
 
-    private Guild2Gsuid g2g = new Guild2Gsuid();
-
     @EventReceiver
     public void onEvent(MessageChannelReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        g2g.offer(event);
+        G2G.offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
@@ -155,32 +152,15 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
-            g2g.sendToGsuid(event);
+            G2G.sendToGsuid(event);
         }
         temp(event);
     }
 
     @EventReceiver
-    public void onEvent(GroupMessageEvent event) {
-        MessageChain chain = event.getMessage();
-        g2g.offer(event);
-        if (handler != null) {
-            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
-            String outMsg = kZeroBot.getSerializer().serialize(chain);
-            if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
-            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getId(),
-                    event.getSubject().getId(), outMsg);
-            pack.setRaw(event);
-            handler.onMessage(pack);
-            //plugin to gsuid
-            g2g.sendToGsuid(event);
-        }
-    }
-
-    @EventReceiver
     public void onEvent(MessageDirectReceiveEvent event) {
         MessageChain chain = event.getMessage();
-        g2g.offer(event);
+        G2G.offer(event);
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
@@ -188,7 +168,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
-            g2g.sendToGsuid(event);
+            G2G.sendToGsuid(event);
         }
     }
 

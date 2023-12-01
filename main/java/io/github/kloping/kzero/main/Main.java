@@ -8,6 +8,8 @@ import io.github.kloping.kzero.guilds.GuildStater;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.qqbot.api.Intents;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
+import io.github.kloping.qqbot.network.Events;
+import jdk.jfr.Event;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 
 /**
@@ -19,12 +21,12 @@ public class Main {
         KZeroMainThreads threads = new KZeroMainThreads();
 //        threads.add(GsuidClient.INSTANCE);
 //        threads.add(new MiraiStater());
-        threads.add(new GuildStater("102057448", "v0uQvq74AZtFGTCCWcDnEpsOLNoszA2H",
-                Intents.PRIVATE_INTENTS.getCode()));
+//        threads.add(new GuildStater("102057448", "v0uQvq74AZtFGTCCWcDnEpsOLNoszA2H",
+//                Intents.PRIVATE_INTENTS.getCode()));
 //        threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
 //                Intents.PRIVATE_INTENTS.getCode()));
-//        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
-//                Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
+        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
+                Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
         threads.run();
     }
 }

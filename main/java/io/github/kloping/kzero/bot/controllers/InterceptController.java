@@ -22,6 +22,10 @@ public class InterceptController {
     @Action("<pic:.*?>")
     public Object onPic(MessagePack pack, KZeroBot bot) {
         String sid = pack.getSenderId();
+        if (interceptMap.containsKey("")) {
+            Object o = interceptMap.get("").intercept(pack, bot);
+            if (o != null) return o;
+        }
         if (interceptMap.containsKey(sid)) {
             OnIntercept intercept = interceptMap.get(sid);
             Object o = intercept.intercept(pack, bot);
