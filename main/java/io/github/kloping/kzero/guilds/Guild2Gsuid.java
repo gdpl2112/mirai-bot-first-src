@@ -50,6 +50,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
 
     public void sendToGsuid(MessagePack pack, MessageEvent event) {
         List<MessageData> list = getMessageData(event.getMessage(), event.getBot().getId());
+        if (pack == null) pack.setSenderId(event.getSender().getId()).setSubjectId(event.getSubject().getId());
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
             receive.setBot_id("qqguild");
@@ -59,7 +60,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
             receive.setUser_type("direct");
             receive.setGroup_id("");
             if (event instanceof BaseMessageChannelReceiveEvent || event instanceof GroupMessageEvent) {
-                receive.setBot_id("qqgroup");
+                if (event instanceof GroupMessageEvent) receive.setBot_id("qqgroup");
                 receive.setUser_type("group");
                 receive.setGroup_id(pack.getSubjectId());
             }

@@ -99,7 +99,7 @@ public class GroupController extends ListenerHost implements InterceptController
             MessagePack pack = new MessagePack(MessageType.GROUP, sid, gid, outMsg);
             pack.setRaw(event);
             handler.onMessage(pack);
-            GuildStater.G2G.sendToGsuid(event);
+            GuildStater.G2G.sendToGsuid(pack, event);
         }
     }
 
