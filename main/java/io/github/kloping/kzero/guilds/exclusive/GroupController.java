@@ -60,6 +60,7 @@ public class GroupController extends ListenerHost implements InterceptController
 
     @Override
     public Object intercept(MessagePack pack, KZeroBot bot) {
+        if (!(pack.getRaw() instanceof MessageEvent)) return null;
         MessageEvent event = (MessageEvent) pack.getRaw();
         StringBuilder sb = new StringBuilder();
         for (SendAble sendAble : event.getMessage()) {
