@@ -50,7 +50,10 @@ public class Guild2Gsuid implements GsuidMessageListener {
 
     public void sendToGsuid(MessagePack pack, MessageEvent event) {
         List<MessageData> list = getMessageData(event.getMessage(), event.getBot().getId());
-        if (pack == null) pack.setSenderId(event.getSender().getId()).setSubjectId(event.getSubject().getId());
+        if (pack == null) {
+            pack = new MessagePack();
+            pack.setSenderId(event.getSender().getId()).setSubjectId(event.getSubject().getId());
+        }
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
             receive.setBot_id("qqguild");

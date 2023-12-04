@@ -87,7 +87,7 @@ public class ExtendController {
     }
 
     public String accept(Integer id) {
-        return UrlUtils.getStringFromHttpUrl(webUrl + "/accept?id=" + id + "&pwd=" + webPwd);
+        return UrlUtils.getStringFromHttpUrl(webUrl + "/notice/accept?id=" + id + "&pwd=" + webPwd);
     }
 
     public static final char[] ALL_CHARS = new char[]{
