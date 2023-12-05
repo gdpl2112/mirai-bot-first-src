@@ -1,9 +1,12 @@
 package io.github.kloping.kzero.main;
 
+import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.main.api.BotCreated;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
 
+import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +33,9 @@ public class KZeroMainThreads implements Runnable, BotCreated {
 
     @Override
     public void run() {
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = name.split("@")[0];
+        FileUtils.putStringInFile(pid, new File("./bot.pid"));
         for (Runnable starter : runnableList) {
             EXECUTOR_SERVICE.submit(starter);
         }
