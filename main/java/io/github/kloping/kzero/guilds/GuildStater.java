@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.guilds;
 
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.date.DateUtils;
@@ -78,13 +79,24 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
         starter.getConfig().setInterceptor0(bytes -> {
+//            try {
+//                String url = Jsoup.connect(String.format("http://%s/upload-img", UPLOAD_URL))
+//                        .ignoreContentType(true)
+//                        .ignoreContentType(true)
+//                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+//                        .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+//                url = url.replace(UPLOAD_URL, "kloping.top");
+//                return url;
+//            } catch (IOException e) {
+//                return e.getMessage();
+//            }
             try {
-                String url = Jsoup.connect(String.format("http://%s/upload-img", UPLOAD_URL))
+                String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
                         .ignoreContentType(true)
                         .ignoreContentType(true)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
                         .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
-                url = url.replace(UPLOAD_URL, "kloping.top");
+                url = JSONObject.parseObject(url).getString("msg");
                 return url;
             } catch (IOException e) {
                 return e.getMessage();

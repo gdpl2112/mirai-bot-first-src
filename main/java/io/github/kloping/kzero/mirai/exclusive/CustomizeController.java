@@ -1,6 +1,5 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
-import io.github.kloping.common.Public;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.api.MessageSerializer;
@@ -25,11 +24,16 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author github.kloping
  */
 public class CustomizeController extends SimpleListenerHost {
+    public static ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(2, 2, 5L, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>());
 
     private static final ScriptEngineManager SCRIPT_ENGINE_MANAGER = new ScriptEngineManager();
 
@@ -47,7 +51,7 @@ public class CustomizeController extends SimpleListenerHost {
         if (event instanceof MessagePostSendEvent) return;
         final String code = getScriptCode(event.getBot().getId());
         if (Judge.isEmpty(code)) return;
-        Public.EXECUTOR_SERVICE.submit(() -> {
+        CustomizeController.EXECUTOR_SERVICE.submit(() -> {
             try {
                 ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(event.getBot().getId());
                 if (engine == null) {
@@ -75,7 +79,7 @@ public class CustomizeController extends SimpleListenerHost {
         if (event instanceof BotOfflineEvent) return;
         final String code = getScriptCode(event.getBot().getId());
         if (code == null) return;
-        Public.EXECUTOR_SERVICE.submit(() -> {
+        CustomizeController.EXECUTOR_SERVICE.submit(() -> {
             try {
                 ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(event.getBot().getId());
                 if (engine == null) {
