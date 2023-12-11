@@ -64,16 +64,26 @@ public class AllController implements Runner {
     @AutoStand(id = "auth.pwd")
     String pwd;
 
-    @AutoStand(id = "reboot.cmd")
-    String cmd;
+    @AutoStand(id = "cmd.reboot")
+    String reboot;
 
-    @AutoStand
-    RestTemplate template;
 
     @Action("强制重启")
     public Object reboot(MessagePack pack) throws Exception {
         if (superId.equals(pack.getSenderId())) {
-            String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(cmd));
+            String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(reboot));
+            Object o = UrlUtils.getStringFromHttpUrl(url);
+            return "Task has been submitted\nout:" + o;
+        } else return "permission denied";
+    }
+
+    @AutoStand(id = "cmd.update")
+    String update;
+
+    @Action("强制更新")
+    public Object update(MessagePack pack) throws Exception {
+        if (superId.equals(pack.getSenderId())) {
+            String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(update));
             Object o = UrlUtils.getStringFromHttpUrl(url);
             return "Task has been submitted\nout:" + o;
         } else return "permission denied";

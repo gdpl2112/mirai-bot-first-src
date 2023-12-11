@@ -32,7 +32,7 @@ public class KZeroApplication implements BotMessageHandler {
         this.bot = bot;
     }
 
-    public static final String[] REQUIRED_PROPERTY = {"auth.pwd", "reboot.cmd"};
+    public static final String[] REQUIRED_PROPERTY = {"auth.pwd", "cmd.reboot", "cmd.update"};
 
     public void start() {
         stater.setHandler(bot, this);
