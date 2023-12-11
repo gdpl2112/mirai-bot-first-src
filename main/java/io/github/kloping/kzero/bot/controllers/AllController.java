@@ -12,8 +12,11 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.url.UrlUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -53,6 +56,27 @@ public class AllController implements Runner {
     @Action("测试<.+=>name>")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
         return UPLOAD_URL;
+    }
+
+    @AutoStand(id = "super_id")
+    String superId;
+
+    @AutoStand(id = "auth.pwd")
+    String pwd;
+
+    @AutoStand(id = "reboot.cmd")
+    String cmd;
+
+    @AutoStand
+    RestTemplate template;
+
+    @Action("强制重启")
+    public Object reboot(MessagePack pack) throws Exception {
+        if (superId.equals(pack.getSenderId())) {
+            String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(cmd));
+            Object o = UrlUtils.getStringFromHttpUrl(url);
+            return "Task has been submitted\nout:" + o;
+        } else return "permission denied";
     }
 
     private List<String> wakes = new LinkedList<>();

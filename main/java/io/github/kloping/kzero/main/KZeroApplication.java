@@ -3,14 +3,11 @@ package io.github.kloping.kzero.main;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.kloping.MySpringTool.StarterApplication;
 import io.github.kloping.MySpringTool.StarterObjectApplication;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.MySpringTool.h1.impl.component.ActionManagerImpl;
 import io.github.kloping.MySpringTool.h1.impl.component.FieldManagerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.MySpringTool.interfaces.component.FieldManager;
-import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
@@ -35,6 +32,8 @@ public class KZeroApplication implements BotMessageHandler {
         this.bot = bot;
     }
 
+    public static final String[] REQUIRED_PROPERTY = {"auth.pwd", "reboot.cmd"};
+
     public void start() {
         stater.setHandler(bot, this);
         context = KZeroSpringStarter.run(bot.getId());
@@ -54,6 +53,11 @@ public class KZeroApplication implements BotMessageHandler {
                 }
             }
         }
+        for (String s : REQUIRED_PROPERTY) {
+            String v = context.getEnvironment().getProperty(s);
+            if (v != null) contextManager.append(v, s);
+        }
+
         if (fieldManager instanceof FieldManagerImpl) {
             FieldManagerImpl fm = (FieldManagerImpl) fieldManager;
             application0.logger.setLogLevel(3);
