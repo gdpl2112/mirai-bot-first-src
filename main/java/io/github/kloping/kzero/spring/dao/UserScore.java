@@ -21,11 +21,12 @@ public class UserScore implements Serializable {
     private String id;
     private Integer score = 1000;
     private Integer score0 = 200;
-    private Integer day = 0;
-    private Integer days = 0;
     private Integer xp = 0;
     private Integer xpl = 100;
     private Integer level = 1;
+
+    private Integer day = 0;
+    private Integer days = 0;
     private Integer fz = 0;
     private Long k = 0L;
 

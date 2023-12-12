@@ -2,7 +2,7 @@ package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.gsuid.GsuidClient;
-import io.github.kloping.kzero.guilds.GuildStater;
+import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.qqbot.api.Intents;
 
