@@ -7,6 +7,9 @@ import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.rand.RandomUtils;
 import io.github.kloping.url.UrlUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
@@ -115,5 +118,25 @@ public class ExtendController {
             e.printStackTrace();
             return new Object[]{e.getMessage()};
         }
+    }
+
+    /**
+     * @author github-kloping
+     * @date 2023-03-16
+     */
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    public class Notice {
+        private Long id;
+        private Integer state;
+        private Integer views;
+        private String title;
+        private String icon;
+        private String date;
+        private String html;
+        private Long time;
+        private String authorName;
+        private Long authorId;
     }
 }

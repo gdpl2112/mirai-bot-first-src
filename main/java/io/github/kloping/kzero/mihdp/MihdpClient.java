@@ -6,13 +6,14 @@ import com.google.gson.JsonDeserializer;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.common.Public;
+import io.github.kloping.judge.Judge;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,7 +40,7 @@ public class MihdpClient extends WebSocketClient {
         super(serverUri);
     }
 
-    private List<MihdpClientMessageListener> listeners = new LinkedList<>();
+    public Map<String, MihdpClientMessageListener> listeners = new HashMap<>();
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
@@ -51,13 +52,18 @@ public class MihdpClient extends WebSocketClient {
     public void onMessage(String message) {
         ResDataPack dataPack = GSON.fromJson(message, ResDataPack.class);
         if (dataPack == null || dataPack.getAction() == null) return;
-        for (MihdpClientMessageListener listener : listeners) {
-            try {
-                listener.onMessage(dataPack);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        String bid = dataPack.getBot_id();
+        if (Judge.isEmpty(bid)) {
+            listeners.forEach((k, v) -> v.onMessage(dataPack));
+        } else if (listeners.containsKey(bid)) {
+            listeners.get(bid).onMessage(dataPack);
         }
+    }
+
+    @Override
+    public void send(String text) {
+        if (!this.isOpen()) return;
+        super.send(text);
     }
 
     @Override

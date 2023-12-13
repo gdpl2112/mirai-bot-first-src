@@ -4,7 +4,6 @@ import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.AutoStandAfter;
 import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.kzero.bot.controllers.InterceptController;
-import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -89,7 +88,7 @@ public class GroupController extends ListenerHost implements InterceptController
     @EventReceiver
     public void onEvent(GroupMessageEvent event) {
         MessageChain chain = event.getMessage();
-        GuildStater.G2G.offer(event);
+        Guild2Gsuid.INSTANCE.offer(event);
         initHandler();
         if (handler != null) {
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
@@ -100,7 +99,8 @@ public class GroupController extends ListenerHost implements InterceptController
             MessagePack pack = new MessagePack(MessageType.GROUP, sid, gid, outMsg);
             pack.setRaw(event);
             handler.onMessage(pack);
-            GuildStater.G2G.sendToGsuid(pack, event);
+            Guild2Gsuid.INSTANCE.sendToGsuid(pack, event);
+            MihdpConnect2.INSTANCE.sendToMihdp(pack, event);
         }
     }
 

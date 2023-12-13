@@ -35,5 +35,4 @@ public class ReqDataPack {
     public String toString() {
         return JSON.toJSONString(this);
     }
-
 }

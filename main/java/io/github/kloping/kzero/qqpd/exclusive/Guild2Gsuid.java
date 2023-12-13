@@ -1,4 +1,4 @@
-package io.github.kloping.kzero.qqpd;
+package io.github.kloping.kzero.qqpd.exclusive;
 
 import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.judge.Judge;
@@ -22,6 +22,8 @@ import java.util.*;
  */
 public class Guild2Gsuid implements GsuidMessageListener {
 
+    public static final Guild2Gsuid INSTANCE = new Guild2Gsuid();
+
     //=============消息记录start
     private static final Integer MAX_E = 150;
 
@@ -33,8 +35,6 @@ public class Guild2Gsuid implements GsuidMessageListener {
         QUEUE.offerFirst(msg);
     }
 
-    private MessageEvent temp0 = null;
-
     public MessageEvent getMessage(String id) {
         if (temp0 != null && temp0.getRawMessage().getId().equals(id)) return temp0;
         for (MessageEvent event : QUEUE) {
@@ -42,6 +42,8 @@ public class Guild2Gsuid implements GsuidMessageListener {
         }
         return null;
     }
+
+    private MessageEvent temp0 = null;
 
     //=============消息记录end
     public void sendToGsuid(MessageEvent event) {
@@ -77,7 +79,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
     }
 
     @NotNull
-    private static List<MessageData> getMessageData(MessageChain chain, String bid) {
+    public static List<MessageData> getMessageData(MessageChain chain, String bid) {
         List<MessageData> list = new ArrayList<>();
         chain.forEach(e -> {
             MessageData message = new MessageData();

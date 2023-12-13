@@ -18,6 +18,8 @@ import java.util.*;
  */
 public class GenshinUidConnect implements ListenerHost {
 
+    public static final GenshinUidConnect INSTANCE = new GenshinUidConnect();
+
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
         offer(event);
@@ -134,18 +136,17 @@ public class GenshinUidConnect implements ListenerHost {
 
     //=============消息记录start
     public static final Integer MAX_E = 50;
-
+    private MessageEvent temp0 = null;
     private Deque<MessageEvent> QUEUE = new LinkedList<>();
 
-    private void offer(MessageEvent msg) {
+
+    public void offer(MessageEvent msg) {
         if (QUEUE.contains(msg)) return;
         if (QUEUE.size() >= MAX_E) QUEUE.pollLast();
         QUEUE.offerFirst(msg);
     }
 
-    private MessageEvent temp0 = null;
-
-    private MessageEvent getMessage(String id) {
+    public MessageEvent getMessage(String id) {
         if (Judge.isEmpty(id)) return null;
         if (temp0 != null && getMessageEventId(temp0).equals(id)) return temp0;
         for (MessageEvent event : QUEUE) {
@@ -154,7 +155,7 @@ public class GenshinUidConnect implements ListenerHost {
         return null;
     }
 
-    private String getMessageEventId(MessageEvent event) {
+    public String getMessageEventId(MessageEvent event) {
         if (event.getSource().getIds().length == 0) return "";
         else return String.valueOf(event.getSource().getIds()[0]);
     }

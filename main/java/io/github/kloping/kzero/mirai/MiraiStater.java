@@ -46,7 +46,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         });
         GlobalEventChannel.INSTANCE.registerListenerHost(this);
-        GlobalEventChannel.INSTANCE.registerListenerHost(new GenshinUidConnect());
+        GlobalEventChannel.INSTANCE.registerListenerHost(GenshinUidConnect.INSTANCE);
     }
 
     public KZeroBot<Message , Bot> create(String bid, Bot o, KZeroBotAdapter adapter, MessageSerializer<Message > serializer) {
