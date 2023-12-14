@@ -49,10 +49,6 @@ public class MihdpConnect implements ListenerHost {
                 chain.getList().add(new GeneralData.ResDataAt(String.valueOf(((At) singleMessage).getTarget())));
             }
         }
-        Map<String, Object> args = new HashMap<>();
-        args.put("icon", event.getSender().getAvatarUrl());
-        args.put("name", event.getSender().getNick());
-        args.put("draw", "true");
         ReqDataPack req = new ReqDataPack();
         req.setAction("msg")
                 .setContent(chain.toString())
@@ -62,6 +58,9 @@ public class MihdpConnect implements ListenerHost {
                 .setEnv_type(event instanceof GroupMessageEvent ? "group" : "friend")
                 .setSender_id(String.valueOf(event.getSender().getId()))
                 .setEnv_id(String.valueOf(event.getSubject().getId()));
+        req.getArgs().put("icon", event.getSender().getAvatarUrl());
+        req.getArgs().put("name", event.getSender().getNick());
+        req.getArgs().put("draw", "true");
         MihdpClient.INSTANCE.send(req.toString());
     }
 
