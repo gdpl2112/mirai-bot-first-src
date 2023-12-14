@@ -5,6 +5,7 @@ import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
 import io.github.kloping.kzero.mirai.listeners.GenshinUidConnect;
+import io.github.kloping.kzero.mirai.listeners.MihdpConnect;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -47,6 +48,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         });
         GlobalEventChannel.INSTANCE.registerListenerHost(this);
         GlobalEventChannel.INSTANCE.registerListenerHost(GenshinUidConnect.INSTANCE);
+        GlobalEventChannel.INSTANCE.registerListenerHost(MihdpConnect.INSTANCE);
     }
 
     public KZeroBot<Message , Bot> create(String bid, Bot o, KZeroBotAdapter adapter, MessageSerializer<Message > serializer) {
