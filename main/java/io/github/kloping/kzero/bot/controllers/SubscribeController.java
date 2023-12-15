@@ -122,12 +122,17 @@ public class SubscribeController {
         graphics.fillRoundRect(10, 10, 265, 410, 30, 30);
         graphics.fillRoundRect(285, 10, 530, 410, 30, 30);
 
+        String dt = "create by github@kloping";
+        graphics.setFont(ImageDrawerUtils.SMALL_FONT18_TYPE0);
+        graphics.setColor(ImageDrawerUtils.BLUE2_A75);
+        graphics.drawString(dt, 12, 24);
+
         graphics.setColor(ImageDrawerUtils.BLACK_A75);
         graphics.drawLine(285, 225, 815, 225);
 
         graphics.setColor(ImageDrawerUtils.ORIGIN_A80);
         graphics.setFont(ImageDrawerUtils.BIG_FONT80_TYPE0);
-        String dt = data.getString("city");
+        dt = data.getString("city");
         int w0 = graphics.getFontMetrics().stringWidth(dt);
         graphics.drawString(dt, (265 / 2) - (w0 / 2), 150);
 
