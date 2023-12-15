@@ -70,7 +70,11 @@ public class AllController implements Runner {
     @Action("强制重启")
     public Object reboot(MessagePack pack, KZeroBot bot) throws Exception {
         if (superId.equals(pack.getSenderId())) {
-            bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            try {
+                bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(reboot));
             Object o = UrlUtils.getStringFromHttpUrl(url);
             return "Task has been submitted\nout:" + o;
@@ -83,7 +87,11 @@ public class AllController implements Runner {
     @Action("强制更新")
     public Object update(MessagePack pack, KZeroBot bot) throws Exception {
         if (superId.equals(pack.getSenderId())) {
-            bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            try {
+                bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(update));
             Object o = UrlUtils.getStringFromHttpUrl(url);
             return "Task has been submitted\nout:" + o;
@@ -96,7 +104,11 @@ public class AllController implements Runner {
     @Action("强制更新M")
     public Object updateM(MessagePack pack, KZeroBot bot) throws Exception {
         if (superId.equals(pack.getSenderId())) {
-            bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            try {
+                bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(updateM));
             Object o = UrlUtils.getStringFromHttpUrl(url);
             return "Task has been submitted\nout:" + o;
