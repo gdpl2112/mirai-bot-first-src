@@ -84,7 +84,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                 return new GeneralData.ResDataImage(image.getUrl(), "http");
             else return new GeneralData.ResDataImage(image.getBytes());
         } else {
-            String text = sendAble.toString();
+            String text = sendAble.toString().trim();
             if (text.length() > 1 && text.startsWith("/")) text = text.substring(1);
             return new GeneralData.ResDataText(text.trim());
         }
