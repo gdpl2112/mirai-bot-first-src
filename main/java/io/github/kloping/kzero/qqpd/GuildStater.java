@@ -205,7 +205,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     static {
         try {
-            engine.eval("function importJ(c){ context.imports(c)}");
+            if (engine != null) engine.eval("function importJ(c){ context.imports(c)}");
         } catch (ScriptException e) {
             e.printStackTrace();
         }
@@ -213,6 +213,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
 
     private void temp(MessageEvent event) {
         try {
+            if (engine == null) return;
             engine.put("context", new ContextTemp() {
                 @Override
                 public void send(String msg) {
