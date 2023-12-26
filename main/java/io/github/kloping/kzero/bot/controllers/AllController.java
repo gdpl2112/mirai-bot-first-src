@@ -72,7 +72,7 @@ public class AllController implements Runner {
         if (superId.equals(pack.getSenderId())) {
             try {
                 bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(reboot));
@@ -89,7 +89,7 @@ public class AllController implements Runner {
         if (superId.equals(pack.getSenderId())) {
             try {
                 bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(update));
@@ -106,7 +106,7 @@ public class AllController implements Runner {
         if (superId.equals(pack.getSenderId())) {
             try {
                 bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(updateM));
