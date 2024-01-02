@@ -3,13 +3,16 @@ package io.github.kloping.kzero.qqpd.exclusive;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.AutoStandAfter;
 import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.controllers.InterceptController;
+import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.kzero.spring.dao.BindMap;
+import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.mapper.BindMapper;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.message.MessageEvent;
@@ -85,17 +88,24 @@ public class GroupController extends ListenerHost implements InterceptController
         return sb.length() == 0 ? null : sb.toString();
     }
 
+    @AutoStand
+    DataBase dataBase;
+
     @EventReceiver
     public void onEvent(GroupMessageEvent event) {
         MessageChain chain = event.getMessage();
         Guild2Gsuid.INSTANCE.offer(event);
         initHandler();
+        String gid = getGid(event);
+        GroupConf groupConf = dataBase.getConf(gid);
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) throw new NoRunException("未开启 group");
+        }
         if (handler != null) {
+            String sid = getSid(event);
             KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
             if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
-            String sid = getSid(event);
-            String gid = getGid(event);
             MessagePack pack = new MessagePack(MessageType.GROUP, sid, gid, outMsg);
             pack.setRaw(event);
             handler.onMessage(pack);

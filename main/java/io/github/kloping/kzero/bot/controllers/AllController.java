@@ -115,6 +115,23 @@ public class AllController implements Runner {
         } else return "permission denied";
     }
 
+    @AutoStand(id = "cmd.reboot-m")
+    String rebootM;
+
+    @Action("强制重启M")
+    public Object rebootM(MessagePack pack, KZeroBot bot) throws Exception {
+        if (superId.equals(pack.getSenderId())) {
+            try {
+                bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), "任务即将提交\n提交之后可能造成短暂的不可用\n请耐心等待");
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            String url = String.format("http://localhost/exec?pwd=%s&cmd=%s&out=true", pwd, URLEncoder.encode(rebootM));
+            Object o = UrlUtils.getStringFromHttpUrl(url);
+            return "Task has been submitted\nout:" + o;
+        } else return "permission denied";
+    }
+
     private List<String> wakes = new LinkedList<>();
 
     @CronSchedule("5 1 5 * * ? *")
