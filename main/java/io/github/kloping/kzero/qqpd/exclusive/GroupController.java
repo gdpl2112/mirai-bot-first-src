@@ -3,7 +3,7 @@ package io.github.kloping.kzero.qqpd.exclusive;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
 import io.github.kloping.MySpringTool.annotations.AutoStandAfter;
 import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.kzero.bot.controllers.InterceptController;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.KZeroMainThreads;
@@ -90,6 +90,8 @@ public class GroupController extends ListenerHost implements InterceptController
 
     @AutoStand
     DataBase dataBase;
+    @AutoStand
+    Logger logger;
 
     @EventReceiver
     public void onEvent(GroupMessageEvent event) {
@@ -99,7 +101,10 @@ public class GroupController extends ListenerHost implements InterceptController
         String gid = getGid(event);
         GroupConf groupConf = dataBase.getConf(gid);
         if (groupConf != null) {
-            if (!groupConf.getOpen()) throw new NoRunException("未开启 group");
+            if (!groupConf.getOpen()) {
+                logger.waring("未开启 group");
+                return;
+            }
         }
         if (handler != null) {
             String sid = getSid(event);
