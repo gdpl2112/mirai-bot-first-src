@@ -13,9 +13,7 @@ import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * @author github.kloping
@@ -100,6 +98,9 @@ public class MihdpConnect implements ListenerHost {
                     } else {
                         builder.append(contact.uploadImage(ExternalResource.create(Base64.decodeBase64(image.getData()))));
                     }
+                } else if (data instanceof GeneralData.ResDataSelect) {
+                    String d0 = ((GeneralData.ResDataSelect) data).getS() + "." + ((GeneralData.ResDataSelect) data).getContent();
+                    builder.append(d0);
                 }
             }
         });

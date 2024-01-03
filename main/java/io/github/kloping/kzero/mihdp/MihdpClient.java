@@ -2,7 +2,6 @@ package io.github.kloping.kzero.mihdp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.common.Public;
@@ -27,8 +26,7 @@ public class MihdpClient extends WebSocketClient {
     static {
         try {
             GsonBuilder gsonBuilder = new GsonBuilder();
-            JsonDeserializer<GeneralData> deserializer = new DataDeserializer();
-            gsonBuilder.registerTypeAdapter(GeneralData.class, deserializer);
+            gsonBuilder.registerTypeAdapter(GeneralData.class, new GeneralData.GeneralDataDeserializer());
             GSON = gsonBuilder.create();
             INSTANCE = new MihdpClient(new URI("ws://localhost:6034"));
         } catch (URISyntaxException e) {

@@ -142,9 +142,4 @@ public class GroupController extends ListenerHost implements InterceptController
         }
         return sid;
     }
-
-    @Override
-    public void handleException(Throwable e) {
-
-    }
 }

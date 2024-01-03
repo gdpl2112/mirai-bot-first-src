@@ -10,10 +10,7 @@ import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
-import io.github.kloping.qqbot.entities.ex.At;
-import io.github.kloping.qqbot.entities.ex.Image;
-import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
-import io.github.kloping.qqbot.entities.ex.PlainText;
+import io.github.kloping.qqbot.entities.ex.*;
 import io.github.kloping.qqbot.impl.ListenerHost;
 
 import java.util.Base64;
@@ -110,11 +107,34 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
         MessageEvent event = Guild2Gsuid.INSTANCE.getMessage(pack.getId());
         if (pack.getData().getType().equals("chain")) {
             GeneralData.ResDataChain chain = (GeneralData.ResDataChain) pack.getData();
-            MessageAsyncBuilder builder = new MessageAsyncBuilder();
-            for (GeneralData generalData : chain.getList()) {
-                builder.append(asSendAble(generalData));
+            Object o = chain.find(GeneralData.ResDataSelect.class);
+            if (o != null) {
+                Markdown markdown = new Markdown("102032364_1703214077")
+                        .addParam("title", "提示!");
+                StringBuilder sb0 = new StringBuilder();
+                StringBuilder sb1 = new StringBuilder();
+                for (GeneralData data : chain.getList()) {
+                    if (data.getType().equals("text")) {
+                        GeneralData.ResDataText text = (GeneralData.ResDataText) data;
+                        sb0.append(text.getContent());
+                    } else if (data.getType().equals("image")) {
+                        sb0.append("[图片:暂无法展示]");
+                    } else if (data.getType().equals("select")) {
+                        GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
+                        markdown.setKeyboard("102032364_1703056827");
+                        sb1.append(select.getS()).append(".").append(select.getContent()).append(";");
+                    }
+                }
+                markdown.addParam("msg", sb0.toString().trim());
+                markdown.addParam("text", sb1.toString().trim());
+                event.send(markdown);
+            } else {
+                MessageAsyncBuilder builder = new MessageAsyncBuilder();
+                for (GeneralData generalData : chain.getList()) {
+                    builder.append(asSendAble(generalData));
+                }
+                event.send(builder.build());
             }
-            event.send(builder.build());
         } else {
             event.send(asSendAble(pack.getData()));
         }
