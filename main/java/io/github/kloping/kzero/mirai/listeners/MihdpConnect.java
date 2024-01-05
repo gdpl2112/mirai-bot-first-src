@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.mirai.listeners;
 
+import com.alibaba.fastjson.JSON;
 import io.github.kloping.kzero.mihdp.GeneralData;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mihdp.ReqDataPack;
@@ -49,7 +50,7 @@ public class MihdpConnect implements ListenerHost {
         }
         ReqDataPack req = new ReqDataPack();
         req.setAction("msg")
-                .setContent(chain.toString())
+                .setContent(JSON.toJSONString(chain))
                 .setId(GenshinUidConnect.INSTANCE.getMessageEventId(event))
                 .setBot_id(String.valueOf(event.getBot().getId()))
                 .setTime(System.currentTimeMillis())
