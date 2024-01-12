@@ -62,7 +62,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
             req.setEnv_type("group");
         }
         if (event.getMessage().size() == 1) {
-            req.setContent(asGeneralData(event.getMessage().get(0)).toString());
+            req.setContent(JSON.toJSONString(asGeneralData(event.getMessage().get(0))));
         } else {
             List<GeneralData> data = new LinkedList<>();
             for (SendAble sendAble : event.getMessage()) {
