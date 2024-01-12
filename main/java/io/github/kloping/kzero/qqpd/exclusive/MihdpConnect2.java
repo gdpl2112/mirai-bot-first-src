@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.qqpd.exclusive;
 
+import com.alibaba.fastjson.JSON;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mihdp.GeneralData;
 import io.github.kloping.kzero.mihdp.MihdpClient;
@@ -67,7 +68,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
             for (SendAble sendAble : event.getMessage()) {
                 data.add(asGeneralData(sendAble));
             }
-            req.setContent(new GeneralData.ResDataChain(data).toString());
+            req.setContent(JSON.toJSONString(new GeneralData.ResDataChain(data)));
         }
         MihdpClient.INSTANCE.send(req.toString());
     }
