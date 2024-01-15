@@ -8,7 +8,7 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.bot.database.SourceDataBase;
-import io.github.kloping.kzero.bot.interfaces.httpApi.KlopingWeb;
+import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;

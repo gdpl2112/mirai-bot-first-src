@@ -1,4 +1,4 @@
-package io.github.kloping.kzero.bot.interfaces.httpApi;
+package io.github.kloping.kzero.bot;
 
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.http.*;
