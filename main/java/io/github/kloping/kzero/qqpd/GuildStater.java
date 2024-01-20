@@ -8,6 +8,7 @@ import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.qqpd.exclusive.Guild2Gsuid;
+import io.github.kloping.kzero.qqpd.exclusive.LiveMsgSender;
 import io.github.kloping.kzero.qqpd.exclusive.MihdpConnect2;
 import io.github.kloping.qqbot.Starter;
 import io.github.kloping.qqbot.api.SendAble;
@@ -78,6 +79,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
         starter.registerListenerHost(MihdpConnect2.INSTANCE);
+        starter.registerListenerHost(LiveMsgSender.INSTANCE);
         starter.getConfig().setInterceptor0(bytes -> {
             try {
                 String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
