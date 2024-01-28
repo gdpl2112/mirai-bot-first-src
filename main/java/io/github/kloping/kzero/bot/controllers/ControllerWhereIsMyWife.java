@@ -125,6 +125,8 @@ public class ControllerWhereIsMyWife {
                     return qqNow(bot, map, sid, aid, gid);
                 }
             }
+        } else if (map.values().contains(sid)) {
+            return s0(pack, bot);
         } else {
             return qqNow(bot, map, sid, aid, gid);
         }
