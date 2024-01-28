@@ -132,6 +132,7 @@ public class ControllerWhereIsMyWife {
     }
 
     private static String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
+        map.remove(aid);
         map.put(sid, aid);
         WIFE.put(gid, map);
         KZeroBotAdapter adapter = bot.getAdapter();
