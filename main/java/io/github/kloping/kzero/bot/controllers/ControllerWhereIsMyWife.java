@@ -20,7 +20,10 @@ import java.util.Map;
 @Controller
 public class ControllerWhereIsMyWife {
 
-    @CronSchedule("0 1 0 * * ? ")
+    /**
+     * 周一刷新
+     */
+    @CronSchedule("0 0 0 ? * 1 *")
     public void interest() {
         WIFE.clear();
     }
@@ -55,6 +58,7 @@ public class ControllerWhereIsMyWife {
                 if (map.size() * 2 >= size + 1)
                     throw new RuntimeException("群员不足");
                 aid = getRandQid(sid, pack, bot);
+                if (map.values().contains(aid)) return s0(pack, bot);
                 map.put(sid, aid);
                 WIFE.put(gid, map);
                 String s0 = toView(aid, bot.getAdapter());
@@ -72,30 +76,66 @@ public class ControllerWhereIsMyWife {
         return s0(pack, bot);
     }
 
+    @Action("离婚")
+    public String sout(MessagePack pack, KZeroBot bot) {
+        String sid = pack.getSenderId();
+        String gid = pack.getSubjectId();
+        Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+        String asid = null;
+        for (String s : map.keySet()) {
+            if (map.get(s).equals(sid)) {
+                asid = s;
+                break;
+            }
+        }
+        if (asid != null) {
+            map.remove(asid);
+            return "成功!";
+        } else return "无需'离婚'或失败!";
+    }
+
     @Action("强娶.+")
     public String s1(@AllMess String msg, MessagePack pack, KZeroBot bot) {
         String aid = Utils.getAtFormat(msg);
-        if (aid == null) return null;
-        if (RandomUtils.RANDOM.nextInt(3) == 0) {
-            String sid = pack.getSenderId();
-            String gid = pack.getSubjectId();
-            Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+        if (aid == null) return "娶群友说明:当未拥有群友老婆时首次娶群友必定成功!(๑*◡*๑)" +
+                "\n但当已经拥有群友老婆时成功率大幅下降 当强娶对象已经被其他群友'娶'或'已娶'时成功率进一步下降￣へ￣" +
+                "\n群友老婆最长生效一星期每周末刷新(〃'▽'〃)" +
+                "\n其中有且仅'老婆'可随时使用'离婚'来取消'关系'╥﹏╥";
+        String sid = pack.getSenderId();
+        String gid = pack.getSubjectId();
+        Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+        if (map.containsKey(sid)) {
             map.remove(sid);
-            map.remove(aid);
-            if (map.values().contains(sid)) {
-                for (Map.Entry<String, String> e0 : map.entrySet()) {
-                    if (e0.getValue().equals(sid)) {
-                        map.remove(e0.getKey());
-                    } else if (e0.getValue().equals(aid)) {
-                        map.remove(e0.getKey());
+            if (RandomUtils.RANDOM.nextInt(3) == 0) {
+                if (map.values().contains(aid)) {
+                    if (RandomUtils.RANDOM.nextInt(2) == 0) {
+                        String asid = null;
+                        for (String s : map.keySet()) {
+                            if (map.get(s).equals(aid)) {
+                                asid = s;
+                                break;
+                            }
+                        }
+                        if (asid != null) {
+                            map.remove(asid);
+                        }
+                        return qqNow(bot, map, sid, aid, gid);
                     }
+                } else {
+                    return qqNow(bot, map, sid, aid, gid);
                 }
             }
-            map.put(sid, aid);
-            WIFE.put(gid, map);
-            KZeroBotAdapter adapter = bot.getAdapter();
-            return String.format(WHERE_MEMBER_IS_MY_WIFE0, adapter.getAvatarUrl(aid), adapter.getNameCard(aid), aid);
-        } else return "强娶失败!";
+        } else {
+            return qqNow(bot, map, sid, aid, gid);
+        }
+        return "强娶失败!";
+    }
+
+    private static String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
+        map.put(sid, aid);
+        WIFE.put(gid, map);
+        KZeroBotAdapter adapter = bot.getAdapter();
+        return String.format(WHERE_MEMBER_IS_MY_WIFE0, adapter.getAvatarUrl(aid), adapter.getNameCard(aid), aid);
     }
 
     private String toView(String aid, KZeroBotAdapter adapter) {
