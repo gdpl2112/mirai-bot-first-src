@@ -104,7 +104,7 @@ public class ControllerWhereIsMyWife {
         String sid = pack.getSenderId();
         String gid = pack.getSubjectId();
         Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
-        if (map.containsKey(sid)) {
+        if (map.containsKey(sid) || map.values().contains(aid)) {
             map.remove(sid);
             if (RandomUtils.RANDOM.nextInt(3) == 0) {
                 if (map.values().contains(aid)) {
