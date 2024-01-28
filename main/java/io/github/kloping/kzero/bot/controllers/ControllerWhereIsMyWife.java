@@ -94,7 +94,7 @@ public class ControllerWhereIsMyWife {
         } else return "无需'离婚'或失败!";
     }
 
-    @Action("强娶.+")
+    @Action("强娶.*?")
     public String s1(@AllMess String msg, MessagePack pack, KZeroBot bot) {
         String aid = Utils.getAtFormat(msg);
         if (aid == null) return "娶群友说明:当未拥有群友老婆时首次娶群友必定成功!(๑*◡*๑)" +
