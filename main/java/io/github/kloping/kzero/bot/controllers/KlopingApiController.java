@@ -6,10 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
-import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
@@ -17,7 +17,9 @@ import io.github.kloping.kzero.utils.Utils;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,6 +75,8 @@ public class KlopingApiController {
         }
     }
 
+    private static final SimpleDateFormat SF_0 = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
+
     @Action(value = "捡漂流瓶", otherName = {"捡瓶子"})
     public String getBottle() {
         BottleMessage pab = null;
@@ -80,7 +84,7 @@ public class KlopingApiController {
         StringBuilder sb = new StringBuilder();
         sb.append("你捡到一个瓶子\n它来自群:").append(pab.getGid()).append("\n的:")
                 .append(pab.getSid()).append("(").append(pab.getName()).append(")")
-                .append("\n在:").append(DateUtils.getFormat()).append("\n写的:").append(pab.getMessage());
+                .append("\n在:").append(SF_0.format(new Date(pab.getTime()))).append("\n写的:").append(pab.getMessage());
         return sb.toString();
     }
 
