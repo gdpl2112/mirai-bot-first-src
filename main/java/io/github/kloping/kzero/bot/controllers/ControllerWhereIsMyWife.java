@@ -1,14 +1,12 @@
 package io.github.kloping.kzero.bot.controllers;
 
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.annotations.CronSchedule;
+import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.rand.RandomUtils;
+import io.github.kloping.spt.RedisOperate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,19 +17,22 @@ import java.util.Map;
  */
 @Controller
 public class ControllerWhereIsMyWife {
+    /**
+     * 群号 => qid => qid
+     */
+    @AutoStand(id = "1")
+    public RedisOperate<Map<String, String>> WIFIES;
 
     /**
      * 周一刷新
      */
     @CronSchedule("0 0 0 ? * 1 *")
     public void interest() {
-        WIFE.clear();
+        WIFIES.execute((e) -> {
+            e.flushDB();
+        });
     }
 
-    /**
-     * 群号 => qid => qid
-     */
-    public static final Map<String, Map<String, String>> WIFE = new HashMap<>();
     public static final String WHERE_MEMBER_IS_MY_WIFE = "今天你的群友老婆是<pic:%s> 【%s】(%s) ";
     public static final String WHERE_MEMBER_IS_MY_WIFE0 = "强娶成功ta是你的了!\n今天你的群友老婆是<pic:%s> 【%s】(%s) ";
     public static final String WHERE_MEMBER_IS_MY_WIFE1 = "今天你被娶了!你的群友老公是<pic:%s> 【%s】(%s) ";
@@ -42,7 +43,8 @@ public class ControllerWhereIsMyWife {
             String aid = null;
             String sid = pack.getSenderId();
             String gid = pack.getSubjectId();
-            Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+            Map<String, String> map = WIFIES.getValue(gid);
+            if (map == null) map = new HashMap<>();
             if (map.containsKey(sid)) {
                 aid = map.get(sid);
                 return toView(aid, bot.getAdapter());
@@ -60,7 +62,7 @@ public class ControllerWhereIsMyWife {
                 aid = getRandQid(sid, pack, bot);
                 if (map.values().contains(aid)) return s0(pack, bot);
                 map.put(sid, aid);
-                WIFE.put(gid, map);
+                WIFIES.setValue(gid, map);
                 String s0 = toView(aid, bot.getAdapter());
                 return s0;
             }
@@ -72,7 +74,8 @@ public class ControllerWhereIsMyWife {
 
     @Action("重娶群友")
     public String s1(MessagePack pack, KZeroBot bot) {
-        WIFE.getOrDefault(pack.getSubjectId(), new HashMap<>()).remove(pack.getSenderId());
+        Map map = WIFIES.getValue(pack.getSubjectId());
+        if (map != null) map.remove(pack.getSenderId());
         return s0(pack, bot);
     }
 
@@ -80,7 +83,8 @@ public class ControllerWhereIsMyWife {
     public String sout(MessagePack pack, KZeroBot bot) {
         String sid = pack.getSenderId();
         String gid = pack.getSubjectId();
-        Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+        Map<String, String> map = WIFIES.getValue(gid);
+        if (map == null) map = new HashMap<>();
         String asid = null;
         for (String s : map.keySet()) {
             if (map.get(s).equals(sid)) {
@@ -103,7 +107,8 @@ public class ControllerWhereIsMyWife {
                 "\n其中有且仅'老婆'可随时使用'离婚'来取消'关系'╥﹏╥";
         String sid = pack.getSenderId();
         String gid = pack.getSubjectId();
-        Map<String, String> map = WIFE.getOrDefault(gid, new HashMap<>());
+        Map<String, String> map = WIFIES.getValue(gid);
+        if (map == null) map = new HashMap<>();
         if (map.containsKey(sid) || map.values().contains(aid)) {
             map.remove(sid);
             if (RandomUtils.RANDOM.nextInt(3) == 0) {
@@ -133,10 +138,10 @@ public class ControllerWhereIsMyWife {
         return "强娶失败!";
     }
 
-    private static String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
+    private String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
         map.remove(aid);
         map.put(sid, aid);
-        WIFE.put(gid, map);
+        WIFIES.setValue(gid, map);
         KZeroBotAdapter adapter = bot.getAdapter();
         return String.format(WHERE_MEMBER_IS_MY_WIFE0, adapter.getAvatarUrl(aid), adapter.getNameCard(aid), aid);
     }
@@ -152,7 +157,8 @@ public class ControllerWhereIsMyWife {
     private String getRandQid(String sid, MessagePack pack, KZeroBot bot) {
         List<String> list = bot.getAdapter().getMembers(pack.getSubjectId());
         String aid = null;
-        Map<String, String> map = WIFE.getOrDefault(pack.getSubjectId(), new HashMap<>());
+        Map<String, String> map = WIFIES.getValue(pack.getSubjectId());
+        if (map == null) map = new HashMap<>();
         while (true) {
             aid = list.get(RandomUtils.RANDOM.nextInt(list.size()));
             if (map.containsValue(aid)) continue;

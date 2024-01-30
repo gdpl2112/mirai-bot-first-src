@@ -13,6 +13,7 @@ import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.spring.KZeroSpringStarter;
+import io.github.kloping.spt.SptRedis;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;

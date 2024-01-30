@@ -88,7 +88,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         MiraiSerializer serializer = new MiraiSerializer(event.getBot());
         KZeroBot<Message, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
                 new MiraiBotAdapter(event.getBot(), serializer), serializer);
-        event.getBot().getEventChannel().registerListenerHost(new CustomizeController(serializer));
+        GlobalEventChannel.INSTANCE.registerListenerHost(new CustomizeController(serializer));
         listener.created(this, bot);
     }
 

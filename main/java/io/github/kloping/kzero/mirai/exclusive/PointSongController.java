@@ -50,8 +50,8 @@ public class PointSongController {
             Song s1 = songs.getData()[0];
             bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
                     MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
-            return null;
-        } else return "搜索失败!";
+        }
+        return null;
     }
 
     @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})

@@ -6,8 +6,8 @@ import io.github.kloping.MySpringTool.annotations.AutoStandAfter;
 import io.github.kloping.MySpringTool.annotations.Entity;
 import io.github.kloping.common.Public;
 import io.github.kloping.kzero.main.api.KZeroBot;
-import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.event.EventHandler;
+import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -24,11 +24,7 @@ public class LewisHandler extends SimpleListenerHost {
 
     @AutoStandAfter
     private void after(KZeroBot bot) {
-        if ((!ALLOW_BID.equals(bot.getId())) && (!ALLOW_BID1.equals(bot.getId()))) return;
-        else {
-            Bot b = (Bot) bot.getSelf();
-            b.getEventChannel().registerListenerHost(this);
-        }
+        GlobalEventChannel.INSTANCE.registerListenerHost(this);
     }
 
     @AutoStand(id = "lewis.main")
