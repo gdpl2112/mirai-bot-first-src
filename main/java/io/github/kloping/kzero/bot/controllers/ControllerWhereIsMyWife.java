@@ -11,6 +11,7 @@ import io.github.kloping.spt.RedisOperate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author github.kloping
@@ -43,7 +44,7 @@ public class ControllerWhereIsMyWife {
             String aid = null;
             String sid = pack.getSenderId();
             String gid = pack.getSubjectId();
-            Map<String, String> map = WIFIES.getValue(gid);
+            Map<String, String> map = getWifeMap(gid);
             if (map == null) map = new HashMap<>();
             if (map.containsKey(sid)) {
                 aid = map.get(sid);
@@ -62,7 +63,7 @@ public class ControllerWhereIsMyWife {
                 aid = getRandQid(sid, pack, bot);
                 if (map.values().contains(aid)) return s0(pack, bot);
                 map.put(sid, aid);
-                WIFIES.setValue(gid, map);
+                apply(map, gid);
                 String s0 = toView(aid, bot.getAdapter());
                 return s0;
             }
@@ -74,8 +75,11 @@ public class ControllerWhereIsMyWife {
 
     @Action("重娶群友")
     public String s1(MessagePack pack, KZeroBot bot) {
-        Map map = WIFIES.getValue(pack.getSubjectId());
-        if (map != null) map.remove(pack.getSenderId());
+        Map map = getWifeMap(pack.getSubjectId());
+        if (map != null) {
+            map.remove(pack.getSenderId());
+            apply(map, pack.getSubjectId());
+        }
         return s0(pack, bot);
     }
 
@@ -83,7 +87,7 @@ public class ControllerWhereIsMyWife {
     public String sout(MessagePack pack, KZeroBot bot) {
         String sid = pack.getSenderId();
         String gid = pack.getSubjectId();
-        Map<String, String> map = WIFIES.getValue(gid);
+        Map<String, String> map = getWifeMap(gid);
         if (map == null) map = new HashMap<>();
         String asid = null;
         for (String s : map.keySet()) {
@@ -94,6 +98,7 @@ public class ControllerWhereIsMyWife {
         }
         if (asid != null) {
             map.remove(asid);
+            apply(map, gid);
             return "成功!";
         } else return "无需'离婚'或失败!";
     }
@@ -107,13 +112,13 @@ public class ControllerWhereIsMyWife {
                 "\n其中有且仅'老婆'可随时使用'离婚'来取消'关系'╥﹏╥";
         String sid = pack.getSenderId();
         String gid = pack.getSubjectId();
-        Map<String, String> map = WIFIES.getValue(gid);
+        Map<String, String> map = getWifeMap(gid);
         if (map == null) map = new HashMap<>();
-        if (map.containsKey(sid) || map.values().contains(aid)) {
+        if (map.containsKey(sid) || map.containsValue(aid)) {
             map.remove(sid);
             if (RandomUtils.RANDOM.nextInt(3) == 0) {
                 if (map.values().contains(aid)) {
-                    if (RandomUtils.RANDOM.nextInt(2) == 0) {
+                    if (RandomUtils.RANDOM.nextInt(3) == 0) {
                         String asid = null;
                         for (String s : map.keySet()) {
                             if (map.get(s).equals(aid)) {
@@ -141,7 +146,7 @@ public class ControllerWhereIsMyWife {
     private String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
         map.remove(aid);
         map.put(sid, aid);
-        WIFIES.setValue(gid, map);
+        apply(map, gid);
         KZeroBotAdapter adapter = bot.getAdapter();
         return String.format(WHERE_MEMBER_IS_MY_WIFE0, adapter.getAvatarUrl(aid), adapter.getNameCard(aid), aid);
     }
@@ -157,7 +162,7 @@ public class ControllerWhereIsMyWife {
     private String getRandQid(String sid, MessagePack pack, KZeroBot bot) {
         List<String> list = bot.getAdapter().getMembers(pack.getSubjectId());
         String aid = null;
-        Map<String, String> map = WIFIES.getValue(pack.getSubjectId());
+        Map<String, String> map = getWifeMap(pack.getSubjectId());
         if (map == null) map = new HashMap<>();
         while (true) {
             aid = list.get(RandomUtils.RANDOM.nextInt(list.size()));
@@ -166,5 +171,19 @@ public class ControllerWhereIsMyWife {
             else break;
         }
         return aid;
+    }
+
+    private void apply(Map<String, String> map, String gid) {
+        WIFIES.execute((e) -> {
+            e.hset(gid, map);
+        });
+    }
+
+    private Map<String, String> getWifeMap(String gid) {
+        AtomicReference<Map<String, String>> map = new AtomicReference<>();
+        WIFIES.execute((j) -> {
+            map.set(j.hgetAll(gid));
+        });
+        return map.get();
     }
 }
