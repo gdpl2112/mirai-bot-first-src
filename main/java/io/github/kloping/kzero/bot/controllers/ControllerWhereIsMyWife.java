@@ -97,7 +97,7 @@ public class ControllerWhereIsMyWife {
             }
         }
         if (asid != null) {
-            delGidInSid(asid);
+            delGidInSid(pack.getSubjectId(), asid);
             return "成功!";
         } else return "无需'离婚'或失败!";
     }
