@@ -77,7 +77,7 @@ public class ControllerWhereIsMyWife {
     public String s1(MessagePack pack, KZeroBot bot) {
         Map map = getWifeMap(pack.getSubjectId());
         if (map != null) {
-            map.remove(pack.getSenderId());
+            delGidInSid(pack.getSubjectId(), pack.getSenderId());
             apply(map, pack.getSubjectId());
         }
         return s0(pack, bot);
@@ -97,8 +97,7 @@ public class ControllerWhereIsMyWife {
             }
         }
         if (asid != null) {
-            map.remove(asid);
-            apply(map, gid);
+            delGidInSid(asid);
             return "成功!";
         } else return "无需'离婚'或失败!";
     }
@@ -116,6 +115,7 @@ public class ControllerWhereIsMyWife {
         if (map == null) map = new HashMap<>();
         if (map.containsKey(sid) || map.containsValue(aid)) {
             map.remove(sid);
+            delGidInSid(gid, sid);
             if (RandomUtils.RANDOM.nextInt(3) == 0) {
                 if (map.values().contains(aid)) {
                     if (RandomUtils.RANDOM.nextInt(3) == 0) {
@@ -128,6 +128,7 @@ public class ControllerWhereIsMyWife {
                         }
                         if (asid != null) {
                             map.remove(asid);
+                            delGidInSid(gid, asid);
                         }
                         return qqNow(bot, map, sid, aid, gid);
                     }
@@ -145,6 +146,7 @@ public class ControllerWhereIsMyWife {
 
     private String qqNow(KZeroBot bot, Map<String, String> map, String sid, String aid, String gid) {
         map.remove(aid);
+        delGidInSid(gid, aid);
         map.put(sid, aid);
         apply(map, gid);
         KZeroBotAdapter adapter = bot.getAdapter();
@@ -171,6 +173,12 @@ public class ControllerWhereIsMyWife {
             else break;
         }
         return aid;
+    }
+
+    private void delGidInSid(String subjectId, String... senderId) {
+        WIFIES.execute((j) -> {
+            j.hdel(subjectId, senderId);
+        });
     }
 
     private void apply(Map<String, String> map, String gid) {
