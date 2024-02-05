@@ -69,6 +69,7 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
                     Message msg = (Message) obj;
                     builder.add(bot.getAsFriend(), msg);
                 } else if (obj instanceof String) {
+                    if (obj.toString().trim().isEmpty()) continue;
                     Message msg = serializer.deserialize(obj.toString().trim());
                     builder.add(bot.getAsFriend(), msg);
                 }

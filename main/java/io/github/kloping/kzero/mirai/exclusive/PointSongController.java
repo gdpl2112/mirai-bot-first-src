@@ -92,7 +92,7 @@ public class PointSongController {
         try {
             Songs songs = klopingWeb.getSongs(name, "qq", 1);
             String lyric = songs.getData()[0].getLyric();
-            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\r|\n"));
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\n"));
             return null;
         } catch (Exception e) {
             return "歌词获取失败";
@@ -104,7 +104,7 @@ public class PointSongController {
         try {
             Songs songs = klopingWeb.getSongs(name, "kugou", 1);
             String lyric = songs.getData()[0].getLyric();
-            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\r|\n"));
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\n"));
             return null;
         } catch (Exception e) {
             return "歌词获取失败";
@@ -116,7 +116,7 @@ public class PointSongController {
         try {
             Songs songs = klopingWeb.getSongs(name, "wy", 1);
             String lyric = songs.getData()[0].getLyric();
-            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\r|\n"));
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\n"));
             return null;
         } catch (Exception e) {
             return "歌词获取失败";
