@@ -80,7 +80,6 @@ public class PointSongController {
             lines.add(line);
         }
         if (data.getInteger("code") == 200) {
-            String mp3 = data.getString("mp3");
             bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lines.toArray(new String[0]));
         } else return data.getString("msg");
         return null;
