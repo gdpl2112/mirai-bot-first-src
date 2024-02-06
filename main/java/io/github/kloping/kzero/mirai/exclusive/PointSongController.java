@@ -1,16 +1,22 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.Song;
 import io.github.kloping.kzero.bot.commons.apis.Songs;
-import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author github-kloping
@@ -43,14 +49,40 @@ public class PointSongController {
         return SB.toString();
     }
 
+    RestTemplate template = new RestTemplate();
+
     @Action("点歌<.+=>name>")
     public String pointSong(@Param("name") String name, MessagePack pack, KZeroBot bot) {
-        Songs songs = klopingWeb.getVipSongs(name, 1);
-        if (songs != null && songs.getData().length > 0) {
-            Song s1 = songs.getData()[0];
+        JSONObject data = getSongData(name);
+        if (data.getInteger("code") == 200) {
+            String mp3 = data.getString("mp3");
             bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
+                    MusicKind.QQMusic, data.getString("name"), data.getString("author"),
+                    mp3, data.getString("img"), mp3));
+        } else return data.getString("msg");
+        return null;
+    }
+
+    private JSONObject getSongData(String name) {
+        String url = String.format("https://api.linhun.vip/api/qqyy?name=%s&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a", name.trim());
+        String json = template.getForObject(url, String.class);
+        JSONObject data = JSON.parseObject(json);
+        return data;
+    }
+
+    @Action("歌词<.+=>name>")
+    public String pl(@Param("name") String name, MessagePack pack, KZeroBot bot) {
+        JSONObject data = getSongData(name.trim());
+        List<String> lines = new LinkedList<>();
+        for (Object lyric : data.getJSONArray("lyric")) {
+            JSONObject l0 = (JSONObject) lyric;
+            String line = String.format("[%s]%s", l0.getString("time"), l0.getString("name"));
+            lines.add(line);
         }
+        if (data.getInteger("code") == 200) {
+            String mp3 = data.getString("mp3");
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lines.toArray(new String[0]));
+        } else return data.getString("msg");
         return null;
     }
 
@@ -60,7 +92,7 @@ public class PointSongController {
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
             bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
+                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
@@ -71,7 +103,7 @@ public class PointSongController {
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
             bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
+                    MusicKind.KugouMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
@@ -82,7 +114,7 @@ public class PointSongController {
         if (songs != null && songs.getData().length > 0) {
             Song s1 = songs.getData()[0];
             bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), "http://kloping.top", s1.getImgUrl(), s1.getSongUrl()));
+                    MusicKind.NeteaseCloudMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
             return null;
         } else return "搜索失败!";
     }
