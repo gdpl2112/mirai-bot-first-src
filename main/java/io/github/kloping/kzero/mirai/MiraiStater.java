@@ -53,6 +53,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
 
     public KZeroBot<Message , Bot> create(String bid, Bot o, KZeroBotAdapter adapter, MessageSerializer<Message > serializer) {
         KZeroBot<Message , Bot> bot = new KZeroBot<Message , Bot>() {
+
             @Override
             public String getId() {
                 return bid;
@@ -68,9 +69,18 @@ public class MiraiStater implements KZeroStater, ListenerHost {
                 return serializer;
             }
 
+            private Bot bot = o;
+
             @Override
             public Bot getSelf() {
-                return o;
+                return bot;
+            }
+
+            @Override
+            public Bot setSelf(Bot bot) {
+                Bot ob = bot;
+                this.bot = bot;
+                return ob;
             }
         };
         return bot;
@@ -80,16 +90,12 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
         if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
-        onBotOnlineFirst(event);
-    }
-
-    public void onBotOnlineFirst(BotOnlineEvent event) {
-        System.out.format("==================%s(%s)-上线了=====================\n", event.getBot().getId(), event.getBot().getNick());
-        MiraiSerializer serializer = new MiraiSerializer(event.getBot());
-        KZeroBot<Message, Bot> bot = create(String.valueOf(event.getBot().getId()), event.getBot(),
-                new MiraiBotAdapter(event.getBot(), serializer), serializer);
+        Bot bot = event.getBot();
+        System.out.format("==================%s(%s)-上线了=====================\n", bot.getId(), bot.getNick());
+        MiraiSerializer serializer = new MiraiSerializer(bot);
+        KZeroBot<Message, Bot> kbot = create(String.valueOf(bot.getId()), bot, new MiraiBotAdapter(bot, serializer), serializer);
         GlobalEventChannel.INSTANCE.registerListenerHost(new CustomizeController(serializer));
-        listener.created(this, bot);
+        listener.created(this, kbot);
     }
 
     @EventHandler

@@ -11,4 +11,8 @@ public interface KZeroBot<T, B> {
     MessageSerializer<T> getSerializer();
 
     B getSelf();
+
+    default B setSelf(B b) {
+        return null;
+    }
 }
