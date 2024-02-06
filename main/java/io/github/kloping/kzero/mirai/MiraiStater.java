@@ -89,7 +89,10 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
-        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
+        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) {
+            KZeroMainThreads.BOT_MAP.get(bid).setSelf(event.getBot());
+            return;
+        }
         Bot bot = event.getBot();
         System.out.format("==================%s(%s)-上线了=====================\n", bot.getId(), bot.getNick());
         MiraiSerializer serializer = new MiraiSerializer(bot);
