@@ -19,12 +19,9 @@ import java.io.IOException;
 
 @Entity
 public class LewisHandler extends SimpleListenerHost {
-    public static final String ALLOW_BID = "291841860";
-    public static final String ALLOW_BID1 = "930204019";
-
     @AutoStandAfter
     private void after(KZeroBot bot) {
-        GlobalEventChannel.INSTANCE.registerListenerHost(this);
+        if (bot.getId().equals("291841860")) GlobalEventChannel.INSTANCE.registerListenerHost(this);
     }
 
     @AutoStand(id = "lewis.main")
@@ -35,7 +32,6 @@ public class LewisHandler extends SimpleListenerHost {
 
     @AutoStand(id = "lewis.bot")
     Long bid;
-
 
     @EventHandler
     public void onEvent(GroupMessageEvent event) {
