@@ -4,11 +4,13 @@ import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.entity.interfaces.Runner;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
+import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.common.Public;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.mirai.exclusive.OutController;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
@@ -50,11 +52,12 @@ public class AllController implements Runner {
     }
 
     @AutoStand
-    SubscribeController subscribeController;
+    ContextManager contextManager;
 
     @Action("测试<.+=>name>")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        return UPLOAD_URL;
+        contextManager.getContextEntity(OutController.class).sixs();
+        return null;
     }
 
     @AutoStand(id = "super_id")
