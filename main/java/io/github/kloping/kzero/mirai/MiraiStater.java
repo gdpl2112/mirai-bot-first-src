@@ -4,6 +4,7 @@ import io.github.kloping.common.Public;
 import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
+import io.github.kloping.kzero.mirai.listeners.AiHandler;
 import io.github.kloping.kzero.mirai.listeners.GenshinUidConnect;
 import io.github.kloping.kzero.mirai.listeners.MihdpConnect;
 import net.mamoe.mirai.Bot;
@@ -46,6 +47,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("works"));
             MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         });
+        GlobalEventChannel.INSTANCE.registerListenerHost(AiHandler.INSTANCE);
         GlobalEventChannel.INSTANCE.registerListenerHost(this);
         GlobalEventChannel.INSTANCE.registerListenerHost(GenshinUidConnect.INSTANCE);
         GlobalEventChannel.INSTANCE.registerListenerHost(MihdpConnect.INSTANCE);
