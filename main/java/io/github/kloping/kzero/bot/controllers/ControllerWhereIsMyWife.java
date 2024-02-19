@@ -78,7 +78,6 @@ public class ControllerWhereIsMyWife {
         Map map = getWifeMap(pack.getSubjectId());
         if (map != null) {
             delGidInSid(pack.getSubjectId(), pack.getSenderId());
-            apply(map, pack.getSubjectId());
         }
         return s0(pack, bot);
     }
