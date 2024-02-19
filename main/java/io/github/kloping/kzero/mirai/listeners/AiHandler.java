@@ -6,6 +6,7 @@ import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.SingleMessage;
@@ -24,6 +25,8 @@ public class AiHandler implements ListenerHost {
     public static final AiHandler INSTANCE = new AiHandler();
 
     public static final RestTemplate TEMPLATE = new RestTemplate();
+
+    private Map<Long, Queue<MessageEvent>> hist = new HashMap<>();
 
     @EventHandler
     public void onE1(GroupMessageEvent event) {
@@ -47,20 +50,18 @@ public class AiHandler implements ListenerHost {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
-    private Map<Long, Queue<String>> hist = new HashMap<>();
-
-    @EventHandler
-    public void onE2(GroupMessageEvent event) {
         if (event.getSubject().getId() == 278681553L) {
-            String code = MessageChain.serializeToJsonString(event.getMessage()).trim();
-            Queue<String> queue = hist.get(event.getSender().getId());
+            Queue<MessageEvent> queue = hist.get(event.getSender().getId());
             if (queue == null) queue = new LinkedBlockingQueue<>(5);
             if (queue.size() > 3) {
+                String code = MessageChain.serializeToJsonString(event.getMessage()).trim();
                 int ac = 0;
-                for (String c1 : queue) {
-                    if (c1.trim().equals(code)) ac++;
+                for (int i = 0; i < queue.size(); i++) {
+                    MessageEvent e1 = queue.peek();
+                    if (Math.abs(e1.getTime() - event.getTime()) > 120) continue;
+                    String c2 = MessageChain.serializeToJsonString(e1.getMessage());
+                    if (code.equals(c2)) ac++;
                 }
                 if (ac == 3) {
                     event.getSubject().sendMessage("检测到可能存在刷屏行为,请注意发言.");
@@ -71,8 +72,9 @@ public class AiHandler implements ListenerHost {
                 }
             }
             if (queue.size() > 5) queue.poll();
-            queue.offer(code);
+            queue.offer(event);
             hist.put(event.getSender().getId(), queue);
         }
     }
+
 }
