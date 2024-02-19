@@ -10,14 +10,20 @@ import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.url.UrlUtils;
+import net.mamoe.mirai.contact.NormalMember;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.message.data.MessageChain;
 
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author github.kloping
@@ -47,7 +53,29 @@ public class AllController implements Runner {
         if (groupConf != null) {
             if (!groupConf.getOpen()) throw new NoRunException("未开启");
         }
-        intercept0(method, pack, bot);
+        String sid = pack.getSenderId();
+        if (!wakes.contains(sid)) wakes.add(sid);
+        int hour = DateUtils.getHour();
+        if (hour >= 5 && hour <= 11) {
+            Long ut0 = map.get(sid);
+            if (ut0 != null) {
+                ut0 = System.currentTimeMillis() - ut0;
+                if (ut0 > MIN_WAKE_TIME && ut0 < MAX_WAKE_TIME) {
+                    int h = (int) (ut0 / (1000 * 60 * 60));
+                    int m = (int) (ut0 % (1000 * 60 * 60)) / (1000 * 60);
+                    bot.getAdapter().onResult(method, String.format("推测睡眠时长: %s时%s分", h, m), pack);
+                    Public.EXECUTOR_SERVICE.submit(() -> {
+                        synchronized (receptions) {
+                            Iterator<WakeUpReception> iterator = receptions.iterator();
+                            while (iterator.hasNext()) {
+                                if (iterator.next().up(sid)) iterator.remove();
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        map.put(pack.getSenderId(), System.currentTimeMillis());
     }
 
     @AutoStand
@@ -149,31 +177,37 @@ public class AllController implements Runner {
     private static final int MIN_WAKE_TIME = 1000 * 60 * 60 * 5;
     private static final int MAX_WAKE_TIME = 1000 * 60 * 60 * 12;
 
+    private Map<Long, Queue<MessageEvent>> hist = new HashMap<>();
+
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
-        String sid = pack.getSenderId();
-        if (!wakes.contains(sid)) wakes.add(sid);
-        int hour = DateUtils.getHour();
-        if (hour >= 5 && hour <= 11) {
-            Long ut0 = map.get(sid);
-            if (ut0 != null) {
-                ut0 = System.currentTimeMillis() - ut0;
-                if (ut0 > MIN_WAKE_TIME && ut0 < MAX_WAKE_TIME) {
-                    int h = (int) (ut0 / (1000 * 60 * 60));
-                    int m = (int) (ut0 % (1000 * 60 * 60)) / (1000 * 60);
-                    bot.getAdapter().onResult(method, String.format("推测睡眠时长: %s时%s分", h, m), pack);
-                    Public.EXECUTOR_SERVICE.submit(() -> {
-                        synchronized (receptions) {
-                            Iterator<WakeUpReception> iterator = receptions.iterator();
-                            while (iterator.hasNext()) {
-                                if (iterator.next().up(sid)) iterator.remove();
-                            }
-                        }
-                    });
+        if (pack.getType() == MessageType.GROUP) {
+            GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
+            if (event.getSubject().getBotAsMember().getPermission().getLevel() == 2) {
+                Queue<MessageEvent> queue = hist.get(event.getSender().getId());
+                if (queue == null) queue = new LinkedBlockingQueue<>(5);
+                if (queue.size() > 3) {
+                    String code = MessageChain.serializeToJsonString(event.getMessage()).trim();
+                    int ac = 0;
+                    for (int i = 0; i < queue.size(); i++) {
+                        MessageEvent e1 = queue.peek();
+                        if (Math.abs(e1.getTime() - event.getTime()) > 120) continue;
+                        String c2 = MessageChain.serializeToJsonString(e1.getMessage());
+                        if (code.equals(c2)) ac++;
+                    }
+                    if (ac == 3) {
+                        event.getSubject().sendMessage("检测到可能存在刷屏行为,请注意发言.");
+                    } else if (ac > 3) {
+                        event.getSubject().sendMessage("多次刷屏...\n禁言20s以示警告");
+                        NormalMember member = (NormalMember) event.getSender();
+                        member.mute(20);
+                    }
                 }
+                if (queue.size() > 5) queue.poll();
+                queue.offer(event);
+                hist.put(event.getSender().getId(), queue);
             }
         }
-        map.put(pack.getSenderId(), System.currentTimeMillis());
     }
 
     public List<WakeUpReception> receptions = new LinkedList<>();
