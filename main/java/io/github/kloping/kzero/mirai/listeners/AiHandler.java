@@ -72,6 +72,7 @@ public class AiHandler implements ListenerHost {
             }
             if (queue.size() > 5) queue.poll();
             queue.offer(code);
+            hist.put(event.getSender().getId(), queue);
         }
     }
 }
