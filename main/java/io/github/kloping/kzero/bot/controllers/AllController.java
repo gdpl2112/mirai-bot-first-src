@@ -182,30 +182,32 @@ public class AllController implements Runner {
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
         if (pack.getType() == MessageType.GROUP) {
-            GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
-            if (event.getSubject().getBotAsMember().getPermission().getLevel() == 2) {
-                Queue<MessageEvent> queue = hist.get(event.getSender().getId());
-                if (queue == null) queue = new LinkedBlockingQueue<>(5);
-                if (queue.size() > 3) {
-                    String code = MessageChain.serializeToJsonString(event.getMessage()).trim();
-                    int ac = 0;
-                    for (int i = 0; i < queue.size(); i++) {
-                        MessageEvent e1 = queue.peek();
-                        if (Math.abs(e1.getTime() - event.getTime()) > 120) continue;
-                        String c2 = MessageChain.serializeToJsonString(e1.getMessage());
-                        if (code.equals(c2)) ac++;
+            if (pack.getRaw() instanceof MessageEvent) {
+                GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
+                if (event.getSubject().getBotAsMember().getPermission().getLevel() == 2) {
+                    Queue<MessageEvent> queue = hist.get(event.getSender().getId());
+                    if (queue == null) queue = new LinkedBlockingQueue<>(5);
+                    if (queue.size() >= 3) {
+                        String code = event.getMessage().serializeToMiraiCode();
+                        int ac = 0;
+                        for (int i = 0; i < queue.size(); i++) {
+                            MessageEvent e1 = queue.peek();
+                            if (Math.abs(e1.getTime() - event.getTime()) > 120) continue;
+                            String c2 = e1.getMessage().serializeToMiraiCode();
+                            if (code.equals(c2)) ac++;
+                        }
+                        if (ac == 3) {
+                            event.getSubject().sendMessage("检测到可能存在刷屏行为,请注意发言.");
+                        } else if (ac > 3) {
+                            event.getSubject().sendMessage("多次刷屏...\n禁言20s以示警告");
+                            NormalMember member = (NormalMember) event.getSender();
+                            member.mute(20);
+                        }
                     }
-                    if (ac == 3) {
-                        event.getSubject().sendMessage("检测到可能存在刷屏行为,请注意发言.");
-                    } else if (ac > 3) {
-                        event.getSubject().sendMessage("多次刷屏...\n禁言20s以示警告");
-                        NormalMember member = (NormalMember) event.getSender();
-                        member.mute(20);
-                    }
+                    if (queue.size() > 5) queue.poll();
+                    queue.offer(event);
+                    hist.put(event.getSender().getId(), queue);
                 }
-                if (queue.size() > 5) queue.poll();
-                queue.offer(event);
-                hist.put(event.getSender().getId(), queue);
             }
         }
     }
