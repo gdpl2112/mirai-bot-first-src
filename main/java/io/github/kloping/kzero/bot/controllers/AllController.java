@@ -55,7 +55,6 @@ public class AllController implements Runner {
 
     @Action("测试<.+=>name>")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        contextManager.getContextEntity(OutController.class).sixs();
         return null;
     }
 
