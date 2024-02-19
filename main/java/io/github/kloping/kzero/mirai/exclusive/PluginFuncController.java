@@ -84,6 +84,4 @@ public class PluginFuncController {
         if (le == 2) return "群主";
         return "未知";
     }
-
-
 }
