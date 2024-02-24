@@ -16,9 +16,7 @@ import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
-import net.mamoe.mirai.message.data.MessageChain;
 
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
@@ -177,38 +175,35 @@ public class AllController implements Runner {
     private static final int MIN_WAKE_TIME = 1000 * 60 * 60 * 5;
     private static final int MAX_WAKE_TIME = 1000 * 60 * 60 * 12;
 
-    private Map<Long, Queue<MessageEvent>> hist = new HashMap<>();
+    private Map<String, Queue<MessagePack>> hist = new HashMap<>();
 
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
         if (pack.getType() == MessageType.GROUP) {
-            if (pack.getRaw() instanceof MessageEvent) {
-                GroupMessageEvent event = (GroupMessageEvent) pack.getRaw();
-                if (event.getSubject().getBotAsMember().getPermission().getLevel() == 2) {
-                    Queue<MessageEvent> queue = hist.get(event.getSender().getId());
-                    if (queue == null) queue = new LinkedBlockingQueue<>(5);
-                    if (queue.size() >= 3) {
-                        String code = event.getMessage().serializeToMiraiCode();
-                        int ac = 0;
-                        for (int i = 0; i < queue.size(); i++) {
-                            MessageEvent e1 = queue.peek();
-                            if (Math.abs(e1.getTime() - event.getTime()) > 120) continue;
-                            String c2 = e1.getMessage().serializeToMiraiCode();
-                            if (code.equals(c2)) ac++;
-                        }
-                        if (ac == 3) {
-                            event.getSubject().sendMessage("检测到可能存在刷屏行为,请注意发言.");
-                        } else if (ac > 3) {
-                            event.getSubject().sendMessage("多次刷屏...\n禁言20s以示警告");
-                            NormalMember member = (NormalMember) event.getSender();
-                            member.mute(20);
-                        }
-                    }
-                    if (queue.size() > 5) queue.poll();
-                    queue.offer(event);
-                    hist.put(event.getSender().getId(), queue);
+//            if (!(pack.getRaw() instanceof MessageEvent)) return;
+//            if (!pack.getSubjectId().equals("278681553")) return;
+            Queue<MessagePack> queue = hist.get(pack.getSenderId());
+            if (queue == null) queue = new LinkedBlockingQueue<>(5);
+            if (queue.size() >= 3) {
+                String code = pack.getMsg();
+                int ac = 1;
+                String m0 = null;
+                for (MessagePack messagePack : queue) {
+                    if (m0 == null) m0 = messagePack.getMsg();
+                    else if (m0.equals(messagePack.getMsg())) ac++;
+                }
+                if (ac >= 3) {
+                    bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), "检测到可能存在刷屏行为,请注意发言.");
+                } else if (ac > 3) {
+                    bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), "多次刷屏...\n禁言20s以示警告");
+                    NormalMember member = (NormalMember) ((MessageEvent) pack.getRaw()).getSender();
+                    member.mute(20);
+                    queue.clear();
                 }
             }
+            if (queue.size() >= 4) queue.poll();
+            queue.offer(pack);
+            hist.put(pack.getSenderId(), queue);
         }
     }
 
