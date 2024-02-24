@@ -180,8 +180,8 @@ public class AllController implements Runner {
     @DefAction
     public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
         if (pack.getType() == MessageType.GROUP) {
-//            if (!(pack.getRaw() instanceof MessageEvent)) return;
-//            if (!pack.getSubjectId().equals("278681553")) return;
+            if (!(pack.getRaw() instanceof MessageEvent)) return;
+            if (!pack.getSubjectId().equals("278681553")) return;
             Queue<MessagePack> queue = hist.get(pack.getSenderId());
             if (queue == null) queue = new LinkedBlockingQueue<>(5);
             if (queue.size() >= 3) {
