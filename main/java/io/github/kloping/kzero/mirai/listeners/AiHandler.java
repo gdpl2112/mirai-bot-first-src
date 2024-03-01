@@ -76,14 +76,15 @@ public class AiHandler implements ListenerHost {
             Integer n = Integer.valueOf(out);
             Map.Entry<String, String> e = QID_2_WORD.get(event.getSender().getId());
             if (e != null) {
-                String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s", e.getKey(), e.getValue()), String.class);
+                String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.getKey(), e.getValue(), n), String.class);
                 String[] args = lines.split("\n");
                 MusicShare share = new MusicShare(e.getKey().equals("kg") ? MusicKind.KugouMusic : MusicKind.NeteaseCloudMusic
                         , args[1].substring(3)
                         , args[2].substring(3)
                         , args[3].substring(5)
                         , args[0].substring(3)
-                        , args[3].substring(5));
+                        , args[3].substring(5)
+                );
                 event.getSubject().sendMessage(share);
             }
         }
