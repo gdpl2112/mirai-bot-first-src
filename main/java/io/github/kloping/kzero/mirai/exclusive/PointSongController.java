@@ -52,18 +52,18 @@ public class PointSongController {
     }
 
     RestTemplate template = new RestTemplate();
-
-    @Action("点歌<.+=>name>")
-    public String pointSong(@Param("name") String name, MessagePack pack, KZeroBot bot) {
-        JSONObject data = getSongData(name);
-        if (data.getInteger("code") == 200) {
-            String mp3 = data.getString("mp3");
-            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.QQMusic, data.getString("name"), data.getString("author"),
-                    mp3, data.getString("img"), mp3));
-        } else return data.getString("msg");
-        return null;
-    }
+//
+//    @Action("点歌<.+=>name>")
+//    public String pointSong(@Param("name") String name, MessagePack pack, KZeroBot bot) {
+//        JSONObject data = getSongData(name);
+//        if (data.getInteger("code") == 200) {
+//            String mp3 = data.getString("mp3");
+//            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+//                    MusicKind.QQMusic, data.getString("name"), data.getString("author"),
+//                    mp3, data.getString("img"), mp3));
+//        } else return data.getString("msg");
+//        return null;
+//    }
 
     private JSONObject getSongData(String name) {
         String url = String.format("https://api.linhun.vip/api/qqyy?name=%s&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a", name.trim());
@@ -86,17 +86,17 @@ public class PointSongController {
         } else return data.getString("msg");
         return null;
     }
-
-    @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})
-    public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBot bot) {
-        Songs songs = klopingWeb.getSongs(name, "qq", 1);
-        if (songs != null && songs.getData().length > 0) {
-            Song s1 = songs.getData()[0];
-            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
-            return null;
-        } else return "搜索失败!";
-    }
+//
+//    @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})
+//    public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBot bot) {
+//        Songs songs = klopingWeb.getSongs(name, "qq", 1);
+//        if (songs != null && songs.getData().length > 0) {
+//            Song s1 = songs.getData()[0];
+//            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+//                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
+//            return null;
+//        } else return "搜索失败!";
+//    }
 
     @Action("QQ歌词<.+=>name>")
     public Object mq(@Param("name") String name, KZeroBot bot, MessagePack pack) {

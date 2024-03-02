@@ -6,6 +6,8 @@ import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -54,7 +56,7 @@ public class AiHandler implements ListenerHost {
 
 
     @EventHandler
-    public void pointOnly(GroupMessageEvent event) {
+    public void pointOnly(GroupMessageEvent event) throws Exception {
         StringBuilder line = new StringBuilder();
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {
@@ -72,7 +74,7 @@ public class AiHandler implements ListenerHost {
             QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>("wy", name));
             event.getSubject().sendMessage(TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=wy&msg=" + name, String.class));
             return;
-        } else if (out.startsWith("点歌") && out.length() > 4) {
+        } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
             pVip(event, name, 1);
         } else if (out.startsWith("QQ点歌") && out.length() > 4) {
@@ -108,8 +110,13 @@ public class AiHandler implements ListenerHost {
         }
     }
 
-    private static void pVip(GroupMessageEvent event, String name, Integer p) {
-        JSONObject jo0 = JSON.parseObject(TEMPLATE.getForObject("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&n=9&p=" + p + "&q=" + name, String.class));
+    private static void pVip(GroupMessageEvent event, String name, Integer p) throws Exception {
+        Document doc0 = Jsoup.connect("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&n=9&p=" + p + "&q=" + name)
+                .ignoreHttpErrors(true).ignoreContentType(true)
+                .header("Connection", "Keep-Alive")
+                .header("User-Agent", "Apache-HttpClient/4.5.14 (Java/17.0.8.1)")
+                .header("Accept-Encoding", "br,deflate,gzip,x-gzip").get();
+        JSONObject jo0 = JSON.parseObject(doc0.body().text());
         QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>(String.format("data|%s|%s", p, name), jo0));
         if (jo0.getInteger("code") == 200) {
             StringBuilder sb = new StringBuilder();
