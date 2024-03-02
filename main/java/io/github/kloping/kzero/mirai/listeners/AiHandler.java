@@ -97,17 +97,33 @@ public class AiHandler implements ListenerHost {
                     event.getSubject().sendMessage(share);
                 } else {
                     if (n == 0) {
-                        String[] args = type.split("|");
+                        String[] args = type.split("\\|");
                         Integer p = Integer.valueOf(args[1]);
                         String name = args[2];
                         pVip(event, name, p + 1);
+                    } else {
+                        JSONObject d0 = (JSONObject) e.getValue();
+                        d0 = d0.getJSONArray("list").getJSONObject(n - 1);
+                        String url = getRedirectUrl(d0.getString("url"));
+                        MusicShare share = new MusicShare(MusicKind.QQMusic, d0.getString("name"), d0.getString("singer"), url, d0.getString("cover"), url);
+                        event.getSubject().sendMessage(share);
                     }
-                    JSONObject d0 = (JSONObject) e.getValue();
-                    MusicShare share = new MusicShare(MusicKind.QQMusic, d0.getString("name"), d0.getString("singer"), d0.getString("url"), d0.getString("cover"), d0.getString("url"));
-                    event.getSubject().sendMessage(share);
                 }
             }
         }
+    }
+
+    /**
+     * 获取重定向地址
+     *
+     * @param path
+     * @return
+     * @throws Exception
+     */
+    private static String getRedirectUrl(String path) throws Exception {
+        Document doc0 = Jsoup.connect(path).ignoreHttpErrors(true).ignoreContentType(true).header("Connection", "Keep-Alive")
+                .header("User-Agent", "Apache-HttpClient/4.5.14 (Java/17.0.8.1)").header("Accept-Encoding", "br,deflate,gzip,x-gzip").get();
+        return doc0.location();
     }
 
     private static void pVip(GroupMessageEvent event, String name, Integer p) throws Exception {
