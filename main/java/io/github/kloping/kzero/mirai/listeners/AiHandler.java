@@ -123,9 +123,9 @@ public class AiHandler implements ListenerHost {
             int i = 1;
             for (Object o1 : jo0.getJSONArray("list")) {
                 JSONObject e0 = (JSONObject) o1;
-                sb.append(1).append(".").append(e0.getString("name")).append("--").append(e0.getString("name")).append("\n");
+                sb.append(i++).append(".").append(e0.getString("name")).append("--").append(e0.getString("singer")).append("\n");
             }
-            sb.append(jo0.getString("msg")).append("-tips:选择'0'可翻向下一页");
+            sb.append(jo0.getString("msg")).append("\ntips:选择'0'可翻向下一页");
             event.getSubject().sendMessage(sb.toString());
         } else {
             event.getSubject().sendMessage(jo0.getString("msg"));
