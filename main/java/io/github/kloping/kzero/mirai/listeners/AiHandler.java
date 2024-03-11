@@ -80,6 +80,8 @@ public class AiHandler implements ListenerHost {
         } else if (out.startsWith("QQ点歌") && out.length() > 4) {
             String name = out.substring(4);
             pVip(event, name, 1);
+        } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
+            QID_2_WORD.remove(event.getSender().getId());
         } else if (out.matches("[\\d]+")) {
             Integer n = Integer.valueOf(out);
             Map.Entry<String, Object> e = QID_2_WORD.get(event.getSender().getId());
@@ -141,10 +143,10 @@ public class AiHandler implements ListenerHost {
                 JSONObject e0 = (JSONObject) o1;
                 sb.append(i++).append(".").append(e0.getString("name")).append("--").append(e0.getString("singer")).append("\n");
             }
-            sb.append(jo0.getString("msg")).append("\ntips:选择'0'可翻向下一页");
+            sb.append(jo0.getString("msg")).append("\ntips:选择'0'可翻向下一页\n使用'取消点歌'/'取消选择'来取消选择");
             event.getSubject().sendMessage(sb.toString());
         } else {
-            event.getSubject().sendMessage(jo0.getString("msg"));
+            event.getSubject().sendMessage(jo0.getString("msg") + "\n使用'取消点歌'/'取消选择'来取消选择");
         }
         return;
     }
