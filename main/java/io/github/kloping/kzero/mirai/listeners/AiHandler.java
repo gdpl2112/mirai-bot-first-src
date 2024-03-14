@@ -67,12 +67,18 @@ public class AiHandler implements ListenerHost {
         if (out.startsWith("酷狗点歌") && out.length() > 4) {
             String name = out.substring(4);
             QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>("kg", name));
-            event.getSubject().sendMessage(TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=kg&msg=" + name, String.class));
+            event.getSubject().sendMessage(
+                    TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=kg&msg=" + name, String.class)
+                            + "\n使用'取消点歌'/'取消选择'来取消选择"
+            );
             return;
         } else if (out.startsWith("网易点歌") && out.length() > 4) {
             String name = out.substring(4);
             QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>("wy", name));
-            event.getSubject().sendMessage(TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=wy&msg=" + name, String.class));
+            event.getSubject().sendMessage(
+                    TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=wy&msg=" + name, String.class)
+                            + "\n使用'取消点歌'/'取消选择'来取消选择"
+            );
             return;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
