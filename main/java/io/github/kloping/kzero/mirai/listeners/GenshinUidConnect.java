@@ -80,8 +80,8 @@ public class GenshinUidConnect implements ListenerHost {
                 if (at.getTarget() == event.getBot().getId())
                     return;
                 else {
-                    message.setType("text");
-                    message.setData("[CQ:at,qq=" + at.getTarget() + "]");
+                    message.setType("at");
+                    message.setData(at.getTarget());
                 }
             } else return;
             list.add(message);

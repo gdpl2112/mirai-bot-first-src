@@ -97,8 +97,8 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 if (bid.equals(at.getTargetId())) {
                     return;
                 } else {
-                    message.setType("text");
-                    message.setData("[CQ:at,qq=" + at.getTargetId() + "]");
+                    message.setType("at");
+                    message.setData(at.getTargetId().toString());
                 }
             } else return;
             list.add(message);
