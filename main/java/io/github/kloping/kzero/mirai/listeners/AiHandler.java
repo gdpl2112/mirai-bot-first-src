@@ -2,6 +2,7 @@ package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import io.github.kloping.date.FrameUtils;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -11,9 +12,10 @@ import org.jsoup.nodes.Document;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author github.kloping
@@ -51,9 +53,21 @@ public class AiHandler implements ListenerHost {
         }
     }
 
+    // id <type,data>
+    public static final Map<Long, SongData> QID2DATA = new HashMap<>();
 
-    public static final Map<Long, Map.Entry<String, Object>> QID_2_WORD = new HashMap<>();
-
+    static {
+        FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
+            Iterator<Long> iterator = QID2DATA.keySet().iterator();
+            while (iterator.hasNext()) {
+                Long qid = iterator.next();
+                SongData data = QID2DATA.get(qid);
+                if (data.time - System.currentTimeMillis() > 120 * 60000) {
+                    QID2DATA.remove(qid);
+                }
+            }
+        }, 1, 2, TimeUnit.HOURS);
+    }
 
     @EventHandler
     public void pointOnly(GroupMessageEvent event) throws Exception {
@@ -66,19 +80,17 @@ public class AiHandler implements ListenerHost {
         String out = line.toString().trim();
         if (out.startsWith("酷狗点歌") && out.length() > 4) {
             String name = out.substring(4);
-            QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>("kg", name));
+            QID2DATA.put(event.getSender().getId(), new SongData("kg", name, event.getSender().getId(), System.currentTimeMillis()));
             event.getSubject().sendMessage(
                     TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=kg&msg=" + name, String.class)
-                            + "\n使用'取消点歌'/'取消选择'来取消选择"
-            );
+                            + "\n使用'取消点歌'/'取消选择'来取消选择");
             return;
         } else if (out.startsWith("网易点歌") && out.length() > 4) {
             String name = out.substring(4);
-            QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>("wy", name));
+            QID2DATA.put(event.getSender().getId(), new SongData("wy", name, event.getSender().getId(), System.currentTimeMillis()));
             event.getSubject().sendMessage(
                     TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=wy&msg=" + name, String.class)
-                            + "\n使用'取消点歌'/'取消选择'来取消选择"
-            );
+                            + "\n使用'取消点歌'/'取消选择'来取消选择");
             return;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
@@ -87,21 +99,21 @@ public class AiHandler implements ListenerHost {
             String name = out.substring(4);
             pVip(event, name, 1);
         } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
-            QID_2_WORD.remove(event.getSender().getId());
+            QID2DATA.remove(event.getSender().getId());
         } else if (out.matches("[\\d]+")) {
             Integer n = Integer.valueOf(out);
-            Map.Entry<String, Object> e = QID_2_WORD.get(event.getSender().getId());
+            SongData e = QID2DATA.get(event.getSender().getId());
             if (e != null) {
-                String type = e.getKey();
+                MusicShare share = null;
+                String type = e.type;
                 if (type.equals("kg")) {
-                    String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.getKey(), e.getValue(), n), String.class);
+                    String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.type, e.data, n), String.class);
                     String[] args = lines.split("\n");
-                    MusicShare share = new MusicShare(MusicKind.KugouMusic, args[1].substring(3), args[2].substring(3), args[3].substring(5), args[0].substring(3), args[3].substring(5));
-                    event.getSubject().sendMessage(share);
+                    share = new MusicShare(MusicKind.KugouMusic, args[1].substring(3), args[2].substring(3), args[3].substring(5), args[0].substring(3), args[3].substring(5));
                 } else if (type.equals("wy")) {
-                    String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.getKey(), e.getValue(), n), String.class);
+                    String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.type, e.data, n), String.class);
                     String[] args = lines.split("\n");
-                    MusicShare share = new MusicShare(MusicKind.NeteaseCloudMusic, args[1].substring(3), args[2].substring(3), args[3].substring(5), args[0].substring(3), args[3].substring(5));
+                    share = new MusicShare(MusicKind.NeteaseCloudMusic, args[1].substring(3), args[2].substring(3), args[3].substring(5), args[0].substring(3), args[3].substring(5));
                     event.getSubject().sendMessage(share);
                 } else {
                     if (n == 0) {
@@ -110,12 +122,14 @@ public class AiHandler implements ListenerHost {
                         String name = args[2];
                         pVip(event, name, p + 1);
                     } else {
-                        JSONObject d0 = (JSONObject) e.getValue();
+                        JSONObject d0 = (JSONObject) e.data;
                         d0 = d0.getJSONArray("list").getJSONObject(n - 1);
                         String url = getRedirectUrl(d0.getString("url"));
-                        MusicShare share = new MusicShare(MusicKind.QQMusic, d0.getString("name"), d0.getString("singer"), url, d0.getString("cover"), url);
-                        event.getSubject().sendMessage(share);
+                        share = new MusicShare(MusicKind.QQMusic, d0.getString("name"), d0.getString("singer"), url, d0.getString("cover"), url);
                     }
+                }
+                if (share != null) {
+                    event.getSubject().sendMessage(share);
                 }
             }
         }
@@ -141,7 +155,7 @@ public class AiHandler implements ListenerHost {
                 .header("User-Agent", "Apache-HttpClient/4.5.14 (Java/17.0.8.1)")
                 .header("Accept-Encoding", "br,deflate,gzip,x-gzip").get();
         JSONObject jo0 = JSON.parseObject(doc0.body().text());
-        QID_2_WORD.put(event.getSender().getId(), new AbstractMap.SimpleEntry<>(String.format("data|%s|%s", p, name), jo0));
+        QID2DATA.put(event.getSender().getId(), new SongData(String.format("data|%s|%s", p, name), jo0, event.getSender().getId(), System.currentTimeMillis()));
         if (jo0.getInteger("code") == 200) {
             StringBuilder sb = new StringBuilder();
             int i = 1;
@@ -157,4 +171,17 @@ public class AiHandler implements ListenerHost {
         return;
     }
 
+    public static class SongData {
+        public SongData(String type, Object data, Long qid, Long time) {
+            this.type = type;
+            this.data = data;
+            this.qid = qid;
+            this.time = time;
+        }
+
+        private String type;
+        private Object data;
+        private Long qid;
+        private Long time;
+    }
 }
