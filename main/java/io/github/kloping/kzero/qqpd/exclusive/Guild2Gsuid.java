@@ -1,18 +1,17 @@
 package io.github.kloping.kzero.qqpd.exclusive;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
-import io.github.kloping.qqbot.entities.ex.At;
-import io.github.kloping.qqbot.entities.ex.Image;
-import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
-import io.github.kloping.qqbot.entities.ex.PlainText;
+import io.github.kloping.qqbot.entities.ex.*;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.message.BaseMessageChannelReceiveEvent;
+import io.github.kloping.url.UrlUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -24,7 +23,6 @@ public class Guild2Gsuid implements GsuidMessageListener {
 
     public static final Guild2Gsuid INSTANCE = new Guild2Gsuid();
 
-    //=============消息记录start
     private static final Integer MAX_E = 150;
 
     private Deque<MessageEvent> QUEUE = new LinkedList<>();
@@ -121,27 +119,66 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 try {
                     JSONArray array = (JSONArray) d0.getData();
                     for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                        builderAppend(builder, d1);
+                        if (d0.getType().equals("text")) {
+                            builder.append(new PlainText(d0.getData().toString().trim()));
+                        } else if (d0.getType().equals("image")) {
+                            byte[] bytes;
+                            if (d0.getData().toString().startsWith("base64://")) {
+                                bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+                            } else {
+                                bytes = Base64.getDecoder().decode(d0.getData().toString());
+                            }
+                            builder.append(new Image(bytes));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else builderAppend(builder, d0);
+            } else {
+                if (d0.getType().equals("text")) {
+                    builder.append(new PlainText(d0.getData().toString().trim()));
+                } else if (d0.getType().equals("image")) {
+                    byte[] bytes;
+                    if (d0.getData().toString().startsWith("base64://")) {
+                        bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+                    } else {
+                        bytes = Base64.getDecoder().decode(d0.getData().toString());
+                    }
+                    builder.append(new Image(bytes));
+                } else if (d0.getType().equals("buttons")) {
+                    JSONArray arr = (JSONArray) d0.getData();
+                    Keyboard.KeyboardBuilder b0 = new Keyboard.KeyboardBuilder();
+                    Keyboard.RowBuilder r0 = b0.addRow();
+                    int i = 0;
+                    for (Object o : arr) {
+                        i++;
+                        JSONObject o1 = (JSONObject) o;
+                        r0.addButton()
+                                .setLabel(o1.getString("text"))
+                                .setVisitedLabel(o1.getString("text"))
+                                .setStyle(o1.getInteger("style"))
+                                .setActionData(o1.getString("data"))
+                                .setActionEnter(false)
+                                .setActionReply(true)
+                                .setActionType(2).build();
+                        if (i >= 2) {
+                            r0 = r0.build().addRow();
+                            i = 0;
+                        }
+                    }
+                    raw.send(b0.build());
+                } else if (d0.getType().equals("markdown")) {
+                    try {
+                        String data = d0.getData().toString();
+                        String url = data.substring(data.indexOf("(") + 1, data.indexOf(")"));
+                        byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
+                        raw.send(new Image(bytes));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         raw.send(builder.build());
-    }
-
-    private void builderAppend(MessageAsyncBuilder builder, MessageData d0) {
-        if (d0.getType().equals("text")) {
-            builder.append(new PlainText(d0.getData().toString().trim()));
-        } else if (d0.getType().equals("image")) {
-            byte[] bytes;
-            if (d0.getData().toString().startsWith("base64://")) {
-                bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-            } else {
-                bytes = Base64.getDecoder().decode(d0.getData().toString());
-            }
-            builder.append(new Image(bytes));
-        }
     }
 }

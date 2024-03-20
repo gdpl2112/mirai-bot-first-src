@@ -43,7 +43,7 @@ public class GenshinUidConnect implements ListenerHost {
         List<MessageData> list = getMessageData(event);
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
-            receive.setBot_id("qqgroup");
+            receive.setBot_id("qqgroup0");
             receive.setBot_self_id(String.valueOf(event.getBot().getId()));
             receive.setUser_id(String.valueOf(event.getSender().getId()));
             receive.setMsg_id(getMessageEventId(event));
