@@ -13,7 +13,11 @@ import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.message.BaseMessageChannelReceiveEvent;
 import io.github.kloping.url.UrlUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -114,6 +118,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
             builder.append(new At(At.MEMBER_TYPE, raw.getSender().getId()));
             builder.append(new PlainText("\n"));
         }
+        Markdown markdown = null;
         for (MessageData d0 : out.getContent()) {
             if (d0.getType().equals("node")) {
                 try {
@@ -166,13 +171,32 @@ public class Guild2Gsuid implements GsuidMessageListener {
                             i = 0;
                         }
                     }
-                    raw.send(b0.build());
+                    if (markdown != null) {
+                        markdown.setKeyboard(b0.build());
+                        raw.send(markdown);
+                    } else {
+                        raw.send(b0.build());
+                    }
                 } else if (d0.getType().equals("markdown")) {
                     try {
                         String data = d0.getData().toString();
-                        String url = data.substring(data.indexOf("(") + 1, data.indexOf(")"));
-                        byte[] bytes = UrlUtils.getBytesFromHttpUrl(url);
-                        raw.send(new Image(bytes));
+                        String url0 = data.substring(data.indexOf("(") + 1, data.indexOf(")"));
+                        byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
+                        try {
+                            String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
+                                    .ignoreContentType(true)
+                                    .ignoreContentType(true)
+                                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+                                    .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+                            url = JSONObject.parseObject(url).getString("msg");
+                            markdown = new Markdown("102032364_1710924543")
+                                    .addParam("title", "提示")
+                                    .addParam("size", "![img #512 #512]")
+                                    .addParam("url", String.format("(%s)", url));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            raw.send(new Image(bytes));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
