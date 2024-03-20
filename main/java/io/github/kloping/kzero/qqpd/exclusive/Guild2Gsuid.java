@@ -180,7 +180,8 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 } else if (d0.getType().equals("markdown")) {
                     try {
                         String data = d0.getData().toString();
-                        String url0 = data.substring(data.indexOf("(") + 1, data.indexOf(")"));
+                        Integer l1 = data.indexOf("(");
+                        String url0 = data.substring(l1 + 1, data.indexOf(")"));
                         byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
                         try {
                             String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
@@ -191,7 +192,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
                             url = JSONObject.parseObject(url).getString("msg");
                             markdown = new Markdown("102032364_1710924543")
                                     .addParam("title", "提示")
-                                    .addParam("size", "![img #512 #512]")
+                                    .addParam("size", data.substring(0, l1))
                                     .addParam("url", String.format("(%s)", url));
                         } catch (IOException e) {
                             e.printStackTrace();

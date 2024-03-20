@@ -15,6 +15,7 @@ import io.github.kloping.kzero.spring.dao.BindMap;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.mapper.BindMapper;
 import io.github.kloping.qqbot.api.SendAble;
+import io.github.kloping.qqbot.api.event.InterActionEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
@@ -92,6 +93,11 @@ public class GroupController extends ListenerHost implements InterceptController
     DataBase dataBase;
     @AutoStand
     Logger logger;
+
+    @EventReceiver
+    public void onEvent(InterActionEvent event) {
+
+    }
 
     @EventReceiver
     public void onEvent(GroupMessageEvent event) {
