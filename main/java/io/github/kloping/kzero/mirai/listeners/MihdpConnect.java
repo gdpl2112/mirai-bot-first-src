@@ -85,7 +85,7 @@ public class MihdpConnect implements ListenerHost {
                 if (data instanceof GeneralData.ResDataChain) {
                     GeneralData.ResDataChain chain = (GeneralData.ResDataChain) data;
                     for (GeneralData generalData : chain.getList()) {
-                        append(data, builder, contact);
+                        append(generalData, builder, contact);
                     }
                 } else if (data instanceof GeneralData.ResDataText) {
                     builder.append(((GeneralData.ResDataText) data).getContent());
