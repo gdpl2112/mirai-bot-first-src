@@ -6,10 +6,12 @@ import io.github.kloping.date.FrameUtils;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.*;
+import net.mamoe.mirai.message.data.MusicKind;
+import net.mamoe.mirai.message.data.MusicShare;
+import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.message.data.SingleMessage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -62,7 +64,7 @@ public class AiHandler implements ListenerHost {
             while (iterator.hasNext()) {
                 Long qid = iterator.next();
                 SongData data = QID2DATA.get(qid);
-                if (data.time - System.currentTimeMillis() > 120 * 60000) {
+                if (System.currentTimeMillis() - data.time > 120 * 60000) {
                     QID2DATA.remove(qid);
                 }
             }

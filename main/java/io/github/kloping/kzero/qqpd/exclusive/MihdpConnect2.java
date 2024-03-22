@@ -122,7 +122,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                         sb0.append("[图片:暂无法展示]");
                     } else if (data.getType().equals("select")) {
                         GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
-                        markdown.setKeyboard("102032364_1703056827");
+                        markdown.setKeyboard("");
                         sb1.append(select.getS()).append(".").append(select.getContent()).append(";");
                     }
                 }
