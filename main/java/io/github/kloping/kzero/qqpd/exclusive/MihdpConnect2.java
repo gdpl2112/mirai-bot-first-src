@@ -108,29 +108,82 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
         MessageEvent event = Guild2Gsuid.INSTANCE.getMessage(pack.getId());
         if (pack.getData().getType().equals("chain")) {
             GeneralData.ResDataChain chain = (GeneralData.ResDataChain) pack.getData();
-            Object o = chain.find(GeneralData.ResDataSelect.class);
-            if (o != null) {
-                Markdown markdown = new Markdown("102032364_1703214077")
-                        .addParam("title", "提示!");
-                StringBuilder sb0 = new StringBuilder();
-                StringBuilder sb1 = new StringBuilder();
+            Object o0 = chain.find(GeneralData.ResDataButton.class);
+            Object o1 = chain.find(GeneralData.ResDataSelect.class);
+            MessageAsyncBuilder builder = null;
+            if (o0 != null || o1 != null) {
+                Markdown markdown = null;
+                Keyboard.KeyboardBuilder keyboardBuilder = null;
+                Keyboard.RowBuilder r0 = null;
+                int kindex = 0;
                 for (GeneralData data : chain.getList()) {
                     if (data.getType().equals("text")) {
                         GeneralData.ResDataText text = (GeneralData.ResDataText) data;
-                        sb0.append(text.getContent());
+                        if (builder == null) builder = new MessageAsyncBuilder();
+                        builder.append(text.getContent());
                     } else if (data.getType().equals("image")) {
-                        sb0.append("[图片:暂无法展示]");
+                        GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
+                        markdown = new Markdown("102032364_1710924543")
+                                .addParam("title", "提示")
+                                .addParam("size", "![img]");
+                        String url;
+                        if (image.getP().equals("http")) {
+                            url = image.getData();
+                        } else {
+                            url = event.getBot().getConfig().getInterceptor0().upload(Base64.getDecoder().decode(image.getData()));
+                        }
+                        markdown.addParam("url", String.format("(%s)", url));
                     } else if (data.getType().equals("select")) {
                         GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
-                        markdown.setKeyboard("");
-                        sb1.append(select.getS()).append(".").append(select.getContent()).append(";");
+                        if (keyboardBuilder == null) {
+                            keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                            r0 = keyboardBuilder.addRow();
+                        }
+                        kindex++;
+                        r0.addButton()
+                                .setLabel(select.getContent())
+                                .setVisitedLabel(select.getContent())
+                                .setStyle(1)
+                                .setActionData(select.getS().toString())
+                                .setActionEnter(false)
+                                .setActionReply(true)
+                                .setActionType(2).build();
+                        if (kindex >= 2) {
+                            r0 = r0.build().addRow();
+                            kindex = 0;
+                        }
+                    } else if (data.getType().equals("button")) {
+                        GeneralData.ResDataButton button = (GeneralData.ResDataButton) data;
+                        if (keyboardBuilder == null) {
+                            keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                            r0 = keyboardBuilder.addRow();
+                        }
+                        kindex++;
+                        r0.addButton()
+                                .setLabel(button.getText())
+                                .setVisitedLabel(button.getText())
+                                .setStyle(1)
+                                .setActionData(button.getContent())
+                                .setActionEnter(false)
+                                .setActionReply(true)
+                                .setActionType(2).build();
+                        if (kindex >= 2) {
+                            r0 = r0.build().addRow();
+                            kindex = 0;
+                        }
                     }
                 }
-                markdown.addParam("msg", sb0.toString().trim());
-                markdown.addParam("text", sb1.toString().trim());
-                event.send(markdown);
+                if (markdown != null) {
+                    if (r0 != null) {
+                        markdown.setKeyboard(keyboardBuilder.build());
+                    }
+                    event.send(markdown);
+                } else if (r0 != null) {
+                    markdown.setKeyboard(keyboardBuilder.build());
+                }
+                if (builder != null) event.send(builder.build());
             } else {
-                MessageAsyncBuilder builder = new MessageAsyncBuilder();
+                builder = new MessageAsyncBuilder();
                 for (GeneralData generalData : chain.getList()) {
                     builder.append(asSendAble(generalData));
                 }
