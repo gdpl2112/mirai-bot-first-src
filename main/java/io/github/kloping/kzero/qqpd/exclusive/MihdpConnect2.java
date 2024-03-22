@@ -79,8 +79,8 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
         } else if (sendAble instanceof Image) {
             Image image = (Image) sendAble;
             if (image.getUrl() != null)
-                return new GeneralData.ResDataImage(image.getUrl(), "http");
-            else return new GeneralData.ResDataImage(image.getBytes());
+                return new GeneralData.ResDataImage(image.getUrl(), "http", 1, 1);
+            else return new GeneralData.ResDataImage(image.getBytes(), 1, 1);
         } else {
             String text = sendAble.toString().trim();
             if (text.length() > 1 && text.startsWith("/")) text = text.substring(1);
@@ -125,7 +125,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                         GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
                         markdown = new Markdown("102032364_1710924543")
                                 .addParam("title", "提示")
-                                .addParam("size", "![img]");
+                                .addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
                         String url;
                         if (image.getP().equals("http")) {
                             url = image.getData();

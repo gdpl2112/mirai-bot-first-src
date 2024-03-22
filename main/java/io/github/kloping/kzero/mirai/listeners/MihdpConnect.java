@@ -43,7 +43,7 @@ public class MihdpConnect implements ListenerHost {
             if (singleMessage instanceof PlainText) {
                 chain.getList().add(new GeneralData.ResDataText(((PlainText) singleMessage).getContent()));
             } else if (singleMessage instanceof Image) {
-                chain.getList().add(new GeneralData.ResDataImage(Image.queryUrl((Image) singleMessage), "http"));
+                chain.getList().add(new GeneralData.ResDataImage(Image.queryUrl((Image) singleMessage), "http", 1, 1));
             } else if (singleMessage instanceof At) {
                 chain.getList().add(new GeneralData.ResDataAt(String.valueOf(((At) singleMessage).getTarget())));
             }
