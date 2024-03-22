@@ -109,14 +109,14 @@ public class GeneralData {
         private Integer w;
         private Integer h;
 
-        public ResDataImage(String data, int w, int y) {
+        public ResDataImage(String data, int w, int h) {
             this.type = "image";
             this.w = w;
             this.h = h;
             this.data = data;
         }
 
-        public ResDataImage(String data, String p, int w, int y) {
+        public ResDataImage(String data, String p, int w, int h) {
             this.type = "image";
             this.w = w;
             this.h = h;
@@ -124,7 +124,7 @@ public class GeneralData {
             this.data = data;
         }
 
-        public ResDataImage(byte[] data, int w, int y) {
+        public ResDataImage(byte[] data, int w, int h) {
             this.type = "image";
             this.w = w;
             this.h = h;
