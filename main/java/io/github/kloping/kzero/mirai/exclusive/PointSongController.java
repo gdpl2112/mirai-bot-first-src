@@ -5,20 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.annotations.*;
 import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.KlopingWeb;
-import io.github.kloping.kzero.bot.commons.apis.Song;
 import io.github.kloping.kzero.bot.commons.apis.Songs;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
+import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.message.data.MusicKind;
 import net.mamoe.mirai.message.data.MusicShare;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author github-kloping
@@ -86,17 +84,37 @@ public class PointSongController {
         } else return data.getString("msg");
         return null;
     }
-//
-//    @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})
-//    public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBot bot) {
-//        Songs songs = klopingWeb.getSongs(name, "qq", 1);
-//        if (songs != null && songs.getData().length > 0) {
-//            Song s1 = songs.getData()[0];
-//            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
-//                    MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
-//            return null;
-//        } else return "搜索失败!";
-//    }
+
+    /*
+        @Action(value = "QQ点歌<.+=>name>",otherName = {"QQ音乐点歌<.+=>name>","qq点歌<.+=>name>"})
+        public String pointSongQQ(@Param("name") String name, MessagePack pack, KZeroBot bot) {
+            Songs songs = klopingWeb.getSongs(name, "qq", 1);
+            if (songs != null && songs.getData().length > 0) {
+                Song s1 = songs.getData()[0];
+                bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), new MusicShare(
+                        MusicKind.QQMusic, s1.getMedia_name(), s1.getAuthor_name(), s1.getSongUrl(), s1.getImgUrl(), s1.getSongUrl()));
+                return null;
+            } else return "搜索失败!";
+        }
+    */
+
+    @Action(value = "酷狗点歌<.+=>name>")
+    public String pointSongKugou(@Param("name") String name, MessagePack pack, KZeroBot bot) {
+        try {
+            String d0 = UrlUtils.getStringFromHttpUrl("http://www.dreamling.top/API/kugou/android/music/api.php?pagenum=1&format=json&flag=format&keyword=" + name);
+            String d1 = UrlUtils.getStringFromHttpUrl("http://www.dreamling.top/API/kugou/android/music/api.php?n=1&pagenum=1&format=json&flag=format&keyword=" + name);
+            JSONObject jo0 = JSON.parseObject(d0);
+            JSONObject jo1 = JSON.parseObject(d1);
+            String url0 = jo0.getJSONObject("data").getJSONArray("url").getString(0);
+            JSONObject jo2 = jo1.getJSONObject("data").getJSONArray("name").getJSONObject(0);
+            MusicShare share = new MusicShare(MusicKind.KugouMusic,
+                    jo2.getString("Name"), jo2.getString("SingerName"), url0, jo2.getString("Image"), url0);
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), share);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Action("QQ歌词<.+=>name>")
     public Object mq(@Param("name") String name, KZeroBot bot, MessagePack pack) {
