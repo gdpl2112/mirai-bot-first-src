@@ -105,11 +105,10 @@ public class PointSongController {
             String d1 = UrlUtils.getStringFromHttpUrl("http://www.dreamling.top/API/kugou/android/music/api.php?n=1&pagenum=1&format=json&flag=format&keyword=" + name);
             JSONObject jo0 = JSON.parseObject(d0);
             JSONObject jo1 = JSON.parseObject(d1);
-            String url0 = jo0.getJSONObject("data").getJSONArray("url").getString(0);
-            JSONObject jo2 = jo1.getJSONObject("data").getJSONArray("name").getJSONObject(0);
-            MusicShare share = new MusicShare(MusicKind.KugouMusic,
-                    jo2.getString("Name"), jo2.getString("SingerName"), url0, jo2.getString("Image"), url0);
-            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), share);
+            String url0 = jo1.getJSONObject("data").getJSONArray("url").getString(0);
+            JSONObject jo2 = jo0.getJSONObject("data").getJSONArray("name").getJSONObject(0);
+            MusicShare share = new MusicShare(MusicKind.KugouMusic, jo2.getString("Name"), jo2.getString("SingerName"), url0, jo2.getString("Image"), url0);
+            bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), share);
         } catch (Exception e) {
             e.printStackTrace();
         }
