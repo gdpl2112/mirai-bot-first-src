@@ -121,7 +121,7 @@ public class GroupController extends ListenerHost implements InterceptController
             pack.setRaw(event);
             handler.onMessage(pack);
             Guild2Gsuid.INSTANCE.sendToGsuid(pack, event);
-            MihdpConnect2.INSTANCE.sendToMihdp(pack, event);
+            MihdpConnect2.INSTANCE.sendToMihdp(pack, event, kZeroBot);
         }
     }
 

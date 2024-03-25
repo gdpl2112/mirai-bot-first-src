@@ -76,6 +76,6 @@ public class CommandController {
         qq = qq.trim();
         Object out = groupController.idMapping.put(pack.getSenderId(), qq);
         groupController.bindMapper.insert(new BindMap().setBid(bot.getId()).setSid(pack.getSenderId()).setTid(qq));
-        return String.format("已经'%s'ID绑定至'%s'旧'%s'\n若绑定错误请到q群278681553反馈", out, pack.getSenderId(), qq);
+        return String.format("已经'%s'ID绑定至'%s'旧'%s'\n若绑定错误请到q群278681553反馈", pack.getSenderId(), qq, out);
     }
 }

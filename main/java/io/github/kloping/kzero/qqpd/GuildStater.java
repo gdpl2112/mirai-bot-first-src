@@ -158,7 +158,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             handler.onMessage(pack);
             //plugin to gsuid
             Guild2Gsuid.INSTANCE.sendToGsuid(event);
-            MihdpConnect2.INSTANCE.sendToMihdp(null, event);
+            MihdpConnect2.INSTANCE.sendToMihdp(null, event, kZeroBot);
         }
         temp(event);
     }
@@ -175,7 +175,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             handler.onMessage(pack);
             //plugin to gsuid
             Guild2Gsuid.INSTANCE.sendToGsuid(event);
-            MihdpConnect2.INSTANCE.sendToMihdp(null, event);
+            MihdpConnect2.INSTANCE.sendToMihdp(null, event,kZeroBot);
         }
     }
 

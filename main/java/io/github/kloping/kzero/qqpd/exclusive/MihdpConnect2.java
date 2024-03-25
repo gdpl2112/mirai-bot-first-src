@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.qqpd.exclusive;
 
 import com.alibaba.fastjson.JSON;
+import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mihdp.GeneralData;
 import io.github.kloping.kzero.mihdp.MihdpClient;
@@ -37,13 +38,13 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
         MihdpClient.INSTANCE.listeners.put(bid, this);
     }
 
-    public void sendToMihdp(MessagePack pack, MessageEvent event) {
+    public void sendToMihdp(MessagePack pack, MessageEvent event, KZeroBot bot) {
         ReqDataPack req = new ReqDataPack();
         if (pack == null) {
             pack = new MessagePack();
             pack.setSenderId(event.getSender().getId()).setSubjectId(event.getSubject().getId());
         } else {
-            req.getArgs().put("icon", String.format("http://q.qlogo.cn/g?b=qq&nk=%s&s=640", pack.getSenderId()));
+            req.getArgs().put("icon", bot.getAdapter().getAvatarUrl(pack.getSenderId()));
         }
         req.setId(event.getRawMessage().getId());
         req.setAction("msg");
@@ -124,9 +125,9 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                         builder.append(text.getContent());
                     } else if (data.getType().equals("image")) {
                         GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
-                        markdown = new Markdown("102032364_1710924543")
-                                .addParam("title", "提示")
-                                .addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
+                        markdown = new Markdown("102032364_1710924543");
+                        markdown.addParam("title", "TIPS");
+                        markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
                         String url;
                         if (image.getP().equals("http")) {
                             url = image.getData();
@@ -174,13 +175,13 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                         }
                     }
                 }
-                if (markdown != null) {
-                    if (r0 != null) {
+                if (r0 != null) {
+                    if (markdown != null) {
                         markdown.setKeyboard(keyboardBuilder.build());
+                        event.send(markdown);
+                    } else {
+                        event.send(keyboardBuilder.build());
                     }
-                    event.send(markdown);
-                } else if (r0 != null) {
-                    markdown.setKeyboard(keyboardBuilder.build());
                 }
                 if (builder != null) event.send(builder.build());
             } else {

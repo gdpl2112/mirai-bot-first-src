@@ -95,8 +95,7 @@ public class KZeroApplication implements BotMessageHandler {
     @Override
     public void onMessage(MessagePack pack) {
         if (!state) return;
-        application0.executeMethod(bot.getId(), pack.getMsg(),
-                pack.getSenderId(), pack, bot);
+        application0.executeMethod(bot.getId(), pack.getMsg(), pack.getSenderId(), pack, bot);
     }
 
     private ConfigurableApplicationContext context;
