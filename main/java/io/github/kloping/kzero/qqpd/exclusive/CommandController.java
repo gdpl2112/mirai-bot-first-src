@@ -62,6 +62,7 @@ public class CommandController {
                     return String.format("deleted:%s-%s", out, args[1]);
                 case "clear":
                     int i = groupController.idMapping.size();
+                    groupController.idMapping.clear();
                     return "cleared " + i;
                 default:
                     return "unknown command";
