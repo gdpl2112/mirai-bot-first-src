@@ -6,6 +6,7 @@ import io.github.kloping.kzero.mihdp.GeneralData;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mihdp.ReqDataPack;
 import io.github.kloping.kzero.mihdp.ResDataPack;
+import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
@@ -130,7 +131,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                         if (image.getP().equals("http")) {
                             url = image.getData();
                         } else {
-                            url = event.getBot().getConfig().getInterceptor0().upload(Base64.getDecoder().decode(image.getData()));
+                            url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
                         }
                         markdown.addParam("url", String.format("(%s)", url));
                     } else if (data.getType().equals("select")) {

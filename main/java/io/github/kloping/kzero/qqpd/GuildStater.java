@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.qqpd;
 
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.date.DateUtils;
@@ -18,10 +19,13 @@ import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.ListenerHost;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -76,20 +80,22 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         starter.registerListenerHost(this);
         starter.registerListenerHost(MihdpConnect2.INSTANCE);
         starter.registerListenerHost(LiveMsgSender.INSTANCE);
-//        starter.getConfig().setInterceptor0(bytes -> {
-//            try {
-//                String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
-//                        .ignoreContentType(true)
-//                        .ignoreContentType(true)
-//                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
-//                        .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
-//                url = JSONObject.parseObject(url).getString("msg");
-//                return url;
-//            } catch (IOException e) {
-//                return e.getMessage();
-//            }
-//        });
+//        starter.getConfig().setInterceptor0(bytes -> upload(bytes));
         starter.run();
+    }
+
+    public static String upload(byte[] bytes) {
+        try {
+            String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
+                    .ignoreContentType(true)
+                    .ignoreContentType(true)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+                    .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+            url = JSONObject.parseObject(url).getString("msg");
+            return url;
+        } catch (IOException e) {
+            return e.getMessage();
+        }
     }
 
 
