@@ -34,9 +34,8 @@ public class AdminController {
     public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
         if (superId.equals(pack.getSenderId())) return;
         Father father = dataBase.getFather(pack.getSenderId());
-        if (father != null && father.permissionsList().contains(pack.getSubjectId())) {
-            return;
-        } else throw new NoRunException("无权限!");
+        if (father != null && father.hasPerm(pack.getSubjectId())) return;
+        throw new NoRunException("无权限!");
     }
 
     @Action("开启")
@@ -75,15 +74,23 @@ public class AdminController {
     public String addAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         if (!superId.equals(pack.getSenderId())) return null;
         String aid = Utils.getAtFormat(msg);
-        if (aid == null) return null;
+        if (aid == null) aid = msg;
         return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(pack.getSubjectId()));
+    }
+
+    @Action("addSuperAdmin.+")
+    public String addSuperAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
+        if (!superId.equals(pack.getSenderId())) return null;
+        String aid = Utils.getAtFormat(msg);
+        if (aid == null) aid = msg;
+        return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).addPermission(Father.SUPER_PER));
     }
 
     @Action("rmAdmin.+")
     public String removeAdmin(@AllMess String msg, MessagePack pack, KZeroBot<MessageChain, Bot> bot) {
         if (!superId.equals(pack.getSenderId())) return null;
         String aid = Utils.getAtFormat(msg);
-        if (aid == null) return null;
+        if (aid == null) aid = msg;
         return "state: " + fatherMapper.updateById(dataBase.getFather(aid, true).removePermission(pack.getSubjectId()));
     }
 }

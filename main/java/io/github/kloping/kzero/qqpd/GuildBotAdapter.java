@@ -102,7 +102,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
     @Override
     public String getAvatarUrl(String sid) {
         String icon = KZeroBotAdapter.super.getAvatarUrl(sid);
-        if (icon != null) return icon;
+        if (Judge.isNotEmpty(icon)) return icon;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
                 Member member = guild.getMember(sid);

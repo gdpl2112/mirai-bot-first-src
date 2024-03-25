@@ -59,7 +59,7 @@ public class GroupController extends ListenerHost implements InterceptController
         interceptController.register("", this);
     }
 
-    private Map<String, String> idMapping = new HashMap<>();
+    public Map<String, String> idMapping = new HashMap<>();
 
     @Override
     public Object intercept(MessagePack pack, KZeroBot bot) {

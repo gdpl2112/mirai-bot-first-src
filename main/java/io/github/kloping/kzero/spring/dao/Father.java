@@ -2,6 +2,7 @@ package io.github.kloping.kzero.spring.dao;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.github.kloping.judge.Judge;
 import lombok.Data;
@@ -16,6 +17,10 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class Father {
+
+    @TableField(exist = false)
+    public static final String SUPER_PER = "super0";
+
     @TableId
     private String sid;
     private String permissions = "[]";
@@ -38,5 +43,9 @@ public class Father {
         list.remove(pid);
         permissions = JSON.toJSONString(list);
         return this;
+    }
+
+    public boolean hasPerm(String subjectId) {
+        return permissions.contains(SUPER_PER) || permissionsList().contains(subjectId);
     }
 }
