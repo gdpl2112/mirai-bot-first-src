@@ -16,7 +16,7 @@ public interface KZeroBotAdapter {
      * @param targetId 发送到id
      * @param msg
      */
-    void sendMessage(MessageType type, String targetId, Object msg);
+    boolean sendMessage(MessageType type, String targetId, Object msg);
 
     /**
      * 发送转发消息

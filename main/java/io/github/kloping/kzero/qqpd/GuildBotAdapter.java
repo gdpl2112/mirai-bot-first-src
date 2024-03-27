@@ -32,7 +32,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
     }
 
     @Override
-    public void sendMessage(MessageType type, String targetId, Object msg) {
+    public boolean sendMessage(MessageType type, String targetId, Object msg) {
         SenderAndCidMidGetter sender = null;
         if (type == MessageType.GROUP) {
             for (Guild guild : bot.guilds()) {
@@ -47,13 +47,13 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                 if (member != null) sender = guild.create(targetId);
             }
         }
-        if (sender == null) return;
+        if (sender == null) return false;
         MessageAsyncBuilder builder = new MessageAsyncBuilder();
         for (SendAble sendAble : serializer.ARR_DE_SERIALIZER.deserializer(msg.toString())) {
             if (sendAble != null) builder.append(sendAble);
         }
         SendAble sendAble = builder.build();
-        sender.send(sendAble);
+        return sender.send(sendAble) != null;
     }
 
     @Override

@@ -5,10 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.bot.database.SourceDataBase;
-import io.github.kloping.kzero.bot.KlopingWeb;
+import io.github.kloping.kzero.main.KZeroMainThreads;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -56,9 +57,6 @@ public class SubscribeController {
     KlopingWeb klopingWeb;
 
     @AutoStand
-    KZeroBot bot;
-
-    @AutoStand
     AllController allController;
 
     @CronSchedule("5 6,36 6,7,8,9,10,11,12,13,14,15,16,17,18,19 * * ? *")
@@ -71,9 +69,13 @@ public class SubscribeController {
                 if (weatherM.getIntro().equals(data.getD0())) continue;
                 else {
                     data.setD0(weatherM.getIntro());
-                    bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
-                            String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()));
                     sweatherDataMapper.updateById(data);
+                    for (KZeroBot bot : KZeroMainThreads.BOT_MAP.values()) {
+                        if (bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
+                                String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()))) {
+                            break;
+                        }
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,11 +93,14 @@ public class SubscribeController {
                 String msg = null;
                 try {
                     msg = futureWeaNow(data.getAddress());
-                    bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg));
+                    for (KZeroBot bot : KZeroMainThreads.BOT_MAP.values()) {
+                        if (bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg))) {
+                            break;
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     msg = e.getMessage();
-                    bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg));
                 }
                 return true;
             });

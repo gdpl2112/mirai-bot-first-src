@@ -34,12 +34,12 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
     }
 
     @Override
-    public void sendMessage(MessageType type, String targetId, Object obj) {
-        if (obj == null) return;
+    public boolean sendMessage(MessageType type, String targetId, Object obj) {
+        if (obj == null) return false;
         long tid = Long.parseLong(targetId);
         Contact contact = null;
         if (type == MessageType.GROUP) {
-            if (!bot.getGroups().contains(tid)) return;
+            if (!bot.getGroups().contains(tid)) return false;
             contact = bot.getGroup(tid);
         } else if (type == MessageType.FRIEND) {
             contact = bot.getFriend(tid);
@@ -50,13 +50,18 @@ public class MiraiBotAdapter implements KZeroBotAdapter {
                 }
             }
         }
-        if (obj instanceof Message) {
-            Message msg = (Message) obj;
-            contact.sendMessage(msg);
-        } else if (obj instanceof String) {
-            Message msg = serializer.deserialize(obj.toString());
-            contact.sendMessage(msg);
+        try {
+            if (obj instanceof Message) {
+                Message msg = (Message) obj;
+                return contact.sendMessage(msg) != null;
+            } else if (obj instanceof String) {
+                Message msg = serializer.deserialize(obj.toString());
+                return contact.sendMessage(msg) != null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
