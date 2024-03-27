@@ -83,7 +83,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
             if (image.getUrl() != null)
                 return new GeneralData.ResDataImage(image.getUrl(), "http", 1, 1);
             else return new GeneralData.ResDataImage(image.getBytes(), 1, 1);
-        } else {
+        } else if (sendAble) {
             String text = sendAble.toString().trim();
             if (text.length() > 1 && text.startsWith("/")) text = text.substring(1);
             return new GeneralData.ResDataText(text.trim());
@@ -101,98 +101,88 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
             } else {
                 return new Image(Base64.getDecoder().decode(image.getData()));
             }
-        }
-        return new PlainText(data.toString());
+        } else if (data instanceof GeneralData.ResDataText) {
+            return new PlainText(data.toString());
+        } else if (data instanceof GeneralData.ResDataChain) {
+            MessageAsyncBuilder builder = new MessageAsyncBuilder();
+            for (GeneralData generalData : ((GeneralData.ResDataChain) data).getList()) {
+                builder.append(asSendAble(generalData));
+            }
+            return builder.build();
+        } else return new PlainText("[未支持的消息类型]");
     }
 
     @Override
     public void onMessage(ResDataPack pack) {
         MessageEvent event = Guild2Gsuid.INSTANCE.getMessage(pack.getId());
-        if (pack.getData().getType().equals("chain")) {
-            GeneralData.ResDataChain chain = (GeneralData.ResDataChain) pack.getData();
-            Object o0 = chain.find(GeneralData.ResDataButton.class);
-            Object o1 = chain.find(GeneralData.ResDataSelect.class);
-            MessageAsyncBuilder builder = null;
-            if ((event instanceof GroupMessageEvent) && (o0 != null || o1 != null)) {
-                Markdown markdown = null;
-                Keyboard.KeyboardBuilder keyboardBuilder = null;
-                Keyboard.RowBuilder r0 = null;
-                int kindex = 0;
-                for (GeneralData data : chain.getList()) {
-                    if (data.getType().equals("text")) {
-                        GeneralData.ResDataText text = (GeneralData.ResDataText) data;
-                        if (builder == null) builder = new MessageAsyncBuilder();
-                        builder.append(text.getContent());
-                    } else if (data.getType().equals("image")) {
-                        GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
-                        markdown = new Markdown("102032364_1710924543");
-                        markdown.addParam("title", "TIPS");
-                        markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
-                        String url;
-                        if (image.getP().equals("http")) {
-                            url = image.getData();
+        if (pack.getData() == null) return;
+        if (event instanceof GroupMessageEvent) {
+            if (pack.getData().getType().equals("chain")) {
+                GeneralData.ResDataChain chain = (GeneralData.ResDataChain) pack.getData();
+                Object o0 = chain.find(GeneralData.ResDataButton.class);
+                Object o1 = chain.find(GeneralData.ResDataSelect.class);
+                if (o0 != null || o1 != null) {
+                    MessageAsyncBuilder builder = null;
+                    Markdown markdown = null;
+                    Keyboard.KeyboardBuilder keyboardBuilder = null;
+                    Keyboard.RowBuilder r0 = null;
+                    int kindex = 0;
+                    for (GeneralData data : chain.getList()) {
+                        if (data.getType().equals("text")) {
+                            GeneralData.ResDataText text = (GeneralData.ResDataText) data;
+                            if (builder == null) builder = new MessageAsyncBuilder();
+                            builder.append(text.getContent());
+                        } else if (data.getType().equals("image")) {
+                            GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
+                            markdown = new Markdown("102032364_1710924543");
+                            markdown.addParam("title", "TIPS");
+                            markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
+                            String url;
+                            if (image.getP().equals("http")) {
+                                url = image.getData();
+                            } else {
+                                url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
+                            }
+                            markdown.addParam("url", String.format("(%s)", url));
+                        } else if (data.getType().equals("select")) {
+                            GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
+                            if (keyboardBuilder == null) {
+                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                                r0 = keyboardBuilder.addRow();
+                            }
+                            kindex++;
+                            r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+                            if (kindex >= 2) {
+                                r0 = r0.build().addRow();
+                                kindex = 0;
+                            }
+                        } else if (data.getType().equals("button")) {
+                            GeneralData.ResDataButton button = (GeneralData.ResDataButton) data;
+                            if (keyboardBuilder == null) {
+                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                                r0 = keyboardBuilder.addRow();
+                            }
+                            kindex++;
+                            r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+                            if (kindex >= 2) {
+                                r0 = r0.build().addRow();
+                                kindex = 0;
+                            }
+                        }
+                    }
+                    if (r0 != null) {
+                        if (markdown != null) {
+                            markdown.setKeyboard(keyboardBuilder.build());
+                            event.send(markdown);
                         } else {
-                            url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
-                        }
-                        markdown.addParam("url", String.format("(%s)", url));
-                    } else if (data.getType().equals("select")) {
-                        GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
-                        if (keyboardBuilder == null) {
-                            keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                            r0 = keyboardBuilder.addRow();
-                        }
-                        kindex++;
-                        r0.addButton()
-                                .setLabel(select.getContent())
-                                .setVisitedLabel(select.getContent())
-                                .setStyle(1)
-                                .setActionData(select.getS().toString())
-                                .setActionEnter(false)
-                                .setActionReply(true)
-                                .setActionType(2).build();
-                        if (kindex >= 2) {
-                            r0 = r0.build().addRow();
-                            kindex = 0;
-                        }
-                    } else if (data.getType().equals("button")) {
-                        GeneralData.ResDataButton button = (GeneralData.ResDataButton) data;
-                        if (keyboardBuilder == null) {
-                            keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                            r0 = keyboardBuilder.addRow();
-                        }
-                        kindex++;
-                        r0.addButton()
-                                .setLabel(button.getText())
-                                .setVisitedLabel(button.getText())
-                                .setStyle(1)
-                                .setActionData(button.getContent())
-                                .setActionEnter(false)
-                                .setActionReply(true)
-                                .setActionType(2).build();
-                        if (kindex >= 2) {
-                            r0 = r0.build().addRow();
-                            kindex = 0;
+                            event.send(keyboardBuilder.build());
                         }
                     }
+                    if (builder != null) event.send(builder.build());
+                    return;
                 }
-                if (r0 != null) {
-                    if (markdown != null) {
-                        markdown.setKeyboard(keyboardBuilder.build());
-                        event.send(markdown);
-                    } else {
-                        event.send(keyboardBuilder.build());
-                    }
-                }
-                if (builder != null) event.send(builder.build());
-            } else {
-                builder = new MessageAsyncBuilder();
-                for (GeneralData generalData : chain.getList()) {
-                    builder.append(asSendAble(generalData));
-                }
-                event.send(builder.build());
             }
-        } else {
-            event.send(asSendAble(pack.getData()));
         }
+        event.send(asSendAble(pack.getData()));
     }
 }
