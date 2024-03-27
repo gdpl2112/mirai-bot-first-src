@@ -15,8 +15,8 @@ import io.github.kloping.qqbot.api.Intents;
 public class Main {
     public static void main(String[] args) {
         KZeroMainThreads threads = new KZeroMainThreads();
-//        threads.add(GsuidClient.INSTANCE);
-        threads.add(MihdpClient.INSTANCE);
+        threads.add(GsuidClient.INSTANCE);
+//        threads.add(MihdpClient.INSTANCE);
 //        threads.add(new MiraiStater());
 //        threads.add(new GuildStater("102057448", "v0uQvq74AZtFGTCCWcDnEpsOLNoszA2H",
 //                Intents.PRIVATE_INTENTS.getCode()));

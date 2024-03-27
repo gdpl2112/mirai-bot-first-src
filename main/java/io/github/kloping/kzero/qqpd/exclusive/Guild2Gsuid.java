@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.api.MessagePack;
-import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
+import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.ex.*;
@@ -111,100 +111,93 @@ public class Guild2Gsuid implements GsuidMessageListener {
     @Override
     public void onMessage(MessageOut out) {
         if (Judge.isEmpty(out.getMsg_id())) return;
-        MessageEvent raw = null;
-        raw = getMessage(out.getMsg_id());
-        MessageAsyncBuilder builder = new MessageAsyncBuilder();
-        if (raw instanceof MessageChannelReceiveEvent) {
-            builder.append(new At(At.MEMBER_TYPE, raw.getSender().getId()));
-            builder.append(new PlainText("\n"));
-        }
+        MessageEvent raw = getMessage(out.getMsg_id());
+        MessageAsyncBuilder builder = null;
         Markdown markdown = null;
         for (MessageData d0 : out.getContent()) {
-            if (d0.getType().equals("node")) {
+            if (BUTTONS_TYPE.equals(d0.getType())) {
+                JSONArray arr = (JSONArray) d0.getData();
+                Keyboard.KeyboardBuilder b0 = new Keyboard.KeyboardBuilder();
+                Keyboard.RowBuilder r0 = b0.addRow();
+                int i = 0;
+                for (Object o : arr) {
+                    i++;
+                    JSONObject o1 = (JSONObject) o;
+                    r0.addButton()
+                            .setLabel(o1.getString("text"))
+                            .setVisitedLabel(o1.getString("text"))
+                            .setStyle(o1.getInteger("style"))
+                            .setActionData(o1.getString("data"))
+                            .setActionEnter(false)
+                            .setActionReply(true)
+                            .setActionType(2).build();
+                    if (i >= 2) {
+                        r0 = r0.build().addRow();
+                        i = 0;
+                    }
+                }
+                if (markdown != null) {
+                    markdown.setKeyboard(b0.build());
+                } else {
+                    raw.send(b0.build());
+                }
+            } else if (MARKDOWN_TYPE.equals(d0.getType())) {
+                String data = d0.getData().toString();
                 try {
-                    JSONArray array = (JSONArray) d0.getData();
-                    for (MessageData d1 : array.toJavaList(MessageData.class)) {
-                        if (d0.getType().equals("text")) {
-                            builder.append(new PlainText(d0.getData().toString().trim()));
-                        } else if (d0.getType().equals("image")) {
-                            byte[] bytes;
-                            if (d0.getData().toString().startsWith("base64://")) {
-                                bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-                            } else {
-                                bytes = Base64.getDecoder().decode(d0.getData().toString());
-                            }
-                            builder.append(new Image(bytes));
-                        }
+                    Integer l1 = data.indexOf("(");
+                    String url0 = data.substring(l1 + 1, data.lastIndexOf(")"));
+                    byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
+                    try {
+                        String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
+                                .ignoreContentType(true)
+                                .ignoreContentType(true)
+                                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
+                                .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
+                        url = JSONObject.parseObject(url).getString("msg");
+                        markdown = new Markdown("102032364_1710924543")
+                                .addParam("title", "提示")
+                                .addParam("size", data.substring(0, l1))
+                                .addParam("url", String.format("(%s)", url));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        raw.send(new Image(bytes));
                     }
                 } catch (Exception e) {
+                    System.err.println(data);
                     e.printStackTrace();
                 }
             } else {
-                if (d0.getType().equals("text")) {
-                    builder.append(new PlainText(d0.getData().toString().trim()));
-                } else if (d0.getType().equals("image")) {
-                    byte[] bytes;
-                    if (d0.getData().toString().startsWith("base64://")) {
-                        bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
-                    } else {
-                        bytes = Base64.getDecoder().decode(d0.getData().toString());
-                    }
-                    builder.append(new Image(bytes));
-                } else if (d0.getType().equals("buttons")) {
-                    JSONArray arr = (JSONArray) d0.getData();
-                    Keyboard.KeyboardBuilder b0 = new Keyboard.KeyboardBuilder();
-                    Keyboard.RowBuilder r0 = b0.addRow();
-                    int i = 0;
-                    for (Object o : arr) {
-                        i++;
-                        JSONObject o1 = (JSONObject) o;
-                        r0.addButton()
-                                .setLabel(o1.getString("text"))
-                                .setVisitedLabel(o1.getString("text"))
-                                .setStyle(o1.getInteger("style"))
-                                .setActionData(o1.getString("data"))
-                                .setActionEnter(false)
-                                .setActionReply(true)
-                                .setActionType(2).build();
-                        if (i >= 2) {
-                            r0 = r0.build().addRow();
-                            i = 0;
-                        }
-                    }
-                    if (markdown != null) {
-                        markdown.setKeyboard(b0.build());
-                        raw.send(markdown);
-                    } else {
-                        raw.send(b0.build());
-                    }
-                } else if (d0.getType().equals("markdown")) {
-                    String data = d0.getData().toString();
-                    try {
-                        Integer l1 = data.indexOf("(");
-                        String url0 = data.substring(l1 + 1, data.lastIndexOf(")"));
-                        byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
-                        try {
-                            String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
-                                    .ignoreContentType(true)
-                                    .ignoreContentType(true)
-                                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67")
-                                    .data("file", "temp.jpg", new ByteArrayInputStream(bytes)).method(Connection.Method.POST).execute().body();
-                            url = JSONObject.parseObject(url).getString("msg");
-                            markdown = new Markdown("102032364_1710924543")
-                                    .addParam("title", "提示")
-                                    .addParam("size", data.substring(0, l1))
-                                    .addParam("url", String.format("(%s)", url));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            raw.send(new Image(bytes));
-                        }
-                    } catch (Exception e) {
-                        System.err.println(data);
-                        e.printStackTrace();
-                    }
-                }
+                if (builder == null) builder = new MessageAsyncBuilder();
+                builder.append(gsDataAsSendAble(d0));
             }
         }
-        raw.send(builder.build());
+        if (markdown != null) raw.send(markdown);
+        if (builder != null) raw.send(builder.build());
     }
+
+    public SendAble gsDataAsSendAble(MessageData d0) {
+        if (d0.getType().equals("text")) {
+            return (new PlainText(d0.getData().toString().trim()));
+        } else if (d0.getType().equals("image")) {
+            byte[] bytes;
+            if (d0.getData().toString().startsWith("base64://")) {
+                bytes = Base64.getDecoder().decode(d0.getData().toString().substring("base64://".length()));
+            } else {
+                bytes = Base64.getDecoder().decode(d0.getData().toString());
+            }
+            return (new Image(bytes));
+        } else if (d0.getType().equals("node")) {
+            JSONArray array = (JSONArray) d0.getData();
+            MessageAsyncBuilder builder = new MessageAsyncBuilder();
+            for (MessageData d1 : array.toJavaList(MessageData.class)) {
+                builder.append(gsDataAsSendAble(d1));
+            }
+            return builder.build();
+        }
+        return new PlainText("[未支持的消息类型]");
+    }
+
+    public static final String MARKDOWN_TYPE = "markdown";
+    public static final String BUTTONS_TYPE = "buttons";
+
 }

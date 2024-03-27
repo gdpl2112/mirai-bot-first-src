@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.common.Public;
+import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
@@ -30,7 +32,11 @@ public class GsuidClient extends WebSocketClient {
         try {
             INSTANCE = new GsuidClient();
             LOGGER.setLogLevel(1);
-        } catch (URISyntaxException e) {
+            File file = new File(String.format("./logs/%s/%s-%s-%s.log", "gsuid_out", DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            LOGGER.setOutFile(file.getAbsolutePath());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
