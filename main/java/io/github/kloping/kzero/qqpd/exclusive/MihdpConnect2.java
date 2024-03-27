@@ -113,7 +113,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
             Object o0 = chain.find(GeneralData.ResDataButton.class);
             Object o1 = chain.find(GeneralData.ResDataSelect.class);
             MessageAsyncBuilder builder = null;
-            if (o0 != null || o1 != null) {
+            if ((event instanceof GroupMessageEvent) && (o0 != null || o1 != null)) {
                 Markdown markdown = null;
                 Keyboard.KeyboardBuilder keyboardBuilder = null;
                 Keyboard.RowBuilder r0 = null;
