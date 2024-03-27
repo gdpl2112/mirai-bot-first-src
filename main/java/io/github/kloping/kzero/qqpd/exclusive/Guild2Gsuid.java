@@ -172,7 +172,26 @@ public class Guild2Gsuid implements GsuidMessageListener {
             }
         }
         if (markdown != null) raw.send(markdown);
-        if (builder != null) raw.send(builder.build());
+        if (builder != null && isNeedSend(builder.build())) raw.send(builder.build());
+    }
+
+    private boolean isNeedSend(SendAble build) {
+        if (build instanceof PlainText) {
+            if (UN_SUPPORT_TYPE.equals(((PlainText) build).getText())) {
+                return false;
+            }
+        } else if (build instanceof MessageChain) {
+            MessageChain chain = (MessageChain) build;
+            for (SendAble sendAble : chain) {
+                if (sendAble instanceof PlainText) {
+                    if (!UN_SUPPORT_TYPE.equals(((PlainText) build).getText())) {
+                        return true;
+                    }
+                } else return true;
+            }
+            return false;
+        }
+        return true;
     }
 
     public SendAble gsDataAsSendAble(MessageData d0) {
@@ -194,9 +213,10 @@ public class Guild2Gsuid implements GsuidMessageListener {
             }
             return builder.build();
         }
-        return new PlainText("[未支持的消息类型]");
+        return new PlainText(UN_SUPPORT_TYPE);
     }
 
+    public static final String UN_SUPPORT_TYPE = "[未支持的消息类型]";
     public static final String MARKDOWN_TYPE = "markdown";
     public static final String BUTTONS_TYPE = "buttons";
 
