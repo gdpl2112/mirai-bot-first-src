@@ -328,6 +328,9 @@ public class SubscribeController {
         else return ImageDrawerUtils.BLUE5_A75;
     }
 
+    @AutoStand
+    KZeroBot bot;
+
     private void todayWeaNow(SweatherData data) {
         try {
             WeatherDetail wd = klopingWeb.weatherDetail(data.getAddress());
