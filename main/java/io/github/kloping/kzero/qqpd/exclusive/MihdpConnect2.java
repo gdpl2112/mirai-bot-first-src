@@ -106,10 +106,12 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
         } else if (data instanceof GeneralData.ResDataChain) {
             MessageAsyncBuilder builder = new MessageAsyncBuilder();
             for (GeneralData generalData : ((GeneralData.ResDataChain) data).getList()) {
-                builder.append(asSendAble(generalData));
+                SendAble able = asSendAble(generalData);
+                if (able != null) builder.append(able);
             }
             return builder.build();
-        } else return new PlainText("[未支持的消息类型]");
+        }
+        return null;
     }
 
     @Override
