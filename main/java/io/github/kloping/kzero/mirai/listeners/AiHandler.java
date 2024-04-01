@@ -32,17 +32,19 @@ public class AiHandler implements ListenerHost {
     // id <type,data>
     public static final Map<Long, SongData> QID2DATA = new HashMap<>();
 
+    public static final long MAX_CD = 1000 * 60 * 30;
+
     static {
         FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
             Iterator<Long> iterator = QID2DATA.keySet().iterator();
             while (iterator.hasNext()) {
                 Long qid = iterator.next();
                 SongData data = QID2DATA.get(qid);
-                if (System.currentTimeMillis() - data.time > 120 * 60000) {
+                if ((System.currentTimeMillis() - data.time) > MAX_CD) {
                     QID2DATA.remove(qid);
                 }
             }
-        }, 1, 2, TimeUnit.HOURS);
+        }, 20, 30, TimeUnit.MINUTES);
     }
 
     public static final String TYPE_KUGOU = "KG";
@@ -74,7 +76,8 @@ public class AiHandler implements ListenerHost {
             String name = out.substring(4);
             qqvip(event, name, 1);
         } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
-            QID2DATA.remove(event.getSender().getId());
+            Object o = QID2DATA.remove(event.getSender().getId());
+            event.getSubject().sendMessage("已取消.\n" + o);
         } else if (out.matches("[\\d]+")) {
             Integer n = Integer.valueOf(out);
             SongData e = QID2DATA.get(event.getSender().getId());
