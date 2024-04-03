@@ -3,6 +3,8 @@ package io.github.kloping.kzero.mirai.listeners;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.date.FrameUtils;
+import io.github.kloping.kzero.bot.controllers.AllController;
+import io.github.kloping.kzero.spring.dao.GroupConf;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -49,9 +51,14 @@ public class AiHandler implements ListenerHost {
 
     public static final String TYPE_KUGOU = "KG";
     public static final String TYPE_QQ = "qq";
+    public static final String TYPE_WY = "wy";
 
     @EventHandler
     public void pointOnly(GroupMessageEvent event) throws Exception {
+        GroupConf groupConf = AllController.dataBase.getConf(String.valueOf(event.getSubject().getId()));
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) return;
+        }
         StringBuilder line = new StringBuilder();
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {
@@ -66,8 +73,8 @@ public class AiHandler implements ListenerHost {
         } else if (out.startsWith("网易点歌") && out.length() > 4) {
             String name = out.substring(4);
             QID2DATA.put(event.getSender().getId(), new SongData("wy", name, event.getSender().getId(), System.currentTimeMillis()));
-            event.getSubject().sendMessage(
-                    TEMPLATE.getForObject("https://xiaoapi.cn/API/yy.php?type=wy&msg=" + name, String.class) + "\n使用'取消点歌'/'取消选择'来取消选择");
+            Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=9&type=json", name));
+            event.getSubject().sendMessage(doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择");
             return;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
@@ -97,10 +104,10 @@ public class AiHandler implements ListenerHost {
                         share = new MusicShare(MusicKind.KugouMusic, d0.getString("SongName"), d0.getString("SingerName"), url, d0.getString("Image"), url);
                     }
                 } else if (type.equals("wy")) {
-                    String lines = TEMPLATE.getForObject(String.format("https://xiaoapi.cn/API/yy.php?type=%s&msg=%s&n=%s", e.type, e.data, n), String.class);
-                    String[] args = lines.split("\n");
-                    share = new MusicShare(MusicKind.NeteaseCloudMusic, args[1].substring(3), args[2].substring(3), args[3].substring(5), args[0].substring(3), args[3].substring(5));
-                    event.getSubject().sendMessage(share);
+                    String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=9&type=json", e.data, n), String.class);
+                    JSONObject jo = JSON.parseObject(jsonData);
+                    share = new MusicShare(MusicKind.NeteaseCloudMusic, jo.getString("title"), jo.getString("singer"),
+                            jo.getString("music_url"), jo.getString("cover"), jo.getString("music_url"));
                 } else if (type.equals(TYPE_QQ)) {
                     if (n == 0) {
                         qqvip(event, e.name, e.p + 1);

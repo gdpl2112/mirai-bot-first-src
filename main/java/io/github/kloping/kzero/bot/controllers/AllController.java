@@ -10,18 +10,14 @@ import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
-import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.url.UrlUtils;
-import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.event.events.MessageEvent;
 
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author github.kloping
@@ -34,7 +30,7 @@ public class AllController implements Runner {
     }
 
     @AutoStand
-    DataBase dataBase;
+    public static DataBase dataBase;
 
     @AutoStand(id = "upload.url")
     public static String UPLOAD_URL;
