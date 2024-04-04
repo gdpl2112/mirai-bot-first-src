@@ -72,16 +72,13 @@ public class AiHandler implements ListenerHost {
             return;
         } else if (out.startsWith("网易点歌") && out.length() > 4) {
             String name = out.substring(4);
-            QID2DATA.put(event.getSender().getId(), new SongData("wy", name, event.getSender().getId(), System.currentTimeMillis()));
-            Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=9&type=json", name));
-            event.getSubject().sendMessage(doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择");
+            saveDataAndSendOut(event, TYPE_WY, name, String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=9&type=json", name));
             return;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
-            qqvip(event, name, 1);
+            saveDataAndSendOut(event, TYPE_QQ, name, "https://www.hhlqilongzhu.cn/api/dg_qqmusic.php?n=&type=json&gm=" + name);
         } else if (out.startsWith("QQ点歌") && out.length() > 4) {
             String name = out.substring(4);
-            qqvip(event, name, 1);
         } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
             SongData o = QID2DATA.remove(event.getSender().getId());
             event.getSubject().sendMessage("已取消.\n" + o.name);
@@ -91,32 +88,27 @@ public class AiHandler implements ListenerHost {
             if (e != null) {
                 MusicShare share = null;
                 String type = e.type;
-                if (type.equals(TYPE_KUGOU)) {
+                if (TYPE_KUGOU.equals(type)) {
                     if (n == 0) {
                         kugouVip(event, e.name, e.p + 1);
                     } else {
                         JSONObject d0 = (JSONObject) e.data;
                         d0 = d0.getJSONObject("data").getJSONArray("name").getJSONObject(n - 1);
-                                                        //http://www.dreamling.top/API/kugou/android/music/api.php?keyword=%E7%A8%BB%E9%A6%99&pagenum=10&format=json&flag=format
                         Document doc0 = getDocument("http://www.dreamling.top/API/kugou/web/music/api.php?&pagenum=9&format=json&flag=format&page=" + e.p + "&keyword=" + e.name + "&n=" + n);
                         JSONObject data = JSON.parseObject(doc0.body().text());
                         String url = data.getJSONObject("data").getString("url");
                         share = new MusicShare(MusicKind.KugouMusic, d0.getString("SongName"), d0.getString("SingerName"), url, d0.getString("Image"), url);
                     }
-                } else if (type.equals("wy")) {
+                } else if (TYPE_WY.equals(type)) {
                     String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=9&type=json", e.data, n), String.class);
                     JSONObject jo = JSON.parseObject(jsonData);
                     share = new MusicShare(MusicKind.NeteaseCloudMusic, jo.getString("title"), jo.getString("singer"),
                             jo.getString("music_url"), jo.getString("cover"), jo.getString("music_url"));
                 } else if (type.equals(TYPE_QQ)) {
-                    if (n == 0) {
-                        qqvip(event, e.name, e.p + 1);
-                    } else {
-                        JSONObject d0 = (JSONObject) e.data;
-                        d0 = d0.getJSONArray("list").getJSONObject(n - 1);
-                        String url = getRedirectUrl(d0.getString("url"));
-                        share = new MusicShare(MusicKind.QQMusic, d0.getString("name"), d0.getString("singer"), url, d0.getString("cover"), url);
-                    }
+                    String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic.php?gm=%s&n=%s&type=json", e.data, n), String.class);
+                    JSONObject jo = JSON.parseObject(jsonData);
+                    share = new MusicShare(MusicKind.QQMusic, jo.getString("title"), jo.getString("singer"),
+                            jo.getString("music_url"), jo.getString("cover"), jo.getString("music_url"));
                 }
                 if (share != null) {
                     event.getSubject().sendMessage(share);
@@ -125,8 +117,14 @@ public class AiHandler implements ListenerHost {
         }
     }
 
+    private static void saveDataAndSendOut(GroupMessageEvent event, String typeQq, String name, String name1) throws IOException {
+        QID2DATA.put(event.getSender().getId(), new SongData(typeQq, name, event.getSender().getId(), System.currentTimeMillis()));
+        Document doc0 = getDocument(name1);
+        event.getSubject().sendMessage(doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择");
+    }
+
     private static void qqvip(GroupMessageEvent event, String name, Integer p) throws Exception {
-        Document doc0 = getDocument("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&n=9&p=" + p + "&q=" + name);
+        Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic.php?gm=%s&n=%s&type=json", name, p));
         JSONObject jo0 = JSON.parseObject(doc0.body().text());
         QID2DATA.put(event.getSender().getId(), new SongData(p, name, TYPE_QQ, jo0, event.getSender().getId(), System.currentTimeMillis()));
         if (jo0.getInteger("code") == 200) {
