@@ -9,7 +9,7 @@ import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.bot.database.SourceDataBase;
-import io.github.kloping.kzero.main.KZeroMainThreads;
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
@@ -70,7 +70,7 @@ public class SubscribeController {
                 else {
                     data.setD0(weatherM.getIntro());
                     sweatherDataMapper.updateById(data);
-                    for (KZeroBot bot : KZeroMainThreads.BOT_MAP.values()) {
+                    for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {
                         if (bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
                                 String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()))) {
                             break;
@@ -93,7 +93,7 @@ public class SubscribeController {
                 String msg = null;
                 try {
                     msg = futureWeaNow(data.getAddress());
-                    for (KZeroBot bot : KZeroMainThreads.BOT_MAP.values()) {
+                    for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {
                         if (bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg))) {
                             break;
                         }

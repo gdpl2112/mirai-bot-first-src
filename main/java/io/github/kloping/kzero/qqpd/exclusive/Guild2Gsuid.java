@@ -53,6 +53,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
     }
 
     public void sendToGsuid(MessagePack pack, MessageEvent event) {
+        if (GsuidClient.INSTANCE == null) return;
         List<MessageData> list = getMessageData(event.getMessage(), event.getBot().getId());
         if (pack == null) {
             pack = new MessagePack();

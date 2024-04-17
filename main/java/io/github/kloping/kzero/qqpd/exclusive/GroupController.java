@@ -6,7 +6,7 @@ import io.github.kloping.MySpringTool.annotations.Controller;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.kzero.bot.controllers.InterceptController;
 import io.github.kloping.kzero.bot.database.DataBase;
-import io.github.kloping.kzero.main.KZeroMainThreads;
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
@@ -50,7 +50,7 @@ public class GroupController extends ListenerHost implements InterceptController
 
     private void initHandler() {
         if (handler == null) {
-            handler = KZeroMainThreads.APPLICATION_MAP.get(zeroBot.getId());
+            handler = KlopZeroMainThreads.APPLICATION_MAP.get(zeroBot.getId());
         }
     }
 
@@ -114,7 +114,7 @@ public class GroupController extends ListenerHost implements InterceptController
         }
         if (handler != null) {
             String sid = getSid(event);
-            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            KZeroBot<SendAble, Bot> kZeroBot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
             if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
             MessagePack pack = new MessagePack(MessageType.GROUP, sid, gid, outMsg);

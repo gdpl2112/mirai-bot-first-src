@@ -13,7 +13,6 @@ import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.spring.KZeroSpringStarter;
-import io.github.kloping.spt.SptRedis;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,17 +22,21 @@ import java.lang.reflect.Method;
 /**
  * @author github.kloping
  */
-public class KZeroApplication implements BotMessageHandler {
+public class KlopZeroApplication implements BotMessageHandler {
     private KZeroStater stater;
     private KZeroBot bot;
     private Boolean state = false;
 
-    public KZeroApplication(KZeroStater stater, KZeroBot bot) {
+    public KlopZeroApplication(KZeroStater stater, KZeroBot bot) {
         this.stater = stater;
         this.bot = bot;
     }
 
     public static final String[] REQUIRED_PROPERTY = {"auth.pwd", "cmd.reboot", "cmd.update", "cmd.update-m"};
+
+    public static ConfigurableApplicationContext context;
+
+    public static StarterObjectApplication application0;
 
     public void start() {
         stater.setHandler(bot, this);
@@ -70,7 +73,7 @@ public class KZeroApplication implements BotMessageHandler {
     }
 
     private void start0() {
-        application0 = new StarterObjectApplication(KZeroApplication.class);
+        application0 = new StarterObjectApplication(KlopZeroApplication.class);
         application0.setMainKey(String.class);
         application0.setWaitTime(600000L);
         //========================sendId=========type
@@ -97,10 +100,6 @@ public class KZeroApplication implements BotMessageHandler {
         if (!state) return;
         application0.executeMethod(bot.getId(), pack.getMsg(), pack.getSenderId(), pack, bot);
     }
-
-    private ConfigurableApplicationContext context;
-
-    private StarterObjectApplication application0;
 
     public void verify() throws RuntimeException {
         StarterApplication.logger.info("授权码验证成功√√√");

@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.mirai;
 
 import io.github.kloping.common.Public;
-import io.github.kloping.kzero.main.KZeroMainThreads;
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
 import io.github.kloping.kzero.mirai.listeners.AiHandler;
@@ -91,8 +91,8 @@ public class MiraiStater implements KZeroStater, ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
-        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) {
-            KZeroMainThreads.BOT_MAP.get(bid).setSelf(event.getBot());
+        if (KlopZeroMainThreads.BOT_MAP.containsKey(bid)) {
+            KlopZeroMainThreads.BOT_MAP.get(bid).setSelf(event.getBot());
             return;
         }
         Bot bot = event.getBot();
@@ -105,7 +105,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
 
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
-        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        KZeroBot<MessageChain, Bot> bot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
         if (handlerMap.containsKey(bot)) {
             String out = bot.getSerializer().serialize(event.getMessage());
             MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()), String.valueOf(event.getSubject().getId()), out);
@@ -116,7 +116,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
 
     @EventHandler
     public void onEvent(MemberLeaveEvent event) {
-        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        KZeroBot<MessageChain, Bot> bot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
         if (handlerMap.containsKey(bot)) {
             MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getMember().getId()),
                     String.valueOf(event.getGroupId()), "MemberLeaveEvent");
@@ -127,7 +127,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
 
     @EventHandler
     public void onEvent(MemberJoinEvent event) {
-        KZeroBot<MessageChain, Bot> bot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+        KZeroBot<MessageChain, Bot> bot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
         if (handlerMap.containsKey(bot)) {
             MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getMember().getId()),
                     String.valueOf(event.getGroupId()), "MemberJoinEvent");

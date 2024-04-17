@@ -35,10 +35,12 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
+        if (MihdpClient.INSTANCE == null) return;
         MihdpClient.INSTANCE.listeners.put(bid, this);
     }
 
     public void sendToMihdp(MessagePack pack, MessageEvent event, KZeroBot bot) {
+        if (MihdpClient.INSTANCE == null) return;
         ReqDataPack req = new ReqDataPack();
         if (pack == null) {
             pack = new MessagePack();

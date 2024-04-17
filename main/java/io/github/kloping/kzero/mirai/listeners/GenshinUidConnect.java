@@ -92,8 +92,7 @@ public class GenshinUidConnect implements ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
-        GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
-
+        if (GsuidClient.INSTANCE != null) GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
             @Override
             public void onMessage(MessageOut out) {
                 MessageEvent raw = getMessage(out.getMsg_id());

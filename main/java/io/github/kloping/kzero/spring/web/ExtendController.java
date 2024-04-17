@@ -3,7 +3,7 @@ package io.github.kloping.kzero.spring.web;
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.kzero.main.KZeroMainThreads;
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.rand.RandomUtils;
 import io.github.kloping.url.UrlUtils;
@@ -48,7 +48,7 @@ public class ExtendController {
     @PostMapping("uploadTips")
     public Object uploadTips(@RequestBody String data) {
         try {
-            KZeroMainThreads.BOT_MAP.forEach((e, v) -> {
+            KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
                 v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, "有新的帖子上传成功");
             });
             data = URLDecoder.decode(data, Charset.forName("UTF-8"));
@@ -61,7 +61,7 @@ public class ExtendController {
             doc.outputSettings().prettyPrint(true);
             String ds = doc.toString();
             String finalData = data;
-            KZeroMainThreads.BOT_MAP.forEach((e, v) -> {
+            KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
                 v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, finalData);
                 v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, ds);
                 v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, JSON.toJSONString(notice));
@@ -78,7 +78,7 @@ public class ExtendController {
                                     @RequestParam("pwd") String pwd,
                                     @RequestParam("s") String s) {
         if (!pwd.equals(pwd1)) return "err";
-        KZeroMainThreads.BOT_MAP.forEach((e, v) -> {
+        KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
             try {
                 v.getAdapter().sendMessage(MessageType.GROUP, gid, s);
             } catch (Exception ex) {

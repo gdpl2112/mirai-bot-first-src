@@ -5,12 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
 import io.github.kloping.MySpringTool.interfaces.Logger;
 import io.github.kloping.common.Public;
-import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.main.DevPluginConfig;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
@@ -24,28 +23,14 @@ import java.util.concurrent.TimeUnit;
  * @author github.kloping
  */
 public class GsuidClient extends WebSocketClient {
-    public final static Logger LOGGER = new LoggerImpl();
+    public Logger LOGGER = new LoggerImpl();
 
     public static GsuidClient INSTANCE;
 
-    static {
-        try {
-            INSTANCE = new GsuidClient();
-            LOGGER.setLogLevel(1);
-            File file = new File(String.format("./logs/%s/%s-%s-%s.log", "gsuid_out", DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-            LOGGER.setOutFile(file.getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static final String SELF_ID = "bot";
-
     public GsuidClient() throws URISyntaxException {
-//        this(new URI("ws://bak0.kloping.top:18765/ws/" + SELF_ID));
-        this(new URI("ws://localhost:8765/ws/" + SELF_ID));
+        this(new URI(DevPluginConfig.CONFIG.contextManager.getContextEntity(String.class, "gsuid.uri")));
+        INSTANCE = this;
+        LOGGER = DevPluginConfig.CONFIG.logger;
     }
 
     public GsuidClient(URI serverUri) {

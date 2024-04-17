@@ -5,7 +5,7 @@ import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
 import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.gsuid.GsuidClient;
-import io.github.kloping.kzero.main.KZeroMainThreads;
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.qqpd.exclusive.Guild2Gsuid;
 import io.github.kloping.kzero.qqpd.exclusive.LiveMsgSender;
@@ -132,8 +132,8 @@ public class GuildStater extends ListenerHost implements KZeroStater {
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();
-        GsuidClient.INSTANCE.addListener(bid, Guild2Gsuid.INSTANCE);
-        if (KZeroMainThreads.BOT_MAP.containsKey(bid)) return;
+        if (GsuidClient.INSTANCE != null) GsuidClient.INSTANCE.addListener(bid, Guild2Gsuid.INSTANCE);
+        if (KlopZeroMainThreads.BOT_MAP.containsKey(bid)) return;
         onConnectedEventFirst(event);
     }
 
@@ -149,7 +149,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         MessageChain chain = event.getMessage();
         Guild2Gsuid.INSTANCE.offer(event);
         if (handler != null) {
-            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            KZeroBot<SendAble, Bot> kZeroBot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
             if (outMsg.startsWith("/") && outMsg.length() > 1) outMsg = outMsg.substring(1);
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
@@ -168,7 +168,7 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         MessageChain chain = event.getMessage();
         Guild2Gsuid.INSTANCE.offer(event);
         if (handler != null) {
-            KZeroBot<SendAble, Bot> kZeroBot = KZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
+            KZeroBot<SendAble, Bot> kZeroBot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
             MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUser().getId(),
                     event.getSrcGuildId(), kZeroBot.getSerializer().serialize(chain));
             pack.setRaw(event);

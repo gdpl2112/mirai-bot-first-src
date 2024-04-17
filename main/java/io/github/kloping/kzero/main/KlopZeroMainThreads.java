@@ -12,21 +12,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author github.kloping
  */
-public class KZeroMainThreads implements Runnable, BotCreated {
-    public static ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(10);
+public class KlopZeroMainThreads implements Runnable, BotCreated {
+    public static ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(10, 10, 0L,
+            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), r -> new Thread(r));
+
     public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
-    public static final Map<String, KZeroApplication> APPLICATION_MAP = new HashMap<>();
+
+    public static final Map<String, KlopZeroApplication> APPLICATION_MAP = new HashMap<>();
+
     @Override
     public void created(KZeroStater stater, KZeroBot kZeroBot) {
         if (BOT_MAP.containsKey(kZeroBot.getId())) return;
         if (APPLICATION_MAP.containsKey(kZeroBot.getId())) return;
         BOT_MAP.put(kZeroBot.getId(), kZeroBot);
-        KZeroApplication application = new KZeroApplication(stater, kZeroBot);
+        KlopZeroApplication application = new KlopZeroApplication(stater, kZeroBot);
         application.start();
         APPLICATION_MAP.put(kZeroBot.getId(), application);
     }

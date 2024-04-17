@@ -38,6 +38,7 @@ public class MihdpConnect implements ListenerHost {
     }
 
     private void sendToMihdp(MessageEvent event) {
+        if (MihdpClient.INSTANCE == null) return;
         GeneralData.ResDataChain chain = new GeneralData.ResDataChain(new LinkedList<>());
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {
@@ -66,6 +67,7 @@ public class MihdpConnect implements ListenerHost {
     @EventHandler
     public void onBotOnline(BotOnlineEvent event) {
         String bid = String.valueOf(event.getBot().getId());
+        if (MihdpClient.INSTANCE == null) return;
         MihdpClient.INSTANCE.listeners.put(bid, new MihdpClient.MihdpClientMessageListener() {
             @Override
             public void onMessage(ResDataPack pack) {
