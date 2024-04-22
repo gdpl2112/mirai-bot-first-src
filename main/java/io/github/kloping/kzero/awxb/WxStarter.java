@@ -7,6 +7,7 @@ import io.github.gdpl2112.onebot.v12.data.MessageChain;
 import io.github.gdpl2112.onebot.v12.event.EventReceiver;
 import io.github.gdpl2112.onebot.v12.event.GroupMessageEvent;
 import io.github.gdpl2112.onebot.v12.event.MetaEvent;
+import io.github.kloping.MySpringTool.StarterObjectApplication;
 import io.github.kloping.kzero.awxb.exclusive.Wx2Gsuid;
 import io.github.kloping.kzero.awxb.exclusive.Wx2Mihdp;
 import io.github.kloping.kzero.gsuid.GsuidClient;
@@ -34,6 +35,12 @@ public class WxStarter extends ListenerHost implements KZeroStater {
     @Override
     public void run() {
         WebChatClientWithOneBotV12 botV12 = new WebChatClientWithOneBotV12();
+        try {
+            StarterObjectApplication application = (StarterObjectApplication) botV12.getClass().getDeclaredField("application").get(botV12);
+            application.logger.setPrefix("[wxbot]");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         botV12.setConfFile("./conf/conf.txt");
         WebChatClientWithOneBotV12.registerListenerHost(this);
         WebChatClientWithOneBotV12.registerListenerHost(Wx2Mihdp.INSTANCE);
