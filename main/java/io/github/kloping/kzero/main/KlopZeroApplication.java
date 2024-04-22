@@ -34,9 +34,9 @@ public class KlopZeroApplication implements BotMessageHandler {
 
     public static final String[] REQUIRED_PROPERTY = {"auth.pwd", "cmd.reboot", "cmd.update", "cmd.update-m"};
 
-    public static ConfigurableApplicationContext context;
+    public ConfigurableApplicationContext context;
 
-    public static StarterObjectApplication application0;
+    public StarterObjectApplication application0;
 
     public void start() {
         stater.setHandler(bot, this);
@@ -74,6 +74,7 @@ public class KlopZeroApplication implements BotMessageHandler {
 
     private void start0() {
         application0 = new StarterObjectApplication(KlopZeroApplication.class);
+        application0.logger.setPrefix(String.format("[bot-%s]", bot.getId()));
         application0.setMainKey(String.class);
         application0.setWaitTime(600000L);
         //========================sendId=========type
@@ -83,6 +84,7 @@ public class KlopZeroApplication implements BotMessageHandler {
             public void run(Method method, Object t, Object[] objects) throws NoRunException {
                 if (t != null) {
                     MessagePack messagePack = (MessagePack) objects[3];
+                    KZeroBot bot = (KZeroBot) objects[4];
                     bot.getAdapter().onResult(method, t, messagePack);
                 }
             }

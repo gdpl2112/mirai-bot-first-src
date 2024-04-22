@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.main;
 
+import io.github.kloping.common.Public;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.main.api.BotCreated;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -22,15 +23,13 @@ import java.util.concurrent.TimeUnit;
 public class KlopZeroMainThreads implements Runnable, BotCreated {
     public static ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(5, 5, 0L,
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), r -> new Thread(r));
-    public static ExecutorService ONE_EXECUTOR_SERVICE = new ThreadPoolExecutor(1, 1, 0L,
-            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), r -> new Thread(r));
 
     public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
 
     public static final Map<String, KlopZeroApplication> APPLICATION_MAP = new HashMap<>();
 
     @Override
-    public void created(KZeroStater stater, KZeroBot kZeroBot) {
+    public synchronized void created(KZeroStater stater, KZeroBot kZeroBot) {
         if (BOT_MAP.containsKey(kZeroBot.getId())) return;
         if (APPLICATION_MAP.containsKey(kZeroBot.getId())) return;
         BOT_MAP.put(kZeroBot.getId(), kZeroBot);
@@ -45,7 +44,7 @@ public class KlopZeroMainThreads implements Runnable, BotCreated {
         String pid = name.split("@")[0];
         FileUtils.putStringInFile(pid, new File("./bot.pid"));
         for (Runnable starter : runnableList) {
-            ONE_EXECUTOR_SERVICE.submit(starter);
+            Public.EXECUTOR_SERVICE1.submit(starter);
         }
     }
 

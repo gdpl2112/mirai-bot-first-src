@@ -26,7 +26,8 @@ public class WxStarter extends ListenerHost implements KZeroStater {
 
     @Override
     public void setHandler(KZeroBot bot, BotMessageHandler handler) {
-        this.handler = handler;
+        if (bot.getSelf() instanceof MetaEvent)
+            this.handler = handler;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class WxStarter extends ListenerHost implements KZeroStater {
             Bot bot = metaEvent.getStatus().getBots()[0];
             String bid = String.valueOf(bot.getSelf().getUserId());
             if (KlopZeroMainThreads.BOT_MAP.containsKey(bid)) {
-                KlopZeroMainThreads.BOT_MAP.get(bid).setSelf(bot);
+                KlopZeroMainThreads.BOT_MAP.get(bid).setSelf(metaEvent);
                 return;
             }
             System.out.format("==================%s(%s)-上线了=====================\n", bot.getSelf().getUserId(), bot.getSelf().getPlatform());
@@ -111,8 +112,7 @@ public class WxStarter extends ListenerHost implements KZeroStater {
         if (handler != null) {
             KZeroBot<MessageChain, MetaEvent> kZeroBot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getSelf().getUserId()));
             String outMsg = kZeroBot.getSerializer().serialize(chain);
-            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUserId(),
-                    event.getGroup().getGroupId(), outMsg);
+            MessagePack pack = new MessagePack(MessageType.GROUP, event.getSender().getUserId(), event.getGroup().getGroupId(), outMsg);
             pack.setRaw(event);
             handler.onMessage(pack);
             //plugin to gsuid
