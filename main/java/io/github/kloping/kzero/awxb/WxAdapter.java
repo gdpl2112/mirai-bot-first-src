@@ -1,7 +1,10 @@
 package io.github.kloping.kzero.awxb;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.github.gdpl2112.onebot.v12.action.Action;
 import io.github.gdpl2112.onebot.v12.action.MessageParams;
+import io.github.gdpl2112.onebot.v12.contact.Member;
 import io.github.gdpl2112.onebot.v12.data.Message;
 import io.github.gdpl2112.onebot.v12.data.MessageChain;
 import io.github.gdpl2112.onebot.v12.data.MessageChainBuilder;
@@ -11,9 +14,11 @@ import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
+import io.github.kloping.kzero.qqpd.GuildBotAdapter;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -74,20 +79,70 @@ public class WxAdapter implements KZeroBotAdapter {
         event.sendMessage(builder.build());
     }
 
-    @Override
-    public String getNameCard(String sid, String tid) {
+    private Member getMemberInfo(String sid, String tid) {
         Action action = new Action();
-        action.setAction("get_group_info");
+        action.setAction("get_group_member_info");
         Map map = new HashMap<>();
         map.put("group_id", tid);
+        map.put("user_id", sid);
         action.setParams(map);
-        Object o = metaEvent.send(action).getData(Object.class);
-        return null;
+        JSONObject data = metaEvent.send(action).getData(JSONObject.class);
+        if (data == null) return null;
+        return data.toJavaObject(Member.class);
+    }
+
+    @Override
+    public String getNameCard(String sid, String tid) {
+        return getMemberInfo(sid, tid).getUserName();
     }
 
     @Override
     public List<String> getMembers(String tid) {
-        return null;
+        Action action = new Action();
+        action.setAction("get_group_member_list");
+        Map map = new HashMap<>();
+        map.put("group_id", tid);
+        action.setParams(map);
+        JSONArray ar = metaEvent.send(action).getData(JSONArray.class);
+        List<String> list = new LinkedList<>();
+        for (Object o : ar) {
+            JSONObject jo = (JSONObject) o;
+            list.add(jo.getString("user_name"));
+        }
+        return list;
+    }
+
+    @Override
+    public String getAvatarUrl(String sid) {
+        Action action = new Action();
+        action.setAction("get_group_list");
+        action.setParams(new HashMap<>());
+        JSONArray ar = metaEvent.send(action).getData(JSONArray.class);
+        for (Object o : ar) {
+            JSONObject e = (JSONObject) o;
+            Member member = getMemberInfo(sid, e.getString("group_id"));
+            if (member != null) {
+                return member.getAvatar();
+            }
+        }
+        return "http://kloping.top/icon.jpg";
+    }
+
+
+    @Override
+    public String getNameCard(String sid) {
+        Action action = new Action();
+        action.setAction("get_group_list");
+        action.setParams(new HashMap<>());
+        JSONArray ar = metaEvent.send(action).getData(JSONArray.class);
+        for (Object o : ar) {
+            JSONObject e = (JSONObject) o;
+            Member member = getMemberInfo(sid, e.getString("group_id"));
+            if (member != null) {
+                return member.getUserName();
+            }
+        }
+        return GuildBotAdapter.DEFAULT_NAME;
     }
 
     public WxAdapter(MetaEvent metaEvent, WxSerializer serializer) {
