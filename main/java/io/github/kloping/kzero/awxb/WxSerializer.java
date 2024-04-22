@@ -6,6 +6,7 @@ import io.github.gdpl2112.onebot.v12.utils.ConfigurationUtils;
 import io.github.kloping.arr.ArrDeSerializer;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.main.api.MessageSerializer;
+import io.github.kloping.kzero.qqpd.GuildStater;
 
 /**
  * @author github.kloping
@@ -54,11 +55,13 @@ public class WxSerializer implements MessageSerializer<MessageChain> {
                 String path = data.substring(data.indexOf(":") + 1, data.length() - 1);
                 Image image = null;
                 try {
+                    String url;
                     if (path.startsWith("http")) {
-                        image = ConfigurationUtils.INSTANCE.uploadImage(path, metaEvent);
+                        url = path;
                     } else {
-                        image = ConfigurationUtils.INSTANCE.uploadImage(FileUtils.getBytesFromFile(path), metaEvent);
+                        url = GuildStater.upload(FileUtils.getBytesFromFile(path));
                     }
+                    image = ConfigurationUtils.INSTANCE.uploadImage(url, metaEvent);
                 } catch (Exception e) {
                     System.err.println(path + "加载失败");
                     e.printStackTrace();
