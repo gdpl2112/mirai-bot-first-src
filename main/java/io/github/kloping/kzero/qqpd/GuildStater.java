@@ -98,7 +98,6 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         }
     }
 
-
     public KZeroBot<SendAble, Bot> create(String bid, Bot o, KZeroBotAdapter adapter, MessageSerializer<SendAble> serializer) {
         KZeroBot<SendAble, Bot> bot = new KZeroBot<SendAble, Bot>() {
             @Override

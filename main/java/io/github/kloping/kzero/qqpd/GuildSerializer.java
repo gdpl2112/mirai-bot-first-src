@@ -50,28 +50,16 @@ public class GuildSerializer implements MessageSerializer<SendAble> {
     protected final ArrDeSerializer<SendAble> ARR_DE_SERIALIZER = new ArrDeSerializer<>();
 
     {
-        ARR_DE_SERIALIZER.add(PATTER_FACE, new ArrDeSerializer.Rule0<SendAble>() {
+        ARR_DE_SERIALIZER.add(ArrDeSerializer.EMPTY_PATTERN, new ArrDeSerializer.Rule0<SendAble>() {
             @Override
             public SendAble deserializer(String s) {
-                return Emoji.valueOf(NumberUtils.getIntegerFromString(s, 0));
+                return new PlainText(s);
             }
         });
         ARR_DE_SERIALIZER.add(PATTER_AT, new ArrDeSerializer.Rule0<SendAble>() {
             @Override
             public SendAble deserializer(String s) {
                 return new At(At.MEMBER_TYPE, s.substring(s.indexOf(":") + 1, s.length() - 1));
-            }
-        });
-        ARR_DE_SERIALIZER.add(PATTER_MUSIC, new ArrDeSerializer.Rule0<SendAble>() {
-            @Override
-            public SendAble deserializer(String s) {
-                return new PlainText(String.format("[音乐:%s]", s));
-            }
-        });
-        ARR_DE_SERIALIZER.add(ArrDeSerializer.EMPTY_PATTERN, new ArrDeSerializer.Rule0<SendAble>() {
-            @Override
-            public SendAble deserializer(String s) {
-                return new PlainText(s);
             }
         });
         ARR_DE_SERIALIZER.add(PATTER_PIC, new ArrDeSerializer.Rule0<SendAble>() {
@@ -91,6 +79,18 @@ public class GuildSerializer implements MessageSerializer<SendAble> {
                 }
                 if (image != null) return image;
                 else return null;
+            }
+        });
+        ARR_DE_SERIALIZER.add(PATTER_FACE, new ArrDeSerializer.Rule0<SendAble>() {
+            @Override
+            public SendAble deserializer(String s) {
+                return Emoji.valueOf(NumberUtils.getIntegerFromString(s, 0));
+            }
+        });
+        ARR_DE_SERIALIZER.add(PATTER_MUSIC, new ArrDeSerializer.Rule0<SendAble>() {
+            @Override
+            public SendAble deserializer(String s) {
+                return new PlainText(String.format("[音乐:%s]", s));
             }
         });
     }
