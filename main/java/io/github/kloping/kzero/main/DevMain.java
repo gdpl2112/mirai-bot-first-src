@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.kzero.awxb.WxStarter;
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
@@ -17,7 +18,7 @@ public class DevMain {
     public static void main(String[] args) {
         new DevPluginConfig().run();
         KlopZeroMainThreads threads = new KlopZeroMainThreads();
-
+        threads.add(new WxStarter());
         threads.add(new MiraiStater());
         threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
                 Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
