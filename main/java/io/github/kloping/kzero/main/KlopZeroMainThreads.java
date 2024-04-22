@@ -20,7 +20,9 @@ import java.util.concurrent.TimeUnit;
  * @author github.kloping
  */
 public class KlopZeroMainThreads implements Runnable, BotCreated {
-    public static ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(10, 10, 0L,
+    public static ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(5, 5, 0L,
+            TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), r -> new Thread(r));
+    public static ExecutorService ONE_EXECUTOR_SERVICE = new ThreadPoolExecutor(1, 1, 0L,
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), r -> new Thread(r));
 
     public static final Map<String, KZeroBot> BOT_MAP = new HashMap<>();
@@ -43,7 +45,7 @@ public class KlopZeroMainThreads implements Runnable, BotCreated {
         String pid = name.split("@")[0];
         FileUtils.putStringInFile(pid, new File("./bot.pid"));
         for (Runnable starter : runnableList) {
-            EXECUTOR_SERVICE.submit(starter);
+            ONE_EXECUTOR_SERVICE.submit(starter);
         }
     }
 

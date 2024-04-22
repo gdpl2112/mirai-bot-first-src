@@ -15,6 +15,8 @@ import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 
+import java.lang.reflect.Field;
+
 /**
  * @author github.kloping
  */
@@ -35,17 +37,19 @@ public class WxStarter extends ListenerHost implements KZeroStater {
     @Override
     public void run() {
         WebChatClientWithOneBotV12 botV12 = new WebChatClientWithOneBotV12();
-        try {
-            StarterObjectApplication application = (StarterObjectApplication) botV12.getClass().getDeclaredField("application").get(botV12);
-            application.logger.setPrefix("[wxbot]");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         botV12.setConfFile("./conf/conf.txt");
         WebChatClientWithOneBotV12.registerListenerHost(this);
         WebChatClientWithOneBotV12.registerListenerHost(Wx2Mihdp.INSTANCE);
         WebChatClientWithOneBotV12.registerListenerHost(Wx2Gsuid.INSTANCE);
         botV12.start();
+        try {
+            Field field = botV12.getClass().getDeclaredField("application");
+            field.setAccessible(true);
+            StarterObjectApplication application = (StarterObjectApplication) field.get(botV12);
+            application.logger.setPrefix("[wxbot]");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
