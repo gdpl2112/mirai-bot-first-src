@@ -144,6 +144,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 }
             } else if (MARKDOWN_TYPE.equals(d0.getType())) {
                 String data = d0.getData().toString();
+                if (Judge.isEmpty(data)) continue;
                 try {
                     Integer l1 = data.indexOf("(");
                     String url0 = data.substring(l1 + 1, data.lastIndexOf(")"));

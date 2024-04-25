@@ -56,7 +56,7 @@ public class GenshinUidConnect implements ListenerHost {
             if (event.getSender().getId() == 3474006766L) receive.setUser_pm(0);
             else receive.setUser_pm(2);
             receive.setContent(list.toArray(new MessageData[0]));
-            GsuidClient.INSTANCE.send(receive);
+            if (GsuidClient.INSTANCE != null) GsuidClient.INSTANCE.send(receive);
         }
     }
 

@@ -72,7 +72,7 @@ public class AiHandler implements ListenerHost {
             return;
         } else if (out.startsWith("网易点歌") && out.length() > 4) {
             String name = out.substring(4);
-            saveDataAndSendOut(event, TYPE_WY, name, String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=9&type=json", name));
+            saveDataAndSendOut(event, TYPE_WY, name, String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=20&type=", name));
             return;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             String name = out.substring(2);
@@ -100,7 +100,7 @@ public class AiHandler implements ListenerHost {
                         share = new MusicShare(MusicKind.KugouMusic, d0.getString("SongName"), d0.getString("SingerName"), url, d0.getString("Image"), url);
                     }
                 } else if (TYPE_WY.equals(type)) {
-                    String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=9&type=json", e.data, n), String.class);
+                    String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=20&type=json", e.data, n), String.class);
                     JSONObject jo = JSON.parseObject(jsonData);
                     share = new MusicShare(MusicKind.NeteaseCloudMusic, jo.getString("title"), jo.getString("singer"),
                             jo.getString("music_url"), jo.getString("cover"), jo.getString("music_url"));
