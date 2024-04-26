@@ -33,9 +33,6 @@ public class ExtendController {
     public static final Map<String, String> CAPING = new ConcurrentHashMap<>();
     private static final Map<String, String> UCAP = new ConcurrentHashMap<>();
 
-
-    @Value("${auth.pwd:123456}")
-    String pwd0;
     @Value("${auth.super.pwd:123456}")
     String pwd1;
     @Value("${web.url:http://localhost}")
