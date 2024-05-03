@@ -30,8 +30,13 @@ public class HandlerController {
     @Value("${server.self}")
     String self;
 
+    private MetaEvent.Auth auth;
+
     @RequestMapping("recv")
     public Object recv(HttpServletRequest request) {
+        synchronized (this) {
+            if (auth == null) auth = new MetaEvent.Auth(token, url, self, port);
+        }
         String source = request.getParameter("source");
         String type = request.getParameter("type");
         String content = request.getParameter("content");
@@ -56,7 +61,7 @@ public class HandlerController {
         event.setIsMsgFromSelf(Integer.valueOf(isMsgFromSelf) == 1);
         event.setIsMentioned(Integer.valueOf(isMentioned) == 1);
         event.setRequest(request);
-        event.setAuth(new MetaEvent.Auth(token, url, self, port));
+        event.setAuth(auth);
         if (WxHookStarter.INSTANCE != null) {
             WxBotEventRecv recv = WxHookStarter.RECVS.get(type);
             if (recv != null) {
