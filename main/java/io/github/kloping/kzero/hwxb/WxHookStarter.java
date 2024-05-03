@@ -10,6 +10,7 @@ import io.github.kloping.kzero.hwxb.event.GroupMessageEvent;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
 import io.github.kloping.kzero.hwxb.event.MetaEvent;
 import io.github.kloping.kzero.main.api.*;
+import io.github.kloping.kzero.mihdp.MihdpClient;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class WxHookStarter implements KZeroStater {
     /**
      * gid 2 event
      */
-    private Map<String, MetaEvent> sid2event = new HashMap<>();
+    public static Map<String, MetaEvent> SID2EVENT = new HashMap<>();
 
     @Override
     public void setCreated(BotCreated listener) {
@@ -61,7 +62,7 @@ public class WxHookStarter implements KZeroStater {
                     @Override
                     public boolean sendMessage(MessageType type, String targetId, Object obj) {
                         MsgPack msg = new MsgPack();
-                        MessageEvent event = (MessageEvent) sid2event.get(targetId);
+                        MessageEvent event = (MessageEvent) SID2EVENT.get(targetId);
                         msg.setTo(event.getSubject().getPayLoad().getName());
                         List<MsgData> list = (List) getSerializer().deserialize(obj.toString());
                         msg.setData(list.toArray(new MsgData[0]));
@@ -92,7 +93,7 @@ public class WxHookStarter implements KZeroStater {
 
                     @Override
                     public String getNameCard(String sid, String tid) {
-                        GroupMessageEvent event = (GroupMessageEvent) sid2event.get(tid);
+                        GroupMessageEvent event = (GroupMessageEvent) SID2EVENT.get(tid);
                         Group group = (Group) event.getRoom().getPayLoad();
                         for (User user : group.getMemberList()) {
                             if (user.getId().equals(sid)) return user.getName();
@@ -102,7 +103,7 @@ public class WxHookStarter implements KZeroStater {
 
                     @Override
                     public List<String> getMembers(String tid) {
-                        GroupMessageEvent event = (GroupMessageEvent) sid2event.get(tid);
+                        GroupMessageEvent event = (GroupMessageEvent) SID2EVENT.get(tid);
                         Group group = (Group) event.getRoom().getPayLoad();
                         List<String> list = new LinkedList<>();
                         for (User user : group.getMemberList()) {
@@ -113,7 +114,7 @@ public class WxHookStarter implements KZeroStater {
 
                     @Override
                     public String getAvatarUrl(String sid) {
-                        for (MetaEvent value : sid2event.values()) {
+                        for (MetaEvent value : SID2EVENT.values()) {
                             if (value instanceof GroupMessageEvent) {
                                 GroupMessageEvent event = (GroupMessageEvent) value;
                                 Group group = (Group) event.getRoom().getPayLoad();
@@ -168,7 +169,7 @@ public class WxHookStarter implements KZeroStater {
                                     if (path.startsWith("http")) {
                                         return new MsgData(path, "fileUrl");
                                     } else {
-                                        MetaEvent metaEvent = sid2event.values().iterator().next();
+                                        MetaEvent metaEvent = SID2EVENT.values().iterator().next();
                                         String u0 = String.format("%s:%s/", metaEvent.getAuth().getSelf(), metaEvent.getAuth().getPort());
                                         return new MsgData(path
                                                 .replaceAll("\\\\", "/")
@@ -199,18 +200,20 @@ public class WxHookStarter implements KZeroStater {
         RECVS.put("text", r -> {
             MessageEvent event = (MessageEvent) r;
             MessagePack pack = new MessagePack();
-            sid2event.put(event.getSubject().getId(), event);
+            SID2EVENT.put(event.getSubject().getId(), event);
             pack.setSubjectId(event.getSubject().getId());
             pack.setSenderId(event.getFrom().getId());
             pack.setType(event.getContactType().equals("GROUP") ? MessageType.GROUP : MessageType.FRIEND);
             pack.setRaw(r);
             pack.setMsg(event.getContent());
             handler.onMessage(pack);
-            return null;
-        });
-        RECVS.put("system_event_login", r -> {
-            sid2event.put("", r);
+            WxHookExtend0.recv(event);
             return "{}";
         });
+        RECVS.put("system_event_login", r -> {
+            SID2EVENT.put("", r);
+            return "{}";
+        });
+        MihdpClient.INSTANCE.listeners.put(ID, WxHookExtend0::onMessage);
     }
 }
