@@ -1,5 +1,6 @@
 package io.github.kloping.kzero.hwxb.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**

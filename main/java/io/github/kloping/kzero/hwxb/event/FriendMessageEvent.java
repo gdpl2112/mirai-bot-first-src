@@ -8,9 +8,13 @@ import lombok.Data;
  */
 @Data
 public class FriendMessageEvent extends MessageEvent {
-    private Contact from;
+    @Override
+    public Contact getSubject() {
+        return getFrom();
+    }
 
-    public FriendMessageEvent(Contact from) {
-        this.from = from;
+    @Override
+    public String getContactType() {
+        return "FRIEND";
     }
 }

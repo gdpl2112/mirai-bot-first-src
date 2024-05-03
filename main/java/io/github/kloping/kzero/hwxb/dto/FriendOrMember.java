@@ -6,15 +6,15 @@ import lombok.Data;
  * @author github.kloping
  */
 @Data
-public class PayLoad {
-    private String id;
-    private String alias;
-    private String avatar;
+public class FriendOrMember extends User {
     private Boolean friend;
     private Integer gender;
-    private String name;
     private Object[] phone;
     private String signature;
     private Boolean star;
     private Integer type;
+    private String city;
+    private String address;
+    private String weixin;
+    private String province;
 }

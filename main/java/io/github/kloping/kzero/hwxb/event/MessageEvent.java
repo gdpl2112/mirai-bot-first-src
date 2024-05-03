@@ -1,6 +1,6 @@
 package io.github.kloping.kzero.hwxb.event;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.kzero.hwxb.dto.Contact;
 import lombok.Data;
 
@@ -8,11 +8,11 @@ import lombok.Data;
  * @author github.kloping
  */
 @Data
-public class MessageEvent {
+public abstract class MessageEvent extends MetaEvent<String> {
+    private Contact from;
     private Contact to;
-    private String type;
-    private String content;
-    private Boolean isSystemEvent;
-    private Boolean isMentioned;
-    private Boolean isMsgFromSelf;
+
+    public abstract Contact getSubject();
+
+    public abstract String getContactType();
 }

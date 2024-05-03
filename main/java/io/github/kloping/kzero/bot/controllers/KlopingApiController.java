@@ -91,7 +91,7 @@ public class KlopingApiController {
     @Action(value = "扔漂流瓶<.+=>str>", otherName = {"扔瓶子<.+=>str>"})
     public String setBottle(String sid, @Param("str") String str, MessagePack pack, KZeroBot bot) {
         if (str == null || str.trim().isEmpty()) return "请携带内容~";
-        String name = bot.getAdapter().getNameCard(sid);
+        String name = bot.getAdapter().getNameCard(sid, pack.getSubjectId());
         name = name.replaceAll("\\s", "").isEmpty() ? "默认昵称" : name;
         return klopingWeb.throwBottle(pack.getSubjectId(), sid, str, name);
     }
