@@ -7,6 +7,7 @@ import io.github.kloping.kzero.hwxb.event.GroupMessageEvent;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
 import io.github.kloping.kzero.hwxb.event.MetaEvent;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author github.kloping
  */
 @RestController
+@ConditionalOnProperty(name = "wxbot.token")
 public class HandlerController {
-
     @Value("${wxbot.token}")
     String token;
 
