@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 /**
  * @author github.kloping
  */
-@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring"})
+@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring","io.github.kloping.kzero.hwxb"})
 @MapperScan("io.github.kloping.kzero.spring")
 @Configuration
 public class KZeroSpringStarter {
