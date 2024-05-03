@@ -171,8 +171,8 @@ public class WxHookStarter implements KZeroStater {
                                         MetaEvent metaEvent = sid2event.values().iterator().next();
                                         String u0 = String.format("%s:%s/", metaEvent.getAuth().getSelf(), metaEvent.getAuth().getPort());
                                         return new MsgData(path
-                                                .replace(".\\temp\\", u0)
                                                 .replaceAll("\\\\", "/")
+                                                .replace("./temp/", u0)
                                                 , "fileUrl");
                                     }
                                 } catch (Exception e) {
