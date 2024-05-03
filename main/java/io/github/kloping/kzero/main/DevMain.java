@@ -3,6 +3,7 @@ package io.github.kloping.kzero.main;
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.awxb.WxStarter;
 import io.github.kloping.kzero.gsuid.GsuidClient;
+import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.kzero.qqpd.GuildStater;
@@ -24,6 +25,7 @@ public class DevMain {
         threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
                 Intents.PRIVATE_INTENTS.getCode()));
 //        threads.add(new WxStarter());
+        threads.add(new WxHookStarter());
         try {
             KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
         } catch (URISyntaxException e) {
