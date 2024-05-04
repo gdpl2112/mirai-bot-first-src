@@ -3,6 +3,7 @@ package io.github.kloping.kzero.hwxb.event;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import io.github.kloping.kzero.hwxb.WxAuth;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgPack;
 import lombok.Data;
 import org.jsoup.Jsoup;
@@ -29,23 +30,17 @@ public class MetaEvent<T extends Object> {
 
     @Data
     public static class Auth {
-        private String token;
-        private String url;
-        private String self;
-        private Integer port;
+        private WxAuth wxAuth;
 
-        public Auth(String token, String url, String self, Integer port) {
-            this.token = token;
-            this.url = url;
-            this.self = self;
-            this.port = port;
+        public Auth(WxAuth wxAuth) {
+            this.wxAuth = wxAuth;
         }
 
         public JSONObject sendMessage(MsgPack... packs) {
             if (packs.length == 0) return null;
             try {
                 String body = JSON.toJSONString(packs, true);
-                Document doc0 = Jsoup.connect(url).ignoreContentType(true)
+                Document doc0 = Jsoup.connect(wxAuth.getUrl()).ignoreContentType(true)
                         .header("Content-Type", "application/json")
                         .header("Accept-Encoding", "br,deflate,gzip,x-gzip")
                         .header("Connection", "Keep-Alive")

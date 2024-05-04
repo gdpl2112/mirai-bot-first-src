@@ -119,7 +119,7 @@ public class WxHookStarter implements KZeroStater {
                                 GroupMessageEvent event = (GroupMessageEvent) value;
                                 Group group = (Group) event.getRoom().getPayLoad();
                                 for (User user : group.getMemberList()) {
-                                    return user.getAvatar() + "&token=" + value.getAuth().getToken();
+                                    return user.getAvatar() + "&token=" + value.getAuth().getWxAuth().getToken();
                                 }
                             }
                         }
@@ -170,7 +170,7 @@ public class WxHookStarter implements KZeroStater {
                                         return new MsgData(path, "fileUrl");
                                     } else {
                                         MetaEvent metaEvent = SID2EVENT.values().iterator().next();
-                                        String u0 = String.format("%s:%s/", metaEvent.getAuth().getSelf(), metaEvent.getAuth().getPort());
+                                        String u0 = String.format("%s:%s/", metaEvent.getAuth().getWxAuth().getSelf(), metaEvent.getAuth().getWxAuth().getPort());
                                         return new MsgData(path
                                                 .replaceAll("\\\\", "/")
                                                 .replace("./temp/", u0)

@@ -2,6 +2,7 @@ package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
+import io.github.kloping.kzero.mihdp.MihdpClient;
 
 /**
  * @author github.kloping
@@ -12,11 +13,11 @@ public class Main {
         new DevPluginConfig().run();
 
         KlopZeroMainThreads threads = new KlopZeroMainThreads();
-//        try {
-//            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        try {
 //            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
 //        } catch (URISyntaxException e) {

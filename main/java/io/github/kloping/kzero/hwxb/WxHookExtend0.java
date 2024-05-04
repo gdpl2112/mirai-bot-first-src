@@ -1,10 +1,10 @@
 package io.github.kloping.kzero.hwxb;
 
 import com.alibaba.fastjson.JSON;
-import io.github.gdpl2112.onebot.v12.event.GroupMessageEvent;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgData;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgPack;
+import io.github.kloping.kzero.hwxb.event.GroupMessageEvent;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
 import io.github.kloping.kzero.hwxb.event.MetaEvent;
 import io.github.kloping.kzero.mihdp.GeneralData;
@@ -26,11 +26,13 @@ public class WxHookExtend0 {
         ReqDataPack req = new ReqDataPack();
         req.setAction("msg").setContent(JSON.toJSONString(chain))
                 .setId(String.valueOf(event.hashCode()))
-                .setBot_id("self")
+                .setBot_id(WxHookStarter.ID)
                 .setTime(System.currentTimeMillis()).setEnv_type(event instanceof GroupMessageEvent ? "group" : "friend")
                 .setSender_id(event.getFrom().getId())
                 .setEnv_id(event.getSubject().getPayLoad().getName());
-        req.getArgs().put("icon", event.getFrom().getPayLoad().getAvatar() + "&token=" + event.getAuth().getToken());
+        String icon = event.getFrom().getPayLoad().getAvatar();
+        icon = icon.replace("localhost", event.getAuth().getWxAuth().getIp());
+        req.getArgs().put("icon", icon + "&token=" + event.getAuth().getWxAuth().getToken());
         req.getArgs().put("name", event.getFrom().getPayLoad().getName());
         req.getArgs().put("draw", "true");
         MihdpClient.INSTANCE.send(JSON.toJSONString(req));
@@ -59,7 +61,9 @@ public class WxHookExtend0 {
                     e.printStackTrace();
                 }
                 MetaEvent event = WxHookStarter.SID2EVENT.values().iterator().next();
-                String url = String.format("%s:%s/%s", event.getAuth().getSelf(), event.getAuth().getPort(), path.replace("./temp", ""));
+                String url = String.format("%s:%s/%s"
+                        , event.getAuth().getWxAuth().getSelf(),
+                        event.getAuth().getWxAuth().getPort(), path.replace("./temp/", ""));
                 return new MsgData[]{new MsgData(url, "fileUrl")};
             }
         } else if (data instanceof GeneralData.ResDataChain) {
