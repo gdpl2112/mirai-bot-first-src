@@ -46,7 +46,11 @@ public class ExtendController {
     public Object uploadTips(@RequestBody String data) {
         try {
             KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
-                v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, "有新的帖子上传成功");
+                try {
+                    v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, "有新的帖子上传成功");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             });
             data = URLDecoder.decode(data, Charset.forName("UTF-8"));
             if (!data.endsWith("}")) {
