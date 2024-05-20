@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
+import io.github.kloping.kzero.main.DevPluginConfig;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.message.MessageEvent;
@@ -147,7 +148,8 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 if (Judge.isEmpty(data)) continue;
                 try {
                     Integer l1 = data.indexOf("(");
-                    String url0 = data.substring(l1 + 1, data.lastIndexOf(")"));
+                    String url0 = data.substring(l1 + 1, data.lastIndexOf(")"))
+                            .replace("localhost", DevPluginConfig.CONFIG.contextManager.getContextEntity(String.class, "gsuid.ip"));
                     byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
                     try {
                         String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))

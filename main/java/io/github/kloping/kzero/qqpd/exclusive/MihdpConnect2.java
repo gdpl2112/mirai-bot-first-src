@@ -174,6 +174,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                             }
                         }
                     }
+                    if (builder != null) event.send(builder.build());
                     if (r0 != null) {
                         if (markdown != null) {
                             markdown.setKeyboard(keyboardBuilder.build());
@@ -182,7 +183,6 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                             event.send(keyboardBuilder.build());
                         }
                     }
-                    if (builder != null) event.send(builder.build());
                     return;
                 }
             }
