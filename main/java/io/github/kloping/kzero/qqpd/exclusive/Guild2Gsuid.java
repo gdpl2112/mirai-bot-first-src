@@ -148,8 +148,7 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 if (Judge.isEmpty(data)) continue;
                 try {
                     Integer l1 = data.indexOf("(");
-                    String url0 = data.substring(l1 + 1, data.lastIndexOf(")"))
-                            .replace("localhost", DevPluginConfig.CONFIG.contextManager.getContextEntity(String.class, "gsuid.ip"));
+                    String url0 = data.substring(l1 + 1, data.lastIndexOf(")"));
                     byte[] bytes = UrlUtils.getBytesFromHttpUrl(url0);
                     try {
                         String url = Jsoup.connect(String.format("https://p.xiaofankj.com.cn/upimg.php"))
