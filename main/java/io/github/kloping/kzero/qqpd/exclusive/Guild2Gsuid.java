@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.gsuid.*;
-import io.github.kloping.kzero.main.DevPluginConfig;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.message.MessageEvent;
@@ -121,21 +120,41 @@ public class Guild2Gsuid implements GsuidMessageListener {
                 JSONArray arr = (JSONArray) d0.getData();
                 Keyboard.KeyboardBuilder b0 = new Keyboard.KeyboardBuilder();
                 Keyboard.RowBuilder r0 = b0.addRow();
-                int i = 0;
+                Integer i = 0;
                 for (Object o : arr) {
-                    i++;
-                    JSONObject o1 = (JSONObject) o;
-                    r0.addButton()
-                            .setLabel(o1.getString("text"))
-                            .setVisitedLabel(o1.getString("text"))
-                            .setStyle(o1.getInteger("style"))
-                            .setActionData(o1.getString("data"))
-                            .setActionEnter(false)
-                            .setActionReply(true)
-                            .setActionType(2).build();
-                    if (i >= 2) {
-                        r0 = r0.build().addRow();
-                        i = 0;
+                    if (o instanceof JSONArray) {
+                        JSONArray ar0 = (JSONArray) o;
+                        for (Object on : ar0) {
+                            i++;
+                            JSONObject o1 = (JSONObject) on;
+                            r0.addButton()
+                                    .setLabel(o1.getString("text"))
+                                    .setVisitedLabel(o1.getString("text"))
+                                    .setStyle(o1.getInteger("style"))
+                                    .setActionData(o1.getString("data"))
+                                    .setActionEnter(false)
+                                    .setActionReply(true)
+                                    .setActionType(2).build();
+                            if (i >= 2) {
+                                r0 = r0.build().addRow();
+                                i = 0;
+                            }
+                        }
+                    } else {
+                        i++;
+                        JSONObject o1 = (JSONObject) o;
+                        r0.addButton()
+                                .setLabel(o1.getString("text"))
+                                .setVisitedLabel(o1.getString("text"))
+                                .setStyle(o1.getInteger("style"))
+                                .setActionData(o1.getString("data"))
+                                .setActionEnter(false)
+                                .setActionReply(true)
+                                .setActionType(2).build();
+                        if (i >= 2) {
+                            r0 = r0.build().addRow();
+                            i = 0;
+                        }
                     }
                 }
                 if (markdown != null) {
