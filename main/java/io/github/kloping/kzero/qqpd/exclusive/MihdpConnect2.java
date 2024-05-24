@@ -172,6 +172,51 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                                 r0 = r0.build().addRow();
                                 kindex = 0;
                             }
+                        } else if (data.getType().equals("chain")) {
+                            GeneralData.ResDataChain ccc = (GeneralData.ResDataChain) data;
+                            for (GeneralData generalData : ccc.getList()) {
+                                if (generalData.getType().equals("text")) {
+                                    GeneralData.ResDataText text = (GeneralData.ResDataText) generalData;
+                                    if (builder == null) builder = new MessageAsyncBuilder();
+                                    builder.append(text.getContent());
+                                } else if (generalData.getType().equals("image")) {
+                                    GeneralData.ResDataImage image = (GeneralData.ResDataImage) generalData;
+                                    markdown = new Markdown("102032364_1710924543");
+                                    markdown.addParam("title", "TIPS");
+                                    markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
+                                    String url;
+                                    if (image.getP().equals("http")) {
+                                        url = image.getData();
+                                    } else {
+                                        url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
+                                    }
+                                    markdown.addParam("url", String.format("(%s)", url));
+                                } else if (generalData.getType().equals("select")) {
+                                    GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) generalData;
+                                    if (keyboardBuilder == null) {
+                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                                        r0 = keyboardBuilder.addRow();
+                                    }
+                                    kindex++;
+                                    r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+                                    if (kindex >= 2) {
+                                        r0 = r0.build().addRow();
+                                        kindex = 0;
+                                    }
+                                } else if (generalData.getType().equals("button")) {
+                                    GeneralData.ResDataButton button = (GeneralData.ResDataButton) generalData;
+                                    if (keyboardBuilder == null) {
+                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
+                                        r0 = keyboardBuilder.addRow();
+                                    }
+                                    kindex++;
+                                    r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+                                    if (kindex >= 2) {
+                                        r0 = r0.build().addRow();
+                                        kindex = 0;
+                                    }
+                                }
+                            }
                         }
                     }
                     if (builder != null) event.send(builder.build());

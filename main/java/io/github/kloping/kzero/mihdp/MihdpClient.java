@@ -42,6 +42,7 @@ public class MihdpClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
+        logger.log(message);
         ResDataPack dataPack = gson.fromJson(message, ResDataPack.class);
         if (dataPack == null || dataPack.getAction() == null) return;
         String bid = dataPack.getBot_id();
