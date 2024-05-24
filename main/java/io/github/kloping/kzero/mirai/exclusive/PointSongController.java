@@ -50,7 +50,7 @@ public class PointSongController {
     }
 
     RestTemplate template = new RestTemplate();
-//
+
 //    @Action("点歌<.+=>name>")
 //    public String pointSong(@Param("name") String name, MessagePack pack, KZeroBot bot) {
 //        JSONObject data = getSongData(name);
@@ -96,7 +96,7 @@ public class PointSongController {
                 return null;
             } else return "搜索失败!";
         }
-    */
+
 
     @Action(value = "酷狗点歌<.+=>name>")
     public String pointSongKugou(@Param("name") String name, MessagePack pack, KZeroBot bot) {
@@ -114,7 +114,7 @@ public class PointSongController {
         }
         return null;
     }
-
+ */
     @Action("QQ歌词<.+=>name>")
     public Object mq(@Param("name") String name, KZeroBot bot, MessagePack pack) {
         try {
@@ -126,7 +126,7 @@ public class PointSongController {
             return "歌词获取失败";
         }
     }
-
+/*
     @Action("酷狗歌词<.+=>name>")
     public Object mk(@Param("name") String name, KZeroBot bot, MessagePack pack) {
         try {
@@ -149,5 +149,5 @@ public class PointSongController {
         } catch (Exception e) {
             return "歌词获取失败";
         }
-    }
+    }*/
 }
