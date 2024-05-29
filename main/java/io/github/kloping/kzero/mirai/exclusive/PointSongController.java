@@ -63,26 +63,17 @@ public class PointSongController {
 //        return null;
 //    }
 
-    private JSONObject getSongData(String name) {
-        String url = String.format("https://api.linhun.vip/api/qqyy?name=%s&y=1&n=1&apiKey=5ff26395f76d3e12b694e1875e37a40a", name.trim());
-        String json = template.getForObject(url, String.class);
-        JSONObject data = JSON.parseObject(json);
-        return data;
-    }
-
     @Action("歌词<.+=>name>")
     public String pl(@Param("name") String name, MessagePack pack, KZeroBot bot) {
-        JSONObject data = getSongData(name.trim());
-        List<String> lines = new LinkedList<>();
-        for (Object lyric : data.getJSONArray("lyric")) {
-            JSONObject l0 = (JSONObject) lyric;
-            String line = String.format("[%s]%s", l0.getString("time"), l0.getString("name"));
-            lines.add(line);
+        try {
+            Songs songs = klopingWeb.getVipSongs(name,  1);
+            String lyric = songs.getData()[0].getLyric();
+            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\n"));
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "歌词获取失败";
         }
-        if (data.getInteger("code") == 200) {
-            bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lines.toArray(new String[0]));
-        } else return data.getString("msg");
-        return null;
     }
 
     /*
@@ -123,6 +114,7 @@ public class PointSongController {
             bot.getAdapter().sendMessageByForward(MessageType.GROUP, pack.getSubjectId(), lyric.split("\n"));
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             return "歌词获取失败";
         }
     }
