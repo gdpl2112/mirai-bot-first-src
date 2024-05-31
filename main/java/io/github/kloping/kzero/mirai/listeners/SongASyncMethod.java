@@ -157,23 +157,9 @@ public class SongASyncMethod {
 
 
     private static String listKgSongs(Long qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument("http://www.dreamling.top/API/kugou/web/music/api.php?&pagenum=9&format=json&flag=format&page=" + p + "&keyword=" + name);
-        JSONObject jo0 = JSON.parseObject(doc0.body().text());
-        QID2DATA.put(qid, new SongData(p, name, TYPE_KUGOU, jo0, qid, System.currentTimeMillis()));
-        if (jo0.getInteger("code") == 200) {
-            JSONObject data = jo0.getJSONObject("data");
-            StringBuilder sb = new StringBuilder();
-            sb.append("共搜索到'").append(data.getInteger("total")).append("'个结果").append(";当前第'").append(data.getInteger("page")).append("'页\n");
-            int i = 1;
-            for (Object o1 : data.getJSONArray("name")) {
-                JSONObject e0 = (JSONObject) o1;
-                sb.append(i++).append(".").append(e0.getString("Name")).append("\n");
-            }
-            sb.append("tips:选择'0'可翻向下一页\n使用'取消点歌'/'取消选择'来取消选择");
-            return sb.toString();
-        } else {
-            return "搜索异常啦o(╥﹏╥)o";
-        }
+        Document doc0 = getDocument("https://www.hhlqilongzhu.cn/api/dg_kgmusic.php?n=&gm=" + name);
+        QID2DATA.put(qid, new SongData(p, name, type, doc0, qid, System.currentTimeMillis()));
+        return doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
 
     private static String listWySongs(Long qid, String type, Integer p, String name) throws Exception {
@@ -183,13 +169,13 @@ public class SongASyncMethod {
     }
 
     private static String listQqSongs(Long qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument("https://api.linhun.vip/api/qqyy?&apiKey=5ff26395f76d3e12b694e1875e37a40a&y=" + p + "&n=&name=" + name);
+        Document doc0 = getDocument(String.format("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&q=%s&p=%s&n=9", name, p));
         JSONObject data = JSONObject.parseObject(doc0.body().text());
-        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s/%s\n", name, p, data.get("y")));
+        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));
         int n = 1;
-        for (Object o : data.getJSONArray("data")) {
+        for (Object o : data.getJSONArray("list")) {
             JSONObject o1 = (JSONObject) o;
-            sb.append(n++ + ".").append(o1.getString("name")).append("--").append(o1.getString("author")).append("\n");
+            sb.append(n++ + ".").append(o1.getString("name")).append("--").append(o1.getString("singer")).append("\n");
         }
         sb.append("选择歌曲前数字.选择0时进入下一页");
         QID2DATA.put(qid, new SongData(p, name, TYPE_QQ, data, qid, System.currentTimeMillis()));
@@ -217,12 +203,10 @@ public class SongASyncMethod {
     }
 
     private static Message pointKgSong(SongData e, Integer n) throws Exception {
-        JSONObject d0 = (JSONObject) e.data;
-        d0 = d0.getJSONObject("data").getJSONArray("name").getJSONObject(n - 1);
-        Document doc0 = getDocument("http://www.dreamling.top/API/kugou/web/music/api.php?&pagenum=9&format=json&flag=format&page=" + e.p + "&keyword=" + e.name + "&n=" + n);
+        Document doc0 = getDocument("https://www.hhlqilongzhu.cn/api/dg_kgmusic.php?type=json&n=" + n + "&gm=" + e.name);
         JSONObject out = JSON.parseObject(doc0.body().text());
-        String url = out.getJSONObject("data").getString("url");
-        MusicShare share = new MusicShare(MusicKind.KugouMusic, d0.getString("SongName"), d0.getString("SingerName"), url, d0.getString("Image"), url);
+        String url = out.getString("music_url");
+        MusicShare share = new MusicShare(MusicKind.KugouMusic, out.getString("title"), out.getString("singer"), url, out.getString("cover"), url);
         return share;
     }
 
@@ -234,9 +218,12 @@ public class SongASyncMethod {
     }
 
     private static MusicShare pointQqSong(SongData data, Integer n) throws Exception {
-        Document doc0 = getDocument("https://api.linhun.vip/api/qqyy?&apiKey=5ff26395f76d3e12b694e1875e37a40a&y=" + data.p + "&n=" + n + "&name=" + data.name);
-        JSONObject out = JSONObject.parseObject(doc0.body().text());
-        MusicShare share = new MusicShare(MusicKind.QQMusic, out.getString("name"), out.getString("author"), out.getString("mp3"), out.getString("img"), out.getString("mp3"));
+        JSONObject out = (JSONObject) QID2DATA.get(data.qid).data;
+        out = out.getJSONArray("list").getJSONObject(n - 1);
+        String url = out.getString("url");
+        url = getRedirectUrl(url);
+        MusicShare share = new MusicShare(MusicKind.QQMusic, out.getString("name"), out.getString("singer"), url, out.getString("cover"), url);
         return share;
     }
+
 }
