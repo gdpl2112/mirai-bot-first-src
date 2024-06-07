@@ -30,7 +30,7 @@ import java.util.Map;
  * @author github.kloping
  */
 @Controller
-public class GroupController extends ListenerHost implements InterceptController.OnIntercept {
+public class GroupController extends ListenerHost {
 
     private BotMessageHandler handler;
     private KZeroBot zeroBot;
@@ -54,16 +54,12 @@ public class GroupController extends ListenerHost implements InterceptController
         }
     }
 
-    @AutoStandAfter
-    public void after(InterceptController interceptController) {
-        interceptController.register("", this);
-    }
-
     public Map<String, String> idMapping = new HashMap<>();
 
+    /*
     @Override
     public Object intercept(MessagePack pack, KZeroBot bot) {
-        if (!(pack.getRaw() instanceof GroupMessageEvent)) return null;
+       if (!(pack.getRaw() instanceof GroupMessageEvent)) return null;
         MessageEvent event = (MessageEvent) pack.getRaw();
         StringBuilder sb = new StringBuilder();
         for (SendAble sendAble : event.getMessage()) {
@@ -87,7 +83,7 @@ public class GroupController extends ListenerHost implements InterceptController
             }
         }
         return sb.length() == 0 ? null : sb.toString();
-    }
+    }*/
 
     @AutoStand
     DataBase dataBase;
