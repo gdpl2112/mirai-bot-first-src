@@ -46,7 +46,7 @@ public class AiHandler implements ListenerHost {
         } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
             SongData o = QID2DATA.remove(event.getSender().getId());
             event.getSubject().sendMessage("已取消.\n" + o.name);
-        } else if (out.matches("[\\d]+")) {
+        } else if (out.matches("[+\\-\\d]+")) {
             Integer n = Integer.valueOf(out);
             SongData e = QID2DATA.get(event.getSender().getId());
             if (e != null) {
