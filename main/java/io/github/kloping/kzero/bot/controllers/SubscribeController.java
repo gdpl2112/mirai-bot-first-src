@@ -250,30 +250,54 @@ public class SubscribeController {
         int h0 = 270;
         graphics.fillRoundRect(x, y - 20, 800, h0, 6, 6);
 
+        //逻辑处理 偏移
+        int max = 20;
+        int skew = 0;
+        //超过0度的计数
+        int of = 0;
+        //低过0度的计数
+        int lf = 0;
+        for (Map.Entry<Integer, Integer> kv : tempList) {
+            //最低:最高
+            if (kv.getKey() > 0) {
+                of++;
+            } else if (kv.getValue() < 0) {
+                lf++;
+            }
+        }
+        if (of == 6) {
+            skew = -20;
+            max = 40;
+        } else if (lf == 6) {
+            skew = 20;
+            max = 0;
+        }
+
         //温度横线高度
+        graphics.setFont(ImageDrawerUtils.SMALL_FONT22);
         int yh0 = 20;
         int y0 = y + yh0;
         graphics.drawLine(x, y0, x + 800, y0);
-        graphics.drawString("20℃", x, y0);
+        graphics.drawString(max + "℃", x, y0);
 
         y0 = y + 50 + yh0;
         graphics.drawLine(x, y0, x + 800, y0);
-        graphics.drawString("10℃", x, y0);
+        graphics.drawString((max -= 10) + "℃", x, y0);
 
         y0 = y + (50 * 2) + yh0;
         Stroke stroke = graphics.getStroke();
         graphics.setStroke(ImageDrawerUtils.STROKE3);
         graphics.drawLine(x, y0, x + 800, y0);
-        graphics.drawString("0℃", x, y0);
+        graphics.drawString((max -= 10) + "℃", x, y0);
         graphics.setStroke(stroke);
 
         y0 = y + (50 * 3) + yh0;
         graphics.drawLine(x, y0, x + 800, y0);
-        graphics.drawString("-10℃", x, y0);
+        graphics.drawString((max -= 10) + "℃", x, y0);
 
         y0 = y + (50 * 4) + yh0;
         graphics.drawLine(x, y0, x + 800, y0);
-        graphics.drawString("-20℃", x, y0);
+        graphics.drawString((max -= 10) + "℃", x, y0);
 
         x = 162;
         for (int i = 0; i < 6; i++) {
@@ -301,13 +325,13 @@ public class SubscribeController {
             if (uekv != null) {
                 //0 y+100
                 //+1 y+5
-                int l1 = uekv.getKey();
-                int l2 = ekv.getKey();
+                int l1 = uekv.getKey() + skew;
+                int l2 = ekv.getKey() + skew;
                 graphics.setColor(ImageDrawerUtils.BLUE3_A90);
                 graphics.drawLine(x, y - l1 * 5, x + eve0, y - l2 * 5);
 
-                int h1 = uekv.getValue();
-                int h2 = ekv.getValue();
+                int h1 = uekv.getValue() + skew;
+                int h2 = ekv.getValue() + skew;
                 graphics.setColor(ImageDrawerUtils.RED_A90);
                 graphics.drawLine(x, y - h1 * 5, x + eve0, y - h2 * 5);
                 x += eve0;
