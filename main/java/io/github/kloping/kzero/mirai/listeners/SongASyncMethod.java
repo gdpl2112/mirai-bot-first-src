@@ -175,17 +175,17 @@ public class SongASyncMethod {
     }
 
     private static String listQqSongs(Long qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument(String.format("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&q=%s&p=%s&n=9", name, p));
-        JSONObject data = JSONObject.parseObject(doc0.body().text());
-        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));
-        int n = 1;
-        for (Object o : data.getJSONArray("list")) {
-            JSONObject o1 = (JSONObject) o;
-            sb.append(n++ + ".").append(o1.getString("name")).append("--").append(o1.getString("singer")).append("\n");
-        }
-        sb.append("选择歌曲前数字.选择0时进入下一页");
-        QID2DATA.put(qid, new SongData(p, name, TYPE_QQ, data, qid, System.currentTimeMillis()));
-        return sb.toString();
+        Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=text&br=2&msg=%s&n=", name));
+//        JSONObject data = JSONObject.parseObject(doc0.body().text());
+//        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));
+//        int n = 1;
+//        for (Object o : data.getJSONArray("data")) {
+//            JSONObject o1 = (JSONObject) o;
+//            sb.append(n++ + ".").append(o1.getString("song")).append("--").append(o1.getString("singer")).append("\n");
+//        }
+//        sb.append("选择歌曲前数字.选择0时进入下一页");
+        QID2DATA.put(qid, new SongData(p, name, TYPE_QQ, doc0, qid, System.currentTimeMillis()));
+        return doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
 
     /**
@@ -212,7 +212,7 @@ public class SongASyncMethod {
         Document doc0 = getDocument("https://www.hhlqilongzhu.cn/api/dg_kgmusic.php?type=json&n=" + n + "&gm=" + e.name);
         JSONObject out = JSON.parseObject(doc0.body().text());
         String url = out.getString("music_url");
-        MusicShare share = new MusicShare(MusicKind.KugouMusic, out.getString("title"), out.getString("singer"), url, out.getString("cover"), url);
+        MusicShare share = new MusicShare(MusicKind.QQMusic, out.getString("title"), out.getString("singer"), url, out.getString("cover"), url);
         return share;
     }
 
@@ -221,19 +221,20 @@ public class SongASyncMethod {
         JSONObject jo = JSON.parseObject(jsonData);
         jo = jo.getJSONObject("data");
         MusicShare share = new MusicShare(
-                MusicKind.NeteaseCloudMusic, jo.getString("songname"),
+                MusicKind.QQMusic, jo.getString("songname"),
                 jo.getString("name"), jo.getString("src"),
                 jo.getString("cover"), jo.getString("src"));
         return share;
     }
 
     private static MusicShare pointQqSong(SongData data, Integer n) throws Exception {
-        JSONObject out = (JSONObject) QID2DATA.get(data.qid).data;
-        out = out.getJSONArray("list").getJSONObject(n - 1);
-        String url = out.getString("url");
-        url = getRedirectUrl(url);
-        MusicShare share = new MusicShare(MusicKind.QQMusic, out.getString("name"), out.getString("singer"), url, out.getString("cover"), url);
+        String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=json&br=2&msg=%s&n=%s", data.name, n), String.class);
+        JSONObject jo = JSON.parseObject(jsonData);
+        jo = jo.getJSONObject("data");
+        MusicShare share = new MusicShare(
+                MusicKind.QQMusic, jo.getString("song_name"),
+                jo.getString("song_singer"), jo.getString("music_url"),
+                jo.getString("cover"), jo.getString("music_url"));
         return share;
     }
-
 }

@@ -1,6 +1,8 @@
 package io.github.kloping.kzero.main;
 
 import io.github.kloping.MySpringTool.annotations.CommentScan;
+import io.github.kloping.kzero.awxb.WxStarter;
+import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.kzero.qqpd.GuildStater;
