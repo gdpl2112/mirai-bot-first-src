@@ -43,9 +43,11 @@ public class AllController implements Runner {
         if (cla == WebAuthController.class) return;
         MessagePack pack = (MessagePack) objects[3];
         KZeroBot bot = (KZeroBot) objects[4];
-        GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
-        if (groupConf != null) {
-            if (!groupConf.getOpen()) throw new NoRunException("未开启");
+        if (cla != AllController.class){
+            GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
+            if (groupConf != null) {
+                if (!groupConf.getOpen()) throw new NoRunException("未开启");
+            }
         }
         String sid = pack.getSenderId();
         if (!wakes.contains(sid)) wakes.add(sid);
