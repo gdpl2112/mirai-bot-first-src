@@ -29,6 +29,7 @@ public class CommandController {
 
     @AutoStand
     GroupController groupController;
+
     @AutoStand
     DataBase dataBase;
 

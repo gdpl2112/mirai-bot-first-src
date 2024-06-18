@@ -1,13 +1,21 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSON;
+import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.MySpringTool.interfaces.Logger;
+import io.github.kloping.kzero.bot.database.DataBase;
+import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.mihdp.GeneralData;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mihdp.ReqDataPack;
 import io.github.kloping.kzero.mihdp.ResDataPack;
+import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.url.UrlUtils;
+import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.EventHandler;
+import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.*;
@@ -19,8 +27,16 @@ import java.util.LinkedList;
 /**
  * @author github.kloping
  */
+@Controller
 public class MihdpConnect implements ListenerHost {
-    public static final MihdpConnect INSTANCE = new MihdpConnect();
+    public MihdpConnect(KZeroBot kZeroBot) {
+        if (!(kZeroBot.getSelf() instanceof Bot)) {
+            System.err.println("=======ERROR=====FOR MIRAI GROUP");
+        } else {
+            Bot bot = (Bot) kZeroBot.getSelf();
+            GlobalEventChannel.INSTANCE.registerListenerHost(this);
+        }
+    }
 
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
@@ -37,8 +53,21 @@ public class MihdpConnect implements ListenerHost {
         sendToMihdp(event);
     }
 
+    @AutoStand
+    DataBase dataBase;
+    @AutoStand
+    Logger logger;
+
     private void sendToMihdp(MessageEvent event) {
         if (MihdpClient.INSTANCE == null) return;
+        String gid = String.valueOf(event.getSubject().getId());
+        GroupConf groupConf = dataBase.getConf(gid);
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) {
+                logger.waring("未开启 group");
+                return;
+            }
+        }
         GeneralData.ResDataChain chain = new GeneralData.ResDataChain(new LinkedList<>());
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {

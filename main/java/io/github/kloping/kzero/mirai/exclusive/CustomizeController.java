@@ -65,7 +65,9 @@ public class CustomizeController extends SimpleListenerHost {
                 engine.put("msg", msg);
                 engine.eval(code);
             } catch (Throwable e) {
-                e.printStackTrace();
+                if (!e.getMessage().startsWith("Error: exit")) {
+                    e.printStackTrace();
+                }
             }
         });
     }
