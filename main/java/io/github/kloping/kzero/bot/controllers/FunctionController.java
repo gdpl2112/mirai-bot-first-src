@@ -25,24 +25,34 @@ public class FunctionController {
     @AutoStand
     FuncDataMapper funcDataMapper;
 
+    private static final SimpleDateFormat SF_MM = new SimpleDateFormat("mm");
+
+    /**
+     * 返回分钟
+     *
+     * @return
+     */
+    public static Integer getMin() {
+        return Integer.parseInt(SF_MM.format(new Date()));
+    }
+
+
     @CronSchedule("3 1 0 * * ? *")
     public void zero() {
         ids.clear();
         yiy = null;
     }
-
     //data id 2 触发了
     private final List<Integer> ids = new ArrayList<>();
 
     QueryWrapper<FuncData> query1 = new QueryWrapper<>();
-
 
     @CronSchedule("3 10-50 7-8 * * ? *")
     public void yiyan() {
         if (ids.size() == funcDataMapper.selectCount(query1)) return;
         List<FuncData> list = funcDataMapper.selectList(query1);
         for (FuncData funcData : list) {
-            if (ids.contains(funcData.getId())) continue;
+            if (ids.contains(funcData.getId().intValue())) continue;
             boolean a = false;
             if (DateUtils.getHour() == 8 && getMin() == 50) {
                 a = true;
@@ -52,11 +62,10 @@ public class FunctionController {
             }
             if (!a) continue;
             String yiy = getDayYiyan();
+            ids.add(funcData.getId().intValue());
             SubscribeController.broadcastToBot(funcData.getBid(), funcData.getTid(), funcData.getType(), yiy);
-            ids.add(funcData.getId());
         }
     }
-
     @AutoStand
     RestTemplate template;
     private String yiy;
@@ -70,17 +79,6 @@ public class FunctionController {
                 .append(data.getString("content"))
                 .append("\n----from《").append(data.getString("from")).append("》(").append(data.getString("typeName")).append(")");
         return yiy = sb.toString();
-    }
-
-    private static final SimpleDateFormat SF_MM = new SimpleDateFormat("mm");
-
-    /**
-     * 返回分钟
-     *
-     * @return
-     */
-    public static Integer getMin() {
-        return Integer.parseInt(SF_MM.format(new Date()));
     }
 
     public final Map<String, Integer> name2fid = new HashMap<>();
@@ -116,5 +114,10 @@ public class FunctionController {
             funcDataMapper.delete(qw);
             return "已关闭!";
         } else return "未发现功能项";
+    }
+
+    @Action("功能列表")
+    public Object list() {
+        return name2fid.keySet();
     }
 }
