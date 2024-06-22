@@ -50,15 +50,6 @@ public class SubscribeController {
         return sweatherDataMapper.delete(qw) > 0 ? "取消成功!" : "取消异常";
     }
 
-    @AutoStand
-    SweatherDataMapper sweatherDataMapper;
-
-    @AutoStand
-    KlopingWeb klopingWeb;
-
-    @AutoStand
-    AllController allController;
-
     @CronSchedule("5 6,36 6,7,8,9,10,11,12,13,14,15,16,17,18,19 * * ? *")
     public void hourEve() {
         for (SweatherData data : sweatherDataMapper.selectList(null)) {
@@ -70,12 +61,8 @@ public class SubscribeController {
                 else {
                     data.setD0(weatherM.getIntro());
                     sweatherDataMapper.updateById(data);
-                    for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {
-                        if (bot.getAdapter().sendMessage(MessageType.valueOf(data.getType()), data.getGid(),
-                                String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro()))) {
-                            break;
-                        }
-                    }
+                    String msg = String.format("<at:%s>\n%s\n\t%s", data.getSid(), weatherM.getName(), weatherM.getIntro());
+                    broadcastToBot(data.getBid(), data.getGid(), data.getType(), msg);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,11 +80,7 @@ public class SubscribeController {
                 String msg = null;
                 try {
                     msg = futureWeaNow(data.getAddress());
-                    for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {
-                        if (bot.getAdapter().sendMessage(MessageType.GROUP, data.getGid(), String.format("<at:%s>\n%s", data.getSid(), msg))) {
-                            break;
-                        }
-                    }
+                    broadcastToBot(data.getBid(), data.getGid(), data.getType(), String.format("<at:%s>\n%s", data.getSid(), msg));
                 } catch (Exception e) {
                     e.printStackTrace();
                     msg = e.getMessage();
@@ -107,8 +90,38 @@ public class SubscribeController {
         }
     }
 
+    public static void broadcastToBot(String bid, String gid, String type, String msg) {
+        for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {
+            if (bot != null) {
+                if (bot.getId().equals(bid)) {
+                    if (bot.getAdapter().sendMessage(MessageType.valueOf(type), gid, msg)) break;
+                }
+            }
+        }
+    }
+
+    @AutoStand
+    SweatherDataMapper sweatherDataMapper;
+
+    @AutoStand
+    KlopingWeb klopingWeb;
+
+    @AutoStand
+    AllController allController;
+
     @AutoStand
     SourceDataBase sourceDataBase;
+
+    private final String[] WS = {"昨", "今", "+1", "+2", "+3", "+4"};
+
+    private Color getColorByTemperature(Integer c) {
+        if (c >= 30) return ImageDrawerUtils.ORIGIN_A80;
+        else if (c >= 20) return ImageDrawerUtils.YELLOW_A75;
+        else if (c >= 10) return ImageDrawerUtils.GREEN_A75;
+        else if (c >= 0) return ImageDrawerUtils.BLUE3_A75;
+        else if (c >= -10) return ImageDrawerUtils.BLUE4_A75;
+        else return ImageDrawerUtils.BLUE5_A75;
+    }
 
     protected String futureWeaNow(String addr) throws Exception {
         int r0 = RandomUtils.RANDOM.nextInt(3);
@@ -339,17 +352,6 @@ public class SubscribeController {
             uekv = ekv;
         }
         return "<pic:" + sourceDataBase.save(image) + ">";
-    }
-
-    private final String[] WS = {"昨", "今", "+1", "+2", "+3", "+4"};
-
-    private Color getColorByTemperature(Integer c) {
-        if (c >= 30) return ImageDrawerUtils.ORIGIN_A80;
-        else if (c >= 20) return ImageDrawerUtils.YELLOW_A75;
-        else if (c >= 10) return ImageDrawerUtils.GREEN_A75;
-        else if (c >= 0) return ImageDrawerUtils.BLUE3_A75;
-        else if (c >= -10) return ImageDrawerUtils.BLUE4_A75;
-        else return ImageDrawerUtils.BLUE5_A75;
     }
 
     @AutoStand

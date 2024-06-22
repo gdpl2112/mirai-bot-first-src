@@ -64,7 +64,7 @@ public class MihdpClient extends WebSocketClient {
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
                 logger.error("=========MihdpClient ==reconnect=====");
-                TimeUnit.SECONDS.sleep(30);
+                TimeUnit.SECONDS.sleep(10);
                 reconnect();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

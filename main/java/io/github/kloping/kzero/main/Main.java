@@ -17,11 +17,11 @@ public class Main {
         new DevPluginConfig().run();
 
         KlopZeroMainThreads threads = new KlopZeroMainThreads();
-        try {
-            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //        try {
 //            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
 //        } catch (URISyntaxException e) {
