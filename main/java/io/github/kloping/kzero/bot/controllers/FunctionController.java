@@ -49,21 +49,23 @@ public class FunctionController {
 
     @CronSchedule("3 10-50 7-8 * * ? *")
     public void yiyan() {
-        if (ids.size() == funcDataMapper.selectCount(query1)) return;
-        List<FuncData> list = funcDataMapper.selectList(query1);
-        for (FuncData funcData : list) {
-            if (ids.contains(funcData.getId().intValue())) continue;
-            boolean a = false;
-            if (DateUtils.getHour() == 8 && getMin() == 50) {
-                a = true;
-            } else {
-                int r = RandomUtils.RANDOM.nextInt(80);
-                a = r <= 1;
+        synchronized (FunctionController.class) {
+            if (ids.size() == funcDataMapper.selectCount(query1)) return;
+            List<FuncData> list = funcDataMapper.selectList(query1);
+            for (FuncData funcData : list) {
+                if (ids.contains(funcData.getId().intValue())) continue;
+                boolean a = false;
+                if (DateUtils.getHour() == 8 && getMin() == 50) {
+                    a = true;
+                } else {
+                    int r = RandomUtils.RANDOM.nextInt(80);
+                    a = r <= 1;
+                }
+                if (!a) continue;
+                String yiy = getDayYiyan();
+                ids.add(funcData.getId().intValue());
+                SubscribeController.broadcastToBot(funcData.getBid(), funcData.getTid(), funcData.getType(), yiy);
             }
-            if (!a) continue;
-            String yiy = getDayYiyan();
-            ids.add(funcData.getId().intValue());
-            SubscribeController.broadcastToBot(funcData.getBid(), funcData.getTid(), funcData.getType(), yiy);
         }
     }
 
