@@ -80,7 +80,7 @@ public class CustomizeController extends SimpleListenerHost {
         if (event instanceof BotOnlineEvent) return;
         if (event instanceof BotOfflineEvent) return;
         final String code = getScriptCode(event.getBot().getId());
-        if (code == null) return;
+        if (Judge.isEmpty(code)) return;
         CustomizeController.EXECUTOR_SERVICE.submit(() -> {
             try {
                 ScriptEngine engine = BaseScriptUtils.BID_2_SCRIPT_ENGINE.get(event.getBot().getId());
