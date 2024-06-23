@@ -43,7 +43,7 @@ public class FunctionController {
         yiy = null;
     }
     //data id 2 触发了
-    private final List<Integer> ids = new ArrayList<>();
+    private static final List<Integer> ids = new ArrayList<>();
 
     QueryWrapper<FuncData> query1 = new QueryWrapper<>();
 
@@ -66,11 +66,11 @@ public class FunctionController {
             SubscribeController.broadcastToBot(funcData.getBid(), funcData.getTid(), funcData.getType(), yiy);
         }
     }
-    @AutoStand
-    RestTemplate template;
-    private String yiy;
 
-    private String getDayYiyan() {
+    private static RestTemplate template = new RestTemplate();
+    private static String yiy;
+
+    private static String getDayYiyan() {
         if (yiy != null) return yiy;
         String json = template.getForObject("https://api.nnxv.cn/api/yiyan.php", String.class);
         JSONObject data = JSON.parseObject(json);
