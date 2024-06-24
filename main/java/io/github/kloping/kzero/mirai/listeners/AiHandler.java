@@ -3,6 +3,7 @@ package io.github.kloping.kzero.mirai.listeners;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.controllers.AllController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.utils.Utils;
@@ -85,6 +86,7 @@ public class AiHandler implements ListenerHost {
     public static final Pattern pattern = Pattern.compile(regx);
 
     public static final String KS_LINK = "v.kuaishou.com";
+    public static final String DY_LINK = "v.douyin.com";
 
     @EventHandler
     public void parseOnly(MessageEvent event) throws Exception {
@@ -102,10 +104,53 @@ public class AiHandler implements ListenerHost {
         if (out.contains(KS_LINK)) {
             Matcher matcher = pattern.matcher(out);
             if (matcher.find()) parseKs(matcher.group(), event);
+        } else if (out.contains(DY_LINK)) {
+            Matcher matcher = pattern.matcher(out);
+            if (matcher.find()) parseDy(matcher.group(), event);
         }
     }
 
     public static final RestTemplate TEMPLATE = new RestTemplate();
+
+    private void parseDy(final String url, MessageEvent event) {
+        String out = TEMPLATE.getForObject("https://www.hhlqilongzhu.cn/api/sp_jx/sp.php?url=" + url, String.class);
+        JSONObject result = JSON.parseObject(out);
+        if (result.getInteger("code") < 0) {
+            event.getSubject().sendMessage("解析异常!\n若链接无误请反馈.");
+            return;
+        }
+        Utils.Gt gt = new Utils.Gt(out);
+
+        Bot bot = event.getBot();
+
+        var builder = new MessageChainBuilder();
+        byte[] bytes = UrlUtils.getBytesFromHttpUrl(gt.gt("data.cover", String.class));
+        Image image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
+        builder.append(image)
+                .append(gt.gt("data.title").toString())
+                .append("作者").append(gt.gt("data.author"))
+                .append("\n💗 ").append(gt.gt("data.like"))
+                .append("\n\uD83D\uDD50\uFE0E ").append(gt.gt("data.time"));
+        String u0 = gt.gt("data.url", String.class);
+        var fbuilder = new ForwardMessageBuilder(bot.getAsFriend());
+        fbuilder.add(bot.getId(), "AI", new PlainText("音频直链:" + gt.gt("data.music.url")));
+        if (Judge.isEmpty(u0)) {
+            out = TEMPLATE.getForObject("https://www.hhlqilongzhu.cn/api/sp_jx/tuji.php?url=" + url, String.class);
+            gt = new Utils.Gt(out);
+            JSONArray array = gt.gt("data.images", JSONArray.class);
+            builder.append("\n图集数量:").append(String.valueOf(array.size())).append("/正在发送请稍等..");
+            event.getSubject().sendMessage(builder.build());
+            for (Object o : array) {
+                bytes = UrlUtils.getBytesFromHttpUrl(o.toString());
+                image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
+                fbuilder.add(bot.getId(), "AI", image);
+            }
+        } else {
+            event.getSubject().sendMessage(builder.build());
+            fbuilder.add(bot.getId(), "AI", new PlainText("视频直链: " + gt.gt("data.url")));
+        }
+        event.getSubject().sendMessage(fbuilder.build());
+    }
 
     public void parseKs(String url, MessageEvent event) {
         String out = TEMPLATE.getForObject("http://localhost/api/cre/jxvv?url=" + url, String.class);

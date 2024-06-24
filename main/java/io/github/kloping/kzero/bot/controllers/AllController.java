@@ -79,7 +79,7 @@ public class AllController implements Runner {
 
     @Action("测试<.+=>name>")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        return bot.getAdapter().getNameCard(sid,pack.getSubjectId());
+        return "<pic:https://p3-sign.douyinpic.com/tos-cn-i-0813/ocgAGhYxyAAvDZ9CAzCrDZX4fAYEDIteHACoDD~tplv-dy-lqen-new:1440:1440:q80.webp?x-expires=1721811600&x-signature=X%2BmtWeZ9gteMb2lqc1J%2Bke3ng78%3D&from=327834062&s=PackSourceEnum_DOUYIN_REFLOW&se=false&sc=image&biz_tag=aweme_images&l=20240624173653F61827166A677806574A>";
     }
 
     @AutoStand(id = "super_id")
