@@ -110,6 +110,10 @@ public class AiHandler implements ListenerHost {
     public void parseKs(String url, MessageEvent event) {
         String out = TEMPLATE.getForObject("http://localhost/api/cre/jxvv?url=" + url, String.class);
         JSONObject result = JSON.parseObject(out);
+        if (result.getInteger("result") < 0) {
+            event.getSubject().sendMessage("解析异常!\n若链接无误请反馈.");
+            return;
+        }
         Utils.Gt gt = new Utils.Gt(out);
 
         Bot bot = event.getBot();
