@@ -5,9 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.kzero.bot.controllers.AllController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.url.UrlUtils;
+import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
-import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -20,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.github.kloping.kzero.mirai.listeners.SongASyncMethod.*;
+
 /**
  * @author github.kloping
  */
@@ -106,46 +108,64 @@ public class AiHandler implements ListenerHost {
     public static final RestTemplate TEMPLATE = new RestTemplate();
 
     public void parseKs(String url, MessageEvent event) {
-        String out = TEMPLATE.getForObject("https://api.xingzhige.com/API/kuaishou/?url=" + url, String.class);
-        JSONObject jo = JSON.parseObject(out);
-        Integer code = jo.getInteger("code");
-        if (code == 0) {
-            event.getSubject().sendMessage("解析成功\n正在发送请稍等..\n" + url);
-            JSONObject data = jo.getJSONObject("data");
-            JSONObject item = data.getJSONObject("item");
-            JSONObject stat = data.getJSONObject("stat");
+        String out = TEMPLATE.getForObject("http://localhost/api/cre/jxvv?url=" + url, String.class);
+        JSONObject result = JSON.parseObject(out);
+        Utils.Gt gt = new Utils.Gt(out);
 
-            MessageChainBuilder builder = new MessageChainBuilder();
-            byte[] bytes = UrlUtils.getBytesFromHttpUrl(item.getString("cover"));
-            builder.append(Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg"));
-            builder.append("\n").append(item.getString("title"))
-                    .append("\n\uD83D\uDC97:").append(stat.getInteger("like").toString())
-                    .append("\n\uD83D\uDC41\uFE0E:").append(stat.getInteger("view").toString())
-                    .append("\n✉:").append(stat.getInteger("comment").toString());
+        Bot bot = event.getBot();
 
-            JSONArray images = item.getJSONArray("images");
-            if (images != null) {
-                builder.append("\n数量:").append(String.valueOf(images.size()));
-            } else {
-                event.getSubject().sendMessage(builder.build());
-            }
+        var builder = new MessageChainBuilder();
+        byte[] bytes = UrlUtils.getBytesFromHttpUrl(gt.gt("photo.coverUrls[0].url", String.class));
+        Image image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
+        builder.append(image)
+                .append(gt.gt("shareInfo.shareTitle").toString())
+                .append("作者").append(gt.gt("photo.userName")).append("/").append(gt.gt("photo.userSex"))
+                .append("\n粉丝:").append(gt.gt("counts.fanCount"))
+                .append("\n💗 ").append(gt.gt("photo.likeCount"))
+                .append("\n👁︎︎ ").append(gt.gt("photo.viewCount"))
+                .append("\n✉️ ").append(gt.gt("photo.commentCount"));
 
-            User sender = event.getBot().getAsFriend();
-            ForwardMessageBuilder fbuilder = new ForwardMessageBuilder(event.getBot().getAsFriend());
-            if (images == null) {
-                fbuilder.add(sender, new PlainText("视频直链:" + item.getString("video")));
-            } else {
-                fbuilder.add(sender, new PlainText("音频直链:" + item.getString("music")));
-                for (Object image : images) {
-                    String u0 = image.toString();
-                    bytes = UrlUtils.getBytesFromHttpUrl(u0);
-                    fbuilder.add(sender, Contact.uploadImage(sender, new ByteArrayInputStream(bytes), "jpg"));
+        ForwardMessageBuilder author = null;
+        if (!gt.gt("shareUserPhotos", JSONArray.class).isEmpty()) {
+            author = new ForwardMessageBuilder(bot.getAsFriend());
+            bytes = UrlUtils.getBytesFromHttpUrl(gt.gt("shareUserPhotos[0].headUrl", String.class));
+            image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
+            author.add(bot.getId(), "AI", image);
+            author.add(bot.getId(), "AI", new PlainText("sharer," + gt.gt("shareUserPhotos[0].userName")
+                    + "/" + gt.gt("shareUserPhotos[0].userSex")));
+        }
+
+        JSONObject atlas = gt.gt("atlas", JSONObject.class);
+
+        if (atlas == null) {
+            builder.append("\n视频时长:" + (gt.gt("photo.duration", Integer.class) / 1000) + "s");
+            event.getSubject().sendMessage(builder.build());
+
+            var de0 = new ForwardMessageBuilder(bot.getAsFriend());
+            de0.add(bot.getId(), "AI", new PlainText("视频直链: " + gt.gt("photo.mainMvUrls[0].url")));
+            de0.add(bot.getId(), "AI", new PlainText("音频直链: " + gt.gt("photo.soundTrack.audioUrls[0].url")));
+            event.getSubject().sendMessage(de0.build());
+        } else {
+            builder.append("\n图集数量:" + gt.gt("atlas.list", JSONArray.class).size() + "/正在发送,请稍等...");
+            event.getSubject().sendMessage(builder.build());
+
+            var fbuilder = new ForwardMessageBuilder(bot.getAsFriend());
+            if (author != null) fbuilder.add(bot.getId(), "AI", author.build());
+            fbuilder.add(bot.getId(), "AI", new PlainText("音频直链: https://" + gt.gt("atlas.musicCdnList[0].cdn")
+                    + gt.gt("atlas.music")));
+            var arr = gt.gt("atlas.list", JSONArray.class);
+            var host = "https://" + gt.gt("atlas.cdn[0]");
+            for (var i = 0; i < arr.size(); i++) {
+                var e = arr.get(i);
+                try {
+                    bytes = UrlUtils.getBytesFromHttpUrl(host + e);
+                    image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
+                    fbuilder.add(bot.getId(), "AI", image);
+                } catch (Exception ex) {
+                    fbuilder.add(bot.getId(), "AI", new PlainText("[图片加载失败;" + host + e + "]"));
                 }
             }
-
             event.getSubject().sendMessage(fbuilder.build());
-        } else {
-            event.getSubject().sendMessage("解析失败\n" + out);
         }
     }
 }

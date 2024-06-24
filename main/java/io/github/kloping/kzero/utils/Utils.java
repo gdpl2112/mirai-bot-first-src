@@ -1,5 +1,8 @@
 package io.github.kloping.kzero.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -275,6 +278,78 @@ public class Utils {
                 default:
                     return s1;
             }
+        }
+    }
+
+
+    /**
+     * get from json
+     *
+     * @param t1 json
+     * @param t0 表达式
+     * @return
+     * @throws Exception
+     */
+    public static <T> T gt(String t1, String t0, Class<T> cla) {
+        JSON j0 = (JSON) JSON.parse(t1);
+        t0 = t0.trim();
+        String s0 = null;
+        for (String s : t0.trim().split("\\.")) {
+            if (!s.isEmpty()) {
+                s0 = s;
+                break;
+            }
+        }
+        Object o = null;
+        if (s0.matches("\\[\\d*]")) {
+            JSONArray arr = (JSONArray) j0;
+            String sts = s0.substring(1, s0.length() - 1);
+            if (sts.isEmpty()) {
+                o = arr;
+                t0 = t0.replaceFirst("\\[]", "");
+            } else {
+                Integer st = Integer.parseInt(sts);
+                o = arr.get(st);
+                int len = 4;
+                if (t0.length() >= len) t0 = t0.substring(len);
+                else t0 = t0.substring(len - 1);
+            }
+        } else if (s0.matches(".*?\\[\\d+]")) {
+            int i = s0.indexOf("[");
+            int i1 = s0.indexOf("]");
+            String st0 = s0.substring(0, i);
+            Integer st = Integer.parseInt(s0.substring(i + 1, s0.length() - 1));
+            JSONObject jo = (JSONObject) j0;
+            o = jo.getJSONArray(st0).get(st);
+            if (t0.length() > s0.length()) t0 = t0.substring(s0.length());
+            else t0 = null;
+        } else {
+            JSONObject jo = (JSONObject) j0;
+            o = jo.get(s0);
+            int len = s0.length() + 1;
+            if (t0.length() >= len) t0 = t0.substring(len);
+            else t0 = t0.substring(len - 1);
+        }
+        if (t0 != null && t0.length() > 0) {
+            return (T) gt(JSON.toJSONString(o), t0, cla);
+        } else {
+            return (T) o;
+        }
+    }
+
+    public static class Gt {
+        private String json;
+
+        public Gt(String json) {
+            this.json = json;
+        }
+
+        public String gt(String p) {
+            return Utils.gt(json, p, Object.class).toString();
+        }
+
+        public <T> T gt(String p, Class<T> t) {
+            return Utils.gt(json, p, t);
         }
     }
 }
