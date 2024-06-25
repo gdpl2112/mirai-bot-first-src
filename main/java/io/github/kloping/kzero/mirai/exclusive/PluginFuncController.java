@@ -19,10 +19,6 @@ import java.util.Date;
  */
 @Controller
 public class PluginFuncController {
-    public PluginFuncController() {
-        System.out.println();
-    }
-
     private class Result0<T> {
         private Long gid;
         private Long sid;

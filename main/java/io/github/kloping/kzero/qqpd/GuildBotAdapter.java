@@ -13,6 +13,7 @@ import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.entities.qqpd.Member;
+import io.github.kloping.qqbot.utils.RequestException;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -105,9 +106,14 @@ public class GuildBotAdapter implements KZeroBotAdapter {
         if (Judge.isNotEmpty(icon)) return icon;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
-                Member member = guild.getMember(sid);
-                if (member != null) {
-                    return member.getUser().getAvatar();
+                try {
+                    Member member = guild.getMember(sid);
+                    if (member != null) {
+                        return member.getUser().getAvatar();
+                    }
+                } catch (RequestException e) {
+                    System.err.println(e.getMessage());
+                    continue;
                 }
             }
             icon = String.format("http://q1.qlogo.cn/g?b=qq&nk=%s&s=640", sid);
@@ -126,9 +132,14 @@ public class GuildBotAdapter implements KZeroBotAdapter {
         if (nick != null) return nick;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
-                Member member = guild.getMember(sid);
-                if (member != null) {
-                    return member.getUser().getUsername();
+                try {
+                    Member member = guild.getMember(sid);
+                    if (member != null) {
+                        return member.getUser().getUsername();
+                    }
+                } catch (RuntimeException e) {
+                    System.err.println(e.getMessage());
+                    continue;
                 }
             }
         }
@@ -141,11 +152,16 @@ public class GuildBotAdapter implements KZeroBotAdapter {
         if (nick != null) return nick;
         if (Utils.isAllNumber(sid)) {
             for (Guild guild : bot.guilds()) {
-                if (guild.channelMap().containsKey(tid)) {
-                    Member member = guild.getMember(sid);
-                    if (member != null) {
-                        return member.getUser().getUsername();
+                try {
+                    if (guild.channelMap().containsKey(tid)) {
+                        Member member = guild.getMember(sid);
+                        if (member != null) {
+                            return member.getUser().getUsername();
+                        }
                     }
+                } catch (RequestException e) {
+                    System.err.println(e.getMessage());
+                    continue;
                 }
             }
         }

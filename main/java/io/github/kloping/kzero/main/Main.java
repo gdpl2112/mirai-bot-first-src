@@ -1,11 +1,14 @@
 package io.github.kloping.kzero.main;
 
 import io.github.kloping.kzero.awxb.WxStarter;
+import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.qqbot.api.Intents;
+
+import java.net.URISyntaxException;
 
 /**
  * @author github.kloping
@@ -20,11 +23,11 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        try {
-//            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 //        threads.add(new WxStarter());
 //        threads.add(new WxHookStarter());
         threads.add(new MiraiStater());
