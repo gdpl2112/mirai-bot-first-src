@@ -1,10 +1,5 @@
 package io.github.kloping.kzero.bot.controllers;
 
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.entity.interfaces.Runner;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.MySpringTool.interfaces.QueueExecutor;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
 import io.github.kloping.common.Public;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.bot.database.DataBase;
@@ -13,6 +8,11 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.entity.interfaces.Runner;
+import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.interfaces.QueueExecutor;
+import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.url.UrlUtils;
 
 import java.lang.reflect.Method;
@@ -46,7 +46,9 @@ public class AllController implements Runner {
         if (cla != AllController.class){
             GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
             if (groupConf != null) {
-                if (!groupConf.getOpen()) throw new NoRunException("未开启");
+                if (!groupConf.getOpen()) {
+                    return;
+                }
             }
         }
         String sid = pack.getSenderId();

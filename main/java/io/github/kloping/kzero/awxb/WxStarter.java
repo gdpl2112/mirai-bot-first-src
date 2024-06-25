@@ -7,7 +7,8 @@ import io.github.gdpl2112.onebot.v12.data.MessageChain;
 import io.github.gdpl2112.onebot.v12.event.EventReceiver;
 import io.github.gdpl2112.onebot.v12.event.GroupMessageEvent;
 import io.github.gdpl2112.onebot.v12.event.MetaEvent;
-import io.github.kloping.MySpringTool.StarterObjectApplication;
+import io.github.kloping.kzero.main.DevMain;
+import io.github.kloping.spt.StarterObjectApplication;
 import io.github.kloping.kzero.awxb.exclusive.Wx2Gsuid;
 import io.github.kloping.kzero.awxb.exclusive.Wx2Mihdp;
 import io.github.kloping.kzero.gsuid.GsuidClient;
@@ -100,6 +101,11 @@ public class WxStarter extends ListenerHost implements KZeroStater {
             @Override
             public MetaEvent getSelf() {
                 return event;
+            }
+
+            @Override
+            public Class<?> getStartClass() {
+                return DevMain.class;
             }
         };
     }

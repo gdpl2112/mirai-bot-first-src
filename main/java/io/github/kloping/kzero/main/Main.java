@@ -1,6 +1,5 @@
 package io.github.kloping.kzero.main;
 
-import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.awxb.WxStarter;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.mihdp.MihdpClient;
@@ -11,7 +10,6 @@ import io.github.kloping.qqbot.api.Intents;
 /**
  * @author github.kloping
  */
-@CommentScan(path = "io.github.kloping.kzero")
 public class Main {
     public static void main(String[] args) {
         new DevPluginConfig().run();

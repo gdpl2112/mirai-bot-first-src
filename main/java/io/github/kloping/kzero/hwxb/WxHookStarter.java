@@ -9,6 +9,7 @@ import io.github.kloping.kzero.hwxb.dto.dao.MsgPack;
 import io.github.kloping.kzero.hwxb.event.GroupMessageEvent;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
 import io.github.kloping.kzero.hwxb.event.MetaEvent;
+import io.github.kloping.kzero.main.DevMain;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 
@@ -51,6 +52,11 @@ public class WxHookStarter implements KZeroStater {
     @Override
     public void run() {
         botCreated.created(this, new KZeroBot() {
+            @Override
+            public Class<?> getStartClass() {
+                return DevMain.class;
+            }
+
             @Override
             public String getId() {
                 return ID;

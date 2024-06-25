@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
@@ -19,9 +19,8 @@ import java.util.Date;
  */
 @Controller
 public class PluginFuncController {
-    @Before
-    public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
-        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
+    public PluginFuncController() {
+        System.out.println();
     }
 
     private class Result0<T> {

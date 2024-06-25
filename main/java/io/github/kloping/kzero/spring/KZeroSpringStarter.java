@@ -1,8 +1,8 @@
 package io.github.kloping.kzero.spring;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
+import io.github.kloping.spt.impls.PackageScannerImpl;
+import io.github.kloping.spt.interfaces.component.PackageScanner;
 import io.github.kloping.kzero.utils.Utils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;

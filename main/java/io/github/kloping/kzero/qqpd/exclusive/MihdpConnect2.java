@@ -27,11 +27,6 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
 
     public static final MihdpConnect2 INSTANCE = new MihdpConnect2();
 
-    @Override
-    public void handleException(Throwable throwable) {
-
-    }
-
     @EventReceiver
     public void onConnectedEvent(ConnectedEvent event) {
         String bid = event.getBot().getId();

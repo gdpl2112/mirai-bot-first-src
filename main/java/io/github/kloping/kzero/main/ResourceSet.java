@@ -1,6 +1,6 @@
 package io.github.kloping.kzero.main;
 
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.spt.exceptions.NoRunException;
 
 import java.util.HashMap;
 import java.util.Map;

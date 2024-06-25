@@ -2,7 +2,7 @@ package io.github.kloping.kzero.spring.web;
 
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
+import io.github.kloping.spt.annotations.AutoStand;
 import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.rand.RandomUtils;

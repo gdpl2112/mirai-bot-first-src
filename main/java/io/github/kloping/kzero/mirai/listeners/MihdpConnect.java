@@ -1,9 +1,9 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSON;
-import io.github.kloping.MySpringTool.annotations.AutoStand;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.interfaces.Logger;
+import io.github.kloping.spt.annotations.AutoStand;
+import io.github.kloping.spt.annotations.Controller;
+import io.github.kloping.spt.interfaces.Logger;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.mihdp.GeneralData;

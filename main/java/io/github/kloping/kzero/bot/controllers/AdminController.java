@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.bot.controllers;
 
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
@@ -12,6 +12,7 @@ import io.github.kloping.kzero.spring.mapper.GroupConfMapper;
 import io.github.kloping.kzero.utils.Utils;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.message.data.MessageChain;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author github.kloping

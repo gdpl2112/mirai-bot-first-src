@@ -2,8 +2,8 @@ package io.github.kloping.kzero.bot.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.Controller;
+import io.github.kloping.spt.annotations.Action;
+import io.github.kloping.spt.annotations.Controller;
 import io.github.kloping.common.Public;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;

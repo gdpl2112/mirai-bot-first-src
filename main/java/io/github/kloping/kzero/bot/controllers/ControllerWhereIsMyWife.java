@@ -1,6 +1,6 @@
 package io.github.kloping.kzero.bot.controllers;
 
-import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.spt.annotations.*;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroBotAdapter;
 import io.github.kloping.kzero.main.api.MessagePack;

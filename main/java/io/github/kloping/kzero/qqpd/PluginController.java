@@ -1,10 +1,10 @@
 package io.github.kloping.kzero.qqpd;
 
-import io.github.kloping.MySpringTool.annotations.Action;
-import io.github.kloping.MySpringTool.annotations.AllMess;
-import io.github.kloping.MySpringTool.annotations.Before;
-import io.github.kloping.MySpringTool.annotations.Controller;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.spt.annotations.Action;
+import io.github.kloping.spt.annotations.AllMess;
+import io.github.kloping.spt.annotations.Before;
+import io.github.kloping.spt.annotations.Controller;
+import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;

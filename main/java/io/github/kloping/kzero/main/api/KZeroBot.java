@@ -15,4 +15,6 @@ public interface KZeroBot<T, B> {
     default B setSelf(B b) {
         return null;
     }
+
+    Class<?> getStartClass();
 }

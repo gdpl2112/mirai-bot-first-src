@@ -1,14 +1,16 @@
 package io.github.kloping.kzero.qqpd.exclusive;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.spring.dao.BindMap;
 import io.github.kloping.kzero.spring.dao.Father;
 import io.github.kloping.qqbot.entities.Bot;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.impls.AutomaticWiringValueImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 /**

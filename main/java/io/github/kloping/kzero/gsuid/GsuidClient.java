@@ -2,8 +2,8 @@ package io.github.kloping.kzero.gsuid;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
-import io.github.kloping.MySpringTool.interfaces.Logger;
+import io.github.kloping.spt.impls.LoggerImpl;
+import io.github.kloping.spt.interfaces.Logger;
 import io.github.kloping.common.Public;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.DevPluginConfig;

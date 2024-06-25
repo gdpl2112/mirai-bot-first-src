@@ -3,7 +3,7 @@ package io.github.kloping.kzero.bot.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.annotations.*;
+import io.github.kloping.spt.annotations.*;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.KlopingWeb;

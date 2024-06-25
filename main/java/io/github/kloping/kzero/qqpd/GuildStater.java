@@ -1,8 +1,10 @@
 package io.github.kloping.kzero.qqpd;
 
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
+import io.github.kloping.spt.SptRedis;
+import io.github.kloping.spt.annotations.ComponentScan;
+import io.github.kloping.spt.impls.PackageScannerImpl;
+import io.github.kloping.spt.interfaces.component.PackageScanner;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.main.KlopZeroMainThreads;
@@ -33,6 +35,9 @@ import java.io.IOException;
 /**
  * @author github.kloping
  */
+@ComponentScan(value = "io.github.kloping.kzero.bot",path = {
+        "io.github.kloping.kzero.qqpd"
+})
 public class GuildStater extends ListenerHost implements KZeroStater {
     private BotCreated listener;
     private BotMessageHandler handler;
@@ -68,14 +73,6 @@ public class GuildStater extends ListenerHost implements KZeroStater {
         Starter starter;
         if (secret == null) starter = new Starter(appid, token);
         else starter = new Starter(appid, token, secret);
-        try {
-            File file = new File(String.format("./logs/%s/%s-%s-%s.log", appid, DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-            starter.APPLICATION.logger.setOutFile(file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         starter.getConfig().setCode(code);
         starter.registerListenerHost(this);
         starter.registerListenerHost(MihdpConnect2.INSTANCE);
@@ -119,13 +116,13 @@ public class GuildStater extends ListenerHost implements KZeroStater {
             public Bot getSelf() {
                 return o;
             }
+
+            @Override
+            public Class<?> getStartClass() {
+                return GuildStater.class;
+            }
         };
         return bot;
-    }
-
-    @Override
-    public void handleException(Throwable e) {
-        e.printStackTrace();
     }
 
     @EventReceiver

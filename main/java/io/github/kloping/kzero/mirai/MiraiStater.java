@@ -6,7 +6,6 @@ import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
 import io.github.kloping.kzero.mirai.listeners.AiHandler;
 import io.github.kloping.kzero.mirai.listeners.GenshinUidConnect;
-import io.github.kloping.kzero.mirai.listeners.MihdpConnect;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -82,6 +81,11 @@ public class MiraiStater implements KZeroStater, ListenerHost {
                 Bot ob = bot;
                 this.bot = bot;
                 return ob;
+            }
+
+            @Override
+            public Class<?> getStartClass() {
+                return MiraiStartClass.class;
             }
         };
         return bot;

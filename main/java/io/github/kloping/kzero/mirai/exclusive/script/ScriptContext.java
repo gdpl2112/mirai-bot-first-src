@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.mirai.exclusive.script;
 
-import io.github.kloping.MySpringTool.h1.impl.component.PackageScannerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.PackageScanner;
+import io.github.kloping.spt.impls.PackageScannerImpl;
+import io.github.kloping.spt.interfaces.component.PackageScanner;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.User;

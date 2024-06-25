@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.bot.database;
 
-import io.github.kloping.MySpringTool.annotations.CronSchedule;
-import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.spt.annotations.CronSchedule;
+import io.github.kloping.spt.annotations.Entity;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.number.NumberUtils;
 

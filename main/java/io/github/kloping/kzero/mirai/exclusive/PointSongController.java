@@ -2,8 +2,8 @@ package io.github.kloping.kzero.mirai.exclusive;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.MySpringTool.annotations.*;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.Songs;
 import io.github.kloping.kzero.main.api.KZeroBot;

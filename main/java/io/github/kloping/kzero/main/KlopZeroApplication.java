@@ -1,13 +1,12 @@
 package io.github.kloping.kzero.main;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.kloping.MySpringTool.StarterApplication;
-import io.github.kloping.MySpringTool.StarterObjectApplication;
-import io.github.kloping.MySpringTool.entity.interfaces.Runner;
-import io.github.kloping.MySpringTool.exceptions.NoRunException;
-import io.github.kloping.MySpringTool.h1.impl.component.FieldManagerImpl;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
-import io.github.kloping.MySpringTool.interfaces.component.FieldManager;
+import io.github.kloping.spt.StarterObjectApplication;
+import io.github.kloping.spt.entity.interfaces.Runner;
+import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.impls.FieldManagerImpl;
+import io.github.kloping.spt.interfaces.component.ContextManager;
+import io.github.kloping.spt.interfaces.component.FieldManager;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
@@ -38,10 +37,10 @@ public class KlopZeroApplication implements BotMessageHandler {
 
     public StarterObjectApplication application0;
 
-    public void start() {
+    public void start(Class<?> start) {
         stater.setHandler(bot, this);
         context = KZeroSpringStarter.run(bot.getId());
-        start0();
+        start0(start);
         //spring to auto
         FieldManager fieldManager = application0.INSTANCE.getFieldManager();
         ContextManager contextManager = application0.INSTANCE.getContextManager();
@@ -72,7 +71,7 @@ public class KlopZeroApplication implements BotMessageHandler {
         state = true;
     }
 
-    private void start0() {
+    private void start0(Class<?>  start) {
         application0 = new StarterObjectApplication(KlopZeroApplication.class);
         application0.logger.setPrefix(String.format("[bot-%s]", bot.getId()));
         application0.setMainKey(String.class);
@@ -92,7 +91,7 @@ public class KlopZeroApplication implements BotMessageHandler {
         application0.addConfFile("./conf/conf.txt");
         application0.INSTANCE.getContextManager().append(bot);
         application0.INSTANCE.getContextManager().append(stater);
-        application0.run0(Main.class);
+        application0.run0(start);
         ContextManager contextManager = application0.INSTANCE.getContextManager();
         application0.STARTED_RUNNABLE.add(() -> verify());
     }
@@ -104,6 +103,5 @@ public class KlopZeroApplication implements BotMessageHandler {
     }
 
     public void verify() throws RuntimeException {
-        StarterApplication.logger.info("授权码验证成功√√√");
     }
 }

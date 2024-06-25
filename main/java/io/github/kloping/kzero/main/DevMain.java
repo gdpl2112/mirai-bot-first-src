@@ -1,6 +1,5 @@
 package io.github.kloping.kzero.main;
 
-import io.github.kloping.MySpringTool.annotations.CommentScan;
 import io.github.kloping.kzero.awxb.WxStarter;
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
@@ -8,13 +7,14 @@ import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.qqbot.api.Intents;
+import io.github.kloping.spt.annotations.ComponentScan;
 
 import java.net.URISyntaxException;
 
 /**
  * @author github.kloping
  */
-@CommentScan(path = "io.github.kloping.kzero")
+@ComponentScan("io.github.kloping.kzero")
 public class DevMain {
     public static void main(String[] args) {
         new DevPluginConfig().run();

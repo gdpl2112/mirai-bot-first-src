@@ -1,7 +1,7 @@
 package io.github.kloping.kzero.bot;
 
-import io.github.kloping.MySpringTool.annotations.Bean;
-import io.github.kloping.MySpringTool.annotations.Entity;
+import io.github.kloping.spt.annotations.Bean;
+import io.github.kloping.spt.annotations.Entity;
 import org.springframework.web.client.RestTemplate;
 
 /**

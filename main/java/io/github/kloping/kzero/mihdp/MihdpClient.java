@@ -2,7 +2,7 @@ package io.github.kloping.kzero.mihdp;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.github.kloping.MySpringTool.interfaces.Logger;
+import io.github.kloping.spt.interfaces.Logger;
 import io.github.kloping.common.Public;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.main.DevPluginConfig;

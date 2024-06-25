@@ -1,11 +1,11 @@
 package io.github.kloping.kzero.main;
 
-import io.github.kloping.MySpringTool.h1.impl.ConfigFileManagerImpl;
-import io.github.kloping.MySpringTool.h1.impl.LoggerImpl;
-import io.github.kloping.MySpringTool.h1.impl.component.ContextManagerWithEIImpl;
-import io.github.kloping.MySpringTool.interfaces.Logger;
-import io.github.kloping.MySpringTool.interfaces.component.ConfigFileManager;
-import io.github.kloping.MySpringTool.interfaces.component.ContextManager;
+import io.github.kloping.spt.impls.ConfigFileManagerImpl;
+import io.github.kloping.spt.impls.LoggerImpl;
+import io.github.kloping.spt.impls.ContextManagerWithEIImpl;
+import io.github.kloping.spt.interfaces.Logger;
+import io.github.kloping.spt.interfaces.component.ConfigFileManager;
+import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.date.DateUtils;
 
 import java.io.File;
