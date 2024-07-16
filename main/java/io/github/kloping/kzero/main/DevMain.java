@@ -7,6 +7,7 @@ import io.github.kloping.kzero.mihdp.MihdpClient;
 import io.github.kloping.kzero.mirai.MiraiStater;
 import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.qqbot.api.Intents;
+import io.github.kloping.qqbot.entities.ex.Markdown;
 import io.github.kloping.spt.annotations.ComponentScan;
 
 import java.net.URISyntaxException;
@@ -25,7 +26,7 @@ public class DevMain {
         threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
                 Intents.PRIVATE_INTENTS.getCode()));
 //        threads.add(new WxStarter());
-        threads.add(new WxHookStarter());
+//        threads.add(new WxHookStarter());
         try {
             KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
         } catch (URISyntaxException e) {

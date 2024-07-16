@@ -69,6 +69,7 @@ public class WxHookStarter implements KZeroStater {
                     public boolean sendMessage(MessageType type, String targetId, Object obj) {
                         MsgPack msg = new MsgPack();
                         MessageEvent event = (MessageEvent) SID2EVENT.get(targetId);
+                        if (event == null) return false;
                         msg.setTo(event.getSubject().getPayLoad().getName());
                         List<MsgData> list = (List) getSerializer().deserialize(obj.toString());
                         msg.setData(list.toArray(new MsgData[0]));
