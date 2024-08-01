@@ -1,10 +1,11 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
-import io.github.kloping.spt.annotations.*;
-import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
+import io.github.kloping.spt.annotations.Action;
+import io.github.kloping.spt.annotations.Controller;
+import io.github.kloping.spt.annotations.Param;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -39,7 +40,7 @@ public class PluginFuncController {
         Group group = bot.getSelf().getGroup(gid);
         MemberPermission p0 = group.getBotAsMember().getPermission();
         if (p0 != MemberPermission.OWNER) return new Result0<>(gid, sid, group, true);
-        return new Result0<>(gid, sid, group, true);
+        return new Result0<>(gid, sid, group, false);
     }
 
     @Action("我要头衔<.+=>name>")
