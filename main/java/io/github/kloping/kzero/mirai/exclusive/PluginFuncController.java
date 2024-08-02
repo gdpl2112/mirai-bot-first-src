@@ -39,8 +39,8 @@ public class PluginFuncController {
         Long sid = Long.valueOf(pack.getSenderId());
         Group group = bot.getSelf().getGroup(gid);
         MemberPermission p0 = group.getBotAsMember().getPermission();
-        if (p0 != MemberPermission.OWNER) return new Result0<>(gid, sid, group, true);
-        return new Result0<>(gid, sid, group, false);
+        if (p0 == MemberPermission.OWNER) return new Result0<>(gid, sid, group, true);
+        else return new Result0<>(gid, sid, group, false);
     }
 
     @Action("我要头衔<.+=>name>")
