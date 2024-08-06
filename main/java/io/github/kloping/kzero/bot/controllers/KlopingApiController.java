@@ -3,17 +3,17 @@ package io.github.kloping.kzero.bot.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.spt.annotations.*;
 import io.github.kloping.date.DateUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.BottleMessage;
-import io.github.kloping.kzero.bot.commons.apis.WeatherDetail;
 import io.github.kloping.kzero.bot.commons.apis.WeatherM;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
+import io.github.kloping.spt.annotations.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -34,8 +34,10 @@ public class KlopingApiController {
     @AutoStand
     KlopingWeb klopingWeb;
 
+    RestTemplate template = new RestTemplate();
+/*
     @Action("天气<.+=>name>")
-    public String weather(@Param("name") String name) {
+    public Object weather(@Param("name") String name) {
         try {
             WeatherDetail wd = klopingWeb.weatherDetail(name.trim());
             if (wd == null) return "天气获取失败!";
@@ -55,6 +57,33 @@ public class KlopingApiController {
         } catch (Exception e) {
             return e.getMessage();
         }
+     }*/
+
+    @Action("天气<.+=>name>")
+    public String weather0(@Param("name") String name) {
+        String type = "zgtq";
+        JSONObject jo = getWeatherData(name, type);
+        return jo.getString("data") + "\n" + jo.getString("shzs");
+    }
+
+    @Action("中央天气<.+=>name>")
+    public String weather1(@Param("name") String name) {
+        String type = "zytq";
+        JSONObject jo = getWeatherData(name, type);
+        return jo.getString("data") ;
+    }
+
+    @Action("彩云天气<.+=>name>")
+    public String weather2(@Param("name") String name) {
+        String type = "cytq";
+        JSONObject jo = getWeatherData(name, type);
+        return jo.getString("data") ;
+    }
+
+    private JSONObject getWeatherData(String name, String type) {
+        String url = String.format("https://www.hhlqilongzhu.cn/api/juhe_tianqi.php?msg=%s&n=1&type=%s", name, type);
+        String data = template.getForObject(url, String.class);
+        return JSON.parseObject(data);
     }
 
     @Action("短时预报<.+=>name>")
@@ -144,13 +173,11 @@ public class KlopingApiController {
         } else return searchPicNow(url, bot);
     }
 
-    @AutoStand
-    KlopingWeb web;
 
     private Object searchPicNow(String url, KZeroBot bot) {
         List<String> list = new ArrayList();
         url = URLEncoder.encode(url, StandardCharsets.UTF_8);
-        String jsonData = web.searchPics(url);
+        String jsonData = klopingWeb.searchPics(url);
         try {
             JSONArray array = JSON.parseArray(jsonData);
             for (Object o : array) {
