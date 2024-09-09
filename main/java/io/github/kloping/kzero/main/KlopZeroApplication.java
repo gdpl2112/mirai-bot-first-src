@@ -1,17 +1,18 @@
 package io.github.kloping.kzero.main;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.github.kloping.kzero.bot.controllers.fs.Fs;
+import io.github.kloping.kzero.main.api.BotMessageHandler;
+import io.github.kloping.kzero.main.api.KZeroBot;
+import io.github.kloping.kzero.main.api.KZeroStater;
+import io.github.kloping.kzero.main.api.MessagePack;
+import io.github.kloping.kzero.spring.KZeroSpringStarter;
 import io.github.kloping.spt.StarterObjectApplication;
 import io.github.kloping.spt.entity.interfaces.Runner;
 import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.spt.impls.FieldManagerImpl;
 import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.spt.interfaces.component.FieldManager;
-import io.github.kloping.kzero.main.api.BotMessageHandler;
-import io.github.kloping.kzero.main.api.KZeroBot;
-import io.github.kloping.kzero.main.api.KZeroStater;
-import io.github.kloping.kzero.main.api.MessagePack;
-import io.github.kloping.kzero.spring.KZeroSpringStarter;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +45,13 @@ public class KlopZeroApplication implements BotMessageHandler {
         //spring to auto
         FieldManager fieldManager = application0.INSTANCE.getFieldManager();
         ContextManager contextManager = application0.INSTANCE.getContextManager();
+        contextManager.append(context);
         for (String beanDefinitionName : context.getBeanDefinitionNames()) {
             Object obj = context.getBean(beanDefinitionName);
             if (obj == null) continue;
             if (obj instanceof BaseMapper) {
+                contextManager.append(obj);
+            } else if (obj instanceof Fs) {
                 contextManager.append(obj);
             } else {
                 if (obj.getClass().isAnnotationPresent(RestController.class) ||

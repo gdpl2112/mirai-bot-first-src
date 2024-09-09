@@ -1,9 +1,8 @@
 package io.github.kloping.kzero.spring;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.spt.impls.PackageScannerImpl;
 import io.github.kloping.spt.interfaces.component.PackageScanner;
-import io.github.kloping.kzero.utils.Utils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,15 +14,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
 /**
  * @author github.kloping
  */
-@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring","io.github.kloping.kzero.hwxb"})
+@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring", "io.github.kloping.kzero.bot.controllers.fs"})
 @MapperScan("io.github.kloping.kzero.spring")
 @Configuration
+@EnableScheduling
 public class KZeroSpringStarter {
 
     public static ConfigurableApplicationContext run(String id) {
@@ -34,6 +36,11 @@ public class KZeroSpringStarter {
                 , "--spring.profiles.active=" + id
         });
         return configuration;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Autowired

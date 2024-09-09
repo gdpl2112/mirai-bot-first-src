@@ -18,6 +18,7 @@ import io.github.kloping.kzero.spring.mapper.SweatherDataMapper;
 import io.github.kloping.kzero.utils.ImageDrawerUtils;
 import io.github.kloping.rand.RandomUtils;
 import io.github.kloping.url.UrlUtils;
+import net.mamoe.mirai.event.events.NewFriendRequestEvent;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
