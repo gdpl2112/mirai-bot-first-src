@@ -66,7 +66,6 @@ public class MihdpConnect implements ListenerHost {
         GroupConf groupConf = dataBase.getConf(gid);
         if (groupConf != null) {
             if (!groupConf.getOpen()) {
-                logger.waring("未开启 group");
                 return;
             }
         }

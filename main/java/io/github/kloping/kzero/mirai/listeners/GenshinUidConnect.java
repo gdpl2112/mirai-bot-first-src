@@ -67,12 +67,11 @@ public class GenshinUidConnect implements ListenerHost {
     MessageMer messageMer;
 
     private void sendToGsuid(MessageEvent event) {
-        if (MihdpClient.INSTANCE == null) return;
+        if (GsuidClient.INSTANCE == null) return;
         String gid = String.valueOf(event.getSubject().getId());
         GroupConf groupConf = dataBase.getConf(gid);
         if (groupConf != null) {
             if (!groupConf.getOpen()) {
-                logger.waring("未开启 group");
                 return;
             }
         }
