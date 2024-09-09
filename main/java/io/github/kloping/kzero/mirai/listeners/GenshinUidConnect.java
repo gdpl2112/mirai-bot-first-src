@@ -1,52 +1,88 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSONArray;
-import io.github.kloping.judge.Judge;
+import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.gsuid.*;
+import io.github.kloping.kzero.main.api.KZeroBot;
+import io.github.kloping.kzero.mihdp.MihdpClient;
+import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.spt.annotations.AutoStand;
+import io.github.kloping.spt.annotations.Entity;
+import io.github.kloping.spt.interfaces.Logger;
+import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.event.EventHandler;
+import net.mamoe.mirai.event.GlobalEventChannel;
 import net.mamoe.mirai.event.ListenerHost;
 import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * @author github.kloping
  */
+@Entity
 public class GenshinUidConnect implements ListenerHost {
 
-    public static final GenshinUidConnect INSTANCE = new GenshinUidConnect();
+    public GenshinUidConnect(KZeroBot kZeroBot) {
+        if (!(kZeroBot.getSelf() instanceof Bot)) {
+            throw new RuntimeException("=======ERROR=====FOR MIRAI GROUP");
+        } else {
+            Bot bot = (Bot) kZeroBot.getSelf();
+            GlobalEventChannel.INSTANCE.registerListenerHost(this);
+        }
+    }
+
 
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
-        offer(event);
+        messageMer.offer(event);
         sendToGsuid(event);
     }
 
     @EventHandler
     public void onMessage(FriendMessageEvent event) {
-        offer(event);
+        messageMer.offer(event);
         sendToGsuid(event);
     }
 
     @EventHandler
     public void onMessage(GroupTempMessageEvent event) {
-        offer(event);
+        messageMer.offer(event);
         sendToGsuid(event);
     }
 
+    @AutoStand
+    Logger logger;
+
+    @AutoStand
+    DataBase dataBase;
+
+    @AutoStand
+    MessageMer messageMer;
 
     private void sendToGsuid(MessageEvent event) {
+        if (MihdpClient.INSTANCE == null) return;
+        String gid = String.valueOf(event.getSubject().getId());
+        GroupConf groupConf = dataBase.getConf(gid);
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) {
+                logger.waring("未开启 group");
+                return;
+            }
+        }
         List<MessageData> list = getMessageData(event);
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();
             receive.setBot_id("qqgroup0");
             receive.setBot_self_id(String.valueOf(event.getBot().getId()));
             receive.setUser_id(String.valueOf(event.getSender().getId()));
-            receive.setMsg_id(getMessageEventId(event));
+            receive.setMsg_id(messageMer.getMessageEventId(event));
             receive.setUser_type("direct");
             receive.setGroup_id("");
             if (event instanceof GroupMessageEvent) {
@@ -95,7 +131,7 @@ public class GenshinUidConnect implements ListenerHost {
         if (GsuidClient.INSTANCE != null) GsuidClient.INSTANCE.addListener(bid, new GsuidMessageListener() {
             @Override
             public void onMessage(MessageOut out) {
-                MessageEvent raw = getMessage(out.getMsg_id());
+                MessageEvent raw = messageMer.getMessage(out.getMsg_id());
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (raw != null) builder.append(new QuoteReply(raw.getSource()));
                 for (MessageData d0 : out.getContent()) {
@@ -132,32 +168,4 @@ public class GenshinUidConnect implements ListenerHost {
             }
         });
     }
-
-    //=============消息记录start
-    public static final Integer MAX_E = 50;
-    private MessageEvent temp0 = null;
-    private Deque<MessageEvent> QUEUE = new LinkedList<>();
-
-
-    public void offer(MessageEvent msg) {
-        if (QUEUE.contains(msg)) return;
-        if (QUEUE.size() >= MAX_E) QUEUE.pollLast();
-        QUEUE.offerFirst(msg);
-    }
-
-    public MessageEvent getMessage(String id) {
-        if (Judge.isEmpty(id)) return null;
-        if (temp0 != null && getMessageEventId(temp0).equals(id)) return temp0;
-        for (MessageEvent event : QUEUE) {
-            if (getMessageEventId(event).equals(id)) return temp0 = event;
-        }
-        return null;
-    }
-
-    public String getMessageEventId(MessageEvent event) {
-        if (event.getSource().getIds().length == 0) return "";
-        else return String.valueOf(event.getSource().getIds()[0]);
-    }
-    //=============消息记录end
-
 }

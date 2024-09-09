@@ -1,6 +1,5 @@
 package io.github.kloping.kzero.main;
 
-import io.github.kloping.kzero.awxb.WxStarter;
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.mihdp.MihdpClient;

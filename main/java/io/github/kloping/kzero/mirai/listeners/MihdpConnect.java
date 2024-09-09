@@ -31,7 +31,7 @@ import java.util.LinkedList;
 public class MihdpConnect implements ListenerHost {
     public MihdpConnect(KZeroBot kZeroBot) {
         if (!(kZeroBot.getSelf() instanceof Bot)) {
-            System.err.println("=======ERROR=====FOR MIRAI GROUP");
+            throw new RuntimeException("=======ERROR=====FOR MIRAI GROUP");
         } else {
             Bot bot = (Bot) kZeroBot.getSelf();
             GlobalEventChannel.INSTANCE.registerListenerHost(this);
@@ -53,6 +53,8 @@ public class MihdpConnect implements ListenerHost {
         sendToMihdp(event);
     }
 
+    @AutoStand
+    MessageMer messageMer;
     @AutoStand
     DataBase dataBase;
     @AutoStand
@@ -81,7 +83,7 @@ public class MihdpConnect implements ListenerHost {
         ReqDataPack req = new ReqDataPack();
         req.setAction("msg")
                 .setContent(JSON.toJSONString(chain))
-                .setId(GenshinUidConnect.INSTANCE.getMessageEventId(event))
+                .setId(messageMer.getMessageEventId(event))
                 .setBot_id(String.valueOf(event.getBot().getId()))
                 .setTime(System.currentTimeMillis())
                 .setEnv_type(event instanceof GroupMessageEvent ? "group" : "friend")
@@ -100,7 +102,7 @@ public class MihdpConnect implements ListenerHost {
         MihdpClient.INSTANCE.listeners.put(bid, new MihdpClient.MihdpClientMessageListener() {
             @Override
             public void onMessage(ResDataPack pack) {
-                MessageEvent raw = GenshinUidConnect.INSTANCE.getMessage(pack.getId());
+                MessageEvent raw = messageMer.getMessage(pack.getId());
                 MessageChainBuilder builder = new MessageChainBuilder();
                 if (raw != null) builder.append(new QuoteReply(raw.getSource()));
                 append(pack.getData(), builder, raw.getSubject());
