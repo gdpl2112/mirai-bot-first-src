@@ -163,13 +163,14 @@ public class SongASyncMethod {
     }
 
     private static String listWySongs(Long qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument(String.format("http://ovoa.cc/api/wangyi.php?msg=%s&n=&type=", name));
+        Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=", name));
         String content = doc0.wholeText();
-        JSONObject data = JSON.parseObject(content);
         StringBuilder sb = new StringBuilder();
-        for (Object o : data.getJSONArray("content")) {
-            sb.append(o);
-        }
+//        JSONObject data = JSON.parseObject(content);
+//        for (Object o : data.getJSONArray("content")) {
+//            sb.append(o);
+//        }
+        sb.append(content);
         QID2DATA.put(qid, new SongData(p, name, type, doc0, qid, System.currentTimeMillis()));
         return sb.toString().trim() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
@@ -217,13 +218,13 @@ public class SongASyncMethod {
     }
 
     private static Message pointWySong(SongData data, Integer n) throws Exception {
-        String jsonData = TEMPLATE.getForObject(String.format("http://ovoa.cc/api/wangyi.php?msg=%s&n=%s&type=", data.name, n), String.class);
+        String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=&type=json", data.name, n), String.class);
         JSONObject jo = JSON.parseObject(jsonData);
         jo = jo.getJSONObject("data");
         MusicShare share = new MusicShare(
-                MusicKind.QQMusic, jo.getString("songname"),
-                jo.getString("name"), jo.getString("src"),
-                jo.getString("cover"), jo.getString("src"));
+                MusicKind.QQMusic, jo.getString("title"),
+                jo.getString("singer"), jo.getString("link"),
+                jo.getString("cover"), jo.getString("music_url"));
         return share;
     }
 
