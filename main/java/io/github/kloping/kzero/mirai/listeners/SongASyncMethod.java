@@ -220,7 +220,7 @@ public class SongASyncMethod {
     private static Message pointWySong(SongData data, Integer n) throws Exception {
         String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=&type=json", data.name, n), String.class);
         JSONObject jo = JSON.parseObject(jsonData);
-        jo = jo.getJSONObject("data");
+//        jo = jo.getJSONObject("data");
         MusicShare share = new MusicShare(
                 MusicKind.QQMusic, jo.getString("title"),
                 jo.getString("singer"), jo.getString("link"),
