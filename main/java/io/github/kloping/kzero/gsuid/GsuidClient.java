@@ -90,7 +90,7 @@ public class GsuidClient extends WebSocketClient {
         LOGGER.error(String.format("gsuid_coore close %s => %s", code, reason));
         Public.EXECUTOR_SERVICE.submit(() -> {
             try {
-                TimeUnit.SECONDS.sleep(10);
+                TimeUnit.SECONDS.sleep(3);
                 reconnect();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
