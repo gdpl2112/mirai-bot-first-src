@@ -176,7 +176,9 @@ public class AiHandler implements ListenerHost {
                 .append("\n✉️ ").append(gt.gt("photo.commentCount"));
 
         ForwardMessageBuilder author = null;
-        if (!gt.gt("shareUserPhotos", JSONArray.class).isEmpty()) {
+        JSONArray array = gt.gt("shareUserPhotos", JSONArray.class);
+
+        if (array != null && !array.isEmpty()) {
             author = new ForwardMessageBuilder(bot.getAsFriend());
             bytes = UrlUtils.getBytesFromHttpUrl(gt.gt("shareUserPhotos[0].headUrl", String.class));
             image = Contact.uploadImage(event.getSubject(), new ByteArrayInputStream(bytes), "jpg");
