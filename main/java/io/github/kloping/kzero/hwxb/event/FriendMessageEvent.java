@@ -10,7 +10,8 @@ import lombok.Data;
 public class FriendMessageEvent extends MessageEvent {
     private Contact room;
 
-    public FriendMessageEvent(Contact room) {
+    public FriendMessageEvent(MetaEvent<?> event, Contact room) {
+        super(event);
         this.room = room;
     }
 

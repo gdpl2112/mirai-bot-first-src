@@ -205,7 +205,7 @@ public class WxHookStarter implements KZeroStater {
             }
         });
         RECVS.put("text", r -> {
-            MessageEvent event = (MessageEvent) r;
+            MessageEvent<String> event = (MessageEvent) r;
             MessagePack pack = new MessagePack();
             SID2EVENT.put(event.getSubject().getId(), event);
             pack.setSubjectId(event.getSubject().getId());

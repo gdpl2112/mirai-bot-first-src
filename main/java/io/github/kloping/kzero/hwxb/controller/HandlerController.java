@@ -45,7 +45,7 @@ public class HandlerController {
         Integer e = Integer.valueOf(isSystemEvent);
 
         Source s0 = JSONObject.parseObject(source, Source.class);
-        MetaEvent event = new MetaEvent();
+        MetaEvent<String> event = new MetaEvent<String>();
         event.setContent(content);
         event.setType(type);
         event.setIsSystemEvent(Integer.valueOf(isSystemEvent) == 1);
@@ -55,9 +55,9 @@ public class HandlerController {
         event.setAuth(auth);
         if (!event.getIsSystemEvent()) {
             if (!s0.getRoom().isEmpty()) {
-                event = new GroupMessageEvent(s0.getRoom());
+                event = new GroupMessageEvent(event, s0.getRoom());
             } else {
-                event = new FriendMessageEvent(s0.getRoom());
+                event = new FriendMessageEvent(event, s0.getRoom());
             }
         }
         if (event instanceof MessageEvent) {

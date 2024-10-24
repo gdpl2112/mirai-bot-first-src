@@ -10,7 +10,8 @@ import lombok.Data;
 public class GroupMessageEvent extends MessageEvent {
     private Contact room;
 
-    public GroupMessageEvent(Contact room) {
+    public GroupMessageEvent(MetaEvent<?> event, Contact room) {
+        super(event);
         this.room = room;
     }
 
