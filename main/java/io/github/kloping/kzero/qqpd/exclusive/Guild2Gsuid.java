@@ -158,9 +158,9 @@ public class Guild2Gsuid implements GsuidMessageListener {
                     }
                 }
                 if (markdown != null) {
-                    markdown.setKeyboard(b0.build());
+//                    markdown.setKeyboard(b0.build());
                 } else {
-                    raw.send(b0.build());
+//                    raw.send(b0.build());
                 }
             } else if (MARKDOWN_TYPE.equals(d0.getType())) {
                 String data = d0.getData().toString();
