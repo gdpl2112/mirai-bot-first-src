@@ -10,13 +10,13 @@ import lombok.Data;
 public class GroupMessageEvent extends MessageEvent {
     private Contact room;
 
+    public GroupMessageEvent(Contact room) {
+        this.room = room;
+    }
+
     @Override
     public Contact getSubject() {
         return room;
-    }
-
-    public GroupMessageEvent(Contact room) {
-        this.room = room;
     }
 
     @Override

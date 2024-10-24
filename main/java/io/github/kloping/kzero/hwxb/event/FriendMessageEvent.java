@@ -8,6 +8,12 @@ import lombok.Data;
  */
 @Data
 public class FriendMessageEvent extends MessageEvent {
+    private Contact room;
+
+    public FriendMessageEvent(Contact room) {
+        this.room = room;
+    }
+
     @Override
     public Contact getSubject() {
         return getFrom();

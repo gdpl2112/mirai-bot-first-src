@@ -217,7 +217,7 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                     if (builder != null) event.send(builder.build());
                     if (r0 != null) {
                         if (markdown != null) {
-                            markdown.setKeyboard(keyboardBuilder.build());
+//                            markdown.setKeyboard(keyboardBuilder.build());
                             event.send(markdown);
                         } else {
                             event.send(keyboardBuilder.build());
