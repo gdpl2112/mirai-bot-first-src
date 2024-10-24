@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @ConditionalOnProperty(name = "wxbot.token")
 public class HandlerController {
+    public HandlerController() {
+        System.out.println("create wxbot");
+    }
 
     @Autowired
     WxAuth wxAuth;
