@@ -227,6 +227,6 @@ public class WxHookStarter implements KZeroStater {
             return "{}";
         });
         MihdpClient.INSTANCE.listeners.put(ID, WxHookExtend0::onMessage);
-        GsuidClient.INSTANCE.gsuidMessageListenerMap.put(ID, WxHookExtend0::onMessageG);
+        GsuidClient.INSTANCE.addListener(ID, WxHookExtend0::onMessageG);
     }
 }

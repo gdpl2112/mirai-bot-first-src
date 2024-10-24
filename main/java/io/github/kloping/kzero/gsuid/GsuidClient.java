@@ -49,10 +49,10 @@ public class GsuidClient extends WebSocketClient {
         LOGGER.info("send=>" + json);
     }
 
-    public Map<String, GsuidMessageListener> gsuidMessageListenerMap = new HashMap<>();
+    public Map<String, GsuidMessageListener> id2ls = new HashMap<>();
 
     public void addListener(String id, GsuidMessageListener listener) {
-        gsuidMessageListenerMap.put(id, listener);
+        id2ls.put(id, listener);
     }
 
     @Override
@@ -62,13 +62,13 @@ public class GsuidClient extends WebSocketClient {
         LOGGER.info(String.format("gsuid msg bot(%s) to size: %s", bsid, msg.length()));
         if (Judge.isEmpty(bsid)) {
             Public.EXECUTOR_SERVICE.submit(() -> {
-                gsuidMessageListenerMap.values().forEach(e -> {
+                id2ls.values().forEach(e -> {
                     e.onMessage(out);
                 });
             });
-        } else if (gsuidMessageListenerMap.containsKey(bsid))
+        } else if (id2ls.containsKey(bsid))
             Public.EXECUTOR_SERVICE.submit(() -> {
-                gsuidMessageListenerMap.get(bsid).onMessage(out);
+                id2ls.get(bsid).onMessage(out);
             });
     }
 

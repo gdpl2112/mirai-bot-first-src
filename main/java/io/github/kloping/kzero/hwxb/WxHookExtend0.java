@@ -33,7 +33,7 @@ public class WxHookExtend0 {
                 .setBot_id(WxHookStarter.ID)
                 .setTime(System.currentTimeMillis()).setEnv_type(event instanceof GroupMessageEvent ? "group" : "friend")
                 .setSender_id(event.getFrom().getId())
-                .setEnv_id(event.getSubject().getPayLoad().getName());
+                .setEnv_id(event.getSubject().getId());
         String icon = event.getFrom().getPayLoad().getAvatar();
         icon = icon.replace("localhost", event.getAuth().getWxAuth().getIp());
         req.getArgs().put("icon", icon + "&token=" + event.getAuth().getWxAuth().getToken());
@@ -59,7 +59,7 @@ public class WxHookExtend0 {
         msgPack.setData(datas);
         msgPack.setIsRoom(pack.getEnv_type().equals("group") ? true : false);
         msgPack.setTo(pack.getEnv_id());
-        MetaEvent event = WxHookStarter.SID2EVENT.values().iterator().next();
+        MetaEvent event = WxHookStarter.SID2EVENT.get(pack.getEnv_id());
         event.getAuth().sendMessage(msgPack);
     }
 
@@ -69,7 +69,7 @@ public class WxHookExtend0 {
         msgPack.setData(datas);
         msgPack.setIsRoom(pack.getTarget_type().equals("group") ? true : false);
         msgPack.setTo(pack.getTarget_id());
-        MetaEvent event = WxHookStarter.SID2EVENT.values().iterator().next();
+        MetaEvent event = WxHookStarter.SID2EVENT.get(pack.getTarget_id());
         event.getAuth().sendMessage(msgPack);
     }
 
