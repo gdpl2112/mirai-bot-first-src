@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.hwxb;
 
 import io.github.kloping.arr.ArrDeSerializer;
+import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.hwxb.controller.WxBotEventRecv;
 import io.github.kloping.kzero.hwxb.dto.Group;
 import io.github.kloping.kzero.hwxb.dto.User;
@@ -206,15 +207,19 @@ public class WxHookStarter implements KZeroStater {
         });
         RECVS.put("text", r -> {
             MessageEvent<String> event = (MessageEvent) r;
+
             MessagePack pack = new MessagePack();
             SID2EVENT.put(event.getSubject().getId(), event);
+
             pack.setSubjectId(event.getSubject().getId());
             pack.setSenderId(event.getFrom().getId());
             pack.setType(event.getContactType().equals("GROUP") ? MessageType.GROUP : MessageType.FRIEND);
             pack.setRaw(r);
             pack.setMsg(event.getContent());
             handler.onMessage(pack);
+
             WxHookExtend0.recv(event);
+
             return "{}";
         });
         RECVS.put("system_event_login", r -> {
@@ -222,5 +227,6 @@ public class WxHookStarter implements KZeroStater {
             return "{}";
         });
         MihdpClient.INSTANCE.listeners.put(ID, WxHookExtend0::onMessage);
+        GsuidClient.INSTANCE.gsuidMessageListenerMap.put(ID, WxHookExtend0::onMessageG);
     }
 }

@@ -145,7 +145,6 @@ public class AiHandler implements ListenerHost {
                 e.printStackTrace();
             }
             fbuilder.add(bot.getId(), "AI", new PlainText("音频直链: " + gt.gt("data.music")));
-            event.getSubject().sendMessage(builder.build());
             for (Object o : array) {
                 bytes = UrlUtils.getBytesFromHttpUrl(o.toString());
                 image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes), "jpg");

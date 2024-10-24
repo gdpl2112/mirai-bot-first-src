@@ -13,7 +13,10 @@ import io.github.kloping.qqbot.api.event.ConnectedEvent;
 import io.github.kloping.qqbot.api.message.MessageChannelReceiveEvent;
 import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
-import io.github.kloping.qqbot.entities.ex.*;
+import io.github.kloping.qqbot.entities.ex.At;
+import io.github.kloping.qqbot.entities.ex.Image;
+import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
+import io.github.kloping.qqbot.entities.ex.PlainText;
 import io.github.kloping.qqbot.impl.ListenerHost;
 
 import java.util.Base64;
@@ -122,9 +125,9 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                 Object o1 = chain.find(GeneralData.ResDataSelect.class);
                 if (o0 != null || o1 != null) {
                     MessageAsyncBuilder builder = null;
-                    Markdown markdown = null;
-                    Keyboard.KeyboardBuilder keyboardBuilder = null;
-                    Keyboard.RowBuilder r0 = null;
+//                    Markdown markdown = null;
+//                    Keyboard.KeyboardBuilder keyboardBuilder = null;
+//                    Keyboard.RowBuilder r0 = null;
                     int kindex = 0;
                     for (GeneralData data : chain.getList()) {
                         if (data.getType().equals("text")) {
@@ -133,40 +136,43 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                             builder.append(text.getContent());
                         } else if (data.getType().equals("image")) {
                             GeneralData.ResDataImage image = (GeneralData.ResDataImage) data;
-                            markdown = new Markdown("102032364_1710924543");
-                            markdown.addParam("title", "TIPS");
-                            markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
+//                            markdown = new Markdown("102032364_1710924543");
+//                            markdown.addParam("title", "TIPS");
+//                            markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
                             String url;
                             if (image.getP().equals("http")) {
                                 url = image.getData();
                             } else {
                                 url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
                             }
-                            markdown.addParam("url", String.format("(%s)", url));
+                            builder.append(new Image(url));
+//                            markdown.addParam("url", String.format("(%s)", url));
                         } else if (data.getType().equals("select")) {
                             GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) data;
-                            if (keyboardBuilder == null) {
-                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                                r0 = keyboardBuilder.addRow();
-                            }
-                            kindex++;
-                            r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
-                            if (kindex >= 2) {
-                                r0 = r0.build().addRow();
-                                kindex = 0;
-                            }
+//                            if (keyboardBuilder == null) {
+//                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
+//                                r0 = keyboardBuilder.addRow();
+//                            }
+//                            kindex++;
+//                            r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+//                            if (kindex >= 2) {
+//                                r0 = r0.build().addRow();
+//                                kindex = 0;
+//                            }
+                            builder.append(String.format("选项:[%s]", select.getContent()));
                         } else if (data.getType().equals("button")) {
                             GeneralData.ResDataButton button = (GeneralData.ResDataButton) data;
-                            if (keyboardBuilder == null) {
-                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                                r0 = keyboardBuilder.addRow();
-                            }
-                            kindex++;
-                            r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
-                            if (kindex >= 2) {
-                                r0 = r0.build().addRow();
-                                kindex = 0;
-                            }
+//                            if (keyboardBuilder == null) {
+//                                keyboardBuilder = Keyboard.KeyboardBuilder.create();
+//                                r0 = keyboardBuilder.addRow();
+//                            }
+//                            kindex++;
+//                            r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+//                            if (kindex >= 2) {
+//                                r0 = r0.build().addRow();
+//                                kindex = 0;
+//                            }
+                            builder.append(String.format("选项:[%s]", button.getContent()));
                         } else if (data.getType().equals("chain")) {
                             GeneralData.ResDataChain ccc = (GeneralData.ResDataChain) data;
                             for (GeneralData generalData : ccc.getList()) {
@@ -176,54 +182,57 @@ public class MihdpConnect2 extends ListenerHost implements MihdpClient.MihdpClie
                                     builder.append(text.getContent());
                                 } else if (generalData.getType().equals("image")) {
                                     GeneralData.ResDataImage image = (GeneralData.ResDataImage) generalData;
-                                    markdown = new Markdown("102032364_1710924543");
-                                    markdown.addParam("title", "TIPS");
-                                    markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
+//                                    markdown = new Markdown("102032364_1710924543");
+//                                    markdown.addParam("title", "TIPS");
+//                                    markdown.addParam("size", String.format("![img #%s #%s]", image.getW(), image.getH()));
                                     String url;
                                     if (image.getP().equals("http")) {
                                         url = image.getData();
                                     } else {
                                         url = GuildStater.upload(Base64.getDecoder().decode(image.getData()));
                                     }
-                                    markdown.addParam("url", String.format("(%s)", url));
+//                                    markdown.addParam("url", String.format("(%s)", url));
+                                    builder.append(new Image(url));
                                 } else if (generalData.getType().equals("select")) {
                                     GeneralData.ResDataSelect select = (GeneralData.ResDataSelect) generalData;
-                                    if (keyboardBuilder == null) {
-                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                                        r0 = keyboardBuilder.addRow();
-                                    }
-                                    kindex++;
-                                    r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
-                                    if (kindex >= 2) {
-                                        r0 = r0.build().addRow();
-                                        kindex = 0;
-                                    }
+//                                    if (keyboardBuilder == null) {
+//                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
+//                                        r0 = keyboardBuilder.addRow();
+//                                    }
+//                                    kindex++;
+//                                    r0.addButton().setLabel(select.getContent()).setVisitedLabel(select.getContent()).setStyle(1).setActionData(select.getS().toString()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+//                                    if (kindex >= 2) {
+//                                        r0 = r0.build().addRow();
+//                                        kindex = 0;
+//                                    }
+                                    builder.append(String.format("选项:[%s]", select.getContent()));
                                 } else if (generalData.getType().equals("button")) {
                                     GeneralData.ResDataButton button = (GeneralData.ResDataButton) generalData;
-                                    if (keyboardBuilder == null) {
-                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
-                                        r0 = keyboardBuilder.addRow();
-                                    }
-                                    kindex++;
-                                    r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
-                                    if (kindex >= 2) {
-                                        r0 = r0.build().addRow();
-                                        kindex = 0;
-                                    }
+//                                    if (keyboardBuilder == null) {
+//                                        keyboardBuilder = Keyboard.KeyboardBuilder.create();
+//                                        r0 = keyboardBuilder.addRow();
+//                                    }
+//                                    kindex++;
+//                                    r0.addButton().setLabel(button.getText()).setVisitedLabel(button.getText()).setStyle(1).setActionData(button.getContent()).setActionEnter(false).setActionReply(true).setActionType(2).build();
+//                                    if (kindex >= 2) {
+//                                        r0 = r0.build().addRow();
+//                                        kindex = 0;
+//                                    }
+                                    builder.append(String.format("选项:[%s]", button.getContent()));
                                 }
                             }
                         }
                     }
                     if (builder != null) event.send(builder.build());
-                    if (r0 != null) {
-                        if (markdown != null) {
+//                    if (r0 != null) {
+//                        if (markdown != null) {
 //                            markdown.setKeyboard(keyboardBuilder.build());
-                            event.send(markdown);
-                        } else {
-                            event.send(keyboardBuilder.build());
-                        }
-                    }
-                    return;
+//                            event.send(markdown);
+//                        } else {
+//                            event.send(keyboardBuilder.build());
+//                        }
+//                    }
+//                    return;
                 }
             }
         }
