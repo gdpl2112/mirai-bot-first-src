@@ -22,7 +22,11 @@ import javax.sql.DataSource;
 /**
  * @author github.kloping
  */
-@SpringBootApplication(scanBasePackages = {"io.github.kloping.kzero.spring", "io.github.kloping.kzero.bot.controllers.fs"})
+@SpringBootApplication(scanBasePackages = {
+        "io.github.kloping.kzero.spring",
+        "io.github.kloping.kzero.bot.controllers.fs",
+        "io.github.kloping.kzero.hwxb.controller"
+})
 @MapperScan("io.github.kloping.kzero.spring")
 @Configuration
 @EnableScheduling
