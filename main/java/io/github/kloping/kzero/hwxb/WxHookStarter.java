@@ -1,8 +1,9 @@
 package io.github.kloping.kzero.hwxb;
 
 import io.github.kloping.arr.ArrDeSerializer;
+import io.github.kloping.common.Public;
 import io.github.kloping.kzero.gsuid.GsuidClient;
-import io.github.kloping.kzero.hwxb.controller.WxBotEventRec;
+import io.github.kloping.kzero.hwxb.controller.WxBotEventRecv;
 import io.github.kloping.kzero.hwxb.dto.Group;
 import io.github.kloping.kzero.hwxb.dto.User;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgData;
@@ -12,6 +13,7 @@ import io.github.kloping.kzero.hwxb.event.MetaEvent;
 import io.github.kloping.kzero.main.DevMain;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mihdp.MihdpClient;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -30,7 +32,7 @@ public class WxHookStarter implements KZeroStater {
 
     private BotCreated botCreated;
     private BotMessageHandler handler;
-    public static Map<String, WxBotEventRec> RECVS = new HashMap<>();
+    public static Map<String, WxBotEventRecv> RECVS = new HashMap<>();
     /**
      * gid 2 event
      */
@@ -62,9 +64,25 @@ public class WxHookStarter implements KZeroStater {
             @Override
             public KZeroBotAdapter getAdapter() {
                 return new KZeroBotAdapter() {
+                    private GroupMessageEvent ue;
+
+                    private @Nullable GroupMessageEvent getGroupMessageEvent(String targetId) {
+                        if (ue != null && ue.getSubject().getId().equalsIgnoreCase(targetId)) return ue;
+                        GroupMessageEvent event = null;
+                        for (MetaEvent value : SID2EVENT.values()) {
+                            if (value instanceof GroupMessageEvent) {
+                                event = (GroupMessageEvent) value;
+                                if (event.getSubject().getId().equalsIgnoreCase(targetId)) {
+                                    break;
+                                }
+                            }
+                        }
+                        return event;
+                    }
+
                     @Override
                     public boolean sendMessage(MessageType type, String targetId, Object obj) {
-                        MessageEvent event = (MessageEvent) SID2EVENT.get(targetId);
+                        GroupMessageEvent event = getGroupMessageEvent(targetId);
                         if (event == null) return false;
                         List<MsgData> list = (List) getSerializer().deserialize(obj.toString());
                         event.sendMessage(list.toArray(new MsgData[0]));
@@ -87,17 +105,21 @@ public class WxHookStarter implements KZeroStater {
 
                     @Override
                     public String getNameCard(String sid, String tid) {
-                        GroupMessageEvent event = (GroupMessageEvent) SID2EVENT.get(tid);
-                        Group group = (Group) event.getRoom().getPayLoad();
-                        for (User user : group.getMemberList()) {
-                            if (user.getId().equals(sid)) return user.getName();
+                        try {
+                            GroupMessageEvent event = getGroupMessageEvent(tid);
+                            Group group = (Group) event.getRoom().getPayLoad();
+                            for (User user : group.getMemberList()) {
+                                if (user.getId().equals(sid)) return user.getName();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         return "默认昵称";
                     }
 
                     @Override
                     public List<String> getMembers(String tid) {
-                        GroupMessageEvent event = (GroupMessageEvent) SID2EVENT.get(tid);
+                        GroupMessageEvent event = getGroupMessageEvent(tid);
                         Group group = (Group) event.getRoom().getPayLoad();
                         List<String> list = new LinkedList<>();
                         for (User user : group.getMemberList()) {
@@ -204,7 +226,9 @@ public class WxHookStarter implements KZeroStater {
             pack.setMsg(event.getContent());
             handler.onMessage(pack);
 
-            WxHookExtend0.rec(event);
+            WxHookExtend0.recv(event);
+
+            Public.EXECUTOR_SERVICE.submit(()->ExtendServiceW.handle(r));
 
             return "{}";
         });

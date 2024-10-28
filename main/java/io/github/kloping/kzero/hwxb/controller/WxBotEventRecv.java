@@ -5,6 +5,6 @@ import io.github.kloping.kzero.hwxb.event.MetaEvent;
 /**
  * @author github.kloping
  */
-public interface WxBotEventRec {
+public interface WxBotEventRecv {
     Object rec(MetaEvent event);
 }

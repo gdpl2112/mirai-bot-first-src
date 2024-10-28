@@ -25,7 +25,7 @@ import java.util.*;
  * @author github.kloping
  */
 public class WxHookExtend0 {
-    public static void rec(MessageEvent<String> event) {
+    public static void recv(MessageEvent<String> event) {
         GeneralData.ResDataChain chain = new GeneralData.ResDataChain(new LinkedList<>());
         chain.getList().add(new GeneralData.ResDataText((event.getContent())));
         ReqDataPack req = new ReqDataPack();

@@ -76,7 +76,7 @@ public class HandlerController {
                     event.getType(), event.getContent());
         }
         if (WxHookStarter.INSTANCE != null) {
-            WxBotEventRec rec = WxHookStarter.RECVS.get(type);
+            WxBotEventRecv rec = WxHookStarter.RECVS.get(type);
             if (rec != null) {
                 Object o = rec.rec(event);
                 if (o != null) return o;

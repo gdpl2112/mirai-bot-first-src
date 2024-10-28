@@ -128,9 +128,6 @@ public class AiHandler implements ListenerHost {
         Image image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes), "jpg");
         builder.append(image)
                 .append(gt.gt("data.title").toString())
-//                .append("作者").append(gt.gt("data.author"))
-//                .append("\n💗 ").append(gt.gt("data.like"))
-//                .append("\n\uD83D\uDD50\uFE0E ")
                 .append(gt.gt("text.time"));
         String u0 = gt.gt("data.url", String.class);
         var fbuilder = new ForwardMessageBuilder(bot.getAsFriend());
