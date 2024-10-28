@@ -54,7 +54,10 @@ public class WxHookExtend0 {
         String gid = event.getSubject().getId();
         receive.setGroup_id(gid.substring(gid.length() - 10, gid.length()));
         receive.setUser_type(event instanceof GroupMessageEvent ? "group" : "direct");
-        receive.setContent(new MessageData[]{new MessageData("text", event.getContent().toString())});
+        receive.setContent(new MessageData[]{
+                new MessageData("text", event.getContent().toString()),
+                new MessageData("icon", event.getFrom().getPayLoad().getAvatar()+"&token=" + event.getAuth().getToken()),
+        });
         receive.setMsg_id(event.getId().toString());
         receive.setBot_id(WxHookStarter.ID);
         receive.setBot_self_id(WxHookStarter.ID);
