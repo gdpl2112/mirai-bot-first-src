@@ -25,16 +25,23 @@ public class HandlerController {
         System.out.println("create wxbot");
     }
 
+    private static Integer IDX = 1;
+
+    public static synchronized String getIndexId() {
+        return String.valueOf(IDX++);
+    }
+
+    private static MetaEvent metaEvent;
+
+    public static MetaEvent getLeast() {
+        return metaEvent;
+    }
+
     @Autowired
     WxAuth wxAuth;
 
-    private MetaEvent.Auth auth;
-
     @RequestMapping("recv")
     public Object recv(HttpServletRequest request) {
-        synchronized (this) {
-            if (auth == null) auth = new MetaEvent.Auth(wxAuth);
-        }
         String source = request.getParameter("source");
         String type = request.getParameter("type");
         String content = request.getParameter("content");
@@ -42,17 +49,15 @@ public class HandlerController {
         String isMsgFromSelf = request.getParameter("isMsgFromSelf");
         String isMentioned = request.getParameter("isMentioned");
 
-        Integer e = Integer.valueOf(isSystemEvent);
-
         Source s0 = JSONObject.parseObject(source, Source.class);
-        MetaEvent<String> event = new MetaEvent<String>();
+        MetaEvent<String> event = new MetaEvent<>(getIndexId());
         event.setContent(content);
         event.setType(type);
         event.setIsSystemEvent(Integer.valueOf(isSystemEvent) == 1);
         event.setIsMsgFromSelf(Integer.valueOf(isMsgFromSelf) == 1);
         event.setIsMentioned(Integer.valueOf(isMentioned) == 1);
         event.setRequest(request);
-        event.setAuth(auth);
+        event.setAuth(wxAuth);
         if (!event.getIsSystemEvent()) {
             if (!s0.getRoom().isEmpty()) {
                 event = new GroupMessageEvent(event, s0.getRoom());
@@ -60,6 +65,7 @@ public class HandlerController {
                 event = new FriendMessageEvent(event, s0.getRoom());
             }
         }
+        metaEvent = event;
         if (event instanceof MessageEvent) {
             ((MessageEvent) event).setTo(s0.getTo());
             ((MessageEvent) event).setFrom(s0.getFrom());
@@ -70,9 +76,9 @@ public class HandlerController {
                     event.getType(), event.getContent());
         }
         if (WxHookStarter.INSTANCE != null) {
-            WxBotEventRecv recv = WxHookStarter.RECVS.get(type);
-            if (recv != null) {
-                Object o = recv.recv(event);
+            WxBotEventRec rec = WxHookStarter.RECVS.get(type);
+            if (rec != null) {
+                Object o = rec.rec(event);
                 if (o != null) return o;
             }
         }

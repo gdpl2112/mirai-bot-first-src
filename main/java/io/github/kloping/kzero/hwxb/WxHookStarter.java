@@ -2,11 +2,10 @@ package io.github.kloping.kzero.hwxb;
 
 import io.github.kloping.arr.ArrDeSerializer;
 import io.github.kloping.kzero.gsuid.GsuidClient;
-import io.github.kloping.kzero.hwxb.controller.WxBotEventRecv;
+import io.github.kloping.kzero.hwxb.controller.WxBotEventRec;
 import io.github.kloping.kzero.hwxb.dto.Group;
 import io.github.kloping.kzero.hwxb.dto.User;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgData;
-import io.github.kloping.kzero.hwxb.dto.dao.MsgPack;
 import io.github.kloping.kzero.hwxb.event.GroupMessageEvent;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
 import io.github.kloping.kzero.hwxb.event.MetaEvent;
@@ -15,10 +14,7 @@ import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mihdp.MihdpClient;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author github.kloping
@@ -34,7 +30,7 @@ public class WxHookStarter implements KZeroStater {
 
     private BotCreated botCreated;
     private BotMessageHandler handler;
-    public static Map<String, WxBotEventRecv> RECVS = new HashMap<>();
+    public static Map<String, WxBotEventRec> RECVS = new HashMap<>();
     /**
      * gid 2 event
      */
@@ -68,16 +64,10 @@ public class WxHookStarter implements KZeroStater {
                 return new KZeroBotAdapter() {
                     @Override
                     public boolean sendMessage(MessageType type, String targetId, Object obj) {
-                        MsgPack msg = new MsgPack();
                         MessageEvent event = (MessageEvent) SID2EVENT.get(targetId);
                         if (event == null) return false;
-                        msg.setTo(event.getSubject().getPayLoad().getName());
                         List<MsgData> list = (List) getSerializer().deserialize(obj.toString());
-                        msg.setData(list.toArray(new MsgData[0]));
-                        if (type == MessageType.GROUP) {
-                            msg.setIsRoom(true);
-                        }
-                        event.getAuth().sendMessage(msg);
+                        event.sendMessage(list.toArray(new MsgData[0]));
                         return true;
                     }
 
@@ -91,12 +81,8 @@ public class WxHookStarter implements KZeroStater {
                     @Override
                     public void onResult(Method method, Object data, MessagePack pack) {
                         MessageEvent event = (MessageEvent) pack.getRaw();
-                        MsgPack msg = new MsgPack();
-                        msg.setTo(event.getSubject().getPayLoad().getName());
-                        msg.setIsRoom(pack.getType() == MessageType.GROUP ? true : false);
                         List<MsgData> list = (List) getSerializer().deserialize(data.toString());
-                        msg.setData(list.toArray(new MsgData[0]));
-                        event.getAuth().sendMessage(msg);
+                        event.sendMessage(list.toArray(new MsgData[0]));
                     }
 
                     @Override
@@ -127,7 +113,7 @@ public class WxHookStarter implements KZeroStater {
                                 GroupMessageEvent event = (GroupMessageEvent) value;
                                 Group group = (Group) event.getRoom().getPayLoad();
                                 for (User user : group.getMemberList()) {
-                                    return user.getAvatar() + "&token=" + value.getAuth().getWxAuth().getToken();
+                                    return user.getAvatar() + "&token=" + value.getAuth().getToken();
                                 }
                             }
                         }
@@ -178,7 +164,8 @@ public class WxHookStarter implements KZeroStater {
                                         return new MsgData(path, "fileUrl");
                                     } else {
                                         MetaEvent metaEvent = SID2EVENT.values().iterator().next();
-                                        String u0 = String.format("%s:%s/", metaEvent.getAuth().getWxAuth().getSelf(), metaEvent.getAuth().getWxAuth().getPort());
+                                        String u0 = String.format("%s:%s/", metaEvent.getAuth().getSelf(),
+                                                metaEvent.getAuth().getPort());
                                         return new MsgData(path
                                                 .replaceAll("\\\\", "/")
                                                 .replace("./temp/", u0)
@@ -207,10 +194,9 @@ public class WxHookStarter implements KZeroStater {
         });
         RECVS.put("text", r -> {
             MessageEvent<String> event = (MessageEvent) r;
+            offer(event);
 
             MessagePack pack = new MessagePack();
-            SID2EVENT.put(event.getSubject().getId(), event);
-
             pack.setSubjectId(event.getSubject().getId());
             pack.setSenderId(event.getFrom().getId());
             pack.setType(event.getContactType().equals("GROUP") ? MessageType.GROUP : MessageType.FRIEND);
@@ -218,7 +204,7 @@ public class WxHookStarter implements KZeroStater {
             pack.setMsg(event.getContent());
             handler.onMessage(pack);
 
-            WxHookExtend0.recv(event);
+            WxHookExtend0.rec(event);
 
             return "{}";
         });
@@ -226,7 +212,22 @@ public class WxHookStarter implements KZeroStater {
             SID2EVENT.put("", r);
             return "{}";
         });
-        MihdpClient.INSTANCE.listeners.put(ID, WxHookExtend0::onMessage);
+
         GsuidClient.INSTANCE.addListener(ID, WxHookExtend0::onMessageG);
+        MihdpClient.INSTANCE.listeners.put(ID, WxHookExtend0::onMessage);
+    }
+
+    private final int max = 30;
+
+    private Queue<String> queue = new ArrayDeque<>(max);
+
+    private synchronized void offer(MessageEvent<String> event) {
+        String id = event.getId();
+        if (queue.size() >= max) {
+            String oid = queue.poll();
+            SID2EVENT.remove(oid);
+        }
+        queue.offer(id);
+        SID2EVENT.put(event.getId(), event);
     }
 }

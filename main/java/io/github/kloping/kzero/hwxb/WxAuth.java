@@ -29,5 +29,4 @@ public class WxAuth {
 
     @Value("${server.self}")
     String self;
-
 }

@@ -1,6 +1,8 @@
 package io.github.kloping.kzero.hwxb.event;
 
+import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.kzero.hwxb.dto.Contact;
+import io.github.kloping.kzero.hwxb.dto.dao.MsgData;
 import lombok.Data;
 
 /**
@@ -12,6 +14,7 @@ public abstract class MessageEvent<T extends Object> extends MetaEvent<T> {
     private Contact to;
 
     public MessageEvent(MetaEvent<T> event) {
+        super(event.getId());
         this.setContent(event.getContent());
         this.setType(event.getType());
         this.setIsSystemEvent(event.getIsSystemEvent());
@@ -24,4 +27,6 @@ public abstract class MessageEvent<T extends Object> extends MetaEvent<T> {
     public abstract Contact getSubject();
 
     public abstract String getContactType();
+
+    public abstract JSONObject sendMessage(MsgData... data);
 }

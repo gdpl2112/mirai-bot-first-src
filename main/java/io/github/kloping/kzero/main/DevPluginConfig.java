@@ -27,6 +27,7 @@ public class DevPluginConfig implements Runnable {
     @Override
     public void run() {
         logger = new LoggerImpl();
+        logger.setLogLevel(1);
         new File("./logs/plugins").mkdirs();
         logger.setOutFile(String.format("./logs/plugins/%s-%s-%s.log", DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay()));
         contextManager = new ContextManagerWithEIImpl();
