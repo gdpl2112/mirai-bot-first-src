@@ -15,6 +15,10 @@ import java.lang.reflect.Method;
  */
 @Controller
 public class ChatAiInstance {
+    public ChatAiInstance() {
+        System.out.println("================ChatAiInstance=================");
+    }
+
     @DefAction
     public void run(Method method, MessagePack pack, KZeroBot bot) throws NoRunException {
         GroupConf groupConf = AllController.dataBase.getConf(pack.getSubjectId());
