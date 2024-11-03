@@ -55,7 +55,7 @@ public class AllController implements Runner {
         if (asid == null) asid = String.format("<at:%s>", bot.getId());
         msg = msg.trim();
         if (msg.matches(REGX) || msg.startsWith(asid)) {
-            if (msg.matches("<.*?>\\s?[\\?|\\？]+")) {
+            if (msg.matches("(<.*?>)?\\s?[\\?|\\？]+")) {
                 log.waring("忽略纯问号");
                 return;
             }
