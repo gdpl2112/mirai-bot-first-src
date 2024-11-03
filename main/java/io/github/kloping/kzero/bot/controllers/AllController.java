@@ -8,8 +8,11 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
+import io.github.kloping.kzero.utils.ChatAi;
 import io.github.kloping.spt.annotations.*;
 import io.github.kloping.spt.entity.interfaces.Runner;
+import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.interfaces.Logger;
 import io.github.kloping.spt.interfaces.QueueExecutor;
 import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.url.UrlUtils;
@@ -26,6 +29,36 @@ public class AllController implements Runner {
 
     public AllController(QueueExecutor queueExecutor) {
         queueExecutor.setBefore(this);
+    }
+
+    @DefAction
+    public void run(Method method, MessagePack pack, KZeroBot bot) throws NoRunException {
+        GroupConf groupConf = dataBase.getConf(pack.getSubjectId());
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) {
+                return;
+            }
+        }
+        hand(bot, pack);
+    }
+
+    @AutoStand
+    Logger log;
+
+    public static final String REGX = "[我想问|为什么|为啥|什么].+|.+\\?|.+\\？|ai:.+|.+是什么";
+
+    private void hand(KZeroBot bot, MessagePack pack) {
+        String msg = pack.getMsg();
+        if (msg != null) return;
+        if (msg.trim().matches(REGX)) {
+            log.waring("匹配关键词:开始回话");
+            if (msg.startsWith("ai:")) msg = msg.substring(3);
+            String out = ChatAi.chat(pack.getSenderId(), msg);
+
+            if (out != null) {
+                bot.getAdapter().sendMessage(pack.getType(), pack.getSubjectId(), out);
+            }
+        }
     }
 
     @AutoStand
