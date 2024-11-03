@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 @Controller
 public class ChatAiInstance {
     public ChatAiInstance() {
-        System.out.println("================ChatAiInstance=================");
+        System.out.println(">>>>>>>>>>>>>>>>>>>ChatAiInstance>>>>>>>>>>>>>>");
     }
 
     @DefAction
