@@ -7,9 +7,11 @@ import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.KZeroStater;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.spring.KZeroSpringStarter;
+import io.github.kloping.spt.Setting;
 import io.github.kloping.spt.StarterObjectApplication;
 import io.github.kloping.spt.entity.interfaces.Runner;
 import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.impls.ActionManagerImpl;
 import io.github.kloping.spt.impls.FieldManagerImpl;
 import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.spt.interfaces.component.FieldManager;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author github.kloping

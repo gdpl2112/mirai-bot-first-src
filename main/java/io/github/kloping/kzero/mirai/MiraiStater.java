@@ -5,7 +5,6 @@ import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
 import io.github.kloping.kzero.mirai.listeners.AiHandler;
-import io.github.kloping.kzero.mirai.listeners.GenshinUidConnect;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -110,7 +109,8 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         KZeroBot<MessageChain, Bot> bot = KlopZeroMainThreads.BOT_MAP.get(String.valueOf(event.getBot().getId()));
         if (handlerMap.containsKey(bot)) {
             String out = bot.getSerializer().serialize(event.getMessage());
-            MessagePack pack = new MessagePack(MessageType.GROUP, String.valueOf(event.getSender().getId()), String.valueOf(event.getSubject().getId()), out);
+            MessagePack pack = new MessagePack(MessageType.GROUP,
+                    String.valueOf(event.getSender().getId()), String.valueOf(event.getSubject().getId()), out);
             pack.setRaw(event);
             handlerMap.get(bot).onMessage(pack);
         }

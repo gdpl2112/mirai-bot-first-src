@@ -2,6 +2,7 @@ package io.github.kloping.kzero.main;
 
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.hwxb.WxHookStarter;
+import io.github.kloping.kzero.mirai.MiraiStater;
 
 import java.net.URISyntaxException;
 
@@ -24,7 +25,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 //        threads.add(new WxStarter());
-        threads.add(new WxHookStarter());
+//        threads.add(new WxHookStarter());
 //        threads.add(new MiraiStater());
 //        threads.add(new GuildStater("102057448", "v0uQvq74AZtFGTCCWcDnEpsOLNoszA2H", Intents.PRIVATE_INTENTS.getCode()));
 //        threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2", "2yvspmjgdbZXVTRPONMLKJIHHHHHHHHI",

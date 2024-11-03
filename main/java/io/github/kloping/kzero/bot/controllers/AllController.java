@@ -176,36 +176,6 @@ public class AllController implements Runner {
 
     private Map<String, Queue<MessagePack>> hist = new HashMap<>();
 
-    @DefAction
-    public void intercept0(Method method, MessagePack pack, KZeroBot bot) {
-//        if (pack.getType() == MessageType.GROUP) {
-//            if (!(pack.getRaw() instanceof MessageEvent)) return;
-//            if (!pack.getSubjectId().equals("278681553")) return;
-//            Queue<MessagePack> queue = hist.get(pack.getSenderId());
-//            if (queue == null) queue = new LinkedBlockingQueue<>(5);
-//            if (queue.size() >= 3) {
-//                String code = pack.getMsg();
-//                int ac = 1;
-//                String m0 = null;
-//                for (MessagePack messagePack : queue) {
-//                    if (m0 == null) m0 = messagePack.getMsg();
-//                    else if (m0.equals(messagePack.getMsg())) ac++;
-//                }
-//                if (ac >= 3) {
-//                    bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), "检测到可能存在刷屏行为,请注意发言.");
-//                } else if (ac > 3) {
-//                    bot.getAdapter().sendMessage(MessageType.GROUP, pack.getSubjectId(), "多次刷屏...\n禁言20s以示警告");
-//                    NormalMember member = (NormalMember) ((MessageEvent) pack.getRaw()).getSender();
-//                    member.mute(20);
-//                    queue.clear();
-//                }
-//            }
-//            if (queue.size() >= 4) queue.poll();
-//            queue.offer(pack);
-//            hist.put(pack.getSenderId(), queue);
-//        }
-    }
-
     public List<WakeUpReception> receptions = new LinkedList<>();
 
     public interface WakeUpReception {
