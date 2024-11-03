@@ -30,6 +30,7 @@ public class ChatAiInstance {
 
     private void hand(KZeroBot bot, MessagePack pack) {
         String msg = pack.getMsg();
+        if (msg != null) return;
         if (msg.matches(REGX)) {
             if (msg.startsWith("ai:")) msg = msg.substring(3);
             String out = ChatAi.chat(pack.getSenderId(), msg);
