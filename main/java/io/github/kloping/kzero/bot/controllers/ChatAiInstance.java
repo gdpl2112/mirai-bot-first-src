@@ -26,12 +26,12 @@ public class ChatAiInstance {
         hand(bot, pack);
     }
 
-    public static final String REGX = "[我想问|为什么|为啥|什么].+|.+\\?|ai:.+|.+是什么";
+    public static final String REGX = "[我想问|为什么|为啥|什么].+|.+\\?|.+\\？|ai:.+|.+是什么";
 
     private void hand(KZeroBot bot, MessagePack pack) {
         String msg = pack.getMsg();
         if (msg != null) return;
-        if (msg.matches(REGX)) {
+        if (msg.trim().matches(REGX)) {
             if (msg.startsWith("ai:")) msg = msg.substring(3);
             String out = ChatAi.chat(pack.getSenderId(), msg);
             if (out != null) {
