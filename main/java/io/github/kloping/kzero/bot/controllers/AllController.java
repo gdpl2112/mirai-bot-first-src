@@ -49,7 +49,7 @@ public class AllController implements Runner {
 
     private void hand(KZeroBot bot, MessagePack pack) {
         String msg = pack.getMsg();
-        if (msg != null) return;
+        if (msg == null) return;
         if (msg.trim().matches(REGX)) {
             log.waring("匹配关键词:开始回话");
             if (msg.startsWith("ai:")) msg = msg.substring(3);
