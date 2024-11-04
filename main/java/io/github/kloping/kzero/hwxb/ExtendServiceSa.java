@@ -34,47 +34,6 @@ public class ExtendServiceSa {
         return null;
     }
 
-    //  String out = TEMPLATE.getForObject("https://www.hhlqilongzhu.cn/api/sp_jx/sp.php?url=" + url, String.class);
-    //        JSONObject result = JSON.parseObject(out);
-    //        if (result.getInteger("code") < 0) {
-    //            event.getSubject().sendMessage("解析异常!\n若链接无误请反馈.");
-    //            return;
-    //        }
-    //        Utils.Gt gt = new Utils.Gt(out);
-    //
-    //        Bot bot = event.getBot();
-    //
-    //        var builder = new MessageChainBuilder();
-    //        byte[] bytes = UrlUtils.getBytesFromHttpUrl(gt.gt("data.cover", String.class));
-    //        Image image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes), "jpg");
-    //        builder.append(image)
-    //                .append(gt.gt("data.title").toString())
-    //                .append(gt.gt("text.time"));
-    //        String u0 = gt.gt("data.url", String.class);
-    //        var fbuilder = new ForwardMessageBuilder(bot.getAsFriend());
-    //        if (Judge.isEmpty(u0)) {
-    //            out = TEMPLATE.getForObject("https://www.hhlqilongzhu.cn/api/sp_jx/tuji.php?url=" + url, String.class);
-    //            gt = new Utils.Gt(out);
-    //            JSONArray array = gt.gt("data.images", JSONArray.class);
-    //            builder.append("\n图集数量:").append(String.valueOf(array.size())).append("/正在发送请稍等..");
-    //            try {
-    //                event.getSubject().sendMessage(builder.build());
-    //            } catch (Exception e) {
-    //                e.printStackTrace();
-    //            }
-    //            fbuilder.add(bot.getId(), "AI", new PlainText("音频直链: " + gt.gt("data.music")));
-    //            for (Object o : array) {
-    //                bytes = UrlUtils.getBytesFromHttpUrl(o.toString());
-    //                image = Contact.uploadImage(event.getBot().getAsFriend(), new ByteArrayInputStream(bytes), "jpg");
-    //                fbuilder.add(bot.getId(), "AI", image);
-    //            }
-    //        } else {
-    //            event.getSubject().sendMessage(builder.build());
-    //            fbuilder.add(bot.getId(), "AI", new PlainText("视频直链: " + gt.gt("data.url")));
-    //            fbuilder.add(bot.getId(), "AI", new PlainText("音频直链: " + gt.gt("data.music_url")));
-    //        }
-    //        event.getSubject().sendMessage(fbuilder.build());
-
     private static Object gotoDouyin(MessageEvent r, String url) {
         String out = TEMPLATE.getForObject("https://www.hhlqilongzhu.cn/api/sp_jx/sp.php?url=" + url, String.class);
         JSONObject result = JSON.parseObject(out);
@@ -99,7 +58,7 @@ public class ExtendServiceSa {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                list.add(new MsgData("http://127.0.0.1:20049/" + file.getName(), "fileUrl"));
+                list.add(new MsgData(String.format("http://%s:20049/", r.getAuth().getIp()) + file.getName(), "fileUrl"));
             }
             r.sendMessage(list.toArray(new MsgData[0]));
         } else {
