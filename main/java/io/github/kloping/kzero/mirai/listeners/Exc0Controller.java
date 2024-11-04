@@ -1,9 +1,6 @@
 package io.github.kloping.kzero.mirai.listeners;
 
-import io.github.kloping.spt.annotations.Action;
-import io.github.kloping.spt.annotations.AllMess;
-import io.github.kloping.spt.annotations.Before;
-import io.github.kloping.spt.annotations.Controller;
+import io.github.kloping.spt.annotations.*;
 import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.main.ResourceSet;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -21,8 +18,8 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
  */
 @Controller
 public class Exc0Controller {
-    @Before
-    public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
+    @Constructor(value = 1)
+    public Exc0Controller(KZeroBot kZeroBot) {
         if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
     }
 

@@ -20,12 +20,9 @@ import org.springframework.web.client.RestTemplate;
 public class CommandController {
     private RestTemplate template;
 
-    public CommandController() {
+    @Constructor(value = 1)
+    public CommandController(KZeroBot kZeroBot) {
         template = new RestTemplate();
-    }
-
-    @Before
-    public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
         if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("pd-group-bot专属扩展");
     }
 

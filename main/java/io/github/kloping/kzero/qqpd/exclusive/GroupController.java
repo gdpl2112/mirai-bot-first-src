@@ -1,27 +1,24 @@
 package io.github.kloping.kzero.qqpd.exclusive;
 
-import io.github.kloping.spt.annotations.AutoStand;
-import io.github.kloping.spt.annotations.AutoStandAfter;
-import io.github.kloping.spt.annotations.Controller;
-import io.github.kloping.spt.interfaces.Logger;
-import io.github.kloping.kzero.bot.controllers.InterceptController;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.BotMessageHandler;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
-import io.github.kloping.kzero.spring.dao.BindMap;
 import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.spring.mapper.BindMapper;
 import io.github.kloping.qqbot.api.SendAble;
 import io.github.kloping.qqbot.api.event.InterActionEvent;
-import io.github.kloping.qqbot.api.message.MessageEvent;
 import io.github.kloping.qqbot.api.v2.GroupMessageEvent;
 import io.github.kloping.qqbot.entities.Bot;
-import io.github.kloping.qqbot.entities.ex.Image;
 import io.github.kloping.qqbot.entities.ex.msg.MessageChain;
 import io.github.kloping.qqbot.impl.ListenerHost;
+import io.github.kloping.spt.annotations.AutoStand;
+import io.github.kloping.spt.annotations.Constructor;
+import io.github.kloping.spt.annotations.Controller;
+import io.github.kloping.spt.exceptions.NoRunException;
+import io.github.kloping.spt.interfaces.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +32,13 @@ public class GroupController extends ListenerHost {
     private BotMessageHandler handler;
     private KZeroBot zeroBot;
 
+
+    @Constructor(value = 1)
     public GroupController(KZeroBot kZeroBot) {
-        if (!(kZeroBot.getSelf() instanceof Bot)) {
-            System.err.println("=======ERROR=====FOR PD GROUP");
-        } else {
-            zeroBot = kZeroBot;
-            Bot bot = (Bot) kZeroBot.getSelf();
-            bot.getConfig().getListenerHosts().add(this);
-        }
+        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("pd-group-bot专属扩展");
+        this.zeroBot = kZeroBot;
+        Bot bot = (Bot) kZeroBot.getSelf();
+        bot.getConfig().getListenerHosts().add(this);
     }
 
     @AutoStand

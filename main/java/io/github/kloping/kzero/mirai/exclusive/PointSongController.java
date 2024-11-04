@@ -1,33 +1,24 @@
 package io.github.kloping.kzero.mirai.exclusive;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import io.github.kloping.spt.annotations.*;
-import io.github.kloping.spt.exceptions.NoRunException;
 import io.github.kloping.kzero.bot.KlopingWeb;
 import io.github.kloping.kzero.bot.commons.apis.Songs;
 import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.main.api.MessageType;
-import io.github.kloping.url.UrlUtils;
+import io.github.kloping.spt.annotations.*;
+import io.github.kloping.spt.exceptions.NoRunException;
 import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.message.data.MusicKind;
-import net.mamoe.mirai.message.data.MusicShare;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author github-kloping
  */
 @Controller
 public class PointSongController {
-    @Before
-    public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
+    @Constructor(value = 1)
+    public PointSongController(KZeroBot kZeroBot) {
         if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
     }
-
     private static final StringBuilder SB = new StringBuilder();
 
     @AutoStand

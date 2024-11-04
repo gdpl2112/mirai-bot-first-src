@@ -83,7 +83,7 @@ public class AiHandler implements ListenerHost {
     }
 
     public static final String regx = "(https?|http|ftp|file):\\/\\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
-    public static final Pattern pattern = Pattern.compile(regx);
+    public static final Pattern URLPATTERN = Pattern.compile(regx);
 
     public static final String KS_LINK = "v.kuaishou.com";
     public static final String DY_LINK = "v.douyin.com";
@@ -102,10 +102,10 @@ public class AiHandler implements ListenerHost {
         }
         String out = line.toString().trim();
         if (out.contains(KS_LINK)) {
-            Matcher matcher = pattern.matcher(out);
+            Matcher matcher = URLPATTERN.matcher(out);
             if (matcher.find()) parseKs(matcher.group(), event);
         } else if (out.contains(DY_LINK)) {
-            Matcher matcher = pattern.matcher(out);
+            Matcher matcher = URLPATTERN.matcher(out);
             if (matcher.find()) parseDy(matcher.group(), event);
         }
     }

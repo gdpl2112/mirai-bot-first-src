@@ -20,6 +20,7 @@ import java.util.Date;
  */
 @Controller
 public class PluginFuncController {
+
     private class Result0<T> {
         private Long gid;
         private Long sid;

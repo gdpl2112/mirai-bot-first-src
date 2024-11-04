@@ -228,7 +228,7 @@ public class WxHookStarter implements KZeroStater {
 
             WxHookExtend0.recv(event);
 
-            Public.EXECUTOR_SERVICE.submit(()->ExtendServiceW.handle(r));
+            Public.EXECUTOR_SERVICE.submit(()-> ExtendServiceSa.handle(event));
 
             return "{}";
         });

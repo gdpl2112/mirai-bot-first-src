@@ -29,4 +29,8 @@ public abstract class MessageEvent<T extends Object> extends MetaEvent<T> {
     public abstract String getContactType();
 
     public abstract JSONObject sendMessage(MsgData... data);
+
+    public JSONObject sendMessage(String msg) {
+        return sendMessage(new MsgData(msg, "text"));
+    }
 }

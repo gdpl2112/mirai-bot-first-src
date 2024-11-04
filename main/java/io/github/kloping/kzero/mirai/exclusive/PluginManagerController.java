@@ -23,6 +23,10 @@ import net.mamoe.mirai.message.data.SingleMessage;
  */
 @Controller
 public class PluginManagerController {
+    @Constructor(value = 1)
+    public PluginManagerController(KZeroBot kZeroBot) {
+        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
+    }
     @AutoStand
     FatherMapper fatherMapper;
 
@@ -34,8 +38,7 @@ public class PluginManagerController {
 
     @Before
     public void before(@AllMess String msg, KZeroBot kZeroBot, MessagePack pack) {
-        if (!(kZeroBot.getSelf() instanceof Bot)) throw new NoRunException("mirai-bot专属扩展");
-        else if (superId.equals(pack.getSenderId())) {
+       if (superId.equals(pack.getSenderId())) {
         } else {
             Father father = dataBase.getFather(pack.getSenderId());
             if (father != null && father.permissionsList().contains(pack.getSubjectId())) {
