@@ -10,8 +10,8 @@ import lombok.Data;
  */
 @Data
 public abstract class MessageEvent<T extends Object> extends MetaEvent<T> {
-    private Contact from;
-    private Contact to;
+    protected Contact from;
+    protected Contact to;
 
     public MessageEvent(MetaEvent<T> event) {
         super(event.getId());
@@ -25,6 +25,8 @@ public abstract class MessageEvent<T extends Object> extends MetaEvent<T> {
     }
 
     public abstract Contact getSubject();
+
+    public abstract Contact getSender();
 
     public abstract String getContactType();
 

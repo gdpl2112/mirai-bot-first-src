@@ -25,6 +25,11 @@ public class FriendMessageEvent extends MessageEvent {
     }
 
     @Override
+    public Contact getSender() {
+        return getFrom();
+    }
+
+    @Override
     public Contact getSubject() {
         return getFrom();
     }

@@ -25,6 +25,11 @@ public class GroupMessageEvent extends MessageEvent {
     }
 
     @Override
+    public Contact getSender() {
+        return this.from;
+    }
+
+    @Override
     public Contact getSubject() {
         return room;
     }

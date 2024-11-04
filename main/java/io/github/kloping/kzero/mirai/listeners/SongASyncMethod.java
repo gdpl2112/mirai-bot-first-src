@@ -29,15 +29,15 @@ public class SongASyncMethod {
     public static final String TYPE_WY = "wy";
 
     // id <type,data>
-    public static final Map<Long, SongData> QID2DATA = new HashMap<>();
+    public static final Map<String, SongData> QID2DATA = new HashMap<>();
 
     public static final long MAX_CD = 1000 * 60 * 30;
 
     static {
         FrameUtils.SERVICE.scheduleWithFixedDelay(() -> {
-            Iterator<Long> iterator = QID2DATA.keySet().iterator();
+            Iterator<String> iterator = QID2DATA.keySet().iterator();
             while (iterator.hasNext()) {
-                Long qid = iterator.next();
+                String qid = iterator.next();
                 SongData data = QID2DATA.get(qid);
                 if ((System.currentTimeMillis() - data.time) > MAX_CD) {
                     QID2DATA.remove(qid);
@@ -49,7 +49,8 @@ public class SongASyncMethod {
     public static void qqvip(GroupMessageEvent event, String name, Integer p) throws Exception {
         Document doc0 = getDocument(String.format("https://api.linhun.vip/api/qqyy?&apiKey=5ff26395f76d3e12b694e1875e37a40a&y=1&n=&name=%s", name, p));
         JSONObject jo0 = JSON.parseObject(doc0.body().text());
-        QID2DATA.put(event.getSender().getId(), new SongData(p, name, TYPE_QQ, jo0, event.getSender().getId(), System.currentTimeMillis()));
+        QID2DATA.put(String.valueOf(event.getSender().getId()),
+                new SongData(p, name, TYPE_QQ, jo0, String.valueOf(event.getSender().getId()), System.currentTimeMillis()));
         if (jo0.getInteger("code") == 200) {
             StringBuilder sb = new StringBuilder();
             int i = 1;
@@ -68,7 +69,8 @@ public class SongASyncMethod {
     public static void kugouVip(GroupMessageEvent event, String name, Integer p) throws Exception {
         Document doc0 = getDocument("http://www.dreamling.top/API/kugou/web/music/api.php?&pagenum=9&format=json&flag=format&page=" + p + "&keyword=" + name);
         JSONObject jo0 = JSON.parseObject(doc0.body().text());
-        QID2DATA.put(event.getSender().getId(), new SongData(p, name, TYPE_KUGOU, jo0, event.getSender().getId(), System.currentTimeMillis()));
+        QID2DATA.put(String.valueOf(event.getSender().getId()),
+                new SongData(p, name, TYPE_KUGOU, jo0, String.valueOf(event.getSender().getId()), System.currentTimeMillis()));
         if (jo0.getInteger("code") == 200) {
             JSONObject data = jo0.getJSONObject("data");
             StringBuilder sb = new StringBuilder();
@@ -110,7 +112,7 @@ public class SongASyncMethod {
     }
 
     public static class SongData {
-        public SongData(String type, String name, Long qid, Long time) {
+        public SongData(String type, String name, String qid, Long time) {
             this.type = type;
             this.name = name;
             this.data = name;
@@ -118,7 +120,7 @@ public class SongASyncMethod {
             this.time = time;
         }
 
-        public SongData(Integer p, String name, String type, Object data, Long qid, Long time) {
+        public SongData(Integer p, String name, String type, Object data, String qid, Long time) {
             this.p = p;
             this.name = name;
             this.type = type;
@@ -131,7 +133,7 @@ public class SongASyncMethod {
         public String name;
         public String type;
         public Object data;
-        public Long qid;
+        public String qid;
         public Long time;
     }
 
@@ -143,7 +145,7 @@ public class SongASyncMethod {
      * @param name
      * @return
      */
-    public static String listSongs(Long qid, String type, Integer p, String name) {
+    public static String listSongs(String qid, String type, Integer p, String name) {
         try {
             if (TYPE_QQ.equals(type)) return listQqSongs(qid, TYPE_QQ, p, name);
             else if (TYPE_WY.equals(type)) return listWySongs(qid, TYPE_WY, p, name);
@@ -156,13 +158,13 @@ public class SongASyncMethod {
     }
 
 
-    private static String listKgSongs(Long qid, String type, Integer p, String name) throws Exception {
+    private static String listKgSongs(String qid, String type, Integer p, String name) throws Exception {
         Document doc0 = getDocument("https://www.hhlqilongzhu.cn/api/dg_kgmusic.php?n=&gm=" + name);
         QID2DATA.put(qid, new SongData(p, name, type, doc0, qid, System.currentTimeMillis()));
         return doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
 
-    private static String listWySongs(Long qid, String type, Integer p, String name) throws Exception {
+    private static String listWySongs(String qid, String type, Integer p, String name) throws Exception {
         Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=", name));
         String content = doc0.wholeText();
         StringBuilder sb = new StringBuilder();
@@ -175,7 +177,7 @@ public class SongASyncMethod {
         return sb.toString().trim() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
 
-    private static String listQqSongs(Long qid, String type, Integer p, String name) throws Exception {
+    private static String listQqSongs(String qid, String type, Integer p, String name) throws Exception {
         Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=text&br=2&msg=%s&n=", name));
 //        JSONObject data = JSONObject.parseObject(doc0.body().text());
 //        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));

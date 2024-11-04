@@ -64,7 +64,7 @@ public class AiHandler implements ListenerHost {
             SongData e = QID2DATA.get(event.getSender().getId());
             if (e != null) {
                 if (n == 0) {
-                    String r = listSongs(event.getSender().getId(), e.type, e.p + 1, e.name);
+                    String r = listSongs(String.valueOf(event.getSender().getId()), e.type, e.p + 1, e.name);
                     if (r == null) event.getSubject().sendMessage("翻页时异常!");
                     else event.getSubject().sendMessage(r);
                 } else {
@@ -76,7 +76,7 @@ public class AiHandler implements ListenerHost {
         }
 
         if (name != null && type != null) {
-            String r = listSongs(event.getSender().getId(), type, 1, name);
+            String r = listSongs(String.valueOf(event.getSender().getId()), type, 1, name);
             if (r == null) event.getSubject().sendMessage("点歌时异常!");
             else event.getSubject().sendMessage(r);
         }
