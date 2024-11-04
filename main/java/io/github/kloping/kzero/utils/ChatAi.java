@@ -49,7 +49,7 @@ public class ChatAi {
 
 
     private static Map<String, Queue<Message>> sid2msgs = new HashMap<>();
-    public static final Integer MAX = 10;
+    public static final Integer MAX = 20;
 
     private static Queue<Message> getMessage(String sid) {
         if (sid2msgs.containsKey(sid)) {
