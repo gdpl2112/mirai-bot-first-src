@@ -2,10 +2,11 @@ package io.github.kloping.kzero.spring.web;
 
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import io.github.kloping.spt.annotations.AutoStand;
+import io.github.kloping.kzero.hwxb.WxHookStarter;
 import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.MessageType;
 import io.github.kloping.rand.RandomUtils;
+import io.github.kloping.spt.annotations.AutoStand;
 import io.github.kloping.url.UrlUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class ExtendController {
         try {
             KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
                 try {
+                    if (v.getSelf() instanceof WxHookStarter) return;
                     v.getAdapter().sendMessage(MessageType.GROUP, CAP_GID, "有新的帖子上传成功");
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -81,6 +83,7 @@ public class ExtendController {
         if (!pwd.equals(pwd1)) return "err";
         KlopZeroMainThreads.BOT_MAP.forEach((e, v) -> {
             try {
+                if (v.getSelf() instanceof WxHookStarter) return;
                 v.getAdapter().sendMessage(MessageType.GROUP, gid, s);
             } catch (Exception ex) {
                 ex.printStackTrace();

@@ -66,7 +66,8 @@ public class WxHookStarter implements KZeroStater {
                 return new KZeroBotAdapter() {
                     private GroupMessageEvent ue;
 
-                    private @Nullable GroupMessageEvent getGroupMessageEvent(String targetId) {
+                    @Nullable
+                    private GroupMessageEvent getGroupMessageEvent(String targetId) {
                         if (ue != null && ue.getSubject().getId().equalsIgnoreCase(targetId)) return ue;
                         GroupMessageEvent event = null;
                         for (MetaEvent value : SID2EVENT.values()) {
