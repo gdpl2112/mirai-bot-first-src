@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.date.FrameUtils;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -165,14 +166,15 @@ public class SongASyncMethod {
     }
 
     private static String listWySongs(String qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=&num=", name));
+        Document doc0 = getDocument("http://kloping.top/api/music/search?keyword=" + name);
         String content = doc0.wholeText();
         StringBuilder sb = new StringBuilder();
-//        JSONObject data = JSON.parseObject(content);
-//        for (Object o : data.getJSONArray("content")) {
-//            sb.append(o);
-//        }
-        sb.append(content);
+        JSONArray arr = JSON.parseArray(content);
+        Integer index = 1;
+        for (Object o : arr) {
+            JSONObject e0 = (JSONObject) o;
+            sb.append(index++).append(".").append(e0.getString("name")).append("--").append(e0.getString("artist")).append("\n");
+        }
         QID2DATA.put(qid, new SongData(p, name, type, doc0, qid, System.currentTimeMillis()));
         return sb.toString().trim() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
@@ -220,13 +222,18 @@ public class SongASyncMethod {
     }
 
     private static Message pointWySong(SongData data, Integer n) throws Exception {
-        String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_wyymusic.php?gm=%s&n=%s&num=&type=json", data.name, n), String.class);
-        JSONObject jo = JSON.parseObject(jsonData);
-//        jo = jo.getJSONObject("data");
+        Document doc0 = (Document) data.data;
+        String content = doc0.wholeText();
+        JSONArray arr = JSON.parseArray(content);
+        JSONObject jo = arr.getJSONObject(n - 1);
+        String id = jo.getString("id");
+        String url = getRedirectUrl("http://kloping.top/api/music/get-url-by-id?id=" + id);
+        String cover = getRedirectUrl("http://kloping.top/api/music/get-cover-by-id?id=" + id);
         MusicShare share = new MusicShare(
-                MusicKind.QQMusic, jo.getString("title"),
-                jo.getString("singer"), jo.getString("link"),
-                jo.getString("cover"), jo.getString("music_url"));
+                MusicKind.QQMusic, jo.getString("name"),
+                jo.getString("artist"), "https://music.163.com/#/song?id=" + id,
+                cover, url
+        );
         return share;
     }
 

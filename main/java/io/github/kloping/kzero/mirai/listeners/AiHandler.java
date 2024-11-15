@@ -52,16 +52,16 @@ public class AiHandler implements ListenerHost {
             type = TYPE_WY;
         } else if (out.startsWith("点歌") && out.length() > 2) {
             name = out.substring(2);
-            type = TYPE_QQ;
+            type = TYPE_WY;
         } else if (out.startsWith("QQ点歌") && out.length() > 4) {
             name = out.substring(4);
             type = TYPE_QQ;
         } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
-            SongData o = QID2DATA.remove(event.getSender().getId());
+            SongData o = QID2DATA.remove(String.valueOf(event.getSender().getId()));
             event.getSubject().sendMessage("已取消.\n" + o.name);
         } else if (out.matches("[+\\-\\d]+")) {
             Integer n = Integer.valueOf(out);
-            SongData e = QID2DATA.get(event.getSender().getId());
+            SongData e = QID2DATA.get(String.valueOf(event.getSender().getId()));
             if (e != null) {
                 if (n == 0) {
                     String r = listSongs(String.valueOf(event.getSender().getId()), e.type, e.p + 1, e.name);
