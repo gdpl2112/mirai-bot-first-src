@@ -8,14 +8,13 @@ import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.mirai.exclusive.PluginManagerController;
 import io.github.kloping.kzero.mirai.exclusive.WebAuthController;
 import io.github.kloping.kzero.spring.dao.GroupConf;
-import io.github.kloping.kzero.utils.ChatAi;
 import io.github.kloping.spt.annotations.*;
 import io.github.kloping.spt.entity.interfaces.Runner;
-import io.github.kloping.spt.exceptions.NoRunException;
-import io.github.kloping.spt.interfaces.Logger;
 import io.github.kloping.spt.interfaces.QueueExecutor;
 import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.url.UrlUtils;
+import net.mamoe.mirai.message.data.Image;
+import net.mamoe.mirai.message.data.ImageType;
 
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
@@ -83,7 +82,20 @@ public class AllController implements Runner {
 
     @Action("测试")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-        return "测试消息";
+//        if (pack.getSubjectId().equalsIgnoreCase("635049722")) {
+//            Image.Builder builder = Image.newBuilder("{87C9215E-2B7B-C9B0-AD8B-0E6562C056D8}.jpg");
+//            builder.setEmoji(false);
+//            builder.setSize(2356);
+//            builder.setType(ImageType.JPG);
+//            builder.setWidth(120);
+//            builder.setHeight(108);
+//            Image image = builder.build();
+//            System.out.println(image.getImageId());
+//            System.out.println(Image.queryUrl(image));
+//            return "<pic:" + Image.queryUrl(image) + ">";
+//        }
+        return null;
+//        return "测试消息";
     }
 
     @AutoStand(id = "super_id")
