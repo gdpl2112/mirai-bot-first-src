@@ -82,18 +82,19 @@ public class AllController implements Runner {
 
     @Action("测试")
     public Object test0(@Param("name") String name, String sid, MessagePack pack, KZeroBot bot) throws Exception {
-//        if (pack.getSubjectId().equalsIgnoreCase("635049722")) {
-//            Image.Builder builder = Image.newBuilder("{87C9215E-2B7B-C9B0-AD8B-0E6562C056D8}.jpg");
-//            builder.setEmoji(false);
-//            builder.setSize(2356);
-//            builder.setType(ImageType.JPG);
-//            builder.setWidth(120);
-//            builder.setHeight(108);
-//            Image image = builder.build();
-//            System.out.println(image.getImageId());
-//            System.out.println(Image.queryUrl(image));
-//            return "<pic:" + Image.queryUrl(image) + ">";
-//        }
+        if (pack.getSubjectId().equalsIgnoreCase("635049722")) {
+            //:{A9BA3115-B9A0-7FAF-E736-E536DB96B129}.jpg, width=572, height=1280, size=48581
+            Image.Builder builder = Image.newBuilder("{A9BA3115-B9A0-7FAF-E736-E536DB96B129}.jpg");
+            builder.setEmoji(false);
+            builder.setType(ImageType.JPG);
+//            builder.setSize(48581);
+//            builder.setWidth(1280);
+//            builder.setHeight(572);
+            Image image = builder.build();
+            System.out.println(image.getImageId());
+            System.out.println(Image.queryUrl(image));
+            return "<pic:" + Image.queryUrl(image) + ">";
+        }
         return null;
 //        return "测试消息";
     }
