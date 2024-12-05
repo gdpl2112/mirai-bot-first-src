@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSON;
+import io.github.kloping.kzero.bot.controllers.AllController;
 import io.github.kloping.spt.annotations.AutoStand;
 import io.github.kloping.spt.annotations.Controller;
 import io.github.kloping.spt.interfaces.Logger;
@@ -62,13 +63,7 @@ public class MihdpConnect implements ListenerHost {
 
     private void sendToMihdp(MessageEvent event) {
         if (MihdpClient.INSTANCE == null) return;
-        String gid = String.valueOf(event.getSubject().getId());
-        GroupConf groupConf = dataBase.getConf(gid);
-        if (groupConf != null) {
-            if (!groupConf.getOpen()) {
-                return;
-            }
-        }
+        if (AllController.isClosed(event.getSubject().getId())) return;
         GeneralData.ResDataChain chain = new GeneralData.ResDataChain(new LinkedList<>());
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {

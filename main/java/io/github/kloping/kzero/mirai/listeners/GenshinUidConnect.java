@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.mirai.listeners;
 
 import com.alibaba.fastjson.JSONArray;
+import io.github.kloping.kzero.bot.controllers.AllController;
 import io.github.kloping.kzero.bot.database.DataBase;
 import io.github.kloping.kzero.gsuid.*;
 import io.github.kloping.kzero.main.api.KZeroBot;
@@ -68,13 +69,7 @@ public class GenshinUidConnect implements ListenerHost {
 
     private void sendToGsuid(MessageEvent event) {
         if (GsuidClient.INSTANCE == null) return;
-        String gid = String.valueOf(event.getSubject().getId());
-        GroupConf groupConf = dataBase.getConf(gid);
-        if (groupConf != null) {
-            if (!groupConf.getOpen()) {
-                return;
-            }
-        }
+        if (AllController.isClosed(event.getSubject().getId())) return;
         List<MessageData> list = getMessageData(event);
         if (!list.isEmpty()) {
             MessageReceive receive = new MessageReceive();

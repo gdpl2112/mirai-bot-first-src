@@ -33,6 +33,14 @@ public class AllController implements Runner {
     @AutoStand
     public static DataBase dataBase;
 
+    public static boolean isClosed(long event) {
+        GroupConf groupConf = dataBase.getConf(String.valueOf(event));
+        if (groupConf != null) {
+            if (!groupConf.getOpen()) return true;
+        }
+        return false;
+    }
+
     @AutoStand(id = "upload.url")
     public static String UPLOAD_URL;
 

@@ -1,5 +1,7 @@
 package io.github.kloping.kzero.spring;
 
+import io.github.kloping.kzero.main.KlopZeroMainThreads;
+import io.github.kloping.kzero.spring.service.KeptClient;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.spt.impls.PackageScannerImpl;
 import io.github.kloping.spt.interfaces.component.PackageScanner;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +21,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author github.kloping
@@ -80,4 +85,12 @@ public class KZeroSpringStarter {
         }
         return r;
     }
+
+//    @Bean
+//    @ConditionalOnProperty(prefix = "kpet", name = "enable", havingValue = "true")
+//    public KeptClient keptClient(@Value("${kpet.url}") String url) {
+//        KeptClient client = new KeptClient(URI.create(url));
+//        new Thread(client).start();
+//        return client;
+//    }
 }

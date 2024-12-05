@@ -10,6 +10,7 @@ import net.mamoe.mirai.message.data.ForwardMessageBuilder;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.PlainText;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,20 +29,21 @@ import java.util.Set;
 @Service
 @ConditionalOnProperty(prefix = "study", name = "enable", havingValue = "true")
 public class StudyService {
-    public StudyService() {
-        System.out.println("==");
-    }
 
     private static final SimpleDateFormat SF_0 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Autowired
     RestTemplate template;
 
+    @Value("${study.enable:false}")
+    Boolean enable;
+
     @Autowired
     VocabularyMapper vocabularyMapper;
 
     @Scheduled(cron = "0 48 8 * * ?")
     public void sendWords() {
+        if (!enable) return;
         Set<String> vws = new HashSet<>();
         Bot nb = null;
         for (KZeroBot bot : KlopZeroMainThreads.BOT_MAP.values()) {

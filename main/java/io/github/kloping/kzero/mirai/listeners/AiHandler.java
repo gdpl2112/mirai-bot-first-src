@@ -31,10 +31,7 @@ public class AiHandler implements ListenerHost {
 
     @EventHandler
     public void pointOnly(GroupMessageEvent event) throws Exception {
-        GroupConf groupConf = AllController.dataBase.getConf(String.valueOf(event.getSubject().getId()));
-        if (groupConf != null) {
-            if (!groupConf.getOpen()) return;
-        }
+        if (AllController.isClosed(event.getSubject().getId())) return;
         StringBuilder line = new StringBuilder();
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {
@@ -56,7 +53,7 @@ public class AiHandler implements ListenerHost {
         } else if (out.startsWith("QQ点歌") && out.length() > 4) {
             name = out.substring(4);
             type = TYPE_QQ;
-        } else if (out.startsWith("取消点歌")||out.startsWith("取消选择")) {
+        } else if (out.startsWith("取消点歌") || out.startsWith("取消选择")) {
             SongData o = QID2DATA.remove(String.valueOf(event.getSender().getId()));
             event.getSubject().sendMessage("已取消.\n" + o.name);
         } else if (out.matches("[+\\-\\d]+")) {
@@ -82,6 +79,8 @@ public class AiHandler implements ListenerHost {
         }
     }
 
+
+
     public static final String regx = "(https?|http|ftp|file):\\/\\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
     public static final Pattern URLPATTERN = Pattern.compile(regx);
 
@@ -90,10 +89,7 @@ public class AiHandler implements ListenerHost {
 
     @EventHandler
     public void parseOnly(MessageEvent event) throws Exception {
-        GroupConf groupConf = AllController.dataBase.getConf(String.valueOf(event.getSubject().getId()));
-        if (groupConf != null) {
-            if (!groupConf.getOpen()) return;
-        }
+        if (AllController.isClosed(event.getSubject().getId())) return;
         StringBuilder line = new StringBuilder();
         for (SingleMessage singleMessage : event.getMessage()) {
             if (singleMessage instanceof PlainText) {
@@ -158,8 +154,8 @@ public class AiHandler implements ListenerHost {
     public void parseKs(String url, MessageEvent event) {
         String out = TEMPLATE.getForObject("http://localhost/api/cre/jxvv?url=" + url, String.class);
         JSONObject result = JSON.parseObject(out);
-        if (!result.containsKey("result")){
-            sendToAsVideo(event,result);
+        if (!result.containsKey("result")) {
+            sendToAsVideo(event, result);
             return;
         }
         if (result.getInteger("result") < 0) {
