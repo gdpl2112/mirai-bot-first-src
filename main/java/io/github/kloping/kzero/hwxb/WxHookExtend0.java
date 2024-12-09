@@ -1,6 +1,7 @@
 package io.github.kloping.kzero.hwxb;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import io.github.kloping.file.FileUtils;
 import io.github.kloping.kzero.gsuid.GsuidClient;
 import io.github.kloping.kzero.gsuid.MessageData;
@@ -56,7 +57,7 @@ public class WxHookExtend0 {
         receive.setUser_type(event instanceof GroupMessageEvent ? "group" : "direct");
         receive.setContent(new MessageData[]{
                 new MessageData("text", event.getContent().toString()),
-                new MessageData("icon", event.getFrom().getPayLoad().getAvatar()+"&token=" + event.getAuth().getToken()),
+                new MessageData("icon", event.getFrom().getPayLoad().getAvatar() + "&token=" + event.getAuth().getToken()),
         });
         receive.setMsg_id(event.getId().toString());
         receive.setBot_id(WxHookStarter.ID);
@@ -105,6 +106,11 @@ public class WxHookExtend0 {
                 MetaEvent event = HandlerController.getLeast();
                 String url = String.format("%s:%s/%s", event.getAuth().getSelf(), event.getAuth().getPort(), path.replace("./temp/", ""));
                 list.add(new MsgData(url, "fileUrl"));
+            } else if (d0.getType().equals("node")) {
+                JSONArray arr = (JSONArray) d0.getData();
+                MessageData[] datas = arr.toJavaList(MessageData.class).toArray(new MessageData[0]);
+                MsgData[] msgData = asDatagram(datas);
+                list.addAll(Arrays.asList(msgData));
             }
         }
         return list.toArray(new MsgData[0]);

@@ -5,6 +5,7 @@ import io.github.kloping.kzero.spring.service.KeptClient;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.spt.impls.PackageScannerImpl;
 import io.github.kloping.spt.interfaces.component.PackageScanner;
+import net.mamoe.mirai.event.GlobalEventChannel;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,11 +87,12 @@ public class KZeroSpringStarter {
         return r;
     }
 
-//    @Bean
-//    @ConditionalOnProperty(prefix = "kpet", name = "enable", havingValue = "true")
-//    public KeptClient keptClient(@Value("${kpet.url}") String url) {
-//        KeptClient client = new KeptClient(URI.create(url));
-//        new Thread(client).start();
-//        return client;
-//    }
+    @Bean
+    @ConditionalOnProperty(prefix = "kpet", name = "enable", havingValue = "true")
+    public KeptClient keptClient(@Value("${kpet.url}") String url, @Value("${kpet.api}") String api) {
+        KeptClient client = new KeptClient(URI.create(url), api);
+        new Thread(client).start();
+        GlobalEventChannel.INSTANCE.registerListenerHost(client);
+        return client;
+    }
 }
