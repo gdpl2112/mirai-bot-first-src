@@ -52,8 +52,8 @@ public class WxHookExtend0 {
     private static MessageReceive getMessageReceive(MessageEvent<String> event) {
         MessageReceive receive = new MessageReceive();
         receive.setUser_pm(3);
-        String gid = event.getSubject().getId();
-        receive.setGroup_id(gid.substring(gid.length() - 10, gid.length()));
+        String gid = event.getSubject().getPayLoad().getTopic();
+        receive.setGroup_id(gid);
         receive.setUser_type(event instanceof GroupMessageEvent ? "group" : "direct");
         receive.setContent(new MessageData[]{
                 new MessageData("text", event.getContent().toString()),
@@ -62,8 +62,8 @@ public class WxHookExtend0 {
         receive.setMsg_id(event.getId().toString());
         receive.setBot_id(WxHookStarter.ID);
         receive.setBot_self_id(WxHookStarter.ID);
-        String fid = event.getFrom().getId();
-        receive.setUser_id(fid.substring(fid.length() - 10, fid.length()));
+        String fid = event.getFrom().getPayLoad().getName();
+        receive.setUser_id(fid);
         return receive;
     }
 
