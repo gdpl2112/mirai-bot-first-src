@@ -41,7 +41,7 @@ public class StudyService {
     @Autowired
     VocabularyMapper vocabularyMapper;
 
-    @Scheduled(cron = "0 48 8 * * ?")
+    @Scheduled(cron = "${study.cron:0 48 8 * * ?}")
     public void sendWords() {
         if (!enable) return;
         Set<String> vws = new HashSet<>();
