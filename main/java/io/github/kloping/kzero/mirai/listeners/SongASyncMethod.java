@@ -166,7 +166,7 @@ public class SongASyncMethod {
     }
 
     private static String listWySongs(String qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument("http://kloping.top/api/music/search?keyword=" + name);
+        Document doc0 = getDocument("http://127.0.0.1/api/music/search?keyword=" + name);
         String content = doc0.wholeText();
         StringBuilder sb = new StringBuilder();
         JSONArray arr = JSON.parseArray(content);
@@ -227,8 +227,8 @@ public class SongASyncMethod {
         JSONArray arr = JSON.parseArray(content);
         JSONObject jo = arr.getJSONObject(n - 1);
         String id = jo.getString("id");
-        String url = getRedirectUrl("http://kloping.top/api/music/get-url-by-id?id=" + id);
-        String cover = getRedirectUrl("http://kloping.top/api/music/get-cover-by-id?id=" + id);
+        String url = getRedirectUrl("http://127.0.0.1/api/music/get-url-by-id?id=" + id);
+        String cover = getRedirectUrl("http://127.0.0.1/api/music/get-cover-by-id?id=" + id);
         MusicShare share = new MusicShare(
                 MusicKind.QQMusic, jo.getString("name"),
                 jo.getString("artist"), "https://music.163.com/#/song?id=" + id,
