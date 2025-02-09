@@ -13,6 +13,7 @@ import io.github.kloping.kzero.main.api.KZeroBot;
 import io.github.kloping.kzero.main.api.MessagePack;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.spt.annotations.*;
+import io.github.kloping.url.UrlUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URLEncoder;
@@ -70,14 +71,14 @@ public class KlopingApiController {
     public String weather1(@Param("name") String name) {
         String type = "zytq";
         JSONObject jo = getWeatherData(name, type);
-        return jo.getString("data") ;
+        return jo.getString("data");
     }
 
     @Action("彩云天气<.+=>name>")
     public String weather2(@Param("name") String name) {
         String type = "cytq";
         JSONObject jo = getWeatherData(name, type);
-        return jo.getString("data") ;
+        return jo.getString("data");
     }
 
     private JSONObject getWeatherData(String name, String type) {
@@ -227,5 +228,18 @@ public class KlopingApiController {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @Action("小蛇糕")
+    public String wea1(@Param("name") String addr) {
+        String json = UrlUtils.getStringFromHttpUrl("https://api.k452b.cn/api/posts");
+        JSONObject jo = JSON.parseObject(json);
+        JSONArray arr = jo.getJSONArray("posts");
+        StringBuilder sb = new StringBuilder("\n");
+        for (Object o : arr) {
+            JSONObject e = (JSONObject) o;
+            sb.append(e.getString("created_at")).append(" ").append(e.getString("text")).append("\n");
+        }
+        return sb.toString();
     }
 }
