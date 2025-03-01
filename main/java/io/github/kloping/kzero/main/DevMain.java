@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 @ComponentScan("io.github.kloping.kzero")
 public class DevMain {
     public static void main(String[] args) {
-        System.err.println("build time 2024/12/22");
+        System.err.println("build time 2025/3/1");
         new DevPluginConfig().run();
         KlopZeroMainThreads threads = new KlopZeroMainThreads();
         threads.add(new MiraiStater());
