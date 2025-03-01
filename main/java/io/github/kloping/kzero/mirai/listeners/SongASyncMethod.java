@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.date.FrameUtils;
+import io.github.kloping.kzero.utils.CustomTrustManager;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MusicKind;
@@ -13,6 +14,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,6 +27,20 @@ import java.util.concurrent.TimeUnit;
  * @author github.kloping
  */
 public class SongASyncMethod {
+    static {
+//        Security.addProvider(new BouncyCastleProvider());
+        // 在代码中配置 SSLContext
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{new CustomTrustManager()}, new java.security.SecureRandom());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 设置到 Jsoup
+        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+    }
+
     public static final RestTemplate TEMPLATE = new RestTemplate();
 
     public static final String TYPE_KUGOU = "KG";
@@ -92,7 +110,10 @@ public class SongASyncMethod {
     @NotNull
     public static Document getDocument(String url) {
         try {
-            Document doc0 = Jsoup.connect(url).ignoreHttpErrors(true).ignoreContentType(true).header("Connection", "Keep-Alive").header("User-Agent", "Apache-HttpClient/4.5.14 (Java/17.0.8.1)").header("Accept-Encoding", "br,deflate,gzip,x-gzip").get();
+            Document doc0 = Jsoup.connect(url).ignoreHttpErrors(true)
+                    .ignoreContentType(true).header("Connection", "Keep-Alive")
+                    .header("User-Agent", "Apache-HttpClient/4.5.14 (Java/17.0.8.1)")
+                    .header("Accept-Encoding", "br,deflate,gzip,x-gzip").get();
             return doc0;
         } catch (IOException e) {
             e.printStackTrace();
@@ -180,17 +201,17 @@ public class SongASyncMethod {
     }
 
     private static String listQqSongs(String qid, String type, Integer p, String name) throws Exception {
-        Document doc0 = getDocument(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=text&br=2&msg=%s&n=", name));
-//        JSONObject data = JSONObject.parseObject(doc0.body().text());
-//        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));
-//        int n = 1;
-//        for (Object o : data.getJSONArray("data")) {
-//            JSONObject o1 = (JSONObject) o;
-//            sb.append(n++ + ".").append(o1.getString("song")).append("--").append(o1.getString("singer")).append("\n");
-//        }
-//        sb.append("选择歌曲前数字.选择0时进入下一页");
+        Document doc0 = getDocument(String.format("https://zj.v.api.aa1.cn/api/qqmusic/demo.php?type=1&q=%s&p=%s&n=10", name, p));
+        JSONObject data = JSONObject.parseObject(doc0.body().text());
+        StringBuilder sb = new StringBuilder(String.format("歌名:%s,页数:%s,总数:%s\n", name, p, data.get("count")));
+        int n = 1;
+        for (Object o : data.getJSONArray("list")) {
+            JSONObject o1 = (JSONObject) o;
+            sb.append(n++ + ".").append(o1.getString("name")).append("--").append(o1.getString("singer")).append("\n");
+        }
+        sb.append("选择歌曲前数字.选择0时进入下一页");
         QID2DATA.put(qid, new SongData(p, name, TYPE_QQ, doc0, qid, System.currentTimeMillis()));
-        return doc0.wholeText() + "\n使用'取消点歌'/'取消选择'来取消选择";
+        return sb.toString() + "\n使用'取消点歌'/'取消选择'来取消选择";
     }
 
     /**
@@ -228,23 +249,26 @@ public class SongASyncMethod {
         JSONObject jo = arr.getJSONObject(n - 1);
         String id = jo.getString("id");
         String url = getRedirectUrl("http://127.0.0.1/api/music/get-url-by-id?id=" + id);
-        String cover = getRedirectUrl("http://127.0.0.1/api/music/get-cover-by-id?id=" + id);
+        String cover = jo.getString("cover");
         MusicShare share = new MusicShare(
                 MusicKind.QQMusic, jo.getString("name"),
                 jo.getString("artist"), "https://music.163.com/#/song?id=" + id,
-                cover, url
-        );
+                cover, url);
         return share;
     }
 
     private static MusicShare pointQqSong(SongData data, Integer n) throws Exception {
-        String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=json&br=2&msg=%s&n=%s", data.name, n), String.class);
-        JSONObject jo = JSON.parseObject(jsonData);
-        jo = jo.getJSONObject("data");
+//        String jsonData = TEMPLATE.getForObject(String.format("https://www.hhlqilongzhu.cn/api/dg_qqmusic_SQ.php?type=json&br=2&msg=%s&n=%s", data.name, n), String.class);
+        Document doc0 = (Document) data.data;
+        String content = doc0.wholeText();
+        JSONObject jo = JSON.parseObject(content);
+        JSONArray arr0 = jo.getJSONArray("list");
+        jo = arr0.getJSONObject(n - 1);
+        String url = getRedirectUrl(jo.getString("url"));
         MusicShare share = new MusicShare(
-                MusicKind.QQMusic, jo.getString("song_name"),
-                jo.getString("song_singer"), jo.getString("music_url"),
-                jo.getString("cover"), jo.getString("music_url"));
+                MusicKind.QQMusic, jo.getString("name"),
+                jo.getString("singer"), url,
+                jo.getString("cover"), url);
         return share;
     }
 }

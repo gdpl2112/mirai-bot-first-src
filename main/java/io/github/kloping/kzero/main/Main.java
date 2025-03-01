@@ -21,11 +21,11 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        try {
-            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
 //        threads.add(new WxStarter());
 //        threads.add(new WxHookStarter());
         threads.add(new MiraiStater());
