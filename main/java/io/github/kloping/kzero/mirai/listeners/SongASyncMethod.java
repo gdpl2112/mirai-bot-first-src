@@ -249,7 +249,7 @@ public class SongASyncMethod {
         JSONObject jo = arr.getJSONObject(n - 1);
         String id = jo.getString("id");
         String url = getRedirectUrl("http://127.0.0.1/api/music/get-url-by-id?id=" + id);
-        String cover = jo.getString("cover");
+        String cover = "http://127.0.0.1" + jo.getString("cover");
         MusicShare share = new MusicShare(
                 MusicKind.QQMusic, jo.getString("name"),
                 jo.getString("artist"), "https://music.163.com/#/song?id=" + id,
