@@ -26,10 +26,10 @@ import java.util.Set;
  * @author github kloping
  * @date 2024/12/3-13:50
  */
-@Service
-@ConditionalOnProperty(prefix = "study", name = "enable", havingValue = "true")
+//@Service
+//@ConditionalOnProperty(prefix = "study", name = "enable", havingValue = "true")
 public class StudyService {
-
+/*
     private static final SimpleDateFormat SF_0 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Autowired
@@ -75,5 +75,5 @@ public class StudyService {
         }
         Message msg = builder.build();
         nb.getGroup(633712602L).sendMessage(msg);
-    }
+    }*/
 }
