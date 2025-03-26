@@ -25,12 +25,12 @@ public class DevMain {
                 Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
 //        threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
 //                Intents.PRIVATE_INTENTS.getCode()));
-        threads.add(new WxHookStarter());
-        try {
-            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+//        threads.add(new WxHookStarter());
+//        try {
+//            KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new MihdpClient());
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
         try {
             KlopZeroMainThreads.EXECUTOR_SERVICE.submit(new GsuidClient());
         } catch (URISyntaxException e) {
