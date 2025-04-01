@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
  */
 @Controller
 public class ChatAiController {
+    /*
     @AutoStand
     public DataBase dataBase;
 
@@ -33,12 +34,6 @@ public class ChatAiController {
             }
         }
         hand(bot, pack);
-    }
-
-    @Action(value = "AI关键词", otherName = {"ai关键词"})
-    public Object keys() {
-        return "aixxx(推荐)\n问xxxx(推荐)\n我想问xxx\n为什么xxx\n为啥xxx\n什么xxx\nAIxxx\nxxx?\nxxx是什么\n" +
-                "@我 xxxx(推荐)";
     }
 
     private String asid = null;
@@ -59,8 +54,8 @@ public class ChatAiController {
                 return text.startsWith(asid);
             }
         };
-        matches.setHead(new String[]{"我想问", "为什么", "为啥", "什么", "ai", "AI", "问"});
-        matches.setEnd(new String[]{"?", "？", "是什么"});
+        matches.setHead(new String[]{"为什么", "为啥", "什么", "ai", "AI", "问"});
+        matches.setEnd(new String[]{"是什么"});
     }
 
     @AutoStand
@@ -121,5 +116,5 @@ public class ChatAiController {
         public boolean matchTo(String text) {
             return false;
         }
-    }
+    }*/
 }
