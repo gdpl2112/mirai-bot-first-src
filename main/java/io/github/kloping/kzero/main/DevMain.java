@@ -8,6 +8,7 @@ import io.github.kloping.kzero.qqpd.GuildStater;
 import io.github.kloping.qqbot.api.Intents;
 import io.github.kloping.qqbot.entities.ex.Markdown;
 import io.github.kloping.spt.annotations.ComponentScan;
+import io.github.kloping.spt.impls.QueueExecutorImpl;
 
 import java.net.URISyntaxException;
 

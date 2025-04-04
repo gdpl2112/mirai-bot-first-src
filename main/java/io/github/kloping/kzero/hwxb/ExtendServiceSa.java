@@ -8,7 +8,7 @@ import io.github.kloping.file.FileUtils;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.hwxb.dto.dao.MsgData;
 import io.github.kloping.kzero.hwxb.event.MessageEvent;
-import io.github.kloping.kzero.mirai.listeners.AiHandler;
+import io.github.kloping.kzero.mirai.listeners.PoiSongHandler;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.message.data.Message;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
-import static io.github.kloping.kzero.mirai.listeners.AiHandler.TEMPLATE;
+import static io.github.kloping.kzero.mirai.listeners.PoiSongHandler.TEMPLATE;
 import static io.github.kloping.kzero.mirai.listeners.SongASyncMethod.*;
 
 /**
@@ -31,8 +31,8 @@ public class ExtendServiceSa {
 
     public static Object handle(MessageEvent event) {
         String text = event.getContent().toString();
-        if (text.contains(AiHandler.DY_LINK)) {
-            Matcher matcher = AiHandler.URLPATTERN.matcher(text);
+        if (text.contains(PoiSongHandler.DY_LINK)) {
+            Matcher matcher = PoiSongHandler.URLPATTERN.matcher(text);
             if (matcher.find()) return gotoDouyin(event, matcher.group());
         }
 

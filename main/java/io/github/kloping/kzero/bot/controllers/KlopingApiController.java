@@ -196,26 +196,27 @@ public class KlopingApiController {
         return list.toArray(new String[0]);
     }
 
-    @Action("<.+=>name>海报")
-    public Object posters(@Param("name") String name) {
-        String data = klopingWeb.posters(name);
-        if (Judge.isEmpty(data)) return "获取失败";
-        JSONArray arr = null;
-        try {
-            arr = JSON.parseArray(data);
-        } catch (Exception e) {
-            return "获取失败\n" + e.getMessage();
-        }
-        List<String> list = new LinkedList<>();
-        for (Object o : arr) {
-            JSONObject e = (JSONObject) o;
-            String u0 = e.getString("pic");
-            list.add(u0);
-            String e0 = String.format("%s\n<pic:%s>", e.getString("name"), u0);
-            list.add(e0);
-        }
-        return list.toArray(new String[0]);
-    }
+
+//    @Action("<.+=>name>海报")
+//    public Object posters(@Param("name") String name) {
+//        String data = klopingWeb.posters(name);
+//        if (Judge.isEmpty(data)) return "获取失败";
+//        JSONArray arr = null;
+//        try {
+//            arr = JSON.parseArray(data);
+//        } catch (Exception e) {
+//            return "获取失败\n" + e.getMessage();
+//        }
+//        List<String> list = new LinkedList<>();
+//        for (Object o : arr) {
+//            JSONObject e = (JSONObject) o;
+//            String u0 = e.getString("pic");
+//            list.add(u0);
+//            String e0 = String.format("%s\n<pic:%s>", e.getString("name"), u0);
+//            list.add(e0);
+//        }
+//        return list.toArray(new String[0]);
+//    }
 
 
     @AutoStand

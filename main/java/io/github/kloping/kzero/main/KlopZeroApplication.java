@@ -17,6 +17,7 @@ import io.github.kloping.spt.interfaces.component.ContextManager;
 import io.github.kloping.spt.interfaces.component.FieldManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
@@ -57,8 +58,10 @@ public class KlopZeroApplication implements BotMessageHandler {
             } else if (obj instanceof Fs) {
                 contextManager.append(obj);
             } else {
-                if (obj.getClass().isAnnotationPresent(RestController.class) ||
-                        obj.getClass().isAnnotationPresent(Controller.class)) {
+                if (obj.getClass().isAnnotationPresent(RestController.class)
+                        || obj.getClass().isAnnotationPresent(Controller.class)
+                        || obj.getClass().isAnnotationPresent(Service.class)
+                ) {
                     contextManager.append(obj);
                 }
             }
@@ -78,7 +81,7 @@ public class KlopZeroApplication implements BotMessageHandler {
         state = true;
     }
 
-    private void start0(Class<?>  start) {
+    private void start0(Class<?> start) {
         application0 = new StarterObjectApplication(KlopZeroApplication.class);
         application0.logger.setPrefix(String.format("[bot-%s]", bot.getId()));
         application0.setMainKey(String.class);

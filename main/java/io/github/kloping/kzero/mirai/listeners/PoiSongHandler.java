@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.judge.Judge;
 import io.github.kloping.kzero.bot.controllers.AllController;
-import io.github.kloping.kzero.spring.dao.GroupConf;
 import io.github.kloping.kzero.utils.Utils;
 import io.github.kloping.url.UrlUtils;
 import net.mamoe.mirai.Bot;
@@ -26,8 +25,8 @@ import static io.github.kloping.kzero.mirai.listeners.SongASyncMethod.*;
 /**
  * @author github.kloping
  */
-public class AiHandler implements ListenerHost {
-    public static final AiHandler INSTANCE = new AiHandler();
+public class PoiSongHandler implements ListenerHost {
+    public static final PoiSongHandler INSTANCE = new PoiSongHandler();
 
     @EventHandler
     public void pointOnly(GroupMessageEvent event) throws Exception {

@@ -4,7 +4,7 @@ import io.github.kloping.common.Public;
 import io.github.kloping.kzero.main.KlopZeroMainThreads;
 import io.github.kloping.kzero.main.api.*;
 import io.github.kloping.kzero.mirai.exclusive.CustomizeController;
-import io.github.kloping.kzero.mirai.listeners.AiHandler;
+import io.github.kloping.kzero.mirai.listeners.PoiSongHandler;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.console.terminal.MiraiConsoleImplementationTerminal;
 import net.mamoe.mirai.console.terminal.MiraiConsoleTerminalLoader;
@@ -45,7 +45,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
             MiraiConsoleImplementationTerminal terminal = new MiraiConsoleImplementationTerminal(Paths.get("works"));
             MiraiConsoleTerminalLoader.INSTANCE.startAsDaemon(terminal);
         });
-        GlobalEventChannel.INSTANCE.registerListenerHost(AiHandler.INSTANCE);
+        GlobalEventChannel.INSTANCE.registerListenerHost(PoiSongHandler.INSTANCE);
         GlobalEventChannel.INSTANCE.registerListenerHost(this);
     }
 
@@ -102,7 +102,7 @@ public class MiraiStater implements KZeroStater, ListenerHost {
         KZeroBot<Message, Bot> kbot = create(String.valueOf(bot.getId()), bot, new MiraiBotAdapter(bot, serializer), serializer);
         GlobalEventChannel.INSTANCE.registerListenerHost(new CustomizeController(serializer));
         listener.created(this, kbot);
-    }
+     }
 
     @EventHandler
     public void onMessage(GroupMessageEvent event) {
