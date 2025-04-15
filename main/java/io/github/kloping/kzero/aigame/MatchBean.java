@@ -22,92 +22,72 @@ public class MatchBean {
         void onTouch(T t, String arg);
     }
 
-    public static <T extends MessageEvent> Exception operation(String input, MatchBean bean, T t)  {
-        if (input == null) return null;
-        if (bean.matchType == MatchType.EXACT_MATCH) {
-            if (input.equals(bean.matchStr)) bean.action.onTouch(t, null);
-            else return null;
-        } else if (bean.matchType == MatchType.STARTS_WITH) {
-            String arg = null;
-            if (input.startsWith(bean.matchStr)) {
-                if (bean.rule != null) {
-                    switch (bean.rule.rule) {
-                        case REQUIRED_ARG:
-                            arg = input.substring(bean.matchStr.length());
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                bean.action.onTouch(t, arg);
-                            }
-                            break;
-                        case REQUIRED_NOT_EMPTY_ARG:
-                            arg = input.substring(bean.matchStr.length()).trim();
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                bean.action.onTouch(t, arg);
-                            }
-                            break;
-                        case REQUIRED_NUMBER_ARG:
-                            arg = input.substring(bean.matchStr.length()).trim();
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                try {
-                                    Integer.parseInt(arg);
-                                    bean.action.onTouch(t, arg);
-                                } catch (Exception e) {
-                                    return new RuleException(bean.rule.tips);
-                                }
-                            }
-                            break;
-                        default:
-                            return null;
-                    }
-                }
+    public static <T extends MessageEvent> Exception operation(String input, MatchBean bean, T t) {
+        if (input == null || bean == null) return null;
+
+        try {
+            switch (bean.matchType) {
+                case EXACT_MATCH:
+                    handleExactMatch(input, bean, t);
+                    break;
+                case STARTS_WITH:
+                    handleWithMatch(input, bean, t, true);
+                    break;
+                case ENDS_WITH:
+                    handleWithMatch(input, bean, t, false);
+                    break;
             }
-        } else if (bean.matchType == MatchType.ENDS_WITH) {
-            String arg = null;
-            if (input.endsWith(bean.matchStr)) {
-                if (bean.rule != null) {
-                    switch (bean.rule.rule) {
-                        case REQUIRED_ARG:
-                            arg = input.substring(0, input.length() - bean.matchStr.length());
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                bean.action.onTouch(t, arg);
-                            }
-                            break;
-                        case REQUIRED_NOT_EMPTY_ARG:
-                            arg = input.substring(0, input.length() - bean.matchStr.length()).trim();
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                bean.action.onTouch(t, arg);
-                            }
-                            break;
-                        case REQUIRED_NUMBER_ARG:
-                            arg = input.substring(0, input.length() - bean.matchStr.length()).trim();
-                            if (arg.length() == 0) {
-                                return new RuleException(bean.rule.tips);
-                            } else {
-                                try {
-                                    Integer.parseInt(arg);
-                                    bean.action.onTouch(t, arg);
-                                } catch (Exception e) {
-                                    return new RuleException(bean.rule.tips);
-                                }
-                            }
-                            break;
-                        default:
-                            return null;
-                    }
-                }
-            }
+        } catch (RuleException e) {
+            return e;
         }
         return null;
     }
+
+    private static <T extends MessageEvent> void handleExactMatch(String input, MatchBean bean, T t) {
+        if (bean.matchStr != null && bean.matchStr.equals(input)) {
+            bean.action.onTouch(t, null);
+        }
+    }
+
+    private static <T extends MessageEvent> void handleWithMatch(String input, MatchBean bean, T t, boolean isStart)
+            throws RuleException {
+        if (bean.matchStr == null) return;
+
+        boolean isMatched = isStart ? input.startsWith(bean.matchStr) : input.endsWith(bean.matchStr);
+        if (!isMatched) return;
+
+        if (bean.rule == null) {
+            bean.action.onTouch(t, null);
+            return;
+        }
+
+        String arg = extractArgument(input, bean.matchStr, isStart);
+        validateAndExecute(arg, bean, t);
+    }
+
+    private static String extractArgument(String input, String matchStr, boolean isStart) {
+        return isStart ? input.substring(matchStr.length()) :
+                input.substring(0, input.length() - matchStr.length());
+    }
+
+    private static <T extends MessageEvent> void validateAndExecute(String arg, MatchBean bean, T t)
+            throws RuleException {
+
+        arg = bean.rule.rule != MatchRule.REQUIRED_ARG ? arg.trim() : arg;
+        if (arg.isEmpty()) {
+            throw new RuleException(bean.rule.tips);
+        }
+
+        if (bean.rule.rule == MatchRule.REQUIRED_NUMBER_ARG) {
+            try {
+                Integer.parseInt(arg);
+            } catch (NumberFormatException e) {
+                throw new RuleException(bean.rule.tips);
+            }
+        }
+        bean.action.onTouch(t, arg);
+    }
+
 
     public enum MatchType {
         // 完全匹配，字符串相等
