@@ -60,7 +60,7 @@ public class PetModule {
                     JSONObject jo = (JSONObject) o;
                     int hp = jo.getInteger("hp");
                     int chp = jo.getInteger("currentHp");
-                    sb.append(n).append(".").append(jo.getString("name")).append(" '").append(jo.getString("type")).append("'系 ");
+                    sb.append(n++).append(".").append(jo.getString("name")).append(" '").append(jo.getString("type")).append("'系 ");
                     sb.append(jo.getInteger("top") == 1 ? "已置顶\n" : "\n");
                     sb.append(jo.getString("level")).append("级 还需")
                             .append(jo.getInteger("requiredExp") - jo.getInteger("experience")).append("点经验升级\n剩余血量:");
