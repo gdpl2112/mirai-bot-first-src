@@ -86,7 +86,7 @@ public class GameMain extends SimpleListenerHost {
         TEMPLATE.setErrorHandler(new IgnoreBadRequestErrorHandler());
 
         GLOBAL_MATCHES.add(MatchBean.create("注册", "使用‘注册{昵称}’来注册\n名字不可空或超过8个字符", (m, s) -> {
-            toResult(m, "确定注册名为:'" + s + "'吗? \n后续可使用'改名{新名}'修改\n回复 1确认 0 取消");
+            toResult(m, "确定注册名为:'" + s + "'吗? \n后续可使用'改名{新名}'修改\n回复 1 确认 0 取消");
             confirmActionMap.put(m.getSender().getId(), (confirmed) -> {
                 if (confirmed) {
                     ResponseEntity<String> data =
@@ -101,7 +101,7 @@ public class GameMain extends SimpleListenerHost {
         }));
 
         GLOBAL_MATCHES.add(MatchBean.create("改名", "使用'改名{名字}'来改名,名字不可空或超过8个字符", (m, s) -> {
-            toResult(m, "确定改名为:'" + s + "'吗? \n下次修改时间将是14天后\n回复 1确认 0 取消");
+            toResult(m, "确定改名为:'" + s + "'吗? \n下次修改时间将是14天后\n回复 1 确认 0 取消");
             confirmActionMap.put(m.getSender().getId(), (confirmed) -> {
                 if (confirmed) {
                     ResponseEntity<String> data = TEMPLATE.postForEntity(URL + "/players/rename"
@@ -124,7 +124,7 @@ public class GameMain extends SimpleListenerHost {
                     MultiValueMapUtils.of("id", m.getSender().getId()), String.class);
             if (data.getStatusCodeValue() == 200) {
                 JSONObject jo = JSONObject.parseObject(data.getBody());
-                toResult(m, "打工成功.\n当前金币: " + jo.get("gold") + "\ntips:'领取宠物'可与你一起打工哦!");
+                toResult(m, jo.getString("data") + "\ntips:" + jo.getString("tips"));
             } else toResult(m, data.getBody());
         }));
 

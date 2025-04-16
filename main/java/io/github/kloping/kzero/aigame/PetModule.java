@@ -31,7 +31,17 @@ public class PetModule {
                 } else {
                     ResponseEntity<String> out = TEMPLATE.postForEntity(URL + "/pets/claim"
                             , MultiValueMapUtils.of("id", t.getSender().getId(), "n", i), String.class);
-                    toResult(t, out.getBody());
+                    JSONObject jo = JSON.parseObject(out.getBody());
+                    StringBuilder sb = new StringBuilder();
+                    int hp = jo.getInteger("hp");
+                    int chp = jo.getInteger("currentHp");
+                    sb.append(jo.getString("name")).append(" '").append(jo.getString("type")).append("'系 ");
+                    sb.append(jo.getInteger("top") == 1 ? "已置顶\n" : "\n");
+                    sb.append(jo.getString("level")).append("级 还需")
+                            .append(jo.getInteger("requiredExp") - jo.getInteger("experience")).append("点经验升级\n剩余血量:");
+                    sb.append(chp).append("/").append(hp).append("(")
+                            .append(NumberUtils.toPercent(chp, hp)).append("%)").append("\n\n");
+                    toResult(t, sb.toString().trim());
                 }
             });
             if (data.getStatusCodeValue() == 200) {
