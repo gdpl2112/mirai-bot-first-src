@@ -55,11 +55,12 @@ public class PetModule {
             if (data.getStatusCodeValue() == 200) {
                 JSONArray array = JSON.parseArray(data.getBody());
                 StringBuilder sb = new StringBuilder();
+                int n = 1;
                 for (Object o : array) {
                     JSONObject jo = (JSONObject) o;
                     int hp = jo.getInteger("hp");
                     int chp = jo.getInteger("currentHp");
-                    sb.append(jo.getString("name")).append(" '").append(jo.getString("type")).append("'系 ");
+                    sb.append(n).append(".").append(jo.getString("name")).append(" '").append(jo.getString("type")).append("'系 ");
                     sb.append(jo.getInteger("top") == 1 ? "已置顶\n" : "\n");
                     sb.append(jo.getString("level")).append("级 还需")
                             .append(jo.getInteger("requiredExp") - jo.getInteger("experience")).append("点经验升级\n剩余血量:");
@@ -111,7 +112,15 @@ public class PetModule {
                 toResult(m, data.getBody());
             }
         }));
-
+        GameMain.GLOBAL_MATCHES.add(MatchBean.create("置顶", new MatchBean.MatchRulePack(MatchBean.MatchRule.REQUIRED_NUMBER_ARG
+                , "使用示例'置顶2'(我的宠物里序号)\n宠物信息展示置顶宠物"), (t, s) -> {
+            ResponseEntity<String> data = TEMPLATE.getForEntity(URL + "/pets/topto?n=" + s + "&id=" + t.getSender().getId(), String.class);
+            if (data.getStatusCodeValue() == 200) {
+                toResult(t, Boolean.valueOf(data.getBody()) ? "成功" : "失败");
+            } else {
+                toResult(t, data.getBody());
+            }
+        }));
     }
 
     private static String getProgressBar(int current, int total, int length, String emptyChar, String filledChar) {
