@@ -18,12 +18,12 @@ import java.net.URISyntaxException;
 @ComponentScan("io.github.kloping.kzero")
 public class DevMain {
     public static void main(String[] args) {
-        System.err.println("build time 2025/3/1");
+        System.err.println("build time 2025/4/17");
         new DevPluginConfig().run();
         KlopZeroMainThreads threads = new KlopZeroMainThreads();
         threads.add(new MiraiStater());
-        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
-                Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
+//        threads.add(new GuildStater("102032364", "pzlH9hVZ7KmIHgOzzhFYZNpaQHgs5fEF", "Z2IK7fz4tTvAAvRi",
+//                Intents.PUBLIC_INTENTS.and(Intents.GROUP_INTENTS)));
 //        threads.add(new GuildStater("102005968", "SHxLuZlWTtqElfokFx6pNYX1qH9dFXN2",
 //                Intents.PRIVATE_INTENTS.getCode()));
 //        threads.add(new WxHookStarter());
