@@ -71,6 +71,7 @@ public class GameMain extends SimpleListenerHost {
         });
 
         PetModule.load();
+        ItemModule.load();
     }
 
     public static final Map<Long, java.util.function.Consumer<Boolean>> confirmActionMap = new java.util.HashMap<>();
@@ -147,6 +148,7 @@ public class GameMain extends SimpleListenerHost {
             else sb.append("░");
         }
         sb.append("]\n").append("💰 金币: ").append(jo.getInteger("gold"));
+        sb.append("\n⚡ 体力: ").append(jo.getInteger("stamina"));
         MessageChainBuilder builder = new MessageChainBuilder();
         builder.append(new QuoteReply(m.getMessage()));
         builder.append(Contact.uploadImage(m.getSubject()
@@ -169,6 +171,19 @@ public class GameMain extends SimpleListenerHost {
             String text = event.getMessage().serializeToMiraiCode();
             if (text != null) {
                 text = text.trim();
+            }
+            if (text.equals("菜单")){
+                event.getSubject().sendMessage("---玩家系统---\n" +
+                        "1. 注册 ➔ GET /players/register\n" +
+                        "2. 信息 ➔ GET /players/show\n" +
+                        "3. 改名 ➔ POST /players/rename\n" +
+                        "4. 打工 ➔ POST /players/work\n" +
+                        "---宠物系统---\n" +
+                        "1. 展示新手可领取的宠物列表 ➔ GET /pets/available\n" +
+                        "2. 领取宠物 ➔ POST /pets/claim\n" +
+                        "3. 宠物信息 ➔ GET /pets/info\n" +
+                        "4. 我的宠物 ➔ GET /pets/list\n" +
+                        "5. 置顶宠物 ➔ GET /pets/topto\n");
             }
             for (MatchBean matchBean : GLOBAL_MATCHES) {
                 try {

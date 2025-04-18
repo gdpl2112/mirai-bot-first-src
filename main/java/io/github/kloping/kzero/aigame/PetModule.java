@@ -91,18 +91,18 @@ public class PetModule {
                 byte[] bytes = Base64.getDecoder().decode(base64);
                 obj = obj.getJSONObject("pet");
                 StringBuilder sb = new StringBuilder();
-                sb.append("🐾 名字: ").append(obj.getString("name")).append("\n");
-                sb.append("🔮 类型: ").append(obj.getString("type")).append("\n");
-                sb.append("⭐ 等级:").append(obj.getInteger("level")).append("lv\n");
-                sb.append("📈 经验:").append(obj.getInteger("experience")).append("/").append(obj.getInteger("requiredExp")).append("\n");
+                sb.append("🐾名字: ").append(obj.getString("name")).append("\n");
+                sb.append("🔮类型: ").append(obj.getString("type")).append("\n");
+                sb.append("⭐等级: ").append(obj.getInteger("level")).append("\n");
+                sb.append("📈经验: ").append(obj.getInteger("experience")).append("/").append(obj.getInteger("requiredExp")).append("\n");
                 sb.append(getProgressBar(obj.getInteger("experience"), obj.getInteger("requiredExp"), 10, "⬜", "🟦")).append("\n");
-                sb.append("❤️ 血量:").append(obj.getInteger("currentHp")).append("/").append(obj.getInteger("hp")).append("\n");
+                sb.append("❤️血量: ").append(obj.getInteger("currentHp")).append("/").append(obj.getInteger("hp")).append("\n");
                 sb.append(getProgressBar(obj.getInteger("currentHp"), obj.getInteger("hp"), 10, "⬜", "🟩")).append("\n");
-                sb.append("🏃 速度:").append(obj.getInteger("speed")).append("\n");
-                sb.append("⚔️ 攻击:").append(obj.getInteger("attack")).append("\n");
-                sb.append("🛡️ 防御:").append(obj.getInteger("defense")).append("\n");
-                sb.append("🎯 暴率:").append(obj.getInteger("critRate")).append("\n");
-                sb.append("💥 暴伤:").append(obj.getInteger("critDamage")).append("\n");
+                sb.append("🏃速度: ").append(obj.getInteger("speed")).append("\n");
+                sb.append("⚔️攻击: ").append(obj.getInteger("attack")).append("\n");
+                sb.append("🛡️防御: ").append(obj.getInteger("defense")).append("\n");
+                sb.append("🎯暴率: ").append(obj.getInteger("critRate")).append("\n");
+                sb.append("💥暴伤: ").append(obj.getInteger("critDamage")).append("\n");
                 MessageChainBuilder builder = new MessageChainBuilder();
                 builder.append(new QuoteReply(m.getMessage()));
                 builder.append(Contact.uploadImage(m.getSubject(), new ByteArrayInputStream(bytes)));
@@ -123,7 +123,7 @@ public class PetModule {
         }));
     }
 
-    private static String getProgressBar(int current, int total, int length, String emptyChar, String filledChar) {
+    public static String getProgressBar(int current, int total, int length, String emptyChar, String filledChar) {
         int filledLength = (int) Math.round((double) current / total * length);
         filledLength = Math.min(filledLength, length);
         StringBuilder progressBar = new StringBuilder();
