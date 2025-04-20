@@ -13,7 +13,6 @@ import io.github.kloping.qqbot.entities.Bot;
 import io.github.kloping.qqbot.entities.ex.MessageAsyncBuilder;
 import io.github.kloping.qqbot.entities.qqpd.Guild;
 import io.github.kloping.qqbot.entities.qqpd.Member;
-import io.github.kloping.qqbot.utils.RequestException;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -111,7 +110,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                     if (member != null) {
                         return member.getUser().getAvatar();
                     }
-                } catch (RequestException e) {
+                } catch (Exception e) {
                     System.err.println(e.getMessage());
                     continue;
                 }
@@ -159,7 +158,7 @@ public class GuildBotAdapter implements KZeroBotAdapter {
                             return member.getUser().getUsername();
                         }
                     }
-                } catch (RequestException e) {
+                } catch (Exception e) {
                     System.err.println(e.getMessage());
                     continue;
                 }
